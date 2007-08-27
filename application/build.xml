@@ -103,6 +103,7 @@
 	    	basedir="${dist.bin.temp}" manifest="MANIFEST.MF"/>
 		
 		<delete file="MANIFEST.MF"/>
+		<delete dir="${dist.bin.temp}"/>
 	</target>
 	
 	<target name="src-dist" depends="clean" description="Generate the source code distribution">
