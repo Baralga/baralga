@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/commons-collections-3.2.jar"/>
+	<classpathentry kind="lib" path="lib/commons-lang-2.3.jar"/>
+	<classpathentry kind="lib" path="lib/glazedlists-1.7.0_java15.jar"/>
+	<classpathentry kind="lib" path="lib/jargp.jar"/>
+	<classpathentry kind="lib" path="lib/joda-time-1.4.jar"/>
+	<classpathentry kind="lib" path="lib/junit.jar"/>
+	<classpathentry kind="lib" path="lib/jxl.jar"/>
+	<classpathentry kind="lib" path="lib/swingx-2007_08_26.jar"/>
+	<classpathentry kind="lib" path="lib/xstream-1.2.2.jar"/>
+	<classpathentry kind="lib" path="lib/looks-2.1.4.jar"/>
+	<classpathentry kind="lib" path="lib/forms-1.1.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
