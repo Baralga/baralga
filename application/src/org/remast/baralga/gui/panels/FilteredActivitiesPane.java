@@ -53,12 +53,12 @@ public class FilteredActivitiesPane extends JTabbedPane {
     }
 
     private void initialize() {
-//        accummulatedActitvitiesPanel = new AccummulatedActitvitiesPanel(pModel.getFilteredReport());
-//        this.addTab(Messages.getString("FilteredActivitiesPane.Tab.AccumulatedActivities"), accummulatedActitvitiesPanel); //$NON-NLS-1$
-//        
-//        hoursByWeekPanel = new HoursByWeekPanel(pModel.getHoursByWeekReport());
-//        this.addTab(Messages.getString("FilteredActivitiesPane.Tab.HoursByWeek"), hoursByWeekPanel); //$NON-NLS-1$
-//        
+        accummulatedActitvitiesPanel = new AccummulatedActitvitiesPanel(pModel.getFilteredReport());
+        this.addTab(Messages.getString("FilteredActivitiesPane.Tab.AccumulatedActivities"), accummulatedActitvitiesPanel); //$NON-NLS-1$
+        
+        hoursByWeekPanel = new HoursByWeekPanel(pModel.getHoursByWeekReport());
+        this.addTab(Messages.getString("FilteredActivitiesPane.Tab.HoursByWeek"), hoursByWeekPanel); //$NON-NLS-1$
+        
         filteredActitvitiesPanel = new AllActitvitiesPanel(pModel);
         this.addTab(Messages.getString("FilteredActivitiesPane.Tab.AllActivities"), filteredActitvitiesPanel); //$NON-NLS-1$
     }
