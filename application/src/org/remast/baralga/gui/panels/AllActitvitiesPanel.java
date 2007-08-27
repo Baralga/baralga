@@ -95,7 +95,6 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
                     JTable source = (JTable)e.getSource();
                     int row = source.rowAtPoint( e.getPoint() );
                     int column = source.columnAtPoint( e.getPoint() );
-                    System.out.println(column);
                     source.changeSelection(row, column, false, false);
  
                     menu.show(e.getComponent(), e.getX(), e.getY());
