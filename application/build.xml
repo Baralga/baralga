@@ -138,7 +138,7 @@
 		  classname="net.sf.launch4j.ant.Launch4jTask"
 		  classpath="${launch4j.dir}/launch4j.jar
 		    :${launch4j.dir}/lib/xstream.jar" />
-		<launch4j configFile="./l4j/Baralga.cfg.xml" jar="${dist}/${project.version}/${ant.project.name}-${project.version}.jar" outfile="${win-installer}/${project.version}/${ant.project.name}-${project.version}.exe"/>
+		<launch4j configFile="./config/l4j/Baralga.cfg.xml" jar="${dist}/${project.version}/${ant.project.name}-${project.version}.jar" outfile="${win-installer}/${project.version}/${ant.project.name}-${project.version}.exe"/>
 	</target>
 	
 	<target name="win-installer" depends="exe">
