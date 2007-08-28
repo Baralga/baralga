@@ -99,6 +99,7 @@ public class BaralgaMain {
             UIManager.setLookAndFeel("com.jgoodies.looks.windows.WindowsLookAndFeel"); //$NON-NLS-1$
 //             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
+            // ignore
         }
 
         final MainFrame mainFrame = new MainFrame(model);
