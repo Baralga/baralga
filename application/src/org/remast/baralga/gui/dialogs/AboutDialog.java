@@ -1,15 +1,11 @@
 package org.remast.baralga.gui.dialogs;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Font;
 
 import javax.swing.JDialog;
 
 import org.jdesktop.swingx.JXLabel;
 import org.remast.baralga.Messages;
-
-import sun.font.FontManager;
 
 @SuppressWarnings("serial")
 public class AboutDialog extends JDialog {
