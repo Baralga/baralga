@@ -17,6 +17,7 @@ import javax.swing.JToolBar;
 
 import org.jdesktop.swingx.JXFrame;
 import org.remast.baralga.Messages;
+import org.remast.baralga.gui.actions.AboutAction;
 import org.remast.baralga.gui.actions.AddActivityAction;
 import org.remast.baralga.gui.actions.ExcelExportAction;
 import org.remast.baralga.gui.actions.ExitAction;
@@ -67,6 +68,8 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private JMenuBar mainMenuBar = null;
 
     private JMenu fileMenu = null;
+    
+    private JMenu helpMenu = null;    
 
     private JMenu editMenu = null;
 
@@ -107,9 +110,22 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         this.setJMenuBar(getMainMenuBar());
         this.setContentPane(getJContentPane());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle(Messages.getString("Global.Title")); //$NON-NLS-1$
-
+        
         this.addWindowListener(this);
+
+        if (getModel().isActive()) {
+            this.setTitle(Messages.getString("Global.Title") + " - " + getModel().getSelectedProject() + Messages.getString("MainFrame.9") + Constants.hhMMFormat.format(getModel().getStart())); //$NON-NLS-1$ //$NON-NLS-2$
+            getProjectSelector().setSelectedItem(getModel().getSelectedProject());
+            
+            startStopButton.setAction(new StopAction(getModel()));
+        } else {
+            this.setTitle(Messages.getString("Global.Title")); //$NON-NLS-1$
+            
+            if(!getModel().getProjectList().isEmpty()) {
+                getProjectSelector().setSelectedItem(getModel().getProjectList().get(0));
+            }
+            startStopButton.setAction(new StartAction(getModel()));
+        }
     }
 
     /**
@@ -153,6 +169,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             mainMenuBar = new JMenuBar();
             mainMenuBar.add(getFileMenu());
             mainMenuBar.add(getEditMenu());
+            mainMenuBar.add(getHelpMenu());
         }
         return mainMenuBar;
     }
@@ -233,7 +250,19 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         }
         return projectSelector;
     }
-
+    /**
+     * This method initializes aboutMenu
+     * 
+     * @return javax.swing.JMenu
+     */
+    private JMenu getHelpMenu() {
+        if (helpMenu == null) {
+            helpMenu = new JMenu(Messages.getString("MainFrame.HelpMenu.Title"));
+            helpMenu.add(new AboutAction());
+        }
+        return helpMenu;
+    }
+    
     /**
      * This method initializes fileMenu
      * 

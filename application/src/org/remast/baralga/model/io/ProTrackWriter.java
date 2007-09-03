@@ -14,33 +14,37 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 
 public class ProTrackWriter {
     
-    private ProTrack proTrack;
+    private ProTrack data;
     
-    public ProTrackWriter(ProTrack proTrack) {
-        setProTrack(proTrack);
+    public ProTrackWriter(final ProTrack data) {
+        this.data = data;
     }
     
-    public void write(File file) throws IOException {
-        final FileOutputStream fileOut = new FileOutputStream(file);
-        XStream xstream = new XStream(new DomDriver());
-        Annotations.configureAliases(xstream, ProTrack.class);
-        Annotations.configureAliases(xstream, Project.class);
-        Annotations.configureAliases(xstream, ProjectActivity.class);
-        xstream.setMode(XStream.ID_REFERENCES);
-        xstream.toXML(getProTrack(), fileOut);
+    public void write(final File file) throws IOException {
+        synchronized(getData()) {
+            final FileOutputStream fileOut = new FileOutputStream(file);
+            final XStream xstream = new XStream(new DomDriver());
+            
+            Annotations.configureAliases(xstream, ProTrack.class);
+            Annotations.configureAliases(xstream, Project.class);
+            Annotations.configureAliases(xstream, ProjectActivity.class);
+            
+            xstream.setMode(XStream.ID_REFERENCES);
+            xstream.toXML(getData(), fileOut);
+        }
     }
 
     /**
      * @return the proTrack
      */
-    private ProTrack getProTrack() {
-        return proTrack;
+    private ProTrack getData() {
+        return data;
     }
 
     /**
      * @param proTrack the proTrack to set
      */
-    private void setProTrack(ProTrack proTrack) {
-        this.proTrack = proTrack;
+    private void setData(ProTrack proTrack) {
+        this.data = proTrack;
     }
 }

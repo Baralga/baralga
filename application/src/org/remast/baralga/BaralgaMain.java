@@ -7,21 +7,23 @@ import java.io.RandomAccessFile;
 import java.nio.channels.Channel;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.util.Timer;
 import java.util.prefs.Preferences;
 
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import org.jargp.ArgumentProcessor;
 import org.jargp.BoolDef;
 import org.jargp.ParameterDef;
 import org.jargp.StringTracker;
-import org.remast.baralga.gui.MainFrame;
 import org.remast.baralga.gui.BaralgaTray;
+import org.remast.baralga.gui.MainFrame;
 import org.remast.baralga.gui.Settings;
 import org.remast.baralga.model.PresentationModel;
 import org.remast.baralga.model.ProTrack;
-import org.remast.baralga.model.ProjectStateException;
 import org.remast.baralga.model.io.ProTrackReader;
+import org.remast.baralga.model.io.SaveTimer;
 import org.remast.baralga.model.utils.ProTrackUtils;
 
 public class BaralgaMain {
@@ -51,6 +53,8 @@ public class BaralgaMain {
 
     private static FileLock lock;
 
+    private static Timer timer;
+
     public static void main(String[] args) {
         // parse the command line arguments
         ArgumentProcessor proc = new ArgumentProcessor(BASE_PARAMETERS);
@@ -66,9 +70,13 @@ public class BaralgaMain {
             System.out.println("Usage: ProTrack [-options] extra\n" + "Options are:"); //$NON-NLS-1$ //$NON-NLS-2$
             proc.listParameters(80, System.out);
         }
+        
+        // Set look & feel
+        initLookAndFeel();
 
         if (existsLock()) {
-            System.out.println(Messages.getString("ProTrackMain.ErrorAlreadyRunning")); //$NON-NLS-1$
+            JOptionPane.showMessageDialog(null, Messages.getString("BaralgaMain.ErrorAlreadyRunning"), "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println(Messages.getString("BaralgaMain.ErrorAlreadyRunning")); //$NON-NLS-1$
             return;
         } else {
             createLock();
@@ -88,19 +96,14 @@ public class BaralgaMain {
             try {
                 reader = new ProTrackReader(file);
                 reader.read();
-                model.setData(reader.getProTrack());
+                model.setData(reader.getData());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
-        // Set look & feel
-        try {
-            UIManager.setLookAndFeel("com.jgoodies.looks.windows.WindowsLookAndFeel"); //$NON-NLS-1$
-//             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-            // ignore
-        }
+        
+        // Start timer
+        initTimer(model);
 
         final MainFrame mainFrame = new MainFrame(model);
         if (!inst.minimized) {
@@ -114,28 +117,46 @@ public class BaralgaMain {
 
             @Override
             public void run() {
-
-                if (model.isActive()) {
-                    try {
-                        model.stop();
-                    } catch (ProjectStateException e) {
-                        e.printStackTrace();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
+                // 1. Stop timer
+                timer.cancel();
+                
+                // 2. Save model
                 try {
                     model.save();
-                    releaseLock();
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
+                    // 3. Release lock
                     releaseLock();
                 }
             }
 
         });
+    }
+
+    /**
+     * Initialize the look & feel of the application.
+     */
+    private static void initLookAndFeel() {
+        try {
+            // a) Try windows
+            UIManager.setLookAndFeel("com.jgoodies.looks.windows.WindowsLookAndFeel"); //$NON-NLS-1$
+        } catch (Exception e) {
+            // b) Try system look & feel
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (Exception ex) {
+                // ignore
+            }
+        }
+    }
+
+    /**
+     * @param model
+     */
+    private static void initTimer(final PresentationModel model) {
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new SaveTimer(model), 1000 * 60 * 1, 1000 * 60 * 1);
     }
 
     /**

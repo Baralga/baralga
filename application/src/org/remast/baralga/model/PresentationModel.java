@@ -54,6 +54,10 @@ public class PresentationModel extends Observable {
     }
     
     private void initialize() {
+        this.active = this.data.isActive();
+        this.start = this.data.getStartTime();
+        this.selectedProject = this.data.getActiveProject();
+        
         this.projectList.addAll(this.data.getProjects());
         this.activitiesList.addAll(this.data.getActivities());
     }
@@ -129,7 +133,9 @@ public class PresentationModel extends Observable {
     public void changeProject(Project activeProject) {
         if(getSelectedProject() != activeProject) {
             this.selectedProject = activeProject;
-            Date now = DateUtils.getNow();
+            this.data.setActiveProject(activeProject);
+            
+            final Date now = DateUtils.getNow();
             
             // check if project is running
             if(isActive()) {
@@ -240,6 +246,7 @@ public class PresentationModel extends Observable {
      */
     private void setStart(Date start) {
         this.start = start;
+        this.data.setStartTime(start);
     }
 
     /**
@@ -268,6 +275,8 @@ public class PresentationModel extends Observable {
      */
     public void setActive(boolean active) {
         this.active = active;
+        
+        this.data.setActive(active);
     }
 
     /**

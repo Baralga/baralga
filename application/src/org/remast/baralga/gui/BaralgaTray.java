@@ -34,13 +34,13 @@ public class BaralgaTray implements Observer {
 
     private boolean firstBuild = true;
 
-    public BaralgaTray(PresentationModel model, MainFrame mainFrame) {
+    public BaralgaTray(final PresentationModel model, final MainFrame mainFrame) {
         this.model = model;
         this.model.addObserver(this);
         
         buildMenu();
-        
-        ImageIcon i = new ImageIcon(BaralgaMain.class.getResource("/resource/icons/Baralga-Tray.gif")); //$NON-NLS-1$
+
+        final ImageIcon i = new ImageIcon(BaralgaMain.class.getResource("/resource/icons/Baralga-Tray.gif")); //$NON-NLS-1$
 
         trayIcon = new TrayIcon(i.getImage(), Messages.getString("Global.Title")); //$NON-NLS-1$
         trayIcon.setPopupMenu(getMenu());
@@ -56,6 +56,11 @@ public class BaralgaTray implements Observer {
             }
             
         });
+
+
+        if (getModel().isActive()) {
+            trayIcon.setToolTip(Messages.getString("Global.Title") + " - " + getModel().getSelectedProject() + " since " + Constants.hhMMFormat.format(getModel().getStart()));
+        }
 
     }
         

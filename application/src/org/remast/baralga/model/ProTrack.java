@@ -2,10 +2,12 @@ package org.remast.baralga.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 @XStreamAlias("proTrack") //$NON-NLS-1$
 public class ProTrack implements Serializable {
@@ -20,7 +22,15 @@ public class ProTrack implements Serializable {
     private List<Project> projectsToBeDeleted;
 
     private List<ProjectActivity> activities;
+
+    @XStreamAsAttribute
+    private boolean active = false;
+
+    @XStreamAsAttribute
+    private Date startTime;
     
+    private Project activeProject;
+
     public ProTrack() {
         this.activeProjects = new ArrayList<Project>();
         this.projectsToBeDeleted = new ArrayList<Project>();
@@ -77,4 +87,46 @@ public class ProTrack implements Serializable {
         this.projectsToBeDeleted.removeAll(removeP);
     }
 
+    
+    /**
+     * @return the active
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * @param active the active to set
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    /**
+     * @return the startTime
+     */
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    /**
+     * @param startTime the startTime to set
+     */
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+    
+    /**
+     * @return the activeProject
+     */
+    public Project getActiveProject() {
+        return activeProject;
+    }
+
+    /**
+     * @param activeProject the activeProject to set
+     */
+    public void setActiveProject(Project activeProject) {
+        this.activeProject = activeProject;
+    }
 }

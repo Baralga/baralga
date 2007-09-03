@@ -14,38 +14,40 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 
 public class ProTrackReader {
 
-    private ProTrack proTrack;
+    private ProTrack data;
     
     private File file;
 
-    public ProTrackReader(File file) {
-        setFile(file);
+    public ProTrackReader(final File file) {
+        this.file = file;
     }
     
     public void read() throws IOException {
-        FileInputStream fis = new FileInputStream(getFile());
+        final FileInputStream fis = new FileInputStream(getFile());
         
-        XStream xstream = new XStream(new DomDriver());
+        final XStream xstream = new XStream(new DomDriver());
         xstream.setMode(XStream.ID_REFERENCES);
+        
         Annotations.configureAliases(xstream, ProTrack.class);
         Annotations.configureAliases(xstream, Project.class);
         Annotations.configureAliases(xstream, ProjectActivity.class);
-        Object o = xstream.fromXML(fis);
-        setProTrack((ProTrack) o);
+        
+        final Object o = xstream.fromXML(fis);
+        setData((ProTrack) o);
     }
     
     /**
      * @return the proTrack
      */
-    public ProTrack getProTrack() {
-        return proTrack;
+    public ProTrack getData() {
+        return data;
     }
 
     /**
      * @param proTrack the proTrack to set
      */
-    private void setProTrack(ProTrack proTrack) {
-        this.proTrack = proTrack;
+    private void setData(final ProTrack data) {
+        this.data = data;
     }
 
     /**
@@ -58,7 +60,7 @@ public class ProTrackReader {
     /**
      * @param file the file to set
      */
-    public void setFile(File file) {
+    public void setFile(final File file) {
         this.file = file;
     }
 }
