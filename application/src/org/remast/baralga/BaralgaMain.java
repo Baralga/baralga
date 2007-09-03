@@ -39,6 +39,8 @@ public class BaralgaMain {
 
     /** Property for command line option minimized (-m). */
     private boolean minimized;
+    
+    private static final int SAVE_TIMER_INTERVAL = 5;
 
     
     //------------------------------------------------
@@ -156,7 +158,7 @@ public class BaralgaMain {
      */
     private static void initTimer(final PresentationModel model) {
         timer = new Timer();
-        timer.scheduleAtFixedRate(new SaveTimer(model), 1000 * 60 * 1, 1000 * 60 * 1);
+        timer.scheduleAtFixedRate(new SaveTimer(model), 1000 * 60 * SAVE_TIMER_INTERVAL, 1000 * 60 * SAVE_TIMER_INTERVAL);
     }
 
     /**
