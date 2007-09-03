@@ -1,16 +1,18 @@
 package org.remast.baralga.gui.dialogs;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+
 import javax.swing.JDialog;
 
-import org.jdesktop.swingx.JXImagePanel;
+import org.jdesktop.swingx.JXLabel;
 import org.remast.baralga.Messages;
 
-public class AboutDialog extends JDialog {
+import sun.font.FontManager;
 
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
+@SuppressWarnings("serial")
+public class AboutDialog extends JDialog {
 
     public AboutDialog() {
         super();
@@ -18,6 +20,7 @@ public class AboutDialog extends JDialog {
         setTitle(Messages.getString("AboutDialog.AboutTitle")); //$NON-NLS-1$
         setModal(true);
         setResizable(false);
+        setBackground(Color.WHITE);
         
         initialize();
     }
@@ -27,12 +30,14 @@ public class AboutDialog extends JDialog {
      * 
      * @return void
      */
+    /**
+     * 
+     */
     private void initialize() {
-        JXImagePanel imagePanel;
-        imagePanel = new JXImagePanel(getClass().getResource("/resource/icons/ProTrack-About.png")); //$NON-NLS-1$
-        this.add(imagePanel);
-        
-        this.setSize(327, 376);
+        JXLabel label = new JXLabel(Messages.getString("Global.Title") + " " + Messages.getString("Global.Version") + " " + Messages.getString("Global.VersionNumber"));
+        this.add(label);
+        this.setSize(200, 100);
+        label.setBackground(Color.WHITE);
     }
     
 }
