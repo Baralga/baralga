@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- JNLP File for Baralga -->
+
+<jnlp spec="1.0+"
+      codebase="http://baralga.origo.ethz.ch/system/files/" 
+      href="baralga_1.jnlp">
+   <information>
+      <title>Baralga</title>
+      <vendor>..:: Remast ::..</vendor>
+      <description>Baralga</description>
+      <homepage href="http://baralga.origo.ethz.ch"/>
+      <description kind="short">ClickMeApp uses 3 custom classes plus several
+       standard ones</description>
+      <offline-allowed/>
+   </information>
+   <resources>     
+   	<jar href="http://download.origo.ethz.ch/baralga/Baralga-0.9.jar"/>   
+	<j2se version="1.6+"
+	      href="http://java.sun.com/products/autodl/j2se"/>
+   </resources>
+   <application-desc main-class="org.remast.baralga.BaralgaMain"/>
+</jnlp>
