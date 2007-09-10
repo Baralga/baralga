@@ -69,6 +69,9 @@ public class ManageProjectsDialog extends JDialog {
         this.setPreferredSize(new Dimension(300, 110));
         this.setTitle(Messages.getString("ManageProjectsDialog.Title")); //$NON-NLS-1$
         this.setContentPane(getJContentPane());
+        
+        // Set default Button to AddProjectsButton.
+        this.getRootPane().setDefaultButton(addProjectButton);
     }
 
     /**
@@ -131,6 +134,7 @@ public class ManageProjectsDialog extends JDialog {
             projectsPanel.add(getAddProjectButton(), null);
             projectsPanel.add(getRemoveProjectButton(), null);
         }
+        
         return projectsPanel;
     }
 
@@ -152,6 +156,7 @@ public class ManageProjectsDialog extends JDialog {
             	}
             
             });
+            addProjectButton.setDefaultCapable(true);
         }
         return addProjectButton;
     }

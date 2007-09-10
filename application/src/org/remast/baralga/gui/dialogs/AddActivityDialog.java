@@ -92,6 +92,9 @@ public class AddActivityDialog extends JDialog {
         this.setTitle(Messages.getString("AddActivityDialog.AddActivityLabel")); //$NON-NLS-1$
         this.setModal(true);
         this.setContentPane(getJContentPane());
+        
+        // Set default Button to AddActtivityButton.
+        this.getRootPane().setDefaultButton(addActivityButton);
     }
 
     /**
@@ -202,6 +205,8 @@ public class AddActivityDialog extends JDialog {
                     }
                 }
             });
+            
+            addActivityButton.setDefaultCapable(true);
         }
         return addActivityButton;
     }
