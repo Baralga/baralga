@@ -6,6 +6,7 @@ import java.awt.event.InputEvent;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 
+import org.remast.baralga.Messages;
 import org.remast.baralga.gui.dialogs.AddActivityDialog;
 import org.remast.baralga.model.PresentationModel;
 
@@ -16,8 +17,8 @@ public final class AddActivityAction extends AbstractProTrackAction {
         super(model);
         
         putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/resource/icons/gtk-add.png"))); //$NON-NLS-1$
-        putValue(NAME, "Add"); //$NON-NLS-1$
-        putValue(SHORT_DESCRIPTION, "Manually enter Project Activity."); //$NON-NLS-1$
+        putValue(NAME, Messages.getString("AddActivityAction.Name")); //$NON-NLS-1$
+        putValue(SHORT_DESCRIPTION, Messages.getString("AddActivityAction.ShortDescription")); //$NON-NLS-1$
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke('N', InputEvent.CTRL_MASK) );
     }
 
