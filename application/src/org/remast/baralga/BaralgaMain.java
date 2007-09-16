@@ -8,7 +8,6 @@ import java.nio.channels.Channel;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.util.Timer;
-import java.util.prefs.Preferences;
 
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -47,9 +46,6 @@ public class BaralgaMain {
     // User settings
     //------------------------------------------------
 
-    /** User preferences of ProTrack. */
-    public static final Preferences USER_PREFERENCES = Preferences.userNodeForPackage(BaralgaMain.class);
-    
     /** The Tray icon. */
     private static BaralgaTray tray;
 
