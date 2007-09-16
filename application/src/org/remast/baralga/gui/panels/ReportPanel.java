@@ -12,8 +12,11 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXPanel;
 import org.remast.baralga.Messages;
+import org.remast.baralga.gui.Settings;
 import org.remast.baralga.model.PresentationModel;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
@@ -133,6 +136,17 @@ public class ReportPanel extends JXPanel implements ActionListener {
                 monthFilterSelector.setSelectedIndex(0);
             }
             
+            // Read from Settings.
+            String selectedMonth = Settings.instance().getSelectedMonth();
+            if(selectedMonth != null) {
+                for(FilterItem<String> item : monthFilterList.getMonthList()) {
+                    if(StringUtils.equals(selectedMonth, item.getItem())) {
+                        monthFilterSelector.setSelectedItem(item);
+                        break;
+                    }
+                }
+            }
+
             monthFilterSelector.addActionListener(this);
         }
         return monthFilterSelector;
@@ -150,6 +164,18 @@ public class ReportPanel extends JXPanel implements ActionListener {
             if(!projectFilterList.getProjectList().isEmpty()) {
                 projectFilterSelector.setSelectedIndex(0);
             }
+            
+            // Read from Settings.
+            Long selectedProjectId = Settings.instance().getSelectedProjectId();
+            if(selectedProjectId != null)  {
+                for(FilterItem<Project> item : projectFilterList.getProjectList()) {
+                    if (ObjectUtils.equals(item.getItem().getId(), selectedProjectId.longValue())) {
+                        projectFilterSelector.setSelectedItem(item);
+                        break;
+                    }
+                }
+            }
+
             
             projectFilterSelector.addActionListener(this);
         }
@@ -169,6 +195,17 @@ public class ReportPanel extends JXPanel implements ActionListener {
                 yearFilterSelector.setSelectedIndex(0);
             }
             
+            // Read from Settings.
+            String selectedYear = Settings.instance().getSelectedYear();
+            if(selectedYear != null) {
+                for(FilterItem<String> item : yearFilterList.getYearList()) {
+                    if(StringUtils.equals(selectedYear, item.getItem())) {
+                        yearFilterSelector.setSelectedItem(item);
+                        break;
+                    }
+                }
+            }
+            
             yearFilterSelector.addActionListener(this);
         }
         return yearFilterSelector;
@@ -178,7 +215,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
      * Create filter from selection.
      * @return
      */
-    public Filter<ProjectActivity>  createFilter() {
+    public Filter<ProjectActivity> createFilter() {
         Filter<ProjectActivity> filter = new Filter<ProjectActivity>();
         
         FilterItem<String> filterItem = (FilterItem<String>) getMonthFilterSelector().getSelectedItem();
@@ -205,14 +242,39 @@ public class ReportPanel extends JXPanel implements ActionListener {
 
         FilterItem<Project> projectFilterItem = (FilterItem<Project>) getProjectFilterSelector().getSelectedItem();
         Project project = projectFilterItem.getItem();
-        if(!ProjectFilterList.ALL_PROJECTS_DUMMY.equals(project))
+        if(!ProjectFilterList.ALL_PROJECTS_DUMMY.equals(project)) {
             filter.addPredicate(new ProjectPredicate(project));
-        
+        }
         return filter;
+    }
+    
+    private void saveToPreferences() {
+        FilterItem<String> filterItem = (FilterItem<String>) getMonthFilterSelector().getSelectedItem();
+        String selectedMonth = filterItem.getItem();
+        if(!MonthFilterList.ALL_MONTHS_DUMMY.equals(selectedMonth)) {
+            Settings.instance().setSelectedMonth(selectedMonth);
+        }
+
+        filterItem = (FilterItem<String>) getYearFilterSelector().getSelectedItem();
+        String selectedYear = filterItem.getItem();
+        if(!YearFilterList.ALL_YEARS_DUMMY.equals(selectedYear)) {
+            Settings.instance().setSelectedYear(selectedYear);
+        }
+
+        FilterItem<Project> projectFilterItem = (FilterItem<Project>) getProjectFilterSelector().getSelectedItem();
+        Project project = projectFilterItem.getItem();
+        if(!ProjectFilterList.ALL_PROJECTS_DUMMY.equals(project)) {
+            long projectId = project.getId();
+            Settings.instance().setSelectedProjectId(projectId);
+        }
     }
 
     public void actionPerformed(ActionEvent e) {
+        // 1. Create filter from selection.
         Filter<ProjectActivity> filter = this.createFilter();
+        
+        // 2. Save selection to preferences.
+        saveToPreferences();
         
         if(filteredActivitiesPane != null) {
             filteredActivitiesPane.setFilter(filter);
