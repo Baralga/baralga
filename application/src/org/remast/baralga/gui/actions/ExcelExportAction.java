@@ -28,7 +28,7 @@ public final class ExcelExportAction extends AbstractProTrackAction {
         JFileChooser chooser = new JFileChooser();
         
         // Set selection to last export location
-        chooser.setSelectedFile(new File(Settings.getLastExcelExportLocation()));
+        chooser.setSelectedFile(new File(Settings.instance().getLastExcelExportLocation()));
 
         chooser.setFileFilter(new FileFilters.ExcelFileFilter());
 
@@ -44,7 +44,7 @@ public final class ExcelExportAction extends AbstractProTrackAction {
                 ExcelExport.export(getModel().getData(), getModel().getFilter(), file);
                 
                 // store export location in settings
-                Settings.setLastExcelExportLocation(file.getAbsolutePath());
+                Settings.instance().setLastExcelExportLocation(file.getAbsolutePath());
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, Messages.getString("ExcelExportAction.IOException1") + file.getAbsolutePath() + ".", Messages.getString("ExcelExportAction.IOException2"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                         JOptionPane.ERROR_MESSAGE);
