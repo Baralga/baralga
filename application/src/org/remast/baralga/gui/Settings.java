@@ -3,14 +3,11 @@ package org.remast.baralga.gui;
 import java.io.File;
 import java.util.prefs.Preferences;
 
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.remast.baralga.BaralgaMain;
 
 public class Settings {
-
-    /** Node for ProTrack user preferences. */
-    public final static Preferences PREFS = BaralgaMain.USER_PREFERENCES;
-
-    
     //------------------------------------------------
     // ProTrack data locations
     //------------------------------------------------
@@ -29,6 +26,33 @@ public class Settings {
         return new File(DEFAULT_DIRECTORY);
     }
 
+   
+    private static String PROPERTIES_FILENAME = DEFAULT_DIRECTORY + File.separator + "baralga.properties";
+    
+    /** Node for Baralga user preferences. */
+    private PropertiesConfiguration config;
+    
+    private static Settings instance;
+    
+    public static Settings instance() {
+        if (instance == null) {
+            instance = new Settings();
+        }
+        return instance;
+    }
+    
+    private Settings() {
+            File file = new File(PROPERTIES_FILENAME);
+            try {
+                config = new PropertiesConfiguration(file);
+            } catch (ConfigurationException e) {
+                e.printStackTrace();
+            }
+            config.setAutoSave(true);
+    }
+    
+
+
     
     //------------------------------------------------
     // Lock file Location
@@ -41,7 +65,6 @@ public class Settings {
         return DEFAULT_DIRECTORY + File.separator + LOCK_FILE_NAME;
     }
 
-    
     //------------------------------------------------
     // Excel Export Location
     //------------------------------------------------
@@ -49,12 +72,50 @@ public class Settings {
     /** Location of last Excel export. */
     public static final String LAST_EXCEL_EXPORT_LOCATION = "export.excel"; //$NON-NLS-1$
 
-    public static String getLastExcelExportLocation() {
-        return PREFS.get(LAST_EXCEL_EXPORT_LOCATION, System.getProperty("user.home")); //$NON-NLS-1$
+    public String getLastExcelExportLocation() {
+        return config.getString(LAST_EXCEL_EXPORT_LOCATION, System.getProperty("user.home"));
     }
 
-    public static void setLastExcelExportLocation(String excelExportLocation) {
-        PREFS.put(LAST_EXCEL_EXPORT_LOCATION, excelExportLocation);
+    public void setLastExcelExportLocation(String excelExportLocation) {
+        config.setProperty(LAST_EXCEL_EXPORT_LOCATION, excelExportLocation);
+    }
+
+    
+    //------------------------------------------------
+    // Filter Settings
+    //------------------------------------------------
+    
+    /** Selected month of filter. */
+    public static final String SELECTED_MONTH = "filter.month"; //$NON-NLS-1$
+
+    public String getSelectedMonth() {
+        return config.getString(SELECTED_MONTH, null);
+    }
+
+    public void setSelectedMonth(String month) {
+        config.setProperty(SELECTED_MONTH, month);
+    }
+    
+    /** Selected year of filter. */
+    public static final String SELECTED_YEAR = "filter.year"; //$NON-NLS-1$
+
+    public String getSelectedYear() {
+        return config.getString(SELECTED_YEAR, null);
+    }
+
+    public void setSelectedYear(String year) {
+        config.setProperty(SELECTED_YEAR, year);
+    }
+
+    /** Selected project id of filter. */
+    public static final String SELECTED_PROJECT_ID = "filter.projectId"; //$NON-NLS-1$
+
+    public Long getSelectedProjectId() {
+        return config.getLong(SELECTED_PROJECT_ID, null);
+    }
+
+    public void setSelectedProjectId(long projectId) {
+        config.setProperty(SELECTED_PROJECT_ID, new Long(projectId));
     }
 
 }
