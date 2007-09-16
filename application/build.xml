@@ -1,7 +1,7 @@
 <project name="Baralga" basedir="." default="compile">
     <description>Baralga Project</description>
 	
-	<property name="project.version" value="0.9"/>
+	<property name="project.version" value="0.9.1"/>
 	
 	<!-- set global properties for this build -->
 	<property name="src"           value="src"/>
@@ -22,9 +22,11 @@
 	<path id="project.class.path">
 		<pathelement location="${lib}/jxl.jar"/>
 		<pathelement location="${lib}/xstream-1.2.2.jar"/>
+		<pathelement location="${lib}/commons-logging-1.1.jar"/>
+		<pathelement location="${lib}/commons-configuration-1.4.jar"/>
 		<pathelement location="${lib}/commons-lang-2.3.jar"/>
 		<pathelement location="${lib}/jargp.jar"/>
-		<pathelement location="${lib}/swingx-2007_08_26.jar"/>
+		<pathelement location="${lib}/swingx-2007_09_09.jar"/>
 		<pathelement location="${lib}/junit.jar"/>
 <!--		<pathelement location="${lib}/commons-jxpath-1.2.jar"/> -->
 		<pathelement location="${lib}/commons-collections-3.2.jar"/>
@@ -105,6 +107,13 @@
 		<delete file="MANIFEST.MF"/>
 		<delete dir="${dist.bin.temp}"/>
 	</target>
+	
+	
+	<target name="sign">
+		<!-- Sign the jar. -->
+		<signjar jar="${dist}/${project.version}/${ant.project.name}-${project.version}.jar" alias="baralga" storepass="baralga"/>
+	</target>
+
 	
 	<target name="src-dist" depends="clean" description="Generate the source code distribution">
 	    <!-- Create the distribution directory -->
