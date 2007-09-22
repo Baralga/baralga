@@ -1,6 +1,8 @@
 
 Name "Baralga"
 
+OutFile "${setup}"
+
 ; The default installation directory
 InstallDir $PROGRAMFILES\Baralga
 
@@ -15,13 +17,13 @@ Section "" ;No components page, name is not important
   ; Set output path to the installation directory.
   SetOutPath $INSTDIR
   
+  CreateDirectory "$SMPROGRAMS\Baralga"
+  CreateShortCut "$SMPROGRAMS\Baralga\Baralga.lnk" "$INSTDIR\${execName}"
+  
   ; Put file there
   File "${exec}"
   
+  ; Copy JRE
   SetOutPath "$INSTDIR\${jreName}"
-  
   File /r "${jre}"
-  
 SectionEnd ; end the section
-
-OutFile "${setup}"
