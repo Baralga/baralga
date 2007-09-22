@@ -156,6 +156,7 @@
 		</copy>
 		<echo message="${basedir}"/>
 		<exec executable="${make-nsis}" dir=".">
+			<arg value="/DexecName=${ant.project.name}-${project.version}.exe"/>
 			<arg value="/Dexec=${basedir}\dist\win\${project.version}\${ant.project.name}-${project.version}.exe"/>
 			<arg value="/Dsetup=${basedir}\dist\win\${project.version}\${ant.project.name}-${project.version}-installer.exe"/>
 			<arg value="/DjreName=jre1.6.0_02"/>
