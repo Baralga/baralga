@@ -109,9 +109,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         TableColumn projectColumn = table.getColumn(0);
         projectColumn.setCellEditor(new ComboBoxCellEditor(new JComboBox(new EventComboBoxModel<Project>(model.getProjectList()))));
 
-        table.setAutoResizeMode(JXTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         JScrollPane table_scroll_pane = new JScrollPane(table);
-
         this.add(table_scroll_pane);
     }
 

@@ -1,20 +1,19 @@
 package org.remast.baralga.gui.panels;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
+import info.clearthought.layout.TableLayout;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.util.Date;
 
-import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
-import javax.swing.JPanel;
-import javax.swing.border.Border;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
+import org.jdesktop.swingx.JXTitledSeparator;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.Settings;
 import org.remast.baralga.model.PresentationModel;
@@ -30,10 +29,6 @@ import org.remast.baralga.model.lists.ProjectFilterList;
 import org.remast.baralga.model.lists.YearFilterList;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
-
-import com.jgoodies.forms.builder.PanelBuilder;
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
 
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class ReportPanel extends JXPanel implements ActionListener {
@@ -68,50 +63,31 @@ public class ReportPanel extends JXPanel implements ActionListener {
      * This method initializes this
      */
     private void initialize() {
-        FormLayout layout = new FormLayout(
-                "right:pref, 3dlu, right:pref, 3dlu, right:pref, 3dlu, right:pref, 3dlu, right:pref, 3dlu, pref:grow", // columns //$NON-NLS-1$
-                "pref, 3dlu, pref, 6dlu, pref, 3dlu, pref:grow"); // rows //$NON-NLS-1$
-        PanelBuilder builder = new PanelBuilder(layout);
-        builder.setDefaultDialogBorder();
-
         // Obtain a reusable constraints object to place components in the grid.
-        CellConstraints cc = new CellConstraints();
-        builder.addSeparator(Messages.getString("ReportPanel.FiltersLabel"), cc.xyw(1, 1, 11)); //$NON-NLS-1$
-
-        builder.addLabel(Messages.getString("ReportPanel.ProjectLabel"), cc.xyw(1, 3, 1)); //$NON-NLS-1$
-        builder.add(getProjectFilterSelector(), cc.xyw(3, 3, 1));
-
-        builder.addLabel(Messages.getString("ReportPanel.YearLabel"), cc.xyw(5, 3, 1)); //$NON-NLS-1$
-        builder.add(getYearFilterSelector(), cc.xyw(7, 3, 1));
-
-        builder.addLabel(Messages.getString("ReportPanel.MonthLabel"), cc.xyw(9, 3, 1)); //$NON-NLS-1$
-        builder.add(getMonthFilterSelector(), cc.xyw(11, 3, 1));
-
-        builder.addSeparator(Messages.getString("ReportPanel.DataLabel"), cc.xyw(1, 5, 11)); //$NON-NLS-1$
         filteredActivitiesPane = new FilteredActivitiesPane(getModel());
-        builder.add(filteredActivitiesPane, cc.xyw(1, 7, 11, "fill, fill"));
 
-        JPanel p = builder.getPanel();
-        this.setLayout(new BorderLayout());
-        this.add(p, BorderLayout.CENTER);
+        double border = 5;
+        double size[][] =
+        {{border, TableLayout.PREFERRED, border, TableLayout.FILL, border, TableLayout.PREFERRED, border, TableLayout.FILL, border, TableLayout.PREFERRED, border, TableLayout.FILL, border},  // Columns
+         {border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.FILL, border}}; // Rows
+        this.setLayout (new TableLayout(size));
+        
+        JXTitledSeparator filterSep = new JXTitledSeparator(Messages.getString("ReportPanel.FiltersLabel"));
+        this.add(filterSep, "1, 1, 11, 1"); //$NON-NLS-1$
+        
+        this.add(new JXLabel(Messages.getString("ReportPanel.ProjectLabel")), "1, 3");
+        this.add(getProjectFilterSelector(), "3, 3");
+        
+        this.add(new JXLabel(Messages.getString("ReportPanel.YearLabel")), "5, 3");
+        this.add(getYearFilterSelector(), "7, 3");
 
-        /*
-        JXCollapsiblePane cp = new JXCollapsiblePane();
-        cp.setLayout(new BorderLayout());
-        cp.add("Center", p);
+        this.add(new JXLabel(Messages.getString("ReportPanel.MonthLabel")), "9, 3");
+        this.add(getMonthFilterSelector(), "11, 3");
 
-        this.add("Center", cp);
-
-        // get the built-in toggle action
-        Action toggleAction = cp.getActionMap().get(JXCollapsiblePane.TOGGLE_ACTION);
-
-        // use the collapse/expand icons from the JTree UI
-        toggleAction.putValue(JXCollapsiblePane.COLLAPSE_ICON, UIManager.getIcon("Tree.expandedIcon"));
-        toggleAction.putValue(JXCollapsiblePane.EXPAND_ICON, UIManager.getIcon("Tree.collapsedIcon"));
-        toggleAction.putValue(Action.NAME, "Show / hide Report");
-        JToggleButton toggle = new JToggleButton(toggleAction);
-        this.add("North", toggle);
-        */
+        JXTitledSeparator sep = new JXTitledSeparator(Messages.getString("ReportPanel.DataLabel"));
+        this.add(sep, "1, 5, 11, 1"); //$NON-NLS-1$
+        
+        this.add(filteredActivitiesPane, "1, 7, 11, 7");
     }
 
     /**

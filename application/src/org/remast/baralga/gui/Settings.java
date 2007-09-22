@@ -1,11 +1,9 @@
 package org.remast.baralga.gui;
 
 import java.io.File;
-import java.util.prefs.Preferences;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
-import org.remast.baralga.BaralgaMain;
 
 public class Settings {
     //------------------------------------------------

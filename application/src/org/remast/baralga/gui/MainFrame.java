@@ -1,5 +1,7 @@
 package org.remast.baralga.gui;
 
+import info.clearthought.layout.TableLayout;
+
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.WindowListener;
@@ -16,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
 import org.jdesktop.swingx.JXFrame;
+import org.jdesktop.swingx.JXPanel;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.actions.AboutAction;
 import org.remast.baralga.gui.actions.AddActivityAction;
@@ -32,10 +35,6 @@ import org.remast.baralga.model.PresentationModel;
 import org.remast.baralga.model.Project;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
-
-import com.jgoodies.forms.builder.PanelBuilder;
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
 
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class MainFrame extends JXFrame implements Observer, WindowListener {
@@ -135,19 +134,16 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      */
     private JPanel getJContentPane() {
         if (jContentPane == null) {
-            FormLayout layout = new FormLayout(
-                    "pref:grow", // columns //$NON-NLS-1$
-                    "pref, pref, pref:grow" // top:rows //$NON-NLS-1$
-            );
-            PanelBuilder builder = new PanelBuilder(layout);
-            CellConstraints cc = new CellConstraints();
+          jContentPane = new JXPanel();
+          double size[][] =
+          {{TableLayout.FILL},  // Columns
+           {TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.FILL}}; // Rows
+          TableLayout tableLayout = new TableLayout(size);
+          jContentPane.setLayout(tableLayout);
+          jContentPane.add(getToolBar(), "0, 0");
+          jContentPane.add(getCurrentPanel(), "0, 1");
+          jContentPane.add(getReportPanel(), "0, 2");
             
-            int row = 1;
-            builder.add(getToolBar(), cc.xy(1, row++));
-            builder.add(getCurrentPanel(), cc.xy(1, row++));
-            builder.add(getReportPanel(), cc.xy(1, row++, "fill, fill"));
-
-            jContentPane = builder.getPanel();
         }
         return jContentPane;
     }
