@@ -1,8 +1,10 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
+  <!-- 
   <jar>..\dist\0.9\Baralga-0.9.jar</jar>
   <outfile>..\dist\0.9\Baralga.exe</outfile>
+   -->
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir></chdir>
