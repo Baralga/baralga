@@ -1,7 +1,7 @@
 <project name="Baralga" basedir="." default="compile">
     <description>Baralga Project</description>
 	
-	<property name="project.version" value="0.9.1"/>
+	<property name="project.version" value="0.9.2"/>
 	
 	<!-- set global properties for this build -->
 	<property name="src"           value="src"/>
@@ -15,8 +15,8 @@
 	<property name="resource"      value="resource"/>
 	
 	<property name="launch4j.dir" location="C:\Programme\Launch4j" />
-	<property name="make-nsis" location="C:\Programme\NSIS\makensis.exe" />
 	-->	
+	<property name="make-nsis" location="C:\Programme\NSIS\makensis.exe" />
 
 	
 	<path id="project.class.path">
@@ -28,10 +28,9 @@
 		<pathelement location="${lib}/jargp.jar"/>
 		<pathelement location="${lib}/swingx-2007_09_09.jar"/>
 		<pathelement location="${lib}/junit.jar"/>
-<!--		<pathelement location="${lib}/commons-jxpath-1.2.jar"/> -->
+		<pathelement location="${lib}/TableLayout-bin-jdk1.5-2007-04-21.jar"/>
 		<pathelement location="${lib}/commons-collections-3.2.jar"/>
 		<pathelement location="${lib}/glazedlists-1.7.0_java15.jar"/>
-		<pathelement location="${lib}/forms-1.1.0.jar"/>
 		<pathelement location="${lib}/looks-2.1.4.jar"/>
 		<pathelement location="${lib}/joda-time-1.4.jar"/>
 	</path>
@@ -141,7 +140,7 @@
 			basedir="${dist.src.temp}"/>
 	</target>
 	
-	<target name="exe" depends="bin-dist">
+	<target name="exe" depends="">
 		<mkdir dir="${win-installer}/${project.version}"/>
 		<taskdef name="launch4j"
 		  classname="net.sf.launch4j.ant.Launch4jTask"
@@ -155,10 +154,13 @@
 			<fileset file="${dist}/${project.version}/${ant.project.name}-${project.version}.exe"/>
 		    <fileset file="LICENSE"/>
 		</copy>
-		<exec executable="${make-nsis}">
-			<arg value="/Dexec=${ant.project.name}-${project.version}.exe"/>
-			<arg value="/Dsetup=${ant.project.name}-${project.version}-installer.exe"/>
-			<arg value="${win-installer}/installer.nsi"/>
+		<echo message="${basedir}"/>
+		<exec executable="${make-nsis}" dir=".">
+			<arg value="/Dexec=${basedir}\dist\win\${project.version}\${ant.project.name}-${project.version}.exe"/>
+			<arg value="/Dsetup=${basedir}\dist\win\${project.version}\${ant.project.name}-${project.version}-installer.exe"/>
+			<arg value="/DjreName=jre1.6.0_02"/>
+			<arg value="/Djre=${basedir}\dist\win\jre1.6.0_02\"/>
+			<arg value="config/nsis/baralga-installer.nsi"/>
 		</exec>
 		<delete>
 			<fileset file="${win-installer}/${ant.project.name}-${project.version}.exe"/>
