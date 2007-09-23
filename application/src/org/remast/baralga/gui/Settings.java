@@ -5,6 +5,9 @@ import java.io.File;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
+/**
+ * @author Jan Stamer
+ */
 public class Settings {
     //------------------------------------------------
     // ProTrack data locations
@@ -30,6 +33,7 @@ public class Settings {
     /** Node for Baralga user preferences. */
     private PropertiesConfiguration config;
     
+    /** The singleton instance. */
     private static Settings instance;
     
     public static Settings instance() {
@@ -40,13 +44,13 @@ public class Settings {
     }
     
     private Settings() {
-            File file = new File(PROPERTIES_FILENAME);
-            try {
-                config = new PropertiesConfiguration(file);
-            } catch (ConfigurationException e) {
-                e.printStackTrace();
-            }
+        File file = new File(PROPERTIES_FILENAME);
+        try {
+            config = new PropertiesConfiguration(file);
             config.setAutoSave(true);
+        } catch (ConfigurationException e) {
+            e.printStackTrace();
+        }
     }
     
 
