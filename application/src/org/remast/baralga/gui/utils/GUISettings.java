@@ -6,6 +6,9 @@ import org.jdesktop.swingx.decorator.AlternateRowHighlighter;
 import org.jdesktop.swingx.decorator.Highlighter;
 import org.jdesktop.swingx.decorator.RolloverHighlighter;
 
+/**
+ * @author Jan Stamer
+ */
 public interface GUISettings {
 
     public static Highlighter[] HIGHLIGHTERS = new Highlighter[] { AlternateRowHighlighter.beige,

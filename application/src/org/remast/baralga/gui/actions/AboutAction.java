@@ -8,8 +8,11 @@ import javax.swing.ImageIcon;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.dialogs.AboutDialog;
 
+/**
+ * @author Jan Stamer
+ */
 @SuppressWarnings("serial") //$NON-NLS-1$
-public final class AboutAction extends AbstractAction {
+public class AboutAction extends AbstractAction {
 
     public AboutAction() {
         putValue(NAME, Messages.getString("AboutAction.Name")); //$NON-NLS-1$

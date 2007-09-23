@@ -13,6 +13,9 @@ import org.remast.baralga.model.PresentationModel;
 import org.remast.baralga.model.export.ExcelExport;
 import org.remast.util.FileFilters;
 
+/**
+ * @author Jan Stamer
+ */
 @SuppressWarnings("serial") //$NON-NLS-1$
 public final class ExcelExportAction extends AbstractProTrackAction {
 

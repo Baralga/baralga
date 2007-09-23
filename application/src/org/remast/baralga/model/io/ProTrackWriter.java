@@ -21,7 +21,7 @@ public class ProTrackWriter {
     }
     
     public void write(final File file) throws IOException {
-        synchronized(getData()) {
+        synchronized(data) {
             final FileOutputStream fileOut = new FileOutputStream(file);
             final XStream xstream = new XStream(new DomDriver());
             
@@ -30,21 +30,7 @@ public class ProTrackWriter {
             Annotations.configureAliases(xstream, ProjectActivity.class);
             
             xstream.setMode(XStream.ID_REFERENCES);
-            xstream.toXML(getData(), fileOut);
+            xstream.toXML(data, fileOut);
         }
-    }
-
-    /**
-     * @return the proTrack
-     */
-    private ProTrack getData() {
-        return data;
-    }
-
-    /**
-     * @param proTrack the proTrack to set
-     */
-    private void setData(ProTrack proTrack) {
-        this.data = proTrack;
     }
 }

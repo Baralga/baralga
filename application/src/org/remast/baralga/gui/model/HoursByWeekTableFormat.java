@@ -6,6 +6,9 @@ import org.remast.baralga.model.report.HoursByWeek;
 
 import ca.odell.glazedlists.gui.TableFormat;
 
+/**
+ * @author Jan Stamer
+ */
 public class HoursByWeekTableFormat implements TableFormat<HoursByWeek> {
 
     public int getColumnCount() {

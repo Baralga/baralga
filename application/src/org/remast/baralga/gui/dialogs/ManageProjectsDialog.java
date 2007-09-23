@@ -23,6 +23,9 @@ import org.remast.baralga.model.Project;
 
 import ca.odell.glazedlists.swing.EventListModel;
 
+/**
+ * @author Jan Stamer
+ */
 @SuppressWarnings("serial")
 public class ManageProjectsDialog extends JDialog {
 

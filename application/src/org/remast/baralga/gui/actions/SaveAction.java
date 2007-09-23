@@ -10,15 +10,15 @@ import javax.swing.KeyStroke;
 import org.remast.baralga.Messages;
 import org.remast.baralga.model.PresentationModel;
 
+/**
+ * @author Jan Stamer
+ */
+@SuppressWarnings("serial") //$NON-NLS-1$
 public final class SaveAction extends AbstractProTrackAction {
-
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
 
     public SaveAction(PresentationModel model) {
         super(model);
+        
         putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/resource/icons/gtk-save.png"))); //$NON-NLS-1$
         putValue(NAME, Messages.getString("SaveAction.Name")); //$NON-NLS-1$
         putValue(SHORT_DESCRIPTION, Messages.getString("SaveAction.ShortDescription")); //$NON-NLS-1$

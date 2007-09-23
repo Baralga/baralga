@@ -11,10 +11,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * @author Jan Stamer
+ */
+@SuppressWarnings("serial") //$NON-NLS-1$
 public class ExcelReportDialog extends JDialog {
-
-    private static final long serialVersionUID = 1L;
-
+    
     private JPanel jContentPane = null;
 
     private JPanel settingsPanel = null;

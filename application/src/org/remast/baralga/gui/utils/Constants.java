@@ -4,6 +4,9 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 
+/**
+ * @author Jan Stamer
+ */
 public interface Constants {
 
     //------------------------------------------------

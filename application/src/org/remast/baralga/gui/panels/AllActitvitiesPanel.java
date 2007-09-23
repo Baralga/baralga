@@ -31,6 +31,9 @@ import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 import ca.odell.glazedlists.swing.EventTableModel;
 
+/**
+ * @author Jan Stamer
+ */
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class AllActitvitiesPanel extends JXPanel implements Observer {
 

@@ -6,7 +6,11 @@ import org.remast.baralga.Messages;
 import org.remast.baralga.model.PresentationModel;
 import org.remast.baralga.model.Project;
 
-public final class ChangeProjectAction extends AbstractProTrackAction {
+/**
+ * @author Jan Stamer
+ */
+@SuppressWarnings("serial") //$NON-NLS-1$
+public class ChangeProjectAction extends AbstractProTrackAction {
 
     private Project newProject;
 
@@ -17,11 +21,6 @@ public final class ChangeProjectAction extends AbstractProTrackAction {
         putValue(NAME, getNewProject().toString());
         putValue(SHORT_DESCRIPTION, Messages.getString("ChangeProjectAction.ShortDescription") + getNewProject().toString() + "."); //$NON-NLS-1$ //$NON-NLS-2$
     }
-
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
 
     public void actionPerformed(ActionEvent e) {
         getModel().changeProject(getNewProject());

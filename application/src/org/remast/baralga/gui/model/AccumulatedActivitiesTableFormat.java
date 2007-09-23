@@ -6,6 +6,9 @@ import org.remast.baralga.model.report.AccumulatedProjectActivity;
 
 import ca.odell.glazedlists.gui.TableFormat;
 
+/**
+ * @author Jan Stamer
+ */
 public class AccumulatedActivitiesTableFormat implements TableFormat<AccumulatedProjectActivity> {
 
     public int getColumnCount() {

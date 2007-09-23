@@ -15,6 +15,9 @@ import org.remast.baralga.model.report.HoursByWeekReport;
 
 import ca.odell.glazedlists.swing.EventTableModel;
 
+/**
+ * @author Jan Stamer
+ */
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class HoursByWeekPanel extends JXPanel {
 

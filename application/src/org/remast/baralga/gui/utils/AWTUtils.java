@@ -4,6 +4,9 @@ import java.awt.MenuItem;
 
 import javax.swing.Action;
 
+/**
+ * @author Jan Stamer
+ */
 public abstract class AWTUtils {
 
     public static MenuItem createFromAction(Action action) {

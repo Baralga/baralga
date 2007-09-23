@@ -7,6 +7,9 @@ import javax.swing.JDialog;
 import org.jdesktop.swingx.JXLabel;
 import org.remast.baralga.Messages;
 
+/**
+ * @author Jan Stamer
+ */
 @SuppressWarnings("serial")
 public class AboutDialog extends JDialog {
 

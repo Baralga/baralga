@@ -7,13 +7,12 @@ import javax.swing.ImageIcon;
 import org.remast.baralga.Messages;
 import org.remast.baralga.model.PresentationModel;
 
-public final class ExitAction extends AbstractProTrackAction {
-    
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
-    
+/**
+ * @author Jan Stamer
+ */
+@SuppressWarnings("serial") //$NON-NLS-1$
+public class ExitAction extends AbstractProTrackAction {
+     
     public ExitAction(PresentationModel model) {
         super(model);
         
@@ -22,6 +21,7 @@ public final class ExitAction extends AbstractProTrackAction {
         putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/resource/icons/gtk-close.png"))); //$NON-NLS-1$
         putValue(LONG_DESCRIPTION, Messages.getString("ExitAction.LongDescription")); //$NON-NLS-1$
     }
+    
     public void actionPerformed(ActionEvent event) {
         System.exit(0);
     }

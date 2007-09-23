@@ -7,6 +7,9 @@ import org.remast.baralga.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 
+/**
+ * @author Jan Stamer
+ */
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class FilteredActivitiesPane extends JTabbedPane {
 

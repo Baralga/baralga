@@ -8,12 +8,11 @@ import org.remast.baralga.Messages;
 import org.remast.baralga.model.ProjectStateException;
 import org.remast.baralga.model.PresentationModel;
 
-public final class StartAction extends AbstractProTrackAction {
-
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
+/**
+ * @author Jan Stamer
+ */
+@SuppressWarnings("serial") //$NON-NLS-1$
+public class StartAction extends AbstractProTrackAction {
 
     public StartAction(PresentationModel model) {
         super(model);

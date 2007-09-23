@@ -4,6 +4,9 @@ import javax.swing.AbstractAction;
 
 import org.remast.baralga.model.PresentationModel;
 
+/**
+ * @author Jan Stamer
+ */
 public abstract class AbstractProTrackAction extends AbstractAction {
 
     private PresentationModel model;

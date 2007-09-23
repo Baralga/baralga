@@ -24,6 +24,9 @@ import org.remast.baralga.gui.utils.Constants;
 import org.remast.baralga.model.PresentationModel;
 import org.remast.baralga.model.Project;
 
+/**
+ * @author Jan Stamer
+ */
 public class BaralgaTray implements Observer {
     
     private TrayIcon trayIcon;

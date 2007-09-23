@@ -17,7 +17,6 @@ public class SaveTimer extends TimerTask {
         try {
             this.model.save();
         } catch (Exception e) {
-            // TODO Add logging.
             e.printStackTrace();
         }
     }

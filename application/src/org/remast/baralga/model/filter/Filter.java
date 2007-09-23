@@ -47,14 +47,14 @@ public class Filter<E> {
             filteredElements = CollectionUtils.select(filteredElements, predicate);
         }
         
-        List<E> filteredElementsList = new Vector<E>();
+        final List<E> filteredElementsList = new Vector<E>();
         filteredElementsList.addAll(filteredElements);
         return filteredElementsList;
     }
 
     public boolean satisfiesPredicates(ProjectActivity activity) {
         for (Predicate predicate : predicates) {
-            if(!predicate.evaluate(activity))
+            if (!predicate.evaluate(activity))
                 return false;
         }
         return true;
