@@ -1,6 +1,6 @@
 package org.remast.baralga.model.lists;
 
-import org.remast.util.EqualsUtil;
+import org.apache.commons.lang.builder.EqualsBuilder;
 
 public class FilterItem<E> {
     
@@ -59,7 +59,10 @@ public class FilterItem<E> {
         if(obj != null
                 && (obj instanceof FilterItem)) {
             FilterItem<E> that = (FilterItem<E>) obj;
-            return EqualsUtil.areEqual(this.getItem(), that.getItem());
+            
+            final EqualsBuilder eqBuilder = new EqualsBuilder();
+            eqBuilder.append(this.getItem(), that.getItem());
+            return eqBuilder.isEquals();
         }
         return false;
     }

@@ -81,6 +81,7 @@ public class AccumulatedProjectActivity {
         if (!(that instanceof AccumulatedProjectActivity))
             return false;
 
+        // :TODO: Replace by EqualsBuilder
         AccumulatedProjectActivity accAct = (AccumulatedProjectActivity) that;
         return EqualsUtil.areEqual(this.getProject(), accAct.getProject())
                 && DateUtils.isSameDay(this.getDay(), accAct.getDay());

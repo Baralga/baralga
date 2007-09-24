@@ -48,6 +48,7 @@ public class HoursByWeek {
         if (!(that instanceof HoursByWeek))
             return false;
 
+        // :TODO: Replace by EqualsBuilder
         HoursByWeek accAct = (HoursByWeek) that;
         return EqualsUtil.areEqual(this.getWeek(), accAct.getWeek());
     }
