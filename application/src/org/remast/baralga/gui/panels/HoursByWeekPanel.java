@@ -30,6 +30,9 @@ public class HoursByWeekPanel extends JXPanel {
         initialize();
     }
 
+    /**
+     * Set up GUI components.
+     */
     private void initialize() {
         JXTable table = new JXTable(new EventTableModel<HoursByWeek>(this.report.getHoursByWeek(), new HoursByWeekTableFormat()));
 

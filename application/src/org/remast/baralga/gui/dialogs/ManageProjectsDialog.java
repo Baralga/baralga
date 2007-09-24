@@ -60,9 +60,7 @@ public class ManageProjectsDialog extends JDialog {
     }
 
     /**
-     * This method initializes this
-     * 
-     * @return void
+     * Set up GUI components.
      */
     private void initialize() {
         this.setSize(300, 200);

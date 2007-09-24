@@ -55,6 +55,9 @@ public class FilteredActivitiesPane extends JTabbedPane {
         initialize();
     }
 
+    /**
+     * Set up GUI components.
+     */
     private void initialize() {
         accummulatedActitvitiesPanel = new AccummulatedActitvitiesPanel(pModel.getFilteredReport());
         this.addTab(Messages.getString("FilteredActivitiesPane.Tab.AccumulatedActivities"), accummulatedActitvitiesPanel); //$NON-NLS-1$

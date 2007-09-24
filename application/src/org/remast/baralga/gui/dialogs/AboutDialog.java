@@ -25,9 +25,7 @@ public class AboutDialog extends JDialog {
     }
 
     /**
-     * This method initializes this
-     * 
-     * @return void
+     * Set up GUI components.
      */
     private void initialize() {
         JXLabel label = new JXLabel(Messages.getString("Global.Title") + " " + Messages.getString("Global.Version") + " " + Messages.getString("Global.VersionNumber"));

@@ -17,8 +17,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
+import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXFrame;
-import org.jdesktop.swingx.JXPanel;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.actions.AboutAction;
 import org.remast.baralga.gui.actions.AddActivityAction;
@@ -42,8 +42,6 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     /** The model. */
     private PresentationModel model;
 
-    private JPanel jContentPane = null;
-
     /** The tool bar. */
     private JToolBar toolBar = null;
 
@@ -51,8 +49,10 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
     private JButton startStopButton = null;
 
+    /** The list of projects. */
     private JComboBox projectSelector = null;
 
+    
     //------------------------------------------------
     // Other stuff
     //------------------------------------------------
@@ -60,23 +60,31 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     /** The filtered report. */
     private ReportPanel reportPanel;
     
+    
     //------------------------------------------------
-    // The menus
+    // The menu
     //------------------------------------------------
 
+    /** The menu bar containing all menus. */
     private JMenuBar mainMenuBar = null;
 
+    /** The file menu. */
     private JMenu fileMenu = null;
-    
+
+    /** The help menu. */
     private JMenu helpMenu = null;    
 
+    /** The export menu. */
+    private JMenu exportMenu = null;
+
+    /** The edit menu. */
     private JMenu editMenu = null;
 
+    // The menu items
+    
     private JMenuItem editProjectsMenuItem = null;
 
     private JMenuItem ExcelExportItem = null;
-
-    private JMenu ExportMenu = null;
 
     private JMenuItem exitItem = null;
 
@@ -97,9 +105,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     }
 
     /**
-     * This method initializes this
-     * 
-     * @return void
+     * Set up GUI components.
      */
     private void initialize() {
         this.setSize(510, 600);
@@ -107,7 +113,6 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
                 getClass().getResource("/resource/icons/Baralga-Tray.gif"))); //$NON-NLS-1$
         this.setResizable(true);
         this.setJMenuBar(getMainMenuBar());
-        this.setContentPane(getJContentPane());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         this.addWindowListener(this);
@@ -116,36 +121,28 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             this.setTitle(Messages.getString("Global.Title") + " - " + getModel().getSelectedProject() + Messages.getString("MainFrame.9") + Constants.hhMMFormat.format(getModel().getStart())); //$NON-NLS-1$ //$NON-NLS-2$
             getProjectSelector().setSelectedItem(getModel().getSelectedProject());
             
-            startStopButton.setAction(new StopAction(getModel()));
+            getStartStopButton().setAction(new StopAction(getModel()));
         } else {
             this.setTitle(Messages.getString("Global.Title")); //$NON-NLS-1$
             
-            if(!getModel().getProjectList().isEmpty()) {
+            // Initially select first project
+            if (!getModel().getProjectList().isEmpty()) {
+                // :ENHANCEMENT: Store selected project in settings.
                 getProjectSelector().setSelectedItem(getModel().getProjectList().get(0));
             }
-            startStopButton.setAction(new StartAction(getModel()));
+            getStartStopButton().setAction(new StartAction(getModel()));
         }
-    }
-
-    /**
-     * This method initializes jContentPane
-     * 
-     * @return javax.swing.JPanel
-     */
-    private JPanel getJContentPane() {
-        if (jContentPane == null) {
-          jContentPane = new JXPanel();
-          double size[][] =
-          {{TableLayout.FILL},  // Columns
-           {TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.FILL}}; // Rows
-          TableLayout tableLayout = new TableLayout(size);
-          jContentPane.setLayout(tableLayout);
-          jContentPane.add(getToolBar(), "0, 0");
-          jContentPane.add(getCurrentPanel(), "0, 1");
-          jContentPane.add(getReportPanel(), "0, 2");
-            
-        }
-        return jContentPane;
+        
+        // Set layout
+        double size[][] =
+        {{TableLayout.FILL},  // Columns
+         {TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.FILL}}; // Rows
+        
+        TableLayout tableLayout = new TableLayout(size);
+        this.setLayout(tableLayout);
+        this.add(getToolBar(), "0, 0");
+        this.add(getCurrentPanel(), "0, 1");
+        this.add(getReportPanel(), "0, 2");
     }
 
     private ReportPanel getReportPanel() {
@@ -239,7 +236,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
             projectSelector.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent e) {
-                    Project selectedProject = (Project) getProjectSelector().getSelectedItem();
+                    final Project selectedProject = (Project) getProjectSelector().getSelectedItem();
                     getModel().changeProject(selectedProject);
                 }
             });
@@ -320,7 +317,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
     public void update(Observable source, Object eventObject) {
         if (eventObject instanceof ProTrackEvent) {
-            ProTrackEvent event = (ProTrackEvent) eventObject;
+            final ProTrackEvent event = (ProTrackEvent) eventObject;
 
             switch (event.getType()) {
 
@@ -348,7 +345,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     /**
      * Executed on project changed event.
      */    
-    private void updateProjectChanged(ProTrackEvent event) {
+    private void updateProjectChanged(final ProTrackEvent event) {
         if (getModel().isActive()) {
             this.setTitle(Messages.getString("Global.Title") + " - " + getModel().getSelectedProject() + Messages.getString("MainFrame.9") + Constants.hhMMFormat.format(getModel().getStart())); //$NON-NLS-1$ //$NON-NLS-2$
         }
@@ -360,7 +357,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      */    
     private void updateStart() {
         this.setTitle(Messages.getString("Global.Title") + " - " + getModel().getSelectedProject() + Messages.getString("MainFrame.11") + Constants.hhMMFormat.format(getModel().getStart())); //$NON-NLS-1$ //$NON-NLS-2$
-        startStopButton.setAction(new StopAction(getModel()));
+        getStartStopButton().setAction(new StopAction(getModel()));
     }
 
     /**
@@ -368,7 +365,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      */
     private void updateStop() {
         this.setTitle(Messages.getString("Global.Title") + " " + Messages.getString("MainFrame.12") + " " + Constants.hhMMFormat.format(getModel().getStop())); //$NON-NLS-1$
-        startStopButton.setAction(new StartAction(getModel()));
+        getStartStopButton().setAction(new StartAction(getModel()));
     }
 
     /**
@@ -380,7 +377,6 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         if (ExcelExportItem == null) {
             ExcelExportItem = new JMenuItem();
             ExcelExportItem.setAction(new ExcelExportAction(getModel()));
-            ExcelExportItem.setText(Messages.getString("FileFilters.MicrosoftExcelFile")); //$NON-NLS-1$
         }
         return ExcelExportItem;
     }
@@ -391,12 +387,12 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      * @return javax.swing.JMenu
      */
     private JMenu getExportMenu() {
-        if (ExportMenu == null) {
-            ExportMenu = new JMenu();
-            ExportMenu.setText(Messages.getString("MainFrame.ExportMenu.Title")); //$NON-NLS-1$
-            ExportMenu.add(getExcelExportItem());
+        if (exportMenu == null) {
+            exportMenu = new JMenu();
+            exportMenu.setText(Messages.getString("MainFrame.ExportMenu.Title")); //$NON-NLS-1$
+            exportMenu.add(getExcelExportItem());
         }
-        return ExportMenu;
+        return exportMenu;
     }
 
     public void windowIconified(java.awt.event.WindowEvent e) {

@@ -17,6 +17,7 @@ import org.remast.baralga.model.report.FilteredReport;
 import ca.odell.glazedlists.swing.EventTableModel;
 
 /**
+ * Panel containing the accumulated hours spent on each project on one day.
  * @author Jan Stamer
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
@@ -33,6 +34,9 @@ public class AccummulatedActitvitiesPanel extends JXPanel {
         initialize();
     }
 
+    /**
+     * Set up GUI components.
+     */
     private void initialize() {
         this.setBackground(Color.RED);
 

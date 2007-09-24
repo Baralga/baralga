@@ -84,9 +84,7 @@ public class AddActivityDialog extends JDialog {
     }
 
     /**
-     * This method initializes this
-     * 
-     * @return void
+     * Set up GUI components.
      */
     private void initialize() {
         this.setIconImage(new ImageIcon(getClass().getResource("/resource/icons/gtk-add.png")).getImage()); //$NON-NLS-1$

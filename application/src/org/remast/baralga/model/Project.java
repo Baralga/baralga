@@ -2,7 +2,7 @@ package org.remast.baralga.model;
 
 import java.io.Serializable;
 
-import org.remast.baralga.model.report.AccumulatedProjectActivity;
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.remast.util.EqualsUtil;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -76,10 +76,16 @@ public class Project implements Serializable {
     
     @Override
     public boolean equals(Object that) {
-        if ( this == that ) return true;
-        if ( !(that instanceof AccumulatedProjectActivity) ) return false;
+        if ( this == that ) 
+            return true;
         
-        Project project = (Project) that;
-        return EqualsUtil.areEqual(this.getId(), project.getId());
+        if (that == null || !(that instanceof Project))
+            return false;
+        
+        final Project project = (Project) that;
+        
+        final EqualsBuilder eqBuilder = new EqualsBuilder();
+        eqBuilder.append(this.getId(), project.getId());
+        return eqBuilder.isEquals();
     }
 }

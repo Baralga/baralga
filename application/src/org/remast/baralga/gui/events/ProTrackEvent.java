@@ -25,10 +25,15 @@ public class ProTrackEvent {
 
     public static final int PROJECT_ACTIVITY_CHANGED = 7;
 
-    private int type;
+    /** The type of the event. */
+    final private int type;
 
     private Object data;
 
+    /**
+     * Constructor for a new event.
+     * @param type the type of the event.
+     */
     public ProTrackEvent(final int type) {
         this.type = type;
     }

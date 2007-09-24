@@ -63,7 +63,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
     }
 
     /**
-     * This method initializes this
+     * Set up GUI components.
      */
     private void initialize() {
         // Obtain a reusable constraints object to place components in the grid.

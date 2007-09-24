@@ -65,6 +65,9 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         }
     }
 
+    /**
+     * Set up GUI components.
+     */
     private void initialize() {
         applyFilter();
 
