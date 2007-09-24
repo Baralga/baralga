@@ -3,7 +3,6 @@ package org.remast.baralga.model;
 import java.io.Serializable;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
-import org.remast.util.EqualsUtil;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
