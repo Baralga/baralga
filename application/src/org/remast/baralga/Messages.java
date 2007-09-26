@@ -3,13 +3,13 @@ package org.remast.baralga;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-public class Messages {
+public abstract class Messages {
+
+    /** The name of the resource bundle. */
     private static final String BUNDLE_NAME = "org.remast.baralga.Text"; //$NON-NLS-1$
 
+    /** The resource bundle. */
     private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
-
-    private Messages() {
-    }
 
     public static String getString(String key) {
         try {

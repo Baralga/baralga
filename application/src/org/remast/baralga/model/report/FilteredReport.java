@@ -23,7 +23,7 @@ public class FilteredReport {
     private EventList<AccumulatedProjectActivity> accumulatedActivitiesByDay;
 
     /** The filter by which the tracked data is filtered. */
-    private Filter<ProjectActivity> filter;
+    protected Filter filter;
 
     /**
      * Create report from data.
@@ -94,8 +94,8 @@ public class FilteredReport {
     }
 
     public static void export(ProTrack data, File file) throws Exception {
-        Filter<ProjectActivity> filter = new Filter<ProjectActivity>();
-        filter.addPredicate(new MonthPredicate(new Date(System.currentTimeMillis())));
+        Filter filter = new Filter();
+        filter.setMonth(new Date(System.currentTimeMillis()));
         FilteredReport report = new FilteredReport(data);
         report.setFilter(filter);
         System.out.println("" + report); //$NON-NLS-1$
@@ -111,7 +111,7 @@ public class FilteredReport {
     /**
      * @return the filter
      */
-    public Filter<ProjectActivity> getFilter() {
+    public Filter getFilter() {
         return filter;
     }
 
@@ -119,7 +119,7 @@ public class FilteredReport {
      * @param filter
      *            the filter to set
      */
-    public void setFilter(Filter<ProjectActivity> filter) {
+    public void setFilter(Filter filter) {
         this.filter = filter;
         accumulate();
     }

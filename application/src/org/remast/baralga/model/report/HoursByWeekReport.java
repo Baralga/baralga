@@ -21,18 +21,19 @@ public class HoursByWeekReport implements Observer {
     
     EventList<HoursByWeek> hoursByWeekList;
     
-    private Filter<ProjectActivity> filter;
+    private Filter filter;
 
     /**
      * @param filter the filter to set
      */
-    public void setFilter(Filter<ProjectActivity> filter) {
+    public void setFilter(Filter filter) {
         this.filter = filter;
         calculateHours();
     }
 
     public HoursByWeekReport(PresentationModel model) {
         this.model = model;
+        this.filter = model.getFilter();
         this.model.addObserver(this);
         
         this.hoursByWeekList = new BasicEventList<HoursByWeek>();

@@ -47,7 +47,7 @@ public class HoursByWeekPanel extends JXPanel {
     /**
      * @param filter the filter to set
      */
-    public void setFilter(Filter<ProjectActivity> filter) {
+    public void setFilter(Filter filter) {
         this.report.setFilter(filter);
     }
 

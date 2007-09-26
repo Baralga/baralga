@@ -14,8 +14,11 @@ public class ObservingFilteredReport extends FilteredReport implements Observer 
     public ObservingFilteredReport(final PresentationModel model) {
         super(model.getData());
         
+        this.filter = model.getFilter();
         this.model = model;
         this.model.addObserver(this);
+        
+        this.accumulate();
     }
 
     public void update(Observable source, Object eventObject) {

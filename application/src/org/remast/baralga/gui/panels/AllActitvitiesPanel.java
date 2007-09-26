@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -39,7 +40,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
 
     private final PresentationModel model;
 
-    private Filter<ProjectActivity> filter;
+    private Filter filter;
 
     private EventList<ProjectActivity> filteredActivitiesList;
 
@@ -47,6 +48,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         this.model = model;
         this.filteredActivitiesList = new BasicEventList<ProjectActivity>();
         this.model.addObserver(this);
+        this.filter = this.model.getFilter();
         
         this.setLayout(new BorderLayout());
 
@@ -122,7 +124,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
     /**
      * @return the filter
      */
-    public Filter<ProjectActivity> getFilter() {
+    public Filter getFilter() {
         return filter;
     }
 
@@ -130,7 +132,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
      * Set and apply new filter.
      * @param filter the filter to set
      */
-    public void setFilter(Filter<ProjectActivity> filter) {
+    public void setFilter(Filter filter) {
         this.filter = filter;        
         applyFilter();
     }

@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.Date;
 import java.util.Observable;
 
+import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.Settings;
 import org.remast.baralga.gui.events.ProTrackEvent;
@@ -43,7 +45,7 @@ public class PresentationModel extends Observable {
     private ProTrack data;
     
     /** Current activity filter. */
-    private Filter<ProjectActivity> filter;
+    private Filter filter;
 
     public PresentationModel() {
         this.data = new ProTrack();
@@ -60,6 +62,19 @@ public class PresentationModel extends Observable {
         
         this.projectList.addAll(this.data.getProjects());
         this.activitiesList.addAll(this.data.getActivities());
+        
+        this.filter = FilterUtils.restoreFromSettings();
+
+        Long selectedProjectId = Settings.instance().getSelectedProjectId();
+        if (selectedProjectId != null) {
+            for (Project project : this.data.getProjects()) {
+                if (selectedProjectId.longValue() == project.getId()) {
+                    filter.setProject(project);
+                    break;
+                }
+            }
+        }
+        
     }
 
     public void addProject(Project project) {
@@ -107,8 +122,9 @@ public class PresentationModel extends Observable {
     }
 
     public void stop() throws ProjectStateException {
-        if(!isActive())
+        if (!isActive()) {
             throw new ProjectStateException(Messages.getString("PresentationModel.NoActiveProjectError")); //$NON-NLS-1$
+        }
         
         setStop(DateUtils.getNow());
         setActive(false);
@@ -128,40 +144,51 @@ public class PresentationModel extends Observable {
     }
 
     /**
-     * @param activeProject the activeProject to set
+     * Changes to the given project.
+     * @param activeProject the new active project
      */
-    public void changeProject(Project activeProject) {
-        if(getSelectedProject() != activeProject) {
-            this.selectedProject = activeProject;
-            this.data.setActiveProject(activeProject);
-            
-            final Date now = DateUtils.getNow();
-            
-            // check if project is running
-            if(isActive()) {
-                // 1. Stop the running project.
-                setStop(now);
-                
-                // 2. Track recorded project activity.
-                ProjectActivity activity = new ProjectActivity(start, getStop(), getSelectedProject());
-                getData().getActivities().add(activity);
-                this.activitiesList.add(activity);
-                
-                // 3. Broadcast project activity event.
-                ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_ADDED);
-                event.setData(activity);
-                notify(event);
-            }
-            // set start time to now
-            // INFO: We need to clone the date so we don't work with the 
-            // exact same reference
-            setStart((Date) now.clone());
-            
-            // fire Project changed event
-            ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_CHANGED);
-            event.setData(activeProject);
+    public void changeProject(final Project activeProject) {
+        // If there's no change we're done.
+        if (ObjectUtils.equals(getSelectedProject(), activeProject)) {
+            return;
+        }
+
+        // Store previous project
+        final Project previousProject = getSelectedProject();
+
+        // Set selected project to new project
+        this.selectedProject = activeProject;
+
+        // Set active project to new project
+        this.data.setActiveProject(activeProject);
+
+        final Date now = DateUtils.getNow();
+
+        // If a project is currently running we create a new project activity.
+        if (isActive()) {
+            // 1. Stop the running project.
+            setStop(now);
+
+            // 2. Track recorded project activity.
+            ProjectActivity activity = new ProjectActivity(start, getStop(), previousProject);
+            getData().getActivities().add(activity);
+            this.activitiesList.add(activity);
+
+            // 3. Broadcast project activity event.
+            ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_ADDED);
+            event.setData(activity);
             notify(event);
         }
+        
+        // Set start time to now.
+        // :INFO: We need to clone the date so we don't work with the 
+        // exact same reference
+        setStart((Date) now.clone());
+
+        // Fire Project changed event
+        ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_CHANGED);
+        event.setData(activeProject);
+        notify(event);
     }
 
     /**
@@ -177,6 +204,10 @@ public class PresentationModel extends Observable {
         writer.write(proTrackFile);
     }
 
+    /**
+     * Add a new activity to the model.
+     * @param activity the activity to add
+     */
     public void addActivity(final ProjectActivity activity) {
         getData().getActivities().add(activity);
         this.getActivitiesList().add(activity);
@@ -187,6 +218,10 @@ public class PresentationModel extends Observable {
         notify(event);
     }
 
+    /**
+     * Remove an activity from the model.
+     * @param activity the activity to remove
+     */
     public void removeActivity(final ProjectActivity activity) {
         getData().getActivities().remove(activity);
         this.getActivitiesList().remove(activity);
@@ -244,7 +279,7 @@ public class PresentationModel extends Observable {
     /**
      * @param start the start to set
      */
-    private void setStart(Date start) {
+    private void setStart(final Date start) {
         this.start = start;
         this.data.setStartTime(start);
     }
@@ -259,7 +294,7 @@ public class PresentationModel extends Observable {
     /**
      * @param stop the stop to set
      */
-    private void setStop(Date stop) {
+    private void setStop(final Date stop) {
         this.stop = stop;
     }
     
@@ -273,9 +308,9 @@ public class PresentationModel extends Observable {
     /**
      * @param active the active to set
      */
-    public void setActive(boolean active) {
+    public void setActive(final boolean active) {
         this.active = active;
-        
+        // Propagate to data.
         this.data.setActive(active);
     }
 
@@ -296,7 +331,7 @@ public class PresentationModel extends Observable {
     /**
      * @param data the data to set
      */
-    public void setData(ProTrack data) {
+    public void setData(final ProTrack data) {
         this.data = data;
         initialize();
     }
@@ -304,14 +339,14 @@ public class PresentationModel extends Observable {
     /**
      * @return the filter
      */
-    public Filter<ProjectActivity> getFilter() {
+    public Filter getFilter() {
         return filter;
     }
 
     /**
      * @param filter the filter to set
      */
-    public void setFilter(Filter<ProjectActivity> filter) {
+    public void setFilter(final Filter filter) {
         this.filter = filter;
     }
 }

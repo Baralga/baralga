@@ -1,9 +1,8 @@
 package org.remast.baralga.model.export;
 
 import java.io.File;
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import jxl.CellView;
@@ -20,6 +19,7 @@ import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 
+import org.apache.commons.lang.StringUtils;
 import org.remast.baralga.Messages;
 import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.ProjectActivity;
@@ -29,14 +29,17 @@ import org.remast.baralga.model.report.FilteredReport;
 import org.remast.baralga.model.utils.ProTrackUtils;
 
 public class ExcelExport {
-    
+
+    public static final SimpleDateFormat MONTH_FORMAT = new SimpleDateFormat("MM"); //$NON-NLS-1$
+    public static final SimpleDateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy"); //$NON-NLS-1$
+
     private static WritableCellFormat headingFormat;
 
-    public static void export(final ProTrack data, Filter<ProjectActivity> filter, final File file) throws Exception {
+    public static void export(final ProTrack data, Filter filter, final File file) throws Exception {
             init();
             
             WritableWorkbook workbook = Workbook.createWorkbook(file);
-            createMonthlyReport(workbook, data, filter);
+            createFilteredReport(workbook, data, filter);
             
             WritableSheet sheet = workbook.createSheet(Messages.getString("ExcelExport.SheetTitleActivityRecords"), 1); //$NON-NLS-1$
             
@@ -91,11 +94,26 @@ public class ExcelExport {
         headingFormat.setBackground(Colour.GRAY_25);
     }
 
-    private static void createMonthlyReport(WritableWorkbook workbook, ProTrack data, Filter<ProjectActivity> filter) throws JXLException {
-        int month = GregorianCalendar.getInstance().get(Calendar.MONTH);
-        int year = GregorianCalendar.getInstance().get(Calendar.YEAR);
+    private static void createFilteredReport(WritableWorkbook workbook, ProTrack data, Filter filter) throws JXLException {
+        String year = "";
+        if (filter != null && filter.getYear() != null) {
+            year = YEAR_FORMAT.format(filter.getYear());
+        }
         
-        WritableSheet sheet = workbook.createSheet(Messages.getString("ExcelExport.SheetTitleStart") + year + "-" + month, 0); //$NON-NLS-1$ //$NON-NLS-2$
+        String month = "";
+        if (filter != null && filter.getMonth() != null) {
+            month = MONTH_FORMAT.format(filter.getMonth());
+        }
+        
+        String reportName = Messages.getString("ExcelExport.SheetTitleStart"); //$NON-NLS-1$
+        if (StringUtils.isNotBlank(year)) {
+            reportName += year;
+        }
+        if (StringUtils.isNotBlank(month)) {
+            reportName += "-" + month;
+        }
+        
+        WritableSheet sheet = workbook.createSheet(reportName, 0);
 
         FilteredReport report = new FilteredReport(data);
         report.setFilter(filter);

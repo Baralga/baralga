@@ -14,6 +14,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import org.apache.commons.lang.math.RandomUtils;
@@ -86,7 +87,9 @@ public class ManageProjectsDialog extends JDialog {
             jContentPane.setLayout(new BorderLayout());
             jContentPane.add(getNewProjectNamePanel(), BorderLayout.NORTH);
             jContentPane.add(getProjectsPanel(), BorderLayout.EAST);
-            jContentPane.add(getProjectList(), BorderLayout.CENTER);
+            
+            JScrollPane projectListScrollPane = new JScrollPane(getProjectList());
+            jContentPane.add(projectListScrollPane, BorderLayout.CENTER);
         }
         return jContentPane;
     }

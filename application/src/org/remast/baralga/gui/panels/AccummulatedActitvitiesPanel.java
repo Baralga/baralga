@@ -25,7 +25,7 @@ public class AccummulatedActitvitiesPanel extends JXPanel {
 
     private FilteredReport report;
     
-    private Filter<ProjectActivity> filter;
+    private Filter filter;
 
     public AccummulatedActitvitiesPanel(FilteredReport report) {
         this.report = report;
@@ -54,14 +54,14 @@ public class AccummulatedActitvitiesPanel extends JXPanel {
     /**
      * @return the filter
      */
-    public Filter<ProjectActivity> getFilter() {
+    public Filter getFilter() {
         return filter;
     }
 
     /**
      * @param filter the filter to set
      */
-    public void setFilter(Filter<ProjectActivity> filter) {
+    public void setFilter(Filter filter) {
         this.filter = filter;
         this.report.setFilter(filter);
     }

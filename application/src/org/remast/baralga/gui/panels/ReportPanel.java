@@ -194,15 +194,15 @@ public class ReportPanel extends JXPanel implements ActionListener {
      * Create filter from selection.
      * @return
      */
-    public Filter<ProjectActivity> createFilter() {
-        Filter<ProjectActivity> filter = new Filter<ProjectActivity>();
+    public Filter createFilter() {
+        Filter filter = new Filter();
         
         FilterItem<String> filterItem = (FilterItem<String>) getMonthFilterSelector().getSelectedItem();
         String selectedMonth = filterItem.getItem();
         if(!MonthFilterList.ALL_MONTHS_DUMMY.equals(selectedMonth)) {
             try {
                 Date month = MonthFilterList.MONTH_FORMAT.parse(selectedMonth);
-                filter.addPredicate(new MonthPredicate(month));
+                filter.setMonth(month);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -213,7 +213,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
         if(!YearFilterList.ALL_YEARS_DUMMY.equals(selectedYear)) {
             try {
                 Date year = YearFilterList.YEAR_FORMAT.parse(selectedYear);
-                filter.addPredicate(new YearPredicate(year));
+                filter.setYear(year);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -222,7 +222,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
         FilterItem<Project> projectFilterItem = (FilterItem<Project>) getProjectFilterSelector().getSelectedItem();
         Project project = projectFilterItem.getItem();
         if(!ProjectFilterList.ALL_PROJECTS_DUMMY.equals(project)) {
-            filter.addPredicate(new ProjectPredicate(project));
+            filter.setProject(project);
         }
         return filter;
     }
@@ -250,7 +250,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         // 1. Create filter from selection.
-        Filter<ProjectActivity> filter = this.createFilter();
+        Filter filter = this.createFilter();
         
         // 2. Save selection to preferences.
         saveToPreferences();

@@ -15,7 +15,7 @@ public class FilteredActivitiesPane extends JTabbedPane {
 
     private PresentationModel pModel;
     
-    private Filter<ProjectActivity> filter;
+    private Filter filter;
 
     private AccummulatedActitvitiesPanel accummulatedActitvitiesPanel;
 
@@ -26,14 +26,14 @@ public class FilteredActivitiesPane extends JTabbedPane {
     /**
      * @return the filter
      */
-    public Filter<ProjectActivity> getFilter() {
+    public Filter getFilter() {
         return filter;
     }
 
     /**
      * @param filter the filter to set
      */
-    public void setFilter(Filter<ProjectActivity> filter) {
+    public void setFilter(Filter filter) {
         this.filter = filter;
 
         // Propagate filter to children
