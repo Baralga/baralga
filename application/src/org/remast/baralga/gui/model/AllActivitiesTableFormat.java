@@ -4,6 +4,7 @@ package org.remast.baralga.gui.model;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.utils.Constants;
@@ -98,7 +99,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
                 
                 // Copy date to start
                 Calendar endCal = Calendar.getInstance();
-                endCal.setTime(baseObject.getStart());
+                endCal.setTime(baseObject.getEnd());
                 endCal.set(Calendar.DAY_OF_YEAR,  newCal.get(Calendar.DAY_OF_YEAR));
                 baseObject.setEnd(endCal.getTime());
                 
