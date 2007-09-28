@@ -7,7 +7,7 @@ import org.remast.baralga.model.report.HoursByWeek;
 import ca.odell.glazedlists.gui.TableFormat;
 
 /**
- * @author Jan Stamer
+ * @author remast
  */
 public class HoursByWeekTableFormat implements TableFormat<HoursByWeek> {
 

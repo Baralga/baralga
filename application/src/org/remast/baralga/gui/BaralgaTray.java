@@ -25,7 +25,7 @@ import org.remast.baralga.model.PresentationModel;
 import org.remast.baralga.model.Project;
 
 /**
- * @author Jan Stamer
+ * @author remast
  */
 public class BaralgaTray implements Observer {
     

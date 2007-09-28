@@ -7,7 +7,7 @@ import org.jdesktop.swingx.decorator.Highlighter;
 import org.jdesktop.swingx.decorator.RolloverHighlighter;
 
 /**
- * @author Jan Stamer
+ * @author remast
  */
 public interface GUISettings {
 

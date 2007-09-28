@@ -7,7 +7,7 @@ import org.remast.baralga.model.PresentationModel;
 import org.remast.baralga.model.Project;
 
 /**
- * @author Jan Stamer
+ * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class ChangeProjectAction extends AbstractProTrackAction {

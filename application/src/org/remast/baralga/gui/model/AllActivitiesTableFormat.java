@@ -17,7 +17,7 @@ import ca.odell.glazedlists.gui.WritableTableFormat;
 /**
  * Format for table containing all tracked project activities.
  * 
- * @author Jan Stamer
+ * @author remast
  *
  */
 public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActivity> {

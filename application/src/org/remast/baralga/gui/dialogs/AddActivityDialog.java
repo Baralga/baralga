@@ -28,7 +28,7 @@ import org.remast.util.DateUtils;
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 
 /**
- * @author Jan Stamer
+ * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class AddActivityDialog extends JDialog {

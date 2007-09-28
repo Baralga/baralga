@@ -6,7 +6,7 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
 /**
- * @author Jan Stamer
+ * @author remast
  */
 public class Settings {
     //------------------------------------------------

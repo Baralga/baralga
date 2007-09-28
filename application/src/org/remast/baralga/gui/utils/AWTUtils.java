@@ -5,7 +5,7 @@ import java.awt.MenuItem;
 import javax.swing.Action;
 
 /**
- * @author Jan Stamer
+ * @author remast
  */
 public abstract class AWTUtils {
 

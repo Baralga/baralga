@@ -8,7 +8,7 @@ import org.remast.baralga.Messages;
 import org.remast.baralga.model.PresentationModel;
 
 /**
- * @author Jan Stamer
+ * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class ExitAction extends AbstractProTrackAction {

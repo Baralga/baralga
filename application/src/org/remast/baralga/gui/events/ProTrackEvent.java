@@ -1,7 +1,7 @@
 package org.remast.baralga.gui.events;
 
 /**
- * @author Jan Stamer
+ * @author remast
  */
 public class ProTrackEvent {
     

@@ -31,7 +31,7 @@ import org.remast.baralga.model.lists.YearFilterList;
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 
 /**
- * @author Jan Stamer
+ * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class ReportPanel extends JXPanel implements ActionListener {

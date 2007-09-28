@@ -18,7 +18,7 @@ import ca.odell.glazedlists.swing.EventTableModel;
 
 /**
  * Panel containing the accumulated hours spent on each project on one day.
- * @author Jan Stamer
+ * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class AccummulatedActitvitiesPanel extends JXPanel {

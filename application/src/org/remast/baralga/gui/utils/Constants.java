@@ -5,7 +5,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 
 /**
- * @author Jan Stamer
+ * @author remast
  */
 public interface Constants {
 

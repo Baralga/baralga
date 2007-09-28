@@ -9,7 +9,7 @@ import org.remast.baralga.model.ProjectStateException;
 import org.remast.baralga.model.PresentationModel;
 
 /**
- * @author Jan Stamer
+ * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class StartAction extends AbstractProTrackAction {

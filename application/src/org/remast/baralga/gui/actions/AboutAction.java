@@ -9,7 +9,7 @@ import org.remast.baralga.Messages;
 import org.remast.baralga.gui.dialogs.AboutDialog;
 
 /**
- * @author Jan Stamer
+ * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class AboutAction extends AbstractAction {

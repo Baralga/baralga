@@ -11,7 +11,7 @@ import org.remast.baralga.gui.dialogs.AddActivityDialog;
 import org.remast.baralga.model.PresentationModel;
 
 /**
- * @author Jan Stamer
+ * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class AddActivityAction extends AbstractProTrackAction {
