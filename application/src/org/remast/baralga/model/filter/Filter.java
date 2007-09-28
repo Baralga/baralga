@@ -67,7 +67,12 @@ public class Filter {
             this.predicates.remove(this.monthPredicate);
         }
 
-        Predicate newMonthPredicate = new MonthPredicate(month);
+        // If month is null set month predicate also to null.
+        if (this.month == null) {
+            this.monthPredicate = null;
+        }
+
+        final Predicate newMonthPredicate = new MonthPredicate(month);
         this.monthPredicate = newMonthPredicate;
         this.predicates.add(newMonthPredicate);
     }
@@ -81,9 +86,16 @@ public class Filter {
         
         if (this.yearPredicate != null) {
             this.predicates.remove(this.yearPredicate);
+            return;
         }
-            
-        Predicate newYearPredicate = new YearPredicate(year);
+        
+        // If year is null set year predicate also to null.
+        if (this.year == null) {
+            this.yearPredicate = null;
+            return;
+        }
+        
+        final Predicate newYearPredicate = new YearPredicate(year);
         this.yearPredicate = newYearPredicate;
         this.predicates.add(newYearPredicate);
     }
@@ -94,8 +106,14 @@ public class Filter {
         if (this.projectPredicate != null) {
             this.predicates.remove(this.projectPredicate);
         }
+        
+        // If project is null set project predicate also to null.
+        if (this.project == null) {
+            this.projectPredicate = null;
+            return;
+        }
             
-        Predicate newProjectPredicate = new ProjectPredicate(project);
+        final Predicate newProjectPredicate = new ProjectPredicate(project);
         this.projectPredicate = newProjectPredicate;
         this.predicates.add(newProjectPredicate);
     }
