@@ -65,16 +65,10 @@ public class PresentationModel extends Observable {
         
         this.filter = FilterUtils.restoreFromSettings();
 
-        Long selectedProjectId = Settings.instance().getSelectedProjectId();
+        Long selectedProjectId = Settings.instance().getFilterSelectedProjectId();
         if (selectedProjectId != null) {
-            for (Project project : this.data.getProjects()) {
-                if (selectedProjectId.longValue() == project.getId()) {
-                    filter.setProject(project);
-                    break;
-                }
-            }
+            filter.setProject(this.data.findProjectById(selectedProjectId.longValue()));
         }
-        
     }
 
     public void addProject(Project project) {
@@ -184,6 +178,8 @@ public class PresentationModel extends Observable {
         // :INFO: We need to clone the date so we don't work with the 
         // exact same reference
         setStart((Date) now.clone());
+        
+//        Settings.instance().s
 
         // Fire Project changed event
         ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_CHANGED);

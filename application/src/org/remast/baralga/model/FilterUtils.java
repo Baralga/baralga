@@ -13,7 +13,7 @@ public abstract class FilterUtils {
     public static Filter restoreFromSettings() {
         Filter filter = new Filter();
         
-        String selectedMonth = Settings.instance().getSelectedMonth();
+        String selectedMonth = Settings.instance().getFilterSelectedMonth();
         if (StringUtils.isNotBlank(selectedMonth)) {
             Date month = new Date();
             try {
@@ -24,7 +24,7 @@ public abstract class FilterUtils {
             }
         }
         
-        String selectedYear = Settings.instance().getSelectedYear();
+        String selectedYear = Settings.instance().getFilterSelectedYear();
         if (StringUtils.isNotBlank(selectedYear)) {
             try {
                 Calendar cal = GregorianCalendar.getInstance();

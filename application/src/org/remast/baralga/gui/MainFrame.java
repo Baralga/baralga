@@ -17,7 +17,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
-import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXFrame;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.actions.AboutAction;
@@ -117,23 +116,27 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         
         this.addWindowListener(this);
 
+        // 1. Init start-/stop-Buttons
         if (getModel().isActive()) {
             this.setTitle(Messages.getString("Global.Title") + " - " + getModel().getSelectedProject() + Messages.getString("MainFrame.9") + Constants.hhMMFormat.format(getModel().getStart())); //$NON-NLS-1$ //$NON-NLS-2$
-            getProjectSelector().setSelectedItem(getModel().getSelectedProject());
-            
             getStartStopButton().setAction(new StopAction(getModel()));
         } else {
             this.setTitle(Messages.getString("Global.Title")); //$NON-NLS-1$
             
-            // Initially select first project
-            if (!getModel().getProjectList().isEmpty()) {
-                // :ENHANCEMENT: Store selected project in settings.
-                getProjectSelector().setSelectedItem(getModel().getProjectList().get(0));
-            }
             getStartStopButton().setAction(new StartAction(getModel()));
         }
         
-        // Set layout
+        // 2. Restore selected project if set.
+        if (getModel().getData().getActiveProject() != null) {
+            this.getProjectSelector().setSelectedItem(getModel().getData().getActiveProject());
+        } else {
+            // If not set initially select first project
+            if (!getModel().getProjectList().isEmpty()) {
+                getProjectSelector().setSelectedItem(getModel().getProjectList().get(0));
+            }
+        }
+        
+        // 3. Set layout
         double size[][] =
         {{TableLayout.FILL},  // Columns
          {TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.FILL}}; // Rows
@@ -146,7 +149,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     }
 
     private ReportPanel getReportPanel() {
-        if(reportPanel == null) {
+        if (reportPanel == null) {
             reportPanel = new ReportPanel(getModel());
         }
         return reportPanel;
@@ -228,15 +231,9 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
             projectSelector.setModel(new EventComboBoxModel<Project>(getModel().getProjectList()));
 
-            // Select first entry
-            if(!getModel().getProjectList().isEmpty()) {
-                Project project = getModel().getProjectList().get(0);
-                getModel().changeProject(project);
-            }
-
             projectSelector.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent e) {
-                    final Project selectedProject = (Project) getProjectSelector().getSelectedItem();
+                    final Project selectedProject = (Project) projectSelector.getSelectedItem();
                     getModel().changeProject(selectedProject);
                 }
             });

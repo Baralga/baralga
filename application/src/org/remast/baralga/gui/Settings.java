@@ -53,9 +53,6 @@ public class Settings {
         }
     }
     
-
-
-    
     //------------------------------------------------
     // Lock file Location
     //------------------------------------------------
@@ -90,33 +87,33 @@ public class Settings {
     /** Selected month of filter. */
     public static final String SELECTED_MONTH = "filter.month"; //$NON-NLS-1$
 
-    public String getSelectedMonth() {
+    public String getFilterSelectedMonth() {
         return config.getString(SELECTED_MONTH, null);
     }
 
-    public void setSelectedMonth(String month) {
+    public void setFilterSelectedMonth(String month) {
         config.setProperty(SELECTED_MONTH, month);
     }
     
     /** Selected year of filter. */
     public static final String SELECTED_YEAR = "filter.year"; //$NON-NLS-1$
 
-    public String getSelectedYear() {
+    public String getFilterSelectedYear() {
         return config.getString(SELECTED_YEAR, null);
     }
 
-    public void setSelectedYear(String year) {
+    public void setFilterSelectedYear(String year) {
         config.setProperty(SELECTED_YEAR, year);
     }
 
     /** Selected project id of filter. */
     public static final String SELECTED_PROJECT_ID = "filter.projectId"; //$NON-NLS-1$
 
-    public Long getSelectedProjectId() {
+    public Long getFilterSelectedProjectId() {
         return config.getLong(SELECTED_PROJECT_ID, null);
     }
 
-    public void setSelectedProjectId(long projectId) {
+    public void setFilterSelectedProjectId(long projectId) {
         config.setProperty(SELECTED_PROJECT_ID, new Long(projectId));
     }
 

@@ -86,6 +86,17 @@ public class ProTrack implements Serializable {
         }
         this.projectsToBeDeleted.removeAll(removeP);
     }
+    
+    public Project findProjectById(long id) {
+        for (Project project : getProjects()) {
+            if (id == project.getId()) {
+                return project;
+            }
+        }
+        
+        return null;
+
+    }
 
     
     /**

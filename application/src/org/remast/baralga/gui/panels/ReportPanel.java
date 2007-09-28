@@ -116,7 +116,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
             }
             
             // Read from Settings.
-            String selectedMonth = Settings.instance().getSelectedMonth();
+            String selectedMonth = Settings.instance().getFilterSelectedMonth();
             if(selectedMonth != null) {
                 for(FilterItem<String> item : monthFilterList.getMonthList()) {
                     if(StringUtils.equals(selectedMonth, item.getItem())) {
@@ -145,7 +145,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
             }
             
             // Read from Settings.
-            Long selectedProjectId = Settings.instance().getSelectedProjectId();
+            Long selectedProjectId = Settings.instance().getFilterSelectedProjectId();
             if(selectedProjectId != null)  {
                 for(FilterItem<Project> item : projectFilterList.getProjectList()) {
                     if (ObjectUtils.equals(item.getItem().getId(), selectedProjectId.longValue())) {
@@ -175,7 +175,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
             }
             
             // Read from Settings.
-            String selectedYear = Settings.instance().getSelectedYear();
+            String selectedYear = Settings.instance().getFilterSelectedYear();
             if(selectedYear != null) {
                 for(FilterItem<String> item : yearFilterList.getYearList()) {
                     if(StringUtils.equals(selectedYear, item.getItem())) {
@@ -231,20 +231,20 @@ public class ReportPanel extends JXPanel implements ActionListener {
         FilterItem<String> filterItem = (FilterItem<String>) getMonthFilterSelector().getSelectedItem();
         String selectedMonth = filterItem.getItem();
         if(!MonthFilterList.ALL_MONTHS_DUMMY.equals(selectedMonth)) {
-            Settings.instance().setSelectedMonth(selectedMonth);
+            Settings.instance().setFilterSelectedMonth(selectedMonth);
         }
 
         filterItem = (FilterItem<String>) getYearFilterSelector().getSelectedItem();
         String selectedYear = filterItem.getItem();
         if(!YearFilterList.ALL_YEARS_DUMMY.equals(selectedYear)) {
-            Settings.instance().setSelectedYear(selectedYear);
+            Settings.instance().setFilterSelectedYear(selectedYear);
         }
 
         FilterItem<Project> projectFilterItem = (FilterItem<Project>) getProjectFilterSelector().getSelectedItem();
         Project project = projectFilterItem.getItem();
         if(!ProjectFilterList.ALL_PROJECTS_DUMMY.equals(project)) {
             long projectId = project.getId();
-            Settings.instance().setSelectedProjectId(projectId);
+            Settings.instance().setFilterSelectedProjectId(projectId);
         }
     }
 
