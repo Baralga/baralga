@@ -4,7 +4,6 @@ package org.remast.baralga.gui.model;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.utils.Constants;
@@ -77,14 +76,14 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
 
     public ProjectActivity setColumnValue(ProjectActivity baseObject, Object editedValue, int column) {
         // Project
-        if(column == 0) {
+        if (column == 0) {
             baseObject.setProject((Project) editedValue);
             
             // Fire event
             model.fireProTrackActivityChangedEvent(baseObject);
         }
         // Day and month
-        else if(column == 1) {
+        else if (column == 1) {
             try {
                 Date newDate = Constants.dayMonthFormat.parse((String) editedValue);
                 
@@ -110,7 +109,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
             }
         }
         // Start time
-        else if(column == 2) {
+        else if (column == 2) {
             try {
                 Date newStart = Constants.hhMMFormat.parse((String) editedValue);
                 baseObject.getStart().setHours(newStart.getHours());
@@ -123,7 +122,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
             }
         }
         // End time
-        else if(column == 3) {
+        else if (column == 3) {
             try {
                 Date newEnd = Constants.hhMMFormat.parse((String) editedValue);
                 baseObject.getEnd().setHours(newEnd.getHours());
