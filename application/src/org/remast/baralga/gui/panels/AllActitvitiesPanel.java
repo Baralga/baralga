@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -19,6 +18,7 @@ import javax.swing.table.TableColumn;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
+import org.remast.baralga.Messages;
 import org.remast.baralga.gui.events.ProTrackEvent;
 import org.remast.baralga.gui.model.AllActivitiesTableFormat;
 import org.remast.baralga.gui.utils.GUISettings;
@@ -78,8 +78,8 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         final JXTable table = new JXTable(tableModel);
 
 
-        final JPopupMenu menu = new JPopupMenu("Test");
-        menu.add(new AbstractAction("Delete") {
+        final JPopupMenu menu = new JPopupMenu();
+        menu.add(new AbstractAction(Messages.getString("AllActitvitiesPanel.Delete")) { //$NON-NLS-1$
 
             public void actionPerformed(ActionEvent arg0) {
                 // 1. Get selected activities
@@ -87,7 +87,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
                 
                 // 2. Remove all selected activities
                 for (int j = 0; j < selectionIndices.length; j++) {
-                    model.removeActivity(model.getActivitiesList().get(selectionIndices[j]));
+                    model.removeActivity(filteredActivitiesList.get(selectionIndices[j]));
                 }
             }
             
