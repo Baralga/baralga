@@ -101,8 +101,10 @@
 			<fileset dir="${dist.bin.temp}/META-INF"/>
 		</delete>
 
+		<!-- Create the manifest. -->
 		<manifest file="MANIFEST.MF">
 			<attribute name="Main-Class" value="org.remast.baralga.BaralgaMain"/>
+			<attribute name="Manifest-Version" value="${project.version}"/>
 		</manifest>
 		
 	    <!-- Put everything in ${dist} into a jar -->
