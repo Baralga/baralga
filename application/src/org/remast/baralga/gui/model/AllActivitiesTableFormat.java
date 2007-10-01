@@ -26,11 +26,11 @@ import ca.odell.glazedlists.gui.WritableTableFormat;
 public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActivity> {
 
     /** The logger. */
-    private static final Log log = LogFactory.getLog(SaveTimer.class);
+    private static final Log log = LogFactory.getLog(AllActivitiesTableFormat.class);
 
     private PresentationModel model;
 
-    public AllActivitiesTableFormat(PresentationModel model) {
+    public AllActivitiesTableFormat(final PresentationModel model) {
         this.model = model;
     }
 
