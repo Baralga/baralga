@@ -11,7 +11,7 @@ public class YearPredicate implements Predicate {
 
     private Date dateInYear;
 
-    public YearPredicate(Date dateInYear) {
+    public YearPredicate(final Date dateInYear) {
         this.dateInYear = dateInYear;
     }
 
