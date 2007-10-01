@@ -27,6 +27,7 @@ public class StartAction extends AbstractProTrackAction {
         try {
             getModel().start();
         } catch (ProjectStateException e1) {
+            // :TODO: Show error dialog.
             e1.printStackTrace();
         }
     }

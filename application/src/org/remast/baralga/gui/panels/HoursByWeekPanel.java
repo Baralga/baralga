@@ -8,7 +8,6 @@ import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTable;
 import org.remast.baralga.gui.model.HoursByWeekTableFormat;
 import org.remast.baralga.gui.utils.GUISettings;
-import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.baralga.model.report.HoursByWeek;
 import org.remast.baralga.model.report.HoursByWeekReport;
@@ -34,7 +33,7 @@ public class HoursByWeekPanel extends JXPanel {
      * Set up GUI components.
      */
     private void initialize() {
-        JXTable table = new JXTable(new EventTableModel<HoursByWeek>(this.report.getHoursByWeek(), new HoursByWeekTableFormat()));
+        final JXTable table = new JXTable(new EventTableModel<HoursByWeek>(this.report.getHoursByWeek(), new HoursByWeekTableFormat()));
 
         table.setHighlighters(GUISettings.HIGHLIGHTERS);
 

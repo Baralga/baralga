@@ -12,8 +12,10 @@ import java.util.Observer;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-import org.remast.baralga.Messages;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.remast.baralga.BaralgaMain;
+import org.remast.baralga.Messages;
 import org.remast.baralga.gui.actions.ChangeProjectAction;
 import org.remast.baralga.gui.actions.ExitAction;
 import org.remast.baralga.gui.actions.StartAction;
@@ -28,7 +30,10 @@ import org.remast.baralga.model.Project;
  * @author remast
  */
 public class BaralgaTray implements Observer {
-    
+
+    /** The logger. */
+    private static final Log log = LogFactory.getLog(BaralgaTray.class);
+
     private TrayIcon trayIcon;
 
     private PresentationModel model;
@@ -100,7 +105,7 @@ public class BaralgaTray implements Observer {
         try {
             tray.add(trayIcon);
         } catch (AWTException e) {
-            e.printStackTrace();
+            log.error(e, e);
         }        
     }
 

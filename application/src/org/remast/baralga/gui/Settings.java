@@ -4,11 +4,17 @@ import java.io.File;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * @author remast
  */
 public class Settings {
+    
+    /** The logger. */
+    private static final Log log = LogFactory.getLog(Settings.class);
+
     //------------------------------------------------
     // ProTrack data locations
     //------------------------------------------------
@@ -49,7 +55,7 @@ public class Settings {
             config = new PropertiesConfiguration(file);
             config.setAutoSave(true);
         } catch (ConfigurationException e) {
-            e.printStackTrace();
+            log.error(e, e);
         }
     }
     

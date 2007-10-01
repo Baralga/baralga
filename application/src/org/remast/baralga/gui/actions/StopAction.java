@@ -26,13 +26,14 @@ public class StopAction extends AbstractProTrackAction {
     }
 
 
-    /* (non-Javadoc)
+    /**
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
     public void actionPerformed(ActionEvent e) {
         try {
             getModel().stop();
         } catch (ProjectStateException e1) {
+            // :TODO: Show error dialog.
             e1.printStackTrace();
         }
     }

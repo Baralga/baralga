@@ -11,6 +11,8 @@ import javax.swing.JComboBox;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTitledSeparator;
@@ -18,11 +20,7 @@ import org.remast.baralga.Messages;
 import org.remast.baralga.gui.Settings;
 import org.remast.baralga.model.PresentationModel;
 import org.remast.baralga.model.Project;
-import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
-import org.remast.baralga.model.filter.MonthPredicate;
-import org.remast.baralga.model.filter.ProjectPredicate;
-import org.remast.baralga.model.filter.YearPredicate;
 import org.remast.baralga.model.lists.FilterItem;
 import org.remast.baralga.model.lists.MonthFilterList;
 import org.remast.baralga.model.lists.ProjectFilterList;
@@ -36,6 +34,9 @@ import ca.odell.glazedlists.swing.EventComboBoxModel;
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class ReportPanel extends JXPanel implements ActionListener {
 
+    /** The logger. */
+    private static final Log log = LogFactory.getLog(ReportPanel.class);
+    
     /** The model. */
     private PresentationModel model = null;
     
@@ -204,7 +205,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
                 Date month = MonthFilterList.MONTH_FORMAT.parse(selectedMonth);
                 filter.setMonth(month);
             } catch (ParseException e) {
-                e.printStackTrace();
+                log.error(e, e);
             }
         }
 
@@ -215,7 +216,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
                 Date year = YearFilterList.YEAR_FORMAT.parse(selectedYear);
                 filter.setYear(year);
             } catch (ParseException e) {
-                e.printStackTrace();
+                log.error(e, e);
             }
         }
 

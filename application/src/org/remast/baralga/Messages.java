@@ -3,7 +3,13 @@ package org.remast.baralga;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public abstract class Messages {
+
+    /** The logger. */
+    private static final Log log = LogFactory.getLog(Messages.class);
 
     /** The name of the resource bundle. */
     private static final String BUNDLE_NAME = "org.remast.baralga.Text"; //$NON-NLS-1$
@@ -15,6 +21,7 @@ public abstract class Messages {
         try {
             return RESOURCE_BUNDLE.getString(key);
         } catch (MissingResourceException e) {
+            log.error(e, e);
             return '!' + key + '!';
         }
     }

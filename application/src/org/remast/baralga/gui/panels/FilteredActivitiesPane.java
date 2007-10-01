@@ -4,7 +4,6 @@ import javax.swing.JTabbedPane;
 
 import org.remast.baralga.Messages;
 import org.remast.baralga.model.PresentationModel;
-import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 
 /**

@@ -21,7 +21,7 @@ public class ProjectFilterList implements Observer {
 
     private EventList<FilterItem<Project>> projectList;
 
-    public ProjectFilterList(PresentationModel model) {
+    public ProjectFilterList(final PresentationModel model) {
         this.model = model;
         this.projectList = new BasicEventList<FilterItem<Project>>();
 
@@ -33,7 +33,8 @@ public class ProjectFilterList implements Observer {
     private void initialize() {
         this.projectList.clear();
         this.projectList.add(ALL_PROJECTS_FILTER_ITEM);
-        for(Project activity : this.model.getData().getProjects()) {
+        
+        for (Project activity : this.model.getData().getProjects()) {
             this.addProject(activity);
         }
     }
@@ -43,7 +44,7 @@ public class ProjectFilterList implements Observer {
     }
 
     public void update(Observable source, Object eventObject) {
-        if (eventObject instanceof ProTrackEvent) {
+        if (eventObject != null && eventObject instanceof ProTrackEvent) {
             ProTrackEvent event = (ProTrackEvent) eventObject;
 
             switch (event.getType()) {
@@ -59,13 +60,15 @@ public class ProjectFilterList implements Observer {
         }
     }
 
-    private void addProject(Project project) {
-        if(!this.projectList.contains(project))
+    private void addProject(final Project project) {
+        if (project != null && !this.projectList.contains(project)) {
             this.projectList.add(new FilterItem<Project>(project));
+        }
     }
 
-    private void removeProject(Project project) {
-        if(this.projectList.contains(project))
+    private void removeProject(final Project project) {
+        if (project != null && this.projectList.contains(project)) {
             this.projectList.remove(project);
+        }
     }
 }

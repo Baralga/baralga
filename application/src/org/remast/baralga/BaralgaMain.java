@@ -12,6 +12,8 @@ import java.util.Timer;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jargp.ArgumentProcessor;
 import org.jargp.BoolDef;
 import org.jargp.ParameterDef;
@@ -27,6 +29,9 @@ import org.remast.baralga.model.utils.ProTrackUtils;
 
 public class BaralgaMain {
     
+    /** The logger. */
+    private static final Log log = LogFactory.getLog(BaralgaMain.class);
+
     //------------------------------------------------
     // Command line options
     //------------------------------------------------
@@ -96,7 +101,7 @@ public class BaralgaMain {
                 reader.read();
                 model.setData(reader.getData());
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error(e, e);
             }
         }
         
@@ -122,7 +127,7 @@ public class BaralgaMain {
                 try {
                     model.save();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    log.error(e, e);
                 } finally {
                     // 3. Release lock
                     releaseLock();

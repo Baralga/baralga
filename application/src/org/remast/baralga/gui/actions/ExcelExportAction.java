@@ -7,6 +7,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.Settings;
 import org.remast.baralga.model.PresentationModel;
@@ -18,6 +20,9 @@ import org.remast.util.FileFilters;
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
 public final class ExcelExportAction extends AbstractProTrackAction {
+
+    /** The logger. */
+    private static final Log log = LogFactory.getLog(ExcelExportAction.class);
 
     public ExcelExportAction(PresentationModel model) {
         super(model);
@@ -51,7 +56,7 @@ public final class ExcelExportAction extends AbstractProTrackAction {
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, Messages.getString("ExcelExportAction.IOException1") + file.getAbsolutePath() + ".", Messages.getString("ExcelExportAction.IOException2"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                         JOptionPane.ERROR_MESSAGE);
-                e.printStackTrace();
+                log.error(e, e);
             }
         }
 

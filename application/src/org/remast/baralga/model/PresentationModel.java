@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.Observable;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.Settings;
 import org.remast.baralga.gui.events.ProTrackEvent;

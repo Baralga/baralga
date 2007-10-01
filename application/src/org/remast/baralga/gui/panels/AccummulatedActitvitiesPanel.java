@@ -9,7 +9,6 @@ import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTable;
 import org.remast.baralga.gui.model.AccumulatedActivitiesTableFormat;
 import org.remast.baralga.gui.utils.GUISettings;
-import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.baralga.model.report.AccumulatedProjectActivity;
 import org.remast.baralga.model.report.FilteredReport;
@@ -40,9 +39,7 @@ public class AccummulatedActitvitiesPanel extends JXPanel {
     private void initialize() {
         this.setBackground(Color.RED);
 
-        JXTable table = new JXTable(new EventTableModel<AccumulatedProjectActivity>(this.report.getAccumulatedActivitiesByDay(), new AccumulatedActivitiesTableFormat()));
-
-
+        final JXTable table = new JXTable(new EventTableModel<AccumulatedProjectActivity>(this.report.getAccumulatedActivitiesByDay(), new AccumulatedActivitiesTableFormat()));
         table.setHighlighters(GUISettings.HIGHLIGHTERS);
 
         table.setAutoResizeMode(JXTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);

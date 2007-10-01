@@ -5,11 +5,14 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.utils.Constants;
 import org.remast.baralga.model.PresentationModel;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
+import org.remast.baralga.model.io.SaveTimer;
 import org.remast.baralga.model.utils.ProTrackUtils;
 
 import ca.odell.glazedlists.gui.WritableTableFormat;
@@ -21,6 +24,9 @@ import ca.odell.glazedlists.gui.WritableTableFormat;
  *
  */
 public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActivity> {
+
+    /** The logger. */
+    private static final Log log = LogFactory.getLog(SaveTimer.class);
 
     private PresentationModel model;
 
@@ -108,6 +114,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
                 // Ignore parse error and just don't save value
             }
         }
+        
         // Start time
         else if (column == 2) {
             try {
@@ -118,7 +125,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
                 // Fire event
                 model.fireProTrackActivityChangedEvent(baseObject);
             } catch (ParseException e) {
-                e.printStackTrace();
+                // Ignore and don't save changes to model.
             }
         }
         // End time
@@ -131,7 +138,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
                 // Fire event
                 model.fireProTrackActivityChangedEvent(baseObject);
             } catch (ParseException e) {
-                // Ignore parse error and just don't save value
+                // Ignore and don't save changes to model.
             }
         }
         return baseObject;
