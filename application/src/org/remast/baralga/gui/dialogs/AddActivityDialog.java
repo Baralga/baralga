@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.text.DateFormatter;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXDatePicker;
 import org.remast.baralga.Messages;
@@ -94,6 +95,19 @@ public class AddActivityDialog extends JDialog {
         this.setModal(true);
         this.setContentPane(getJContentPane());
         
+        // Initialize selected project
+        // a) If no project selected take first project
+        if (getModel().getSelectedProject() == null) {
+            // Select first entry
+            if(!CollectionUtils.isEmpty(getModel().getProjectList())) {
+                Project project = getModel().getProjectList().get(0);
+                projectSelector.setSelectedItem(project);
+            }
+        } else {
+        // b) Take selected project
+            projectSelector.setSelectedItem(getModel().getSelectedProject());            
+        }
+        
         // Set default Button to AddActtivityButton.
         this.getRootPane().setDefaultButton(addActivityButton);
     }
@@ -130,12 +144,6 @@ public class AddActivityDialog extends JDialog {
     private JComboBox getProjectSelector() {
         if (projectSelector == null) {
             projectSelector = new JComboBox(new EventComboBoxModel<Project>(getModel().getProjectList()));
-            
-            // Select first entry
-            if(!getModel().getProjectList().isEmpty()) {
-                Project project = getModel().getProjectList().get(0);
-                projectSelector.setSelectedItem(project);
-            }
         }
         return projectSelector;
     }

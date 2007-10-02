@@ -119,10 +119,14 @@ public class ReportPanel extends JXPanel implements ActionListener {
             // Read from Settings.
             String selectedMonth = Settings.instance().getFilterSelectedMonth();
             if(selectedMonth != null) {
-                for(FilterItem<String> item : monthFilterList.getMonthList()) {
-                    if(StringUtils.equals(selectedMonth, item.getItem())) {
-                        monthFilterSelector.setSelectedItem(item);
-                        break;
+                if (MonthFilterList.ALL_MONTHS_DUMMY.equals(selectedMonth)) {
+                    monthFilterSelector.setSelectedItem(MonthFilterList.ALL_MONTHS_FILTER_ITEM);
+                } else {
+                    for(FilterItem<String> item : monthFilterList.getMonthList()) {
+                        if(StringUtils.equals(selectedMonth, item.getItem())) {
+                            monthFilterSelector.setSelectedItem(item);
+                            break;
+                        }
                     }
                 }
             }
@@ -148,10 +152,14 @@ public class ReportPanel extends JXPanel implements ActionListener {
             // Read from Settings.
             Long selectedProjectId = Settings.instance().getFilterSelectedProjectId();
             if(selectedProjectId != null)  {
-                for(FilterItem<Project> item : projectFilterList.getProjectList()) {
-                    if (ObjectUtils.equals(item.getItem().getId(), selectedProjectId.longValue())) {
-                        projectFilterSelector.setSelectedItem(item);
-                        break;
+                if (selectedProjectId.longValue() == -1) {
+                    projectFilterSelector.setSelectedItem(ProjectFilterList.ALL_PROJECTS_FILTER_ITEM);
+                } else {
+                    for(FilterItem<Project> item : projectFilterList.getProjectList()) {
+                        if (ObjectUtils.equals(item.getItem().getId(), selectedProjectId.longValue())) {
+                            projectFilterSelector.setSelectedItem(item);
+                            break;
+                        }
                     }
                 }
             }
@@ -178,10 +186,14 @@ public class ReportPanel extends JXPanel implements ActionListener {
             // Read from Settings.
             String selectedYear = Settings.instance().getFilterSelectedYear();
             if(selectedYear != null) {
-                for(FilterItem<String> item : yearFilterList.getYearList()) {
-                    if(StringUtils.equals(selectedYear, item.getItem())) {
-                        yearFilterSelector.setSelectedItem(item);
-                        break;
+                if (YearFilterList.ALL_YEARS_DUMMY.equals(selectedYear)) {
+                    yearFilterSelector.setSelectedItem(YearFilterList.ALL_YEARS_FILTER_ITEM);
+                } else {
+                    for(FilterItem<String> item : yearFilterList.getYearList()) {
+                        if(StringUtils.equals(selectedYear, item.getItem())) {
+                            yearFilterSelector.setSelectedItem(item);
+                            break;
+                        }
                     }
                 }
             }
@@ -200,7 +212,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
         
         FilterItem<String> filterItem = (FilterItem<String>) getMonthFilterSelector().getSelectedItem();
         String selectedMonth = filterItem.getItem();
-        if(!MonthFilterList.ALL_MONTHS_DUMMY.equals(selectedMonth)) {
+        if (!MonthFilterList.ALL_MONTHS_DUMMY.equals(selectedMonth)) {
             try {
                 Date month = MonthFilterList.MONTH_FORMAT.parse(selectedMonth);
                 filter.setMonth(month);
@@ -233,12 +245,16 @@ public class ReportPanel extends JXPanel implements ActionListener {
         String selectedMonth = filterItem.getItem();
         if(!MonthFilterList.ALL_MONTHS_DUMMY.equals(selectedMonth)) {
             Settings.instance().setFilterSelectedMonth(selectedMonth);
+        } else {
+            Settings.instance().setFilterSelectedMonth(MonthFilterList.ALL_MONTHS_DUMMY);
         }
 
         filterItem = (FilterItem<String>) getYearFilterSelector().getSelectedItem();
         String selectedYear = filterItem.getItem();
         if(!YearFilterList.ALL_YEARS_DUMMY.equals(selectedYear)) {
             Settings.instance().setFilterSelectedYear(selectedYear);
+        } else {
+            Settings.instance().setFilterSelectedYear(YearFilterList.ALL_YEARS_DUMMY);
         }
 
         FilterItem<Project> projectFilterItem = (FilterItem<Project>) getProjectFilterSelector().getSelectedItem();
@@ -246,6 +262,8 @@ public class ReportPanel extends JXPanel implements ActionListener {
         if(!ProjectFilterList.ALL_PROJECTS_DUMMY.equals(project)) {
             long projectId = project.getId();
             Settings.instance().setFilterSelectedProjectId(projectId);
+        } else {
+            Settings.instance().setFilterSelectedProjectId(-1);
         }
     }
 

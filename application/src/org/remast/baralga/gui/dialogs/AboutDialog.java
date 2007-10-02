@@ -1,8 +1,10 @@
 package org.remast.baralga.gui.dialogs;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 
 import org.jdesktop.swingx.JXLabel;
 import org.remast.baralga.Messages;
@@ -28,8 +30,10 @@ public class AboutDialog extends JDialog {
      * Set up GUI components.
      */
     private void initialize() {
-        JXLabel label = new JXLabel(Messages.getString("Global.Title") + " " + Messages.getString("Global.Version") + " " + Messages.getString("Global.VersionNumber"));
-        this.add(label);
+        this.setLayout(new BorderLayout());
+        
+        JXLabel label = new JXLabel("<html><font color=\"blue\" size=\"big\"><h4>" +Messages.getString("Global.Title") + " <br/> " + Messages.getString("Global.Version") + " " + Messages.getString("Global.VersionNumber") + "</h4></font></html>", JLabel.CENTER);
+        this.add(label, BorderLayout.CENTER);
         this.setSize(200, 100);
         label.setBackground(Color.WHITE);
     }
