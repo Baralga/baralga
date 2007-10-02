@@ -9,6 +9,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.remast.baralga.gui.Settings;
 import org.remast.baralga.model.filter.Filter;
+import org.remast.baralga.model.lists.MonthFilterList;
+import org.remast.baralga.model.lists.YearFilterList;
 
 /**
  * @author remast
@@ -18,11 +20,15 @@ public abstract class FilterUtils {
     /** The logger. */
     private static final Log log = LogFactory.getLog(FilterUtils.class);
 
+    /**
+     * Restore the current filter from the user settings.
+     * @return the restored filter
+     */
     public static Filter restoreFromSettings() {
         Filter filter = new Filter();
         
         final String selectedMonth = Settings.instance().getFilterSelectedMonth();
-        if (StringUtils.isNotBlank(selectedMonth)) {
+        if (StringUtils.isNotBlank(selectedMonth) && !MonthFilterList.ALL_MONTHS_DUMMY.equals(selectedMonth)) {
             Date month = new Date();
             try {
                 month.setMonth(Integer.parseInt(selectedMonth) - 1);
@@ -33,7 +39,7 @@ public abstract class FilterUtils {
         }
         
         final String selectedYear = Settings.instance().getFilterSelectedYear();
-        if (StringUtils.isNotBlank(selectedYear)) {
+        if (StringUtils.isNotBlank(selectedYear) && !YearFilterList.ALL_YEARS_DUMMY.equals(selectedYear)) {
             try {
                 Calendar cal = GregorianCalendar.getInstance();
                 cal.set(Calendar.YEAR, Integer.parseInt(selectedYear));
