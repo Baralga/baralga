@@ -248,7 +248,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private JMenu getHelpMenu() {
         if (helpMenu == null) {
             helpMenu = new JMenu(Messages.getString("MainFrame.HelpMenu.Title"));
-            helpMenu.add(new AboutAction());
+            helpMenu.add(new AboutAction(this));
         }
         return helpMenu;
     }
