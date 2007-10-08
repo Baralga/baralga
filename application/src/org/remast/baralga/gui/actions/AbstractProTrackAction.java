@@ -17,7 +17,11 @@ public abstract class AbstractProTrackAction extends AbstractAction {
 
 
     public AbstractProTrackAction(PresentationModel model) {
-        this.model = model;
+        this(null, model);
+    }
+
+    public AbstractProTrackAction(Frame owner) {
+        this(owner, null);
     }
 
     public AbstractProTrackAction(final Frame owner, PresentationModel model) {

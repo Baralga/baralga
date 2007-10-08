@@ -2,6 +2,7 @@ package org.remast.baralga.gui.dialogs;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Frame;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -15,8 +16,8 @@ import org.remast.baralga.Messages;
 @SuppressWarnings("serial")
 public class AboutDialog extends JDialog {
 
-    public AboutDialog() {
-        super();
+    public AboutDialog(final Frame owner) {
+        super(owner);
         
         setTitle(Messages.getString("AboutDialog.AboutTitle")); //$NON-NLS-1$
         setModal(true);
@@ -30,6 +31,7 @@ public class AboutDialog extends JDialog {
      * Set up GUI components.
      */
     private void initialize() {
+        setLocationRelativeTo(getOwner());
         this.setLayout(new BorderLayout());
         
         JXLabel label = new JXLabel("<html><font color=\"blue\" size=\"big\"><h4>" +Messages.getString("Global.Title") + " <br/> " + Messages.getString("Global.Version") + " " + Messages.getString("Global.VersionNumber") + "</h4></font></html>", JLabel.CENTER);

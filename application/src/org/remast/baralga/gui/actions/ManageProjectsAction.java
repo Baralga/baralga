@@ -21,7 +21,7 @@ public class ManageProjectsAction extends AbstractProTrackAction {
         putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/resource/icons/gtk-edit.png"))); //$NON-NLS-1$
     }
 
-    public void actionPerformed(ActionEvent arg0) {
+    public void actionPerformed(final ActionEvent event) {
         ManageProjectsDialog mp = new ManageProjectsDialog(getOwner(), getModel());
         mp.setVisible(true);
     }
