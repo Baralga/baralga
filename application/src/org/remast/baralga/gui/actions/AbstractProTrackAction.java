@@ -1,5 +1,7 @@
 package org.remast.baralga.gui.actions;
 
+import java.awt.Frame;
+
 import javax.swing.AbstractAction;
 
 import org.remast.baralga.model.PresentationModel;
@@ -10,8 +12,16 @@ import org.remast.baralga.model.PresentationModel;
 public abstract class AbstractProTrackAction extends AbstractAction {
 
     private PresentationModel model;
+    
+    private Frame owner;
+
 
     public AbstractProTrackAction(PresentationModel model) {
+        this.model = model;
+    }
+
+    public AbstractProTrackAction(final Frame owner, PresentationModel model) {
+        this.owner = owner;
         this.model = model;
     }
 
@@ -27,5 +37,13 @@ public abstract class AbstractProTrackAction extends AbstractAction {
      */
     public void setModel(PresentationModel model) {
         this.model = model;
+    }
+
+    public Frame getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Frame owner) {
+        this.owner = owner;
     }
 }

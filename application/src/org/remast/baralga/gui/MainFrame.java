@@ -181,9 +181,9 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             toolBar.setFloatable(false);
         }
         toolBar.add(new SaveAction(getModel()));
-        toolBar.add(new ManageProjectsAction(getModel()));
+        toolBar.add(new ManageProjectsAction(this, getModel()));
         toolBar.add(new ExcelExportAction(getModel()));
-        toolBar.add(new AddActivityAction(getModel()));
+        toolBar.add(new AddActivityAction(this, getModel()));
 
         return toolBar;
     }
@@ -279,7 +279,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             editMenu = new JMenu();
             editMenu.setText(Messages.getString("MainFrame.EditMenu.Title")); //$NON-NLS-1$
             editMenu.add(getEditProjectsMenuItem());
-            editMenu.add(new AddActivityAction(getModel()));
+            editMenu.add(new AddActivityAction(this, getModel()));
         }
         return editMenu;
     }
@@ -292,7 +292,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private JMenuItem getEditProjectsMenuItem() {
         if (editProjectsMenuItem == null) {
             editProjectsMenuItem = new JMenuItem();
-            editProjectsMenuItem.setAction(new ManageProjectsAction(getModel()));
+            editProjectsMenuItem.setAction(new ManageProjectsAction(this, getModel()));
         }
         return editProjectsMenuItem;
     }

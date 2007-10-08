@@ -41,7 +41,6 @@ public class ManageProjectsDialog extends JDialog {
     private JButton addProjectButton = null;
 
     private JButton removeProjectButton = null;
-    
 
     private JPanel newProjectNamePanel = null;
 
@@ -64,6 +63,7 @@ public class ManageProjectsDialog extends JDialog {
      * Set up GUI components.
      */
     private void initialize() {
+        setLocationRelativeTo(getOwner());
         this.setSize(300, 200);
         this.setIconImage(new ImageIcon(getClass().getResource("/resource/icons/gtk-edit.png")).getImage()); //$NON-NLS-1$
         

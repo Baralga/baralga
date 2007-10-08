@@ -88,6 +88,7 @@ public class AddActivityDialog extends JDialog {
      * Set up GUI components.
      */
     private void initialize() {
+        setLocationRelativeTo(getOwner());
         this.setIconImage(new ImageIcon(getClass().getResource("/resource/icons/gtk-add.png")).getImage()); //$NON-NLS-1$
         this.setSize(300, 200);
         this.setResizable(false);
@@ -99,7 +100,7 @@ public class AddActivityDialog extends JDialog {
         // a) If no project selected take first project
         if (getModel().getSelectedProject() == null) {
             // Select first entry
-            if(!CollectionUtils.isEmpty(getModel().getProjectList())) {
+            if (!CollectionUtils.isEmpty(getModel().getProjectList())) {
                 Project project = getModel().getProjectList().get(0);
                 projectSelector.setSelectedItem(project);
             }
