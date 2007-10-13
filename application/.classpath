@@ -4,7 +4,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang-2.3.jar"/>
-	<classpathentry kind="lib" path="lib/glazedlists-1.7.0_java15.jar"/>
+	<classpathentry kind="lib" path="lib/glazedlists-1.7.0_java15.jar" sourcepath="lib/glazedlists-1.7.0-source_java15.zip"/>
 	<classpathentry kind="lib" path="lib/jargp.jar"/>
 	<classpathentry kind="lib" path="lib/joda-time-1.4.jar"/>
 	<classpathentry kind="lib" path="lib/junit.jar"/>
