@@ -7,7 +7,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 @XStreamAlias("project") //$NON-NLS-1$
-public class Project implements Serializable {
+public class Project implements Serializable, Comparable<Project>{
     
     /**
      * 
@@ -86,5 +86,15 @@ public class Project implements Serializable {
         final EqualsBuilder eqBuilder = new EqualsBuilder();
         eqBuilder.append(this.getId(), project.getId());
         return eqBuilder.isEquals();
+    }
+
+    @Override
+    public int compareTo(Project project) {
+        if (project == null || this.getTitle() == null) {
+            return 0;
+        }
+        
+        // Sort by title.
+        return this.getTitle().compareTo(project.getTitle());
     }
 }

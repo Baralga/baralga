@@ -1,7 +1,7 @@
 <project name="Baralga" basedir="." default="compile">
     <description>Baralga Project</description>
 	
-	<property name="project.version" value="0.9.3"/>
+	<property name="project.version" value="0.9.5"/>
 	
 	<!-- set global properties for this build -->
 	<property name="src"           value="src"/>
@@ -56,6 +56,13 @@
 			</fileset>
 		</copy>
 
+		<!-- Copy version to properties files. -->
+		<replace dir="${build}/org/remast/baralga/" value="${project.version}">
+		 	<include name="*.properties"/>
+			<replacetoken><![CDATA[<VERSION>]]></replacetoken>
+		</replace>
+
+		<!-- Copy images to build directory. -->
 		<copy todir="${build}/resource/icons/">
 			<fileset dir="${src}/resource/icons/"/>
 		</copy>
@@ -115,13 +122,13 @@
 		<delete dir="${dist.bin.temp}"/>
 	</target>
 	
-	
-	<target name="sign">
+	<!-- Sign the jar. -->
+	<target name="sign" depends="bin-dist">
 		<!-- Sign the jar. -->
 		<signjar jar="${dist}/${project.version}/${ant.project.name}-${project.version}.jar" alias="baralga" storepass="baralga"/>
 	</target>
 
-	
+	<!-- Distribution with included sources. -->
 	<target name="src-dist" depends="clean" description="Generate the source code distribution">
 	    <!-- Create the distribution directory -->
 		<mkdir dir="${dist.src.temp}"/>
@@ -148,7 +155,8 @@
 			basedir="${dist.src.temp}"/>
 	</target>
 	
-	<target name="exe" depends="">
+	<!-- Windows executable. -->
+	<target name="exe" depends="bin-dist">
 		<mkdir dir="${win-installer}/${project.version}"/>
 		<taskdef name="launch4j"
 		  classname="net.sf.launch4j.ant.Launch4jTask"
@@ -157,6 +165,7 @@
 		<launch4j configFile="./config/l4j/Baralga.cfg.xml" jar="${dist}/${project.version}/${ant.project.name}-${project.version}.jar" outfile="${win-installer}/${project.version}/${ant.project.name}-${project.version}.exe"/>
 	</target>
 	
+	<!-- Installer for windows. -->
 	<target name="win-installer" depends="exe">
 		<copy todir="${win-installer}">
 			<fileset file="${dist}/${project.version}/${ant.project.name}-${project.version}.exe"/>

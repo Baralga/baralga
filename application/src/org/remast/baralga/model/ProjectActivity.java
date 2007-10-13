@@ -11,7 +11,7 @@ import org.apache.commons.lang.time.DateUtils;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 @XStreamAlias("projectActivity") //$NON-NLS-1$
-public class ProjectActivity implements Serializable {
+public class ProjectActivity implements Serializable, Comparable<ProjectActivity> {
 
     /**
      * 
@@ -89,8 +89,19 @@ public class ProjectActivity implements Serializable {
     public void setStart(Date start) {
         this.start = start;
     }
+    
+    @Override
+    public String toString() {
+        return this.project + " " + this.start + " - " + this.end;
+    }
 
-    public Date getDay() {
-        return org.remast.util.DateUtils.adjustToSameDay(start, new Date(0));
+    @Override
+    public int compareTo(ProjectActivity activity) {
+        if (activity == null) {
+            return 0;
+        }
+        
+        // Sort by start date.
+        return this.getStart().compareTo(activity.getStart());
     }
 }

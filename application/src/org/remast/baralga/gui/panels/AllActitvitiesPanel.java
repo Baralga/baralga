@@ -29,8 +29,10 @@ import org.remast.baralga.model.filter.Filter;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
+import ca.odell.glazedlists.SortedList;
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 import ca.odell.glazedlists.swing.EventTableModel;
+import ca.odell.glazedlists.swing.TableComparatorChooser;
 
 /**
  * @author remast
@@ -42,11 +44,11 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
 
     private Filter filter;
 
-    private EventList<ProjectActivity> filteredActivitiesList;
+    private SortedList<ProjectActivity> filteredActivitiesList;
 
     public AllActitvitiesPanel(PresentationModel model) {
         this.model = model;
-        this.filteredActivitiesList = new BasicEventList<ProjectActivity>();
+        this.filteredActivitiesList = new SortedList<ProjectActivity>(new BasicEventList<ProjectActivity>());
         this.model.addObserver(this);
         this.filter = this.model.getFilter();
         
@@ -76,6 +78,10 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         EventTableModel<ProjectActivity> tableModel = new EventTableModel<ProjectActivity>(this.filteredActivitiesList,
                 new AllActivitiesTableFormat(model));
         final JXTable table = new JXTable(tableModel);
+        final TableComparatorChooser<ProjectActivity> chooser = new TableComparatorChooser<ProjectActivity>(table, filteredActivitiesList, false);
+        
+        // :INFO: Sorting is done via GlazedLists. We need to disable sorting here to avoid to sort order icons.
+        table.setSortable(false);
 
 
         final JPopupMenu menu = new JPopupMenu();
