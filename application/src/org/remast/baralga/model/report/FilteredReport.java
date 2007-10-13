@@ -1,14 +1,11 @@
 package org.remast.baralga.model.report;
 
-import java.io.File;
-import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
 import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
-import org.remast.baralga.model.filter.MonthPredicate;
 import org.remast.baralga.model.utils.ProTrackUtils;
 
 import ca.odell.glazedlists.BasicEventList;
@@ -19,7 +16,7 @@ public class FilteredReport {
     /** The data of the report. */
     private ProTrack data;
 
-    /** Accumulated activites of the report. */
+    /** Accumulated activities of the report. */
     private EventList<AccumulatedProjectActivity> accumulatedActivitiesByDay;
 
     /** The filter by which the tracked data is filtered. */
@@ -39,7 +36,7 @@ public class FilteredReport {
     public String toString() {
         String result = ""; //$NON-NLS-1$
 
-        // accumulte activities for every day
+        // accumulate activities for every day
         for (AccumulatedProjectActivity activity : accumulatedActivitiesByDay) {
             result += activity.toString() + ":"; //$NON-NLS-1$
         }
@@ -91,14 +88,6 @@ public class FilteredReport {
             filteredActivitiesList.addAll(this.data.getActivities());
 
         return filteredActivitiesList;
-    }
-
-    public static void export(ProTrack data, File file) throws Exception {
-        Filter filter = new Filter();
-        filter.setMonth(new Date(System.currentTimeMillis()));
-        FilteredReport report = new FilteredReport(data);
-        report.setFilter(filter);
-        System.out.println("" + report); //$NON-NLS-1$
     }
 
     /**

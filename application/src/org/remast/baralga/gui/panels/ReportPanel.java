@@ -38,7 +38,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
     private static final Log log = LogFactory.getLog(ReportPanel.class);
     
     /** The model. */
-    private PresentationModel model = null;
+    private PresentationModel model;
     
     /** Filter by selected project. */
     private JComboBox projectFilterSelector;
@@ -51,10 +51,13 @@ public class ReportPanel extends JXPanel implements ActionListener {
 
     private FilteredActivitiesPane filteredActivitiesPane;
 
+    /** List of months by which can be filtered. */
     private MonthFilterList monthFilterList;
 
+    /** List of years by which can be filtered. */
     private YearFilterList yearFilterList;
 
+    /** List of projects by which can be filtered. */
     private ProjectFilterList projectFilterList;
     
     public ReportPanel(final PresentationModel model) {
@@ -68,7 +71,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
      */
     private void initialize() {
         // Obtain a reusable constraints object to place components in the grid.
-        filteredActivitiesPane = new FilteredActivitiesPane(getModel());
+        filteredActivitiesPane = new FilteredActivitiesPane(model);
 
         double border = 5;
         double size[][] =
@@ -95,20 +98,11 @@ public class ReportPanel extends JXPanel implements ActionListener {
     }
 
     /**
-     * This method initializes model
-     * 
-     * @return org.remast.baralga.model.PresentationModel
-     */
-    private PresentationModel getModel() {
-        return this.model;
-    }
-
-    /**
      * @return the monthFilterSelector
      */
     public JComboBox getMonthFilterSelector() {
         if(monthFilterSelector == null) {
-            monthFilterList = getModel().getMonthFilterList();
+            monthFilterList = model.getMonthFilterList();
             monthFilterSelector = new JComboBox(new EventComboBoxModel<FilterItem<String>>(monthFilterList.getMonthList()));
 
             // Select first entry
@@ -141,7 +135,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
      */
     public JComboBox getProjectFilterSelector() {
         if(projectFilterSelector == null) {
-            projectFilterList = getModel().getProjectFilterList();
+            projectFilterList = model.getProjectFilterList();
             projectFilterSelector= new JComboBox(new EventComboBoxModel<FilterItem<Project>>(projectFilterList.getProjectList()));
 
             // Select first entry
@@ -175,7 +169,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
      */
     public JComboBox getYearFilterSelector() {
         if(yearFilterSelector == null) {
-            yearFilterList = getModel().getYearFilterList();
+            yearFilterList = model.getYearFilterList();
             yearFilterSelector= new JComboBox(new EventComboBoxModel<FilterItem<String>>(yearFilterList.getYearList()));
 
             // Select first entry
@@ -257,7 +251,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
             Settings.instance().setFilterSelectedYear(YearFilterList.ALL_YEARS_DUMMY);
         }
 
-        FilterItem<Project> projectFilterItem = (FilterItem<Project>) getProjectFilterSelector().getSelectedItem();
+        final FilterItem<Project> projectFilterItem = (FilterItem<Project>) getProjectFilterSelector().getSelectedItem();
         Project project = projectFilterItem.getItem();
         if(!ProjectFilterList.ALL_PROJECTS_DUMMY.equals(project)) {
             long projectId = project.getId();
@@ -267,6 +261,9 @@ public class ReportPanel extends JXPanel implements ActionListener {
         }
     }
 
+    /**
+     * One of the filter criteria changed. So we create and apply the filter.
+     */
     public void actionPerformed(ActionEvent e) {
         // 1. Create filter from selection.
         Filter filter = this.createFilter();
@@ -275,12 +272,11 @@ public class ReportPanel extends JXPanel implements ActionListener {
         saveToPreferences();
 
         // 3. Save to model
-        getModel().setFilter(filter);
+        model.setFilter(filter);
         
         // 4. Propagate to children
-        if(filteredActivitiesPane != null) {
+        if (filteredActivitiesPane != null) {
             filteredActivitiesPane.setFilter(filter);
         }
-        
     }
 }

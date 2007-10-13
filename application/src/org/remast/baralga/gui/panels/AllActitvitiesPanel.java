@@ -28,7 +28,6 @@ import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 
 import ca.odell.glazedlists.BasicEventList;
-import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.SortedList;
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 import ca.odell.glazedlists.swing.EventTableModel;
@@ -40,23 +39,32 @@ import ca.odell.glazedlists.swing.TableComparatorChooser;
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class AllActitvitiesPanel extends JXPanel implements Observer {
 
+    /** The model. */
     private final PresentationModel model;
 
+    /** The applied filter. */
     private Filter filter;
 
+    /** The list of activities. */
     private SortedList<ProjectActivity> filteredActivitiesList;
 
-    public AllActitvitiesPanel(PresentationModel model) {
+    /**
+     * Create a panel showing all activities of the given model.
+     * @param model the model
+     */
+    public AllActitvitiesPanel(final PresentationModel model) {
         this.model = model;
         this.filteredActivitiesList = new SortedList<ProjectActivity>(new BasicEventList<ProjectActivity>());
         this.model.addObserver(this);
         this.filter = this.model.getFilter();
-        
         this.setLayout(new BorderLayout());
 
         initialize();
     }
 
+    /**
+     * Apply the filter to the list of activities.
+     */
     private void applyFilter() {
         // clear filtered activities
         filteredActivitiesList.clear();
@@ -83,7 +91,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         // :INFO: Sorting is done via GlazedLists. We need to disable sorting here to avoid to sort order icons.
         table.setSortable(false);
 
-
+        
         final JPopupMenu menu = new JPopupMenu();
         menu.add(new AbstractAction(Messages.getString("AllActitvitiesPanel.Delete")) { //$NON-NLS-1$
 
@@ -103,14 +111,11 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         {
             public void mouseReleased(MouseEvent e)
             {
-                if (e.isPopupTrigger())
- 
-                {
+                if (e.isPopupTrigger()) {
                     JTable source = (JTable)e.getSource();
                     int row = source.rowAtPoint( e.getPoint() );
                     int column = source.columnAtPoint( e.getPoint() );
                     source.changeSelection(row, column, false, false);
- 
                     menu.show(e.getComponent(), e.getX(), e.getY());
                 }
             }
@@ -143,6 +148,9 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         applyFilter();
     }
 
+    /**
+     * Update the panel from observed event.
+     */
     public void update(Observable source, Object eventObject) {
         if (eventObject instanceof ProTrackEvent) {
             ProTrackEvent event = (ProTrackEvent) eventObject;

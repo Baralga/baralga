@@ -4,8 +4,10 @@ import org.remast.util.EqualsUtil;
 
 public class HoursByWeek {
     
+    /** The week of the year. */
     private int week;
     
+    /** The amount of hours worked that week. */
     private double hours;
     
     public HoursByWeek(int week, double hours) {
