@@ -97,8 +97,8 @@ public class BaralgaMain {
         if (file != null && file.exists()) {
             ProTrackReader reader;
             try {
-                reader = new ProTrackReader(file);
-                reader.read();
+                reader = new ProTrackReader();
+                reader.read(file);
                 model.setData(reader.getData());
             } catch (IOException e) {
                 log.error(e, e);

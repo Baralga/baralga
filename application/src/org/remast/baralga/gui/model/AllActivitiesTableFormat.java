@@ -12,7 +12,6 @@ import org.remast.baralga.gui.utils.Constants;
 import org.remast.baralga.model.PresentationModel;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
-import org.remast.baralga.model.io.SaveTimer;
 import org.remast.baralga.model.utils.ProTrackUtils;
 
 import ca.odell.glazedlists.gui.WritableTableFormat;

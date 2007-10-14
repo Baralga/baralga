@@ -14,12 +14,22 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 
 public class ProTrackWriter {
     
+    /** The data to write. */
     private ProTrack data;
     
+    /**
+     * Create a write for given data.
+     * @param data the data
+     */
     public ProTrackWriter(final ProTrack data) {
         this.data = data;
     }
     
+    /**
+     * Write the data to the given file.
+     * @param file the file to write to
+     * @throws IOException
+     */
     public void write(final File file) throws IOException {
         synchronized(data) {
             final FileOutputStream fileOut = new FileOutputStream(file);

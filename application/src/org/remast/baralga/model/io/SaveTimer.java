@@ -11,8 +11,13 @@ public class SaveTimer extends TimerTask {
     /** The logger. */
     private static final Log log = LogFactory.getLog(SaveTimer.class);
 
+    /** The model. */
     private PresentationModel model;
 
+    /**
+     * Create a time which periodically saves the model.
+     * @param model the model
+     */
     public SaveTimer(final PresentationModel model) {
         this.model = model;
     }

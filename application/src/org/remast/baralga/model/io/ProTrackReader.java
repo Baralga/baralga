@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
@@ -14,16 +16,18 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 
 public class ProTrackReader {
 
-    private ProTrack data;
-    
-    private File file;
+    /** The logger. */
+    private static final Log log = LogFactory.getLog(ProTrackReader.class);
 
-    public ProTrackReader(final File file) {
-        this.file = file;
-    }
-    
-    public void read() throws IOException {
-        final FileInputStream fis = new FileInputStream(getFile());
+    /** The data to write. */
+    private ProTrack data;
+   
+    /**
+     * Actually read the data from file.
+     * @throws IOException
+     */
+    public void read(final File file) throws IOException {
+        final FileInputStream fis = new FileInputStream(file);
         
         final XStream xstream = new XStream(new DomDriver());
         xstream.setMode(XStream.ID_REFERENCES);
@@ -33,34 +37,20 @@ public class ProTrackReader {
         Annotations.configureAliases(xstream, ProjectActivity.class);
         
         final Object o = xstream.fromXML(fis);
-        setData((ProTrack) o);
+        try {
+            data = (ProTrack) o;
+        } catch (ClassCastException e) {
+            // :TODO: Internationalize error message.
+            log.error("The file " + (file != null ? file.getName() : "<null>" ) + " does not contain valid Baralga data.", e);
+        }
     }
     
     /**
+     * Getter for the data read.
      * @return the proTrack
      */
     public ProTrack getData() {
         return data;
     }
 
-    /**
-     * @param proTrack the proTrack to set
-     */
-    private void setData(final ProTrack data) {
-        this.data = data;
-    }
-
-    /**
-     * @return the file
-     */
-    private File getFile() {
-        return file;
-    }
-
-    /**
-     * @param file the file to set
-     */
-    public void setFile(final File file) {
-        this.file = file;
-    }
 }

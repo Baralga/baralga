@@ -13,7 +13,7 @@ public class ProTrackUtils {
     /**
      * Calculate the duration of the given activity in decimal hours.
      * @param activity the activity to calculate duration for
-     * @return decimal value of the duratin (e.g. for 30 minutes, 0.5 and so on)
+     * @return decimal value of the duration (e.g. for 30 minutes, 0.5 and so on)
      */
     public static double calculateDuration(final ProjectActivity activity) {
         Date start = activity.getStart();
