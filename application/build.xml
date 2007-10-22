@@ -1,7 +1,7 @@
 <project name="Baralga" basedir="." default="compile">
     <description>Baralga Project</description>
 	
-	<property name="project.version" value="0.9.5"/>
+	<property name="project.version" value="1.0-alpha"/>
 	
 	<!-- set global properties for this build -->
 	<property name="src"           value="src"/>
@@ -26,7 +26,7 @@
 		<pathelement location="${lib}/commons-configuration-1.4.jar"/>
 		<pathelement location="${lib}/commons-lang-2.3.jar"/>
 		<pathelement location="${lib}/jargp.jar"/>
-		<pathelement location="${lib}/swingx-2007_09_09.jar"/>
+		<pathelement location="${lib}/swingx-2007_10_14.jar"/>
 		<pathelement location="${lib}/junit.jar"/>
 		<pathelement location="${lib}/TableLayout-bin-jdk1.5-2007-04-21.jar"/>
 		<pathelement location="${lib}/commons-collections-3.2.jar"/>

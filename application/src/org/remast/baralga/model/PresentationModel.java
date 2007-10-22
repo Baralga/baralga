@@ -32,6 +32,8 @@ public class PresentationModel extends Observable {
     /** The currently selected project. */
     private Project selectedProject;
     
+    private String description;
+    
     /** Flag indicating whether selected project is active or not. */
     private boolean active;
     
@@ -123,6 +125,7 @@ public class PresentationModel extends Observable {
         setActive(false);
         
         ProjectActivity activity = new ProjectActivity(start, getStop(), getSelectedProject());
+        activity.setDescription(this.description);
         getData().getActivities().add(activity);
         this.activitiesList.add(activity);
         
@@ -343,5 +346,13 @@ public class PresentationModel extends Observable {
      */
     public void setFilter(final Filter filter) {
         this.filter = filter;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

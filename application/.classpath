@@ -9,11 +9,12 @@
 	<classpathentry kind="lib" path="lib/joda-time-1.4.jar"/>
 	<classpathentry kind="lib" path="lib/junit.jar"/>
 	<classpathentry kind="lib" path="lib/jxl.jar"/>
-	<classpathentry kind="lib" path="lib/swingx-2007_09_09.jar"/>
+	<classpathentry kind="lib" path="lib/swingx-2007_10_14.jar" sourcepath="lib/swingx-2007_10_14-src.zip"/>
 	<classpathentry kind="lib" path="lib/xstream-1.2.2.jar"/>
 	<classpathentry kind="lib" path="lib/looks-2.1.4.jar"/>
 	<classpathentry kind="lib" path="lib/commons-configuration-1.4.jar"/>
 	<classpathentry kind="lib" path="lib/TableLayout-bin-jdk1.5-2007-04-21.jar"/>
 	<classpathentry kind="lib" path="lib/commons-collections-3.2.jar"/>
+	<classpathentry kind="lib" path="lib/forms-1.1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

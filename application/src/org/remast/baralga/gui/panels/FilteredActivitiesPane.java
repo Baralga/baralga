@@ -1,9 +1,14 @@
 package org.remast.baralga.gui.panels;
 
+import javax.swing.JEditorPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
+import org.jdesktop.swingx.JXTaskPane;
+import org.jdesktop.swingx.JXTaskPaneContainer;
 import org.remast.baralga.Messages;
 import org.remast.baralga.model.PresentationModel;
+import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 
 /**
@@ -12,7 +17,7 @@ import org.remast.baralga.model.filter.Filter;
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class FilteredActivitiesPane extends JTabbedPane {
 
-    private PresentationModel pModel;
+    private PresentationModel model;
     
     private Filter filter;
 
@@ -21,6 +26,8 @@ public class FilteredActivitiesPane extends JTabbedPane {
     private AllActitvitiesPanel filteredActitvitiesPanel;
     
     private HoursByWeekPanel hoursByWeekPanel;
+
+    private DescriptionPanel descriptionPanel;
 
     /**
      * @return the filter
@@ -45,11 +52,13 @@ public class FilteredActivitiesPane extends JTabbedPane {
         if(hoursByWeekPanel != null)
             hoursByWeekPanel.setFilter(filter);
 
+        if(descriptionPanel != null)
+            descriptionPanel.setFilter(filter);
     }
 
     public FilteredActivitiesPane(PresentationModel model) {
         super();
-        this.pModel = model;
+        this.model = model;
         
         initialize();
     }
@@ -58,13 +67,17 @@ public class FilteredActivitiesPane extends JTabbedPane {
      * Set up GUI components.
      */
     private void initialize() {
-        accummulatedActitvitiesPanel = new AccummulatedActitvitiesPanel(pModel.getFilteredReport());
+        accummulatedActitvitiesPanel = new AccummulatedActitvitiesPanel(model.getFilteredReport());
         this.addTab(Messages.getString("FilteredActivitiesPane.Tab.AccumulatedActivities"), accummulatedActitvitiesPanel); //$NON-NLS-1$
         
-        hoursByWeekPanel = new HoursByWeekPanel(pModel.getHoursByWeekReport());
+        hoursByWeekPanel = new HoursByWeekPanel(model.getHoursByWeekReport());
         this.addTab(Messages.getString("FilteredActivitiesPane.Tab.HoursByWeek"), hoursByWeekPanel); //$NON-NLS-1$
         
-        filteredActitvitiesPanel = new AllActitvitiesPanel(pModel);
+        filteredActitvitiesPanel = new AllActitvitiesPanel(model);
         this.addTab(Messages.getString("FilteredActivitiesPane.Tab.AllActivities"), filteredActitvitiesPanel); //$NON-NLS-1$
+        
+        descriptionPanel = new DescriptionPanel(model);
+        this.addTab("Beschreibung", descriptionPanel); //$NON-NLS-1$
+        
     }
 }

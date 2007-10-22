@@ -2,12 +2,14 @@ package org.remast.baralga.gui;
 
 import info.clearthought.layout.TableLayout;
 
-import java.awt.GridLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowListener;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -17,7 +19,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
+import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXFrame;
+import org.jdesktop.swingx.JXTitledSeparator;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.actions.AboutAction;
 import org.remast.baralga.gui.actions.AddActivityAction;
@@ -28,6 +32,7 @@ import org.remast.baralga.gui.actions.SaveAction;
 import org.remast.baralga.gui.actions.StartAction;
 import org.remast.baralga.gui.actions.StopAction;
 import org.remast.baralga.gui.events.ProTrackEvent;
+import org.remast.baralga.gui.panels.JXTextEditor;
 import org.remast.baralga.gui.panels.ReportPanel;
 import org.remast.baralga.gui.utils.Constants;
 import org.remast.baralga.model.PresentationModel;
@@ -51,15 +56,15 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     /** The list of projects. */
     private JComboBox projectSelector = null;
 
-    
+
     //------------------------------------------------
     // Other stuff
     //------------------------------------------------
 
     /** The filtered report. */
     private ReportPanel reportPanel;
-    
-    
+
+
     //------------------------------------------------
     // The menu
     //------------------------------------------------
@@ -80,7 +85,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private JMenu editMenu = null;
 
     // The menu items
-    
+
     private JMenuItem editProjectsMenuItem = null;
 
     private JMenuItem ExcelExportItem = null;
@@ -88,6 +93,8 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private JMenuItem exitItem = null;
 
     private JMenuItem saveItem = null;
+
+    private JXTextEditor descriptionTextArea;
 
     /**
      * This is the default constructor
@@ -107,13 +114,13 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      * Set up GUI components.
      */
     private void initialize() {
-        this.setSize(510, 600);
+        this.setSize(530, 720);
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(
                 getClass().getResource("/resource/icons/Baralga-Tray.gif"))); //$NON-NLS-1$
         this.setResizable(true);
         this.setJMenuBar(getMainMenuBar());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+
         this.addWindowListener(this);
 
         // 1. Init start-/stop-Buttons
@@ -122,10 +129,10 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             getStartStopButton().setAction(new StopAction(getModel()));
         } else {
             this.setTitle(Messages.getString("Global.Title")); //$NON-NLS-1$
-            
+
             getStartStopButton().setAction(new StartAction(getModel()));
         }
-        
+
         // 2. Restore selected project if set.
         if (getModel().getData().getActiveProject() != null) {
             this.getProjectSelector().setSelectedItem(getModel().getData().getActiveProject());
@@ -135,12 +142,12 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
                 getProjectSelector().setSelectedItem(getModel().getProjectList().get(0));
             }
         }
-        
+
         // 3. Set layout
         double size[][] =
         {{TableLayout.FILL},  // Columns
-         {TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.FILL}}; // Rows
-        
+                {TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.FILL}}; // Rows
+
         TableLayout tableLayout = new TableLayout(size);
         this.setLayout(tableLayout);
         this.add(getToolBar(), "0, 0");
@@ -195,15 +202,36 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      */
     private JPanel getCurrentPanel() {
         if (currentPanel == null) {
-            GridLayout gridLayout = new GridLayout();
-            gridLayout.setRows(1);
-            gridLayout.setVgap(6);
-            gridLayout.setColumns(2);
-            gridLayout.setHgap(6);
+            double border = 5;
+            double size[][] =
+            {{border, TableLayout.FILL, border, TableLayout.FILL, border},  // Columns
+                    {border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border}}; // Rows
+
+            TableLayout tableLayout = new TableLayout(size);
+
             currentPanel = new JPanel();
-            currentPanel.setLayout(gridLayout);
-            currentPanel.add(getStartStopButton(), null);
-            currentPanel.add(getProjectSelector(), null);
+            currentPanel.setLayout(tableLayout);
+            currentPanel.add(getStartStopButton(), "1, 1");
+            currentPanel.add(getProjectSelector(), "3, 1");
+
+            descriptionTextArea = new JXTextEditor(true);
+            descriptionTextArea.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+            descriptionTextArea.setPreferredSize(new Dimension(200, 100));
+            descriptionTextArea.setCollapseEditToolbar(false);
+            descriptionTextArea.addTextObserver(new JXTextEditor.TextChangeObserver(){
+
+                @Override
+                public void onTextChange() {
+                    model.setDescription(descriptionTextArea.getText());
+                }
+            });
+
+            descriptionTextArea.setText(model.getDescription());
+            descriptionTextArea.setEditable(model.isActive());
+
+            currentPanel.add(new JXTitledSeparator("Description:"), "1, 5, 3, 5");
+            currentPanel.add(descriptionTextArea, "1, 7, 3, 7");
+
         }
         return currentPanel;
     }
@@ -252,7 +280,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         }
         return helpMenu;
     }
-    
+
     /**
      * This method initializes fileMenu
      * 
@@ -353,6 +381,9 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      * Executed on start event.
      */    
     private void updateStart() {
+        descriptionTextArea.setText("");
+        descriptionTextArea.setEditable(true);
+
         this.setTitle(Messages.getString("Global.Title") + " - " + getModel().getSelectedProject() + Messages.getString("MainFrame.11") + Constants.hhMMFormat.format(getModel().getStart())); //$NON-NLS-1$ //$NON-NLS-2$
         getStartStopButton().setAction(new StopAction(getModel()));
     }
@@ -361,6 +392,9 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      * Executed on stop event.
      */
     private void updateStop() {
+        descriptionTextArea.setText(StringUtils.EMPTY);
+        descriptionTextArea.setEditable(false);
+
         this.setTitle(Messages.getString("Global.Title") + " " + Messages.getString("MainFrame.12") + " " + Constants.hhMMFormat.format(getModel().getStop())); //$NON-NLS-1$
         getStartStopButton().setAction(new StartAction(getModel()));
     }
