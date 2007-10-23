@@ -26,6 +26,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.StyleSheet;
 
 import org.jdesktop.swingx.JXCollapsiblePane;
 import org.jdesktop.swingx.JXPanel;
@@ -51,6 +52,10 @@ public class JXTextEditor extends JXPanel {
     private boolean collapseEditToolbar = true;
 
     private boolean scrollable = false;
+
+    private StyleSheet styleSheet;
+
+    private HTMLEditorKit editorKit;
     
     class BoldAction extends javax.swing.text.StyledEditorKit.BoldAction {
         public BoldAction() {
@@ -99,10 +104,17 @@ public class JXTextEditor extends JXPanel {
     private void initialize() {
         this.setLayout(new BorderLayout());
         textPane = new JTextPane();
-        textPane.setEditorKit(new HTMLEditorKit());
+
+        styleSheet = new StyleSheet();
+        styleSheet.addRule("body {font-family: Tahoma; font-size: 11pt; font-style: normal; font-weight: normal;}");
+        
+        editorKit = new HTMLEditorKit();
+        editorKit.setStyleSheet(styleSheet);
+        textPane.setEditorKit(editorKit);
 
         textPane.setEnabled(true);
         textPane.setEditable(true);
+
         
         setTabBehavior();
         textPane.addFocusListener(new FocusListener() {
