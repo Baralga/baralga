@@ -1,17 +1,21 @@
 package org.remast.baralga.gui.panels;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXPanel;
-import org.jdesktop.swingx.JXTaskPane;
-import org.jdesktop.swingx.JXTaskPaneContainer;
 import org.remast.baralga.gui.events.ProTrackEvent;
+import org.remast.baralga.gui.utils.Constants;
 import org.remast.baralga.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
@@ -27,18 +31,20 @@ public class DescriptionPanel extends JXPanel implements Observer {
 
     /** The list of activities. */
     private SortedList<ProjectActivity> filteredActivitiesList;
+    
+    private Map<ProjectActivity, DescriptionPanelEntry> entriesByActivity;
 
     /** The applied filter. */
     private Filter filter;
 
-
-    private JXTaskPaneContainer taskPaneContainer;
+    private JPanel container;
 
     public DescriptionPanel(PresentationModel model) {
         super();
         this.setLayout(new BorderLayout());
         this.model = model;
         this.filteredActivitiesList = new SortedList<ProjectActivity>(new BasicEventList<ProjectActivity>());
+        this.entriesByActivity = new HashMap<ProjectActivity, DescriptionPanelEntry>();
         this.model.addObserver(this);
         this.filter = model.getFilter();
         
@@ -46,13 +52,13 @@ public class DescriptionPanel extends JXPanel implements Observer {
     }
 
     private void initialize() {
-        taskPaneContainer = new JXTaskPaneContainer();
+        container = new JPanel();
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
         
         JXPanel sortByPanel = new JXPanel();
         sortByPanel.add(new JComboBox(new String [] {"by Project", "by Date"}));
         
-//        this.add(sortByPanel, BorderLayout.NORTH);
-        this.add(new JScrollPane(taskPaneContainer), BorderLayout.CENTER);
+      this.add(new JScrollPane(container), BorderLayout.CENTER);
 
         applyFilter();
     }
@@ -60,6 +66,7 @@ public class DescriptionPanel extends JXPanel implements Observer {
     private void applyFilter() {
         // clear filtered activities
         filteredActivitiesList.clear();
+        entriesByActivity.clear();
 
         if(filter != null) {
             List<ProjectActivity> filteredResult = filter.applyFilters(model.getActivitiesList());
@@ -68,24 +75,21 @@ public class DescriptionPanel extends JXPanel implements Observer {
             filteredActivitiesList.addAll(model.getActivitiesList());
         }
         
-        taskPaneContainer.removeAll();
+        container.removeAll();
         
         for (final ProjectActivity activity : filteredActivitiesList) {
-            JXTaskPane tp = new JXTaskPane();
-            tp.setTitle(String.valueOf(activity));
-            final JXTextEditor editor = new JXTextEditor();
-            editor.setText(activity.getDescription());
-            tp.add(editor);
+            DescriptionPanelEntry descriptionPanelEntry = new DescriptionPanelEntry(activity);
             
-            editor.addTextObserver(new JXTextEditor.TextChangeObserver(){
+            if (filteredActivitiesList.indexOf(activity) % 2 == 0) {
+                descriptionPanelEntry.setBackground(Color.WHITE);
+            } else {
+                descriptionPanelEntry.setBackground(Constants.BEIGE);
+            }
 
-                @Override
-                public void onTextChange() {
-                    activity.setDescription(editor.getText());
-                }
-            });
+            entriesByActivity.put(activity, descriptionPanelEntry);
             
-            taskPaneContainer.add(tp);
+            container.add(descriptionPanelEntry);
+            
         }
     }
 
@@ -101,6 +105,12 @@ public class DescriptionPanel extends JXPanel implements Observer {
             case ProTrackEvent.PROJECT_ACTIVITY_ADDED:
                 applyFilter();
                 break;
+
+            case ProTrackEvent.PROJECT_ACTIVITY_CHANGED:
+                ProjectActivity activity = (ProjectActivity) event.getData();
+                if (entriesByActivity.containsKey(activity)) {
+                    entriesByActivity.get(activity).update();
+                }
 
             case ProTrackEvent.PROJECT_ACTIVITY_REMOVED:
                 applyFilter();

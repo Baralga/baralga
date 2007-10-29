@@ -215,7 +215,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             currentPanel.add(getProjectSelector(), "3, 1");
 
             descriptionTextArea = new JXTextEditor(true);
-            descriptionTextArea.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+            descriptionTextArea.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
             descriptionTextArea.setPreferredSize(new Dimension(200, 100));
             descriptionTextArea.setCollapseEditToolbar(false);
             descriptionTextArea.addTextObserver(new JXTextEditor.TextChangeObserver(){
