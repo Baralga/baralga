@@ -32,8 +32,8 @@ import org.remast.baralga.gui.actions.SaveAction;
 import org.remast.baralga.gui.actions.StartAction;
 import org.remast.baralga.gui.actions.StopAction;
 import org.remast.baralga.gui.events.ProTrackEvent;
-import org.remast.baralga.gui.panels.JXTextEditor;
 import org.remast.baralga.gui.panels.ReportPanel;
+import org.remast.baralga.gui.panels.TextEditor;
 import org.remast.baralga.gui.utils.Constants;
 import org.remast.baralga.model.PresentationModel;
 import org.remast.baralga.model.Project;
@@ -94,7 +94,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
     private JMenuItem saveItem = null;
 
-    private JXTextEditor descriptionTextArea;
+    private TextEditor descriptionTextArea;
 
     /**
      * This is the default constructor
@@ -214,11 +214,11 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             currentPanel.add(getStartStopButton(), "1, 1");
             currentPanel.add(getProjectSelector(), "3, 1");
 
-            descriptionTextArea = new JXTextEditor(true);
+            descriptionTextArea = new TextEditor(true);
             descriptionTextArea.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
             descriptionTextArea.setPreferredSize(new Dimension(200, 100));
             descriptionTextArea.setCollapseEditToolbar(false);
-            descriptionTextArea.addTextObserver(new JXTextEditor.TextChangeObserver(){
+            descriptionTextArea.addTextObserver(new TextEditor.TextChangeObserver(){
 
                 @Override
                 public void onTextChange() {
@@ -229,7 +229,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             descriptionTextArea.setText(model.getDescription());
             descriptionTextArea.setEditable(model.isActive());
 
-            currentPanel.add(new JXTitledSeparator("Description:"), "1, 5, 3, 5");
+            currentPanel.add(new JXTitledSeparator(Messages.getString("MainFrame.DescriptionLabel")), "1, 5, 3, 5");
             currentPanel.add(descriptionTextArea, "1, 7, 3, 7");
 
         }

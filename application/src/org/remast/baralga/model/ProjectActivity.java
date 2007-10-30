@@ -6,11 +6,13 @@ package org.remast.baralga.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.remast.baralga.gui.utils.Constants;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+/**
+ * @author remast
+ */
 @XStreamAlias("projectActivity") //$NON-NLS-1$
 public class ProjectActivity implements Serializable, Comparable<ProjectActivity> {
 
@@ -19,20 +21,22 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
      */
     private static final long serialVersionUID = 1L;
 
+    /** Start date of this activity. */
     private Date start;
     
+    /** End date of this activity. */
     private Date end;
     
+    /** The project associated with this activity. */
     private Project project;
     
+    /** The description of this activity. */
     private String description;
 
-    public ProjectActivity(Date start, Date end, Project project) {
-        assert(DateUtils.isSameDay(start, end));
-
-        setStart(start);
-        setEnd(end);
-        setProject(project);
+    public ProjectActivity(final Date start, final Date end, final Project project) {
+        this.start = start;
+        this.end = end;
+        this.project = project;
     }
 
     /**
@@ -45,7 +49,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
     /**
      * @param description the description to set
      */
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -59,7 +63,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
     /**
      * @param end the end to set
      */
-    public void setEnd(Date end) {
+    public void setEnd(final Date end) {
         this.end = end;
     }
 
@@ -73,7 +77,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
     /**
      * @param project the project to set
      */
-    public void setProject(Project project) {
+    public void setProject(final Project project) {
         this.project = project;
     }
 
@@ -87,7 +91,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
     /**
      * @param start the start to set
      */
-    public void setStart(Date start) {
+    public void setStart(final Date start) {
         this.start = start;
     }
     

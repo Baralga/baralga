@@ -1,8 +1,9 @@
 package org.remast.baralga.gui.dialogs;
 
+import info.clearthought.layout.TableLayout;
+
 import java.awt.BorderLayout;
 import java.awt.Frame;
-import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.text.ParseException;
 import java.util.Date;
@@ -19,7 +20,9 @@ import javax.swing.text.DateFormatter;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXDatePicker;
+import org.jdesktop.swingx.JXPanel;
 import org.remast.baralga.Messages;
+import org.remast.baralga.gui.panels.TextEditor;
 import org.remast.baralga.gui.utils.Constants;
 import org.remast.baralga.model.PresentationModel;
 import org.remast.baralga.model.Project;
@@ -31,18 +34,21 @@ import ca.odell.glazedlists.swing.EventComboBoxModel;
 /**
  * @author remast
  */
-@SuppressWarnings("serial") //$NON-NLS-1$
+@SuppressWarnings("serial")//$NON-NLS-1$
 public class AddActivityDialog extends JDialog {
-    
+
     private JPanel contentPane = null;
 
     /** Label for activity start time. */
-    private JLabel startLabel = null;
+    private JLabel startLabel = new JLabel(Messages.getString("AddActivityDialog.StartLabel")); //$NON-NLS-1$
 
     /** Label for activity end time. */
-    private JLabel endLabel = null;
+    private JLabel endLabel = new JLabel(Messages.getString("AddActivityDialog.EndLabel")); //$NON-NLS-1$;
 
-    private JLabel projectLabel = null;
+    /** Label for description. */
+    private JLabel descriptionLabel = new JLabel(Messages.getString("AddActivityDialog.DescriptionLabel")); //$NON-NLS-1$
+
+    private JLabel projectLabel = new JLabel(Messages.getString("AddActivityDialog.ProjectLabel")); //$NON-NLS-1$
 
     private JComboBox projectSelector = null;
 
@@ -61,26 +67,27 @@ public class AddActivityDialog extends JDialog {
     private PresentationModel model;
 
     private JXDatePicker datePicker;
-    
-    
-    //------------------------------------------------
+
+    // ------------------------------------------------
     // Fields for project activity
-    //------------------------------------------------
-    
+    // ------------------------------------------------
+
     private Project project;
 
     private Date start;
 
     private Date end;
 
+    private TextEditor textEditor;
+
     /**
      * @param owner
-     * @param model 
+     * @param model
      */
     public AddActivityDialog(Frame owner, PresentationModel model) {
         super(owner);
         this.model = model;
-        
+
         initialize();
     }
 
@@ -90,12 +97,11 @@ public class AddActivityDialog extends JDialog {
     private void initialize() {
         setLocationRelativeTo(getOwner());
         this.setIconImage(new ImageIcon(getClass().getResource("/resource/icons/gtk-add.png")).getImage()); //$NON-NLS-1$
-        this.setSize(300, 200);
-        this.setResizable(false);
+        this.setSize(300, 350);
         this.setTitle(Messages.getString("AddActivityDialog.AddActivityLabel")); //$NON-NLS-1$
         this.setModal(true);
         this.setContentPane(getJContentPane());
-        
+
         // Initialize selected project
         // a) If no project selected take first project
         if (getModel().getSelectedProject() == null) {
@@ -105,10 +111,10 @@ public class AddActivityDialog extends JDialog {
                 projectSelector.setSelectedItem(project);
             }
         } else {
-        // b) Take selected project
-            projectSelector.setSelectedItem(getModel().getSelectedProject());            
+            // b) Take selected project
+            projectSelector.setSelectedItem(getModel().getSelectedProject());
         }
-        
+
         // Set default Button to AddActtivityButton.
         this.getRootPane().setDefaultButton(addActivityButton);
     }
@@ -121,15 +127,7 @@ public class AddActivityDialog extends JDialog {
     private JPanel getJContentPane() {
         if (contentPane == null) {
             BorderLayout borderLayout = new BorderLayout();
-            borderLayout.setHgap(0);
-            borderLayout.setVgap(0);
-            projectLabel = new JLabel();
-            projectLabel.setText(Messages.getString("AddActivityDialog.ProjectLabel")); //$NON-NLS-1$
-            startLabel = new JLabel();
-            startLabel.setText(Messages.getString("AddActivityDialog.StartLabel")); //$NON-NLS-1$
-            endLabel = new JLabel();
-            endLabel.setText(Messages.getString("AddActivityDialog.EndLabel")); //$NON-NLS-1$
-            contentPane = new JPanel();
+            contentPane = new JXPanel();
             contentPane.setLayout(borderLayout);
             contentPane.add(getButtonPanel(), BorderLayout.SOUTH);
             contentPane.add(getActivityPanel(), BorderLayout.CENTER);
@@ -138,9 +136,9 @@ public class AddActivityDialog extends JDialog {
     }
 
     /**
-     * This method initializes projectSelector	
-     * 	
-     * @return javax.swing.JComboBox	
+     * This method initializes projectSelector
+     * 
+     * @return javax.swing.JComboBox
      */
     private JComboBox getProjectSelector() {
         if (projectSelector == null) {
@@ -150,37 +148,48 @@ public class AddActivityDialog extends JDialog {
     }
 
     /**
-     * This method initializes activityPanel	
-     * 	
-     * @return javax.swing.JPanel	
+     * This method initializes activityPanel
+     * 
+     * @return javax.swing.JPanel
      */
     private JPanel getActivityPanel() {
         if (activityPanel == null) {
+            double border = 5;
+            double size[][] = {
+                    { border, TableLayout.PREFERRED, border, TableLayout.FILL, border }, // Columns
+                    { border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED,
+                            border, TableLayout.PREFERRED, border, TableLayout.FILL, border } }; // Rows
+
+            TableLayout tableLayout = new TableLayout(size);
+
             dateLabel = new JLabel();
             dateLabel.setText(Messages.getString("AddActivityDialog.DateLabel")); //$NON-NLS-1$
-            GridLayout gridLayout = new GridLayout();
-            gridLayout.setRows(4);
-            gridLayout.setHgap(2);
-            gridLayout.setVgap(2);
-            gridLayout.setColumns(2);
-            activityPanel = new JPanel();
-            activityPanel.setLayout(gridLayout);
-            activityPanel.add(projectLabel, null);
-            activityPanel.add(getProjectSelector(), null);
-            activityPanel.add(dateLabel, null);
-            activityPanel.add(getDatePicker(), null);
-            activityPanel.add(startLabel, null);
-            activityPanel.add(getStartField(), null);
-            activityPanel.add(endLabel, null);
-            activityPanel.add(getEndField(), null);
+            activityPanel = new JXPanel();
+            activityPanel.setLayout(tableLayout);
+
+            activityPanel.add(projectLabel, "1, 1");
+            activityPanel.add(getProjectSelector(), "3, 1");
+
+            activityPanel.add(dateLabel, "1, 3");
+            activityPanel.add(getDatePicker(), "3, 3");
+
+            activityPanel.add(startLabel, "1, 5");
+            activityPanel.add(getStartField(), "3, 5");
+
+            activityPanel.add(endLabel, "1, 7");
+            activityPanel.add(getEndField(), "3, 7");
+
+            activityPanel.add(descriptionLabel, "1, 9");
+            textEditor = new TextEditor(true, false);
+            activityPanel.add(textEditor, "3, 9");
         }
         return activityPanel;
     }
 
     /**
-     * This method initializes buttonPanel	
-     * 	
-     * @return javax.swing.JPanel	
+     * This method initializes buttonPanel
+     * 
+     * @return javax.swing.JPanel
      */
     private JPanel getButtonPanel() {
         if (buttonPanel == null) {
@@ -192,9 +201,9 @@ public class AddActivityDialog extends JDialog {
     }
 
     /**
-     * This method initializes jButton	
-     * 	
-     * @return javax.swing.JButton	
+     * This method initializes jButton
+     * 
+     * @return javax.swing.JButton
      */
     private JButton getAddActivityButton() {
         if (addActivityButton == null) {
@@ -204,61 +213,61 @@ public class AddActivityDialog extends JDialog {
             final AddActivityDialog dia = this;
             final PresentationModel model = getModel();
             addActivityButton.setMnemonic(KeyEvent.VK_ENTER);
-            
+
             addActivityButton.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent event) {
-                    if(dia.validateFields()) {
-                        ProjectActivity activity = new ProjectActivity(start, end, project);
+                    if (dia.validateFields()) {
+                        final ProjectActivity activity = new ProjectActivity(start, end, project);
+                        activity.setDescription(textEditor.getText());
                         model.addActivity(activity);
                         resetFields();
                         dia.dispose();
                     }
                 }
             });
-            
+
             addActivityButton.setDefaultCapable(true);
         }
         return addActivityButton;
     }
 
     /**
-     * This method initializes jPanel2	
-     * 	
-     * @return javax.swing.JPanel	
+     * This method initializes jPanel2
+     * 
+     * @return javax.swing.JPanel
      */
     private JXDatePicker getDatePicker() {
-        if(datePicker == null)
+        if (datePicker == null) {
             datePicker = new JXDatePicker(System.currentTimeMillis());
-        
+        }
+
         return datePicker;
     }
 
-
-
     /**
-     * This method initializes startField	
-     * 	
-     * @return javax.swing.JTextField	
+     * This method initializes startField
+     * 
+     * @return javax.swing.JTextField
      */
     private JFormattedTextField getStartField() {
         if (startField == null) {
-          DateFormatter df  = new DateFormatter(Constants.hhMMFormat);
-          startField = new JFormattedTextField(df);
-          df.install(startField);
+            DateFormatter df = new DateFormatter(Constants.hhMMFormat);
+            startField = new JFormattedTextField(df);
+            df.install(startField);
 
         }
         return startField;
     }
 
     /**
-     * This method initializes endField	
-     * 	
-     * @return javax.swing.JFormattedTextField	
+     * This method initializes endField
+     * 
+     * @return javax.swing.JFormattedTextField
      */
     private JFormattedTextField getEndField() {
         if (endField == null) {
             DateFormatter df;
-            df  = new DateFormatter(Constants.hhMMFormat);
+            df = new DateFormatter(Constants.hhMMFormat);
             endField = new JFormattedTextField(df);
             df.install(endField);
         }
@@ -271,20 +280,21 @@ public class AddActivityDialog extends JDialog {
     public PresentationModel getModel() {
         return model;
     }
-    
+
     public boolean validateFields() {
-        if(getProjectSelector().getSelectedItem() == null)
-            return false;
-        
-        if(StringUtils.isEmpty(getStartField().getText()))
+        if (getProjectSelector().getSelectedItem() == null)
             return false;
 
-        if(StringUtils.isEmpty(getEndField().getText()))
+        if (StringUtils.isEmpty(getStartField().getText()))
+            return false;
+
+        if (StringUtils.isEmpty(getEndField().getText()))
             return false;
 
         try {
             start = Constants.hhMMFormat.parse(getStartField().getText());
             end = Constants.hhMMFormat.parse(getEndField().getText());
+            
             correctDates();
         } catch (ParseException e) {
             return false;
@@ -293,7 +303,7 @@ public class AddActivityDialog extends JDialog {
 
         return true;
     }
-    
+
     private void correctDates() {
         Date day = new Date(getDatePicker().getDateInMillis());
         start = DateUtils.adjustToSameDay(day, start);
@@ -306,4 +316,4 @@ public class AddActivityDialog extends JDialog {
         getProjectSelector().setSelectedIndex(-1);
     }
 
-}  //  @jve:decl-index=0:visual-constraint="4,7"
+}

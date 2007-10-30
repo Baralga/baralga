@@ -3,7 +3,6 @@ package org.remast.baralga.gui.panels;
 import java.awt.BorderLayout;
 import java.awt.KeyboardFocusManager;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.InputEvent;
@@ -13,11 +12,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.JToolBar;
@@ -31,24 +27,28 @@ import javax.swing.text.html.StyleSheet;
 import org.jdesktop.swingx.JXCollapsiblePane;
 import org.jdesktop.swingx.JXPanel;
 
+/**
+ * @author remast
+ */
 @SuppressWarnings("serial")
-public class JXTextEditor extends JXPanel {
-    
+public class TextEditor extends JXPanel {
+
     /**
-     * A interface that allows to listen for textchanges to the card side text
-     * panes. Use {@link CardPanel#addTextObserver} method to hook it to
-     * the CardPanel.
+     * A interface that allows to listen for text changes to the card side text panes. Use
+     * {@link CardPanel#addTextObserver} method to hook it to the CardPanel.
      */
-    public interface TextChangeObserver
-    {
+    public interface TextChangeObserver {
         public void onTextChange();
     }
-    
+
     private List<TextChangeObserver> textObservers = new ArrayList<TextChangeObserver>();
-    
+
     JTextPane textPane;
+
     private JToolBar toolbar;
+
     private JXCollapsiblePane cp;
+
     private boolean collapseEditToolbar = true;
 
     private boolean scrollable = false;
@@ -56,48 +56,58 @@ public class JXTextEditor extends JXPanel {
     private StyleSheet styleSheet;
 
     private HTMLEditorKit editorKit;
-    
+
     class BoldAction extends javax.swing.text.StyledEditorKit.BoldAction {
+
         public BoldAction() {
             super();
-            
+
             putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/resource/icons/text_bold.png"))); //$NON-NLS-1$
 
         }
+
     }
 
     class ItalicAction extends javax.swing.text.StyledEditorKit.ItalicAction {
+
         public ItalicAction() {
             super();
             putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/resource/icons/text_italic.png"))); //$NON-NLS-1$
         }
-        
+
     }
-    
-//    class CopyAction extends DefaultEditorKit.CopyAction {
-//
-//        public CopyAction() {
-//            super();
-//            putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/resource/icons/text_italic.png"))); //$NON-NLS-1$
-//        }
-//        
-//    }
-    
+
+    // class CopyAction extends DefaultEditorKit.CopyAction {
+    //
+    // public CopyAction() {
+    // super();
+    // putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/resource/icons/text_italic.png"))); //$NON-NLS-1$
+    // }
+    //        
+    // }
+
     private void notifyTextObservers() {
         for (TextChangeObserver txtObserver : textObservers) {
             txtObserver.onTextChange();
         }
     }
-    
-    public void addTextObserver(TextChangeObserver txtObserver) {
+
+    public void addTextObserver(final TextChangeObserver txtObserver) {
         textObservers.add(txtObserver);
     }
-    public JXTextEditor() {
+
+    public TextEditor() {
         initialize();
     }
 
-    public JXTextEditor(boolean scrollable) {
+    public TextEditor(final boolean scrollable) {
         this.scrollable = scrollable;
+        initialize();
+    }
+
+    public TextEditor(final boolean scrollable, final boolean collapseEditToolbar) {
+        this.scrollable = scrollable;
+        this.collapseEditToolbar = collapseEditToolbar;
         initialize();
     }
 
@@ -107,7 +117,7 @@ public class JXTextEditor extends JXPanel {
 
         styleSheet = new StyleSheet();
         styleSheet.addRule("body {font-family: Tahoma; font-size: 11pt; font-style: normal; font-weight: normal;}");
-        
+
         editorKit = new HTMLEditorKit();
         editorKit.setStyleSheet(styleSheet);
         textPane.setEditorKit(editorKit);
@@ -115,14 +125,13 @@ public class JXTextEditor extends JXPanel {
         textPane.setEnabled(true);
         textPane.setEditable(true);
 
-        
         setTabBehavior();
         textPane.addFocusListener(new FocusListener() {
 
             @Override
             public void focusGained(FocusEvent e) {
                 if (collapseEditToolbar) {
-                cp.setCollapsed(false);
+                    cp.setCollapsed(false);
                 }
             }
 
@@ -134,9 +143,9 @@ public class JXTextEditor extends JXPanel {
                     }
                 }
             }
-            
+
         });
-        
+
         textPane.getDocument().addDocumentListener(new DocumentListener() {
 
             @Override
@@ -153,28 +162,29 @@ public class JXTextEditor extends JXPanel {
             public void removeUpdate(DocumentEvent e) {
                 notifyTextObservers();
             }
-            
+
         });
-       
+
         createToolbar();
-        
+
         cp = new JXCollapsiblePane();
         cp.add(toolbar);
-        
-        cp.setCollapsed(true);
-        if (!collapseEditToolbar)
+
+        if (!collapseEditToolbar) {
             cp.setCollapsed(false);
+        } else {
+            cp.setCollapsed(true);
+        }
 
         this.add(cp, BorderLayout.NORTH);
         if (scrollable) {
             this.add(new JScrollPane(textPane), BorderLayout.CENTER);
-        } else  {
+        } else {
             this.add(textPane, BorderLayout.CENTER);
         }
     }
 
-    private void setTabBehavior()
-    {
+    private void setTabBehavior() {
         // focus next pane with TAB instead of CTRL+TAB
         Set<KeyStroke> key = new HashSet<KeyStroke>();
         key.add(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0));
@@ -192,9 +202,9 @@ public class JXTextEditor extends JXPanel {
         int shortcutKey = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
         KeyStroke ctrlTab = KeyStroke.getKeyStroke(KeyEvent.VK_TAB, shortcutKey);
         // insert tab with CTRL+TAB instead of TAB
-        textPane.getInputMap(JComponent.WHEN_FOCUSED).put(ctrlTab,
-            DefaultEditorKit.insertTabAction);
+        textPane.getInputMap(JComponent.WHEN_FOCUSED).put(ctrlTab, DefaultEditorKit.insertTabAction);
     }
+
     private void createToolbar() {
         toolbar = new JToolBar();
         toolbar.setFloatable(false);
@@ -207,33 +217,13 @@ public class JXTextEditor extends JXPanel {
         return textPane.getText();
     }
 
-    public void setText(String description) {
+    public void setText(final String description) {
         textPane.setText(description);
     }
 
-    public void setEditable(boolean active) {
+    public void setEditable(final boolean active) {
         textPane.setEnabled(active);
         textPane.setEditable(active);
-    }
-    
-    public static void main(String[] args) {
-        JFrame f = new JFrame();
-        f.setSize(500, 300);
-        final JXTextEditor txt = new JXTextEditor();
-        f.add(txt, BorderLayout.CENTER);
-        JButton b = new JButton(new AbstractAction() {
-
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println(txt.getText());
-            }
-            
-        });
-        f.add(b, BorderLayout.NORTH);
-        b.requestFocus();
-
-        f.show();
     }
 
     public boolean isCollapseEditToolbar() {
@@ -243,8 +233,9 @@ public class JXTextEditor extends JXPanel {
     public void setCollapseEditToolbar(boolean collapseEditToolbar) {
         this.collapseEditToolbar = collapseEditToolbar;
 
-        if (!collapseEditToolbar)
+        if (!collapseEditToolbar) {
             cp.setCollapsed(false);
+        }
     }
 
 }

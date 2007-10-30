@@ -23,15 +23,18 @@ import org.remast.baralga.model.filter.Filter;
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.SortedList;
 
+/**
+ * @author remast
+ */
+@SuppressWarnings("serial")
 public class DescriptionPanel extends JXPanel implements Observer {
 
     /** The model. */
     private final PresentationModel model;
 
-
     /** The list of activities. */
     private SortedList<ProjectActivity> filteredActivitiesList;
-    
+
     private Map<ProjectActivity, DescriptionPanelEntry> entriesByActivity;
 
     /** The applied filter. */
@@ -47,49 +50,51 @@ public class DescriptionPanel extends JXPanel implements Observer {
         this.entriesByActivity = new HashMap<ProjectActivity, DescriptionPanelEntry>();
         this.model.addObserver(this);
         this.filter = model.getFilter();
-        
+
         initialize();
     }
 
     private void initialize() {
         container = new JPanel();
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
-        
+
         JXPanel sortByPanel = new JXPanel();
-        sortByPanel.add(new JComboBox(new String [] {"by Project", "by Date"}));
-        
-      this.add(new JScrollPane(container), BorderLayout.CENTER);
+        sortByPanel.add(new JComboBox(new String[] { "by Project", "by Date" }));
+
+        this.add(new JScrollPane(container), BorderLayout.CENTER);
 
         applyFilter();
     }
-    
+
     private void applyFilter() {
         // clear filtered activities
         filteredActivitiesList.clear();
         entriesByActivity.clear();
 
-        if(filter != null) {
+        if (filter != null) {
             List<ProjectActivity> filteredResult = filter.applyFilters(model.getActivitiesList());
             filteredActivitiesList.addAll(filteredResult);
         } else {
             filteredActivitiesList.addAll(model.getActivitiesList());
         }
-        
+
         container.removeAll();
-        
+
         for (final ProjectActivity activity : filteredActivitiesList) {
-            DescriptionPanelEntry descriptionPanelEntry = new DescriptionPanelEntry(activity);
-            
+            final DescriptionPanelEntry descriptionPanelEntry = new DescriptionPanelEntry(activity);
+
+            // Alternate background color
             if (filteredActivitiesList.indexOf(activity) % 2 == 0) {
                 descriptionPanelEntry.setBackground(Color.WHITE);
             } else {
                 descriptionPanelEntry.setBackground(Constants.BEIGE);
             }
 
+            // Save entry
             entriesByActivity.put(activity, descriptionPanelEntry);
-            
+
             container.add(descriptionPanelEntry);
-            
+
         }
     }
 
@@ -98,29 +103,38 @@ public class DescriptionPanel extends JXPanel implements Observer {
      */
     public void update(Observable source, Object eventObject) {
         if (eventObject instanceof ProTrackEvent) {
+            ProjectActivity activity;
+
             ProTrackEvent event = (ProTrackEvent) eventObject;
 
             switch (event.getType()) {
 
-            case ProTrackEvent.PROJECT_ACTIVITY_ADDED:
-                applyFilter();
-                break;
+                case ProTrackEvent.PROJECT_ACTIVITY_ADDED:
+                    activity = (ProjectActivity) event.getData();
+                    DescriptionPanelEntry newEntryPanel = new DescriptionPanelEntry(activity);
+                    entriesByActivity.put(activity, newEntryPanel);
+                    this.container.add(newEntryPanel);
+                    break;
 
-            case ProTrackEvent.PROJECT_ACTIVITY_CHANGED:
-                ProjectActivity activity = (ProjectActivity) event.getData();
-                if (entriesByActivity.containsKey(activity)) {
-                    entriesByActivity.get(activity).update();
-                }
+                case ProTrackEvent.PROJECT_ACTIVITY_CHANGED:
+                    activity = (ProjectActivity) event.getData();
+                    if (entriesByActivity.containsKey(activity)) {
+                        entriesByActivity.get(activity).update();
+                    }
 
-            case ProTrackEvent.PROJECT_ACTIVITY_REMOVED:
-                applyFilter();
-                break;
+                case ProTrackEvent.PROJECT_ACTIVITY_REMOVED:
+                    activity = (ProjectActivity) event.getData();
+                    if (entriesByActivity.containsKey(activity)) {
+                        DescriptionPanelEntry entryPanel = entriesByActivity.get(activity);
+                        this.container.remove(entryPanel);
+                    }
+                    break;
             }
         }
     }
 
-    public void setFilter(Filter filter) {
-        this.filter = filter;        
+    public void setFilter(final Filter filter) {
+        this.filter = filter;
         applyFilter();
     }
 }
