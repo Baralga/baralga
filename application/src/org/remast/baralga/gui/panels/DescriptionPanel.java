@@ -114,6 +114,13 @@ public class DescriptionPanel extends JXPanel implements Observer {
                     DescriptionPanelEntry newEntryPanel = new DescriptionPanelEntry(activity);
                     entriesByActivity.put(activity, newEntryPanel);
                     this.container.add(newEntryPanel);
+                    
+                    // Set color
+                    if (entriesByActivity.size() % 2 == 1) {
+                        newEntryPanel.setBackground(Color.WHITE);
+                    } else {
+                        newEntryPanel.setBackground(Constants.BEIGE);
+                    }
                     break;
 
                 case ProTrackEvent.PROJECT_ACTIVITY_CHANGED:
@@ -121,6 +128,7 @@ public class DescriptionPanel extends JXPanel implements Observer {
                     if (entriesByActivity.containsKey(activity)) {
                         entriesByActivity.get(activity).update();
                     }
+                    break;
 
                 case ProTrackEvent.PROJECT_ACTIVITY_REMOVED:
                     activity = (ProjectActivity) event.getData();
