@@ -1,6 +1,7 @@
 package org.remast.baralga.gui.model;
 
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
@@ -62,7 +63,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         case 0:
             return activity.getProject();
         case 1:
-            return Constants.dayMonthFormat.format(activity.getStart());
+            return DateFormat.getDateInstance().format(activity.getStart());
         case 2:
             return Constants.hhMMFormat.format(activity.getStart());
         case 3:
@@ -90,7 +91,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         // Day and month
         else if (column == 1) {
             try {
-                Date newDate = Constants.dayMonthFormat.parse((String) editedValue);
+                Date newDate = DateFormat.getDateInstance().parse((String) editedValue);
                 
                 Calendar newCal = Calendar.getInstance();
                 newCal.setTime(newDate);

@@ -14,23 +14,22 @@ public class ChangeProjectAction extends AbstractProTrackAction {
 
     private Project newProject;
 
-    public ChangeProjectAction(PresentationModel model, Project newProject) {
+    public ChangeProjectAction(final PresentationModel model, final Project newProject) {
         super(model);
         this.newProject = newProject;
         
-        putValue(NAME, getNewProject().toString());
-        putValue(SHORT_DESCRIPTION, Messages.getString("ChangeProjectAction.ShortDescription") + getNewProject().toString() + "."); //$NON-NLS-1$ //$NON-NLS-2$
+        // Highlight the currently selected project
+        String projectName = String.valueOf(newProject);
+        if (model.getSelectedProject() != null && model.getSelectedProject().equals(newProject)) {
+            projectName = "* " + projectName;
+        }
+        
+        putValue(NAME, projectName);
+        putValue(SHORT_DESCRIPTION, Messages.getString("ChangeProjectAction.ShortDescription") + String.valueOf(newProject) + "."); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
-    public void actionPerformed(ActionEvent e) {
-        getModel().changeProject(getNewProject());
+    public void actionPerformed(final ActionEvent e) {
+        getModel().changeProject(newProject);
     }
-
-    /**
-     * @return the newProject
-     */
-    private Project getNewProject() {
-        return newProject;
-    }
-
+    
 }

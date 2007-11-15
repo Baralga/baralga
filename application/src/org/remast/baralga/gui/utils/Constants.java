@@ -16,8 +16,6 @@ public interface Constants {
     
     public static final SimpleDateFormat hhMMFormat = new SimpleDateFormat("HH:mm"); //$NON-NLS-1$
     
-    public static final SimpleDateFormat dayMonthFormat = new SimpleDateFormat("dd.MM.yyyy"); //$NON-NLS-1$
-    
     //------------------------------------------------
     // Number Formats
     //------------------------------------------------

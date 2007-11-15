@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -81,10 +82,24 @@ public class Settings {
         return config.getString(LAST_EXCEL_EXPORT_LOCATION, System.getProperty("user.home"));
     }
 
-    public void setLastExcelExportLocation(String excelExportLocation) {
+    public void setLastExcelExportLocation(final String excelExportLocation) {
         config.setProperty(LAST_EXCEL_EXPORT_LOCATION, excelExportLocation);
     }
 
+    //------------------------------------------------
+    // Description
+    //------------------------------------------------
+
+    /** Last description. */
+    public static final String LAST_DESCRIPTION = "description"; //$NON-NLS-1$
+
+    public String getLastDescription() {
+        return config.getString(LAST_DESCRIPTION, StringUtils.EMPTY);
+    }
+
+    public void setLastDescription(final String lastDescription) {
+        config.setProperty(LAST_DESCRIPTION, lastDescription);
+    }
     
     //------------------------------------------------
     // Filter Settings

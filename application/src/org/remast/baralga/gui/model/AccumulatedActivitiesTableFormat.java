@@ -1,5 +1,7 @@
 package org.remast.baralga.gui.model;
 
+import java.text.DateFormat;
+
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.utils.Constants;
 import org.remast.baralga.model.report.AccumulatedProjectActivity;
@@ -32,7 +34,7 @@ public class AccumulatedActivitiesTableFormat implements TableFormat<Accumulated
     public Object getColumnValue(AccumulatedProjectActivity accActivity, int col) {
         switch (col) {
         case 0:
-            return Constants.dayMonthFormat.format(accActivity.getDay());
+            return DateFormat.getDateInstance().format(accActivity.getDay());
         case 1:
             return accActivity.getProject();
         case 2:

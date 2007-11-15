@@ -2,25 +2,23 @@ package org.remast.baralga.gui.dialogs;
 
 import info.clearthought.layout.TableLayout;
 
-import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.awt.event.KeyEvent;
 import java.text.ParseException;
 import java.util.Date;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.text.DateFormatter;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXDatePicker;
-import org.jdesktop.swingx.JXPanel;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.panels.TextEditor;
 import org.remast.baralga.gui.utils.Constants;
@@ -37,8 +35,6 @@ import ca.odell.glazedlists.swing.EventComboBoxModel;
 @SuppressWarnings("serial")//$NON-NLS-1$
 public class AddActivityDialog extends JDialog {
 
-    private JPanel contentPane = null;
-
     /** Label for activity start time. */
     private JLabel startLabel = new JLabel(Messages.getString("AddActivityDialog.StartLabel")); //$NON-NLS-1$
 
@@ -51,10 +47,6 @@ public class AddActivityDialog extends JDialog {
     private JLabel projectLabel = new JLabel(Messages.getString("AddActivityDialog.ProjectLabel")); //$NON-NLS-1$
 
     private JComboBox projectSelector = null;
-
-    private JPanel activityPanel = null;
-
-    private JPanel buttonPanel = null;
 
     private JButton addActivityButton = null;
 
@@ -78,7 +70,7 @@ public class AddActivityDialog extends JDialog {
 
     private Date end;
 
-    private TextEditor textEditor;
+    private TextEditor descriptionEditor;
 
     /**
      * @param owner
@@ -100,7 +92,8 @@ public class AddActivityDialog extends JDialog {
         this.setSize(300, 350);
         this.setTitle(Messages.getString("AddActivityDialog.AddActivityLabel")); //$NON-NLS-1$
         this.setModal(true);
-        this.setContentPane(getJContentPane());
+        
+        initializeLayout();
 
         // Initialize selected project
         // a) If no project selected take first project
@@ -120,22 +113,6 @@ public class AddActivityDialog extends JDialog {
     }
 
     /**
-     * This method initializes jContentPane
-     * 
-     * @return javax.swing.JPanel
-     */
-    private JPanel getJContentPane() {
-        if (contentPane == null) {
-            BorderLayout borderLayout = new BorderLayout();
-            contentPane = new JXPanel();
-            contentPane.setLayout(borderLayout);
-            contentPane.add(getButtonPanel(), BorderLayout.SOUTH);
-            contentPane.add(getActivityPanel(), BorderLayout.CENTER);
-        }
-        return contentPane;
-    }
-
-    /**
      * This method initializes projectSelector
      * 
      * @return javax.swing.JComboBox
@@ -152,52 +129,37 @@ public class AddActivityDialog extends JDialog {
      * 
      * @return javax.swing.JPanel
      */
-    private JPanel getActivityPanel() {
-        if (activityPanel == null) {
-            double border = 5;
-            double size[][] = {
-                    { border, TableLayout.PREFERRED, border, TableLayout.FILL, border }, // Columns
-                    { border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED,
-                            border, TableLayout.PREFERRED, border, TableLayout.FILL, border } }; // Rows
+    private void initializeLayout() {
+        double border = 5;
+        double size[][] = {
+                { border, TableLayout.PREFERRED, border, TableLayout.FILL, border }, // Columns
+                { border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED,
+                    border, TableLayout.PREFERRED, border, TableLayout.FILL, border, TableLayout.PREFERRED, border} }; // Rows
 
-            TableLayout tableLayout = new TableLayout(size);
+        TableLayout tableLayout = new TableLayout(size);
 
-            dateLabel = new JLabel();
-            dateLabel.setText(Messages.getString("AddActivityDialog.DateLabel")); //$NON-NLS-1$
-            activityPanel = new JXPanel();
-            activityPanel.setLayout(tableLayout);
+        dateLabel = new JLabel();
+        dateLabel.setText(Messages.getString("AddActivityDialog.DateLabel")); //$NON-NLS-1$
+        this.setLayout(tableLayout);
 
-            activityPanel.add(projectLabel, "1, 1");
-            activityPanel.add(getProjectSelector(), "3, 1");
+        this.add(projectLabel, "1, 1");
+        this.add(getProjectSelector(), "3, 1");
 
-            activityPanel.add(dateLabel, "1, 3");
-            activityPanel.add(getDatePicker(), "3, 3");
+        this.add(dateLabel, "1, 3");
+        this.add(getDatePicker(), "3, 3");
 
-            activityPanel.add(startLabel, "1, 5");
-            activityPanel.add(getStartField(), "3, 5");
+        this.add(startLabel, "1, 5");
+        this.add(getStartField(), "3, 5");
 
-            activityPanel.add(endLabel, "1, 7");
-            activityPanel.add(getEndField(), "3, 7");
+        this.add(endLabel, "1, 7");
+        this.add(getEndField(), "3, 7");
 
-            activityPanel.add(descriptionLabel, "1, 9");
-            textEditor = new TextEditor(true, false);
-            activityPanel.add(textEditor, "3, 9");
-        }
-        return activityPanel;
-    }
+        this.add(descriptionLabel, "1, 9");
+        descriptionEditor = new TextEditor(true, false);
+        descriptionEditor.setBorder(BorderFactory.createLineBorder(Constants.VERY_LIGHT_GREY));
+        this.add(descriptionEditor, "3, 9");
 
-    /**
-     * This method initializes buttonPanel
-     * 
-     * @return javax.swing.JPanel
-     */
-    private JPanel getButtonPanel() {
-        if (buttonPanel == null) {
-            buttonPanel = new JPanel();
-            buttonPanel.setLayout(new BorderLayout());
-            buttonPanel.add(getAddActivityButton(), BorderLayout.SOUTH);
-        }
-        return buttonPanel;
+        this.add(getAddActivityButton(), "1, 11, 3, 11");
     }
 
     /**
@@ -218,9 +180,8 @@ public class AddActivityDialog extends JDialog {
                 public void actionPerformed(java.awt.event.ActionEvent event) {
                     if (dia.validateFields()) {
                         final ProjectActivity activity = new ProjectActivity(start, end, project);
-                        activity.setDescription(textEditor.getText());
+                        activity.setDescription(descriptionEditor.getText());
                         model.addActivity(activity);
-                        resetFields();
                         dia.dispose();
                     }
                 }
@@ -231,11 +192,7 @@ public class AddActivityDialog extends JDialog {
         return addActivityButton;
     }
 
-    /**
-     * This method initializes jPanel2
-     * 
-     * @return javax.swing.JPanel
-     */
+
     private JXDatePicker getDatePicker() {
         if (datePicker == null) {
             datePicker = new JXDatePicker(System.currentTimeMillis());
@@ -282,14 +239,17 @@ public class AddActivityDialog extends JDialog {
     }
 
     public boolean validateFields() {
-        if (getProjectSelector().getSelectedItem() == null)
+        if (getProjectSelector().getSelectedItem() == null) {
             return false;
+        }
 
-        if (StringUtils.isEmpty(getStartField().getText()))
+        if (StringUtils.isBlank(getStartField().getText())) {
             return false;
+        }
 
-        if (StringUtils.isEmpty(getEndField().getText()))
+        if (StringUtils.isBlank(getEndField().getText())) {
             return false;
+        }
 
         try {
             start = Constants.hhMMFormat.parse(getStartField().getText());
@@ -297,23 +257,20 @@ public class AddActivityDialog extends JDialog {
             
             correctDates();
         } catch (ParseException e) {
+            // On parse error one of the dates is not valid
             return false;
         }
+        
         project = (Project) getProjectSelector().getSelectedItem();
 
+        // All tests passed so dialog contains valid data
         return true;
     }
 
     private void correctDates() {
-        Date day = new Date(getDatePicker().getDateInMillis());
+        final Date day = new Date(getDatePicker().getDateInMillis());
         start = DateUtils.adjustToSameDay(day, start);
         end = DateUtils.adjustToSameDay(day, end);
-    }
-
-    public void resetFields() {
-        getStartField().setText(null);
-        getEndField().setText(null);
-        getProjectSelector().setSelectedIndex(-1);
     }
 
 }

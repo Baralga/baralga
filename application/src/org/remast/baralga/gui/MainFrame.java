@@ -88,13 +88,13 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
     private JMenuItem editProjectsMenuItem = null;
 
-    private JMenuItem ExcelExportItem = null;
+    private JMenuItem excelExportItem = null;
 
     private JMenuItem exitItem = null;
 
     private JMenuItem saveItem = null;
 
-    private TextEditor descriptionTextArea;
+    private TextEditor descriptionEditor;
 
     /**
      * This is the default constructor
@@ -214,23 +214,29 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             currentPanel.add(getStartStopButton(), "1, 1");
             currentPanel.add(getProjectSelector(), "3, 1");
 
-            descriptionTextArea = new TextEditor(true);
-            descriptionTextArea.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-            descriptionTextArea.setPreferredSize(new Dimension(200, 100));
-            descriptionTextArea.setCollapseEditToolbar(false);
-            descriptionTextArea.addTextObserver(new TextEditor.TextChangeObserver(){
+            descriptionEditor = new TextEditor(true);
+            descriptionEditor.setBorder(BorderFactory.createLineBorder(Constants.VERY_LIGHT_GREY));
+            descriptionEditor.setPreferredSize(new Dimension(200, 100));
+            descriptionEditor.setCollapseEditToolbar(false);
+            descriptionEditor.addTextObserver(new TextEditor.TextChangeObserver(){
 
                 @Override
                 public void onTextChange() {
-                    model.setDescription(descriptionTextArea.getText());
+                    final String description = descriptionEditor.getText();
+                    
+                    // Store in model
+                    model.setDescription(description);
+                    
+                    // Save description in settings.
+                    Settings.instance().setLastDescription(description);
                 }
             });
 
-            descriptionTextArea.setText(model.getDescription());
-            descriptionTextArea.setEditable(model.isActive());
+            descriptionEditor.setText(model.getDescription());
+            descriptionEditor.setEditable(model.isActive());
 
             currentPanel.add(new JXTitledSeparator(Messages.getString("MainFrame.DescriptionLabel")), "1, 5, 3, 5");
-            currentPanel.add(descriptionTextArea, "1, 7, 3, 7");
+            currentPanel.add(descriptionEditor, "1, 7, 3, 7");
 
         }
         return currentPanel;
@@ -263,6 +269,10 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
                 public void actionPerformed(java.awt.event.ActionEvent e) {
                     final Project selectedProject = (Project) projectSelector.getSelectedItem();
                     getModel().changeProject(selectedProject);
+                    
+                    if (descriptionEditor != null) {
+                        descriptionEditor.setText(StringUtils.EMPTY);
+                    }
                 }
             });
         }
@@ -381,8 +391,11 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      * Executed on start event.
      */    
     private void updateStart() {
-        descriptionTextArea.setText("");
-        descriptionTextArea.setEditable(true);
+        descriptionEditor.setText(StringUtils.EMPTY);
+        descriptionEditor.setEditable(true);
+
+        // Clear description in settings.
+        Settings.instance().setLastDescription(StringUtils.EMPTY);
 
         this.setTitle(Messages.getString("Global.Title") + " - " + getModel().getSelectedProject() + Messages.getString("MainFrame.11") + Constants.hhMMFormat.format(getModel().getStart())); //$NON-NLS-1$ //$NON-NLS-2$
         getStartStopButton().setAction(new StopAction(getModel()));
@@ -392,8 +405,11 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      * Executed on stop event.
      */
     private void updateStop() {
-        descriptionTextArea.setText(StringUtils.EMPTY);
-        descriptionTextArea.setEditable(false);
+        descriptionEditor.setText(StringUtils.EMPTY);
+        descriptionEditor.setEditable(false);
+
+        // Clear description in settings.
+        Settings.instance().setLastDescription(StringUtils.EMPTY);
 
         this.setTitle(Messages.getString("Global.Title") + " " + Messages.getString("MainFrame.12") + " " + Constants.hhMMFormat.format(getModel().getStop())); //$NON-NLS-1$
         getStartStopButton().setAction(new StartAction(getModel()));
@@ -405,11 +421,11 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      * @return javax.swing.JMenuItem
      */
     private JMenuItem getExcelExportItem() {
-        if (ExcelExportItem == null) {
-            ExcelExportItem = new JMenuItem();
-            ExcelExportItem.setAction(new ExcelExportAction(getModel()));
+        if (excelExportItem == null) {
+            excelExportItem = new JMenuItem();
+            excelExportItem.setAction(new ExcelExportAction(getModel()));
         }
-        return ExcelExportItem;
+        return excelExportItem;
     }
 
     /**

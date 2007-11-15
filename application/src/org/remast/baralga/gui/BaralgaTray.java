@@ -73,7 +73,7 @@ public class BaralgaTray implements Observer {
     }
         
     private void buildMenu() {
-        if(firstBuild) {
+        if (firstBuild) {
             menu = new PopupMenu();
             firstBuild = false;
         } else {

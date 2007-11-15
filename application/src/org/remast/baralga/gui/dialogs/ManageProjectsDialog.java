@@ -18,7 +18,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import org.apache.commons.lang.math.RandomUtils;
+import org.jdesktop.swingx.JXList;
+import org.jdesktop.swingx.decorator.AlternateRowHighlighter;
 import org.remast.baralga.Messages;
+import org.remast.baralga.gui.utils.GUISettings;
 import org.remast.baralga.model.PresentationModel;
 import org.remast.baralga.model.Project;
 
@@ -32,7 +35,7 @@ public class ManageProjectsDialog extends JDialog {
 
     private JPanel jContentPane = null;
 
-    private JList projectList = null;
+    private JXList projectList = null;
 
     private JTextField newProjectTextField = null;
 
@@ -68,7 +71,7 @@ public class ManageProjectsDialog extends JDialog {
         this.setIconImage(new ImageIcon(getClass().getResource("/resource/icons/gtk-edit.png")).getImage()); //$NON-NLS-1$
         
         this.setModal(true);
-        this.setPreferredSize(new Dimension(300, 110));
+        this.setPreferredSize(new Dimension(350, 120));
         this.setTitle(Messages.getString("ManageProjectsDialog.Title")); //$NON-NLS-1$
         this.setContentPane(getJContentPane());
         
@@ -101,7 +104,7 @@ public class ManageProjectsDialog extends JDialog {
      */
     private JList getProjectList() {
         if (projectList == null) {
-            projectList = new JList();
+            projectList = new JXList();
             projectList.setModel(new EventListModel<Project>(getModel().getProjectList()));
             projectList.setToolTipText(Messages.getString("ManageProjectsDialog.ProjectList.ToolTipText")); //$NON-NLS-1$
         }

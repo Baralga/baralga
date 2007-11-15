@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Observable;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.Settings;
 import org.remast.baralga.gui.events.ProTrackEvent;
@@ -32,6 +33,7 @@ public class PresentationModel extends Observable {
     /** The currently selected project. */
     private Project selectedProject;
     
+    /** The description of the activity. */
     private String description;
     
     /** Flag indicating whether selected project is active or not. */
@@ -65,6 +67,7 @@ public class PresentationModel extends Observable {
         this.activitiesList.addAll(this.data.getActivities());
         
         this.filter = FilterUtils.restoreFromSettings();
+        this.description = Settings.instance().getLastDescription();
 
         Long selectedProjectId = Settings.instance().getFilterSelectedProjectId();
         if (selectedProjectId != null) {
@@ -129,6 +132,9 @@ public class PresentationModel extends Observable {
         getData().getActivities().add(activity);
         this.activitiesList.add(activity);
         
+        // Clear description
+        description = StringUtils.EMPTY;
+        
         // Create Stop Event
         ProTrackEvent event = new ProTrackEvent(ProTrackEvent.STOP);
         notify(event);
@@ -166,12 +172,18 @@ public class PresentationModel extends Observable {
             setStop(now);
 
             // 2. Track recorded project activity.
-            ProjectActivity activity = new ProjectActivity(start, getStop(), previousProject);
+            final ProjectActivity activity = new ProjectActivity(start, getStop(), previousProject);
+            activity.setDescription(description);
+            
             getData().getActivities().add(activity);
             this.activitiesList.add(activity);
+            
+            // Clear description
+            description = StringUtils.EMPTY;
+            Settings.instance().setLastDescription(StringUtils.EMPTY);
 
             // 3. Broadcast project activity event.
-            ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_ADDED);
+            final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_ADDED);
             event.setData(activity);
             notify(event);
         }
@@ -180,11 +192,9 @@ public class PresentationModel extends Observable {
         // :INFO: We need to clone the date so we don't work with the 
         // exact same reference
         setStart((Date) now.clone());
-        
-//        Settings.instance().s
 
         // Fire Project changed event
-        ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_CHANGED);
+        final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_CHANGED);
         event.setData(activeProject);
         notify(event);
     }
