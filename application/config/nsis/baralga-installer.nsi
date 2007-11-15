@@ -1,5 +1,6 @@
 
 Name "Baralga"
+VIProductVersion "${execVersion}"
 
 OutFile "${setup}"
 
@@ -14,9 +15,13 @@ DirText "This will install Baralga on your computer. Choose a directory."
 ; The stuff to install
 Section "" ;No components page, name is not important
 
+
   ; Set output path to the installation directory.
   SetOutPath $INSTDIR
   
+  ; Delete previous contents of install directory
+  RMDir /r $INSTDIR
+    
   CreateDirectory "$SMPROGRAMS\Baralga"
   CreateShortCut "$SMPROGRAMS\Baralga\Baralga.lnk" "$INSTDIR\${execName}"
   

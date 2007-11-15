@@ -15,7 +15,7 @@
   <stayAlive>false</stayAlive>
   <icon>..\..\doc\Baralga-Tray.ico</icon>
   <jre>
-    <path>jre1.6.0_02</path>
+    <path>jre1.6.0_03</path>
     <minVersion></minVersion>
     <maxVersion></maxVersion>
     <dontUsePrivateJres>false</dontUsePrivateJres>
