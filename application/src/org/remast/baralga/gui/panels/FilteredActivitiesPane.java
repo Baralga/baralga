@@ -11,9 +11,9 @@ import org.remast.baralga.model.filter.Filter;
  */
 @SuppressWarnings("serial")//$NON-NLS-1$
 public class FilteredActivitiesPane extends JTabbedPane {
-
+    
     private PresentationModel model;
-
+    
     private Filter filter;
 
     private AccummulatedActitvitiesPanel accummulatedActitvitiesPanel;
@@ -79,6 +79,5 @@ public class FilteredActivitiesPane extends JTabbedPane {
 
         descriptionPanel = new DescriptionPanel(model);
         this.addTab(Messages.getString("FilteredActivitiesPane.Tab.Descriptions"), descriptionPanel); //$NON-NLS-1$
-
     }
 }
