@@ -51,6 +51,7 @@ public class ExcelExport {
             sheet.addCell(new Label(col++, row, Messages.getString("ExcelExport.StartTimeHeading"), headingFormat)); //$NON-NLS-1$
             sheet.addCell(new Label(col++, row, Messages.getString("ExcelExport.EndTimeHeading"), headingFormat)); //$NON-NLS-1$
             sheet.addCell(new Label(col++, row, Messages.getString("ExcelExport.HoursHeading"), headingFormat)); //$NON-NLS-1$
+            sheet.addCell(new Label(col++, row, Messages.getString("ExcelExport.DescriptionHeading"), headingFormat)); //$NON-NLS-1$
             
             col = 0;
             row++;
@@ -67,6 +68,11 @@ public class ExcelExport {
                 WritableCell c = makeTimeCell(col++, row, actitivity.getEnd());
                 sheet.addCell(c);
                 sheet.addCell(makeNumberCell(col++, row, ProTrackUtils.calculateDuration(actitivity)));
+
+                // Description
+                String description = org.remast.util.StringUtils.stripXmlTags(actitivity.getDescription());
+                description = StringUtils.trim(description);
+                sheet.addCell(new Label(col++, row, description));
                 
                 col = 0;
                 row ++;
@@ -77,6 +83,7 @@ public class ExcelExport {
             // Format Cells
             CellView v = new CellView();
             v.setAutosize(true);
+            sheet.setColumnView(col++, v);
             sheet.setColumnView(col++, v);
             sheet.setColumnView(col++, v);
             sheet.setColumnView(col++, v);

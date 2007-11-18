@@ -58,9 +58,6 @@ public class DescriptionPanel extends JXPanel implements Observer {
         container = new JPanel();
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 
-        JXPanel sortByPanel = new JXPanel();
-        sortByPanel.add(new JComboBox(new String[] { "by Project", "by Date" }));
-
         this.add(new JScrollPane(container), BorderLayout.CENTER);
 
         applyFilter();
@@ -105,7 +102,7 @@ public class DescriptionPanel extends JXPanel implements Observer {
         if (eventObject instanceof ProTrackEvent) {
             ProjectActivity activity;
 
-            ProTrackEvent event = (ProTrackEvent) eventObject;
+            final ProTrackEvent event = (ProTrackEvent) eventObject;
 
             switch (event.getType()) {
 

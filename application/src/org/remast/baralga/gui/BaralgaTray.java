@@ -130,6 +130,7 @@ public class BaralgaTray implements Observer {
 
             case ProTrackEvent.PROJECT_CHANGED:
                 this.updateProjectChanged();
+                this.buildMenu();
                 break;
 
             case ProTrackEvent.PROJECT_ADDED:

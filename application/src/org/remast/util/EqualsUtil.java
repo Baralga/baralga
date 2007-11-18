@@ -1,5 +1,7 @@
 package org.remast.util;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+
 
 /**
 * Collected methods which allow easy implementation of <code>equals</code>.
@@ -22,6 +24,7 @@ public boolean equals(Object that){
 * <em>Arrays are not handled by this class</em>.
 * This is because the <code>Arrays.equals</code> methods should be used for
 * array fields.
+* @deprecated use {@link EqualsBuilder}
 */
 public final class EqualsUtil {
 

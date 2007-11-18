@@ -2,7 +2,6 @@ package org.remast.baralga.gui;
 
 import info.clearthought.layout.TableLayout;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowListener;

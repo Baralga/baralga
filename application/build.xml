@@ -1,7 +1,7 @@
 <project name="Baralga" basedir="." default="compile">
     <description>Baralga Project</description>
 	
-	<property name="project.version" value="1.0-alpha"/>
+	<property name="project.version" value="1.0"/>
 	
 	<!-- set global properties for this build -->
 	<property name="src"           value="src"/>
@@ -32,7 +32,7 @@
 		<pathelement location="${lib}/commons-collections-3.2.jar"/>
 		<pathelement location="${lib}/glazedlists-1.7.0_java15.jar"/>
 		<pathelement location="${lib}/looks-2.1.4.jar"/>
-		<pathelement location="${lib}/joda-time-1.4.jar"/>
+		<pathelement location="${lib}/joda-time-1.5.jar"/>
 	</path>
 
 	<target name="init">
@@ -187,33 +187,8 @@
 		</delete>
 	</target>
 	
-<!--
-
-	<target name="clean" description="clean up" >
-		<delete dir="${build}"/>
-		<delete file="${ant.project.name}.jar"/>
-		<delete file="${ant.project.name}.exe"/>
-	</target>
--->
-	<target name="full dist" depends="bin-dist, src-dist" description="Create bin and src distribution"/>
+	<target name="full dist" depends="bin-dist,src-dist" description="Create bin and src distribution"/>
 	
-	<!-- This target needs the StatCVS Jar file location to be specified. 
-	<target name="cvs stats" depends="compile" description="Generate statistical HTML report by using StatCVS">
-		<mkdir dir="${dist.statcvs}"/>
-    	<cvspass cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/jmemorize" password=""/>
-    	<cvs quiet="true" cvsroot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/jmemorize" command="log" output="${dist.statcvs}/cvs.log"/>
-    	
-    	<taskdef classpath="${lib.statcvs}" name="statcvs" classname="net.sf.statcvs.ant.StatCvsTask"/>
-	    <statcvs 
-	    	projectDirectory="${basedir}" 
-	    	cvsLogFile="${basedir}/${dist.statcvs}/cvs.log"
-	        outputDirectory="${basedir}/${dist.statcvs}" 
-	    	title="jMemorize"
-	    	excludefiles="LICENSE"
-	    	viewcvsurl="http://cvs.sourceforge.net/viewcvs.py/jmemorize/jmemorize/"
-	    />
-    </target>
--->
 	<target name="clean" description="clean up">
 		<delete includeemptydirs="true" failonerror="false">
             <fileset dir="${src}"   includes="**/*.class"/>
