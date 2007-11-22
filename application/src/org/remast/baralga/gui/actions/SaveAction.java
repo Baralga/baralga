@@ -14,7 +14,7 @@ import org.remast.baralga.model.PresentationModel;
  * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
-public final class SaveAction extends AbstractProTrackAction {
+public final class SaveAction extends AbstractBaralgaAction {
 
     public SaveAction(PresentationModel model) {
         super(model);

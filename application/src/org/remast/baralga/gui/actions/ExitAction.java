@@ -11,7 +11,7 @@ import org.remast.baralga.model.PresentationModel;
  * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
-public class ExitAction extends AbstractProTrackAction {
+public class ExitAction extends AbstractBaralgaAction {
      
     public ExitAction(PresentationModel model) {
         super(model);

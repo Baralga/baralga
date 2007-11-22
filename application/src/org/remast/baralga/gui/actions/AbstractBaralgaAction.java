@@ -9,22 +9,24 @@ import org.remast.baralga.model.PresentationModel;
 /**
  * @author remast
  */
-public abstract class AbstractProTrackAction extends AbstractAction {
+public abstract class AbstractBaralgaAction extends AbstractAction {
 
+    /** The model. */
     private PresentationModel model;
     
+    /** The owning frame. */
     private Frame owner;
 
 
-    public AbstractProTrackAction(PresentationModel model) {
+    public AbstractBaralgaAction(final PresentationModel model) {
         this(null, model);
     }
 
-    public AbstractProTrackAction(Frame owner) {
+    public AbstractBaralgaAction(final Frame owner) {
         this(owner, null);
     }
 
-    public AbstractProTrackAction(final Frame owner, PresentationModel model) {
+    public AbstractBaralgaAction(final Frame owner, final PresentationModel model) {
         this.owner = owner;
         this.model = model;
     }
@@ -39,7 +41,7 @@ public abstract class AbstractProTrackAction extends AbstractAction {
     /**
      * @param model the model to set
      */
-    public void setModel(PresentationModel model) {
+    public void setModel(final PresentationModel model) {
         this.model = model;
     }
 
@@ -47,7 +49,7 @@ public abstract class AbstractProTrackAction extends AbstractAction {
         return owner;
     }
 
-    public void setOwner(Frame owner) {
+    public void setOwner(final Frame owner) {
         this.owner = owner;
     }
 }

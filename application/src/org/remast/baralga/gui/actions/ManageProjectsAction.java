@@ -13,7 +13,7 @@ import org.remast.baralga.model.PresentationModel;
  * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
-public class ManageProjectsAction extends AbstractProTrackAction {
+public class ManageProjectsAction extends AbstractBaralgaAction {
 
     public ManageProjectsAction(final Frame owner, PresentationModel model) {
         super(owner, model);

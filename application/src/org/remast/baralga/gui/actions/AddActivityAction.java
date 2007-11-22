@@ -15,14 +15,14 @@ import org.remast.baralga.model.PresentationModel;
  * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
-public class AddActivityAction extends AbstractProTrackAction {
+public class AddActivityAction extends AbstractBaralgaAction {
 
     public AddActivityAction(final Frame owner, PresentationModel model) {
         super(owner, model);
         putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/resource/icons/gtk-add.png"))); //$NON-NLS-1$
         putValue(NAME, Messages.getString("AddActivityAction.Name")); //$NON-NLS-1$
         putValue(SHORT_DESCRIPTION, Messages.getString("AddActivityAction.ShortDescription")); //$NON-NLS-1$
-        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke('N', InputEvent.CTRL_MASK) );
+        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke('N', InputEvent.CTRL_MASK));
     }
 
     public void actionPerformed(ActionEvent event) {

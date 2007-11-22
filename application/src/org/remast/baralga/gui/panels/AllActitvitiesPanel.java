@@ -13,6 +13,7 @@ import javax.swing.JComboBox;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 
 import org.jdesktop.swingx.JXPanel;
@@ -36,7 +37,7 @@ import ca.odell.glazedlists.swing.TableComparatorChooser;
 /**
  * @author remast
  */
-@SuppressWarnings("serial") //$NON-NLS-1$
+@SuppressWarnings("serial")//$NON-NLS-1$
 public class AllActitvitiesPanel extends JXPanel implements Observer {
 
     /** The model. */
@@ -48,9 +49,13 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
     /** The list of activities. */
     private SortedList<ProjectActivity> filteredActivitiesList;
 
+    private EventTableModel<ProjectActivity> tableModel;
+
     /**
      * Create a panel showing all activities of the given model.
-     * @param model the model
+     * 
+     * @param model
+     *            the model
      */
     public AllActitvitiesPanel(final PresentationModel model) {
         this.model = model;
@@ -69,7 +74,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         // clear filtered activities
         filteredActivitiesList.clear();
 
-        if(filter != null) {
+        if (filter != null) {
             List<ProjectActivity> filteredResult = filter.applyFilters(model.getActivitiesList());
             filteredActivitiesList.addAll(filteredResult);
         } else {
@@ -83,50 +88,50 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
     private void initialize() {
         applyFilter();
 
-        EventTableModel<ProjectActivity> tableModel = new EventTableModel<ProjectActivity>(this.filteredActivitiesList,
+        tableModel = new EventTableModel<ProjectActivity>(this.filteredActivitiesList,
                 new AllActivitiesTableFormat(model));
         final JXTable table = new JXTable(tableModel);
-        final TableComparatorChooser<ProjectActivity> chooser = new TableComparatorChooser<ProjectActivity>(table, filteredActivitiesList, false);
-        
+        final TableComparatorChooser<ProjectActivity> chooser = new TableComparatorChooser<ProjectActivity>(table,
+                filteredActivitiesList, false);
+
         // :INFO: Sorting is done via GlazedLists. We need to disable sorting here to avoid to sort order icons.
         table.setSortable(false);
 
-        
         final JPopupMenu menu = new JPopupMenu();
         menu.add(new AbstractAction(Messages.getString("AllActitvitiesPanel.Delete")) { //$NON-NLS-1$
 
-            public void actionPerformed(ActionEvent arg0) {
-                // 1. Get selected activities
-                int[] selectionIndices = table.getSelectedRows();
-                
-                // 2. Remove all selected activities
-                for (int j = 0; j < selectionIndices.length; j++) {
-                    model.removeActivity(filteredActivitiesList.get(selectionIndices[j]));
-                }
-            }
-            
-        });
-        
-        table.addMouseListener( new MouseAdapter()
-        {
-            public void mouseReleased(MouseEvent e)
-            {
+                    public void actionPerformed(ActionEvent event) {
+                        // 1. Get selected activities
+                        int[] selectionIndices = table.getSelectedRows();
+
+                        // 2. Remove all selected activities
+                        for (int selectionIndex : selectionIndices) {
+                            model.removeActivity(filteredActivitiesList.get(selectionIndices[selectionIndex]));
+                        }
+                    }
+
+                });
+
+        table.addMouseListener(new MouseAdapter() {
+            public void mouseReleased(MouseEvent e) {
                 if (e.isPopupTrigger()) {
-                    JTable source = (JTable)e.getSource();
-                    int row = source.rowAtPoint( e.getPoint() );
-                    int column = source.columnAtPoint( e.getPoint() );
+                    JTable source = (JTable) e.getSource();
+                    int row = source.rowAtPoint(e.getPoint());
+                    int column = source.columnAtPoint(e.getPoint());
                     source.changeSelection(row, column, false, false);
                     menu.show(e.getComponent(), e.getX(), e.getY());
                 }
             }
         });
         table.setPreferredScrollableViewportSize(table.getPreferredSize());
-        
+
         table.setHighlighters(GUISettings.HIGHLIGHTERS);
         table.setCellEditor(new JXTable.GenericEditor());
-        
-        TableColumn projectColumn = table.getColumn(0);
-        projectColumn.setCellEditor(new ComboBoxCellEditor(new JComboBox(new EventComboBoxModel<Project>(model.getProjectList()))));
+
+        final TableColumn projectColumn = table.getColumn(0);
+        final TableCellEditor cellEditor = new ComboBoxCellEditor(new JComboBox(new EventComboBoxModel<Project>(model
+                .getProjectList())));
+        projectColumn.setCellEditor(cellEditor);
 
         JScrollPane table_scroll_pane = new JScrollPane(table);
         this.add(table_scroll_pane);
@@ -141,10 +146,12 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
 
     /**
      * Set and apply new filter.
-     * @param filter the filter to set
+     * 
+     * @param filter
+     *            the filter to set
      */
-    public void setFilter(Filter filter) {
-        this.filter = filter;        
+    public void setFilter(final Filter filter) {
+        this.filter = filter;
         applyFilter();
     }
 
@@ -152,18 +159,21 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
      * Update the panel from observed event.
      */
     public void update(Observable source, Object eventObject) {
-        if (eventObject instanceof ProTrackEvent) {
-            ProTrackEvent event = (ProTrackEvent) eventObject;
+        if (eventObject != null && eventObject instanceof ProTrackEvent) {
+            final ProTrackEvent event = (ProTrackEvent) eventObject;
 
             switch (event.getType()) {
 
-            case ProTrackEvent.PROJECT_ACTIVITY_ADDED:
-                applyFilter();
-                break;
+                case ProTrackEvent.PROJECT_ACTIVITY_ADDED:
+                    applyFilter();
+                    break;
 
-            case ProTrackEvent.PROJECT_ACTIVITY_REMOVED:
-                applyFilter();
-                break;
+                case ProTrackEvent.PROJECT_ACTIVITY_REMOVED:
+                    applyFilter();
+                    break;
+                    
+                case ProTrackEvent.PROJECT_ACTIVITY_CHANGED:
+                    tableModel.fireTableDataChanged();
             }
         }
     }

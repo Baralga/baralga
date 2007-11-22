@@ -10,7 +10,7 @@ import org.remast.baralga.model.Project;
  * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
-public class ChangeProjectAction extends AbstractProTrackAction {
+public class ChangeProjectAction extends AbstractBaralgaAction {
 
     private Project newProject;
 

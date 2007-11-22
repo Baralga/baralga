@@ -19,9 +19,7 @@ import javax.swing.JTextField;
 
 import org.apache.commons.lang.math.RandomUtils;
 import org.jdesktop.swingx.JXList;
-import org.jdesktop.swingx.decorator.AlternateRowHighlighter;
 import org.remast.baralga.Messages;
-import org.remast.baralga.gui.utils.GUISettings;
 import org.remast.baralga.model.PresentationModel;
 import org.remast.baralga.model.Project;
 
@@ -29,6 +27,7 @@ import ca.odell.glazedlists.swing.EventListModel;
 
 /**
  * @author remast
+ * :TODO: Rework the dialog to use table layout.
  */
 @SuppressWarnings("serial")
 public class ManageProjectsDialog extends JDialog {

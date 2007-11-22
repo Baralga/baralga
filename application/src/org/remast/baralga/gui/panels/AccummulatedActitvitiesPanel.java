@@ -2,6 +2,8 @@ package org.remast.baralga.gui.panels;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JScrollPane;
 
@@ -12,6 +14,7 @@ import org.remast.baralga.gui.utils.GUISettings;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.baralga.model.report.AccumulatedProjectActivity;
 import org.remast.baralga.model.report.FilteredReport;
+import org.remast.baralga.model.report.ObservingFilteredReport;
 
 import ca.odell.glazedlists.swing.EventTableModel;
 
@@ -20,16 +23,20 @@ import ca.odell.glazedlists.swing.EventTableModel;
  * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
-public class AccummulatedActitvitiesPanel extends JXPanel {
+public class AccummulatedActitvitiesPanel extends JXPanel implements Observer {
 
     private FilteredReport report;
     
     private Filter filter;
+    
+    private EventTableModel<AccumulatedProjectActivity> tableModel;
 
     public AccummulatedActitvitiesPanel(FilteredReport report) {
         this.report = report;
         this.setLayout(new BorderLayout());
 
+        this.report.addObserver(this);
+        
         initialize();
     }
 
@@ -39,7 +46,8 @@ public class AccummulatedActitvitiesPanel extends JXPanel {
     private void initialize() {
         this.setBackground(Color.RED);
 
-        final JXTable table = new JXTable(new EventTableModel<AccumulatedProjectActivity>(this.report.getAccumulatedActivitiesByDay(), new AccumulatedActivitiesTableFormat()));
+        tableModel = new EventTableModel<AccumulatedProjectActivity>(this.report.getAccumulatedActivitiesByDay(), new AccumulatedActivitiesTableFormat());
+        final JXTable table = new JXTable(tableModel);
         table.setHighlighters(GUISettings.HIGHLIGHTERS);
 
         table.setAutoResizeMode(JXTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
@@ -61,5 +69,13 @@ public class AccummulatedActitvitiesPanel extends JXPanel {
     public void setFilter(Filter filter) {
         this.filter = filter;
         this.report.setFilter(filter);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o != null && o instanceof ObservingFilteredReport) {
+            tableModel.fireTableDataChanged();
+        }
+        
     }
 }

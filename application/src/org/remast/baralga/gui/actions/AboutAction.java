@@ -11,16 +11,17 @@ import org.remast.baralga.gui.dialogs.AboutDialog;
 /**
  * @author remast
  */
-@SuppressWarnings("serial") //$NON-NLS-1$
-public class AboutAction extends AbstractProTrackAction {
+@SuppressWarnings("serial")//$NON-NLS-1$
+public class AboutAction extends AbstractBaralgaAction {
 
     public AboutAction(final Frame owner) {
         super(owner);
+
         putValue(NAME, Messages.getString("AboutAction.Name")); //$NON-NLS-1$
         putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/resource/icons/gtk-about.png"))); //$NON-NLS-1$
         putValue(SHORT_DESCRIPTION, Messages.getString("AboutAction.ShortDescription")); //$NON-NLS-1$
     }
-    
+
     public void actionPerformed(ActionEvent event) {
         AboutDialog aboutDialog = new AboutDialog(getOwner());
         aboutDialog.setVisible(true);

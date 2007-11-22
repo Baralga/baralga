@@ -38,10 +38,10 @@ public class ExcelExport {
     public static void export(final ProTrack data, Filter filter, final File file) throws Exception {
             init();
             
-            WritableWorkbook workbook = Workbook.createWorkbook(file);
+            final WritableWorkbook workbook = Workbook.createWorkbook(file);
             createFilteredReport(workbook, data, filter);
             
-            WritableSheet sheet = workbook.createSheet(Messages.getString("ExcelExport.SheetTitleActivityRecords"), 1); //$NON-NLS-1$
+            final WritableSheet sheet = workbook.createSheet(Messages.getString("ExcelExport.SheetTitleActivityRecords"), 1); //$NON-NLS-1$
             
             int row = 0;
             int col = 0;
@@ -95,7 +95,7 @@ public class ExcelExport {
     }
     
     private static void init() throws JXLException {
-        WritableFont arial16 = new WritableFont(WritableFont.ARIAL, 14, WritableFont.BOLD, true);
+        final WritableFont arial16 = new WritableFont(WritableFont.ARIAL, 14, WritableFont.BOLD, true);
         arial16.setColour(Colour.DARK_BLUE);
         headingFormat = new WritableCellFormat(arial16);
         headingFormat.setBackground(Colour.GRAY_25);
@@ -120,9 +120,9 @@ public class ExcelExport {
             reportName += "-" + month;
         }
         
-        WritableSheet sheet = workbook.createSheet(reportName, 0);
+        final WritableSheet sheet = workbook.createSheet(reportName, 0);
 
-        FilteredReport report = new FilteredReport(data);
+        final FilteredReport report = new FilteredReport(data);
         report.setFilter(filter);
 
         int row = 0;
@@ -135,7 +135,7 @@ public class ExcelExport {
         row++;
         col = 0;
 
-        List<AccumulatedProjectActivity> accumulatedActivitiesByDay = report.getAccumulatedActivitiesByDay();
+        final List<AccumulatedProjectActivity> accumulatedActivitiesByDay = report.getAccumulatedActivitiesByDay();
         for(AccumulatedProjectActivity activity : accumulatedActivitiesByDay) {
             sheet.addCell(makeDateCell(col++, row, activity.getDay()));
 
@@ -150,7 +150,7 @@ public class ExcelExport {
         col = 0;
 
         // Format Cells
-        CellView v = new CellView();
+        final CellView v = new CellView();
         v.setAutosize(true);
         sheet.setColumnView(col++, v);
         sheet.setColumnView(col++, v);
@@ -158,19 +158,19 @@ public class ExcelExport {
     }
 
     private static jxl.write.Number makeNumberCell(int col, int row, double number) {
-        WritableCellFormat floatFormat = new WritableCellFormat (NumberFormats.FLOAT); 
+        final WritableCellFormat floatFormat = new WritableCellFormat (NumberFormats.FLOAT); 
         return new jxl.write.Number(col, row, number, floatFormat); 
         }
 
     private static WritableCell makeTimeCell(int col, int row, Date date) {
-        DateFormat customDateFormat = new DateFormat ("hh:mm"); //$NON-NLS-1$
-        WritableCellFormat dateFormat = new WritableCellFormat (customDateFormat);
+        final DateFormat customDateFormat = new DateFormat ("hh:mm"); //$NON-NLS-1$
+        final WritableCellFormat dateFormat = new WritableCellFormat (customDateFormat);
         return new DateTime(col, row, date, dateFormat); 
     }
 
     private static DateTime makeDateCell(int i, int j, Date date) {
-        DateFormat customDateFormat = new DateFormat ("DD.MM.yyyy"); //$NON-NLS-1$
-        WritableCellFormat dateFormat = new WritableCellFormat (customDateFormat);
+        final DateFormat customDateFormat = new DateFormat ("DD.MM.yyyy"); //$NON-NLS-1$
+        final WritableCellFormat dateFormat = new WritableCellFormat (customDateFormat);
         return new DateTime(i, j, date, dateFormat); 
     }
 

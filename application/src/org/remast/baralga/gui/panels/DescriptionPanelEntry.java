@@ -14,13 +14,14 @@ import org.remast.baralga.model.ProjectActivity;
 
 /**
  * @author remast
- *
  */
 @SuppressWarnings("serial")
 public class DescriptionPanelEntry extends JXPanel {
 
     private ProjectActivity activity;
+
     private TextEditor editor;
+
     private TitledBorder titledBorder;
 
     public DescriptionPanelEntry(ProjectActivity activity) {
@@ -39,7 +40,7 @@ public class DescriptionPanelEntry extends JXPanel {
         editor.setBorder(BorderFactory.createLineBorder(Constants.VERY_LIGHT_GREY));
         this.add(editor, BorderLayout.CENTER);
 
-        editor.addTextObserver(new TextEditor.TextChangeObserver(){
+        editor.addTextObserver(new TextEditor.TextChangeObserver() {
 
             @Override
             public void onTextChange() {

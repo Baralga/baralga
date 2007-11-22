@@ -1,6 +1,7 @@
 package org.remast.baralga.model.report;
 
 import java.util.List;
+import java.util.Observable;
 import java.util.Vector;
 
 import org.remast.baralga.model.ProTrack;
@@ -11,7 +12,7 @@ import org.remast.baralga.model.utils.ProTrackUtils;
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 
-public class FilteredReport {
+public class FilteredReport extends Observable {
 
     /** The data of the report. */
     private ProTrack data;

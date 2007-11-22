@@ -8,7 +8,7 @@ import org.remast.baralga.model.ProjectActivity;
 import org.remast.util.DateUtils;
 
 public class MonthPredicate implements Predicate {
-    
+
     private Date dateInMonth;
 
     public MonthPredicate(Date dateInMonth) {
@@ -16,10 +16,15 @@ public class MonthPredicate implements Predicate {
     }
 
     public boolean evaluate(Object object) {
-        if(!(object instanceof ProjectActivity))
+        if (object == null) {
+            return false;
+        }
+
+        if (!(object instanceof ProjectActivity)) {
             throw new IllegalArgumentException(Messages.getString("MonthPredicate.ErrorNoProjectActivity")); //$NON-NLS-1$
-        
-        ProjectActivity activity = (ProjectActivity) object;
+        }
+
+        final ProjectActivity activity = (ProjectActivity) object;
         return DateUtils.isSimilarMonth(activity.getStart(), this.dateInMonth);
     }
 

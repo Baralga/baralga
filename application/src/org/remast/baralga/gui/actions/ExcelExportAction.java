@@ -19,7 +19,7 @@ import org.remast.util.FileFilters;
  * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
-public final class ExcelExportAction extends AbstractProTrackAction {
+public final class ExcelExportAction extends AbstractBaralgaAction {
 
     /** The logger. */
     private static final Log log = LogFactory.getLog(ExcelExportAction.class);

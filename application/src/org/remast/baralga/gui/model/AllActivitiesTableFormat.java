@@ -1,6 +1,5 @@
 package org.remast.baralga.gui.model;
 
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
@@ -21,13 +20,13 @@ import ca.odell.glazedlists.gui.WritableTableFormat;
  * Format for table containing all tracked project activities.
  * 
  * @author remast
- *
  */
 public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActivity> {
 
     /** The logger. */
     private static final Log log = LogFactory.getLog(AllActivitiesTableFormat.class);
 
+    /** The model. */
     private PresentationModel model;
 
     public AllActivitiesTableFormat(final PresentationModel model) {
@@ -43,35 +42,35 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
 
     public String getColumnName(int col) {
         switch (col) {
-        case 0:
-            return Messages.getString("AllActivitiesTableFormat.ProjectHeading"); //$NON-NLS-1$
-        case 1:
-            return Messages.getString("AllActivitiesTableFormat.DateHeading"); //$NON-NLS-1$
-        case 2:
-            return Messages.getString("AllActivitiesTableFormat.StartHeading"); //$NON-NLS-1$
-        case 3:
-            return Messages.getString("AllActivitiesTableFormat.EndHeading"); //$NON-NLS-1$
-        case 4:
-            return Messages.getString("AllActivitiesTableFormat.DurationHeading"); //$NON-NLS-1$
-        default:
-            return ""; //$NON-NLS-1$
+            case 0:
+                return Messages.getString("AllActivitiesTableFormat.ProjectHeading"); //$NON-NLS-1$
+            case 1:
+                return Messages.getString("AllActivitiesTableFormat.DateHeading"); //$NON-NLS-1$
+            case 2:
+                return Messages.getString("AllActivitiesTableFormat.StartHeading"); //$NON-NLS-1$
+            case 3:
+                return Messages.getString("AllActivitiesTableFormat.EndHeading"); //$NON-NLS-1$
+            case 4:
+                return Messages.getString("AllActivitiesTableFormat.DurationHeading"); //$NON-NLS-1$
+            default:
+                return ""; //$NON-NLS-1$
         }
     }
 
     public Object getColumnValue(ProjectActivity activity, int col) {
         switch (col) {
-        case 0:
-            return activity.getProject();
-        case 1:
-            return DateFormat.getDateInstance().format(activity.getStart());
-        case 2:
-            return Constants.hhMMFormat.format(activity.getStart());
-        case 3:
-            return Constants.hhMMFormat.format(activity.getEnd());
-        case 4:
-            return Constants.durationFormat.format(ProTrackUtils.calculateDuration(activity));
-        default:
-            return ""; //$NON-NLS-1$
+            case 0:
+                return activity.getProject();
+            case 1:
+                return DateFormat.getDateInstance().format(activity.getStart());
+            case 2:
+                return Constants.hhMMFormat.format(activity.getStart());
+            case 3:
+                return Constants.hhMMFormat.format(activity.getEnd());
+            case 4:
+                return Constants.durationFormat.format(ProTrackUtils.calculateDuration(activity));
+            default:
+                return ""; //$NON-NLS-1$
         }
     }
 
@@ -80,50 +79,50 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         return column != 4;
     }
 
-    public ProjectActivity setColumnValue(ProjectActivity baseObject, Object editedValue, int column) {
+    public ProjectActivity setColumnValue(ProjectActivity activity, Object editedValue, int column) {
         // Project
         if (column == 0) {
-            baseObject.setProject((Project) editedValue);
-            
+            activity.setProject((Project) editedValue);
+
             // Fire event
-            model.fireProTrackActivityChangedEvent(baseObject);
+            model.fireProTrackActivityChangedEvent(activity);
         }
         // Day and month
         else if (column == 1) {
             try {
                 Date newDate = DateFormat.getDateInstance().parse((String) editedValue);
-                
+
                 Calendar newCal = Calendar.getInstance();
                 newCal.setTime(newDate);
-                
+
                 // Copy date to start
                 Calendar startCal = Calendar.getInstance();
-                startCal.setTime(baseObject.getStart());
-                startCal.set(Calendar.DAY_OF_YEAR,  newCal.get(Calendar.DAY_OF_YEAR));
-                baseObject.setStart(startCal.getTime());
-                
+                startCal.setTime(activity.getStart());
+                startCal.set(Calendar.DAY_OF_YEAR, newCal.get(Calendar.DAY_OF_YEAR));
+                activity.setStart(startCal.getTime());
+
                 // Copy date to start
                 Calendar endCal = Calendar.getInstance();
-                endCal.setTime(baseObject.getEnd());
-                endCal.set(Calendar.DAY_OF_YEAR,  newCal.get(Calendar.DAY_OF_YEAR));
-                baseObject.setEnd(endCal.getTime());
-                
+                endCal.setTime(activity.getEnd());
+                endCal.set(Calendar.DAY_OF_YEAR, newCal.get(Calendar.DAY_OF_YEAR));
+                activity.setEnd(endCal.getTime());
+
                 // Fire event
-                model.fireProTrackActivityChangedEvent(baseObject);
+                model.fireProTrackActivityChangedEvent(activity);
             } catch (ParseException e) {
                 // Ignore parse error and just don't save value
             }
         }
-        
+
         // Start time
         else if (column == 2) {
             try {
                 Date newStart = Constants.hhMMFormat.parse((String) editedValue);
-                baseObject.getStart().setHours(newStart.getHours());
-                baseObject.getStart().setMinutes(newStart.getMinutes());
+                activity.getStart().setHours(newStart.getHours());
+                activity.getStart().setMinutes(newStart.getMinutes());
 
                 // Fire event
-                model.fireProTrackActivityChangedEvent(baseObject);
+                model.fireProTrackActivityChangedEvent(activity);
             } catch (ParseException e) {
                 // Ignore and don't save changes to model.
             }
@@ -132,16 +131,16 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         else if (column == 3) {
             try {
                 Date newEnd = Constants.hhMMFormat.parse((String) editedValue);
-                baseObject.getEnd().setHours(newEnd.getHours());
-                baseObject.getEnd().setMinutes(newEnd.getMinutes());
-                
+                activity.getEnd().setHours(newEnd.getHours());
+                activity.getEnd().setMinutes(newEnd.getMinutes());
+
                 // Fire event
-                model.fireProTrackActivityChangedEvent(baseObject);
+                model.fireProTrackActivityChangedEvent(activity);
             } catch (ParseException e) {
                 // Ignore and don't save changes to model.
             }
         }
-        return baseObject;
+        return activity;
     }
 
 }

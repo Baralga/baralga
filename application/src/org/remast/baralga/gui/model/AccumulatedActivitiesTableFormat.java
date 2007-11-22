@@ -10,6 +10,7 @@ import ca.odell.glazedlists.gui.TableFormat;
 
 /**
  * Table format for accumulated activities.
+ * 
  * @author remast
  */
 public class AccumulatedActivitiesTableFormat implements TableFormat<AccumulatedProjectActivity> {
@@ -20,27 +21,27 @@ public class AccumulatedActivitiesTableFormat implements TableFormat<Accumulated
 
     public String getColumnName(int col) {
         switch (col) {
-        case 0:
-            return Messages.getString("AccumulatedActivitiesTableFormat.DayHeading"); //$NON-NLS-1$
-        case 1:
-            return Messages.getString("AccumulatedActivitiesTableFormat.ProjectHeading"); //$NON-NLS-1$
-        case 2:
-            return Messages.getString("AccumulatedActivitiesTableFormat.DurationHeading"); //$NON-NLS-1$
-        default:
-            return ""; //$NON-NLS-1$
+            case 0:
+                return Messages.getString("AccumulatedActivitiesTableFormat.DayHeading"); //$NON-NLS-1$
+            case 1:
+                return Messages.getString("AccumulatedActivitiesTableFormat.ProjectHeading"); //$NON-NLS-1$
+            case 2:
+                return Messages.getString("AccumulatedActivitiesTableFormat.DurationHeading"); //$NON-NLS-1$
+            default:
+                return ""; //$NON-NLS-1$
         }
     }
 
     public Object getColumnValue(AccumulatedProjectActivity accActivity, int col) {
         switch (col) {
-        case 0:
-            return DateFormat.getDateInstance().format(accActivity.getDay());
-        case 1:
-            return accActivity.getProject();
-        case 2:
-            return Constants.durationFormat.format(accActivity.getTime());
-        default:
-            return ""; //$NON-NLS-1$
+            case 0:
+                return DateFormat.getDateInstance().format(accActivity.getDay());
+            case 1:
+                return accActivity.getProject();
+            case 2:
+                return Constants.durationFormat.format(accActivity.getTime());
+            default:
+                return ""; //$NON-NLS-1$
         }
     }
 

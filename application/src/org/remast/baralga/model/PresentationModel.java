@@ -69,7 +69,7 @@ public class PresentationModel extends Observable {
         this.filter = FilterUtils.restoreFromSettings();
         this.description = Settings.instance().getLastDescription();
 
-        Long selectedProjectId = Settings.instance().getFilterSelectedProjectId();
+        final Long selectedProjectId = Settings.instance().getFilterSelectedProjectId();
         if (selectedProjectId != null) {
             filter.setProject(this.data.findProjectById(selectedProjectId.longValue()));
         }
@@ -79,7 +79,7 @@ public class PresentationModel extends Observable {
         getData().add(project);
         this.projectList.add(project);
         
-        ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ADDED);
+        final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ADDED);
         event.setData(project);
         
         notify(event);
@@ -89,32 +89,33 @@ public class PresentationModel extends Observable {
         getData().remove(project);
         this.projectList.remove(project);
         
-        ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_REMOVED);
+        final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_REMOVED);
         event.setData(project);
         
         notify(event);
     }
 
     public void start() throws ProjectStateException {
-        if(getSelectedProject() == null)
+        if(getSelectedProject() == null) {
             throw new ProjectStateException(Messages.getString("PresentationModel.NoActiveProjectSelectedError")); //$NON-NLS-1$
+        }
         
         setActive(true);
 
         // Set start time to now
         setStart(DateUtils.getNow());
         
-        ProTrackEvent event = new ProTrackEvent(ProTrackEvent.START);
+        final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.START);
         notify(event);
     }
     
-    private void notify(ProTrackEvent event) {
+    private void notify(final ProTrackEvent event) {
         setChanged();
         notifyObservers(event);
     }
     
-    public void fireProTrackActivityChangedEvent(ProjectActivity changedActivity) {
-        ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_CHANGED);
+    public void fireProTrackActivityChangedEvent(final ProjectActivity changedActivity) {
+        final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_CHANGED);
         event.setData(changedActivity);
         notify(event);
     }
@@ -127,7 +128,7 @@ public class PresentationModel extends Observable {
         setStop(DateUtils.getNow());
         setActive(false);
         
-        ProjectActivity activity = new ProjectActivity(start, getStop(), getSelectedProject());
+        final ProjectActivity activity = new ProjectActivity(start, getStop(), getSelectedProject());
         activity.setDescription(this.description);
         getData().getActivities().add(activity);
         this.activitiesList.add(activity);
@@ -204,11 +205,11 @@ public class PresentationModel extends Observable {
      * @throws Exception
      */
     public void save() throws Exception {
-        ProTrackWriter writer = new ProTrackWriter(getData());
+        final ProTrackWriter writer = new ProTrackWriter(getData());
         
         ProTrackUtils.checkOrCreateProTrackDir();
         
-        File proTrackFile = new File(Settings.getProTrackFileLocation());
+        final File proTrackFile = new File(Settings.getProTrackFileLocation());
         writer.write(proTrackFile);
     }
 

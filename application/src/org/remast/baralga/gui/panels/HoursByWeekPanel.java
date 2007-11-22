@@ -1,6 +1,8 @@
 package org.remast.baralga.gui.panels;
 
 import java.awt.BorderLayout;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JScrollPane;
 
@@ -18,13 +20,17 @@ import ca.odell.glazedlists.swing.EventTableModel;
  * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
-public class HoursByWeekPanel extends JXPanel {
+public class HoursByWeekPanel extends JXPanel implements Observer {
 
     private HoursByWeekReport report;
+    
+    private EventTableModel<HoursByWeek> tableModel;
     
     public HoursByWeekPanel(HoursByWeekReport report) {
         this.report = report;
         this.setLayout(new BorderLayout());
+        
+        this.report.addObserver(this);
         
         initialize();
     }
@@ -33,7 +39,8 @@ public class HoursByWeekPanel extends JXPanel {
      * Set up GUI components.
      */
     private void initialize() {
-        final JXTable table = new JXTable(new EventTableModel<HoursByWeek>(this.report.getHoursByWeek(), new HoursByWeekTableFormat()));
+        tableModel = new EventTableModel<HoursByWeek>(this.report.getHoursByWeek(), new HoursByWeekTableFormat());
+        final JXTable table = new JXTable(tableModel);
 
         table.setHighlighters(GUISettings.HIGHLIGHTERS);
 
@@ -48,6 +55,13 @@ public class HoursByWeekPanel extends JXPanel {
      */
     public void setFilter(Filter filter) {
         this.report.setFilter(filter);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o != null && o instanceof HoursByWeekReport) {
+            tableModel.fireTableDataChanged();
+        }
     }
 
 }

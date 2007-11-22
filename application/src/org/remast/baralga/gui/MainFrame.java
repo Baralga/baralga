@@ -4,6 +4,8 @@ import info.clearthought.layout.TableLayout;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowListener;
 import java.util.Observable;
 import java.util.Observer;
@@ -30,6 +32,7 @@ import org.remast.baralga.gui.actions.ManageProjectsAction;
 import org.remast.baralga.gui.actions.SaveAction;
 import org.remast.baralga.gui.actions.StartAction;
 import org.remast.baralga.gui.actions.StopAction;
+import org.remast.baralga.gui.actions.UndoAction;
 import org.remast.baralga.gui.events.ProTrackEvent;
 import org.remast.baralga.gui.panels.ReportPanel;
 import org.remast.baralga.gui.panels.TextEditor;
@@ -236,7 +239,6 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
             currentPanel.add(new JXTitledSeparator(Messages.getString("MainFrame.DescriptionLabel")), "1, 5, 3, 5");
             currentPanel.add(descriptionEditor, "1, 7, 3, 7");
-
         }
         return currentPanel;
     }
@@ -264,8 +266,8 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
             projectSelector.setModel(new EventComboBoxModel<Project>(getModel().getProjectList()));
 
-            projectSelector.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent e) {
+            projectSelector.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
                     final Project selectedProject = (Project) projectSelector.getSelectedItem();
                     getModel().changeProject(selectedProject);
                     
@@ -317,6 +319,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             editMenu.setText(Messages.getString("MainFrame.EditMenu.Title")); //$NON-NLS-1$
             editMenu.add(getEditProjectsMenuItem());
             editMenu.add(new AddActivityAction(this, getModel()));
+            editMenu.add(new UndoAction(getModel()));
         }
         return editMenu;
     }

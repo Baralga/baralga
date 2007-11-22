@@ -25,7 +25,7 @@ public abstract class FilterUtils {
      * @return the restored filter
      */
     public static Filter restoreFromSettings() {
-        Filter filter = new Filter();
+        final Filter filter = new Filter();
         
         final String selectedMonth = Settings.instance().getFilterSelectedMonth();
         if (StringUtils.isNotBlank(selectedMonth) && !MonthFilterList.ALL_MONTHS_DUMMY.equals(selectedMonth)) {

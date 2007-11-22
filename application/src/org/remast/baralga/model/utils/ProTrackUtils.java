@@ -12,33 +12,36 @@ public class ProTrackUtils {
 
     /**
      * Calculate the duration of the given activity in decimal hours.
-     * @param activity the activity to calculate duration for
+     * 
+     * @param activity
+     *            the activity to calculate duration for
      * @return decimal value of the duration (e.g. for 30 minutes, 0.5 and so on)
      */
     public static double calculateDuration(final ProjectActivity activity) {
         Date start = activity.getStart();
         Date end = activity.getEnd();
-        
-        Calendar calStart = new GregorianCalendar();
+
+        final Calendar calStart = new GregorianCalendar();
         calStart.setTime(start);
-        
-        Calendar calEnd = new GregorianCalendar();
+
+        final Calendar calEnd = new GregorianCalendar();
         calEnd.setTime(end);
-        
+
         long timeMilliSec = calEnd.getTimeInMillis() - calStart.getTimeInMillis();
         long timeMin = timeMilliSec / 1000 / 60;
         long hours = timeMin / 60;
-        
+
         long mins = timeMin % 60;
-        double minsD = Math.round(mins * (1+2.0/3.0)) / 100.0;
-        
+        double minsD = Math.round(mins * (1 + 2.0 / 3.0)) / 100.0;
+
         return hours + minsD;
     }
-    
-    public static  void checkOrCreateProTrackDir() {
-        File proTrackDir = Settings.getProTrackDirectory();
-        if(!proTrackDir.exists())
+
+    public static void checkOrCreateProTrackDir() {
+        final File proTrackDir = Settings.getProTrackDirectory();
+        if (!proTrackDir.exists()) {
             proTrackDir.mkdir();
+        }
     }
 
 }

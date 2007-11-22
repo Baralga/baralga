@@ -16,11 +16,16 @@ public class YearPredicate implements Predicate {
     }
 
     public boolean evaluate(Object object) {
-        if (!(object instanceof ProjectActivity)) {
-            throw new IllegalArgumentException(Messages.getString("YearPredicate.ErrorNoeProjectActivityErrorNoProjectActivitity")); //$NON-NLS-1$
+        if (object == null) {
+            return false;
         }
-        
-        ProjectActivity activity = (ProjectActivity) object;
+
+        if (!(object instanceof ProjectActivity)) {
+            throw new IllegalArgumentException(Messages
+                    .getString("YearPredicate.ErrorNoeProjectActivityErrorNoProjectActivitity")); //$NON-NLS-1$
+        }
+
+        final ProjectActivity activity = (ProjectActivity) object;
         return DateUtils.isSameYear(activity.getStart(), this.dateInYear);
     }
 

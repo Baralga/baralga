@@ -15,51 +15,52 @@ import org.remast.baralga.model.utils.ProTrackUtils;
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 
-public class HoursByWeekReport implements Observer {
+public class HoursByWeekReport extends Observable implements Observer  {
 
+    /** The model. */
     private PresentationModel model;
-    
-    EventList<HoursByWeek> hoursByWeekList;
-    
+
+    private EventList<HoursByWeek> hoursByWeekList;
+
     private Filter filter;
 
     /**
-     * @param filter the filter to set
+     * @param filter
+     *            the filter to set
      */
-    public void setFilter(Filter filter) {
+    public void setFilter(final Filter filter) {
         this.filter = filter;
+
         calculateHours();
     }
 
-    public HoursByWeekReport(PresentationModel model) {
+    public HoursByWeekReport(final PresentationModel model) {
         this.model = model;
         this.filter = model.getFilter();
         this.model.addObserver(this);
-        
         this.hoursByWeekList = new BasicEventList<HoursByWeek>();
+
         calculateHours();
     }
-    
+
     public void calculateHours() {
         this.hoursByWeekList.clear();
 
-        List<ProjectActivity> filteredActivities = getFilteredActivities();
-        for (ProjectActivity activity : filteredActivities) {
+        for (ProjectActivity activity : getFilteredActivities()) {
             this.addHours(activity);
         }
     }
-    
+
     public void addHours(final ProjectActivity activity) {
-        if(filter != null && !filter.satisfiesPredicates(activity))
+        if (filter != null && !filter.satisfiesPredicates(activity)) {
             return;
-        
-        DateTime dateTime = new DateTime(activity.getStart());
-        
-        HoursByWeek newHoursByWeek = new HoursByWeek(
-                dateTime.getWeekOfWeekyear(), 
-                ProTrackUtils.calculateDuration(activity)
-        );
-        
+        }
+
+        final DateTime dateTime = new DateTime(activity.getStart());
+
+        final HoursByWeek newHoursByWeek = new HoursByWeek(dateTime.getWeekOfWeekyear(), ProTrackUtils
+                .calculateDuration(activity));
+
         if (this.hoursByWeekList.contains(newHoursByWeek)) {
             HoursByWeek hoursByWeek = this.hoursByWeekList.get(hoursByWeekList.indexOf(newHoursByWeek));
             hoursByWeek.addHours(newHoursByWeek.getHours());
@@ -72,39 +73,44 @@ public class HoursByWeekReport implements Observer {
     public EventList<HoursByWeek> getHoursByWeek() {
         return hoursByWeekList;
     }
-    
+
     /**
      * Get all filtered acitivies.
+     * 
      * @return all activies after applying the filter.
      */
     private List<ProjectActivity> getFilteredActivities() {
-        List<ProjectActivity> filteredActivitiesList = new Vector<ProjectActivity>();
+        final List<ProjectActivity> filteredActivitiesList = new Vector<ProjectActivity>();
 
-        if (filter != null)
+        if (filter != null) {
             filteredActivitiesList.addAll(filter.applyFilters(this.model.getActivitiesList()));
-        else
+        } else {
             filteredActivitiesList.addAll(this.model.getActivitiesList());
-
+        }
         return filteredActivitiesList;
     }
 
     public void update(Observable source, Object eventObject) {
-        ProTrackEvent event = (ProTrackEvent) eventObject;
-        switch (event.getType()) {
+        if (eventObject != null && eventObject instanceof ProTrackEvent) {
+            final ProTrackEvent event = (ProTrackEvent) eventObject;
+            switch (event.getType()) {
 
-        case ProTrackEvent.PROJECT_ACTIVITY_ADDED:
-            ProjectActivity activity = (ProjectActivity) event.getData();
-            addHours(activity);
-            break;
+                case ProTrackEvent.PROJECT_ACTIVITY_ADDED:
+                    ProjectActivity activity = (ProjectActivity) event.getData();
+                    addHours(activity);
+                    break;
 
-        case ProTrackEvent.PROJECT_ACTIVITY_REMOVED:
-            calculateHours();
-            break;
-            
-        case ProTrackEvent.PROJECT_ACTIVITY_CHANGED:
-            // TODO: Replace calculation by remove+add.
-            calculateHours();
-            break;
+                case ProTrackEvent.PROJECT_ACTIVITY_REMOVED:
+                    calculateHours();
+                    break;
+
+                case ProTrackEvent.PROJECT_ACTIVITY_CHANGED:
+                    // TODO: Replace calculation by remove + add.
+                    calculateHours();
+                    break;
+            }
+            setChanged();
+            notifyObservers();
         }
     }
 

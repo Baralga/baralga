@@ -20,6 +20,7 @@ public class AboutDialog extends JDialog {
         super(owner);
         
         setTitle(Messages.getString("AboutDialog.AboutTitle")); //$NON-NLS-1$
+        this.setAlwaysOnTop(true);
         setModal(true);
         setResizable(false);
         setBackground(Color.WHITE);
@@ -34,7 +35,7 @@ public class AboutDialog extends JDialog {
         setLocationRelativeTo(getOwner());
         this.setLayout(new BorderLayout());
         
-        JXLabel label = new JXLabel("<html><font color=\"blue\" size=\"big\"><h4>" +Messages.getString("Global.Title") + " <br/> " + Messages.getString("Global.Version") + " " + Messages.getString("Global.VersionNumber") + "</h4></font></html>", JLabel.CENTER);
+        JLabel label = new JXLabel("<html><font color=\"blue\" size=\"big\"><h2>" +Messages.getString("Global.Title") + " <br/> " + Messages.getString("Global.Version") + " " + Messages.getString("Global.VersionNumber") + "</h2></font></html>", JLabel.CENTER);
         this.add(label, BorderLayout.CENTER);
         this.setSize(200, 100);
         label.setBackground(Color.WHITE);

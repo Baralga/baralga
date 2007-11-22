@@ -10,14 +10,14 @@ import org.remast.baralga.model.ProjectActivity;
 public class ObservingFilteredReport extends FilteredReport implements Observer {
 
     private PresentationModel model;
-    
+
     public ObservingFilteredReport(final PresentationModel model) {
         super(model.getData());
-        
+
         this.filter = model.getFilter();
         this.model = model;
         this.model.addObserver(this);
-        
+
         this.accumulate();
     }
 
@@ -25,19 +25,21 @@ public class ObservingFilteredReport extends FilteredReport implements Observer 
         ProTrackEvent event = (ProTrackEvent) eventObject;
         switch (event.getType()) {
 
-        case ProTrackEvent.PROJECT_ACTIVITY_ADDED:
-            ProjectActivity activity = (ProjectActivity) event.getData();
-            this.acummulateActivity(activity);
-            break;
+            case ProTrackEvent.PROJECT_ACTIVITY_ADDED:
+                ProjectActivity activity = (ProjectActivity) event.getData();
+                this.acummulateActivity(activity);
+                break;
 
-        case ProTrackEvent.PROJECT_ACTIVITY_REMOVED:
-            this.accumulate();
-            break;
-            
-        case ProTrackEvent.PROJECT_ACTIVITY_CHANGED:
-            this.accumulate();
-            break;
+            case ProTrackEvent.PROJECT_ACTIVITY_REMOVED:
+                this.accumulate();
+                break;
+
+            case ProTrackEvent.PROJECT_ACTIVITY_CHANGED:
+                this.accumulate();
+                break;
         }
+        setChanged();
+        notifyObservers();
     }
 
 }
