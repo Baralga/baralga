@@ -18,7 +18,7 @@ public class ExitAction extends AbstractBaralgaAction {
         
         putValue(NAME, Messages.getString("ExitAction.Name")); //$NON-NLS-1$
         putValue(SHORT_DESCRIPTION, Messages.getString("ExitAction.ShortDescription")); //$NON-NLS-1$
-        putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/resource/icons/gtk-close.png"))); //$NON-NLS-1$
+        putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/resource/icons/gtk-quit.png"))); //$NON-NLS-1$
         putValue(LONG_DESCRIPTION, Messages.getString("ExitAction.LongDescription")); //$NON-NLS-1$
     }
     

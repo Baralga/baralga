@@ -106,7 +106,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
 
                         // 2. Remove all selected activities
                         for (int selectionIndex : selectionIndices) {
-                            model.removeActivity(filteredActivitiesList.get(selectionIndices[selectionIndex]));
+                            model.removeActivity(filteredActivitiesList.get(selectionIndex));
                         }
                     }
 

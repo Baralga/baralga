@@ -1,11 +1,14 @@
 package org.remast.baralga.model;
 
 import java.io.File;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Observable;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.Settings;
 import org.remast.baralga.gui.events.ProTrackEvent;
@@ -73,6 +76,15 @@ public class PresentationModel extends Observable {
         if (selectedProjectId != null) {
             filter.setProject(this.data.findProjectById(selectedProjectId.longValue()));
         }
+        
+        // If there is a active project that has been started on another day,
+        // we end it here.
+        if (active && !org.apache.commons.lang.time.DateUtils.isSameDay(start, DateUtils.getNow())) {
+            try {
+                stop();
+            } catch (ProjectStateException e) {
+            }
+        }
     }
 
     public void addProject(Project project) {
@@ -124,18 +136,25 @@ public class PresentationModel extends Observable {
         if (!isActive()) {
             throw new ProjectStateException(Messages.getString("PresentationModel.NoActiveProjectError")); //$NON-NLS-1$
         }
+
+        // If start is on a different day from now end the activity at 0:00 one day after start.
+        if (!org.apache.commons.lang.time.DateUtils.isSameDay(start, DateUtils.getNow())) {
+            DateTime dt = new DateTime(start);
+            dt = dt.plusDays(1);
+            stop = dt.toDateMidnight().toDate();
+        }
         
-        setStop(DateUtils.getNow());
-        setActive(false);
         
-        final ProjectActivity activity = new ProjectActivity(start, getStop(), getSelectedProject());
+        final ProjectActivity activity = new ProjectActivity(start, stop, getSelectedProject());
         activity.setDescription(this.description);
         getData().getActivities().add(activity);
         this.activitiesList.add(activity);
         
-        // Clear description
+        // Clear old activity
         description = StringUtils.EMPTY;
-        
+        setActive(false);
+        start = null;
+
         // Create Stop Event
         ProTrackEvent event = new ProTrackEvent(ProTrackEvent.STOP);
         notify(event);

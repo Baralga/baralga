@@ -17,12 +17,12 @@ public class DateUtils {
         return nowRounded.toDate();
     }
 
-    public static Date adjustToSameDay(Date day, Date time) {
+    public static Date adjustToSameDay(final Date day, final Date timeToAdjust) {
         Calendar cal1 = Calendar.getInstance();
         cal1.setTime(day);
         
         Calendar timeCal = Calendar.getInstance();
-        timeCal.setTime(time);
+        timeCal.setTime(timeToAdjust);
         
         timeCal.set(Calendar.YEAR, cal1.get(Calendar.YEAR));
         timeCal.set(Calendar.DAY_OF_YEAR, cal1.get(Calendar.DAY_OF_YEAR));
