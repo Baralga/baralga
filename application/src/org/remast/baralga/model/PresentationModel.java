@@ -12,6 +12,7 @@ import org.joda.time.DateTime;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.Settings;
 import org.remast.baralga.gui.events.ProTrackEvent;
+import org.remast.baralga.model.edit.EditStack;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.baralga.model.io.ProTrackWriter;
 import org.remast.baralga.model.lists.MonthFilterList;
@@ -53,6 +54,8 @@ public class PresentationModel extends Observable {
     /** Current activity filter. */
     private Filter filter;
 
+    private EditStack editStack;
+
     public PresentationModel() {
         this.data = new ProTrack();
         this.projectList = new BasicEventList<Project>();
@@ -84,6 +87,12 @@ public class PresentationModel extends Observable {
                 stop();
             } catch (ProjectStateException e) {
             }
+        }
+
+        // Edit stack
+        if (editStack == null) {
+            editStack = new EditStack();
+            this.addObserver(editStack);
         }
     }
 
@@ -126,9 +135,10 @@ public class PresentationModel extends Observable {
         notifyObservers(event);
     }
     
-    public void fireProTrackActivityChangedEvent(final ProjectActivity changedActivity) {
+    public void fireProjectActivityChangedEvent(final ProjectActivity changedActivity, final String propertyIdentifier) {
         final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_CHANGED);
         event.setData(changedActivity);
+        event.setPropertyHint(propertyIdentifier);
         notify(event);
     }
 
@@ -138,10 +148,13 @@ public class PresentationModel extends Observable {
         }
 
         // If start is on a different day from now end the activity at 0:00 one day after start.
-        if (!org.apache.commons.lang.time.DateUtils.isSameDay(start, DateUtils.getNow())) {
+        Date now = DateUtils.getNow();
+        if (!org.apache.commons.lang.time.DateUtils.isSameDay(start, now)) {
             DateTime dt = new DateTime(start);
             dt = dt.plusDays(1);
             stop = dt.toDateMidnight().toDate();
+        } else {
+            stop = now;
         }
         
         

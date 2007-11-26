@@ -85,7 +85,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
             activity.setProject((Project) editedValue);
 
             // Fire event
-            model.fireProTrackActivityChangedEvent(activity);
+            model.fireProjectActivityChangedEvent(activity, ProjectActivity.PROPERTY_PROJECT);
         }
         // Day and month
         else if (column == 1) {
@@ -95,20 +95,20 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
                 Calendar newCal = Calendar.getInstance();
                 newCal.setTime(newDate);
 
-                // Copy date to start
+                // Save date to start
                 Calendar startCal = Calendar.getInstance();
                 startCal.setTime(activity.getStart());
                 startCal.set(Calendar.DAY_OF_YEAR, newCal.get(Calendar.DAY_OF_YEAR));
                 activity.setStart(startCal.getTime());
 
-                // Copy date to start
+                // Copy date to end to preserve day in year
                 Calendar endCal = Calendar.getInstance();
                 endCal.setTime(activity.getEnd());
                 endCal.set(Calendar.DAY_OF_YEAR, newCal.get(Calendar.DAY_OF_YEAR));
                 activity.setEnd(endCal.getTime());
 
                 // Fire event
-                model.fireProTrackActivityChangedEvent(activity);
+                model.fireProjectActivityChangedEvent(activity, ProjectActivity.PROPERTY_DATE);
             } catch (ParseException e) {
                 // Ignore parse error and just don't save value
             }
@@ -122,7 +122,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
                 activity.getStart().setMinutes(newStart.getMinutes());
 
                 // Fire event
-                model.fireProTrackActivityChangedEvent(activity);
+                model.fireProjectActivityChangedEvent(activity, ProjectActivity.PROPERTY_START);
             } catch (ParseException e) {
                 // Ignore and don't save changes to model.
             }
@@ -135,7 +135,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
                 activity.getEnd().setMinutes(newEnd.getMinutes());
 
                 // Fire event
-                model.fireProTrackActivityChangedEvent(activity);
+                model.fireProjectActivityChangedEvent(activity, ProjectActivity.PROPERTY_END);
             } catch (ParseException e) {
                 // Ignore and don't save changes to model.
             }

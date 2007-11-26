@@ -358,7 +358,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     }
 
     public void update(Observable source, Object eventObject) {
-        if (eventObject instanceof ProTrackEvent) {
+        if (eventObject != null && eventObject instanceof ProTrackEvent) {
             final ProTrackEvent event = (ProTrackEvent) eventObject;
 
             switch (event.getType()) {

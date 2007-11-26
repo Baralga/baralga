@@ -28,7 +28,11 @@ public class ProTrackEvent {
     /** The type of the event. */
     final private int type;
 
+    /** The data of the event. */
     private Object data;
+
+    /** A property hint of the event. */
+    private String propertyHint;
 
     /**
      * Constructor for a new event.
@@ -58,6 +62,20 @@ public class ProTrackEvent {
      */
     public int getType() {
         return type;
+    }
+
+    /**
+     * @return the propertyHint
+     */
+    public String getPropertyHint() {
+        return propertyHint;
+    }
+
+    /**
+     * @param propertyHint the propertyHint to set
+     */
+    public void setPropertyHint(String propertyHint) {
+        this.propertyHint = propertyHint;
     }
 
 }
