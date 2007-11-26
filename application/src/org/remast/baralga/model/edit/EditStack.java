@@ -9,7 +9,7 @@ import java.util.Observer;
 import org.remast.baralga.gui.events.ProTrackEvent;
 
 /**
- * @author Jan
+ * @author remast
  */
 public class EditStack implements Observer {
 
