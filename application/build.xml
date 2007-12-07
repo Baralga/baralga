@@ -1,7 +1,7 @@
 <project name="Baralga" basedir="." default="compile">
     <description>Baralga Project</description>
 	
-	<property name="project.version" value="1.0"/>
+	<property name="project.version" value="1.1"/>
 	
 	<!-- set global properties for this build -->
 	<property name="src"           value="src"/>
@@ -112,6 +112,7 @@
 		<manifest file="MANIFEST.MF">
 			<attribute name="Main-Class" value="org.remast.baralga.BaralgaMain"/>
 			<attribute name="Manifest-Version" value="${project.version}"/>
+			<attribute name="SplashScreen-Image" value="resource/icons/Baralga-Splash.png"/>
 		</manifest>
 		
 	    <!-- Put everything in ${dist} into a jar -->
