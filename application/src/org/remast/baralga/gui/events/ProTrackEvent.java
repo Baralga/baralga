@@ -1,5 +1,7 @@
 package org.remast.baralga.gui.events;
 
+import java.beans.PropertyChangeEvent;
+
 /**
  * @author remast
  */
@@ -32,7 +34,7 @@ public class ProTrackEvent {
     private Object data;
 
     /** A property hint of the event. */
-    private String propertyHint;
+    private PropertyChangeEvent propertyChangeEvent;
 
     /**
      * Constructor for a new event.
@@ -67,15 +69,15 @@ public class ProTrackEvent {
     /**
      * @return the propertyHint
      */
-    public String getPropertyHint() {
-        return propertyHint;
+    public PropertyChangeEvent getPropertyChangeEvent() {
+        return propertyChangeEvent;
     }
 
     /**
      * @param propertyHint the propertyHint to set
      */
-    public void setPropertyHint(String propertyHint) {
-        this.propertyHint = propertyHint;
+    public void setPropertyChangeEvent(PropertyChangeEvent propertyHint) {
+        this.propertyChangeEvent = propertyHint;
     }
 
 }

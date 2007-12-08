@@ -2,17 +2,15 @@ package org.remast.baralga.gui.actions;
 
 import java.awt.event.ActionEvent;
 
+import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
 import org.remast.baralga.Messages;
-import org.remast.baralga.model.PresentationModel;
 
 @SuppressWarnings("serial")
-public class UndoAction extends AbstractBaralgaAction {
+public class UndoAction extends AbstractAction {
 
-    public UndoAction(PresentationModel model) {
-        super(model);
-
+    public UndoAction() {
         putValue(NAME, Messages.getString("UndoAction.Name"));
         putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/resource/icons/gtk-undo-ltr.png"))); //$NON-NLS-1$
     }

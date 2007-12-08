@@ -1,9 +1,8 @@
 package org.remast.baralga.model;
 
+import java.beans.PropertyChangeEvent;
 import java.io.File;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Observable;
 
 import org.apache.commons.lang.ObjectUtils;
@@ -55,7 +54,7 @@ public class PresentationModel extends Observable {
     private Filter filter;
 
     private EditStack editStack;
-
+    
     public PresentationModel() {
         this.data = new ProTrack();
         this.projectList = new BasicEventList<Project>();
@@ -135,10 +134,10 @@ public class PresentationModel extends Observable {
         notifyObservers(event);
     }
     
-    public void fireProjectActivityChangedEvent(final ProjectActivity changedActivity, final String propertyIdentifier) {
+    public void fireProjectActivityChangedEvent(final ProjectActivity changedActivity, final PropertyChangeEvent propertyChangeEvent) {
         final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_CHANGED);
         event.setData(changedActivity);
-        event.setPropertyHint(propertyIdentifier);
+        event.setPropertyChangeEvent(propertyChangeEvent);
         notify(event);
     }
 
@@ -397,5 +396,12 @@ public class PresentationModel extends Observable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    /**
+     * @return the editStack
+     */
+    public EditStack getEditStack() {
+        return editStack;
     }
 }

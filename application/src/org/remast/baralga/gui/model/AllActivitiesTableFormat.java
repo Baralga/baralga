@@ -1,5 +1,6 @@
 package org.remast.baralga.gui.model;
 
+import java.beans.PropertyChangeEvent;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
@@ -82,14 +83,18 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
     public ProjectActivity setColumnValue(ProjectActivity activity, Object editedValue, int column) {
         // Project
         if (column == 0) {
+            
+            final Project oldProject = activity.getProject();
             activity.setProject((Project) editedValue);
 
             // Fire event
-            model.fireProjectActivityChangedEvent(activity, ProjectActivity.PROPERTY_PROJECT);
+            final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(activity, ProjectActivity.PROPERTY_PROJECT, oldProject, editedValue);
+            model.fireProjectActivityChangedEvent(activity, propertyChangeEvent);
         }
         // Day and month
         else if (column == 1) {
             try {
+                final Date oldDate = activity.getEnd();
                 Date newDate = DateFormat.getDateInstance().parse((String) editedValue);
 
                 Calendar newCal = Calendar.getInstance();
@@ -108,7 +113,8 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
                 activity.setEnd(endCal.getTime());
 
                 // Fire event
-                model.fireProjectActivityChangedEvent(activity, ProjectActivity.PROPERTY_DATE);
+                final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(activity, ProjectActivity.PROPERTY_DATE, oldDate, newDate);
+                model.fireProjectActivityChangedEvent(activity, propertyChangeEvent);
             } catch (ParseException e) {
                 // Ignore parse error and just don't save value
             }
@@ -117,12 +123,15 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         // Start time
         else if (column == 2) {
             try {
-                Date newStart = Constants.hhMMFormat.parse((String) editedValue);
+                final Date oldStart = activity.getStart();
+                
+                final Date newStart = Constants.hhMMFormat.parse((String) editedValue);
                 activity.getStart().setHours(newStart.getHours());
                 activity.getStart().setMinutes(newStart.getMinutes());
 
                 // Fire event
-                model.fireProjectActivityChangedEvent(activity, ProjectActivity.PROPERTY_START);
+                final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(activity, ProjectActivity.PROPERTY_START, oldStart, newStart);
+                model.fireProjectActivityChangedEvent(activity, propertyChangeEvent);
             } catch (ParseException e) {
                 // Ignore and don't save changes to model.
             }
@@ -130,12 +139,15 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         // End time
         else if (column == 3) {
             try {
-                Date newEnd = Constants.hhMMFormat.parse((String) editedValue);
+                final Date oldEnd = activity.getEnd();
+                
+                final Date newEnd = Constants.hhMMFormat.parse((String) editedValue);
                 activity.getEnd().setHours(newEnd.getHours());
                 activity.getEnd().setMinutes(newEnd.getMinutes());
 
                 // Fire event
-                model.fireProjectActivityChangedEvent(activity, ProjectActivity.PROPERTY_END);
+                final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(activity, ProjectActivity.PROPERTY_END, oldEnd, newEnd);
+                model.fireProjectActivityChangedEvent(activity, propertyChangeEvent);
             } catch (ParseException e) {
                 // Ignore and don't save changes to model.
             }

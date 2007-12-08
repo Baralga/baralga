@@ -319,8 +319,8 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private JMenu getEditMenu() {
         if (editMenu == null) {
             editMenu = new JMenu();
-            editMenu.add(new UndoAction(getModel()));
-            editMenu.add(new RedoAction(getModel()));
+            editMenu.add(getModel().getEditStack().getRedoAction());
+            editMenu.add(getModel().getEditStack().getUndoAction());
             editMenu.addSeparator();
             editMenu.setText(Messages.getString("MainFrame.EditMenu.Title")); //$NON-NLS-1$
             editMenu.add(getEditProjectsMenuItem());
