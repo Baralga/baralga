@@ -1,8 +1,10 @@
 package org.remast.baralga.gui.actions;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
 
 import javax.swing.ImageIcon;
+import javax.swing.KeyStroke;
 
 import org.remast.baralga.Messages;
 import org.remast.baralga.model.edit.EditStack;
@@ -15,6 +17,7 @@ public class UndoAction extends AbstractEditAction {
         
         putValue(NAME, Messages.getString("UndoAction.Name"));
         putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/resource/icons/gtk-undo-ltr.png"))); //$NON-NLS-1$
+        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke('Z', InputEvent.CTRL_MASK) );
     }
 
     @Override
