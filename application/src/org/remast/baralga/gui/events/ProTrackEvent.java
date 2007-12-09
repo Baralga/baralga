@@ -36,12 +36,30 @@ public class ProTrackEvent {
     /** A property hint of the event. */
     private PropertyChangeEvent propertyChangeEvent;
 
+    /** The source that fired the event. */
+    private Object source;
+
     /**
      * Constructor for a new event.
      * @param type the type of the event.
      */
     public ProTrackEvent(final int type) {
         this.type = type;
+    }
+
+    /**
+     * Constructor for a new event.
+     * @param type the type of the event.
+     * @param source the source that fired the event
+     */
+    public ProTrackEvent(final int type, final Object source) {
+        this.type = type;
+        this.source = source;
+    }
+    
+    public boolean canBeUndone() {
+        // INFO: For now only removing activities can be undone.
+        return this.type == PROJECT_ACTIVITY_REMOVED;
     }
 
     /**
@@ -78,6 +96,20 @@ public class ProTrackEvent {
      */
     public void setPropertyChangeEvent(PropertyChangeEvent propertyHint) {
         this.propertyChangeEvent = propertyHint;
+    }
+    
+    /**
+     * @return the source
+     */
+    public Object getSource() {
+        return source;
+    }
+    
+    /**
+     * @param source the source to set
+     */
+    public void setSource(Object source) {
+        this.source = source;
     }
 
 }

@@ -181,7 +181,7 @@ public class AddActivityDialog extends JDialog {
                     if (dia.validateFields()) {
                         final ProjectActivity activity = new ProjectActivity(start, end, project);
                         activity.setDescription(descriptionEditor.getText());
-                        model.addActivity(activity);
+                        model.addActivity(activity, this);
                         dia.dispose();
                     }
                 }

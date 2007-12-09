@@ -90,12 +90,12 @@ public class PresentationModel extends Observable {
 
         // Edit stack
         if (editStack == null) {
-            editStack = new EditStack();
+            editStack = new EditStack(this);
             this.addObserver(editStack);
         }
     }
 
-    public void addProject(Project project) {
+    public void addProject(final Project project) {
         getData().add(project);
         this.projectList.add(project);
         
@@ -248,12 +248,12 @@ public class PresentationModel extends Observable {
      * Add a new activity to the model.
      * @param activity the activity to add
      */
-    public void addActivity(final ProjectActivity activity) {
+    public void addActivity(final ProjectActivity activity, Object source) {
         getData().getActivities().add(activity);
         this.getActivitiesList().add(activity);
         
         // Fire event
-        ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_ADDED);
+        ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_ADDED, source);
         event.setData(activity);
         notify(event);
     }
@@ -262,12 +262,12 @@ public class PresentationModel extends Observable {
      * Remove an activity from the model.
      * @param activity the activity to remove
      */
-    public void removeActivity(final ProjectActivity activity) {
+    public void removeActivity(final ProjectActivity activity, Object source) {
         getData().getActivities().remove(activity);
         this.getActivitiesList().remove(activity);
         
         // Fire event
-        ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_REMOVED);
+        ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_REMOVED, source);
         event.setData(activity);
         notify(event);
     }

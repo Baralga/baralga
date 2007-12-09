@@ -5,23 +5,37 @@ package org.remast.baralga.model.edit;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Stack;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.remast.baralga.gui.actions.RedoAction;
 import org.remast.baralga.gui.actions.UndoAction;
 import org.remast.baralga.gui.events.ProTrackEvent;
+import org.remast.baralga.model.PresentationModel;
+import org.remast.baralga.model.ProjectActivity;
 
 /**
  * @author remast
  */
 public class EditStack implements Observer {
-    
+
     private UndoAction undoAction;
 
     private RedoAction redoAction;
-    
-    public EditStack() {
-       this.undoAction = new UndoAction();
-       this.redoAction = new RedoAction();
+
+    private Stack<ProTrackEvent> undoStack = new Stack<ProTrackEvent>();
+
+    private Stack<ProTrackEvent> redoStack = new Stack<ProTrackEvent>();
+
+    /** The model. */
+    private PresentationModel model;
+
+    public EditStack(final PresentationModel model) {
+        this.model = model;
+        this.undoAction = new UndoAction(this);
+        this.redoAction = new RedoAction(this);
+
+        updateActions();
     }
 
     @Override
@@ -29,37 +43,27 @@ public class EditStack implements Observer {
         if (eventObject != null && eventObject instanceof ProTrackEvent) {
             final ProTrackEvent event = (ProTrackEvent) eventObject;
 
-            switch (event.getType()) {
-
-                // :INFO: Start and stop can not be undone.
-                // ProTrackEvent.START
-                // ProTrackEvent.STOP
-                
-                case ProTrackEvent.PROJECT_ACTIVITY_ADDED:
-                    System.out.println("Activity Added");
-                    break;
-
-                case ProTrackEvent.PROJECT_ACTIVITY_CHANGED:
-                    System.out.println("Activity Changed: " + event.getPropertyChangeEvent());
-                    break;
-
-                case ProTrackEvent.PROJECT_ACTIVITY_REMOVED:
-                    System.out.println("Activity Removed");
-                    break;
-
-                case ProTrackEvent.PROJECT_CHANGED:
-                    System.out.println("Changed");
-                    break;
-
-                case ProTrackEvent.PROJECT_ADDED:
-                    System.out.println("Added");
-                    break;
-
-                case ProTrackEvent.PROJECT_REMOVED:
-                    System.out.println("Removed");
-                    break;
+            // Ignore our own events
+            if (this == event.getSource()) {
+                return;
             }
+
+            if (event.canBeUndone()) {
+                undoStack.push(event);
+                updateActions();
+            }
+
         }
+    }
+
+    /**
+     * Enable or disable actions.
+     * @param event 
+     */
+    private void updateActions() {
+        undoAction.setEnabled(CollectionUtils.isNotEmpty(undoStack));
+        redoAction.setEnabled(CollectionUtils.isNotEmpty(redoStack));
+
     }
 
     /**
@@ -88,6 +92,44 @@ public class EditStack implements Observer {
      */
     public RedoAction getRedoAction() {
         return redoAction;
+    }
+
+    public void undo() {
+        if (CollectionUtils.isEmpty(undoStack)) {
+            return;
+        }
+
+        final ProTrackEvent event = undoStack.pop();
+        redoStack.push(event);
+
+        executeUndo(event);
+
+        updateActions();
+    }
+
+    public void redo() {
+        if (CollectionUtils.isEmpty(redoStack)) {
+            return;
+        }
+
+        final ProTrackEvent event = redoStack.pop();
+        undoStack.push(event);
+
+        executeRedo(event);
+
+        updateActions();
+    }
+
+    private void executeUndo(final ProTrackEvent event) {
+        if (ProTrackEvent.PROJECT_ACTIVITY_REMOVED == event.getType()) {
+            model.addActivity((ProjectActivity) event.getData(), this);
+        }
+    }
+
+    private void executeRedo(final ProTrackEvent event) {
+        if (ProTrackEvent.PROJECT_ACTIVITY_REMOVED == event.getType()) {
+            model.removeActivity((ProjectActivity) event.getData(), this);
+        }
     }
 
 }
