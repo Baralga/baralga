@@ -13,11 +13,11 @@ import java.util.Observer;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JToolBar;
 
 import org.apache.commons.lang.StringUtils;
@@ -29,11 +29,9 @@ import org.remast.baralga.gui.actions.AddActivityAction;
 import org.remast.baralga.gui.actions.ExcelExportAction;
 import org.remast.baralga.gui.actions.ExitAction;
 import org.remast.baralga.gui.actions.ManageProjectsAction;
-import org.remast.baralga.gui.actions.RedoAction;
 import org.remast.baralga.gui.actions.SaveAction;
 import org.remast.baralga.gui.actions.StartAction;
 import org.remast.baralga.gui.actions.StopAction;
-import org.remast.baralga.gui.actions.UndoAction;
 import org.remast.baralga.gui.events.ProTrackEvent;
 import org.remast.baralga.gui.panels.ReportPanel;
 import org.remast.baralga.gui.panels.TextEditor;
@@ -193,6 +191,9 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         toolBar.add(new ManageProjectsAction(this, getModel()));
         toolBar.add(new ExcelExportAction(getModel()));
         toolBar.add(new AddActivityAction(this, getModel()));
+        toolBar.add(new JToolBar.Separator());
+        toolBar.add(getModel().getEditStack().getUndoAction());
+        toolBar.add(getModel().getEditStack().getRedoAction());
 
         return toolBar;
     }

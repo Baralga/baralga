@@ -16,6 +16,7 @@ public class RedoAction extends AbstractEditAction {
         super(editStack);
 
         putValue(NAME, Messages.getString("RedoAction.Name"));
+        putValue(SHORT_DESCRIPTION, Messages.getString("RedoAction.ShortDescription")); //$NON-NLS-1$
         putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/resource/icons/gtk-redo-ltr.png"))); //$NON-NLS-1$
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke('Y', InputEvent.CTRL_MASK) );
     }

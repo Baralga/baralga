@@ -16,6 +16,7 @@ public class UndoAction extends AbstractEditAction {
         super(editStack);
         
         putValue(NAME, Messages.getString("UndoAction.Name"));
+        putValue(SHORT_DESCRIPTION, Messages.getString("UndoAction.ShortDescription")); //$NON-NLS-1$
         putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/resource/icons/gtk-undo-ltr.png"))); //$NON-NLS-1$
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke('Z', InputEvent.CTRL_MASK) );
     }
