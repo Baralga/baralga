@@ -98,7 +98,7 @@ public class DescriptionPanel extends JXPanel implements Observer {
      * Update the panel from observed event.
      */
     public void update(Observable source, Object eventObject) {
-        if (eventObject instanceof ProTrackEvent) {
+        if (eventObject != null && eventObject instanceof ProTrackEvent) {
             ProjectActivity activity;
 
             final ProTrackEvent event = (ProTrackEvent) eventObject;
