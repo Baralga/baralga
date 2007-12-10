@@ -13,6 +13,7 @@ import org.remast.baralga.gui.utils.Constants;
 import org.remast.baralga.model.ProjectActivity;
 
 /**
+ * Holds the editor for the description of a project activity.
  * @author remast
  */
 @SuppressWarnings("serial")

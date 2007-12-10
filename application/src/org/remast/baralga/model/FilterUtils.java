@@ -13,6 +13,7 @@ import org.remast.baralga.model.lists.MonthFilterList;
 import org.remast.baralga.model.lists.YearFilterList;
 
 /**
+ * Utility methods for the filter.
  * @author remast
  */
 public abstract class FilterUtils {

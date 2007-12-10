@@ -23,6 +23,7 @@ import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.SortedList;
 
 /**
+ * Display and edit the descriptions of all project activities.
  * @author remast
  */
 @SuppressWarnings("serial")
@@ -68,12 +69,13 @@ public class DescriptionPanel extends JXPanel implements Observer {
         entriesByActivity.clear();
 
         if (filter != null) {
-            List<ProjectActivity> filteredResult = filter.applyFilters(model.getActivitiesList());
+            final List<ProjectActivity> filteredResult = filter.applyFilters(model.getActivitiesList());
             filteredActivitiesList.addAll(filteredResult);
         } else {
             filteredActivitiesList.addAll(model.getActivitiesList());
         }
 
+        // Remove old description panels.
         container.removeAll();
 
         for (final ProjectActivity activity : filteredActivitiesList) {
