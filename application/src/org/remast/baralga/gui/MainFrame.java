@@ -17,7 +17,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.JToolBar;
 
 import org.apache.commons.lang.StringUtils;
@@ -50,11 +49,15 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     /** The tool bar. */
     private JToolBar toolBar = null;
 
-    private JPanel currentPanel = null;
+    /**
+     * The panel with details about the current activity. Like the current project and description.
+     */
+    private JPanel currentActivityPanel = null;
 
+    /** Starts/stops the active project. */
     private JButton startStopButton = null;
 
-    /** The list of projects. */
+    /** The list of projects. The selected project is the currently active project. */
     private JComboBox projectSelector = null;
 
     /** The description editor. */
@@ -68,7 +71,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private ReportPanel reportPanel;
 
     // ------------------------------------------------
-    // The menu
+    // The menus
     // ------------------------------------------------
 
     /** The menu bar containing all menus. */
@@ -95,7 +98,6 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private JMenuItem exitItem = null;
 
     private JMenuItem saveItem = null;
-
 
     /**
      * This is the default constructor
@@ -151,7 +153,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         TableLayout tableLayout = new TableLayout(size);
         this.setLayout(tableLayout);
         this.add(getToolBar(), "0, 0");
-        this.add(getCurrentPanel(), "0, 1");
+        this.add(getCurrentActivityPanel(), "0, 1");
         this.add(getReportPanel(), "0, 2");
     }
 
@@ -203,8 +205,8 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      * 
      * @return javax.swing.JPanel
      */
-    private JPanel getCurrentPanel() {
-        if (currentPanel == null) {
+    private JPanel getCurrentActivityPanel() {
+        if (currentActivityPanel == null) {
             double border = 5;
             double size[][] = {
                     { border, TableLayout.FILL, border, TableLayout.FILL, border }, // Columns
@@ -213,10 +215,10 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
             TableLayout tableLayout = new TableLayout(size);
 
-            currentPanel = new JPanel();
-            currentPanel.setLayout(tableLayout);
-            currentPanel.add(getStartStopButton(), "1, 1");
-            currentPanel.add(getProjectSelector(), "3, 1");
+            currentActivityPanel = new JPanel();
+            currentActivityPanel.setLayout(tableLayout);
+            currentActivityPanel.add(getStartStopButton(), "1, 1");
+            currentActivityPanel.add(getProjectSelector(), "3, 1");
 
             descriptionEditor = new TextEditor(true);
             descriptionEditor.setBorder(BorderFactory.createLineBorder(Constants.VERY_LIGHT_GREY));
@@ -239,10 +241,11 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             descriptionEditor.setText(model.getDescription());
             descriptionEditor.setEditable(model.isActive());
 
-            currentPanel.add(new JXTitledSeparator(Messages.getString("MainFrame.DescriptionLabel")), "1, 5, 3, 5");
-            currentPanel.add(descriptionEditor, "1, 7, 3, 7");
+            currentActivityPanel.add(new JXTitledSeparator(Messages.getString("MainFrame.DescriptionLabel")),
+                    "1, 5, 3, 5");
+            currentActivityPanel.add(descriptionEditor, "1, 7, 3, 7");
         }
-        return currentPanel;
+        return currentActivityPanel;
     }
 
     /**
@@ -268,11 +271,14 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
             projectSelector.setModel(new EventComboBoxModel<Project>(getModel().getProjectList()));
 
+            /* Handling of selection events: */
             projectSelector.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
+                public void actionPerformed(final ActionEvent e) {
+                    // 1. Set current project to the just selected project.
                     final Project selectedProject = (Project) projectSelector.getSelectedItem();
                     getModel().changeProject(selectedProject);
 
+                    // 2. Clear the description.
                     if (descriptionEditor != null) {
                         descriptionEditor.setText(StringUtils.EMPTY);
                     }
