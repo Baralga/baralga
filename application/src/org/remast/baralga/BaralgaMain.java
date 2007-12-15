@@ -57,6 +57,10 @@ public class BaralgaMain {
     private static FileLock lock;
 
     private static Timer timer;
+    
+    public static BaralgaTray getTray() {
+        return tray;
+    }
 
     public static void main(String[] args) {
         // parse the command line arguments
@@ -109,12 +113,14 @@ public class BaralgaMain {
         initTimer(model);
 
         final MainFrame mainFrame = new MainFrame(model);
+        tray = new BaralgaTray(model, mainFrame);
+        
         if (!inst.minimized) {
             mainFrame.setVisible(true);
+        } else {
+            tray.show();
         }
 
-        tray = new BaralgaTray(model, mainFrame);
-        tray.show();
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
 

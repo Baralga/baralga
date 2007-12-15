@@ -22,6 +22,7 @@ import javax.swing.JToolBar;
 import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXFrame;
 import org.jdesktop.swingx.JXTitledSeparator;
+import org.remast.baralga.BaralgaMain;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.actions.AboutAction;
 import org.remast.baralga.gui.actions.AddActivityAction;
@@ -104,7 +105,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      * 
      * @param model
      */
-    public MainFrame(PresentationModel model) {
+    public MainFrame(final PresentationModel model) {
         super();
 
         setModel(model);
@@ -360,7 +361,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      * @param model
      *            the model to set
      */
-    public void setModel(PresentationModel model) {
+    public void setModel(final PresentationModel model) {
         this.model = model;
     }
 
@@ -461,12 +462,15 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
     public void windowIconified(java.awt.event.WindowEvent e) {
         this.setVisible(false);
+        BaralgaMain.getTray().show();
     }
 
     public void windowOpened(java.awt.event.WindowEvent e) {
     }
 
     public void windowClosing(java.awt.event.WindowEvent e) {
+        this.setVisible(false);
+        BaralgaMain.getTray().show();
     }
 
     public void windowClosed(java.awt.event.WindowEvent e) {

@@ -36,28 +36,35 @@ import ca.odell.glazedlists.swing.EventComboBoxModel;
 public class AddActivityDialog extends JDialog {
 
     /** Label for activity start time. */
-    private JLabel startLabel = new JLabel(Messages.getString("AddActivityDialog.StartLabel")); //$NON-NLS-1$
+    private final JLabel startLabel = new JLabel(Messages.getString("AddActivityDialog.StartLabel")); //$NON-NLS-1$
 
     /** Label for activity end time. */
-    private JLabel endLabel = new JLabel(Messages.getString("AddActivityDialog.EndLabel")); //$NON-NLS-1$;
+    private final JLabel endLabel = new JLabel(Messages.getString("AddActivityDialog.EndLabel")); //$NON-NLS-1$;
 
     /** Label for description. */
-    private JLabel descriptionLabel = new JLabel(Messages.getString("AddActivityDialog.DescriptionLabel")); //$NON-NLS-1$
+    private final JLabel descriptionLabel = new JLabel(Messages.getString("AddActivityDialog.DescriptionLabel")); //$NON-NLS-1$
 
-    private JLabel projectLabel = new JLabel(Messages.getString("AddActivityDialog.ProjectLabel")); //$NON-NLS-1$
+    /** Label for project. */
+    private final JLabel projectLabel = new JLabel(Messages.getString("AddActivityDialog.ProjectLabel")); //$NON-NLS-1$
 
+    /** Label for date. */
+    private final JLabel dateLabel = new JLabel(Messages.getString("AddActivityDialog.DateLabel")); //$NON-NLS-1$
+    
+    /** Selects the project of the activity. */
     private JComboBox projectSelector = null;
 
     private JButton addActivityButton = null;
 
-    private JLabel dateLabel = null;
-
+    /** Start of the project activity. */
     private JFormattedTextField startField = null;
 
+    /** End of the project activity. */
     private JFormattedTextField endField = null;
 
+    /** The model. */
     private PresentationModel model;
 
+    /** Selects the date of the activity. */
     private JXDatePicker datePicker;
 
     // ------------------------------------------------
@@ -107,6 +114,11 @@ public class AddActivityDialog extends JDialog {
             // b) Take selected project
             projectSelector.setSelectedItem(getModel().getSelectedProject());
         }
+        
+        // Initialize start and end time with current time
+        final String now = Constants.hhMMFormat.format(new Date());
+        this.startField.setText(now);
+        this.endField.setText(now);
 
         // Set default Button to AddActtivityButton.
         this.getRootPane().setDefaultButton(addActivityButton);
@@ -138,8 +150,6 @@ public class AddActivityDialog extends JDialog {
 
         TableLayout tableLayout = new TableLayout(size);
 
-        dateLabel = new JLabel();
-        dateLabel.setText(Messages.getString("AddActivityDialog.DateLabel")); //$NON-NLS-1$
         this.setLayout(tableLayout);
 
         this.add(projectLabel, "1, 1");

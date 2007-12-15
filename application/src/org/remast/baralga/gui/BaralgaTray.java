@@ -1,6 +1,7 @@
 package org.remast.baralga.gui;
 
 import java.awt.AWTException;
+import java.awt.Image;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
@@ -34,69 +35,67 @@ public class BaralgaTray implements Observer {
     /** The logger. */
     private static final Log log = LogFactory.getLog(BaralgaTray.class);
 
-    private TrayIcon trayIcon;
+    /** The standard icon image. */
+    private static final Image NORMAL_ICON = new ImageIcon(BaralgaMain.class.getResource("/resource/icons/Baralga-Tray.gif")).getImage();
 
+    /** The icon image when an acitvity is running. */
+    private static final Image ACTIVE_ICON = new ImageIcon(BaralgaMain.class.getResource("/resource/icons/Baralga-Tray-Blink.gif")).getImage();
+
+    /** The model. */
     private PresentationModel model;
 
-    private PopupMenu menu;
+    /** The tray icon. */
+    private TrayIcon trayIcon;
 
-    private boolean firstBuild = true;
+    /** The menu of the tray icon. */
+    private PopupMenu menu = new PopupMenu();
 
     public BaralgaTray(final PresentationModel model, final MainFrame mainFrame) {
         this.model = model;
         this.model.addObserver(this);
-        
+
         buildMenu();
 
-        final ImageIcon i = new ImageIcon(BaralgaMain.class.getResource("/resource/icons/Baralga-Tray.gif")); //$NON-NLS-1$
-
-        trayIcon = new TrayIcon(i.getImage(), Messages.getString("Global.Title")); //$NON-NLS-1$
-        trayIcon.setPopupMenu(getMenu());
+        trayIcon = new TrayIcon(NORMAL_ICON, Messages.getString("Global.Title")); //$NON-NLS-1$
+        trayIcon.setPopupMenu(menu);
         trayIcon.setImageAutoSize(true);
-        
-        final MainFrame mf = mainFrame;
+
         trayIcon.addActionListener(new ActionListener() {
 
-            public void actionPerformed(ActionEvent arg0) {
-                mf.setVisible(!mf.isVisible());
-                mf.setState(JFrame.NORMAL);
-                mf.requestFocus();
+            public void actionPerformed(ActionEvent event) {
+                mainFrame.setVisible(!mainFrame.isVisible());
+                mainFrame.setState(JFrame.NORMAL);
+                mainFrame.requestFocus();
+                BaralgaMain.getTray().hide();
             }
-            
+
         });
 
-
-        if (getModel().isActive()) {
-            trayIcon.setToolTip(Messages.getString("Global.Title") + " - " + getModel().getSelectedProject() + " since " + Constants.hhMMFormat.format(getModel().getStart()));
+        if (model.isActive()) {
+            trayIcon.setToolTip(Messages.getString("Global.Title") + " - " + model.getSelectedProject() + " since " + Constants.hhMMFormat.format(model.getStart()));
         }
 
     }
-        
+
     private void buildMenu() {
-        if (firstBuild) {
-            menu = new PopupMenu();
-            firstBuild = false;
-        } else {
-            menu.removeAll();
-        }
-        
-        menu.add(AWTUtils.createFromAction(new ExitAction(getModel())));
-        
+        menu.removeAll();
+        menu.add(AWTUtils.createFromAction(new ExitAction(model)));
+
         // Add separator
         menu.add("-"); //$NON-NLS-1$
-        
+
         for (Project project : model.getData().getProjects()) {
-            ChangeProjectAction changeAction = new ChangeProjectAction(getModel(), project);
+            ChangeProjectAction changeAction = new ChangeProjectAction(model, project);
             menu.add(AWTUtils.createFromAction(changeAction));
         }
-        
+
         // Add separator
         menu.add("-"); //$NON-NLS-1$
-        
-        if(getModel().isActive()) {
-            menu.add(AWTUtils.createFromAction(new StopAction(getModel())));
+
+        if(model.isActive()) {
+            menu.add(AWTUtils.createFromAction(new StopAction(model)));
         } else {
-            menu.add(AWTUtils.createFromAction(new StartAction(getModel())));
+            menu.add(AWTUtils.createFromAction(new StartAction(model)));
         }
     }
 
@@ -106,7 +105,7 @@ public class BaralgaTray implements Observer {
             tray.add(trayIcon);
         } catch (AWTException e) {
             log.error(e, e);
-        }        
+        }
     }
 
     public void hide() {
@@ -115,31 +114,31 @@ public class BaralgaTray implements Observer {
     }
 
     public void update(Observable source, Object eventObject) {
-        if (eventObject instanceof ProTrackEvent) {
+        if (eventObject != null && eventObject instanceof ProTrackEvent) {
             ProTrackEvent event = (ProTrackEvent) eventObject;
 
             switch (event.getType()) {
 
-            case ProTrackEvent.START:
-                this.updateStart();
-                break;
+                case ProTrackEvent.START:
+                    this.updateStart();
+                    break;
 
-            case ProTrackEvent.STOP:
-                this.updateStop();
-                break;
+                case ProTrackEvent.STOP:
+                    this.updateStop();
+                    break;
 
-            case ProTrackEvent.PROJECT_CHANGED:
-                this.updateProjectChanged();
-                this.buildMenu();
-                break;
+                case ProTrackEvent.PROJECT_CHANGED:
+                    this.updateProjectChanged();
+                    this.buildMenu();
+                    break;
 
-            case ProTrackEvent.PROJECT_ADDED:
-                this.buildMenu();
-                break;
+                case ProTrackEvent.PROJECT_ADDED:
+                    this.buildMenu();
+                    break;
 
-            case ProTrackEvent.PROJECT_REMOVED:
-                this.buildMenu();
-                break;
+                case ProTrackEvent.PROJECT_REMOVED:
+                    this.buildMenu();
+                    break;
             }
         }
     }
@@ -148,8 +147,8 @@ public class BaralgaTray implements Observer {
      * Executed on project changed event.
      */    
     private void updateProjectChanged() {
-        if (getModel().isActive()) {
-            trayIcon.setToolTip(Messages.getString("Global.Title") + " - " + getModel().getSelectedProject() + " since " + Constants.hhMMFormat.format(getModel().getStart()));
+        if (model.isActive()) {
+            trayIcon.setToolTip(Messages.getString("Global.Title") + " - " + model.getSelectedProject() + " since " + Constants.hhMMFormat.format(model.getStart()));
         }
     }
 
@@ -157,7 +156,8 @@ public class BaralgaTray implements Observer {
      * Executed on start event.
      */    
     private void updateStop() {
-        trayIcon.setToolTip(Messages.getString("Global.Title") + " - idle since " + Constants.hhMMFormat.format(getModel().getStop()));
+        this.trayIcon.setImage(NORMAL_ICON);
+        trayIcon.setToolTip(Messages.getString("Global.Title") + " - idle since " + Constants.hhMMFormat.format(model.getStop()));
         this.buildMenu();
     }
 
@@ -165,21 +165,9 @@ public class BaralgaTray implements Observer {
      * Executed on start event.
      */    
     private void updateStart() {
-        trayIcon.setToolTip(Messages.getString("Global.Title") + " - " + getModel().getSelectedProject() + " since " + Constants.hhMMFormat.format(getModel().getStart())); //$NON-NLS-1$
+        this.trayIcon.setImage(ACTIVE_ICON);
+        trayIcon.setToolTip(Messages.getString("Global.Title") + " - " + model.getSelectedProject() + " since " + Constants.hhMMFormat.format(model.getStart())); //$NON-NLS-1$
         this.buildMenu();
     }
 
-    /**
-     * @return the menu
-     */
-    private PopupMenu getMenu() {
-        return menu;
-    }
-
-    /**
-     * @return the model
-     */
-    private PresentationModel getModel() {
-        return model;
-    }
 }
