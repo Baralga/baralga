@@ -3,6 +3,8 @@ package org.remast.baralga.gui.dialogs;
 import info.clearthought.layout.TableLayout;
 
 import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.text.ParseException;
 import java.util.Date;
@@ -35,6 +37,10 @@ import ca.odell.glazedlists.swing.EventComboBoxModel;
 @SuppressWarnings("serial")//$NON-NLS-1$
 public class AddActivityDialog extends JDialog {
 
+    // ------------------------------------------------
+    // Labels
+    // ------------------------------------------------
+    
     /** Label for activity start time. */
     private final JLabel startLabel = new JLabel(Messages.getString("AddActivityDialog.StartLabel")); //$NON-NLS-1$
 
@@ -49,6 +55,10 @@ public class AddActivityDialog extends JDialog {
 
     /** Label for date. */
     private final JLabel dateLabel = new JLabel(Messages.getString("AddActivityDialog.DateLabel")); //$NON-NLS-1$
+
+    // ------------------------------------------------
+    // Edit components
+    // ------------------------------------------------
     
     /** Selects the project of the activity. */
     private JComboBox projectSelector = null;
@@ -67,6 +77,9 @@ public class AddActivityDialog extends JDialog {
     /** Selects the date of the activity. */
     private JXDatePicker datePicker;
 
+    /** The description of the activity. */
+    private TextEditor descriptionEditor;
+    
     // ------------------------------------------------
     // Fields for project activity
     // ------------------------------------------------
@@ -77,13 +90,12 @@ public class AddActivityDialog extends JDialog {
 
     private Date end;
 
-    private TextEditor descriptionEditor;
 
     /**
      * @param owner
      * @param model
      */
-    public AddActivityDialog(Frame owner, PresentationModel model) {
+    public AddActivityDialog(final Frame owner, final PresentationModel model) {
         super(owner);
         this.model = model;
 
@@ -104,15 +116,15 @@ public class AddActivityDialog extends JDialog {
 
         // Initialize selected project
         // a) If no project selected take first project
-        if (getModel().getSelectedProject() == null) {
+        if (model.getSelectedProject() == null) {
             // Select first entry
-            if (!CollectionUtils.isEmpty(getModel().getProjectList())) {
-                Project project = getModel().getProjectList().get(0);
+            if (!CollectionUtils.isEmpty(model.getProjectList())) {
+                Project project = model.getProjectList().get(0);
                 projectSelector.setSelectedItem(project);
             }
         } else {
             // b) Take selected project
-            projectSelector.setSelectedItem(getModel().getSelectedProject());
+            projectSelector.setSelectedItem(model.getSelectedProject());
         }
         
         // Initialize start and end time with current time
@@ -131,7 +143,7 @@ public class AddActivityDialog extends JDialog {
      */
     private JComboBox getProjectSelector() {
         if (projectSelector == null) {
-            projectSelector = new JComboBox(new EventComboBoxModel<Project>(getModel().getProjectList()));
+            projectSelector = new JComboBox(new EventComboBoxModel<Project>(model.getProjectList()));
         }
         return projectSelector;
     }
@@ -182,17 +194,16 @@ public class AddActivityDialog extends JDialog {
             addActivityButton = new JButton();
             addActivityButton.setText(Messages.getString("AddActivityDialog.AddLabel")); //$NON-NLS-1$
             addActivityButton.setIcon(new ImageIcon(getClass().getResource("/resource/icons/gtk-add.png"))); //$NON-NLS-1$
-            final AddActivityDialog dia = this;
-            final PresentationModel model = getModel();
+
             addActivityButton.setMnemonic(KeyEvent.VK_ENTER);
 
-            addActivityButton.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent event) {
-                    if (dia.validateFields()) {
+            addActivityButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
+                    if (AddActivityDialog.this.validateFields()) {
                         final ProjectActivity activity = new ProjectActivity(start, end, project);
                         activity.setDescription(descriptionEditor.getText());
                         model.addActivity(activity, this);
-                        dia.dispose();
+                        AddActivityDialog.this.dispose();
                     }
                 }
             });
@@ -241,13 +252,6 @@ public class AddActivityDialog extends JDialog {
         return endField;
     }
 
-    /**
-     * @return the model
-     */
-    public PresentationModel getModel() {
-        return model;
-    }
-
     public boolean validateFields() {
         if (getProjectSelector().getSelectedItem() == null) {
             return false;
@@ -277,8 +281,9 @@ public class AddActivityDialog extends JDialog {
         return true;
     }
 
+    /** Correct the start and end date so that they are on the same day in year. */
     private void correctDates() {
-        final Date day = new Date(getDatePicker().getDateInMillis());
+        final Date day = getDatePicker().getDate();
         start = DateUtils.adjustToSameDay(day, start);
         end = DateUtils.adjustToSameDay(day, end);
     }
