@@ -41,6 +41,7 @@ public class AccumulatedProjectActivity {
         return time;
     }
 
+    /** Adds the given time to this accumulated activity. */
     public void addTime(double toAdd) {
         this.time += toAdd;
     }
@@ -55,11 +56,12 @@ public class AccumulatedProjectActivity {
         if (this == that) {
             return true;
         }
+        
         if (!(that instanceof AccumulatedProjectActivity)) {
             return false;
         }
 
-        AccumulatedProjectActivity accAct = (AccumulatedProjectActivity) that;
+        final AccumulatedProjectActivity accAct = (AccumulatedProjectActivity) that;
         
         final EqualsBuilder eqBuilder = new EqualsBuilder();
         eqBuilder.append(this.getProject(), accAct.getProject());
