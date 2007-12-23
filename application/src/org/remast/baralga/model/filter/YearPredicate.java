@@ -22,7 +22,7 @@ public class YearPredicate implements Predicate {
 
         if (!(object instanceof ProjectActivity)) {
             throw new IllegalArgumentException(Messages
-                    .getString("YearPredicate.ErrorNoeProjectActivityErrorNoProjectActivitity")); //$NON-NLS-1$
+                    .getString("YearPredicate.ErrorNoProjectActivity")); //$NON-NLS-1$
         }
 
         final ProjectActivity activity = (ProjectActivity) object;
