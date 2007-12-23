@@ -30,7 +30,7 @@ public class Settings {
         return DEFAULT_DIRECTORY + File.separator + DEFAULT_FILE_NAME;
     }
 
-    public static File getProTrackDirectory()  {
+    public static File getBaralgaDirectory()  {
         return new File(DEFAULT_DIRECTORY);
     }
 

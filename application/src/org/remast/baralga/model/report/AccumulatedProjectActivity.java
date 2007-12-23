@@ -2,9 +2,9 @@ package org.remast.baralga.model.report;
 
 import java.util.Date;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.time.DateUtils;
 import org.remast.baralga.model.Project;
-import org.remast.util.EqualsUtil;
 
 public class AccumulatedProjectActivity {
 
@@ -28,14 +28,6 @@ public class AccumulatedProjectActivity {
     }
 
     /**
-     * @param day
-     *            the day to set
-     */
-    public void setDay(Date day) {
-        this.day = day;
-    }
-
-    /**
      * @return the project
      */
     public Project getProject() {
@@ -43,26 +35,10 @@ public class AccumulatedProjectActivity {
     }
 
     /**
-     * @param project
-     *            the project to set
-     */
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
-    /**
      * @return the time
      */
     public double getTime() {
         return time;
-    }
-
-    /**
-     * @param time
-     *            the time to set
-     */
-    public void setTime(double time) {
-        this.time = time;
     }
 
     public void addTime(double toAdd) {
@@ -76,14 +52,18 @@ public class AccumulatedProjectActivity {
 
     @Override
     public boolean equals(Object that) {
-        if (this == that)
+        if (this == that) {
             return true;
-        if (!(that instanceof AccumulatedProjectActivity))
+        }
+        if (!(that instanceof AccumulatedProjectActivity)) {
             return false;
+        }
 
-        // :TODO: Replace by EqualsBuilder
         AccumulatedProjectActivity accAct = (AccumulatedProjectActivity) that;
-        return EqualsUtil.areEqual(this.getProject(), accAct.getProject())
-                && DateUtils.isSameDay(this.getDay(), accAct.getDay());
+        
+        final EqualsBuilder eqBuilder = new EqualsBuilder();
+        eqBuilder.append(this.getProject(), accAct.getProject());
+        
+        return eqBuilder.isEquals() && DateUtils.isSameDay(this.getDay(), accAct.getDay());
     }
 }

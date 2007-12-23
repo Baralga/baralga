@@ -18,8 +18,12 @@ public class ProTrackUtils {
      * @return decimal value of the duration (e.g. for 30 minutes, 0.5 and so on)
      */
     public static double calculateDuration(final ProjectActivity activity) {
-        Date start = activity.getStart();
-        Date end = activity.getEnd();
+        if (activity == null) {
+            return 0;
+        }
+        
+        final Date start = activity.getStart();
+        final Date end = activity.getEnd();
 
         final Calendar calStart = new GregorianCalendar();
         calStart.setTime(start);
@@ -37,10 +41,13 @@ public class ProTrackUtils {
         return hours + minsD;
     }
 
-    public static void checkOrCreateProTrackDir() {
-        final File proTrackDir = Settings.getProTrackDirectory();
-        if (!proTrackDir.exists()) {
-            proTrackDir.mkdir();
+    /**
+     * Checks whether the Baralga directory exists and creates it if necessary.
+     */
+    public static void checkOrCreateBaralgaDir() {
+        final File baralgaDir = Settings.getBaralgaDirectory();
+        if (!baralgaDir.exists()) {
+            baralgaDir.mkdir();
         }
     }
 

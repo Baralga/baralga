@@ -33,6 +33,7 @@
 		<pathelement location="${lib}/glazedlists-1.7.0_java15.jar"/>
 		<pathelement location="${lib}/looks-2.1.4.jar"/>
 		<pathelement location="${lib}/joda-time-1.5.jar"/>
+		<pathelement location="${lib}/log4j-1.2.14.jar"/>
 	</path>
 
 	<target name="init">
@@ -65,6 +66,11 @@
 		<!-- Copy images to build directory. -->
 		<copy todir="${build}/resource/icons/">
 			<fileset dir="${src}/resource/icons/"/>
+		</copy>
+
+		<!-- Copy configuration files to build directory. -->
+		<copy todir="${build}/config/">
+			<fileset dir="${src}/config/"/>
 		</copy>
 		
 		<!-- create property file to read properties from program -->		

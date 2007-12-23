@@ -238,7 +238,7 @@ public class PresentationModel extends Observable {
     public void save() throws Exception {
         final ProTrackWriter writer = new ProTrackWriter(getData());
         
-        ProTrackUtils.checkOrCreateProTrackDir();
+        ProTrackUtils.checkOrCreateBaralgaDir();
         
         final File proTrackFile = new File(Settings.getProTrackFileLocation());
         writer.write(proTrackFile);

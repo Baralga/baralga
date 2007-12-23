@@ -15,5 +15,6 @@
 	<classpathentry kind="lib" path="lib/TableLayout-bin-jdk1.5-2007-04-21.jar"/>
 	<classpathentry kind="lib" path="lib/commons-collections-3.2.jar"/>
 	<classpathentry kind="lib" path="lib/joda-time-1.5.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-1.2.14.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

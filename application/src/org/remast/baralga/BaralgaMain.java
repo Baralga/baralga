@@ -14,6 +14,7 @@ import javax.swing.UIManager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.xml.DOMConfigurator;
 import org.jargp.ArgumentProcessor;
 import org.jargp.BoolDef;
 import org.jargp.ParameterDef;
@@ -28,14 +29,14 @@ import org.remast.baralga.model.io.SaveTimer;
 import org.remast.baralga.model.utils.ProTrackUtils;
 
 public class BaralgaMain {
-    
+
     /** The logger. */
     private static final Log log = LogFactory.getLog(BaralgaMain.class);
 
     //------------------------------------------------
     // Command line options
     //------------------------------------------------
-    
+
     /** Command line parameter definitions. */
     private static final ParameterDef[] BASE_PARAMETERS = { 
         new BoolDef('m', "minimized", "Start ProTrack in minimized mode.") //$NON-NLS-1$ //$NON-NLS-2$
@@ -43,10 +44,11 @@ public class BaralgaMain {
 
     /** Property for command line option minimized (-m). */
     private boolean minimized;
-    
+
+    /** The interval in minutes in which the data is saved to the disk. */
     private static final int SAVE_TIMER_INTERVAL = 5;
 
-    
+
     //------------------------------------------------
     // User settings
     //------------------------------------------------
@@ -57,90 +59,106 @@ public class BaralgaMain {
     private static FileLock lock;
 
     private static Timer timer;
-    
+
     public static BaralgaTray getTray() {
         return tray;
     }
 
     public static void main(String[] args) {
-        // parse the command line arguments
-        ArgumentProcessor proc = new ArgumentProcessor(BASE_PARAMETERS);
-        BaralgaMain inst = new BaralgaMain();
-        if (args.length > 0) {
-            proc.processArgs(args, inst);
-            StringTracker xargs = proc.getArgs();
-            while (xargs.hasNext()) {
-                System.out.println("extra argument: " + xargs.next()); //$NON-NLS-1$
+        try {
+            initLogger();
+
+            // parse the command line arguments
+            ArgumentProcessor proc = new ArgumentProcessor(BASE_PARAMETERS);
+            BaralgaMain inst = new BaralgaMain();
+            if (args.length > 0) {
+                proc.processArgs(args, inst);
+                StringTracker xargs = proc.getArgs();
+                while (xargs.hasNext()) {
+                    System.out.println("extra argument: " + xargs.next()); //$NON-NLS-1$
+                }
+            } else {
+                // print usage information if problem with parameters
+                System.out.println("Usage: ProTrack [-options] extra\n" + "Options are:"); //$NON-NLS-1$ //$NON-NLS-2$
+                proc.listParameters(80, System.out);
             }
-        } else {
-            // print usage information if problem with parameters
-            System.out.println("Usage: ProTrack [-options] extra\n" + "Options are:"); //$NON-NLS-1$ //$NON-NLS-2$
-            proc.listParameters(80, System.out);
-        }
-        
-        // Set look & feel
-        initLookAndFeel();
 
-        if (existsLock()) {
-            JOptionPane.showMessageDialog(null, Messages.getString("BaralgaMain.ErrorAlreadyRunning"), "Error", JOptionPane.ERROR_MESSAGE);
-            System.out.println(Messages.getString("BaralgaMain.ErrorAlreadyRunning")); //$NON-NLS-1$
-            return;
-        } else {
-            createLock();
-        }
+            // Set look & feel
+            initLookAndFeel();
 
-        // Initialize with new site
-        final PresentationModel model = new PresentationModel();
-
-        model.setData(new ProTrack());
-        File file = null;
-        String proTrackFileLocation = Settings.getProTrackFileLocation();
-        file = new File(proTrackFileLocation);
-
-        // Check for saved data
-        if (file != null && file.exists()) {
-            ProTrackReader reader;
-            try {
-                reader = new ProTrackReader();
-                reader.read(file);
-                model.setData(reader.getData());
-            } catch (IOException e) {
-                log.error(e, e);
+            if (existsLock()) {
+                JOptionPane.showMessageDialog(null, Messages.getString("BaralgaMain.ErrorAlreadyRunning"), "Error", JOptionPane.ERROR_MESSAGE);
+                log.info(Messages.getString("BaralgaMain.ErrorAlreadyRunning")); //$NON-NLS-1$
+                return;
+            } else {
+                createLock();
             }
-        }
-        
-        // Start timer
-        initTimer(model);
 
-        final MainFrame mainFrame = new MainFrame(model);
-        tray = new BaralgaTray(model, mainFrame);
-        
-        if (!inst.minimized) {
-            mainFrame.setVisible(true);
-        } else {
-            tray.show();
-        }
+            // Initialize with new site
+            final PresentationModel model = new PresentationModel();
 
+            model.setData(new ProTrack());
+            File file = null;
+            String proTrackFileLocation = Settings.getProTrackFileLocation();
+            file = new File(proTrackFileLocation);
 
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-
-            @Override
-            public void run() {
-                // 1. Stop timer
-                timer.cancel();
-                
-                // 2. Save model
+            // Check for saved data
+            if (file != null && file.exists()) {
+                ProTrackReader reader;
                 try {
-                    model.save();
-                } catch (Exception e) {
+                    reader = new ProTrackReader();
+                    reader.read(file);
+                    model.setData(reader.getData());
+                } catch (IOException e) {
                     log.error(e, e);
-                } finally {
-                    // 3. Release lock
-                    releaseLock();
                 }
             }
 
-        });
+            // Start timer
+            initTimer(model);
+
+            final MainFrame mainFrame = new MainFrame(model);
+            tray = new BaralgaTray(model, mainFrame);
+
+            if (!inst.minimized) {
+                mainFrame.setVisible(true);
+            } else {
+                tray.show();
+            }
+
+
+            Runtime.getRuntime().addShutdownHook(new Thread() {
+
+                @Override
+                public void run() {
+                    // 1. Stop timer
+                    timer.cancel();
+
+                    // 2. Save model
+                    try {
+                        model.save();
+                    } catch (Exception e) {
+                        log.error(e, e);
+                    } finally {
+                        // 3. Release lock
+                        releaseLock();
+                    }
+                }
+
+            });
+        } catch (Exception e) {
+            log.error(e, e);
+        } catch (Throwable t) {
+            log.error(t, t);
+        }
+    }
+
+    /**
+     * Initialize the logger of the application.
+     */
+    private static void initLogger() {
+        DOMConfigurator.configure(BaralgaMain.class.getResource("/config/log4j.xml"));
+        log.info("Test");
     }
 
     /**
@@ -175,12 +193,13 @@ public class BaralgaMain {
         File lockFile = new File(Settings.getLockFileLocation());
         try {
             lockFile.createNewFile();
-            
+
             FileChannel channel = new RandomAccessFile(lockFile, "rw").getChannel(); //$NON-NLS-1$
             lock = channel.lock();
-            
         } catch (IOException e) {
-            throw new RuntimeException(Messages.getString("ProTrackMain.8")); //$NON-NLS-1$
+            final String error = Messages.getString("ProTrackMain.8"); //$NON-NLS-1$
+            log.error(error, e);
+            throw new RuntimeException(error);
         }
     }
 
@@ -189,13 +208,14 @@ public class BaralgaMain {
      */
     private static void releaseLock() {
         File lockFile = new File(Settings.getLockFileLocation());
-        
+
         if(lock != null) {
             try {
                 Channel channel = lock.channel();
                 lock.release();
                 channel.close();
             } catch (IOException e) {
+                log.error(e, e);
             }
         }
         lockFile.delete();
@@ -207,18 +227,18 @@ public class BaralgaMain {
      * @return true if there is a lock file else false
      */
     private static boolean existsLock() {
-        ProTrackUtils.checkOrCreateProTrackDir();
+        ProTrackUtils.checkOrCreateBaralgaDir();
         File lockFile = new File(Settings.getLockFileLocation());
-        
+
         try {
             FileChannel channel = new RandomAccessFile(lockFile, "rw").getChannel(); //$NON-NLS-1$
-            FileLock lock;// = channel.lock();
-            
+            FileLock lock;
+
             lock = channel.tryLock();
-            
+
             if(lock == null)
                 return true;
-            
+
             lock.release();
         } catch (FileNotFoundException e) {
             return true;

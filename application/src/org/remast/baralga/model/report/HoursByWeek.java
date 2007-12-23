@@ -1,6 +1,6 @@
 package org.remast.baralga.model.report;
 
-import org.remast.util.EqualsUtil;
+import org.apache.commons.lang.builder.EqualsBuilder;
 
 public class HoursByWeek {
     
@@ -23,36 +23,26 @@ public class HoursByWeek {
     }
 
     /**
-     * @param week the week to set
-     */
-    public void setWeek(int week) {
-        this.week = week;
-    }
-
-    /**
      * @return the hours
      */
     public double getHours() {
         return hours;
     }
-
-    /**
-     * @param hours the hours to set
-     */
-    public void setHours(double hours) {
-        this.hours = hours;
-    }
     
     @Override
     public boolean equals(Object that) {
-        if (this == that)
+        if (this == that) {
             return true;
-        if (!(that instanceof HoursByWeek))
+        }
+        if (!(that instanceof HoursByWeek)) {
             return false;
+        }
 
-        // :TODO: Replace by EqualsBuilder
-        HoursByWeek accAct = (HoursByWeek) that;
-        return EqualsUtil.areEqual(this.getWeek(), accAct.getWeek());
+        final HoursByWeek accAct = (HoursByWeek) that;
+        
+        final EqualsBuilder eqBuilder = new EqualsBuilder();
+        eqBuilder.append(this.getWeek(), accAct.getWeek());
+        return eqBuilder.isEquals();
     }
 
     public void addHours(double additionalHours) {
