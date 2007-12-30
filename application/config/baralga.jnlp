@@ -9,7 +9,7 @@
       <offline-allowed/>
    </information>
    <resources> 
-   	<jar href="http://download.origo.ethz.ch/baralga/Baralga-0.9.jar"/>   
+   	<jar href="http://download.origo.ethz.ch/baralga/Baralga-1.1.jar"/>   
 	<j2se version="1.6+"
 	      href="http://java.sun.com/products/autodl/j2se"/>
    </resources>
