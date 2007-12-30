@@ -99,6 +99,9 @@ public class BaralgaTray implements Observer {
         }
     }
 
+    /**
+     * Show the tray icon.
+     */
     public void show() {
         SystemTray tray = SystemTray.getSystemTray(); 
         try {
@@ -108,9 +111,11 @@ public class BaralgaTray implements Observer {
         }
     }
 
+    /**
+     * Hide the tray icon.
+     */
     public void hide() {
-        SystemTray tray = SystemTray.getSystemTray(); 
-        tray.remove(trayIcon);        
+        SystemTray.getSystemTray().remove(trayIcon);        
     }
 
     public void update(Observable source, Object eventObject) {
