@@ -88,7 +88,10 @@
 		</java>
 	</target>
 	
-	<target name="bin-dist" depends="clean, compile" description="generate the distribution">
+	<target name="bin-dist" depends="sign" description="Make th binary distribution.">
+	</target>
+	
+	<target name="jar" depends="clean, compile" description="Create the jar-File.">
 	    <!-- Create the distribution directory -->
 		<mkdir dir="${dist.bin.temp}"/>
 		<mkdir dir="${dist}/${project.version}"/>
@@ -130,7 +133,7 @@
 	</target>
 	
 	<!-- Sign the jar. -->
-	<target name="sign" depends="bin-dist">
+	<target name="sign" depends="jar">
 		<!-- Sign the jar. -->
 		<signjar jar="${dist}/${project.version}/${ant.project.name}-${project.version}.jar" alias="baralga" storepass="baralga"/>
 	</target>

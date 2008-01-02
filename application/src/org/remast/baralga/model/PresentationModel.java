@@ -17,8 +17,9 @@ import org.remast.baralga.model.io.ProTrackWriter;
 import org.remast.baralga.model.lists.MonthFilterList;
 import org.remast.baralga.model.lists.ProjectFilterList;
 import org.remast.baralga.model.lists.YearFilterList;
+import org.remast.baralga.model.report.HoursByDayReport;
 import org.remast.baralga.model.report.HoursByWeekReport;
-import org.remast.baralga.model.report.ObservingFilteredReport;
+import org.remast.baralga.model.report.ObservingAccumulatedActivitiesReport;
 import org.remast.baralga.model.utils.ProTrackUtils;
 import org.remast.util.DateUtils;
 
@@ -301,12 +302,16 @@ public class PresentationModel extends Observable {
         return new MonthFilterList(this);
     }
     
-    public ObservingFilteredReport getFilteredReport() {
-        return new ObservingFilteredReport(this);
+    public ObservingAccumulatedActivitiesReport getFilteredReport() {
+        return new ObservingAccumulatedActivitiesReport(this);
     }
     
     public HoursByWeekReport getHoursByWeekReport() {
         return new HoursByWeekReport(this);
+    }
+    
+    public HoursByDayReport getHoursByDayReport() {
+        return new HoursByDayReport(this);
     }
 
     /**

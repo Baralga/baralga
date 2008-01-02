@@ -40,10 +40,9 @@ public class HoursByWeekPanel extends JXPanel implements Observer {
      */
     private void initialize() {
         tableModel = new EventTableModel<HoursByWeek>(this.report.getHoursByWeek(), new HoursByWeekTableFormat());
+
         final JXTable table = new JXTable(tableModel);
-
         table.setHighlighters(GUISettings.HIGHLIGHTERS);
-
         table.setAutoResizeMode(JXTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         JScrollPane table_scroll_pane = new JScrollPane(table);
 

@@ -13,8 +13,8 @@ import org.remast.baralga.gui.model.AccumulatedActivitiesTableFormat;
 import org.remast.baralga.gui.utils.GUISettings;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.baralga.model.report.AccumulatedProjectActivity;
-import org.remast.baralga.model.report.FilteredReport;
-import org.remast.baralga.model.report.ObservingFilteredReport;
+import org.remast.baralga.model.report.AccumulatedActivitiesReport;
+import org.remast.baralga.model.report.ObservingAccumulatedActivitiesReport;
 
 import ca.odell.glazedlists.swing.EventTableModel;
 
@@ -25,13 +25,13 @@ import ca.odell.glazedlists.swing.EventTableModel;
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class AccummulatedActitvitiesPanel extends JXPanel implements Observer {
 
-    private FilteredReport report;
+    private AccumulatedActivitiesReport report;
     
     private Filter filter;
     
     private EventTableModel<AccumulatedProjectActivity> tableModel;
 
-    public AccummulatedActitvitiesPanel(FilteredReport report) {
+    public AccummulatedActitvitiesPanel(AccumulatedActivitiesReport report) {
         this.report = report;
         this.setLayout(new BorderLayout());
 
@@ -73,7 +73,7 @@ public class AccummulatedActitvitiesPanel extends JXPanel implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o != null && o instanceof ObservingFilteredReport) {
+        if (o != null && o instanceof ObservingAccumulatedActivitiesReport) {
             tableModel.fireTableDataChanged();
         }
         

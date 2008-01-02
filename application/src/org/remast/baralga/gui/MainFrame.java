@@ -108,8 +108,8 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     public MainFrame(final PresentationModel model) {
         super();
 
-        setModel(model);
-        getModel().addObserver(this);
+        this.model = model;
+        this.model.addObserver(this);
 
         initialize();
     }
@@ -127,23 +127,23 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         this.addWindowListener(this);
 
         // 1. Init start-/stop-Buttons
-        if (getModel().isActive()) {
+        if (this.model.isActive()) {
             this
-                    .setTitle(Messages.getString("Global.Title") + " - " + getModel().getSelectedProject() + Messages.getString("MainFrame.9") + Constants.hhMMFormat.format(getModel().getStart())); //$NON-NLS-1$ //$NON-NLS-2$
-            getStartStopButton().setAction(new StopAction(getModel()));
+                    .setTitle(Messages.getString("Global.Title") + " - " + this.model.getSelectedProject() + Messages.getString("MainFrame.9") + Constants.hhMMFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
+            getStartStopButton().setAction(new StopAction(this.model));
         } else {
             this.setTitle(Messages.getString("Global.Title")); //$NON-NLS-1$
 
-            getStartStopButton().setAction(new StartAction(getModel()));
+            getStartStopButton().setAction(new StartAction(this.model));
         }
 
         // 2. Restore selected project if set.
-        if (getModel().getData().getActiveProject() != null) {
-            this.getProjectSelector().setSelectedItem(getModel().getData().getActiveProject());
+        if (this.model.getData().getActiveProject() != null) {
+            this.getProjectSelector().setSelectedItem(this.model.getData().getActiveProject());
         } else {
             // If not set initially select first project
-            if (!getModel().getProjectList().isEmpty()) {
-                getProjectSelector().setSelectedItem(getModel().getProjectList().get(0));
+            if (!this.model.getProjectList().isEmpty()) {
+                getProjectSelector().setSelectedItem(this.model.getProjectList().get(0));
             }
         }
 
@@ -160,7 +160,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
     private ReportPanel getReportPanel() {
         if (reportPanel == null) {
-            reportPanel = new ReportPanel(getModel());
+            reportPanel = new ReportPanel(this.model);
         }
         return reportPanel;
     }
@@ -190,13 +190,13 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             toolBar = new JToolBar();
             toolBar.setFloatable(false);
         }
-        toolBar.add(new SaveAction(getModel()));
-        toolBar.add(new ManageProjectsAction(this, getModel()));
-        toolBar.add(new ExcelExportAction(getModel()));
-        toolBar.add(new AddActivityAction(this, getModel()));
+        toolBar.add(new SaveAction(this.model));
+        toolBar.add(new ManageProjectsAction(this, this.model));
+        toolBar.add(new ExcelExportAction(this.model));
+        toolBar.add(new AddActivityAction(this, this.model));
         toolBar.add(new JToolBar.Separator());
-        toolBar.add(getModel().getEditStack().getUndoAction());
-        toolBar.add(getModel().getEditStack().getRedoAction());
+        toolBar.add(this.model.getEditStack().getUndoAction());
+        toolBar.add(this.model.getEditStack().getRedoAction());
 
         return toolBar;
     }
@@ -256,7 +256,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      */
     private JButton getStartStopButton() {
         if (startStopButton == null) {
-            startStopButton = new JButton(new StartAction(getModel()));
+            startStopButton = new JButton(new StartAction(this.model));
         }
         return startStopButton;
     }
@@ -270,14 +270,14 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         if (projectSelector == null) {
             projectSelector = new JComboBox();
 
-            projectSelector.setModel(new EventComboBoxModel<Project>(getModel().getProjectList()));
+            projectSelector.setModel(new EventComboBoxModel<Project>(this.model.getProjectList()));
 
             /* Handling of selection events: */
             projectSelector.addActionListener(new ActionListener() {
                 public void actionPerformed(final ActionEvent e) {
                     // 1. Set current project to the just selected project.
                     final Project selectedProject = (Project) projectSelector.getSelectedItem();
-                    getModel().changeProject(selectedProject);
+                    MainFrame.this.model.changeProject(selectedProject);
 
                     // 2. Clear the description.
                     if (descriptionEditor != null) {
@@ -327,12 +327,12 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private JMenu getEditMenu() {
         if (editMenu == null) {
             editMenu = new JMenu();
-            editMenu.add(getModel().getEditStack().getRedoAction());
-            editMenu.add(getModel().getEditStack().getUndoAction());
+            editMenu.add(this.model.getEditStack().getRedoAction());
+            editMenu.add(this.model.getEditStack().getUndoAction());
             editMenu.addSeparator();
             editMenu.setText(Messages.getString("MainFrame.EditMenu.Title")); //$NON-NLS-1$
             editMenu.add(getEditProjectsMenuItem());
-            editMenu.add(new AddActivityAction(this, getModel()));
+            editMenu.add(new AddActivityAction(this, this.model));
         }
         return editMenu;
     }
@@ -345,21 +345,13 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private JMenuItem getEditProjectsMenuItem() {
         if (editProjectsMenuItem == null) {
             editProjectsMenuItem = new JMenuItem();
-            editProjectsMenuItem.setAction(new ManageProjectsAction(this, getModel()));
+            editProjectsMenuItem.setAction(new ManageProjectsAction(this, this.model));
         }
         return editProjectsMenuItem;
     }
 
     /**
-     * @return the model
-     */
-    public PresentationModel getModel() {
-        return model;
-    }
-
-    /**
-     * @param model
-     *            the model to set
+     * @param model the model to set
      */
     public void setModel(final PresentationModel model) {
         this.model = model;
@@ -396,9 +388,9 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      * Executed on project changed event.
      */
     private void updateProjectChanged(final ProTrackEvent event) {
-        if (getModel().isActive()) {
+        if (this.model.isActive()) {
             this
-                    .setTitle(Messages.getString("Global.Title") + " - " + getModel().getSelectedProject() + Messages.getString("MainFrame.9") + Constants.hhMMFormat.format(getModel().getStart())); //$NON-NLS-1$ //$NON-NLS-2$
+                    .setTitle(Messages.getString("Global.Title") + " - " + this.model.getSelectedProject() + Messages.getString("MainFrame.9") + Constants.hhMMFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
         }
         getProjectSelector().setSelectedItem((Project) event.getData());
     }
@@ -413,9 +405,8 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         // Clear description in settings.
         Settings.instance().setLastDescription(StringUtils.EMPTY);
 
-        this
-                .setTitle(Messages.getString("Global.Title") + " - " + getModel().getSelectedProject() + Messages.getString("MainFrame.11") + Constants.hhMMFormat.format(getModel().getStart())); //$NON-NLS-1$ //$NON-NLS-2$
-        getStartStopButton().setAction(new StopAction(getModel()));
+        this.setTitle(Messages.getString("Global.Title") + " - " + this.model.getSelectedProject() + Messages.getString("MainFrame.11") + Constants.hhMMFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
+        getStartStopButton().setAction(new StopAction(this.model));
     }
 
     /**
@@ -428,9 +419,8 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         // Clear description in settings.
         Settings.instance().setLastDescription(StringUtils.EMPTY);
 
-        this
-                .setTitle(Messages.getString("Global.Title") + " " + Messages.getString("MainFrame.12") + " " + Constants.hhMMFormat.format(getModel().getStop())); //$NON-NLS-1$
-        getStartStopButton().setAction(new StartAction(getModel()));
+        this.setTitle(Messages.getString("Global.Title") + " " + Messages.getString("MainFrame.12") + " " + Constants.hhMMFormat.format(this.model.getStop())); //$NON-NLS-1$
+        getStartStopButton().setAction(new StartAction(this.model));
     }
 
     /**
@@ -441,7 +431,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private JMenuItem getExcelExportItem() {
         if (excelExportItem == null) {
             excelExportItem = new JMenuItem();
-            excelExportItem.setAction(new ExcelExportAction(getModel()));
+            excelExportItem.setAction(new ExcelExportAction(this.model));
         }
         return excelExportItem;
     }
@@ -492,7 +482,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      */
     private JMenuItem getExitItem() {
         if (exitItem == null) {
-            exitItem = new JMenuItem(new ExitAction(getModel()));
+            exitItem = new JMenuItem(new ExitAction(this.model));
         }
         return exitItem;
     }
@@ -504,7 +494,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      */
     private JMenuItem getSaveItem() {
         if (saveItem == null) {
-            saveItem = new JMenuItem(new SaveAction(getModel()));
+            saveItem = new JMenuItem(new SaveAction(this.model));
         }
         return saveItem;
     }

@@ -1,8 +1,8 @@
 package org.remast.baralga.model.report;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Vector;
 
 import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.ProjectActivity;
@@ -12,7 +12,7 @@ import org.remast.baralga.model.utils.ProTrackUtils;
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 
-public class FilteredReport extends Observable {
+public class AccumulatedActivitiesReport extends Observable {
 
     /** The data of the report. */
     private ProTrack data;
@@ -26,23 +26,23 @@ public class FilteredReport extends Observable {
     /**
      * Create report from data.
      */
-    public FilteredReport(final ProTrack data) {
+    public AccumulatedActivitiesReport(final ProTrack data) {
         this.data = data;
-        accumulatedActivitiesByDay = new BasicEventList<AccumulatedProjectActivity>();
+        this.accumulatedActivitiesByDay = new BasicEventList<AccumulatedProjectActivity>();
 
         accumulate();
     }
 
     @Override
     public String toString() {
-        String result = ""; //$NON-NLS-1$
+        final StringBuffer result = new StringBuffer(""); //$NON-NLS-1$
 
         // accumulate activities for every day
         for (AccumulatedProjectActivity activity : accumulatedActivitiesByDay) {
-            result += activity.toString() + ":"; //$NON-NLS-1$
+            result.append(activity.toString() + ":"); //$NON-NLS-1$
         }
 
-        return "[" + result + "]"; //$NON-NLS-1$ //$NON-NLS-2$
+        return "[" + result.toString() + "]"; //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /**
@@ -58,8 +58,7 @@ public class FilteredReport extends Observable {
             return;
 
         if (this.accumulatedActivitiesByDay.contains(newAccActivity)) {
-            AccumulatedProjectActivity accActivity = this.accumulatedActivitiesByDay.get(accumulatedActivitiesByDay
-                    .indexOf(newAccActivity));
+            final AccumulatedProjectActivity accActivity = this.accumulatedActivitiesByDay.get(accumulatedActivitiesByDay.indexOf(newAccActivity));
             accActivity.addTime(newAccActivity.getTime());
         } else {
             this.accumulatedActivitiesByDay.add(newAccActivity);
@@ -70,24 +69,24 @@ public class FilteredReport extends Observable {
     protected void accumulate() {
         this.accumulatedActivitiesByDay.clear();
 
-        List<ProjectActivity> filteredActivities = getFilteredActivities();
-        for (ProjectActivity activity : filteredActivities) {
+        for (ProjectActivity activity : getFilteredActivities()) {
             this.acummulateActivity(activity);
         }
     }
 
     /**
-     * Get all filtered acitivies.
-     * @return all activies after applying the filter.
+     * Get all filtered activities.
+     * @return all activities after applying the filter.
      */
     private List<ProjectActivity> getFilteredActivities() {
-        List<ProjectActivity> filteredActivitiesList = new Vector<ProjectActivity>();
+        final List<ProjectActivity> filteredActivitiesList = new ArrayList<ProjectActivity>();
 
-        if (filter != null)
+        if (filter != null) {
             filteredActivitiesList.addAll(filter.applyFilters(this.data.getActivities()));
-        else
+        } else {
             filteredActivitiesList.addAll(this.data.getActivities());
-
+        }
+        
         return filteredActivitiesList;
     }
 

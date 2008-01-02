@@ -45,6 +45,10 @@ public class HoursByWeek {
         return eqBuilder.isEquals();
     }
 
+    /**
+     * Adds the given hours to the hours in this week.
+     * @param additionalHours the hours to add
+     */
     public void addHours(double additionalHours) {
         this.hours += additionalHours;
     }

@@ -25,7 +25,7 @@ import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.baralga.model.report.AccumulatedProjectActivity;
-import org.remast.baralga.model.report.FilteredReport;
+import org.remast.baralga.model.report.AccumulatedActivitiesReport;
 import org.remast.baralga.model.utils.ProTrackUtils;
 
 public class ExcelExport {
@@ -122,7 +122,7 @@ public class ExcelExport {
         
         final WritableSheet sheet = workbook.createSheet(reportName, 0);
 
-        final FilteredReport report = new FilteredReport(data);
+        final AccumulatedActivitiesReport report = new AccumulatedActivitiesReport(data);
         report.setFilter(filter);
 
         int row = 0;

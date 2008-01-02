@@ -22,6 +22,8 @@ public class FilteredActivitiesPane extends JTabbedPane {
 
     private HoursByWeekPanel hoursByWeekPanel;
 
+    private HoursByDayPanel hoursByDayPanel;
+
     private DescriptionPanel descriptionPanel;
 
     /**
@@ -51,6 +53,10 @@ public class FilteredActivitiesPane extends JTabbedPane {
             hoursByWeekPanel.setFilter(filter);
         }
 
+        if (hoursByDayPanel != null) {
+            hoursByDayPanel.setFilter(filter);
+        }
+
         if (descriptionPanel != null) {
             descriptionPanel.setFilter(filter);
         }
@@ -74,6 +80,9 @@ public class FilteredActivitiesPane extends JTabbedPane {
         hoursByWeekPanel = new HoursByWeekPanel(model.getHoursByWeekReport());
         this.addTab(Messages.getString("FilteredActivitiesPane.Tab.HoursByWeek"), hoursByWeekPanel); //$NON-NLS-1$
 
+        hoursByDayPanel = new HoursByDayPanel(model.getHoursByDayReport());
+        this.addTab(Messages.getString("FilteredActivitiesPane.Tab.HoursByDay"), hoursByDayPanel); //$NON-NLS-1$
+        
         filteredActitvitiesPanel = new AllActitvitiesPanel(model);
         this.addTab(Messages.getString("FilteredActivitiesPane.Tab.AllActivities"), filteredActitvitiesPanel); //$NON-NLS-1$
 

@@ -58,8 +58,8 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         }
     }
 
-    public Object getColumnValue(ProjectActivity activity, int col) {
-        switch (col) {
+    public Object getColumnValue(final ProjectActivity activity,final int column) {
+        switch (column) {
             case 0:
                 return activity.getProject();
             case 1:
@@ -75,7 +75,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         }
     }
 
-    public boolean isEditable(ProjectActivity baseObject, int column) {
+    public boolean isEditable(final ProjectActivity baseObject, final int column) {
         // All columns except the Duration are editable
         return column != 4;
     }
