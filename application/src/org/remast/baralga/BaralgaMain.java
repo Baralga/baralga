@@ -140,7 +140,7 @@ public class BaralgaMain {
                                     JOptionPane.INFORMATION_MESSAGE
                             );
 
-                            continue;
+                            break;
                         } catch (IOException backupFileIOException) {
                             log.error(backupFileIOException, backupFileIOException);
                         }
