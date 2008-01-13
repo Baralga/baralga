@@ -1,5 +1,6 @@
 package org.remast.baralga.gui.actions;
 
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 
@@ -16,8 +17,8 @@ import org.remast.baralga.model.PresentationModel;
 @SuppressWarnings("serial") //$NON-NLS-1$
 public final class SaveAction extends AbstractBaralgaAction {
 
-    public SaveAction(PresentationModel model) {
-        super(model);
+    public SaveAction(final Frame owner, final PresentationModel model) {
+        super(owner, model);
         
         putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/resource/icons/gtk-save.png"))); //$NON-NLS-1$
         putValue(NAME, Messages.getString("SaveAction.Name")); //$NON-NLS-1$
@@ -29,8 +30,12 @@ public final class SaveAction extends AbstractBaralgaAction {
         try {
             getModel().save();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, Messages.getString("SaveAction.ErrorText"), Messages.getString("SaveAction.ErrorTitle"), //$NON-NLS-1$ //$NON-NLS-2$
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(
+                    getOwner(), 
+                    Messages.getString("SaveAction.ErrorText"), //$NON-NLS-1$
+                    Messages.getString("SaveAction.ErrorTitle"), //$NON-NLS-1$
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
     }
 

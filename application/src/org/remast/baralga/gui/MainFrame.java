@@ -190,7 +190,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             toolBar = new JToolBar();
             toolBar.setFloatable(false);
         }
-        toolBar.add(new SaveAction(this.model));
+        toolBar.add(new SaveAction(this, this.model));
         toolBar.add(new ManageProjectsAction(this, this.model));
         toolBar.add(new ExcelExportAction(this.model));
         toolBar.add(new AddActivityAction(this, this.model));
@@ -494,7 +494,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      */
     private JMenuItem getSaveItem() {
         if (saveItem == null) {
-            saveItem = new JMenuItem(new SaveAction(this.model));
+            saveItem = new JMenuItem(new SaveAction(this, this.model));
         }
         return saveItem;
     }

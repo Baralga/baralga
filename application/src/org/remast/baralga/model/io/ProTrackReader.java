@@ -21,30 +21,37 @@ public class ProTrackReader {
 
     /** The data to write. */
     private ProTrack data;
-   
+
     /**
      * Actually read the data from file.
      * @throws IOException
      */
     public void read(final File file) throws IOException {
         final FileInputStream fis = new FileInputStream(file);
-        
+
         final XStream xstream = new XStream(new DomDriver());
         xstream.setMode(XStream.ID_REFERENCES);
-        
+
         Annotations.configureAliases(xstream, ProTrack.class);
         Annotations.configureAliases(xstream, Project.class);
         Annotations.configureAliases(xstream, ProjectActivity.class);
-        
-        final Object o = xstream.fromXML(fis);
+
+        Object o = null;
+        try {
+            o = xstream.fromXML(fis);
+        } catch (Exception e)  {
+            log.error(e, e);
+            throw new IOException("The file " + (file != null ? file.getName() : "<null>" ) + " does not contain valid Baralga data.", e);
+        }
+
         try {
             data = (ProTrack) o;
         } catch (ClassCastException e) {
-            // :TODO: Internationalize error message.
-            log.error("The file " + (file != null ? file.getName() : "<null>" ) + " does not contain valid Baralga data.", e);
+            log.error(e, e);
+            throw new IOException("The file " + (file != null ? file.getName() : "<null>" ) + " does not contain valid Baralga data.", e);
         }
     }
-    
+
     /**
      * Getter for the data read.
      * @return the proTrack

@@ -1,7 +1,7 @@
 <project name="Baralga" basedir="." default="compile">
     <description>Baralga Project</description>
 	
-	<property name="project.version" value="1.1"/>
+	<property name="project.version" value="1.2"/>
 	
 	<!-- set global properties for this build -->
 	<property name="src"           value="src"/>
@@ -11,25 +11,22 @@
 	<property name="dist.src.temp" value="dist-src-temp"/>	
 	<property name="lib"   	       value="lib"/>
 	<property name="win-installer" value="dist/win"/>
-	<!--
-	<property name="resource"      value="resource"/>
-	
-	<property name="launch4j.dir" location="C:\Programme\Launch4j" />
-	-->	
-	<property name="make-nsis" location="C:\Programme\NSIS\makensis.exe" />
 
+	<!-- Location of makensis -->
+    <property name="make-nsis" location="C:\Programme\NSIS\makensis.exe" />
 	
 	<path id="project.class.path">
 		<pathelement location="${lib}/jxl.jar"/>
 		<pathelement location="${lib}/xstream-1.2.2.jar"/>
 		<pathelement location="${lib}/commons-logging-1.1.jar"/>
-		<pathelement location="${lib}/commons-configuration-1.4.jar"/>
+		<pathelement location="${lib}/commons-configuration-1.5.jar"/>
 		<pathelement location="${lib}/commons-lang-2.3.jar"/>
+		<pathelement location="${lib}/commons-collections-3.2.jar"/>
+		<pathelement location="${lib}/commons-io-1.3.2.jar"/>
 		<pathelement location="${lib}/jargp.jar"/>
-		<pathelement location="${lib}/swingx-2007_10_14.jar"/>
+		<pathelement location="${lib}/swingx-0.9.1.jar"/>
 		<pathelement location="${lib}/junit.jar"/>
 		<pathelement location="${lib}/TableLayout-bin-jdk1.5-2007-04-21.jar"/>
-		<pathelement location="${lib}/commons-collections-3.2.jar"/>
 		<pathelement location="${lib}/glazedlists-1.7.0_java15.jar"/>
 		<pathelement location="${lib}/looks-2.1.4.jar"/>
 		<pathelement location="${lib}/joda-time-1.5.jar"/>

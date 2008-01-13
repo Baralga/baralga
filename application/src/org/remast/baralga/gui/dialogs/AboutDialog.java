@@ -23,10 +23,11 @@ public class AboutDialog extends JDialog {
     public AboutDialog(final Frame owner) {
         super(owner);
         
+        this.setName("aboutDialog");
         setTitle(Messages.getString("AboutDialog.AboutTitle")); //$NON-NLS-1$
         this.setAlwaysOnTop(true);
         setModal(true);
-        setResizable(false);
+        setResizable(true);
         setBackground(Color.WHITE);
         
         initialize();
@@ -60,5 +61,16 @@ public class AboutDialog extends JDialog {
         
         this.setSize(260, 280);
     }
+    
+//    @Override
+//    public void setVisible(boolean b) {
+//        if (b) {
+//            AWTUtils.restoreState(this);
+//        } else {
+//            AWTUtils.saveState(this);
+//        }
+//        
+//        super.setVisible(b);
+//    }
     
 }

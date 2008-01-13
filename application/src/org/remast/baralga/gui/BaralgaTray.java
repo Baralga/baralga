@@ -38,8 +38,8 @@ public class BaralgaTray implements Observer {
     /** The standard icon image. */
     private static final Image NORMAL_ICON = new ImageIcon(BaralgaMain.class.getResource("/resource/icons/Baralga-Tray.gif")).getImage();
 
-    /** The icon image when an acitvity is running. */
-    private static final Image ACTIVE_ICON = new ImageIcon(BaralgaMain.class.getResource("/resource/icons/Baralga-Tray-Blink.gif")).getImage();
+    /** The icon image when an activity is running. */
+    private static final Image ACTIVE_ICON = new ImageIcon(BaralgaMain.class.getResource("/resource/icons/Baralga-Tray-Green.png")).getImage();
 
     /** The model. */
     private PresentationModel model;

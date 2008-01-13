@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_03"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang-2.3.jar"/>
 	<classpathentry kind="lib" path="lib/glazedlists-1.7.0_java15.jar" sourcepath="lib/glazedlists-1.7.0-source_java15.zip"/>
@@ -10,12 +10,13 @@
 	<classpathentry kind="lib" path="lib/jxl.jar"/>
 	<classpathentry kind="lib" path="lib/xstream-1.2.2.jar"/>
 	<classpathentry kind="lib" path="lib/looks-2.1.4.jar"/>
-	<classpathentry kind="lib" path="lib/commons-configuration-1.4.jar"/>
+	<classpathentry kind="lib" path="lib/commons-configuration-1.5.jar" sourcepath="lib/commons-configuration-1.5-sources.jar"/>
 	<classpathentry kind="lib" path="lib/TableLayout-bin-jdk1.5-2007-04-21.jar"/>
 	<classpathentry kind="lib" path="lib/commons-collections-3.2.jar"/>
 	<classpathentry kind="lib" path="lib/joda-time-1.5.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.14.jar"/>
 	<classpathentry kind="lib" path="lib/launch4j.jar"/>
 	<classpathentry kind="lib" path="lib/swingx-0.9.1.jar" sourcepath="lib/swingx-0.9.1-src.zip"/>
+	<classpathentry kind="lib" path="lib/commons-io-1.3.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

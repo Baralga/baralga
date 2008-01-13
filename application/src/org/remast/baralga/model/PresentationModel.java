@@ -13,6 +13,7 @@ import org.remast.baralga.gui.Settings;
 import org.remast.baralga.gui.events.ProTrackEvent;
 import org.remast.baralga.model.edit.EditStack;
 import org.remast.baralga.model.filter.Filter;
+import org.remast.baralga.model.io.DataBackupStrategy;
 import org.remast.baralga.model.io.ProTrackWriter;
 import org.remast.baralga.model.lists.MonthFilterList;
 import org.remast.baralga.model.lists.ProjectFilterList;
@@ -42,6 +43,9 @@ public class PresentationModel extends Observable {
     
     /** Flag indicating whether selected project is active or not. */
     private boolean active;
+
+    /** Flag indicating whether data has been saved after last change. */
+    private boolean dirty = false;
     
     /** Start date of activity. */
     private Date start;
@@ -100,6 +104,9 @@ public class PresentationModel extends Observable {
         getData().add(project);
         this.projectList.add(project);
         
+        // Mark data as dirty
+        this.dirty = true;
+
         final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ADDED);
         event.setData(project);
         
@@ -109,7 +116,10 @@ public class PresentationModel extends Observable {
     public void removeProject(final Project project) {
         getData().remove(project);
         this.projectList.remove(project);
-        
+
+        // Mark data as dirty
+        this.dirty = true;
+
         final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_REMOVED);
         event.setData(project);
         
@@ -172,6 +182,9 @@ public class PresentationModel extends Observable {
         ProTrackEvent event = new ProTrackEvent(ProTrackEvent.STOP);
         notify(event);
         
+        // Mark data as dirty
+        this.dirty = true;
+        
         // Create Event for Project Activity
         event  = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_ADDED);
         event.setData(activity);
@@ -193,6 +206,9 @@ public class PresentationModel extends Observable {
 
         // Set selected project to new project
         this.selectedProject = activeProject;
+        
+        // Mark data as dirty
+        this.dirty = true;
 
         // Set active project to new project
         this.data.setActiveProject(activeProject);
@@ -237,12 +253,24 @@ public class PresentationModel extends Observable {
      * @throws Exception
      */
     public void save() throws Exception {
+        // If there are no changes there's nothing to do.
+        if (!dirty)  {
+            return;
+        }
+        
+        // Save data to disk.
         final ProTrackWriter writer = new ProTrackWriter(getData());
-        
+
         ProTrackUtils.checkOrCreateBaralgaDir();
-        
+
         final File proTrackFile = new File(Settings.getProTrackFileLocation());
+
+        DataBackupStrategy.createBackup(proTrackFile);
+
         writer.write(proTrackFile);
+        
+        // Mark data as not dirty
+        this.dirty = false;
     }
 
     /**
@@ -252,6 +280,9 @@ public class PresentationModel extends Observable {
     public void addActivity(final ProjectActivity activity, Object source) {
         getData().getActivities().add(activity);
         this.getActivitiesList().add(activity);
+        
+        // Mark data as dirty
+        this.dirty = true;
         
         // Fire event
         ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_ADDED, source);
@@ -266,6 +297,9 @@ public class PresentationModel extends Observable {
     public void removeActivity(final ProjectActivity activity, Object source) {
         getData().getActivities().remove(activity);
         this.getActivitiesList().remove(activity);
+        
+        // Mark data as dirty
+        this.dirty = true;
         
         // Fire event
         ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_REMOVED, source);
@@ -408,5 +442,19 @@ public class PresentationModel extends Observable {
      */
     public EditStack getEditStack() {
         return editStack;
+    }
+
+    /**
+     * @return the dirty
+     */
+    public final boolean isDirty() {
+        return dirty;
+    }
+
+    /**
+     * @param dirty the dirty to set
+     */
+    public final void setDirty(boolean dirty) {
+        this.dirty = dirty;
     }
 }

@@ -7,11 +7,15 @@ import java.io.RandomAccessFile;
 import java.nio.channels.Channel;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.Timer;
 
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.xml.DOMConfigurator;
@@ -24,6 +28,7 @@ import org.remast.baralga.gui.MainFrame;
 import org.remast.baralga.gui.Settings;
 import org.remast.baralga.model.PresentationModel;
 import org.remast.baralga.model.ProTrack;
+import org.remast.baralga.model.io.DataBackupStrategy;
 import org.remast.baralga.model.io.ProTrackReader;
 import org.remast.baralga.model.io.SaveTimer;
 import org.remast.baralga.model.utils.ProTrackUtils;
@@ -96,22 +101,59 @@ public class BaralgaMain {
 
             // Initialize with new site
             final PresentationModel model = new PresentationModel();
-
+            model.setDirty(true);
             model.setData(new ProTrack());
+
             File file = null;
             String proTrackFileLocation = Settings.getProTrackFileLocation();
             file = new File(proTrackFileLocation);
 
-            // Check for saved data
-            if (file != null && file.exists()) {
-                ProTrackReader reader;
-                try {
-                    reader = new ProTrackReader();
-                    reader.read(file);
-                    model.setData(reader.getData());
-                } catch (IOException e) {
-                    log.error(e, e);
+            try {
+                if (file.exists()) {
+                    final ProTrack data = readData(file);
+
+                    // Reading data file was successful.
+                    model.setData(data);
                 }
+            } catch (IOException dataFileIOException) {
+                // Make a backup copy of the corrupt file
+                DataBackupStrategy.saveCorruptDataFile();
+
+                // Reading data file was not successful so we try the backup files. 
+                final List<File> backupFiles = DataBackupStrategy.getBackupFiles();
+
+                if (CollectionUtils.isNotEmpty(backupFiles)) {
+                    for (File backupFile : backupFiles) {
+                        try {
+                            final ProTrack data = readData(backupFile);
+                            model.setData(data);
+
+                            final Date backupDate = DataBackupStrategy.getDateOfBackup(backupFile);
+                            String backupDateString = backupFile.getName();
+                            if (backupDate != null)  {
+                                backupDateString = DateFormat.getDateTimeInstance().format(backupDate);
+                            }
+
+                            JOptionPane.showMessageDialog(null, 
+                                    Messages.getString("BaralgaMain.DataLoading.ErrorText", backupDateString), //$NON-NLS-1$
+                                    Messages.getString("BaralgaMain.DataLoading.ErrorTitle"), //$NON-NLS-1$
+                                    JOptionPane.INFORMATION_MESSAGE
+                            );
+
+                            continue;
+                        } catch (IOException backupFileIOException) {
+                            log.error(backupFileIOException, backupFileIOException);
+                        }
+                    }
+                } else {
+                    // Data corrupt and no backup file found
+                    JOptionPane.showMessageDialog(null, 
+                            Messages.getString("BaralgaMain.DataLoading.ErrorTextNoBackup"), //$NON-NLS-1$
+                            Messages.getString("BaralgaMain.DataLoading.ErrorTitle"), //$NON-NLS-1$
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                }
+
             }
 
             // Start timer
@@ -153,12 +195,26 @@ public class BaralgaMain {
         }
     }
 
+    private static ProTrack readData(File file) throws IOException {
+        // Check for saved data
+        if (file != null && file.exists()) {
+            ProTrackReader reader;
+            try {
+                reader = new ProTrackReader();
+                reader.read(file);
+                return reader.getData();
+            } catch (Exception e) {
+                throw new IOException("");
+            }
+        }
+        return null;
+    }
+
     /**
      * Initialize the logger of the application.
      */
     private static void initLogger() {
         DOMConfigurator.configure(BaralgaMain.class.getResource("/config/log4j.xml"));
-        log.info("Test");
     }
 
     /**
