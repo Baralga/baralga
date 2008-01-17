@@ -72,6 +72,7 @@ public class BaralgaTray implements Observer {
         });
 
         if (model.isActive()) {
+            trayIcon.setImage(ACTIVE_ICON);
             trayIcon.setToolTip(Messages.getString("Global.Title") + " - " + model.getSelectedProject() + " since " + Constants.hhMMFormat.format(model.getStart()));
         }
 
