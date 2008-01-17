@@ -5,6 +5,8 @@ import java.io.File;
 import java.util.Date;
 import java.util.Observable;
 
+import javax.swing.SwingWorker;
+
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
@@ -258,19 +260,9 @@ public class PresentationModel extends Observable {
             return;
         }
         
-        // Save data to disk.
-        final ProTrackWriter writer = new ProTrackWriter(getData());
-
-        ProTrackUtils.checkOrCreateBaralgaDir();
-
-        final File proTrackFile = new File(Settings.getProTrackFileLocation());
-
-        DataBackupStrategy.createBackup(proTrackFile);
-
-        writer.write(proTrackFile);
+        SaveWorker saveWorker = new SaveWorker(this, getData());
+        saveWorker.execute();
         
-        // Mark data as not dirty
-        this.dirty = false;
     }
 
     /**
@@ -456,5 +448,37 @@ public class PresentationModel extends Observable {
      */
     public final void setDirty(boolean dirty) {
         this.dirty = dirty;
+    }
+    
+    class SaveWorker extends SwingWorker<String, Object> {
+        private ProTrack data;
+        private PresentationModel model;
+
+        public SaveWorker(PresentationModel model, ProTrack data) {
+            this.data = data;
+            this.model = model;
+        }
+        
+        @Override
+        public String doInBackground() throws Exception {
+            // Save data to disk.
+            final ProTrackWriter writer = new ProTrackWriter(data);
+
+            ProTrackUtils.checkOrCreateBaralgaDir();
+
+            final File proTrackFile = new File(Settings.getProTrackFileLocation());
+
+            DataBackupStrategy.createBackup(proTrackFile);
+
+            writer.write(proTrackFile);
+            
+            return null;
+        }
+        
+        @Override
+        protected void done() {
+            // Mark data as not dirty
+            this.model.setDirty(false);
+        }
     }
 }

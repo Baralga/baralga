@@ -6,6 +6,7 @@ import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -48,8 +49,25 @@ public final class ExcelExportAction extends AbstractBaralgaAction {
                 file = new File(file.getAbsolutePath()+Messages.getString("ExcelExportAction.ExcelFileExtension")); //$NON-NLS-1$
             }
 
+            final ExportWorker exportWorker = new ExportWorker(getModel(), file);
+            exportWorker.execute();
+        }
+
+    }
+
+    class ExportWorker extends SwingWorker<String, Object> {
+        private PresentationModel model;
+        private File file;
+
+        public ExportWorker(PresentationModel model, File file) {
+            this.model = model;
+            this.file = file;
+        }
+        
+        @Override
+        public String doInBackground() {
             try {
-                ExcelExport.export(getModel().getData(), getModel().getFilter(), file);
+                ExcelExport.export(model.getData(), model.getFilter(), file);
                 
                 // store export location in settings
                 Settings.instance().setLastExcelExportLocation(file.getAbsolutePath());
@@ -58,8 +76,7 @@ public final class ExcelExportAction extends AbstractBaralgaAction {
                         JOptionPane.ERROR_MESSAGE);
                 log.error(e, e);
             }
+            return null;
         }
-
     }
-
 }
