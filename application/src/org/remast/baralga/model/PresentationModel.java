@@ -135,6 +135,9 @@ public class PresentationModel extends Observable {
         
         setActive(true);
 
+        // Mark data as dirty
+        this.dirty = true;
+        
         // Set start time to now
         setStart(DateUtils.getNow());
         
@@ -179,6 +182,9 @@ public class PresentationModel extends Observable {
         description = StringUtils.EMPTY;
         setActive(false);
         start = null;
+
+        // Mark data as dirty
+        this.dirty = true;
 
         // Create Stop Event
         ProTrackEvent event = new ProTrackEvent(ProTrackEvent.STOP);
@@ -260,9 +266,15 @@ public class PresentationModel extends Observable {
             return;
         }
         
-        SaveWorker saveWorker = new SaveWorker(this, getData());
-        saveWorker.execute();
-        
+        // Save data to disk.
+        final ProTrackWriter writer = new ProTrackWriter(data);
+
+        ProTrackUtils.checkOrCreateBaralgaDir();
+
+        final File proTrackFile = new File(Settings.getProTrackFileLocation());
+        DataBackupStrategy.createBackup(proTrackFile);
+
+        writer.write(proTrackFile);        
     }
 
     /**
@@ -449,36 +461,5 @@ public class PresentationModel extends Observable {
     public final void setDirty(boolean dirty) {
         this.dirty = dirty;
     }
-    
-    class SaveWorker extends SwingWorker<String, Object> {
-        private ProTrack data;
-        private PresentationModel model;
 
-        public SaveWorker(PresentationModel model, ProTrack data) {
-            this.data = data;
-            this.model = model;
-        }
-        
-        @Override
-        public String doInBackground() throws Exception {
-            // Save data to disk.
-            final ProTrackWriter writer = new ProTrackWriter(data);
-
-            ProTrackUtils.checkOrCreateBaralgaDir();
-
-            final File proTrackFile = new File(Settings.getProTrackFileLocation());
-
-            DataBackupStrategy.createBackup(proTrackFile);
-
-            writer.write(proTrackFile);
-            
-            return null;
-        }
-        
-        @Override
-        protected void done() {
-            // Mark data as not dirty
-            this.model.setDirty(false);
-        }
-    }
 }
