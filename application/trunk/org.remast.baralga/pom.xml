@@ -43,9 +43,25 @@
 	<artifactId>baralga</artifactId>
 	<name>baralga</name>
 	<version>1.3-SNAPSHOT</version>
+	<developers>
+		<developer>
+			<email>baralga@geekmail.de</email>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+		</developer>
+	</developers>
+	<issueManagement>
+		<url>http://baralga.origo.ethz.ch/issues</url>
+	</issueManagement>
 	<scm>
-		<connection>scm:svn:https://svn.origo.ethz.ch/baralga/application/trunk</connection>
-		<developerConnection>scm:svn:https://svn.origo.ethz.ch/baralga/application/trunk</developerConnection>
+		<connection>
+			scm:svn:https://svn.origo.ethz.ch/baralga/application/trunk
+		</connection>
+		<developerConnection>
+			scm:svn:https://svn.origo.ethz.ch/baralga/application/trunk
+		</developerConnection>
 		<url>http://svn.origo.ethz.ch/wsvn/baralga</url>
 	</scm>
 	<url>http://maven.apache.org</url>
