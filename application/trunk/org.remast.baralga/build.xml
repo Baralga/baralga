@@ -1,0 +1,46 @@
+<project name="baralga" basedir="." default="">
+    <description>Baralga Project</description>
+	
+	<property name="project.version" value="1.3-SNAPSHOT"/>
+	
+	<!-- set global properties for this build -->
+	<property name="src"           value="src"/>
+	<property name="build"         value="bin2"/>
+	<property name="dist"          value="dist"/>
+	<property name="dist.bin.temp" value="dist-bin-temp"/>
+	<property name="dist.src.temp" value="dist-src-temp"/>	
+	<property name="lib"   	       value="lib"/>
+	<property name="win-installer" value="dist/win"/>
+
+	<!-- Location of makensis -->
+    <property name="make-nsis" location="C:\Programme\NSIS\makensis.exe" />
+	
+
+	<!-- Windows executable. -->
+	<target name="exe" depends="">
+		<taskdef name="launch4j"
+		  classname="net.sf.launch4j.ant.Launch4jTask"
+		  classpath="${launch4j.dir}/launch4j.jar
+		    :${launch4j.dir}/lib/xstream.jar" />
+		<launch4j configFile="src/main/config/l4j/Baralga.cfg.xml" jar="target/${ant.project.name}-${project.version}.jar" outfile="target/${ant.project.name}-${project.version}.exe"/>
+	</target>
+	
+	<!-- Installer for windows. -->
+	<target name="win-installer" depends="">
+		<exec executable="${make-nsis}" dir=".">
+			<arg value="/DexecName=${ant.project.name}-${project.version}.exe"/>
+			<arg value="/DexecVersion={project.version}"/>
+			<arg value="/Dexec=..\..\..\..\target\${ant.project.name}-${project.version}.exe"/>
+			<arg value="/Dsetup=..\..\..\..\target\${ant.project.name}-${project.version}-installer.exe"/>
+			<arg value="/DjreName=jre1.6.0_03"/>
+			<arg value="/Djre=..\..\..\..\target\${ant.project.name}-${project.version}.dir\jre1.6.0_03\"/>
+			<arg value="/Dlibs=..\..\..\..\target\${ant.project.name}-${project.version}.dir\lib\"/>
+			<arg value="src/main/config/nsis/baralga-installer.nsi"/>
+		</exec>
+		<delete>
+			<fileset file="${win-installer}/${ant.project.name}-${project.version}.exe"/>
+			<fileset file="${win-installer}/LICENSE"/>
+		</delete>
+	</target>
+	
+</project>
