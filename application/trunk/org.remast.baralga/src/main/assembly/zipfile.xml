@@ -1,0 +1,16 @@
+<assembly>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<dependencySets>
+		<dependencySet>
+			<outputDirectory>lib/</outputDirectory>
+			<outputFileNameMapping>
+				${artifactId}-${version}.${extension}
+			</outputFileNameMapping>
+			<unpack>false</unpack>
+			<scope>runtime</scope>
+		</dependencySet>
+	</dependencySets>
+</assembly>
