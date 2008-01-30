@@ -34,13 +34,7 @@ Section "" ;No components page, name is not important
   ; Put file there
   File "${exec}"
   
-  ; Copy JRE
-  SetOutPath "$INSTDIR\${jreName}"
-  File /r "${jre}"
-      
-  ; Copy Libs
-  SetOutPath "$INSTDIR\lib"
-  File /r "${libs}"
+  File /r "${installer.dir}"
   
   # define uninstaller name
   writeUninstaller $INSTDIR\uninstaller.exe
