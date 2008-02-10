@@ -42,7 +42,7 @@
 				<configuration>
 					<descriptors>
 						<descriptor>
-							src/main/assembly/zipfile.xml
+							src/main/assembly/installer.xml
 						</descriptor>
 					</descriptors>
 				</configuration>
