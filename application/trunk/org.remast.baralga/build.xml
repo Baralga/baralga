@@ -16,7 +16,7 @@
 			<arg value="/DexecName=${ant.project.name}-${project.version}.exe"/>
 			<arg value="/DexecVersion={project.version}"/>
 			<arg value="/Dexec=..\..\..\..\target\${ant.project.name}-${project.version}.exe"/>
-			<arg value="/Dsetup=..\..\..\..\target\${ant.project.name}-${project.version}-installer.exe"/>
+			<arg value="/Dsetup=..\..\..\..\target\${ant.project.name}-${project.version}-Installer.exe"/>
 			<arg value="/Dinstaller.dir=..\..\..\..\target\${ant.project.name}-${project.version}.dir\"/>
 			<arg value="src/main/config/nsis/baralga-installer.nsi"/>
 		</exec>
