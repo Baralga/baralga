@@ -1,6 +1,6 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
-  <headerType>gui</headerType>
+  <headerType>0</headerType>
   <!-- 
   <jar>..\dist\0.9\Baralga-0.9.jar</jar>
   <outfile>..\dist\0.9\Baralga.exe</outfile>
@@ -11,7 +11,7 @@
   <priority>normal</priority>
   <downloadUrl>http://java.com/download</downloadUrl>
   <supportUrl></supportUrl>
-  <customProcName>false</customProcName>
+  <customProcName>true</customProcName>
   <stayAlive>false</stayAlive>
   <icon>..\..\resources\icons\Baralga-Tray.ico</icon>
   <jre>

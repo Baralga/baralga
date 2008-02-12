@@ -61,6 +61,24 @@
 									configFile="src/main/config/l4j/Baralga.cfg.xml"
 									jar="target/${pom.artifactId}-${pom.version}.jar"
 									outfile="target/${pom.artifactId}-${pom.version}.exe" />
+								<!-- Location of makensis -->
+								<property name="make-nsis"
+									location="C:\Programme\NSIS\makensis.exe" />
+								<exec executable="${make-nsis}"
+									dir=".">
+									<arg
+										value="/DexecName=${pom.artifactId}-${pom.version}.exe" />
+									<arg
+										value="/DexecVersion={project.version}" />
+									<arg
+										value="/Dexec=..\..\..\..\target\${pom.artifactId}-${pom.version}.exe" />
+									<arg
+										value="/Dsetup=..\..\..\..\target\${pom.artifactId}-${pom.version}-Installer.exe" />
+									<arg
+										value="/Dinstaller.dir=..\..\..\..\target\${pom.artifactId}-${pom.version}.dir\" />
+									<arg
+										value="src/main/config/nsis/baralga-installer.nsi" />
+								</exec>
 							</tasks>
 						</configuration>
 						<goals>
