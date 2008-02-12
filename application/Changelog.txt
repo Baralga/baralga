@@ -1,7 +1,9 @@
-== Baralga Version 1.2 ==
-Performance and Security
- * Log file for error handling.
- * Create backups of data file.
+__ Baralga Version 1.2 _______________________________________
+== Performance and Security ==
+* Log file for error handling.
+* Create backups of data file.
 
-User Interface
- * Calculate hours by day.
+== User Interface ==
+* Uninstall functionality for windows.
+* Calculate hours by day.
+* Changes tray icon from blinking to green when active.
