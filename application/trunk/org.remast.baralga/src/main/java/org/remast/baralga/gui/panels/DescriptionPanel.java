@@ -100,42 +100,47 @@ public class DescriptionPanel extends JXPanel implements Observer {
      * Update the panel from observed event.
      */
     public void update(Observable source, Object eventObject) {
-        if (eventObject != null && eventObject instanceof ProTrackEvent) {
-            ProjectActivity activity;
+        if (eventObject == null) {
+            return;
+        }
 
-            final ProTrackEvent event = (ProTrackEvent) eventObject;
+        if (!(eventObject instanceof ProTrackEvent)) {
+            return;
+        }
 
-            switch (event.getType()) {
+        final ProTrackEvent event = (ProTrackEvent) eventObject;
+        ProjectActivity activity;
 
-                case ProTrackEvent.PROJECT_ACTIVITY_ADDED:
-                    activity = (ProjectActivity) event.getData();
-                    DescriptionPanelEntry newEntryPanel = new DescriptionPanelEntry(activity);
-                    entriesByActivity.put(activity, newEntryPanel);
-                    this.container.add(newEntryPanel);
-                    
-                    // Set color
-                    if (entriesByActivity.size() % 2 == 1) {
-                        newEntryPanel.setBackground(Color.WHITE);
-                    } else {
-                        newEntryPanel.setBackground(Constants.BEIGE);
-                    }
-                    break;
+        switch (event.getType()) {
 
-                case ProTrackEvent.PROJECT_ACTIVITY_CHANGED:
-                    activity = (ProjectActivity) event.getData();
-                    if (entriesByActivity.containsKey(activity)) {
-                        entriesByActivity.get(activity).update();
-                    }
-                    break;
+            case ProTrackEvent.PROJECT_ACTIVITY_ADDED:
+                activity = (ProjectActivity) event.getData();
+                DescriptionPanelEntry newEntryPanel = new DescriptionPanelEntry(activity);
+                entriesByActivity.put(activity, newEntryPanel);
+                this.container.add(newEntryPanel);
 
-                case ProTrackEvent.PROJECT_ACTIVITY_REMOVED:
-                    activity = (ProjectActivity) event.getData();
-                    if (entriesByActivity.containsKey(activity)) {
-                        DescriptionPanelEntry entryPanel = entriesByActivity.get(activity);
-                        this.container.remove(entryPanel);
-                    }
-                    break;
-            }
+                // Set color
+                if (entriesByActivity.size() % 2 == 1) {
+                    newEntryPanel.setBackground(Color.WHITE);
+                } else {
+                    newEntryPanel.setBackground(Constants.BEIGE);
+                }
+                break;
+
+            case ProTrackEvent.PROJECT_ACTIVITY_CHANGED:
+                activity = (ProjectActivity) event.getData();
+                if (entriesByActivity.containsKey(activity)) {
+                    entriesByActivity.get(activity).update();
+                }
+                break;
+
+            case ProTrackEvent.PROJECT_ACTIVITY_REMOVED:
+                activity = (ProjectActivity) event.getData();
+                if (entriesByActivity.containsKey(activity)) {
+                    DescriptionPanelEntry entryPanel = entriesByActivity.get(activity);
+                    this.container.remove(entryPanel);
+                }
+                break;
         }
     }
 
