@@ -5,7 +5,7 @@
 	</formats>
 	<fileSets>
 		<fileSet>
-			<directory>src/main/helper/</directory>
+			<directory>src/main/jre/</directory>
 			<outputDirectory>.</outputDirectory>
 			<includes>
 				<include>
