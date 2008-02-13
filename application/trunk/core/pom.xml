@@ -2,10 +2,16 @@
 <project>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.remast.baralga</groupId>
-	<artifactId>baralga</artifactId>
+	<artifactId>core</artifactId>
+	<packaging>jar</packaging>
 	<name>baralga</name>
 	<version>1.3-SNAPSHOT</version>
 	<url>http://maven.apache.org</url>
+	<parent>
+		<groupId>com.remast</groupId>
+		<artifactId>baralga</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
 	<issueManagement>
 		<url>http://baralga.origo.ethz.ch/issues</url>
 	</issueManagement>
@@ -62,6 +68,7 @@
 									jar="target/${pom.artifactId}-${pom.version}.jar"
 									outfile="target/${pom.artifactId}-${pom.version}.exe" />
 								<!-- Location of makensis -->
+								<!--
 								<property name="make-nsis"
 									location="C:\Programme\NSIS\makensis.exe" />
 								<exec executable="${make-nsis}"
@@ -79,6 +86,7 @@
 									<arg
 										value="src/main/config/nsis/baralga-installer.nsi" />
 								</exec>
+								-->
 							</tasks>
 						</configuration>
 						<goals>
