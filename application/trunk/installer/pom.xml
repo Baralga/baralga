@@ -69,6 +69,23 @@
 									configFile="src/main/config/l4j/Baralga.cfg.xml"
 									jar="target/${pom.artifactId}-${pom.version}.dir/core-1.3-SNAPSHOT.jar"
 									outfile="target/${pom.artifactId}-${pom.version}.dir/Baralga-1.3-SNAPSHOT.exe" />
+								<property name="make-nsis"
+									location="C:\Programme\NSIS\makensis.exe" />
+								<exec executable="${make-nsis}"
+									dir=".">
+									<arg
+										value="/DexecName=Baralga-1.3-SNAPSHOT.exe" />
+									<arg
+										value="/DexecVersion=1.3-SNAPSHOT" />
+									<arg
+										value="/Dexec=..\..\..\..\target\${pom.artifactId}-${pom.version}.dir\Baralga-1.3-SNAPSHOT.exe" />
+									<arg
+										value="/Dsetup=..\..\..\..\target\Baralga-1.3-SNAPSHOT-Installer.exe" />
+									<arg
+										value="/Dinstaller.dir=..\..\..\..\target\${pom.artifactId}-${pom.version}.dir\" />
+									<arg
+										value="src/main/config/nsis/baralga-installer.nsi" />
+								</exec>
 							</tasks>
 						</configuration>
 						<goals>
@@ -84,12 +101,6 @@
       <groupId>${pom.groupId}</groupId>
       <artifactId>core</artifactId>
       <version>1.3-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>
