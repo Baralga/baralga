@@ -227,7 +227,6 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             descriptionEditor.setCollapseEditToolbar(false);
             descriptionEditor.addTextObserver(new TextEditor.TextChangeObserver() {
 
-                @Override
                 public void onTextChange() {
                     final String description = descriptionEditor.getText();
 

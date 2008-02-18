@@ -43,7 +43,6 @@ public class DescriptionPanelEntry extends JXPanel {
 
         editor.addTextObserver(new TextEditor.TextChangeObserver() {
 
-            @Override
             public void onTextChange() {
                 // TODO: Fire Event
                 activity.setDescription(editor.getText());

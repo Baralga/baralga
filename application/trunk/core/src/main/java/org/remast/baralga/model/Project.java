@@ -88,7 +88,6 @@ public class Project implements Serializable, Comparable<Project>{
         return eqBuilder.isEquals();
     }
 
-    @Override
     public int compareTo(Project project) {
         if (project == null || this.getTitle() == null) {
             return 0;

@@ -21,7 +21,6 @@ public class UndoAction extends AbstractEditAction {
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke('Z', InputEvent.CTRL_MASK) );
     }
 
-    @Override
     public void actionPerformed(ActionEvent e) {
         undo();
     }

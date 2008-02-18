@@ -71,7 +71,6 @@ public class AccummulatedActitvitiesPanel extends JXPanel implements Observer {
         this.report.setFilter(filter);
     }
 
-    @Override
     public void update(Observable o, Object arg) {
         if (o != null && o instanceof ObservingAccumulatedActivitiesReport) {
             tableModel.fireTableDataChanged();

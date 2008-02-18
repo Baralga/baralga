@@ -120,7 +120,6 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
                 + Constants.durationFormat.format(ProTrackUtils.calculateDuration(this)) + "h) " + this.project;
     }
 
-    @Override
     public int compareTo(ProjectActivity activity) {
         if (activity == null) {
             return 0;

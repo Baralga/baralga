@@ -38,7 +38,6 @@ public class EditStack implements Observer {
         updateActions();
     }
 
-    @Override
     public void update(Observable source, Object eventObject) {
         if (eventObject != null && eventObject instanceof ProTrackEvent) {
             final ProTrackEvent event = (ProTrackEvent) eventObject;

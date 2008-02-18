@@ -87,7 +87,6 @@ public class DataBackupStrategy {
         File dir = new File(Settings.DEFAULT_DIRECTORY);
         final String [] backupFiles = dir.list(new FilenameFilter() {
 
-            @Override
             public boolean accept(File dir, String name) {
                 if (!StringUtils.equals(ERROR_FILE_NAME, name) 
                         && !StringUtils.equals(Settings.DEFAULT_FILE_NAME, name) 

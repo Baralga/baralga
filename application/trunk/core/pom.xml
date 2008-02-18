@@ -54,53 +54,11 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<configuration>
-							<tasks>
-								<taskdef name="launch4j"
-									classname="net.sf.launch4j.ant.Launch4jTask"
-									classpath="C:/Programme/Launch4j/launch4j.jar:C:/Programme/Launch4j/lib/xstream.jar" />
-								<launch4j
-									configFile="src/main/config/l4j/Baralga.cfg.xml"
-									jar="target/${pom.artifactId}-${pom.version}.jar"
-									outfile="target/${pom.artifactId}-${pom.version}.exe" />
-								<!-- Location of makensis -->
-								<!--
-								<property name="make-nsis"
-									location="C:\Programme\NSIS\makensis.exe" />
-								<exec executable="${make-nsis}"
-									dir=".">
-									<arg
-										value="/DexecName=${pom.artifactId}-${pom.version}.exe" />
-									<arg
-										value="/DexecVersion={project.version}" />
-									<arg
-										value="/Dexec=..\..\..\..\target\${pom.artifactId}-${pom.version}.exe" />
-									<arg
-										value="/Dsetup=..\..\..\..\target\${pom.artifactId}-${pom.version}-Installer.exe" />
-									<arg
-										value="/Dinstaller.dir=..\..\..\..\target\${pom.artifactId}-${pom.version}.dir\" />
-									<arg
-										value="src/main/config/nsis/baralga-installer.nsi" />
-								</exec>
-								-->
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.0</version>
 				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
+					<source>1.6</source>
+					<target>1.6</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -116,7 +74,7 @@
 							</packageName>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<addExtensions />
+							<addExtensions/>
 						</manifest>
 						<manifestEntries>
 							<SplashScreen-Image>
@@ -207,6 +165,5 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.9</version>
 		</dependency>
-
 	</dependencies>
 </project>

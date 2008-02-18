@@ -128,14 +128,12 @@ public class TextEditor extends JXPanel {
         setTabBehavior();
         textPane.addFocusListener(new FocusListener() {
 
-            @Override
             public void focusGained(FocusEvent e) {
                 if (collapseEditToolbar) {
                     cp.setCollapsed(false);
                 }
             }
 
-            @Override
             public void focusLost(FocusEvent e) {
                 if (collapseEditToolbar) {
                     if (e.getOppositeComponent() != null && e.getOppositeComponent().getParent() != toolbar) {
@@ -148,17 +146,14 @@ public class TextEditor extends JXPanel {
 
         textPane.getDocument().addDocumentListener(new DocumentListener() {
 
-            @Override
             public void changedUpdate(DocumentEvent e) {
                 notifyTextObservers();
             }
 
-            @Override
             public void insertUpdate(DocumentEvent e) {
                 notifyTextObservers();
             }
 
-            @Override
             public void removeUpdate(DocumentEvent e) {
                 notifyTextObservers();
             }

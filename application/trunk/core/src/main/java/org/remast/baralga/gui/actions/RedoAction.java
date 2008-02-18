@@ -21,7 +21,6 @@ public class RedoAction extends AbstractEditAction {
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke('Y', InputEvent.CTRL_MASK) );
     }
 
-    @Override
     public void actionPerformed(ActionEvent e) {
         redo();
     }
