@@ -83,7 +83,7 @@ public class BaralgaMain {
             model.setData(new ProTrack());
 
             File file = null;
-            String proTrackFileLocation = Settings.getProTrackFileLocation();
+            final String proTrackFileLocation = Settings.getProTrackFileLocation();
             file = new File(proTrackFileLocation);
 
             try {
@@ -167,13 +167,18 @@ public class BaralgaMain {
 
             });
         } catch (Exception e) {
-            e.printStackTrace();
             log.error(e, e);
         } catch (Throwable t) {
             log.error(t, t);
         }
     }
 
+    /**
+     * Read ProTrack data from the given file.
+     * @param file the file to be read
+     * @return the data read from file or null if the file is null or doesn't exist
+     * @throws IOException on error reading file
+     */
     private static ProTrack readData(File file) throws IOException {
         // Check for saved data
         if (file != null && file.exists()) {
@@ -183,7 +188,7 @@ public class BaralgaMain {
                 reader.read(file);
                 return reader.getData();
             } catch (Exception e) {
-                throw new IOException("");
+                throw new IOException(e);
             }
         }
         return null;
@@ -214,7 +219,9 @@ public class BaralgaMain {
     }
 
     /**
-     * @param model
+     * Initialize the timer to automatically save the model.
+     * @see #SAVE_TIMER_INTERVAL
+     * @param model the model to be saved
      */
     private static void initTimer(final PresentationModel model) {
         timer = new Timer();
@@ -258,7 +265,6 @@ public class BaralgaMain {
 
     /**
      * Check whether lock file exists.
-     * 
      * @return true if there is a lock file else false
      */
     private static boolean existsLock() {
@@ -271,8 +277,9 @@ public class BaralgaMain {
 
             lock = channel.tryLock();
 
-            if(lock == null)
+            if (lock == null) {
                 return true;
+            }
 
             lock.release();
         } catch (FileNotFoundException e) {

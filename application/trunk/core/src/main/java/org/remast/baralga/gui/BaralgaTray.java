@@ -28,6 +28,7 @@ import org.remast.baralga.model.PresentationModel;
 import org.remast.baralga.model.Project;
 
 /**
+ * Tray icon for quick start, stop and switching of project activities.
  * @author remast
  */
 public class BaralgaTray implements Observer {
@@ -93,7 +94,7 @@ public class BaralgaTray implements Observer {
         // Add separator
         menu.add("-"); //$NON-NLS-1$
 
-        if(model.isActive()) {
+        if (model.isActive()) {
             menu.add(AWTUtils.createFromAction(new StopAction(model)));
         } else {
             menu.add(AWTUtils.createFromAction(new StartAction(model)));
