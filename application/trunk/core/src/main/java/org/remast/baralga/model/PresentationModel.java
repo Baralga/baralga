@@ -5,8 +5,6 @@ import java.io.File;
 import java.util.Date;
 import java.util.Observable;
 
-import javax.swing.SwingWorker;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
@@ -60,6 +58,7 @@ public class PresentationModel extends Observable {
     /** Current activity filter. */
     private Filter filter;
 
+    /** The stack of edit actions (for undo and redo). */
     private EditStack editStack;
     
     public PresentationModel() {
@@ -92,6 +91,7 @@ public class PresentationModel extends Observable {
             try {
                 stop();
             } catch (ProjectStateException e) {
+                // Ignore
             }
         }
 
@@ -102,6 +102,10 @@ public class PresentationModel extends Observable {
         }
     }
 
+    /**
+     * Add the given project.
+     * @param project the project to add
+     */
     public void addProject(final Project project) {
         getData().add(project);
         this.projectList.add(project);
@@ -115,6 +119,10 @@ public class PresentationModel extends Observable {
         notify(event);
     }
 
+    /**
+     * Remove the given project.
+     * @param project the project to remove
+     */
     public void removeProject(final Project project) {
         getData().remove(project);
         this.projectList.remove(project);
@@ -128,8 +136,12 @@ public class PresentationModel extends Observable {
         notify(event);
     }
 
+    /**
+     * Start a project activity.
+     * @throws ProjectStateException if there is already a running project
+     */
     public void start() throws ProjectStateException {
-        if(getSelectedProject() == null) {
+        if (getSelectedProject() == null) {
             throw new ProjectStateException(Messages.getString("PresentationModel.NoActiveProjectSelectedError")); //$NON-NLS-1$
         }
         
@@ -145,6 +157,10 @@ public class PresentationModel extends Observable {
         notify(event);
     }
     
+    /**
+     * Helper method to notify all observers of an event.
+     * @param event the event to forward to the observers
+     */
     private void notify(final ProTrackEvent event) {
         setChanged();
         notifyObservers(event);
@@ -157,6 +173,10 @@ public class PresentationModel extends Observable {
         notify(event);
     }
 
+    /**
+     * Stop a project activity.
+     * @throws ProjectStateException if there is no running project
+     */
     public void stop() throws ProjectStateException {
         if (!isActive()) {
             throw new ProjectStateException(Messages.getString("PresentationModel.NoActiveProjectError")); //$NON-NLS-1$
@@ -171,7 +191,6 @@ public class PresentationModel extends Observable {
         } else {
             stop = now;
         }
-        
         
         final ProjectActivity activity = new ProjectActivity(start, stop, getSelectedProject());
         activity.setDescription(this.description);
@@ -258,7 +277,7 @@ public class PresentationModel extends Observable {
 
     /**
      * Save the model.
-     * @throws Exception
+     * @throws Exception on error during saving
      */
     public void save() throws Exception {
         // If there are no changes there's nothing to do.

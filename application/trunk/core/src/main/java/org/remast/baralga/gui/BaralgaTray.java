@@ -79,6 +79,9 @@ public class BaralgaTray implements Observer {
 
     }
 
+    /**
+     * Build the context menu of the tray icon.
+     */
     private void buildMenu() {
         menu.removeAll();
         menu.add(AWTUtils.createFromAction(new ExitAction(model)));
