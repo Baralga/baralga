@@ -19,12 +19,24 @@ import org.remast.baralga.model.ProjectActivity;
  */
 public class EditStack implements Observer {
 
+    /**
+     * The action for undoing an edit activity.
+     */
     private UndoAction undoAction;
 
+    /**
+     * The action for redoing an edit activity.
+     */
     private RedoAction redoAction;
 
+    /**
+     * The undoable edit events.
+     */
     private Stack<ProTrackEvent> undoStack = new Stack<ProTrackEvent>();
 
+    /**
+     * The redoable edit events.
+     */
     private Stack<ProTrackEvent> redoStack = new Stack<ProTrackEvent>();
 
     /** The model. */
@@ -93,6 +105,9 @@ public class EditStack implements Observer {
         return redoAction;
     }
 
+    /**
+     * Undo last edit action.
+     */
     public void undo() {
         if (CollectionUtils.isEmpty(undoStack)) {
             return;
@@ -106,6 +121,9 @@ public class EditStack implements Observer {
         updateActions();
     }
 
+    /**
+     * Redo last edit action.
+     */
     public void redo() {
         if (CollectionUtils.isEmpty(redoStack)) {
             return;
