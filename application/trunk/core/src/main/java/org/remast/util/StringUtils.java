@@ -10,19 +10,22 @@ import org.apache.commons.lang.StringEscapeUtils;
  */
 public abstract class StringUtils {
 
+    /** Regular expression for xml tags. */
     private static final String XML_TAG_PATTERN = "<[^<>]+>";
     
     /**
      * Strip all xml tags from given String.
-     * @param html
+     * @param xml
      * @return
      */
-    public static String stripXmlTags(final String html) {
-        if (org.apache.commons.lang.StringUtils.isBlank(html)) {
-            return html;
+    public static String stripXmlTags(final String xml) {
+        if (org.apache.commons.lang.StringUtils.isBlank(xml)) {
+            return xml;
         }
         
-        final String unescapedXml = html.replaceAll(XML_TAG_PATTERN, org.apache.commons.lang.StringUtils.EMPTY);
-        return StringEscapeUtils.unescapeXml(unescapedXml);
+        String strippedXml = xml.replaceAll(XML_TAG_PATTERN, org.apache.commons.lang.StringUtils.EMPTY);
+        strippedXml = StringEscapeUtils.unescapeXml(strippedXml);
+        strippedXml = org.apache.commons.lang.StringUtils.trim(strippedXml);
+        return strippedXml;
     }
 }

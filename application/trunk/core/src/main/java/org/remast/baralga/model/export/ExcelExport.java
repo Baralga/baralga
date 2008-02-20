@@ -28,14 +28,21 @@ import org.remast.baralga.model.report.AccumulatedProjectActivity;
 import org.remast.baralga.model.report.AccumulatedActivitiesReport;
 import org.remast.baralga.model.utils.ProTrackUtils;
 
-public class ExcelExport {
+/**
+ * Exports data files to Excel.
+ * @author remast
+ */
+public abstract class ExcelExport {
+    
+    /** Hide constructor. */
+    private ExcelExport() {}
 
     public static final SimpleDateFormat MONTH_FORMAT = new SimpleDateFormat("MM"); //$NON-NLS-1$
     public static final SimpleDateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy"); //$NON-NLS-1$
 
     private static WritableCellFormat headingFormat;
 
-    public static void export(final ProTrack data, Filter filter, final File file) throws Exception {
+    public static void export(final ProTrack data, final Filter filter, final File file) throws Exception {
             init();
             
             final WritableWorkbook workbook = Workbook.createWorkbook(file);
@@ -136,10 +143,8 @@ public class ExcelExport {
         col = 0;
 
         final List<AccumulatedProjectActivity> accumulatedActivitiesByDay = report.getAccumulatedActivitiesByDay();
-        for(AccumulatedProjectActivity activity : accumulatedActivitiesByDay) {
+        for (AccumulatedProjectActivity activity : accumulatedActivitiesByDay) {
             sheet.addCell(makeDateCell(col++, row, activity.getDay()));
-
-
             sheet.addCell(new Label(col++, row, activity.getProject().getTitle()));
             sheet.addCell(makeNumberCell(col++, row, activity.getTime()));
 
