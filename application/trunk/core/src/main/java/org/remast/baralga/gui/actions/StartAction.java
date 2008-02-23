@@ -4,9 +4,9 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.ImageIcon;
 
-import org.remast.baralga.Messages;
+import org.remast.baralga.gui.Messages;
+import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectStateException;
-import org.remast.baralga.model.PresentationModel;
 
 /**
  * @author remast

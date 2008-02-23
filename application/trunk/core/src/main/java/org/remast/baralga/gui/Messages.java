@@ -1,4 +1,4 @@
-package org.remast.baralga;
+package org.remast.baralga.gui;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;

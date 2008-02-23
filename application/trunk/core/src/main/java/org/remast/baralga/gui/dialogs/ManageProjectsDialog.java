@@ -19,8 +19,8 @@ import javax.swing.JTextField;
 
 import org.apache.commons.lang.math.RandomUtils;
 import org.jdesktop.swingx.JXList;
-import org.remast.baralga.Messages;
-import org.remast.baralga.model.PresentationModel;
+import org.remast.baralga.gui.Messages;
+import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
 
 import ca.odell.glazedlists.swing.EventListModel;

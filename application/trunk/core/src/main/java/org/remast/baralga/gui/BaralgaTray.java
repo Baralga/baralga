@@ -16,16 +16,15 @@ import javax.swing.JFrame;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.remast.baralga.BaralgaMain;
-import org.remast.baralga.Messages;
 import org.remast.baralga.gui.actions.ChangeProjectAction;
 import org.remast.baralga.gui.actions.ExitAction;
 import org.remast.baralga.gui.actions.StartAction;
 import org.remast.baralga.gui.actions.StopAction;
 import org.remast.baralga.gui.events.ProTrackEvent;
-import org.remast.baralga.gui.utils.AWTUtils;
-import org.remast.baralga.gui.utils.Constants;
-import org.remast.baralga.model.PresentationModel;
+import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
+import org.remast.gui.util.AWTUtils;
+import org.remast.gui.util.Constants;
 
 /**
  * Tray icon for quick start, stop and switching of project activities.

@@ -8,9 +8,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.remast.baralga.gui.Settings;
+import org.remast.baralga.gui.lists.MonthFilterList;
+import org.remast.baralga.gui.lists.YearFilterList;
 import org.remast.baralga.model.filter.Filter;
-import org.remast.baralga.model.lists.MonthFilterList;
-import org.remast.baralga.model.lists.YearFilterList;
 
 /**
  * Utility methods for the filter.

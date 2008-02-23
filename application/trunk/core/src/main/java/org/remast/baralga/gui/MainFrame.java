@@ -23,7 +23,6 @@ import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXFrame;
 import org.jdesktop.swingx.JXTitledSeparator;
 import org.remast.baralga.BaralgaMain;
-import org.remast.baralga.Messages;
 import org.remast.baralga.gui.actions.AboutAction;
 import org.remast.baralga.gui.actions.AddActivityAction;
 import org.remast.baralga.gui.actions.ExcelExportAction;
@@ -33,11 +32,11 @@ import org.remast.baralga.gui.actions.SaveAction;
 import org.remast.baralga.gui.actions.StartAction;
 import org.remast.baralga.gui.actions.StopAction;
 import org.remast.baralga.gui.events.ProTrackEvent;
+import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.panels.ReportPanel;
 import org.remast.baralga.gui.panels.TextEditor;
-import org.remast.baralga.gui.utils.Constants;
-import org.remast.baralga.model.PresentationModel;
 import org.remast.baralga.model.Project;
+import org.remast.gui.util.Constants;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 

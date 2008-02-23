@@ -11,8 +11,8 @@ import javax.swing.JLabel;
 
 import org.jdesktop.swingx.JXImagePanel;
 import org.jdesktop.swingx.JXLabel;
-import org.remast.baralga.Messages;
-import org.remast.baralga.gui.utils.Constants;
+import org.remast.baralga.gui.Messages;
+import org.remast.gui.util.Constants;
 
 /**
  * @author remast

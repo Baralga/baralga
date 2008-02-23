@@ -6,8 +6,8 @@ import java.awt.event.InputEvent;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 
-import org.remast.baralga.Messages;
-import org.remast.baralga.model.edit.EditStack;
+import org.remast.baralga.gui.Messages;
+import org.remast.baralga.gui.model.edit.EditStack;
 
 @SuppressWarnings("serial")
 public class UndoAction extends AbstractEditAction {

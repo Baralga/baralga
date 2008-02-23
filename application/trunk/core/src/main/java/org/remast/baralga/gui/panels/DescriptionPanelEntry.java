@@ -9,8 +9,8 @@ import javax.swing.BorderFactory;
 import javax.swing.border.TitledBorder;
 
 import org.jdesktop.swingx.JXPanel;
-import org.remast.baralga.gui.utils.Constants;
 import org.remast.baralga.model.ProjectActivity;
+import org.remast.gui.util.Constants;
 
 /**
  * Holds the editor for the description of a project activity.

@@ -1,4 +1,4 @@
-package org.remast.baralga.model.lists;
+package org.remast.baralga.gui.lists;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 

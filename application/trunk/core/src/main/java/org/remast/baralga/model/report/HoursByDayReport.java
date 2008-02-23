@@ -6,10 +6,9 @@ import java.util.Observer;
 import java.util.Vector;
 
 import org.remast.baralga.gui.events.ProTrackEvent;
-import org.remast.baralga.model.PresentationModel;
+import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
-import org.remast.baralga.model.utils.ProTrackUtils;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
@@ -55,8 +54,7 @@ public class HoursByDayReport extends Observable implements Observer  {
             return;
         }
 
-        final HoursByDay newHoursByDay = new HoursByDay(activity.getStart(), ProTrackUtils
-                .calculateDuration(activity));
+        final HoursByDay newHoursByDay = new HoursByDay(activity.getStart(), activity.getDuration());
 
         if (this.hoursByDayList.contains(newHoursByDay)) {
             HoursByDay HoursByDay = this.hoursByDayList.get(hoursByDayList.indexOf(newHoursByDay));

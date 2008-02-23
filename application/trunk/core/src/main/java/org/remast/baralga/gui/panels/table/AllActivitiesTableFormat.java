@@ -1,4 +1,4 @@
-package org.remast.baralga.gui.model;
+package org.remast.baralga.gui.panels.table;
 
 import java.beans.PropertyChangeEvent;
 import java.text.DateFormat;
@@ -8,12 +8,11 @@ import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.remast.baralga.Messages;
-import org.remast.baralga.gui.utils.Constants;
-import org.remast.baralga.model.PresentationModel;
+import org.remast.baralga.gui.Messages;
+import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
-import org.remast.baralga.model.utils.ProTrackUtils;
+import org.remast.gui.util.Constants;
 
 import ca.odell.glazedlists.gui.WritableTableFormat;
 
@@ -69,7 +68,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
             case 3:
                 return Constants.hhMMFormat.format(activity.getEnd());
             case 4:
-                return Constants.durationFormat.format(ProTrackUtils.calculateDuration(activity));
+                return Constants.durationFormat.format(activity.getDuration());
             default:
                 return ""; //$NON-NLS-1$
         }

@@ -17,15 +17,15 @@ import org.apache.commons.logging.LogFactory;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTitledSeparator;
-import org.remast.baralga.Messages;
+import org.remast.baralga.gui.Messages;
 import org.remast.baralga.gui.Settings;
-import org.remast.baralga.model.PresentationModel;
+import org.remast.baralga.gui.lists.FilterItem;
+import org.remast.baralga.gui.lists.MonthFilterList;
+import org.remast.baralga.gui.lists.ProjectFilterList;
+import org.remast.baralga.gui.lists.YearFilterList;
+import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.filter.Filter;
-import org.remast.baralga.model.lists.FilterItem;
-import org.remast.baralga.model.lists.MonthFilterList;
-import org.remast.baralga.model.lists.ProjectFilterList;
-import org.remast.baralga.model.lists.YearFilterList;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 

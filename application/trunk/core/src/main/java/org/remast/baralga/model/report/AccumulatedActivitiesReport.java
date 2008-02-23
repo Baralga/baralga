@@ -7,7 +7,6 @@ import java.util.Observable;
 import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
-import org.remast.baralga.model.utils.ProTrackUtils;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
@@ -53,7 +52,7 @@ public class AccumulatedActivitiesReport extends Observable {
      */
     public void acummulateActivity(final ProjectActivity activity) {
         AccumulatedProjectActivity newAccActivity = new AccumulatedProjectActivity(activity.getProject(), activity
-                .getStart(), ProTrackUtils.calculateDuration(activity));
+                .getStart(), activity.getDuration());
         if(filter != null && !filter.satisfiesPredicates(activity))
             return;
 

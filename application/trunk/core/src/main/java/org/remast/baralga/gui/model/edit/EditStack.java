@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.remast.baralga.model.edit;
+package org.remast.baralga.gui.model.edit;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -11,7 +11,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.remast.baralga.gui.actions.RedoAction;
 import org.remast.baralga.gui.actions.UndoAction;
 import org.remast.baralga.gui.events.ProTrackEvent;
-import org.remast.baralga.model.PresentationModel;
+import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
 
 /**

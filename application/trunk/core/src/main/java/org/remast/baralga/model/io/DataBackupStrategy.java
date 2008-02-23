@@ -139,9 +139,8 @@ public class DataBackupStrategy {
         }
     }
 
-
     /**
-     * Make a backup copy of the corrupt file
+     * Make a backup copy of the corrupt file.
      */
     public static void saveCorruptDataFile() {
         try {

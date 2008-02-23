@@ -5,10 +5,11 @@ package org.remast.baralga.model;
 
 import java.io.Serializable;
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
-import org.remast.baralga.gui.utils.Constants;
-import org.remast.baralga.model.utils.ProTrackUtils;
+import org.remast.gui.util.Constants;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
@@ -117,7 +118,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
 
         return DateFormat.getDateInstance(DateFormat.SHORT).format(this.start) + " "
                 + Constants.hhMMFormat.format(this.start) + " - " + Constants.hhMMFormat.format(this.end) + " ("
-                + Constants.durationFormat.format(ProTrackUtils.calculateDuration(this)) + "h) " + this.project;
+                + Constants.durationFormat.format(this.getDuration()) + "h) " + this.project;
     }
 
     public int compareTo(ProjectActivity activity) {
@@ -127,5 +128,26 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
 
         // Sort by start date.
         return this.getStart().compareTo(activity.getStart());
+    }
+    
+    /**
+     * Calculate the duration of the given activity in decimal hours.
+     * @return decimal value of the duration (e.g. for 30 minutes, 0.5 and so on)
+     */    
+    public double getDuration() {
+        final Calendar calStart = new GregorianCalendar();
+        calStart.setTime(start);
+
+        final Calendar calEnd = new GregorianCalendar();
+        calEnd.setTime(end);
+
+        long timeMilliSec = calEnd.getTimeInMillis() - calStart.getTimeInMillis();
+        long timeMin = timeMilliSec / 1000 / 60;
+        long hours = timeMin / 60;
+
+        long mins = timeMin % 60;
+        double minsD = Math.round(mins * (1 + 2.0 / 3.0)) / 100.0;
+
+        return hours + minsD;
     }
 }

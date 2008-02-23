@@ -2,7 +2,7 @@ package org.remast.baralga.gui.actions;
 
 import javax.swing.AbstractAction;
 
-import org.remast.baralga.model.edit.EditStack;
+import org.remast.baralga.gui.model.edit.EditStack;
 
 public abstract class AbstractEditAction extends AbstractAction {
 

@@ -4,7 +4,7 @@ import java.util.TimerTask;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.remast.baralga.model.PresentationModel;
+import org.remast.baralga.gui.model.PresentationModel;
 
 public class SaveTimer extends TimerTask {
     

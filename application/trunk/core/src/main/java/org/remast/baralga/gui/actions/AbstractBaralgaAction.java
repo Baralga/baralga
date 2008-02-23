@@ -4,7 +4,7 @@ import java.awt.Frame;
 
 import javax.swing.AbstractAction;
 
-import org.remast.baralga.model.PresentationModel;
+import org.remast.baralga.gui.model.PresentationModel;
 
 /**
  * @author remast

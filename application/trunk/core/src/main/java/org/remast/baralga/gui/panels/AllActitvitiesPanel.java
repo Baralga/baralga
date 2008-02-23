@@ -19,14 +19,14 @@ import javax.swing.table.TableColumn;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
-import org.remast.baralga.Messages;
+import org.remast.baralga.gui.Messages;
 import org.remast.baralga.gui.events.ProTrackEvent;
-import org.remast.baralga.gui.model.AllActivitiesTableFormat;
-import org.remast.baralga.gui.utils.GUISettings;
-import org.remast.baralga.model.PresentationModel;
+import org.remast.baralga.gui.model.PresentationModel;
+import org.remast.baralga.gui.panels.table.AllActivitiesTableFormat;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
+import org.remast.gui.util.Constants;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.SortedList;
@@ -125,7 +125,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         });
         table.setPreferredScrollableViewportSize(table.getPreferredSize());
 
-        table.setHighlighters(GUISettings.HIGHLIGHTERS);
+        table.setHighlighters(Constants.HIGHLIGHTERS);
         table.setCellEditor(new JXTable.GenericEditor());
 
         final TableColumn projectColumn = table.getColumn(0);

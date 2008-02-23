@@ -1,12 +1,12 @@
-package org.remast.baralga.model.lists;
+package org.remast.baralga.gui.lists;
 
 import java.text.SimpleDateFormat;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.remast.baralga.Messages;
+import org.remast.baralga.gui.Messages;
 import org.remast.baralga.gui.events.ProTrackEvent;
-import org.remast.baralga.model.PresentationModel;
+import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
 
 import ca.odell.glazedlists.BasicEventList;

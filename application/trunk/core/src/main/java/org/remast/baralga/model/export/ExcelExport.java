@@ -20,13 +20,12 @@ import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 
 import org.apache.commons.lang.StringUtils;
-import org.remast.baralga.Messages;
+import org.remast.baralga.gui.Messages;
 import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
-import org.remast.baralga.model.report.AccumulatedProjectActivity;
 import org.remast.baralga.model.report.AccumulatedActivitiesReport;
-import org.remast.baralga.model.utils.ProTrackUtils;
+import org.remast.baralga.model.report.AccumulatedProjectActivity;
 
 /**
  * Exports data files to Excel.
@@ -74,7 +73,7 @@ public abstract class ExcelExport {
                 
                 WritableCell c = makeTimeCell(col++, row, actitivity.getEnd());
                 sheet.addCell(c);
-                sheet.addCell(makeNumberCell(col++, row, ProTrackUtils.calculateDuration(actitivity)));
+                sheet.addCell(makeNumberCell(col++, row, actitivity.getDuration()));
 
                 // Description
                 String description = org.remast.util.StringUtils.stripXmlTags(actitivity.getDescription());

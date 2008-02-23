@@ -13,7 +13,7 @@ import org.remast.baralga.model.ProjectActivity;
 public class Filter {
 
     /** The predicates of the filter. */
-    private List<Predicate> predicates;
+    private List<Predicate> predicates = new ArrayList<Predicate>();
 
     private Date month;
 
@@ -31,7 +31,6 @@ public class Filter {
      * Create filter with no predicates.
      */
     public Filter() {
-        this.predicates = new ArrayList<Predicate>();
     }
 
     /**

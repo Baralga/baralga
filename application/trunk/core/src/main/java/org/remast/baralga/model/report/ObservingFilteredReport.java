@@ -4,7 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import org.remast.baralga.gui.events.ProTrackEvent;
-import org.remast.baralga.model.PresentationModel;
+import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
 
 public class ObservingFilteredReport extends FilteredReport implements Observer {

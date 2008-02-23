@@ -1,10 +1,10 @@
-package org.remast.baralga.gui.model;
+package org.remast.baralga.gui.panels.table;
 
 import java.text.DateFormat;
 
-import org.remast.baralga.Messages;
-import org.remast.baralga.gui.utils.Constants;
+import org.remast.baralga.gui.Messages;
 import org.remast.baralga.model.report.HoursByDay;
+import org.remast.gui.util.Constants;
 
 import ca.odell.glazedlists.gui.TableFormat;
 

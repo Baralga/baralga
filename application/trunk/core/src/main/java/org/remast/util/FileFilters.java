@@ -4,7 +4,7 @@ import java.io.File;
 
 import javax.swing.filechooser.FileFilter;
 
-import org.remast.baralga.Messages;
+import org.remast.baralga.gui.Messages;
 
 public abstract class FileFilters {
 

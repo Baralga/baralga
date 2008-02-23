@@ -3,6 +3,7 @@ package org.remast.baralga.gui.events;
 import java.beans.PropertyChangeEvent;
 
 /**
+ * Events of Baralga.
  * @author remast
  */
 public class ProTrackEvent {

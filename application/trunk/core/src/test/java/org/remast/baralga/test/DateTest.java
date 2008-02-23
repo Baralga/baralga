@@ -6,7 +6,6 @@ import junit.framework.TestCase;
 
 import org.joda.time.DateTime;
 import org.remast.baralga.model.ProjectActivity;
-import org.remast.baralga.model.utils.ProTrackUtils;
 import org.remast.util.DateUtils;
 
 public class DateTest extends TestCase {
@@ -16,13 +15,13 @@ public class DateTest extends TestCase {
         DateTime startTime = new DateTime(DateUtils.getNow());
         
         act = new ProjectActivity(startTime.toDate(), startTime.plusMinutes(45).toDate(), null);
-        assertEquals(0.75, ProTrackUtils.calculateDuration(act));
+        assertEquals(0.75, act.getDuration());
 
         act = new ProjectActivity(startTime.toDate(), startTime.plusMinutes(30).toDate(), null);
-        assertEquals(0.5, ProTrackUtils.calculateDuration(act));
+        assertEquals(0.5, act.getDuration());
 
         act = new ProjectActivity(startTime.toDate(), startTime.plusHours(1).plusMinutes(30).toDate(), null);
-        assertEquals(1.5, ProTrackUtils.calculateDuration(act));
+        assertEquals(1.5, act.getDuration());
     }
     
     

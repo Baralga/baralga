@@ -7,10 +7,9 @@ import java.util.Vector;
 
 import org.joda.time.DateTime;
 import org.remast.baralga.gui.events.ProTrackEvent;
-import org.remast.baralga.model.PresentationModel;
+import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
-import org.remast.baralga.model.utils.ProTrackUtils;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
@@ -58,8 +57,7 @@ public class HoursByWeekReport extends Observable implements Observer  {
 
         final DateTime dateTime = new DateTime(activity.getStart());
 
-        final HoursByWeek newHoursByWeek = new HoursByWeek(dateTime.getWeekOfWeekyear(), ProTrackUtils
-                .calculateDuration(activity));
+        final HoursByWeek newHoursByWeek = new HoursByWeek(dateTime.getWeekOfWeekyear(), activity.getDuration());
 
         if (this.hoursByWeekList.contains(newHoursByWeek)) {
             HoursByWeek hoursByWeek = this.hoursByWeekList.get(hoursByWeekList.indexOf(newHoursByWeek));
