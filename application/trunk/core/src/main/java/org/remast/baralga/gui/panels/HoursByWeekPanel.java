@@ -8,10 +8,10 @@ import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTable;
+import org.remast.baralga.gui.model.report.HoursByWeek;
+import org.remast.baralga.gui.model.report.HoursByWeekReport;
 import org.remast.baralga.gui.panels.table.HoursByWeekTableFormat;
 import org.remast.baralga.model.filter.Filter;
-import org.remast.baralga.model.report.HoursByWeek;
-import org.remast.baralga.model.report.HoursByWeekReport;
 import org.remast.gui.util.Constants;
 
 import ca.odell.glazedlists.swing.EventTableModel;

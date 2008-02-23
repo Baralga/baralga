@@ -1,4 +1,4 @@
-package org.remast.baralga.model.report;
+package org.remast.baralga.gui.model.report;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 

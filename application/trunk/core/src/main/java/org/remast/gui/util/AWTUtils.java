@@ -8,6 +8,9 @@ import javax.swing.Action;
  * @author remast
  */
 public abstract class AWTUtils {
+    
+    /** Hide constructor. */
+    private AWTUtils() {}
 
     /**
      * Create AWT MenuItem from Swing Action.

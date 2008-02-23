@@ -13,6 +13,10 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.Annotations;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
+/**
+ * Writer for ProTrack data files.
+ * @author remast
+ */
 public class ProTrackWriter {
 
     /** The data to write. */
@@ -32,6 +36,10 @@ public class ProTrackWriter {
      * @throws IOException
      */
     public void write(final File file) throws IOException {
+        if (file == null) {
+            return;
+        }
+        
         synchronized(data) {
             final FileOutputStream fileOut = new FileOutputStream(file);
             try {

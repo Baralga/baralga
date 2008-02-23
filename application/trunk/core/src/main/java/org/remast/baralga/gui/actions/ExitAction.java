@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.ImageIcon;
 
-import org.remast.baralga.gui.Messages;
+import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.PresentationModel;
 
 /**

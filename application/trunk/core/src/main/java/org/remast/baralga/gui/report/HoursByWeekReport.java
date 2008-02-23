@@ -1,10 +1,11 @@
-package org.remast.baralga.model.report;
+package org.remast.baralga.gui.model.report;
 
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Vector;
 
+import org.joda.time.DateTime;
 import org.remast.baralga.gui.events.ProTrackEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
@@ -13,12 +14,12 @@ import org.remast.baralga.model.filter.Filter;
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 
-public class HoursByDayReport extends Observable implements Observer  {
+public class HoursByWeekReport extends Observable implements Observer  {
 
     /** The model. */
     private PresentationModel model;
 
-    private EventList<HoursByDay> hoursByDayList;
+    private EventList<HoursByWeek> hoursByWeekList;
 
     private Filter filter;
 
@@ -32,17 +33,17 @@ public class HoursByDayReport extends Observable implements Observer  {
         calculateHours();
     }
 
-    public HoursByDayReport(final PresentationModel model) {
+    public HoursByWeekReport(final PresentationModel model) {
         this.model = model;
         this.filter = model.getFilter();
         this.model.addObserver(this);
-        this.hoursByDayList = new BasicEventList<HoursByDay>();
+        this.hoursByWeekList = new BasicEventList<HoursByWeek>();
 
         calculateHours();
     }
 
     public void calculateHours() {
-        this.hoursByDayList.clear();
+        this.hoursByWeekList.clear();
 
         for (ProjectActivity activity : getFilteredActivities()) {
             this.addHours(activity);
@@ -54,19 +55,21 @@ public class HoursByDayReport extends Observable implements Observer  {
             return;
         }
 
-        final HoursByDay newHoursByDay = new HoursByDay(activity.getStart(), activity.getDuration());
+        final DateTime dateTime = new DateTime(activity.getStart());
 
-        if (this.hoursByDayList.contains(newHoursByDay)) {
-            HoursByDay HoursByDay = this.hoursByDayList.get(hoursByDayList.indexOf(newHoursByDay));
-            HoursByDay.addHours(newHoursByDay.getHours());
+        final HoursByWeek newHoursByWeek = new HoursByWeek(dateTime.getWeekOfWeekyear(), activity.getDuration());
+
+        if (this.hoursByWeekList.contains(newHoursByWeek)) {
+            HoursByWeek hoursByWeek = this.hoursByWeekList.get(hoursByWeekList.indexOf(newHoursByWeek));
+            hoursByWeek.addHours(newHoursByWeek.getHours());
         } else {
-            this.hoursByDayList.add(newHoursByDay);
+            this.hoursByWeekList.add(newHoursByWeek);
         }
 
     }
 
-    public EventList<HoursByDay> getHoursByDay() {
-        return hoursByDayList;
+    public EventList<HoursByWeek> getHoursByWeek() {
+        return hoursByWeekList;
     }
 
     /**

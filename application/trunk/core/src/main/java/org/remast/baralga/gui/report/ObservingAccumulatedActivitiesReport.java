@@ -1,4 +1,4 @@
-package org.remast.baralga.model.report;
+package org.remast.baralga.gui.model.report;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -6,6 +6,7 @@ import java.util.Observer;
 import org.remast.baralga.gui.events.ProTrackEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
+import org.remast.baralga.model.report.AccumulatedActivitiesReport;
 
 public class ObservingAccumulatedActivitiesReport extends AccumulatedActivitiesReport implements Observer {
 

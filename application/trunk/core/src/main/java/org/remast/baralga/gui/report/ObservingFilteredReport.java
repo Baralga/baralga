@@ -1,4 +1,4 @@
-package org.remast.baralga.model.report;
+package org.remast.baralga.gui.model.report;
 
 import java.util.Observable;
 import java.util.Observer;

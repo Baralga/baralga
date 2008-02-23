@@ -2,7 +2,7 @@ package org.remast.baralga.model.filter;
 
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.lang.ObjectUtils;
-import org.remast.baralga.gui.Messages;
+import org.remast.baralga.Messages;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 

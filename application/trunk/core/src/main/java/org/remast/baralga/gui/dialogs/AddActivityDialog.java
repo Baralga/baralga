@@ -21,7 +21,7 @@ import javax.swing.text.DateFormatter;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXDatePicker;
-import org.remast.baralga.gui.Messages;
+import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.panels.TextEditor;
 import org.remast.baralga.model.Project;

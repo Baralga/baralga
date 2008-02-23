@@ -1,4 +1,4 @@
-package org.remast.baralga.model;
+package org.remast.baralga.gui.model;
 
 @SuppressWarnings("serial")
 public class ProjectStateException extends Exception {

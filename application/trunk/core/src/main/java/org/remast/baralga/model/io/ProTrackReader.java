@@ -14,12 +14,16 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.Annotations;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
+/**
+ * Reader for ProTrack data files.
+ * @author remast
+ */
 public class ProTrackReader {
 
     /** The logger. */
     private static final Log log = LogFactory.getLog(ProTrackReader.class);
 
-    /** The data to write. */
+    /** The data read. */
     private ProTrack data;
 
     /**

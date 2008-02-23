@@ -21,14 +21,13 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.remast.baralga.gui.BaralgaTray;
 import org.remast.baralga.gui.MainFrame;
-import org.remast.baralga.gui.Messages;
 import org.remast.baralga.gui.Settings;
 import org.remast.baralga.gui.model.PresentationModel;
+import org.remast.baralga.gui.timer.SaveTimer;
 import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.io.DataBackupStrategy;
 import org.remast.baralga.model.io.ProTrackReader;
-import org.remast.baralga.model.io.SaveTimer;
-import org.remast.baralga.model.utils.ProTrackUtils;
+import org.remast.baralga.model.utils.BaralgaUtils;
 
 public class BaralgaMain {
 
@@ -269,7 +268,7 @@ public class BaralgaMain {
      * @return true if there is a lock file else false
      */
     private static boolean existsLock() {
-        ProTrackUtils.checkOrCreateBaralgaDir();
+        BaralgaUtils.checkOrCreateBaralgaDir();
         File lockFile = new File(Settings.getLockFileLocation());
 
         try {

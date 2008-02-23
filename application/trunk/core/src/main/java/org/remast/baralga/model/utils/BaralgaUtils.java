@@ -4,7 +4,14 @@ import java.io.File;
 
 import org.remast.baralga.gui.Settings;
 
-public class ProTrackUtils {
+/**
+ * Misc utility methods for Baralga.
+ * @author remast
+ */
+public abstract class BaralgaUtils {
+    
+    /** Hide constructor. */
+    private BaralgaUtils() {}
 
     /**
      * Checks whether the Baralga directory exists and creates it if necessary.

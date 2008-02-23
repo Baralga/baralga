@@ -1,4 +1,4 @@
-package org.remast.baralga.model.io;
+package org.remast.baralga.gui.timer;
 
 import java.util.TimerTask;
 
@@ -6,6 +6,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.remast.baralga.gui.model.PresentationModel;
 
+/**
+ * A timer to periodically save the model.
+ * @author remast
+ */
 public class SaveTimer extends TimerTask {
     
     /** The logger. */

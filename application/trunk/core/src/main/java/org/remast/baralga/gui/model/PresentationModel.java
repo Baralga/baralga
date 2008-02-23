@@ -8,25 +8,23 @@ import java.util.Observable;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
-import org.remast.baralga.gui.Messages;
+import org.remast.baralga.Messages;
 import org.remast.baralga.gui.Settings;
 import org.remast.baralga.gui.events.ProTrackEvent;
 import org.remast.baralga.gui.lists.MonthFilterList;
 import org.remast.baralga.gui.lists.ProjectFilterList;
 import org.remast.baralga.gui.lists.YearFilterList;
 import org.remast.baralga.gui.model.edit.EditStack;
-import org.remast.baralga.model.FilterUtils;
+import org.remast.baralga.gui.model.report.HoursByDayReport;
+import org.remast.baralga.gui.model.report.HoursByWeekReport;
+import org.remast.baralga.gui.model.report.ObservingAccumulatedActivitiesReport;
 import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
-import org.remast.baralga.model.ProjectStateException;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.baralga.model.io.DataBackupStrategy;
 import org.remast.baralga.model.io.ProTrackWriter;
-import org.remast.baralga.model.report.HoursByDayReport;
-import org.remast.baralga.model.report.HoursByWeekReport;
-import org.remast.baralga.model.report.ObservingAccumulatedActivitiesReport;
-import org.remast.baralga.model.utils.ProTrackUtils;
+import org.remast.baralga.model.utils.BaralgaUtils;
 import org.remast.util.DateUtils;
 
 import ca.odell.glazedlists.BasicEventList;
@@ -82,7 +80,7 @@ public class PresentationModel extends Observable {
         this.projectList.addAll(this.data.getProjects());
         this.activitiesList.addAll(this.data.getActivities());
         
-        this.filter = FilterUtils.restoreFromSettings();
+        this.filter = Settings.instance().restoreFromSettings();
         this.description = Settings.instance().getLastDescription();
 
         final Long selectedProjectId = Settings.instance().getFilterSelectedProjectId();
@@ -293,7 +291,7 @@ public class PresentationModel extends Observable {
         // Save data to disk.
         final ProTrackWriter writer = new ProTrackWriter(data);
 
-        ProTrackUtils.checkOrCreateBaralgaDir();
+        BaralgaUtils.checkOrCreateBaralgaDir();
 
         final File proTrackFile = new File(Settings.getProTrackFileLocation());
         DataBackupStrategy.createBackup(proTrackFile);

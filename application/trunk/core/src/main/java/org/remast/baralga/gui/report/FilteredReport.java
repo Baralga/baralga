@@ -1,4 +1,4 @@
-package org.remast.baralga.model.report;
+package org.remast.baralga.gui.model.report;
 
 import java.util.List;
 import java.util.Observable;
@@ -7,6 +7,7 @@ import java.util.Vector;
 import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
+import org.remast.baralga.model.report.AccumulatedProjectActivity;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;

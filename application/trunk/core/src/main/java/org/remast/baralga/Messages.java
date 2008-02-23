@@ -1,4 +1,4 @@
-package org.remast.baralga.gui;
+package org.remast.baralga;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -7,6 +7,11 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * Gives access to all text resources for Baralga.
+ * TODO: Split up into two classes. One for the gui and one for the model.
+ * @author remast
+ */
 public abstract class Messages {
 
     /** The logger. */

@@ -2,7 +2,7 @@ package org.remast.baralga.gui.panels.table;
 
 import java.text.DateFormat;
 
-import org.remast.baralga.gui.Messages;
+import org.remast.baralga.Messages;
 import org.remast.baralga.model.report.AccumulatedProjectActivity;
 import org.remast.gui.util.Constants;
 

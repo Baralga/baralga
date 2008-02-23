@@ -2,7 +2,7 @@ package org.remast.baralga.gui.panels;
 
 import javax.swing.JTabbedPane;
 
-import org.remast.baralga.gui.Messages;
+import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.filter.Filter;
 
