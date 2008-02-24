@@ -1,4 +1,4 @@
-package org.remast.baralga.model.io;
+package org.remast.baralga.gui.model.io;
 
 import java.io.File;
 import java.io.FilenameFilter;

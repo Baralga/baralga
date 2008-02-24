@@ -1,4 +1,4 @@
-package org.remast.baralga.gui.timer;
+package org.remast.baralga.gui.model.io;
 
 import java.util.TimerTask;
 
