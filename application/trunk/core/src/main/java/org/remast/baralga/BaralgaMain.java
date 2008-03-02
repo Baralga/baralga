@@ -25,9 +25,9 @@ import org.remast.baralga.gui.Settings;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.model.io.DataBackupStrategy;
 import org.remast.baralga.gui.model.io.SaveTimer;
+import org.remast.baralga.gui.utils.BaralgaUtils;
 import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.io.ProTrackReader;
-import org.remast.baralga.model.utils.BaralgaUtils;
 
 public class BaralgaMain {
 

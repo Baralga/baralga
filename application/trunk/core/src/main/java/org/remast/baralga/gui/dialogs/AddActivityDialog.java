@@ -32,6 +32,7 @@ import org.remast.util.DateUtils;
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 
 /**
+ * Dialog for manually adding a project activity.
  * @author remast
  */
 @SuppressWarnings("serial")//$NON-NLS-1$
@@ -84,14 +85,17 @@ public class AddActivityDialog extends JDialog {
     // Fields for project activity
     // ------------------------------------------------
 
+    /** The project of the activity. */
     private Project project;
 
+    /** The start time of the activity. */
     private Date start;
 
+    /** The end time of the activity. */
     private Date end;
 
-
     /**
+     * Create a new dialog.
      * @param owner
      * @param model
      */
@@ -138,7 +142,6 @@ public class AddActivityDialog extends JDialog {
 
     /**
      * This method initializes projectSelector
-     * 
      * @return javax.swing.JComboBox
      */
     private JComboBox getProjectSelector() {
@@ -186,7 +189,6 @@ public class AddActivityDialog extends JDialog {
 
     /**
      * This method initializes jButton
-     * 
      * @return javax.swing.JButton
      */
     private JButton getAddActivityButton() {
@@ -252,6 +254,10 @@ public class AddActivityDialog extends JDialog {
         return endField;
     }
 
+    /**
+     * Validates the field to ensure that the entered data is valid.
+     * @return
+     */
     public boolean validateFields() {
         if (getProjectSelector().getSelectedItem() == null) {
             return false;

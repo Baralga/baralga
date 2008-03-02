@@ -7,7 +7,7 @@ import java.beans.PropertyChangeEvent;
  * @author remast
  */
 public class ProTrackEvent {
-    
+
     //------------------------------------------------
     // Constants for ProTrack Events
     //------------------------------------------------
@@ -57,10 +57,11 @@ public class ProTrackEvent {
         this.type = type;
         this.source = source;
     }
-    
+
     public boolean canBeUndone() {
-        // INFO: For now only removing activities can be undone.
-        return this.type == PROJECT_ACTIVITY_REMOVED;
+        // INFO: For now only adding / removing activities can be undone.
+        return this.type == PROJECT_ACTIVITY_REMOVED || 
+        this.type == PROJECT_ACTIVITY_ADDED;
     }
 
     /**
@@ -98,14 +99,14 @@ public class ProTrackEvent {
     public void setPropertyChangeEvent(PropertyChangeEvent propertyHint) {
         this.propertyChangeEvent = propertyHint;
     }
-    
+
     /**
      * @return the source
      */
     public Object getSource() {
         return source;
     }
-    
+
     /**
      * @param source the source to set
      */

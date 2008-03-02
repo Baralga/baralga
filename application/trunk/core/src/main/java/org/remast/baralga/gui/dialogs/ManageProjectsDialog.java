@@ -145,8 +145,7 @@ public class ManageProjectsDialog extends JDialog {
     }
 
     /**
-     * This method initializes addProjectButton	
-     * 	
+     * This method initializes addProjectButton	.
      * @return javax.swing.JButton	
      */
     private JButton getAddProjectButton() {
@@ -157,7 +156,7 @@ public class ManageProjectsDialog extends JDialog {
             addProjectButton.addActionListener(new java.awt.event.ActionListener() {   
             	public void actionPerformed(java.awt.event.ActionEvent e) {
                     String projectName = getNewProjectTextField().getText();
-                    getModel().addProject(new Project(RandomUtils.nextLong(), projectName, projectName));
+                    getModel().addProject(new Project(RandomUtils.nextLong(), projectName, projectName), ManageProjectsDialog.this);
                     getNewProjectTextField().setText(""); //$NON-NLS-1$
             	}
             
@@ -168,8 +167,7 @@ public class ManageProjectsDialog extends JDialog {
     }
 
     /**
-     * This method initializes removeProjectButton	
-     * 	
+     * This method initializes removeProjectButton.
      * @return javax.swing.JButton	
      */
     private JButton getRemoveProjectButton() {
@@ -180,7 +178,7 @@ public class ManageProjectsDialog extends JDialog {
             removeProjectButton.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent e) {
                     for (Object item : getProjectList().getSelectedValues()) {
-                        getModel().removeProject((Project) item);
+                        getModel().removeProject((Project) item, ManageProjectsDialog.this);
                     }
                 }
             });

@@ -19,12 +19,12 @@ import org.remast.baralga.gui.model.io.DataBackupStrategy;
 import org.remast.baralga.gui.model.report.HoursByDayReport;
 import org.remast.baralga.gui.model.report.HoursByWeekReport;
 import org.remast.baralga.gui.model.report.ObservingAccumulatedActivitiesReport;
+import org.remast.baralga.gui.utils.BaralgaUtils;
 import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.baralga.model.io.ProTrackWriter;
-import org.remast.baralga.model.utils.BaralgaUtils;
 import org.remast.util.DateUtils;
 
 import ca.odell.glazedlists.BasicEventList;
@@ -108,15 +108,16 @@ public class PresentationModel extends Observable {
     /**
      * Add the given project.
      * @param project the project to add
+     * @param source the source of the edit activity
      */
-    public void addProject(final Project project) {
+    public void addProject(final Project project, Object source) {
         getData().add(project);
         this.projectList.add(project);
         
         // Mark data as dirty
         this.dirty = true;
 
-        final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ADDED);
+        final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ADDED, source);
         event.setData(project);
         
         notify(event);
@@ -125,15 +126,16 @@ public class PresentationModel extends Observable {
     /**
      * Remove the given project.
      * @param project the project to remove
+     * @param source the source of the edit activity
      */
-    public void removeProject(final Project project) {
+    public void removeProject(final Project project, Object source) {
         getData().remove(project);
         this.projectList.remove(project);
 
         // Mark data as dirty
         this.dirty = true;
 
-        final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_REMOVED);
+        final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_REMOVED, source);
         event.setData(project);
         
         notify(event);

@@ -7,6 +7,7 @@ import javax.swing.AbstractAction;
 import org.remast.baralga.gui.model.PresentationModel;
 
 /**
+ * Abstract basic class for all baralga actions.
  * @author remast
  */
 public abstract class AbstractBaralgaAction extends AbstractAction {
@@ -22,6 +23,10 @@ public abstract class AbstractBaralgaAction extends AbstractAction {
         this(null, model);
     }
 
+    /**
+     * Create a new action for the given owning frame.
+     * @param owner the owning frame
+     */
     public AbstractBaralgaAction(final Frame owner) {
         this(owner, null);
     }

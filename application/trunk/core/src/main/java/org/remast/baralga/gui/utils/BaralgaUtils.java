@@ -1,4 +1,4 @@
-package org.remast.baralga.model.utils;
+package org.remast.baralga.gui.utils;
 
 import java.io.File;
 

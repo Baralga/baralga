@@ -9,6 +9,7 @@ import org.remast.baralga.Messages;
 import org.remast.baralga.gui.dialogs.AboutDialog;
 
 /**
+ * Shows the about dialog.
  * @author remast
  */
 @SuppressWarnings("serial")//$NON-NLS-1$

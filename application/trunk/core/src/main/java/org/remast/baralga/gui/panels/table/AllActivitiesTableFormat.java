@@ -18,7 +18,6 @@ import ca.odell.glazedlists.gui.WritableTableFormat;
 
 /**
  * Format for table containing all tracked project activities.
- * 
  * @author remast
  */
 public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActivity> {
@@ -82,7 +81,6 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
     public ProjectActivity setColumnValue(ProjectActivity activity, Object editedValue, int column) {
         // Project
         if (column == 0) {
-            
             final Project oldProject = activity.getProject();
             activity.setProject((Project) editedValue);
 
@@ -96,17 +94,17 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
                 final Date oldDate = activity.getEnd();
                 Date newDate = DateFormat.getDateInstance().parse((String) editedValue);
 
-                Calendar newCal = Calendar.getInstance();
+                final Calendar newCal = Calendar.getInstance();
                 newCal.setTime(newDate);
 
                 // Save date to start
-                Calendar startCal = Calendar.getInstance();
+                final Calendar startCal = Calendar.getInstance();
                 startCal.setTime(activity.getStart());
                 startCal.set(Calendar.DAY_OF_YEAR, newCal.get(Calendar.DAY_OF_YEAR));
                 activity.setStart(startCal.getTime());
 
                 // Copy date to end to preserve day in year
-                Calendar endCal = Calendar.getInstance();
+                final Calendar endCal = Calendar.getInstance();
                 endCal.setTime(activity.getEnd());
                 endCal.set(Calendar.DAY_OF_YEAR, newCal.get(Calendar.DAY_OF_YEAR));
                 activity.setEnd(endCal.getTime());
@@ -118,7 +116,6 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
                 // Ignore parse error and just don't save value
             }
         }
-
         // Start time
         else if (column == 2) {
             try {
