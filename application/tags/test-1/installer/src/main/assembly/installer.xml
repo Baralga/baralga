@@ -1,0 +1,30 @@
+<assembly>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<formats>
+		<format>dir</format>
+	</formats>
+	<fileSets>
+		<fileSet>
+			<directory>src/main/jre/</directory>
+			<outputDirectory>.</outputDirectory>
+			<includes>
+				<include>
+					*/**
+				</include>
+			</includes>
+		</fileSet>
+	</fileSets>
+	<dependencySets>
+		<dependencySet>
+			<outputDirectory>lib/</outputDirectory>
+			<outputFileNameMapping>
+				${artifactId}-${version}.${extension}
+			</outputFileNameMapping>
+			<unpack>false</unpack>
+			<scope>runtime</scope>
+			<excludes>
+				<exclude>com.remast.baralga:core</exclude>
+			</excludes>
+		</dependencySet>
+	</dependencySets>
+</assembly>

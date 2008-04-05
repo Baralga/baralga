@@ -1,0 +1,31 @@
+<assembly>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<formats>
+		<format>tar.gz</format>
+	</formats>
+	<dependencySets>
+		<dependencySet>
+			<outputDirectory>baralga/lib/</outputDirectory>
+			<outputFileNameMapping>
+				${artifactId}-${version}.${extension}
+			</outputFileNameMapping>
+			<unpack>false</unpack>
+			<scope>runtime</scope>
+			<excludes>
+				<exclude>com.remast.baralga:core</exclude>
+			</excludes>
+		</dependencySet>
+		<dependencySet>
+			<outputDirectory>baralga</outputDirectory>
+			<outputFileNameMapping>
+				baralga-${version}.${extension}
+			</outputFileNameMapping>
+			<unpack>false</unpack>
+			<scope>runtime</scope>
+			<includes>
+				<include>com.remast.baralga:core</include>
+			</includes>
+			<fileMode>0744</fileMode>
+		</dependencySet>
+	</dependencySets>
+</assembly>
