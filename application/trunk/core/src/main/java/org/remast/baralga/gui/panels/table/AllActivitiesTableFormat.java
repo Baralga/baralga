@@ -61,7 +61,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
             case 0:
                 return activity.getProject();
             case 1:
-                return DateFormat.getDateInstance().format(activity.getStart());
+                return activity.getStart();
             case 2:
                 return Constants.hhMMFormat.format(activity.getStart());
             case 3:

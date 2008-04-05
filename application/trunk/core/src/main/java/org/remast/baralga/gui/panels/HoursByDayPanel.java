@@ -1,6 +1,7 @@
 package org.remast.baralga.gui.panels;
 
 import java.awt.BorderLayout;
+import java.text.DateFormat;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -8,6 +9,8 @@ import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.renderer.DefaultTableRenderer;
+import org.jdesktop.swingx.renderer.FormatStringValue;
 import org.remast.baralga.gui.model.report.HoursByDay;
 import org.remast.baralga.gui.model.report.HoursByDayReport;
 import org.remast.baralga.gui.panels.table.HoursByDayTableFormat;
@@ -44,6 +47,9 @@ public class HoursByDayPanel extends JXPanel implements Observer {
         final JXTable table = new JXTable(tableModel);
         table.setHighlighters(Constants.HIGHLIGHTERS);
         table.setAutoResizeMode(JXTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        
+        table.getColumn(0).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance()))) ;
+        
         JScrollPane table_scroll_pane = new JScrollPane(table);
 
         this.add(table_scroll_pane, BorderLayout.CENTER);

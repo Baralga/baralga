@@ -1,7 +1,5 @@
 package org.remast.baralga.gui.panels.table;
 
-import java.text.DateFormat;
-
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.report.HoursByDay;
 import org.remast.gui.util.Constants;
@@ -31,7 +29,7 @@ public class HoursByDayTableFormat implements TableFormat<HoursByDay> {
     public Object getColumnValue(HoursByDay baseObject, int column) {
         switch (column) {
         case 0:
-            return DateFormat.getDateInstance().format(baseObject.getDay());
+            return baseObject.getDay();
         case 1:
             return Constants.durationFormat.format(baseObject.getHours());
         default:

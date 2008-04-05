@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DateFormat;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -19,6 +20,8 @@ import javax.swing.table.TableColumn;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
+import org.jdesktop.swingx.renderer.DefaultTableRenderer;
+import org.jdesktop.swingx.renderer.FormatStringValue;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.events.ProTrackEvent;
 import org.remast.baralga.gui.model.PresentationModel;
@@ -94,6 +97,8 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         final TableComparatorChooser<ProjectActivity> chooser = new TableComparatorChooser<ProjectActivity>(table,
                 filteredActivitiesList, false);
 
+        table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance()))) ;
+        
         // :INFO: Sorting is done via GlazedLists. We need to disable sorting here to avoid to sort order icons.
         table.setSortable(false);
 
