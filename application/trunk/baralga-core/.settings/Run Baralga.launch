@@ -10,5 +10,5 @@
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.remast.baralga.BaralgaMain"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="com.remast.baralga.baralga-core"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Duser.language=de"/>
-<stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:baralga}"/>
+<stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:com.remast.baralga.baralga-core}"/>
 </launchConfiguration>
