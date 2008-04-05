@@ -1,6 +1,7 @@
-== Baralga Version 1.3 ==
+== Baralga Version 1.2.1 ==
  * Adding activities can be undone.
  * Special characters are handled correctly in Excel Export (Issue #8).
+ * Sorting by date fixed in tables for activities by date and all activities.
 
 
 == Baralga Version 1.2 ==
