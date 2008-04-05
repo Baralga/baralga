@@ -6,11 +6,11 @@
 	<artifactId>installer</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>installer</name>
+	<name>Baralga Installer</name>
 	<url>http://maven.apache.org</url>
 	<parent>
-		<groupId>com.remast</groupId>
-		<artifactId>baralga</artifactId>
+		<groupId>com.remast.baralga</groupId>
+		<artifactId>parent</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 	<properties>
@@ -54,7 +54,7 @@
 							<artifactItems>
 								<artifactItem>
 									<groupId>${pom.groupId}</groupId>
-									<artifactId>core</artifactId>
+									<artifactId>baralga-core</artifactId>
 									<type>jar</type>
 									<outputDirectory>target</outputDirectory>
 								</artifactItem>
@@ -75,7 +75,7 @@
 									classpath="C:/Programme/Launch4j/launch4j.jar:C:/Programme/Launch4j/lib/xstream.jar" />
 								<launch4j
 									configFile="src/main/config/l4j/Baralga.cfg.xml"
-									jar="target/core-${baralga.version}.jar"
+									jar="target/baralga-core-${baralga.version}.jar"
 									outfile="target/${build.finalName}.dir/Baralga-${baralga.version}.exe" />
 								<property name="make-nsis"
 									location="C:\Programme\NSIS\makensis.exe" />
@@ -107,7 +107,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>${pom.groupId}</groupId>
-			<artifactId>core</artifactId>
+			<artifactId>baralga-core</artifactId>
 			<version>${baralga.version}</version>
 		</dependency>
 	</dependencies>

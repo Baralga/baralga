@@ -2,37 +2,16 @@
 <project>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.remast.baralga</groupId>
-	<artifactId>core</artifactId>
+	<artifactId>baralga-core</artifactId>
 	<packaging>jar</packaging>
-	<name>baralga</name>
+	<name>Baralga Application</name>
 	<version>1.2.1-SNAPSHOT</version>
 	<url>http://maven.apache.org</url>
 	<parent>
-		<groupId>com.remast</groupId>
-		<artifactId>baralga</artifactId>
+		<groupId>com.remast.baralga</groupId>
+		<artifactId>parent</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
-	<issueManagement>
-		<url>http://baralga.origo.ethz.ch/issues</url>
-	</issueManagement>
-	<developers>
-		<developer>
-			<email>baralga@geekmail.de</email>
-			<roles>
-				<role>architect</role>
-				<role>developer</role>
-			</roles>
-		</developer>
-	</developers>
-	<scm>
-		<connection>
-			scm:svn:https://svn.origo.ethz.ch/baralga/application/trunk
-		</connection>
-		<developerConnection>
-			scm:svn:https://svn.origo.ethz.ch/baralga/application/trunk
-		</developerConnection>
-		<url>http://svn.origo.ethz.ch/wsvn/baralga</url>
-	</scm>
 	<build>
 		<plugins>
 			<plugin>
@@ -43,26 +22,6 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-			<!-- 
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>attached</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<descriptorRefs>
-						<descriptorRef>
-							jar-with-dependencies
-						</descriptorRef>
-					</descriptorRefs>
-				</configuration>
-			</plugin>
-			 -->
 			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>

@@ -12,7 +12,7 @@
 			<unpack>false</unpack>
 			<scope>runtime</scope>
 			<excludes>
-				<exclude>com.remast.baralga:core</exclude>
+				<exclude>com.remast.baralga:baralga-core</exclude>
 			</excludes>
 		</dependencySet>
 		<dependencySet>
@@ -23,7 +23,7 @@
 			<unpack>false</unpack>
 			<scope>runtime</scope>
 			<includes>
-				<include>com.remast.baralga:core</include>
+				<include>com.remast.baralga:baralga-core</include>
 			</includes>
 			<fileMode>0744</fileMode>
 		</dependencySet>
