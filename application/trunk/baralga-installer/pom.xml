@@ -5,16 +5,16 @@
 	<groupId>com.remast.baralga</groupId>
 	<artifactId>installer</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>Baralga Installer</name>
 	<url>http://maven.apache.org</url>
 	<parent>
 		<groupId>com.remast.baralga</groupId>
 		<artifactId>parent</artifactId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.0</version>
 	</parent>
 	<properties>
-		<baralga.version>1.2.1-SNAPSHOT</baralga.version>
+		<baralga.version>1.2.1</baralga.version>
 	</properties>
 	<build>
 		<finalName>baralga-installer-${baralga.version}</finalName>

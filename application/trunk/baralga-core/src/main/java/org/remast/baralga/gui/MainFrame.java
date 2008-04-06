@@ -450,16 +450,22 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     }
 
     public void windowIconified(java.awt.event.WindowEvent e) {
-        this.setVisible(false);
-        BaralgaMain.getTray().show();
+        if (BaralgaMain.getTray() != null) {
+            this.setVisible(false);
+            BaralgaMain.getTray().show();
+        }
     }
 
     public void windowOpened(java.awt.event.WindowEvent e) {
     }
 
     public void windowClosing(java.awt.event.WindowEvent e) {
-        this.setVisible(false);
-        BaralgaMain.getTray().show();
+        if (BaralgaMain.getTray() != null) {
+            this.setVisible(false);
+            BaralgaMain.getTray().show();
+        } else {
+            System.exit(0);
+        }
     }
 
     public void windowClosed(java.awt.event.WindowEvent e) {

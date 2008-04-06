@@ -56,6 +56,11 @@ public class BaralgaMain {
 
     private static Timer timer;
 
+    /**
+     * Gets the tray icon. 
+     * @return The tray icon or <code>null</code> if a tray icon
+     * is not supported by the platform.
+     */
     public static BaralgaTray getTray() {
         return tray;
     }
@@ -138,12 +143,21 @@ public class BaralgaMain {
             initTimer(model);
 
             final MainFrame mainFrame = new MainFrame(model);
-            tray = new BaralgaTray(model, mainFrame);
+            
+            // Create try icon.
+            try {
+                tray = new BaralgaTray(model, mainFrame);
+            } catch (UnsupportedOperationException e) {
+                // Tray icon not supported on the current platform.
+                tray = null;
+            }
 
             if (!inst.minimized) {
                 mainFrame.setVisible(true);
             } else {
-                tray.show();
+                if (tray != null) {
+                    tray.show();
+                }
             }
 
 

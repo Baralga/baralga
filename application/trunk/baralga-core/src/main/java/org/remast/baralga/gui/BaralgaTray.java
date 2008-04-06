@@ -67,7 +67,10 @@ public class BaralgaTray implements Observer {
                 mainFrame.setVisible(!mainFrame.isVisible());
                 mainFrame.setState(JFrame.NORMAL);
                 mainFrame.requestFocus();
-                BaralgaMain.getTray().hide();
+                
+                if (BaralgaMain.getTray() != null) {                    
+                    BaralgaMain.getTray().hide();
+                }
             }
 
         });

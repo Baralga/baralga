@@ -5,12 +5,12 @@
 	<artifactId>baralga-core</artifactId>
 	<packaging>jar</packaging>
 	<name>Baralga Application</name>
-	<version>1.2.1-SNAPSHOT</version>
+	<version>1.2.1</version>
 	<url>http://maven.apache.org</url>
 	<parent>
 		<groupId>com.remast.baralga</groupId>
 		<artifactId>parent</artifactId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.0</version>
 	</parent>
 	<build>
 		<plugins>
