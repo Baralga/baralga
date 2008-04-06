@@ -10,7 +10,6 @@ import java.awt.GridLayout;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -22,6 +21,7 @@ import org.jdesktop.swingx.JXList;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
+import org.remast.gui.util.EscapeDialog;
 
 import ca.odell.glazedlists.swing.EventListModel;
 
@@ -30,7 +30,7 @@ import ca.odell.glazedlists.swing.EventListModel;
  * :TODO: Rework the dialog to use table layout.
  */
 @SuppressWarnings("serial")
-public class ManageProjectsDialog extends JDialog {
+public class ManageProjectsDialog extends EscapeDialog {
 
     private JPanel jContentPane = null;
 

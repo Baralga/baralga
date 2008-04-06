@@ -13,7 +13,6 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.text.DateFormatter;
@@ -27,6 +26,7 @@ import org.remast.baralga.gui.panels.TextEditor;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.gui.util.Constants;
+import org.remast.gui.util.EscapeDialog;
 import org.remast.util.DateUtils;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
@@ -36,7 +36,7 @@ import ca.odell.glazedlists.swing.EventComboBoxModel;
  * @author remast
  */
 @SuppressWarnings("serial")//$NON-NLS-1$
-public class AddActivityDialog extends JDialog {
+public class AddActivityDialog extends EscapeDialog {
 
     // ------------------------------------------------
     // Labels
