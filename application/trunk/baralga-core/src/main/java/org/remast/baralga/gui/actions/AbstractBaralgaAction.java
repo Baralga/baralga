@@ -57,4 +57,17 @@ public abstract class AbstractBaralgaAction extends AbstractAction {
     public void setOwner(final Frame owner) {
         this.owner = owner;
     }
+    
+    /**
+     * Get the mnemonic key which is the first charactor of the actions name.
+     * @return
+     */
+    public char getMnemonic() {
+        if (getValue(NAME) != null) {
+            final String name = (String) getValue(NAME);
+            return name.charAt(0);
+        }  else {
+            return '-';
+        }
+    }
 }

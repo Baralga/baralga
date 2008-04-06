@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Frame;
 
 import javax.swing.BorderFactory;
-import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 
@@ -13,12 +12,13 @@ import org.jdesktop.swingx.JXImagePanel;
 import org.jdesktop.swingx.JXLabel;
 import org.remast.baralga.Messages;
 import org.remast.gui.util.Constants;
+import org.remast.gui.util.EscapeDialog;
 
 /**
  * @author remast
  */
 @SuppressWarnings("serial")
-public class AboutDialog extends JDialog {
+public class AboutDialog extends EscapeDialog {
 
     public AboutDialog(final Frame owner) {
         super(owner);

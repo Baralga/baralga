@@ -25,6 +25,7 @@ import org.jdesktop.swingx.JXTitledSeparator;
 import org.remast.baralga.BaralgaMain;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.actions.AboutAction;
+import org.remast.baralga.gui.actions.AbstractBaralgaAction;
 import org.remast.baralga.gui.actions.AddActivityAction;
 import org.remast.baralga.gui.actions.ExcelExportAction;
 import org.remast.baralga.gui.actions.ExitAction;
@@ -64,6 +65,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     /** The description editor. */
     private TextEditor descriptionEditor;
 
+    
     // ------------------------------------------------
     // Other stuff
     // ------------------------------------------------
@@ -71,6 +73,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     /** The filtered report. */
     private ReportPanel reportPanel;
 
+    
     // ------------------------------------------------
     // The menus
     // ------------------------------------------------
@@ -89,8 +92,15 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
     /** The edit menu. */
     private JMenu editMenu = null;
+    
 
+    // ------------------------------------------------
     // The menu items
+    // ------------------------------------------------
+
+    private JMenuItem aboutMenuItem = null;
+    
+    private JMenuItem addActivityMenuItem = null;
 
     private JMenuItem editProjectsMenuItem = null;
 
@@ -102,7 +112,6 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
     /**
      * This is the default constructor
-     * 
      * @param model
      */
     public MainFrame(final PresentationModel model) {
@@ -296,7 +305,8 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private JMenu getHelpMenu() {
         if (helpMenu == null) {
             helpMenu = new JMenu(Messages.getString("MainFrame.HelpMenu.Title"));
-            helpMenu.add(new AboutAction(this));
+            helpMenu.setMnemonic(Messages.getString("MainFrame.HelpMenu.Title").charAt(0));
+            helpMenu.add(getAboutMenuItem());
         }
         return helpMenu;
     }
@@ -310,6 +320,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         if (fileMenu == null) {
             fileMenu = new JMenu();
             fileMenu.setText(Messages.getString("MainFrame.FileMenu.Title")); //$NON-NLS-1$
+            fileMenu.setMnemonic(Messages.getString("MainFrame.FileMenu.Title").charAt(0)); //$NON-NLS-1$
             fileMenu.add(getExportMenu());
             fileMenu.addSeparator();
             fileMenu.add(getExitItem());
@@ -326,16 +337,34 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private JMenu getEditMenu() {
         if (editMenu == null) {
             editMenu = new JMenu();
+            editMenu.setText(Messages.getString("MainFrame.EditMenu.Title")); //$NON-NLS-1$
+            editMenu.setMnemonic(Messages.getString("MainFrame.EditMenu.Title").charAt(0)); //$NON-NLS-1$
+
             editMenu.add(this.model.getEditStack().getRedoAction());
             editMenu.add(this.model.getEditStack().getUndoAction());
+            
             editMenu.addSeparator();
-            editMenu.setText(Messages.getString("MainFrame.EditMenu.Title")); //$NON-NLS-1$
+            
             editMenu.add(getEditProjectsMenuItem());
-            editMenu.add(new AddActivityAction(this, this.model));
+            editMenu.add(getAddActivityMenuItem());
         }
         return editMenu;
     }
 
+    /**
+     * This method initializes addActivityMenuItem
+     * 
+     * @return javax.swing.JMenuItem
+     */
+    private JMenuItem getAddActivityMenuItem() {
+        if (addActivityMenuItem == null) {
+            AbstractBaralgaAction addActivityAction = new AddActivityAction(this, this.model);
+            addActivityMenuItem = new JMenuItem(addActivityAction);
+            addActivityMenuItem.setMnemonic(addActivityAction.getMnemonic());
+        }
+        return addActivityMenuItem;
+    }
+    
     /**
      * This method initializes editProjectsMenuItem
      * 
@@ -343,11 +372,27 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      */
     private JMenuItem getEditProjectsMenuItem() {
         if (editProjectsMenuItem == null) {
-            editProjectsMenuItem = new JMenuItem();
-            editProjectsMenuItem.setAction(new ManageProjectsAction(this, this.model));
+            AbstractBaralgaAction manageProjectsAction = new ManageProjectsAction(this, this.model);
+            editProjectsMenuItem = new JMenuItem(manageProjectsAction);
+            editProjectsMenuItem.setMnemonic(manageProjectsAction.getMnemonic());
         }
         return editProjectsMenuItem;
     }
+    
+    /**
+     * This method initializes aboutMenuItem
+     * 
+     * @return javax.swing.JMenuItem
+     */
+    private JMenuItem getAboutMenuItem() {
+        if (aboutMenuItem == null) {
+            AbstractBaralgaAction aboutAction = new AboutAction(this);
+            aboutMenuItem = new JMenuItem(aboutAction);
+            aboutMenuItem.setMnemonic(aboutAction.getMnemonic());
+        }
+        return aboutMenuItem;
+    }
+    
 
     /**
      * @param model the model to set
@@ -429,8 +474,9 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      */
     private JMenuItem getExcelExportItem() {
         if (excelExportItem == null) {
-            excelExportItem = new JMenuItem();
-            excelExportItem.setAction(new ExcelExportAction(this.model));
+            final AbstractBaralgaAction excelExportAction = new ExcelExportAction(this.model);
+            excelExportItem = new JMenuItem(excelExportAction);
+            excelExportItem.setMnemonic(excelExportAction.getMnemonic());
         }
         return excelExportItem;
     }
@@ -444,6 +490,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         if (exportMenu == null) {
             exportMenu = new JMenu();
             exportMenu.setText(Messages.getString("MainFrame.ExportMenu.Title")); //$NON-NLS-1$
+            exportMenu.setMnemonic(Messages.getString("MainFrame.ExportMenu.Title").charAt(0)); //$NON-NLS-1$
             exportMenu.add(getExcelExportItem());
         }
         return exportMenu;
@@ -487,7 +534,9 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      */
     private JMenuItem getExitItem() {
         if (exitItem == null) {
-            exitItem = new JMenuItem(new ExitAction(this.model));
+            final AbstractBaralgaAction exitAction = new ExitAction(this.model);
+            exitItem = new JMenuItem(exitAction);
+            exitItem.setMnemonic(exitAction.getMnemonic());
         }
         return exitItem;
     }
@@ -499,7 +548,9 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      */
     private JMenuItem getSaveItem() {
         if (saveItem == null) {
-            saveItem = new JMenuItem(new SaveAction(this, this.model));
+            final AbstractBaralgaAction saveAction = new SaveAction(this, this.model);
+            saveItem = new JMenuItem(saveAction);
+            saveItem.setMnemonic(saveAction.getMnemonic());            
         }
         return saveItem;
     }
