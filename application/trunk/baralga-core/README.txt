@@ -5,6 +5,7 @@
  * Installer for linux.
  * Baralga works also on platforms which do not support a tray icon (e.g. linux).
  * Dialogs close on pressing Escape.
+ * Icon added for deleting activities from all activities list.
 
 
 == Baralga Version 1.2 ==

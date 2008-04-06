@@ -10,6 +10,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
@@ -103,7 +104,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         table.setSortable(false);
 
         final JPopupMenu menu = new JPopupMenu();
-        menu.add(new AbstractAction(Messages.getString("AllActitvitiesPanel.Delete")) { //$NON-NLS-1$
+        menu.add(new AbstractAction(Messages.getString("AllActitvitiesPanel.Delete"), new ImageIcon(getClass().getResource("/icons/gtk-delete.png"))) { //$NON-NLS-1$
 
                     public void actionPerformed(ActionEvent event) {
                         // 1. Get selected activities
