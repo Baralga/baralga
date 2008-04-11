@@ -1,0 +1,5 @@
+#!/bin/sh
+# ----------------------------------------------------------------------------
+# Baralga Start Up Batch script
+#
+exec java -jar baralga-${baralga.version}.jar
