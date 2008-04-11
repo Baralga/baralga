@@ -23,6 +23,7 @@ import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.FormatStringValue;
+import org.jdesktop.swingx.table.DatePickerCellEditor;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.events.ProTrackEvent;
 import org.remast.baralga.gui.model.PresentationModel;
@@ -99,6 +100,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
                 filteredActivitiesList, false);
 
         table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance()))) ;
+        table.getColumn(1).setCellEditor(new DatePickerCellEditor());
         
         // :INFO: Sorting is done via GlazedLists. We need to disable sorting here to avoid to sort order icons.
         table.setSortable(false);

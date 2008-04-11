@@ -1,7 +1,6 @@
 package org.remast.baralga.gui.panels.table;
 
 import java.beans.PropertyChangeEvent;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
@@ -90,37 +89,33 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         }
         // Day and month
         else if (column == 1) {
-            try {
-                final Date oldDate = activity.getEnd();
-                Date newDate = DateFormat.getDateInstance().parse((String) editedValue);
+            final Date oldDate = activity.getEnd();
+            Date newDate = (Date) editedValue;
 
-                final Calendar newCal = Calendar.getInstance();
-                newCal.setTime(newDate);
+            final Calendar newCal = Calendar.getInstance();
+            newCal.setTime(newDate);
 
-                // Save date to start
-                final Calendar startCal = Calendar.getInstance();
-                startCal.setTime(activity.getStart());
-                startCal.set(Calendar.DAY_OF_YEAR, newCal.get(Calendar.DAY_OF_YEAR));
-                activity.setStart(startCal.getTime());
+            // Save date to start
+            final Calendar startCal = Calendar.getInstance();
+            startCal.setTime(activity.getStart());
+            startCal.set(Calendar.DAY_OF_YEAR, newCal.get(Calendar.DAY_OF_YEAR));
+            activity.setStart(startCal.getTime());
 
-                // Copy date to end to preserve day in year
-                final Calendar endCal = Calendar.getInstance();
-                endCal.setTime(activity.getEnd());
-                endCal.set(Calendar.DAY_OF_YEAR, newCal.get(Calendar.DAY_OF_YEAR));
-                activity.setEnd(endCal.getTime());
+            // Copy date to end to preserve day in year
+            final Calendar endCal = Calendar.getInstance();
+            endCal.setTime(activity.getEnd());
+            endCal.set(Calendar.DAY_OF_YEAR, newCal.get(Calendar.DAY_OF_YEAR));
+            activity.setEnd(endCal.getTime());
 
-                // Fire event
-                final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(activity, ProjectActivity.PROPERTY_DATE, oldDate, newDate);
-                model.fireProjectActivityChangedEvent(activity, propertyChangeEvent);
-            } catch (ParseException e) {
-                // Ignore parse error and just don't save value
-            }
+            // Fire event
+            final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(activity, ProjectActivity.PROPERTY_DATE, oldDate, newDate);
+            model.fireProjectActivityChangedEvent(activity, propertyChangeEvent);
         }
         // Start time
         else if (column == 2) {
             try {
                 final Date oldStart = activity.getStart();
-                
+
                 final Date newStart = Constants.hhMMFormat.parse((String) editedValue);
                 activity.getStart().setHours(newStart.getHours());
                 activity.getStart().setMinutes(newStart.getMinutes());
@@ -136,7 +131,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         else if (column == 3) {
             try {
                 final Date oldEnd = activity.getEnd();
-                
+
                 final Date newEnd = Constants.hhMMFormat.parse((String) editedValue);
                 activity.getEnd().setHours(newEnd.getHours());
                 activity.getEnd().setMinutes(newEnd.getMinutes());

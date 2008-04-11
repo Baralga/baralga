@@ -1,3 +1,6 @@
+== Baralga Version 1.2.2 ==
+ * Improved the editing of dates in the table of all activities.
+
 == Baralga Version 1.2.1 ==
  * Adding activities can be undone.
  * Special characters are handled correctly in Excel Export (Issue #8).
