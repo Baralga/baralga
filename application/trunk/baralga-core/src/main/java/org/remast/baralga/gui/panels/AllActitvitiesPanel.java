@@ -15,6 +15,8 @@ import javax.swing.JComboBox;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 
@@ -101,6 +103,24 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
 
         table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance()))) ;
         table.getColumn(1).setCellEditor(new DatePickerCellEditor());
+        
+        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (table.getSelectedRows() == null) {
+                    table.setToolTipText(null);
+                }
+                
+                double duration = 0;
+                for(int i : table.getSelectedRows()) {
+                    duration += filteredActivitiesList.get(i).getDuration();
+                }
+                table.setToolTipText(Messages.getString("AllActivitiesPanel.tooltipDuration") + Constants.durationFormat.format(duration)); //$NON-NLS-1$
+                
+            }
+            
+        });
         
         // :INFO: Sorting is done via GlazedLists. We need to disable sorting here to avoid to sort order icons.
         table.setSortable(false);
