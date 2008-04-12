@@ -1,3 +1,10 @@
+== Baralga Version 1.3 ==
+User Interface
+ * Tooltip with sum of selected activities in all activities table.
+
+Fixes
+ * Sorting of accumulated activities by date corrected.
+
 == Baralga Version 1.2.2 ==
  * Improved the editing of dates in the table of all activities.
 

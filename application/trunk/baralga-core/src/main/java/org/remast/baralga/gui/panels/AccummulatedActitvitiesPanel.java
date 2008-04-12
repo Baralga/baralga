@@ -2,6 +2,7 @@ package org.remast.baralga.gui.panels;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.text.DateFormat;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -9,6 +10,8 @@ import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.renderer.DefaultTableRenderer;
+import org.jdesktop.swingx.renderer.FormatStringValue;
 import org.remast.baralga.gui.model.report.ObservingAccumulatedActivitiesReport;
 import org.remast.baralga.gui.panels.table.AccumulatedActivitiesTableFormat;
 import org.remast.baralga.model.filter.Filter;
@@ -49,6 +52,8 @@ public class AccummulatedActitvitiesPanel extends JXPanel implements Observer {
         tableModel = new EventTableModel<AccumulatedProjectActivity>(this.report.getAccumulatedActivitiesByDay(), new AccumulatedActivitiesTableFormat());
         final JXTable table = new JXTable(tableModel);
         table.setHighlighters(Constants.HIGHLIGHTERS);
+
+        table.getColumn(0).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance()))) ;
 
         table.setAutoResizeMode(JXTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         JScrollPane table_scroll_pane = new JScrollPane(table);

@@ -11,6 +11,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JMenu;
@@ -127,7 +128,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      * Set up GUI components.
      */
     private void initialize() {
-        this.setSize(530, 720);
+        this.setSize(572, 720);
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(
                 getClass().getResource("/icons/Baralga-Tray.gif"))); //$NON-NLS-1$
         this.setResizable(true);
@@ -489,6 +490,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private JMenu getExportMenu() {
         if (exportMenu == null) {
             exportMenu = new JMenu();
+            exportMenu.setIcon(new ImageIcon(getClass().getResource("/icons/gnome-mime-text-x-credits.png")));
             exportMenu.setText(Messages.getString("MainFrame.ExportMenu.Title")); //$NON-NLS-1$
             exportMenu.setMnemonic(Messages.getString("MainFrame.ExportMenu.Title").charAt(0)); //$NON-NLS-1$
             exportMenu.add(getExcelExportItem());
