@@ -204,6 +204,7 @@ public class PresentationModel extends Observable {
         
         // Clear old activity
         description = StringUtils.EMPTY;
+        Settings.instance().setLastDescription(StringUtils.EMPTY);
         setActive(false);
         start = null;
 

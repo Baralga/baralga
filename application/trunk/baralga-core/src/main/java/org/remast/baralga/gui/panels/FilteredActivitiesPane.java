@@ -13,9 +13,9 @@ import com.jidesoft.swing.JideTabbedPane;
  */
 @SuppressWarnings("serial")//$NON-NLS-1$
 public class FilteredActivitiesPane extends JideTabbedPane {
-    
+
     private PresentationModel model;
-    
+
     private Filter filter;
 
     private AccummulatedActitvitiesPanel accummulatedActitvitiesPanel;
@@ -76,23 +76,46 @@ public class FilteredActivitiesPane extends JideTabbedPane {
      */
     private void initialize() {
         this.setTabShape(JideTabbedPane.SHAPE_WINDOWS);
-//        setTabColorProvider(JideTabbedPane.ONENOTE_COLOR_PROVIDER);
-        
-        // :TODO: Add tooltips
+//      setTabColorProvider(JideTabbedPane.ONENOTE_COLOR_PROVIDER);
+
         accummulatedActitvitiesPanel = new AccummulatedActitvitiesPanel(model.getFilteredReport());
         this.addTab(
-                Messages.getString("FilteredActivitiesPane.Tab.AccumulatedActivities"), new ImageIcon(getClass().getResource("/icons/gnome-calculator.png")), accummulatedActitvitiesPanel); //$NON-NLS-1$
+                Messages.getString("FilteredActivitiesPane.Tab.AccumulatedActivities"),  //$NON-NLS-1$
+                new ImageIcon(getClass().getResource("/icons/gnome-calculator.png")),  //$NON-NLS-1$
+                accummulatedActitvitiesPanel, 
+                Messages.getString("FilteredActivitiesPane.Tab.AccumulatedActivities.Tooltip") //$NON-NLS-1$
+        );
 
         hoursByWeekPanel = new HoursByWeekPanel(model.getHoursByWeekReport());
-        this.addTab(Messages.getString("FilteredActivitiesPane.Tab.HoursByWeek"), new ImageIcon(getClass().getResource("/icons/stock_calendar-view-work-week.png")), hoursByWeekPanel); //$NON-NLS-1$
+        this.addTab(
+                Messages.getString("FilteredActivitiesPane.Tab.HoursByWeek"),  //$NON-NLS-1$
+                new ImageIcon(getClass().getResource("/icons/stock_calendar-view-work-week.png")),  //$NON-NLS-1$
+                hoursByWeekPanel, 
+                Messages.getString("FilteredActivitiesPane.Tab.HoursByWeek.Tooltip") //$NON-NLS-1$
+        );
 
         hoursByDayPanel = new HoursByDayPanel(model.getHoursByDayReport());
-        this.addTab(Messages.getString("FilteredActivitiesPane.Tab.HoursByDay"), new ImageIcon(getClass().getResource("/icons/stock_calendar-view-day.png")), hoursByDayPanel); //$NON-NLS-1$
-        
+        this.addTab(
+                Messages.getString("FilteredActivitiesPane.Tab.HoursByDay"),  //$NON-NLS-1$
+                new ImageIcon(getClass().getResource("/icons/stock_calendar-view-day.png")),  //$NON-NLS-1$
+                hoursByDayPanel, 
+                Messages.getString("FilteredActivitiesPane.Tab.HoursByDay.Tooltip") //$NON-NLS-1$
+        );
+
         filteredActitvitiesPanel = new AllActitvitiesPanel(model);
-        this.addTab(Messages.getString("FilteredActivitiesPane.Tab.AllActivities"), new ImageIcon(getClass().getResource("/icons/gtk-dnd-multiple.png")), filteredActitvitiesPanel); //$NON-NLS-1$
+        this.addTab(
+                Messages.getString("FilteredActivitiesPane.Tab.AllActivities"),  //$NON-NLS-1$
+                new ImageIcon(getClass().getResource("/icons/gtk-dnd-multiple.png")),  //$NON-NLS-1$
+                filteredActitvitiesPanel, 
+                Messages.getString("FilteredActivitiesPane.Tab.AllActivities.Tooltip") //$NON-NLS-1$
+        );
 
         descriptionPanel = new DescriptionPanel(model);
-        this.addTab(Messages.getString("FilteredActivitiesPane.Tab.Descriptions"), new ImageIcon(getClass().getResource("/icons/gnome-mime-text-x-readme.png")), descriptionPanel); //$NON-NLS-1$
+        this.addTab(
+                Messages.getString("FilteredActivitiesPane.Tab.Descriptions"),  //$NON-NLS-1$
+                new ImageIcon(getClass().getResource("/icons/gnome-mime-text-x-readme.png")), 
+                descriptionPanel, 
+                Messages.getString("FilteredActivitiesPane.Tab.Descriptions.Tooltip") //$NON-NLS-1$
+        );
     }
 }
