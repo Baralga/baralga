@@ -1,6 +1,9 @@
-== Baralga Version 1.3 ==
+== Baralga Version 1.2.3 ==
+ * On exit running activities are stopped. 
+
 User Interface
  * Tooltip with sum of selected activities in all activities table.
+ * Icons in tabs of activity reports.
 
 Fixes
  * Sorting of accumulated activities by date corrected.
