@@ -4,10 +4,7 @@
 package org.remast.baralga.model;
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import org.remast.gui.util.Constants;
 
@@ -116,7 +113,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
     @Override
     public String toString() {
 
-        return DateFormat.getDateInstance(DateFormat.SHORT).format(this.start) + " "
+        return Constants.dateFormat.format(this.start) + " "
                 + Constants.hhMMFormat.format(this.start) + " - " + Constants.hhMMFormat.format(this.end) + " ("
                 + Constants.durationFormat.format(this.getDuration()) + "h) " + this.project;
     }
@@ -135,13 +132,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
      * @return decimal value of the duration (e.g. for 30 minutes, 0.5 and so on)
      */    
     public double getDuration() {
-        final Calendar calStart = new GregorianCalendar();
-        calStart.setTime(start);
-
-        final Calendar calEnd = new GregorianCalendar();
-        calEnd.setTime(end);
-
-        long timeMilliSec = calEnd.getTimeInMillis() - calStart.getTimeInMillis();
+        long timeMilliSec = end.getTime() - start.getTime();
         long timeMin = timeMilliSec / 1000 / 60;
         long hours = timeMin / 60;
 

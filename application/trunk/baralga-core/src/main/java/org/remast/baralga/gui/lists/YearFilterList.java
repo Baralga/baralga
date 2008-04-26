@@ -17,7 +17,7 @@ public class YearFilterList implements Observer {
     public static final SimpleDateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy"); //$NON-NLS-1$
 
     /** The model. */
-    private PresentationModel model;
+    private final PresentationModel model;
 
     public static final String ALL_YEARS_DUMMY = "*"; //$NON-NLS-1$
 

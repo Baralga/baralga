@@ -87,7 +87,7 @@ public class BaralgaTray implements Observer {
      */
     private void buildMenu() {
         menu.removeAll();
-        menu.add(AWTUtils.createFromAction(new ExitAction(model)));
+        menu.add(AWTUtils.createFromAction(new ExitAction(null, model)));
 
         // Add separator
         menu.add("-"); //$NON-NLS-1$

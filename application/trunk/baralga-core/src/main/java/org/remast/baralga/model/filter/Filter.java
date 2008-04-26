@@ -1,10 +1,8 @@
 package org.remast.baralga.model.filter;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Vector;
 
 import org.apache.commons.collections.Predicate;
 import org.remast.baralga.model.Project;
@@ -13,7 +11,7 @@ import org.remast.baralga.model.ProjectActivity;
 public class Filter {
 
     /** The predicates of the filter. */
-    private List<Predicate> predicates = new ArrayList<Predicate>();
+    private final List<Predicate> predicates = new ArrayList<Predicate>();
 
     private Date month;
 
@@ -41,7 +39,7 @@ public class Filter {
      * @return a list of elements satisfying the filter
      */
     public List<ProjectActivity> applyFilters(final List<ProjectActivity> elements) {
-        Collection<ProjectActivity> filteredElements = new ArrayList<ProjectActivity>(elements);
+        ArrayList<ProjectActivity> filteredElements = new ArrayList<ProjectActivity>(elements);
         for (Predicate predicate : predicates) {
             for (ProjectActivity activity : new ArrayList<ProjectActivity>(filteredElements)) {
                 if (!predicate.evaluate(activity))
@@ -49,9 +47,8 @@ public class Filter {
             }
         }
 
-        final List<ProjectActivity> filteredElementsList = new Vector<ProjectActivity>(filteredElements.size());
-        filteredElementsList.addAll(filteredElements);
-        return filteredElementsList;
+        filteredElements.trimToSize();
+        return filteredElements;
     }
 
     public boolean satisfiesPredicates(final ProjectActivity activity) {

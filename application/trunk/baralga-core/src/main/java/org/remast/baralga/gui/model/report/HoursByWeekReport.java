@@ -17,9 +17,9 @@ import ca.odell.glazedlists.EventList;
 public class HoursByWeekReport extends Observable implements Observer  {
 
     /** The model. */
-    private PresentationModel model;
+    private final PresentationModel model;
 
-    private EventList<HoursByWeek> hoursByWeekList;
+    private final EventList<HoursByWeek> hoursByWeekList;
 
     private Filter filter;
 

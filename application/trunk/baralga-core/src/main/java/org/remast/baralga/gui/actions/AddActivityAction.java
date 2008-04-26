@@ -17,7 +17,7 @@ import org.remast.baralga.gui.model.PresentationModel;
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class AddActivityAction extends AbstractBaralgaAction {
 
-    public AddActivityAction(final Frame owner, PresentationModel model) {
+    public AddActivityAction(final Frame owner, final PresentationModel model) {
         super(owner, model);
         putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/gtk-add.png"))); //$NON-NLS-1$
         putValue(NAME, Messages.getString("AddActivityAction.Name")); //$NON-NLS-1$

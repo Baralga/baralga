@@ -1,6 +1,7 @@
 package org.remast.gui.util;
 
 import java.awt.Color;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -18,7 +19,7 @@ public interface Constants {
     // ------------------------------------------------
     // Date Formats
     // ------------------------------------------------
-
+    public static final DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
     public static final SimpleDateFormat hhMMFormat = new SimpleDateFormat("HH:mm"); //$NON-NLS-1$
 
     
@@ -39,7 +40,7 @@ public interface Constants {
 
     public static final Color DARK_BLUE = new Color(64, 64, 128);
 
-    public static Highlighter[] HIGHLIGHTERS = new Highlighter[] { 
+    public static final Highlighter[] HIGHLIGHTERS = new Highlighter[] { 
         HighlighterFactory.createSimpleStriping(BEIGE),
         new ColorHighlighter(HighlightPredicate.ROLLOVER_ROW, Color.DARK_GRAY, Color.WHITE)
     };

@@ -8,11 +8,11 @@ import org.remast.baralga.model.Project;
 
 public class AccumulatedProjectActivity {
 
-    Date day;
+    private final Date day;
 
-    Project project;
+    private final Project project;
 
-    double time;
+    private double time;
 
     public AccumulatedProjectActivity(Project project, Date day, double time) {
         this.project = project;

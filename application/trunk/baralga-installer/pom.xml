@@ -14,7 +14,7 @@
 		<version>1.0</version>
 	</parent>
 	<properties>
-		<baralga.version>1.2.2</baralga.version>
+		<baralga.version>1.2.3-SNAPSHOT</baralga.version>
 	</properties>
 	<build>
 		<finalName>baralga-installer-${baralga.version}</finalName>

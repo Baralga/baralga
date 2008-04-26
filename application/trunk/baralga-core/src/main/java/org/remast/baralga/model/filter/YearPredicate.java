@@ -9,7 +9,7 @@ import org.remast.util.DateUtils;
 
 public class YearPredicate implements Predicate {
 
-    private Date dateInYear;
+    private final Date dateInYear;
 
     public YearPredicate(final Date dateInYear) {
         this.dateInYear = dateInYear;

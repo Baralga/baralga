@@ -5,7 +5,7 @@
 	<artifactId>baralga-core</artifactId>
 	<packaging>jar</packaging>
 	<name>Baralga Application</name>
-	<version>1.3-SNAPSHOT</version>
+	<version>1.2.3-SNAPSHOT</version>
 	<url>http://maven.apache.org</url>
 	<parent>
 		<groupId>com.remast.baralga</groupId>

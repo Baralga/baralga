@@ -39,7 +39,6 @@ import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.SortedList;
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 import ca.odell.glazedlists.swing.EventTableModel;
-import ca.odell.glazedlists.swing.TableComparatorChooser;
 
 /**
  * @author remast
@@ -98,8 +97,6 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         tableModel = new EventTableModel<ProjectActivity>(this.filteredActivitiesList,
                 new AllActivitiesTableFormat(model));
         final JXTable table = new JXTable(tableModel);
-        final TableComparatorChooser<ProjectActivity> chooser = new TableComparatorChooser<ProjectActivity>(table,
-                filteredActivitiesList, false);
 
         table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance()))) ;
         table.getColumn(1).setCellEditor(new DatePickerCellEditor());

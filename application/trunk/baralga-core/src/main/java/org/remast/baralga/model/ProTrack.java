@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Vector;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
@@ -17,11 +16,11 @@ public class ProTrack implements Serializable {
      */
     private static final long serialVersionUID = 1L;
 
-    private List<Project> activeProjects;
+    private final List<Project> activeProjects = new ArrayList<Project>();
 
-    private List<Project> projectsToBeDeleted;
+    private final List<Project> projectsToBeDeleted = new ArrayList<Project>();
 
-    private List<ProjectActivity> activities;
+    private final List<ProjectActivity> activities;
 
     @XStreamAsAttribute
     private boolean active = false;
@@ -32,8 +31,6 @@ public class ProTrack implements Serializable {
     private Project activeProject;
 
     public ProTrack() {
-        this.activeProjects = new ArrayList<Project>();
-        this.projectsToBeDeleted = new ArrayList<Project>();
         this.activities = new ArrayList<ProjectActivity>();
     }
 
@@ -42,13 +39,6 @@ public class ProTrack implements Serializable {
      */
     public List<ProjectActivity> getActivities() {
         return activities;
-    }
-
-    /**
-     * @param activities the activities to set
-     */
-    public void setActivities(List<ProjectActivity> activities) {
-        this.activities = activities;
     }
 
     /**
@@ -64,8 +54,6 @@ public class ProTrack implements Serializable {
 
     public void remove(Project project) {
         this.activeProjects.remove(project);
-        if(this.projectsToBeDeleted == null)
-            this.projectsToBeDeleted = new ArrayList<Project>();
         this.projectsToBeDeleted.add(project);
     }
 
@@ -73,13 +61,13 @@ public class ProTrack implements Serializable {
         if(this.projectsToBeDeleted == null)
             return;
         
-        List<Project> referencedProjects = new Vector<Project>();        
+        List<Project> referencedProjects = new ArrayList<Project>();        
         for(ProjectActivity projectActivity : this.activities) {
             Project project = projectActivity.getProject();
             referencedProjects.add(project);
         }
         
-        List<Project> removeP = new Vector<Project>();
+        List<Project> removeP = new ArrayList<Project>();
         for (Project oldProject : this.projectsToBeDeleted) {
             if(!referencedProjects.contains(oldProject))
                 removeP.add(oldProject);

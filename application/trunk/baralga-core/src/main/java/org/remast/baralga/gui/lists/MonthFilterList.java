@@ -17,9 +17,9 @@ public class MonthFilterList implements Observer {
     public static final SimpleDateFormat MONTH_FORMAT = new SimpleDateFormat("MM"); //$NON-NLS-1$
 
     /** The model. */
-    private PresentationModel model;
+    private final PresentationModel model;
 
-    public static String ALL_MONTHS_DUMMY = "*"; //$NON-NLS-1$
+    public static final String ALL_MONTHS_DUMMY = "*"; //$NON-NLS-1$
 
     public static final FilterItem<String> ALL_MONTHS_FILTER_ITEM = new FilterItem<String>(ALL_MONTHS_DUMMY, Messages
             .getString("MonthFilterList.AllMonthsLabel")); //$NON-NLS-1$

@@ -17,6 +17,7 @@ import javax.swing.JComboBox;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
@@ -513,7 +514,22 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             this.setVisible(false);
             BaralgaMain.getTray().show();
         } else {
-            System.exit(0);
+            boolean quit = true;
+
+            if (model.isActive()) {
+                final int dialogResult = JOptionPane.showConfirmDialog(
+                        getOwner(), 
+                        Messages.getString("ExitConfirmDialog.Message"), 
+                        Messages.getString("ExitConfirmDialog.Title"), 
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+                quit = JOptionPane.YES_OPTION == dialogResult;
+            } 
+
+            if (quit) {
+                System.exit(0);
+            }
         }
     }
 
@@ -536,7 +552,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      */
     private JMenuItem getExitItem() {
         if (exitItem == null) {
-            final AbstractBaralgaAction exitAction = new ExitAction(this.model);
+            final AbstractBaralgaAction exitAction = new ExitAction(this, this.model);
             exitItem = new JMenuItem(exitAction);
             exitItem.setMnemonic(exitAction.getMnemonic());
         }

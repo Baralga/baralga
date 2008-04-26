@@ -1,9 +1,12 @@
 package org.remast.baralga.model.io;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.remast.baralga.model.ProTrack;
@@ -31,7 +34,7 @@ public class ProTrackReader {
      * @throws IOException
      */
     public void read(final File file) throws IOException {
-        final FileInputStream fis = new FileInputStream(file);
+        final InputStream fis = new BufferedInputStream(new FileInputStream(file));
 
         final XStream xstream = new XStream(new DomDriver());
         xstream.setMode(XStream.ID_REFERENCES);
@@ -46,6 +49,8 @@ public class ProTrackReader {
         } catch (Exception e)  {
             log.error(e, e);
             throw new IOException("The file " + (file != null ? file.getName() : "<null>" ) + " does not contain valid Baralga data.", e);
+        } finally {
+          IOUtils.closeQuietly(fis);
         }
 
         try {

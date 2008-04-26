@@ -9,7 +9,7 @@ import org.remast.baralga.model.ProjectActivity;
 
 public class ObservingFilteredReport extends FilteredReport implements Observer {
 
-    private PresentationModel model;
+    private final PresentationModel model;
 
     public ObservingFilteredReport(final PresentationModel model) {
         super(model.getData());

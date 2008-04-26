@@ -55,7 +55,7 @@ public final class ExcelExportAction extends AbstractBaralgaAction {
 
     }
 
-    class ExportWorker extends SwingWorker<String, Object> {
+    private static class ExportWorker extends SwingWorker<String, Object> {
         private PresentationModel model;
         private File file;
 

@@ -13,10 +13,10 @@ import org.remast.baralga.gui.model.PresentationModel;
 public abstract class AbstractBaralgaAction extends AbstractAction {
 
     /** The model. */
-    private PresentationModel model;
+    private final PresentationModel model;
     
     /** The owning frame. */
-    private Frame owner;
+    private final Frame owner;
 
 
     public AbstractBaralgaAction(final PresentationModel model) {
@@ -43,23 +43,12 @@ public abstract class AbstractBaralgaAction extends AbstractAction {
         return model;
     }
 
-    /**
-     * @param model the model to set
-     */
-    public void setModel(final PresentationModel model) {
-        this.model = model;
-    }
-
     public Frame getOwner() {
         return owner;
     }
-
-    public void setOwner(final Frame owner) {
-        this.owner = owner;
-    }
     
     /**
-     * Get the mnemonic key which is the first charactor of the actions name.
+     * Get the mnemonic key which is the first character of the actions name.
      * @return
      */
     public char getMnemonic() {

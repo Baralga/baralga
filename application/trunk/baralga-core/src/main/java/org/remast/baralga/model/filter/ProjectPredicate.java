@@ -8,7 +8,7 @@ import org.remast.baralga.model.ProjectActivity;
 
 public class ProjectPredicate implements Predicate {
 
-    private Project project;
+    private final Project project;
 
     public ProjectPredicate(Project project) {
         this.project = project;

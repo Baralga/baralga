@@ -14,16 +14,16 @@ public class Project implements Serializable, Comparable<Project>{
      */
     private static final long serialVersionUID = 1L;
 
-    private long id;
+    private final long id;
     
-    private String title;
+    private final String title;
     
     private String description;
     
     public Project(long id, String title, String description) {
-        setId(id);
-        setTitle(title);
-        setDescription(description);
+        this.id = id;
+        this.title = title;
+        this.description = description;
     }
 
     /**
@@ -34,13 +34,6 @@ public class Project implements Serializable, Comparable<Project>{
     }
 
     /**
-     * @param description the description to set
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    /**
      * @return the id
      */
     public long getId() {
@@ -48,24 +41,10 @@ public class Project implements Serializable, Comparable<Project>{
     }
 
     /**
-     * @param id the id to set
-     */
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    /**
      * @return the title
      */
     public String getTitle() {
         return title;
-    }
-
-    /**
-     * @param title the title to set
-     */
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     @Override

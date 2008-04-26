@@ -14,13 +14,13 @@ import ca.odell.glazedlists.EventList;
 public class ProjectFilterList implements Observer {
 
     /** The model. */
-    private PresentationModel model;
+    private final PresentationModel model;
 
     public static final Project ALL_PROJECTS_DUMMY = new Project(0, "*", "*"); //$NON-NLS-1$ //$NON-NLS-2$
     
     public static final FilterItem<Project> ALL_PROJECTS_FILTER_ITEM = new FilterItem<Project>(ALL_PROJECTS_DUMMY, Messages.getString("ProjectFilterList.AllProjectsLabel")); //$NON-NLS-1$
 
-    private EventList<FilterItem<Project>> projectList;
+    private final EventList<FilterItem<Project>> projectList;
 
     public ProjectFilterList(final PresentationModel model) {
         this.model = model;

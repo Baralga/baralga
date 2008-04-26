@@ -1,6 +1,5 @@
 package org.remast.baralga.model.report;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
@@ -34,7 +33,7 @@ public class AccumulatedActivitiesReport extends Observable {
 
     @Override
     public String toString() {
-        final StringBuffer result = new StringBuffer(""); //$NON-NLS-1$
+        final StringBuilder result = new StringBuilder();
 
         // accumulate activities for every day
         for (AccumulatedProjectActivity activity : accumulatedActivitiesByDay) {
@@ -78,15 +77,11 @@ public class AccumulatedActivitiesReport extends Observable {
      * @return all activities after applying the filter.
      */
     private List<ProjectActivity> getFilteredActivities() {
-        final List<ProjectActivity> filteredActivitiesList = new ArrayList<ProjectActivity>();
-
         if (filter != null) {
-            filteredActivitiesList.addAll(filter.applyFilters(this.data.getActivities()));
+            return filter.applyFilters(this.data.getActivities());
         } else {
-            filteredActivitiesList.addAll(this.data.getActivities());
+            return this.data.getActivities();
         }
-        
-        return filteredActivitiesList;
     }
 
     /**

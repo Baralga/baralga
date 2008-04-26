@@ -5,7 +5,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 public class FilterItem<E> {
     
     /** The item. */
-    private E item;
+    private final E item;
     
     /** The label. */
     private String label;
@@ -28,24 +28,10 @@ public class FilterItem<E> {
     }
 
     /**
-     * @param filterObject the filterObject to set
-     */
-    public void setItem(E filterObject) {
-        this.item = filterObject;
-    }
-
-    /**
      * @return the label
      */
     public String getLabel() {
         return label;
-    }
-
-    /**
-     * @param label the label to set
-     */
-    public void setLabel(String label) {
-        this.label = label;
     }
     
     @Override

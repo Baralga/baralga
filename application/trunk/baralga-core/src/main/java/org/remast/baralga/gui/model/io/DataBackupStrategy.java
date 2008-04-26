@@ -84,7 +84,7 @@ public class DataBackupStrategy {
     public static List<File> getBackupFiles()  {
         final SortedMap<Date, File> sortedBackupFiles = new TreeMap<Date, File>();
 
-        File dir = new File(Settings.DEFAULT_DIRECTORY);
+        File dir = Settings.DEFAULT_DIRECTORY;
         final String [] backupFiles = dir.list(new FilenameFilter() {
 
             public boolean accept(File dir, String name) {
@@ -100,7 +100,7 @@ public class DataBackupStrategy {
         });
 
         if (backupFiles == null) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
 
         for (String backupFile : backupFiles) {

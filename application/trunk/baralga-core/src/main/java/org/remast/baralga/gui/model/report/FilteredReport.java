@@ -2,7 +2,6 @@ package org.remast.baralga.gui.model.report;
 
 import java.util.List;
 import java.util.Observable;
-import java.util.Vector;
 
 import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.ProjectActivity;
@@ -35,11 +34,11 @@ public class FilteredReport extends Observable {
 
     @Override
     public String toString() {
-        String result = ""; //$NON-NLS-1$
+        StringBuilder result = new StringBuilder();
 
         // accumulate activities for every day
         for (AccumulatedProjectActivity activity : accumulatedActivitiesByDay) {
-            result += activity.toString() + ":"; //$NON-NLS-1$
+            result.append( activity.toString() ).append( ":" ); //$NON-NLS-1$
         }
 
         return "[" + result + "]"; //$NON-NLS-1$ //$NON-NLS-2$
@@ -76,18 +75,15 @@ public class FilteredReport extends Observable {
     }
 
     /**
-     * Get all filtered acitivies.
-     * @return all activies after applying the filter.
+     * Get all filtered activities.
+     * @return all activities after applying the filter.
      */
     private List<ProjectActivity> getFilteredActivities() {
-        List<ProjectActivity> filteredActivitiesList = new Vector<ProjectActivity>();
-
-        if (filter != null)
-            filteredActivitiesList.addAll(filter.applyFilters(this.data.getActivities()));
-        else
-            filteredActivitiesList.addAll(this.data.getActivities());
-
-        return filteredActivitiesList;
+        if (filter != null) {
+          return filter.applyFilters(this.data.getActivities());
+        } else {
+          return this.data.getActivities();
+        }
     }
 
     /**

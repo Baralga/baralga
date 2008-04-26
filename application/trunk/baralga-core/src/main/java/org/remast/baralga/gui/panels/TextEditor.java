@@ -57,7 +57,7 @@ public class TextEditor extends JXPanel {
 
     private HTMLEditorKit editorKit;
 
-    class BoldAction extends javax.swing.text.StyledEditorKit.BoldAction {
+    static class BoldAction extends javax.swing.text.StyledEditorKit.BoldAction {
 
         public BoldAction() {
             super();
@@ -68,7 +68,7 @@ public class TextEditor extends JXPanel {
 
     }
 
-    class ItalicAction extends javax.swing.text.StyledEditorKit.ItalicAction {
+    static class ItalicAction extends javax.swing.text.StyledEditorKit.ItalicAction {
 
         public ItalicAction() {
             super();

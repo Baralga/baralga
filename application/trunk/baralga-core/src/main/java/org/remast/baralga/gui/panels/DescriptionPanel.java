@@ -33,9 +33,9 @@ public class DescriptionPanel extends JXPanel implements Observer {
     private final PresentationModel model;
 
     /** The list of activities. */
-    private SortedList<ProjectActivity> filteredActivitiesList;
+    private final SortedList<ProjectActivity> filteredActivitiesList;
 
-    private Map<ProjectActivity, DescriptionPanelEntry> entriesByActivity;
+    private final Map<ProjectActivity, DescriptionPanelEntry> entriesByActivity;
 
     /** The applied filter. */
     private Filter filter;

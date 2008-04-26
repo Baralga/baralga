@@ -32,12 +32,12 @@ public class EditStack implements Observer {
     /**
      * The undoable edit events.
      */
-    private Stack<ProTrackEvent> undoStack = new Stack<ProTrackEvent>();
+    private final Stack<ProTrackEvent> undoStack = new Stack<ProTrackEvent>();
 
     /**
      * The redoable edit events.
      */
-    private Stack<ProTrackEvent> redoStack = new Stack<ProTrackEvent>();
+    private final Stack<ProTrackEvent> redoStack = new Stack<ProTrackEvent>();
 
     /** The model. */
     private PresentationModel model;

@@ -218,7 +218,7 @@ public class AddActivityDialog extends EscapeDialog {
 
     private JXDatePicker getDatePicker() {
         if (datePicker == null) {
-            datePicker = new JXDatePicker(System.currentTimeMillis());
+            datePicker = new JXDatePicker(new Date());
         }
 
         return datePicker;

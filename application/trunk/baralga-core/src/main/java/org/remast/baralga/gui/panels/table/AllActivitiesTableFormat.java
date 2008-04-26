@@ -5,8 +5,6 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
@@ -20,9 +18,6 @@ import ca.odell.glazedlists.gui.WritableTableFormat;
  * @author remast
  */
 public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActivity> {
-
-    /** The logger. */
-    private static final Log log = LogFactory.getLog(AllActivitiesTableFormat.class);
 
     /** The model. */
     private PresentationModel model;

@@ -27,17 +27,17 @@ public class Settings {
     //------------------------------------------------
 
     /** Default directory of ProTrack. */
-    public static final String DEFAULT_DIRECTORY = System.getProperty("user.home") + File.separator + ".ProTrack"; //$NON-NLS-1$ //$NON-NLS-2$
+    public static final File DEFAULT_DIRECTORY = new File( System.getProperty("user.home") + File.separator + ".ProTrack" ); //$NON-NLS-1$ //$NON-NLS-2$
 
     /** Default name of the ProTrack data file. */
     public static final String DEFAULT_FILE_NAME = "ProTrack.ptd"; //$NON-NLS-1$
 
     public static String getProTrackFileLocation() {
-        return DEFAULT_DIRECTORY + File.separator + DEFAULT_FILE_NAME;
+        return DEFAULT_DIRECTORY.getPath() + File.separator + DEFAULT_FILE_NAME;
     }
 
     public static File getBaralgaDirectory()  {
-        return new File(DEFAULT_DIRECTORY);
+        return DEFAULT_DIRECTORY;
     }
 
    

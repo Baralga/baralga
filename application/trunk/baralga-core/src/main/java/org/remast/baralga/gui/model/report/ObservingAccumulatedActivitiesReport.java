@@ -11,7 +11,7 @@ import org.remast.baralga.model.report.AccumulatedActivitiesReport;
 public class ObservingAccumulatedActivitiesReport extends AccumulatedActivitiesReport implements Observer {
 
     /** The model. */
-    private PresentationModel model;
+    private final PresentationModel model;
 
     public ObservingAccumulatedActivitiesReport(final PresentationModel model) {
         super(model.getData());

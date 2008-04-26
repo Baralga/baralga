@@ -9,7 +9,7 @@ import org.remast.util.DateUtils;
 
 public class MonthPredicate implements Predicate {
 
-    private Date dateInMonth;
+    private final Date dateInMonth;
 
     public MonthPredicate(final Date dateInMonth) {
         this.dateInMonth = dateInMonth;

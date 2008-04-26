@@ -1,10 +1,8 @@
 package org.remast.baralga;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.nio.channels.Channel;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.text.DateFormat;
@@ -23,6 +21,7 @@ import org.remast.baralga.gui.BaralgaTray;
 import org.remast.baralga.gui.MainFrame;
 import org.remast.baralga.gui.Settings;
 import org.remast.baralga.gui.model.PresentationModel;
+import org.remast.baralga.gui.model.ProjectStateException;
 import org.remast.baralga.gui.model.io.DataBackupStrategy;
 import org.remast.baralga.gui.model.io.SaveTimer;
 import org.remast.baralga.gui.utils.BaralgaUtils;
@@ -74,18 +73,15 @@ public class BaralgaMain {
             // Set look & feel
             initLookAndFeel();
 
-            if (existsLock()) {
+            if (!tryLock()) {
                 JOptionPane.showMessageDialog(null, Messages.getString("BaralgaMain.ErrorAlreadyRunning"), "Error", JOptionPane.ERROR_MESSAGE);
                 log.info(Messages.getString("BaralgaMain.ErrorAlreadyRunning")); //$NON-NLS-1$
                 return;
-            } else {
-                createLock();
             }
 
             // Initialize with new site
             final PresentationModel model = new PresentationModel();
             model.setDirty(true);
-            model.setData(new ProTrack());
 
             File file = null;
             final String proTrackFileLocation = Settings.getProTrackFileLocation();
@@ -165,9 +161,15 @@ public class BaralgaMain {
 
                 @Override
                 public void run() {
-                    // 1. Stop timer
-                    timer.cancel();
-
+                    // 1. Stop current activity, if any.
+                    if( model.isActive() ) {
+                        try {
+                          model.stop(false);
+                        } catch (ProjectStateException e) {
+                          // ignore
+                        }
+                    }
+                  
                     // 2. Save model
                     try {
                         model.save();
@@ -238,20 +240,32 @@ public class BaralgaMain {
      * @param model the model to be saved
      */
     private static void initTimer(final PresentationModel model) {
-        timer = new Timer();
+        timer = new Timer(true);
         timer.scheduleAtFixedRate(new SaveTimer(model), 1000 * 60 * SAVE_TIMER_INTERVAL, 1000 * 60 * SAVE_TIMER_INTERVAL);
     }
 
     /**
-     * Create a lock file in the directory <code>${user.home}/.ProTrack/lock</code>.
+     * Tries to create and lock a lock file at <code>${user.home}/.ProTrack/lock</code>.
+     * 
+     * @return <code>true</code> if the lock could be acquired. <code>false</code> if
+     *   the lock is held by another program
+     * @throws RuntimeException if an I/O error occurred
      */
-    private static void createLock() {
+    private static boolean tryLock() {
+        BaralgaUtils.checkOrCreateBaralgaDir();
         File lockFile = new File(Settings.getLockFileLocation());
         try {
-            lockFile.createNewFile();
+            if(!lockFile.exists()) {
+                lockFile.createNewFile();
+            }
 
             FileChannel channel = new RandomAccessFile(lockFile, "rw").getChannel(); //$NON-NLS-1$
-            lock = channel.lock();
+            lock = channel.tryLock();
+            if(lock != null) {
+              return true;
+            } else {
+              return false;
+            }
         } catch (IOException e) {
             final String error = Messages.getString("ProTrackMain.8"); //$NON-NLS-1$
             log.error(error, e);
@@ -260,47 +274,24 @@ public class BaralgaMain {
     }
 
     /**
-     * Releases the lock file created with {@link #releaseLock()}.
+     * Releases the lock file created with {@link #createLock()}.
      */
     private static void releaseLock() {
         File lockFile = new File(Settings.getLockFileLocation());
 
         if(lock != null) {
             try {
-                Channel channel = lock.channel();
                 lock.release();
-                channel.close();
             } catch (IOException e) {
                 log.error(e, e);
+            } finally {
+              try {
+                  lock.channel().close();
+              } catch (Exception e) {
+                  // ignore
+              }
             }
         }
         lockFile.delete();
-    }
-
-    /**
-     * Check whether lock file exists.
-     * @return true if there is a lock file else false
-     */
-    private static boolean existsLock() {
-        BaralgaUtils.checkOrCreateBaralgaDir();
-        File lockFile = new File(Settings.getLockFileLocation());
-
-        try {
-            FileChannel channel = new RandomAccessFile(lockFile, "rw").getChannel(); //$NON-NLS-1$
-            FileLock lock;
-
-            lock = channel.tryLock();
-
-            if (lock == null) {
-                return true;
-            }
-
-            lock.release();
-        } catch (FileNotFoundException e) {
-            return true;
-        } catch (IOException e) {
-            return true;
-        }
-        return false;        
     }
 }

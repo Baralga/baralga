@@ -181,8 +181,18 @@ public class PresentationModel extends Observable {
     /**
      * Stop a project activity.
      * @throws ProjectStateException if there is no running project
+     * @see #stop(boolean)
      */
     public void stop() throws ProjectStateException {
+        // Stop with notifying observers.
+        stop(true);
+    }
+
+    /**
+     * Stop a project activity.
+     * @throws ProjectStateException if there is no running project
+     */
+    public void stop(boolean notifyObservers) throws ProjectStateException {
         if (!isActive()) {
             throw new ProjectStateException(Messages.getString("PresentationModel.NoActiveProjectError")); //$NON-NLS-1$
         }
@@ -210,18 +220,17 @@ public class PresentationModel extends Observable {
 
         // Mark data as dirty
         this.dirty = true;
-
-        // Create Stop Event
-        ProTrackEvent event = new ProTrackEvent(ProTrackEvent.STOP);
-        notify(event);
         
-        // Mark data as dirty
-        this.dirty = true;
-        
-        // Create Event for Project Activity
-        event  = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_ADDED);
-        event.setData(activity);
-        notify(event);
+        if (notifyObservers) {
+            // Create Stop Event
+            ProTrackEvent event = new ProTrackEvent(ProTrackEvent.STOP);
+            notify(event);
+            
+            // Create Event for Project Activity
+            event  = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_ADDED);
+            event.setData(activity);
+            notify(event);
+        }
     }
 
     /**

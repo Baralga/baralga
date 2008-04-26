@@ -48,7 +48,7 @@ public class ManageProjectsDialog extends EscapeDialog {
 
     private JLabel lableProjectTitle = null;
 
-    private PresentationModel model;
+    private final PresentationModel model;
 
     /**
      * @param owner
@@ -56,7 +56,7 @@ public class ManageProjectsDialog extends EscapeDialog {
     public ManageProjectsDialog(final Frame owner, final PresentationModel model) {
         super(owner);
         
-        setModel(model);
+        this.model = model;
         
         initialize();
     }
@@ -191,13 +191,6 @@ public class ManageProjectsDialog extends EscapeDialog {
      */
     public PresentationModel getModel() {
         return model;
-    }
-
-    /**
-     * @param model the model to set
-     */
-    private void setModel(PresentationModel model) {
-        this.model = model;
     }
 
     /**
