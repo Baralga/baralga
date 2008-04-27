@@ -129,7 +129,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      * Set up GUI components.
      */
     private void initialize() {
-        this.setSize(572, 720);
+        this.setSize(530, 720);
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(
                 getClass().getResource("/icons/Baralga-Tray.gif"))); //$NON-NLS-1$
         this.setResizable(true);
