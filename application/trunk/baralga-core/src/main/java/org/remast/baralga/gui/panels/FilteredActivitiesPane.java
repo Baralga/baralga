@@ -1,7 +1,5 @@
 package org.remast.baralga.gui.panels;
 
-import javax.swing.ImageIcon;
-
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.filter.Filter;
@@ -76,7 +74,7 @@ public class FilteredActivitiesPane extends JideTabbedPane {
      */
     private void initialize() {
         this.setTabShape(JideTabbedPane.SHAPE_WINDOWS);
-      setTabColorProvider(JideTabbedPane.ONENOTE_COLOR_PROVIDER);
+        setTabColorProvider(JideTabbedPane.ONENOTE_COLOR_PROVIDER);
 
         accummulatedActitvitiesPanel = new AccummulatedActitvitiesPanel(model.getFilteredReport());
         this.addTab(
