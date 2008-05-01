@@ -4,6 +4,7 @@
 User Interface
  * Tooltip with sum of selected activities in all activities table.
  * Icons in tabs of activity reports.
+ * URLs in about dialog can be opened in the browser.
 
 Fixes
  * Sorting of accumulated activities by date corrected.
