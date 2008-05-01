@@ -157,12 +157,12 @@ public class BaralgaMain {
             }
 
 
-            Runtime.getRuntime().addShutdownHook(new Thread() {
+            Runtime.getRuntime().addShutdownHook(new Thread("Baralga shutdown ...") {
 
                 @Override
                 public void run() {
                     // 1. Stop current activity, if any.
-                    if( model.isActive() ) {
+                    if (model.isActive() ) {
                         try {
                           model.stop(false);
                         } catch (ProjectStateException e) {
