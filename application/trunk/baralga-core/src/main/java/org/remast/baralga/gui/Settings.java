@@ -15,6 +15,7 @@ import org.remast.baralga.gui.lists.YearFilterList;
 import org.remast.baralga.model.filter.Filter;
 
 /**
+ * Stores and reads the user settings.
  * @author remast
  */
 public class Settings {
@@ -23,7 +24,7 @@ public class Settings {
     private static final Log log = LogFactory.getLog(Settings.class);
 
     //------------------------------------------------
-    // ProTrack data locations
+    // Data locations
     //------------------------------------------------
 
     /** Default directory of ProTrack. */
@@ -32,10 +33,18 @@ public class Settings {
     /** Default name of the ProTrack data file. */
     public static final String DEFAULT_FILE_NAME = "ProTrack.ptd"; //$NON-NLS-1$
 
+    /**
+     * Get the location of the data file.
+     * @return the path of the data file
+     */
     public static String getProTrackFileLocation() {
         return DEFAULT_DIRECTORY.getPath() + File.separator + DEFAULT_FILE_NAME;
     }
 
+    /**
+     * Get the directory of Baralga in the profile of the user.
+     * @return the directory for user settings
+     */
     public static File getBaralgaDirectory()  {
         return DEFAULT_DIRECTORY;
     }
@@ -49,6 +58,10 @@ public class Settings {
     /** The singleton instance. */
     private static Settings instance;
     
+    /**
+     * Getter for singleton instance.
+     * @return the settings singleton
+     */
     public static Settings instance() {
         if (instance == null) {
             instance = new Settings();
@@ -57,7 +70,7 @@ public class Settings {
     }
     
     private Settings() {
-        File file = new File(PROPERTIES_FILENAME);
+        final File file = new File(PROPERTIES_FILENAME);
         try {
             config = new PropertiesConfiguration(file);
             config.setAutoSave(true);
