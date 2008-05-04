@@ -15,28 +15,26 @@ import org.apache.commons.logging.LogFactory;
  */
 @SuppressWarnings("serial")
 public class BrowserControlAction extends AbstractAction {
-	
-    /** The logger. */
-    private static final Log log = LogFactory.getLog(BrowserControlAction.class);
 
+	/** The logger. */
+	private static final Log log = LogFactory.getLog(BrowserControlAction.class);
 
-    /** The url to be opened. */
-    private String url;
+	/** The url to be opened. */
+	private String url;
 
-    public BrowserControlAction(String url) {
-        super(url);
-        this.url = url;
-    }
+	public BrowserControlAction(String url) {
+		super(url);
+		this.url = url;
+	}
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-    	Desktop d = Desktop.getDesktop();
-    	try {
-			d.browse(new URL(url).toURI());
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		try {
+			Desktop.getDesktop().browse(new URL(url).toURI());
 		} catch (Exception ex) {
 			log.error(ex, ex);
 		}
 
-    }
+	}
 
 }
