@@ -18,7 +18,7 @@ public abstract class AWTUtils {
      * @return 
      */
     public static MenuItem createFromAction(Action action) {
-        MenuItem item = new MenuItem(action.getValue(Action.NAME).toString());
+        final MenuItem item = new MenuItem(action.getValue(Action.NAME).toString());
         item.addActionListener(action);
         return item;
     }
