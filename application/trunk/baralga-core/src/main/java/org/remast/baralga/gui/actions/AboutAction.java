@@ -24,7 +24,7 @@ public class AboutAction extends AbstractBaralgaAction {
     }
 
     public void actionPerformed(ActionEvent event) {
-        AboutDialog aboutDialog = new AboutDialog(getOwner());
+        final AboutDialog aboutDialog = new AboutDialog(getOwner());
         aboutDialog.setVisible(true);
     }
 

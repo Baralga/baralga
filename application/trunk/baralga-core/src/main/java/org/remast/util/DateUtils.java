@@ -25,14 +25,15 @@ public abstract class DateUtils {
     }
 
     public static Date adjustToSameDay(final Date day, final Date timeToAdjust) {
-        Calendar cal1 = Calendar.getInstance();
+        final Calendar cal1 = Calendar.getInstance();
         cal1.setTime(day);
         
-        Calendar timeCal = Calendar.getInstance();
+        final Calendar timeCal = Calendar.getInstance();
         timeCal.setTime(timeToAdjust);
         
         timeCal.set(Calendar.YEAR, cal1.get(Calendar.YEAR));
         timeCal.set(Calendar.DAY_OF_YEAR, cal1.get(Calendar.DAY_OF_YEAR));
+        
         return timeCal.getTime();
     }
     
@@ -43,10 +44,13 @@ public abstract class DateUtils {
         if (date1 == null || date2 == null) {
             throw new IllegalArgumentException("The date must not be null"); //$NON-NLS-1$
         }
-        Calendar cal1 = Calendar.getInstance();
+        
+        final Calendar cal1 = Calendar.getInstance();
         cal1.setTime(date1);
-        Calendar cal2 = Calendar.getInstance();
+        
+        final Calendar cal2 = Calendar.getInstance();
         cal2.setTime(date2);
+        
         return isSameMonth(cal1, cal2);
     }
 
@@ -95,10 +99,12 @@ public abstract class DateUtils {
         if (date1 == null || date2 == null) {
             throw new IllegalArgumentException("The date must not be null"); //$NON-NLS-1$
         }
-        Calendar cal1 = Calendar.getInstance();
+        final Calendar cal1 = Calendar.getInstance();
         cal1.setTime(date1);
-        Calendar cal2 = Calendar.getInstance();
+        
+        final Calendar cal2 = Calendar.getInstance();
         cal2.setTime(date2);
+        
         return isSimilarMonth(cal1, cal2);
         }
 

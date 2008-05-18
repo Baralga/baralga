@@ -263,7 +263,7 @@ public class PresentationModel extends Observable {
             setStop(now);
 
             // 2. Track recorded project activity.
-            final ProjectActivity activity = new ProjectActivity(start, getStop(), previousProject);
+            final ProjectActivity activity = new ProjectActivity(start, stop, previousProject);
             activity.setDescription(description);
             
             getData().getActivities().add(activity);
@@ -284,7 +284,7 @@ public class PresentationModel extends Observable {
         // exact same reference
         setStart((Date) now.clone());
 
-        // Fire Project changed event
+        // Fire project changed event
         final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_CHANGED);
         event.setData(activeProject);
         notify(event);
@@ -323,7 +323,7 @@ public class PresentationModel extends Observable {
         this.dirty = true;
         
         // Fire event
-        ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_ADDED, source);
+        final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_ADDED, source);
         event.setData(activity);
         notify(event);
     }
@@ -340,7 +340,7 @@ public class PresentationModel extends Observable {
         this.dirty = true;
         
         // Fire event
-        ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_REMOVED, source);
+        final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_REMOVED, source);
         event.setData(activity);
         notify(event);
     }
