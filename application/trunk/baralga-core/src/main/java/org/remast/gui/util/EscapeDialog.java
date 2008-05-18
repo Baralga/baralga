@@ -18,20 +18,24 @@ import javax.swing.KeyStroke;
  */
 @SuppressWarnings("serial")
 public class EscapeDialog extends JDialog {
-    
+
     public EscapeDialog(Frame owner) {
         super(owner, true);
     }
 
     protected JRootPane createRootPane() {
-        JRootPane rootPane = new JRootPane();
-        KeyStroke stroke = KeyStroke.getKeyStroke("ESCAPE");
-        Action actionListener = new AbstractAction() {
+        final JRootPane rootPane = new JRootPane();
+        final KeyStroke stroke = KeyStroke.getKeyStroke("ESCAPE");
+
+        final Action actionListener = new AbstractAction() {
+            
             public void actionPerformed(ActionEvent actionEvent) {
                 setVisible(false);
             }
+            
         };
-        InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+
+        final InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         inputMap.put(stroke, "ESCAPE");
         rootPane.getActionMap().put("ESCAPE", actionListener);
 
