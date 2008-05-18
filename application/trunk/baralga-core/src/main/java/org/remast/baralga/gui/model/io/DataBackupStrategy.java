@@ -84,7 +84,7 @@ public class DataBackupStrategy {
     public static List<File> getBackupFiles()  {
         final SortedMap<Date, File> sortedBackupFiles = new TreeMap<Date, File>();
 
-        File dir = Settings.DEFAULT_DIRECTORY;
+        final File dir = Settings.DEFAULT_DIRECTORY;
         final String [] backupFiles = dir.list(new FilenameFilter() {
 
             public boolean accept(File dir, String name) {
@@ -114,7 +114,7 @@ public class DataBackupStrategy {
 
         // Order the list by the date of the backup with the latest backup at front.
         final List<File> backupFileList = new ArrayList<File>(sortedBackupFiles.size());
-        int numberOfBackups = sortedBackupFiles.size();
+        final int numberOfBackups = sortedBackupFiles.size();
         for (int i = 0; i < numberOfBackups; i++) {
             final Date backupDate = sortedBackupFiles.lastKey();
 
