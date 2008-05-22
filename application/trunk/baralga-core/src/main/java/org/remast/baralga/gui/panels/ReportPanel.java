@@ -108,7 +108,8 @@ public class ReportPanel extends JXPanel implements ActionListener {
             monthFilterList = model.getMonthFilterList();
             monthFilterSelector = new JComboBox(new EventComboBoxModel<FilterItem<String>>(monthFilterList
                     .getMonthList()));
-
+            monthFilterSelector.setToolTipText(Messages.getString("MonthFilterSelector.ToolTipText"));
+            
             // Select first entry
             if (!monthFilterList.getMonthList().isEmpty()) {
                 monthFilterSelector.setSelectedIndex(0);
@@ -142,7 +143,8 @@ public class ReportPanel extends JXPanel implements ActionListener {
             projectFilterList = model.getProjectFilterList();
             projectFilterSelector = new JComboBox(new EventComboBoxModel<FilterItem<Project>>(projectFilterList
                     .getProjectList()));
-
+            projectFilterSelector.setToolTipText(Messages.getString("ProjectFilterSelector.ToolTipText"));
+            
             // Select first entry
             if (!projectFilterList.getProjectList().isEmpty()) {
                 projectFilterSelector.setSelectedIndex(0);
@@ -175,6 +177,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
         if (yearFilterSelector == null) {
             yearFilterList = model.getYearFilterList();
             yearFilterSelector = new JComboBox(new EventComboBoxModel<FilterItem<String>>(yearFilterList.getYearList()));
+            yearFilterSelector.setToolTipText(Messages.getString("YearFilterSelector.ToolTipText"));
 
             // Select first entry
             if (!CollectionUtils.isEmpty(yearFilterList.getYearList())) {
@@ -207,10 +210,10 @@ public class ReportPanel extends JXPanel implements ActionListener {
      * @return
      */
     public Filter createFilter() {
-        Filter filter = new Filter();
+        final Filter filter = new Filter();
 
         FilterItem<String> filterItem = (FilterItem<String>) getMonthFilterSelector().getSelectedItem();
-        String selectedMonth = filterItem.getItem();
+        final String selectedMonth = filterItem.getItem();
         if (!MonthFilterList.ALL_MONTHS_DUMMY.equals(selectedMonth)) {
             try {
                 Date month = MonthFilterList.MONTH_FORMAT.parse(selectedMonth);
@@ -221,7 +224,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
         }
 
         filterItem = (FilterItem<String>) getYearFilterSelector().getSelectedItem();
-        String selectedYear = filterItem.getItem();
+        final String selectedYear = filterItem.getItem();
         if (!YearFilterList.ALL_YEARS_DUMMY.equals(selectedYear)) {
             try {
                 Date year = YearFilterList.YEAR_FORMAT.parse(selectedYear);
@@ -232,13 +235,16 @@ public class ReportPanel extends JXPanel implements ActionListener {
         }
 
         final FilterItem<Project> projectFilterItem = (FilterItem<Project>) getProjectFilterSelector().getSelectedItem();
-        Project project = projectFilterItem.getItem();
+        final Project project = projectFilterItem.getItem();
         if (!ProjectFilterList.ALL_PROJECTS_DUMMY.equals(project)) {
             filter.setProject(project);
         }
         return filter;
     }
 
+    /**
+     * Stores the filter in the user settings.
+     */
     private void saveToPreferences() {
         FilterItem<String> filterItem = (FilterItem<String>) getMonthFilterSelector().getSelectedItem();
         final String selectedMonth = filterItem.getItem();
