@@ -1,3 +1,7 @@
+== Baralga Version 1.?.? ==
+User Interface
+ * Enhanced tooltips.
+
 == Baralga Version 1.2.3 ==
  * On exit running activities are stopped. 
 
