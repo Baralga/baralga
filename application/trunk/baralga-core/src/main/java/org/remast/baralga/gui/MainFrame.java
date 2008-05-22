@@ -279,6 +279,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private JComboBox getProjectSelector() {
         if (projectSelector == null) {
             projectSelector = new JComboBox();
+            projectSelector.setToolTipText(Messages.getString("ProjectSelector.ToolTipText"));
 
             projectSelector.setModel(new EventComboBoxModel<Project>(this.model.getProjectList()));
 
