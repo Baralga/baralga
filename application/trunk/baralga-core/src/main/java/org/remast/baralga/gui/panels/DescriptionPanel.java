@@ -9,7 +9,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BoxLayout;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXPanel;
@@ -35,12 +34,13 @@ public class DescriptionPanel extends JXPanel implements Observer {
     /** The list of activities. */
     private final SortedList<ProjectActivity> filteredActivitiesList;
 
+    /** Cache for all entries by activity. */
     private final Map<ProjectActivity, DescriptionPanelEntry> entriesByActivity;
 
     /** The applied filter. */
     private Filter filter;
 
-    private JPanel container;
+    private JXPanel container;
 
     public DescriptionPanel(PresentationModel model) {
         super();
@@ -55,7 +55,7 @@ public class DescriptionPanel extends JXPanel implements Observer {
     }
 
     private void initialize() {
-        container = new JPanel();
+        container = new JXPanel();
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 
         this.add(new JScrollPane(container), BorderLayout.CENTER);
@@ -91,6 +91,7 @@ public class DescriptionPanel extends JXPanel implements Observer {
             // Save entry
             entriesByActivity.put(activity, descriptionPanelEntry);
 
+            // Display entry
             container.add(descriptionPanelEntry);
 
         }

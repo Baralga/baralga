@@ -18,6 +18,7 @@ public class ManageProjectsAction extends AbstractBaralgaAction {
     public ManageProjectsAction(final Frame owner, PresentationModel model) {
         super(owner, model);
         putValue(NAME, Messages.getString("ManageProjectsAction.Name")); //$NON-NLS-1$
+        putValue(SHORT_DESCRIPTION, Messages.getString("ManageProjectsAction.ShortDescription")); //$NON-NLS-1$
         putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/gtk-edit.png"))); //$NON-NLS-1$
     }
 
