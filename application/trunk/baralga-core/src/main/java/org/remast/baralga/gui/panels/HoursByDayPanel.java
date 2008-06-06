@@ -25,11 +25,17 @@ import ca.odell.glazedlists.swing.EventTableModel;
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class HoursByDayPanel extends JXPanel implements Observer {
 
+    /**
+     * The report displayed by this panel.
+     */
     private HoursByDayReport report;
     
+    /**
+     * The table model.
+     */
     private EventTableModel<HoursByDay> tableModel;
     
-    public HoursByDayPanel(HoursByDayReport report) {
+    public HoursByDayPanel(final HoursByDayReport report) {
         this.report = report;
         this.setLayout(new BorderLayout());
         
