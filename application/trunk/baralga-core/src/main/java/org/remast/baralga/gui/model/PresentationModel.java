@@ -462,9 +462,15 @@ public class PresentationModel extends Observable {
 
     /**
      * @param filter the filter to set
+     * @param source the source of the new filter
      */
-    public void setFilter(final Filter filter) {
+    public void setFilter(final Filter filter, Object source) {
         this.filter = filter;
+        
+        // Fire event
+        final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.FILTER_CHANGED, source);
+        event.setData(filter);
+        notify(event);
     }
 
     public String getDescription() {

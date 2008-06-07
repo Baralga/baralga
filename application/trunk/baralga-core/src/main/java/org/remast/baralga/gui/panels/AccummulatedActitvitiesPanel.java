@@ -14,7 +14,6 @@ import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.FormatStringValue;
 import org.remast.baralga.gui.model.report.ObservingAccumulatedActivitiesReport;
 import org.remast.baralga.gui.panels.table.AccumulatedActivitiesTableFormat;
-import org.remast.baralga.model.filter.Filter;
 import org.remast.baralga.model.report.AccumulatedActivitiesReport;
 import org.remast.baralga.model.report.AccumulatedProjectActivity;
 import org.remast.gui.util.Constants;
@@ -29,8 +28,6 @@ import ca.odell.glazedlists.swing.EventTableModel;
 public class AccummulatedActitvitiesPanel extends JXPanel implements Observer {
 
     private AccumulatedActivitiesReport report;
-    
-    private Filter filter;
     
     private EventTableModel<AccumulatedProjectActivity> tableModel;
 
@@ -59,21 +56,6 @@ public class AccummulatedActitvitiesPanel extends JXPanel implements Observer {
         JScrollPane table_scroll_pane = new JScrollPane(table);
 
         this.add(table_scroll_pane, BorderLayout.CENTER);
-    }
-
-    /**
-     * @return the filter
-     */
-    public Filter getFilter() {
-        return filter;
-    }
-
-    /**
-     * @param filter the filter to set
-     */
-    public void setFilter(Filter filter) {
-        this.filter = filter;
-        this.report.setFilter(filter);
     }
 
     public void update(Observable o, Object arg) {

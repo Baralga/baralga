@@ -284,7 +284,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
         saveToPreferences();
 
         // 3. Save to model
-        model.setFilter(filter);
+        model.setFilter(filter, this);
 
         // 4. Propagate to children
         if (filteredActivitiesPane != null) {

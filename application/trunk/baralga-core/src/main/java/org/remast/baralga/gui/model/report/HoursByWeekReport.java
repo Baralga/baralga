@@ -27,7 +27,7 @@ public class HoursByWeekReport extends Observable implements Observer  {
      * @param filter
      *            the filter to set
      */
-    public void setFilter(final Filter filter) {
+    private void setFilter(final Filter filter) {
         this.filter = filter;
 
         calculateHours();
@@ -105,6 +105,11 @@ public class HoursByWeekReport extends Observable implements Observer  {
                 case ProTrackEvent.PROJECT_ACTIVITY_CHANGED:
                     // TODO: Replace calculation by remove + add.
                     calculateHours();
+                    break;
+                    
+                case ProTrackEvent.FILTER_CHANGED:
+                    final Filter newFilter = (Filter) event.getData();
+                    setFilter(newFilter);
                     break;
             }
             setChanged();

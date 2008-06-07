@@ -14,7 +14,6 @@ import org.jdesktop.swingx.renderer.FormatStringValue;
 import org.remast.baralga.gui.model.report.HoursByDay;
 import org.remast.baralga.gui.model.report.HoursByDayReport;
 import org.remast.baralga.gui.panels.table.HoursByDayTableFormat;
-import org.remast.baralga.model.filter.Filter;
 import org.remast.gui.util.Constants;
 
 import ca.odell.glazedlists.swing.EventTableModel;
@@ -59,13 +58,6 @@ public class HoursByDayPanel extends JXPanel implements Observer {
         JScrollPane table_scroll_pane = new JScrollPane(table);
 
         this.add(table_scroll_pane, BorderLayout.CENTER);
-    }
-
-    /**
-     * @param filter the filter to set
-     */
-    public void setFilter(Filter filter) {
-        this.report.setFilter(filter);
     }
 
     public void update(Observable o, Object arg) {

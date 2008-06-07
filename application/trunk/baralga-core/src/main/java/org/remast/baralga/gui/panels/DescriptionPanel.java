@@ -142,10 +142,15 @@ public class DescriptionPanel extends JXPanel implements Observer {
                     this.container.remove(entryPanel);
                 }
                 break;
+        
+            case ProTrackEvent.FILTER_CHANGED:
+                final Filter newFilter = (Filter) event.getData();
+                setFilter(newFilter);
+                break;
         }
     }
 
-    public void setFilter(final Filter filter) {
+    private void setFilter(final Filter filter) {
         this.filter = filter;
         applyFilter();
     }

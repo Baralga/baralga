@@ -175,7 +175,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
      * @param filter
      *            the filter to set
      */
-    public void setFilter(final Filter filter) {
+    private void setFilter(final Filter filter) {
         this.filter = filter;
         applyFilter();
     }
@@ -199,6 +199,11 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
                     
                 case ProTrackEvent.PROJECT_ACTIVITY_CHANGED:
                     tableModel.fireTableDataChanged();
+                    
+                case ProTrackEvent.FILTER_CHANGED:
+                    final Filter newFilter = (Filter) event.getData();
+                    setFilter(newFilter);
+                    break;
             }
         }
     }

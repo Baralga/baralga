@@ -104,7 +104,7 @@ public class FilteredReport extends Observable {
      * @param filter
      *            the filter to set
      */
-    public void setFilter(Filter filter) {
+    protected void setFilter(Filter filter) {
         this.filter = filter;
         accumulate();
     }

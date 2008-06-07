@@ -26,7 +26,7 @@ public class HoursByDayReport extends Observable implements Observer  {
      * @param filter
      *            the filter to set
      */
-    public void setFilter(final Filter filter) {
+    private void setFilter(final Filter filter) {
         this.filter = filter;
 
         calculateHours();
@@ -86,27 +86,35 @@ public class HoursByDayReport extends Observable implements Observer  {
     }
 
     public void update(Observable source, Object eventObject) {
-        if (eventObject != null && eventObject instanceof ProTrackEvent) {
-            final ProTrackEvent event = (ProTrackEvent) eventObject;
-            switch (event.getType()) {
-
-                case ProTrackEvent.PROJECT_ACTIVITY_ADDED:
-                    ProjectActivity activity = (ProjectActivity) event.getData();
-                    addHours(activity);
-                    break;
-
-                case ProTrackEvent.PROJECT_ACTIVITY_REMOVED:
-                    calculateHours();
-                    break;
-
-                case ProTrackEvent.PROJECT_ACTIVITY_CHANGED:
-                    // TODO: Replace calculation by remove + add.
-                    calculateHours();
-                    break;
-            }
-            setChanged();
-            notifyObservers();
+        if (eventObject == null || !(eventObject instanceof ProTrackEvent)) {
+            return;
         }
+
+        final ProTrackEvent event = (ProTrackEvent) eventObject;
+        switch (event.getType()) {
+
+            case ProTrackEvent.PROJECT_ACTIVITY_ADDED:
+                final ProjectActivity activity = (ProjectActivity) event.getData();
+                addHours(activity);
+                break;
+
+            case ProTrackEvent.PROJECT_ACTIVITY_REMOVED:
+                calculateHours();
+                break;
+
+            case ProTrackEvent.PROJECT_ACTIVITY_CHANGED:
+                // TODO: Replace calculation by remove + add.
+                calculateHours();
+                break;
+
+            case ProTrackEvent.FILTER_CHANGED:
+                final Filter newFilter = (Filter) event.getData();
+                setFilter(newFilter);
+                break;
+        }
+
+        setChanged();
+        notifyObservers();
     }
 
 }

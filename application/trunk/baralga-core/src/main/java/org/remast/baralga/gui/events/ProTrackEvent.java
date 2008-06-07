@@ -28,6 +28,8 @@ public class ProTrackEvent {
 
     public static final int PROJECT_ACTIVITY_CHANGED = 7;
 
+    public static final int FILTER_CHANGED = 8;
+
     /** The type of the event. */
     final private int type;
 

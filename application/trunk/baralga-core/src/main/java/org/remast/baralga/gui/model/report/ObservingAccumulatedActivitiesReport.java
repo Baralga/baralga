@@ -6,6 +6,7 @@ import java.util.Observer;
 import org.remast.baralga.gui.events.ProTrackEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
+import org.remast.baralga.model.filter.Filter;
 import org.remast.baralga.model.report.AccumulatedActivitiesReport;
 
 public class ObservingAccumulatedActivitiesReport extends AccumulatedActivitiesReport implements Observer {
@@ -39,6 +40,11 @@ public class ObservingAccumulatedActivitiesReport extends AccumulatedActivitiesR
 
                 case ProTrackEvent.PROJECT_ACTIVITY_CHANGED:
                     this.accumulate();
+                    break;
+                    
+                case ProTrackEvent.FILTER_CHANGED:
+                    final Filter newFilter = (Filter) event.getData();
+                    setFilter(newFilter);
                     break;
             }
             setChanged();

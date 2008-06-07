@@ -11,7 +11,6 @@ import org.jdesktop.swingx.JXTable;
 import org.remast.baralga.gui.model.report.HoursByWeek;
 import org.remast.baralga.gui.model.report.HoursByWeekReport;
 import org.remast.baralga.gui.panels.table.HoursByWeekTableFormat;
-import org.remast.baralga.model.filter.Filter;
 import org.remast.gui.util.Constants;
 
 import ca.odell.glazedlists.swing.EventTableModel;
@@ -47,13 +46,6 @@ public class HoursByWeekPanel extends JXPanel implements Observer {
         JScrollPane table_scroll_pane = new JScrollPane(table);
 
         this.add(table_scroll_pane, BorderLayout.CENTER);
-    }
-
-    /**
-     * @param filter the filter to set
-     */
-    public void setFilter(Filter filter) {
-        this.report.setFilter(filter);
     }
 
     public void update(Observable o, Object arg) {

@@ -26,42 +26,6 @@ public class FilteredActivitiesPane extends JideTabbedPane {
 
     private DescriptionPanel descriptionPanel;
 
-    /**
-     * @return the filter
-     */
-    public Filter getFilter() {
-        return filter;
-    }
-
-    /**
-     * @param filter
-     *            the filter to set
-     */
-    public void setFilter(Filter filter) {
-        this.filter = filter;
-
-        // Propagate filter to children
-        if (filteredActitvitiesPanel != null) {
-            filteredActitvitiesPanel.setFilter(filter);
-        }
-
-        if (accummulatedActitvitiesPanel != null) {
-            accummulatedActitvitiesPanel.setFilter(filter);
-        }
-
-        if (hoursByWeekPanel != null) {
-            hoursByWeekPanel.setFilter(filter);
-        }
-
-        if (hoursByDayPanel != null) {
-            hoursByDayPanel.setFilter(filter);
-        }
-
-        if (descriptionPanel != null) {
-            descriptionPanel.setFilter(filter);
-        }
-    }
-
     public FilteredActivitiesPane(PresentationModel model) {
         super();
         this.model = model;
@@ -120,5 +84,20 @@ public class FilteredActivitiesPane extends JideTabbedPane {
                 descriptionPanel, 
                 Messages.getString("FilteredActivitiesPane.Tab.Descriptions.Tooltip") //$NON-NLS-1$
         );
+    }
+    
+    /**
+     * @return the filter
+     */
+    public Filter getFilter() {
+        return filter;
+    }
+
+    /**
+     * @param filter
+     *            the filter to set
+     */
+    public void setFilter(final Filter filter) {
+        this.filter = filter;
     }
 }
