@@ -7,11 +7,15 @@ import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
 
 /**
+ * Action to change the active project.
  * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class ChangeProjectAction extends AbstractBaralgaAction {
 
+    /**
+     * The project to be activated when the action is performed.
+     */
     private Project newProject;
 
     public ChangeProjectAction(final PresentationModel model, final Project newProject) {

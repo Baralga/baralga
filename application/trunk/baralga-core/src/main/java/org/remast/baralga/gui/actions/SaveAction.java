@@ -8,6 +8,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.PresentationModel;
 
@@ -16,6 +18,9 @@ import org.remast.baralga.gui.model.PresentationModel;
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
 public final class SaveAction extends AbstractBaralgaAction {
+
+    /** The logger. */
+    private static final Log log = LogFactory.getLog(SaveAction.class);
 
     public SaveAction(final Frame owner, final PresentationModel model) {
         super(owner, model);
@@ -30,6 +35,7 @@ public final class SaveAction extends AbstractBaralgaAction {
         try {
             getModel().save();
         } catch (Exception e) {
+            log.error(e, e);
             JOptionPane.showMessageDialog(
                     getOwner(), 
                     Messages.getString("SaveAction.ErrorText"), //$NON-NLS-1$

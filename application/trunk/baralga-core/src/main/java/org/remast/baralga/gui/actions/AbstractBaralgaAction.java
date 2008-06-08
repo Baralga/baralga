@@ -7,14 +7,14 @@ import javax.swing.AbstractAction;
 import org.remast.baralga.gui.model.PresentationModel;
 
 /**
- * Abstract basic class for all baralga actions.
+ * Abstract basic class for all Baralga actions.
  * @author remast
  */
 public abstract class AbstractBaralgaAction extends AbstractAction {
 
     /** The model. */
     private final PresentationModel model;
-    
+
     /** The owning frame. */
     private final Frame owner;
 
@@ -43,20 +43,27 @@ public abstract class AbstractBaralgaAction extends AbstractAction {
         return model;
     }
 
+    /**
+     * Getter for the owning frame of this action.
+     * @return the owning frame of this action
+     */
     public Frame getOwner() {
         return owner;
     }
-    
+
     /**
      * Get the mnemonic key which is the first character of the actions name.
-     * @return
+     * @return the mnemonic key character or '-' if the action has no name
      */
     public char getMnemonic() {
         if (getValue(NAME) != null) {
             final String name = (String) getValue(NAME);
-            return name.charAt(0);
-        }  else {
-            return '-';
+            try {
+                return name.charAt(0);
+            } catch (StringIndexOutOfBoundsException e) {
+            }
         }
+
+        return '-';
     }
 }
