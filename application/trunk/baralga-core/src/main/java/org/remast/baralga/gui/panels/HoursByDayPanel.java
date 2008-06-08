@@ -19,6 +19,8 @@ import org.remast.gui.util.Constants;
 import ca.odell.glazedlists.swing.EventTableModel;
 
 /**
+ * Panel for displaying the report of working hours by day.
+ * @see HoursByDayReport
  * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
@@ -34,6 +36,10 @@ public class HoursByDayPanel extends JXPanel implements Observer {
      */
     private EventTableModel<HoursByDay> tableModel;
     
+    /**
+     * Creates a new panel for the given report of hours by day.
+     * @param report the report with hours by day
+     */
     public HoursByDayPanel(final HoursByDayReport report) {
         this.report = report;
         this.setLayout(new BorderLayout());

@@ -18,15 +18,27 @@ import org.remast.gui.util.Constants;
 import ca.odell.glazedlists.swing.EventTableModel;
 
 /**
+ * Panel for displaying the report of working hours by week.
+ * @see HoursByWeekReport
  * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class HoursByWeekPanel extends JXPanel implements Observer {
 
+    /**
+     * The report displayed by this panel.
+     */
     private HoursByWeekReport report;
     
+    /**
+     * The table model.
+     */
     private EventTableModel<HoursByWeek> tableModel;
     
+    /**
+     * Creates a new panel for the given report of hours by week.
+     * @param report the report with hours by week
+     */
     public HoursByWeekPanel(HoursByWeekReport report) {
         this.report = report;
         this.setLayout(new BorderLayout());
