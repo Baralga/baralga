@@ -22,6 +22,10 @@ public class BrowserControlAction extends AbstractAction {
 	/** The url to be opened. */
 	private String url;
 
+	/**
+	 * Creates a new action that opens the given url.
+	 * @param url the url to be opened when the action is performed
+	 */
 	public BrowserControlAction(String url) {
 		super(url);
 		this.url = url;

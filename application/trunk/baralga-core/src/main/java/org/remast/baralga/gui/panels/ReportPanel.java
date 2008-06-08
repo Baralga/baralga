@@ -205,9 +205,8 @@ public class ReportPanel extends JXPanel implements ActionListener {
     }
 
     /**
-     * Create filter from selection.
-     * 
-     * @return
+     * Create filter from selection in this panel.
+     * @return the filter for the selection
      */
     public Filter createFilter() {
         final Filter filter = new Filter();
@@ -246,6 +245,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
      * Stores the filter in the user settings.
      */
     private void saveToPreferences() {
+        // Store filter by month
         FilterItem<String> filterItem = (FilterItem<String>) getMonthFilterSelector().getSelectedItem();
         final String selectedMonth = filterItem.getItem();
         if (!MonthFilterList.ALL_MONTHS_DUMMY.equals(selectedMonth)) {
@@ -254,6 +254,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
             Settings.instance().setFilterSelectedMonth(MonthFilterList.ALL_MONTHS_DUMMY);
         }
 
+        // Store filter by year
         filterItem = (FilterItem<String>) getYearFilterSelector().getSelectedItem();
         final String selectedYear = filterItem.getItem();
         if (!YearFilterList.ALL_YEARS_DUMMY.equals(selectedYear)) {
@@ -262,6 +263,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
             Settings.instance().setFilterSelectedYear(YearFilterList.ALL_YEARS_DUMMY);
         }
 
+        // Store filter by project
         final FilterItem<Project> projectFilterItem = (FilterItem<Project>) getProjectFilterSelector()
                 .getSelectedItem();
         final Project project = projectFilterItem.getItem();
