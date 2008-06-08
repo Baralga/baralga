@@ -2,7 +2,6 @@ package org.remast.baralga.gui.panels.table;
 
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.report.HoursByDay;
-import org.remast.gui.util.Constants;
 
 import ca.odell.glazedlists.gui.TableFormat;
 
@@ -31,7 +30,7 @@ public class HoursByDayTableFormat implements TableFormat<HoursByDay> {
         case 0:
             return baseObject.getDay();
         case 1:
-            return Constants.durationFormat.format(baseObject.getHours());
+            return baseObject.getHours();
         default:
             return null;
         }

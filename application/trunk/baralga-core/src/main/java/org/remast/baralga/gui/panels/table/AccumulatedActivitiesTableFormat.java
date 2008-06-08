@@ -2,7 +2,6 @@ package org.remast.baralga.gui.panels.table;
 
 import org.remast.baralga.Messages;
 import org.remast.baralga.model.report.AccumulatedProjectActivity;
-import org.remast.gui.util.Constants;
 
 import ca.odell.glazedlists.gui.TableFormat;
 
@@ -37,7 +36,7 @@ public class AccumulatedActivitiesTableFormat implements TableFormat<Accumulated
             case 1:
                 return accActivity.getProject();
             case 2:
-                return Constants.durationFormat.format(accActivity.getTime());
+                return accActivity.getTime();
             default:
                 return ""; //$NON-NLS-1$
         }

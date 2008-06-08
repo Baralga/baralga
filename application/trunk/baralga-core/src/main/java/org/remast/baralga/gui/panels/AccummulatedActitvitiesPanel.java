@@ -51,6 +51,7 @@ public class AccummulatedActitvitiesPanel extends JXPanel implements Observer {
         table.setHighlighters(Constants.HIGHLIGHTERS);
 
         table.getColumn(0).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance()))) ;
+        table.getColumn(2).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(Constants.durationFormat))) ;
 
         table.setAutoResizeMode(JXTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         JScrollPane table_scroll_pane = new JScrollPane(table);

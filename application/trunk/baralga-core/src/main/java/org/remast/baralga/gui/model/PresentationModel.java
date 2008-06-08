@@ -17,6 +17,7 @@ import org.remast.baralga.gui.lists.YearFilterList;
 import org.remast.baralga.gui.model.edit.EditStack;
 import org.remast.baralga.gui.model.io.DataBackupStrategy;
 import org.remast.baralga.gui.model.report.HoursByDayReport;
+import org.remast.baralga.gui.model.report.HoursByProjectReport;
 import org.remast.baralga.gui.model.report.HoursByWeekReport;
 import org.remast.baralga.gui.model.report.ObservingAccumulatedActivitiesReport;
 import org.remast.baralga.gui.utils.BaralgaUtils;
@@ -385,7 +386,10 @@ public class PresentationModel extends Observable {
     public HoursByDayReport getHoursByDayReport() {
         return new HoursByDayReport(this);
     }
-
+    
+    public HoursByProjectReport getHoursByProjectReport() {
+        return new HoursByProjectReport(this);
+    }
     /**
      * @return the start
      */

@@ -57,11 +57,11 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
             case 1:
                 return activity.getStart();
             case 2:
-                return Constants.hhMMFormat.format(activity.getStart());
+                return activity.getStart();
             case 3:
-                return Constants.hhMMFormat.format(activity.getEnd());
+                return activity.getEnd();
             case 4:
-                return Constants.durationFormat.format(activity.getDuration());
+                return activity.getDuration();
             default:
                 return ""; //$NON-NLS-1$
         }

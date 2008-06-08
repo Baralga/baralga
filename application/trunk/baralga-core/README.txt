@@ -1,6 +1,10 @@
-== Baralga Version 1.?.? ==
+== Baralga Version 1.3-SNAPSHOT ==
 User Interface
  * Enhanced tooltips.
+ * Improved sorting by hours in different tables.
+
+Functionality
+ * New report for working hours by project.
 
 == Baralga Version 1.2.3 ==
  * On exit running activities are stopped. 

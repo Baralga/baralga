@@ -214,7 +214,7 @@ public class BaralgaMain {
      * Initialize the logger of the application.
      */
     private static void initLogger() {
-        DOMConfigurator.configure(BaralgaMain.class.getResource("/config/log4j.xml"));
+        DOMConfigurator.configure(BaralgaMain.class.getResource("/log4j.xml"));
     }
 
     /**

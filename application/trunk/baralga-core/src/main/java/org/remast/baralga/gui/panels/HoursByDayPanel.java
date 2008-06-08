@@ -54,6 +54,7 @@ public class HoursByDayPanel extends JXPanel implements Observer {
         table.setAutoResizeMode(JXTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         
         table.getColumn(0).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance()))) ;
+        table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(Constants.durationFormat))) ;
         
         JScrollPane table_scroll_pane = new JScrollPane(table);
 

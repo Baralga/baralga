@@ -23,6 +23,8 @@ public class FilteredActivitiesPane extends JideTabbedPane {
     private HoursByWeekPanel hoursByWeekPanel;
 
     private HoursByDayPanel hoursByDayPanel;
+    
+    private HoursByProjectPanel hoursByProjectPanel;
 
     private DescriptionPanel descriptionPanel;
 
@@ -66,6 +68,16 @@ public class FilteredActivitiesPane extends JideTabbedPane {
                 hoursByDayPanel, 
                 Messages.getString("FilteredActivitiesPane.Tab.HoursByDay.Tooltip") //$NON-NLS-1$
         );
+
+        hoursByProjectPanel = new HoursByProjectPanel(model.getHoursByProjectReport());
+        this.addTab(
+                Messages.getString("FilteredActivitiesPane.Tab.HoursByProject"),  //$NON-NLS-1$
+                null,
+//                new ImageIcon(getClass().getResource("/icons/stock_calendar-view-day.png")),  //$NON-NLS-1$
+                hoursByProjectPanel, 
+                Messages.getString("FilteredActivitiesPane.Tab.HoursByProject.Tooltip") //$NON-NLS-1$
+        );
+
 
         filteredActitvitiesPanel = new AllActitvitiesPanel(model);
         this.addTab(
