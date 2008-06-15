@@ -1,4 +1,4 @@
-package org.remast.baralga.gui.panels;
+package org.remast.baralga.gui.panels.report;
 
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.PresentationModel;

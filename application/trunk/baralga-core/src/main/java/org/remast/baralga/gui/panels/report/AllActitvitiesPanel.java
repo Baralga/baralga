@@ -1,4 +1,4 @@
-package org.remast.baralga.gui.panels;
+package org.remast.baralga.gui.panels.report;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.remast.baralga.gui.panels;
+package org.remast.baralga.gui.panels.report;
 
 import java.awt.BorderLayout;
 
@@ -10,6 +10,8 @@ import javax.swing.border.TitledBorder;
 
 import org.jdesktop.swingx.JXPanel;
 import org.remast.baralga.model.ProjectActivity;
+import org.remast.gui.text.TextEditor;
+import org.remast.gui.text.TextEditor.TextChangeObserver;
 import org.remast.gui.util.Constants;
 
 /**

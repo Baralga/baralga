@@ -24,6 +24,7 @@ import org.remast.baralga.gui.lists.MonthFilterList;
 import org.remast.baralga.gui.lists.ProjectFilterList;
 import org.remast.baralga.gui.lists.YearFilterList;
 import org.remast.baralga.gui.model.PresentationModel;
+import org.remast.baralga.gui.panels.report.FilteredActivitiesPane;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.filter.Filter;
 

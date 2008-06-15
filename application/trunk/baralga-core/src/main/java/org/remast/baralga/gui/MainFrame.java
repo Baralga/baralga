@@ -38,8 +38,8 @@ import org.remast.baralga.gui.actions.StopAction;
 import org.remast.baralga.gui.events.ProTrackEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.panels.ReportPanel;
-import org.remast.baralga.gui.panels.TextEditor;
 import org.remast.baralga.model.Project;
+import org.remast.gui.text.TextEditor;
 import org.remast.gui.util.Constants;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
