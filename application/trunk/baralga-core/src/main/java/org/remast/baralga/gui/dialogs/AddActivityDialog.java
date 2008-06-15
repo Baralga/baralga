@@ -24,9 +24,9 @@ import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
+import org.remast.gui.dialog.EscapeDialog;
 import org.remast.gui.text.TextEditor;
 import org.remast.gui.util.Constants;
-import org.remast.gui.util.EscapeDialog;
 import org.remast.util.DateUtils;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;

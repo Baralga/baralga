@@ -1,4 +1,4 @@
-package org.remast.gui.util;
+package org.remast.gui.dialog;
 
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
