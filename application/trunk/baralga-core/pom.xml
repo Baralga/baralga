@@ -6,7 +6,30 @@
 	<packaging>jar</packaging>
 	<name>Baralga Application</name>
 	<version>1.3-SNAPSHOT</version>
-	<url>http://maven.apache.org</url>
+	<url>http://baralga.origo.ethz.ch</url>
+	<organization>
+		<name>Jan Stamer</name>
+	</organization>
+	<issueManagement>
+		<url>http://baralga.origo.ethz.ch/issues</url>
+	</issueManagement>
+	<developers>
+		<developer>
+			<name>Jan Stamer</name>
+			<email>baralga@geekmail.de</email>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+		</developer>
+	</developers>
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License</name>
+			<url>http://www.gnu.org/licenses/lgpl.html</url>
+			<distribution>manual</distribution>
+		</license>
+	</licenses>
 	<parent>
 		<groupId>com.remast.baralga</groupId>
 		<artifactId>parent</artifactId>
@@ -14,6 +37,23 @@
 	</parent>
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>maven-buildnumber-plugin</artifactId>
+				<version>0.9.6</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<doCheck>false</doCheck>
+					<doUpdate>true</doUpdate>
+				</configuration>
+			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.0</version>
@@ -27,6 +67,9 @@
 				<configuration>
 					<archive>
 						<manifest>
+							<addDefaultImplementationEntries>
+								true
+							</addDefaultImplementationEntries>
 							<mainClass>
 								org.remast.baralga.BaralgaMain
 							</mainClass>
@@ -35,9 +78,12 @@
 							</packageName>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<addExtensions/>
+							<addExtensions />
 						</manifest>
 						<manifestEntries>
+							<Implementation-Build>
+								${buildNumber}
+							</Implementation-Build>
 							<SplashScreen-Image>
 								icons/Baralga-Splash.png
 							</SplashScreen-Image>
@@ -47,6 +93,13 @@
 			</plugin>
 		</plugins>
 	</build>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>tlc</id>
+			<name>TLC Repository</name>
+			<url>http://commons.ucalgary.ca/pub/m2</url>
+		</pluginRepository>
+	</pluginRepositories>
 	<repositories>
 		<repository>
 			<id>maven2-repository.dev.java.net</id>
@@ -129,7 +182,7 @@
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.9</version>
+			<version>1.2.14</version>
 		</dependency>
 	</dependencies>
 </project>
