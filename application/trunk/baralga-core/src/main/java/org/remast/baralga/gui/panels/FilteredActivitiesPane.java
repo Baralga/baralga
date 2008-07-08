@@ -2,10 +2,8 @@ package org.remast.baralga.gui.panels;
 
 import info.clearthought.layout.TableLayout;
 
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -46,31 +44,35 @@ public class FilteredActivitiesPane extends JXPanel {
     
     private String shownCategory;
 
-    private AllActitvitiesPanel filteredActitvitiesPanel;
+    private JideTabbedPane tabs = new JideTabbedPane();
+
+    
+    //------------------------------------------------
+    // Tabs with their panels
+    //------------------------------------------------
 
     private HoursByWeekPanel hoursByWeekPanel;
-
-    private HoursByDayPanel hoursByDayPanel;
-
-    private HoursByProjectPanel hoursByProjectPanel;
-    private HoursByProjectChartPanel hoursByProjectChartPanel;
-
-    private DescriptionPanel descriptionPanel;
-
     private CategorizedTab hoursByWeekTab;
 
+    private HoursByDayPanel hoursByDayPanel;
     private CategorizedTab hoursByDayTab;
 
+    private HoursByProjectPanel hoursByProjectPanel;
     private CategorizedTab hoursByProjectTab;
     
+    private HoursByProjectChartPanel hoursByProjectChartPanel;
     private CategorizedTab hoursByProjectChartTab;
     
+    private AllActitvitiesPanel filteredActitvitiesPanel;
     private CategorizedTab filteredActitvitiesTab;
 
+    private DescriptionPanel descriptionPanel;
     private CategorizedTab descriptionTab;
     
-    private JideTabbedPane tabs = new JideTabbedPane();
-    
+    //------------------------------------------------
+    // Toggle buttons for tab categorys
+    //------------------------------------------------
+
     private JXPanel categoryButtonPanel = new JXPanel();
     
     private JideToggleButton generalButton = new JideToggleButton(new AbstractAction(Messages.getString("Category.General"), new ImageIcon(getClass().getResource("/icons/gtk-dnd-multiple.png"))) {
