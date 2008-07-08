@@ -156,6 +156,16 @@ public class Settings {
     public void setFilterSelectedProjectId(long projectId) {
         config.setProperty(SELECTED_PROJECT_ID, new Long(projectId));
     }
+    
+    public static final String SHOWN_CATEGORY = "shown.category"; //$NON-NLS-1$
+
+    public String getShownCategory() {
+        return config.getString(SHOWN_CATEGORY, "General");
+    }
+
+    public void setShownCategory(String shownCategory) {
+        config.setProperty(SHOWN_CATEGORY, shownCategory);
+    }
 
     /**
      * Restore the current filter from the user settings.

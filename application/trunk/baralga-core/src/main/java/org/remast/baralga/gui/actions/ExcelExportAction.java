@@ -1,5 +1,6 @@
 package org.remast.baralga.gui.actions;
 
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.io.File;
 
@@ -25,8 +26,8 @@ public final class ExcelExportAction extends AbstractBaralgaAction {
     /** The logger. */
     private static final Log log = LogFactory.getLog(ExcelExportAction.class);
 
-    public ExcelExportAction(PresentationModel model) {
-        super(model);
+    public ExcelExportAction(Frame owner, PresentationModel model) {
+        super(owner, model);
 
         putValue(NAME, Messages.getString("ExcelExportAction.Name")); //$NON-NLS-1$
         putValue(SHORT_DESCRIPTION, Messages.getString("ExcelExportAction.ShortDescription")); //$NON-NLS-1$
@@ -41,9 +42,9 @@ public final class ExcelExportAction extends AbstractBaralgaAction {
 
         chooser.setFileFilter(new FileFilters.ExcelFileFilter());
 
-        int returnVal = chooser.showSaveDialog(null);
+        int returnVal = chooser.showSaveDialog(getOwner());
 
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
+        if (JFileChooser.APPROVE_OPTION == returnVal) {
             File file = chooser.getSelectedFile();
             if(!file.getAbsolutePath().endsWith(Messages.getString("ExcelExportAction.ExcelFileExtension"))) { //$NON-NLS-1$
                 file = new File(file.getAbsolutePath()+Messages.getString("ExcelExportAction.ExcelFileExtension")); //$NON-NLS-1$

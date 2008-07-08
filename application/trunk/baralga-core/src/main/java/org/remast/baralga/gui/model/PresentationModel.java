@@ -199,7 +199,7 @@ public class PresentationModel extends Observable {
         }
 
         // If start is on a different day from now end the activity at 0:00 one day after start.
-        Date now = DateUtils.getNow();
+        final Date now = DateUtils.getNow();
         if (!org.apache.commons.lang.time.DateUtils.isSameDay(start, now)) {
             DateTime dt = new DateTime(start);
             dt = dt.plusDays(1);
@@ -208,10 +208,10 @@ public class PresentationModel extends Observable {
             stop = now;
         }
         
-        final ProjectActivity activity = new ProjectActivity(start, stop, getSelectedProject());
-        activity.setDescription(this.description);
-        getData().getActivities().add(activity);
-        this.activitiesList.add(activity);
+        final ProjectActivity activityOnStartDay = new ProjectActivity(start, stop, getSelectedProject());
+        activityOnStartDay.setDescription(this.description);
+        getData().getActivities().add(activityOnStartDay);
+        this.activitiesList.add(activityOnStartDay);
         
         // Clear old activity
         description = StringUtils.EMPTY;
@@ -229,7 +229,7 @@ public class PresentationModel extends Observable {
             
             // Create Event for Project Activity
             event  = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_ADDED);
-            event.setData(activity);
+            event.setData(activityOnStartDay);
             notify(event);
         }
     }

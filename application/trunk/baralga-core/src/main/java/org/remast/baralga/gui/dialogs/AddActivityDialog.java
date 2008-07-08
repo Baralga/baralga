@@ -132,7 +132,7 @@ public class AddActivityDialog extends EscapeDialog {
         }
         
         // Initialize start and end time with current time
-        final String now = Constants.hhMMFormat.format(new Date());
+        final String now = Constants.HHmmFormat.format(new Date());
         this.startField.setText(now);
         this.endField.setText(now);
 
@@ -231,7 +231,7 @@ public class AddActivityDialog extends EscapeDialog {
      */
     private JFormattedTextField getStartField() {
         if (startField == null) {
-            DateFormatter df = new DateFormatter(Constants.hhMMFormat);
+            DateFormatter df = new DateFormatter(Constants.HHmmFormat);
             startField = new JFormattedTextField(df);
             df.install(startField);
 
@@ -247,7 +247,7 @@ public class AddActivityDialog extends EscapeDialog {
     private JFormattedTextField getEndField() {
         if (endField == null) {
             DateFormatter df;
-            df = new DateFormatter(Constants.hhMMFormat);
+            df = new DateFormatter(Constants.HHmmFormat);
             endField = new JFormattedTextField(df);
             df.install(endField);
         }
@@ -272,8 +272,8 @@ public class AddActivityDialog extends EscapeDialog {
         }
 
         try {
-            start = Constants.hhMMFormat.parse(getStartField().getText());
-            end = Constants.hhMMFormat.parse(getEndField().getText());
+            start = Constants.HHmmFormat.parse(getStartField().getText());
+            end = Constants.HHmmFormat.parse(getEndField().getText());
             
             correctDates();
         } catch (ParseException e) {

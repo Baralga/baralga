@@ -109,9 +109,9 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         // Start time
         else if (column == 2) {
             try {
-                final Date oldStart = activity.getStart();
+                final Date newStart = Constants.HHmmFormat.parse((String) editedValue);
 
-                final Date newStart = Constants.hhMMFormat.parse((String) editedValue);
+                final Date oldStart = activity.getStart();
                 activity.getStart().setHours(newStart.getHours());
                 activity.getStart().setMinutes(newStart.getMinutes());
 
@@ -127,7 +127,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
             try {
                 final Date oldEnd = activity.getEnd();
 
-                final Date newEnd = Constants.hhMMFormat.parse((String) editedValue);
+                final Date newEnd = Constants.HHmmFormat.parse((String) editedValue);
                 activity.getEnd().setHours(newEnd.getHours());
                 activity.getEnd().setMinutes(newEnd.getMinutes());
 

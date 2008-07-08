@@ -77,7 +77,7 @@ public class BaralgaTray implements Observer {
 
         if (model.isActive()) {
             trayIcon.setImage(ACTIVE_ICON);
-            trayIcon.setToolTip(Messages.getString("Global.Title") + " - " + model.getSelectedProject() + Messages.getString("MainFrame.9") + Constants.hhMMFormat.format(model.getStart()));
+            trayIcon.setToolTip(Messages.getString("Global.Title") + " - " + model.getSelectedProject() + Messages.getString("MainFrame.9") + Constants.HHmmFormat.format(model.getStart()));
         }
 
     }
@@ -161,7 +161,7 @@ public class BaralgaTray implements Observer {
      */    
     private void updateProjectChanged() {
         if (model.isActive()) {
-            trayIcon.setToolTip(Messages.getString("Global.Title") + " - " + model.getSelectedProject() + Messages.getString("MainFrame.9") + Constants.hhMMFormat.format(model.getStart()));
+            trayIcon.setToolTip(Messages.getString("Global.Title") + " - " + model.getSelectedProject() + Messages.getString("MainFrame.9") + Constants.HHmmFormat.format(model.getStart()));
         }
     }
 
@@ -170,7 +170,7 @@ public class BaralgaTray implements Observer {
      */    
     private void updateStop() {
         this.trayIcon.setImage(NORMAL_ICON);
-        trayIcon.setToolTip(Messages.getString("Global.Title") + " - "+ Messages.getString("MainFrame.12") + Constants.hhMMFormat.format(model.getStop()));
+        trayIcon.setToolTip(Messages.getString("Global.Title") + " - "+ Messages.getString("MainFrame.12") + Constants.HHmmFormat.format(model.getStop()));
         this.buildMenu();
     }
 
@@ -179,7 +179,7 @@ public class BaralgaTray implements Observer {
      */    
     private void updateStart() {
         this.trayIcon.setImage(ACTIVE_ICON);
-        trayIcon.setToolTip(Messages.getString("Global.Title") + " - " + model.getSelectedProject() + Messages.getString("MainFrame.9") + Constants.hhMMFormat.format(model.getStart())); //$NON-NLS-1$
+        trayIcon.setToolTip(Messages.getString("Global.Title") + " - " + model.getSelectedProject() + Messages.getString("MainFrame.9") + Constants.HHmmFormat.format(model.getStart())); //$NON-NLS-1$
         this.buildMenu();
     }
 

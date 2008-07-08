@@ -101,8 +101,8 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance()))) ;
         table.getColumn(1).setCellEditor(new DatePickerCellEditor());
         
-        table.getColumn(2).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(Constants.hhMMFormat))) ;
-        table.getColumn(3).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(Constants.hhMMFormat))) ;
+        table.getColumn(2).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(Constants.HHmmFormat))) ;
+        table.getColumn(3).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(Constants.HHmmFormat))) ;
         table.getColumn(4).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(Constants.durationFormat))) ;
 
         table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {

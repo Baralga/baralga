@@ -20,7 +20,7 @@ public interface Constants {
     // Date Formats
     // ------------------------------------------------
     public static final DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
-    public static final SimpleDateFormat hhMMFormat = new SimpleDateFormat("HH:mm"); //$NON-NLS-1$
+    public static final SimpleDateFormat HHmmFormat = new SimpleDateFormat("HH:mm"); //$NON-NLS-1$
 
     
     // ------------------------------------------------

@@ -9,6 +9,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BoxLayout;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXPanel;
@@ -40,7 +41,7 @@ public class DescriptionPanel extends JXPanel implements Observer {
     /** The applied filter. */
     private Filter filter;
 
-    private JXPanel container;
+    private JPanel container;
 
     public DescriptionPanel(PresentationModel model) {
         super();
@@ -55,7 +56,7 @@ public class DescriptionPanel extends JXPanel implements Observer {
     }
 
     private void initialize() {
-        container = new JXPanel();
+        container = new JPanel();
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 
         this.add(new JScrollPane(container), BorderLayout.CENTER);

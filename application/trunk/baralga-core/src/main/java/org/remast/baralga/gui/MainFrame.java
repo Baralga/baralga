@@ -140,7 +140,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         // 1. Init start-/stop-Buttons
         if (this.model.isActive()) {
             this
-                    .setTitle(Messages.getString("Global.Title") + " - " + this.model.getSelectedProject() + Messages.getString("MainFrame.9") + Constants.hhMMFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
+                    .setTitle(Messages.getString("Global.Title") + " - " + this.model.getSelectedProject() + Messages.getString("MainFrame.9") + Constants.HHmmFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
             getStartStopButton().setAction(new StopAction(this.model));
         } else {
             this.setTitle(Messages.getString("Global.Title")); //$NON-NLS-1$
@@ -203,7 +203,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         }
         toolBar.add(new SaveAction(this, this.model));
         toolBar.add(new ManageProjectsAction(this, this.model));
-        toolBar.add(new ExcelExportAction(this.model));
+        toolBar.add(new ExcelExportAction(this, this.model));
         toolBar.add(new AddActivityAction(this, this.model));
         toolBar.add(new JToolBar.Separator());
         toolBar.add(this.model.getEditStack().getUndoAction());
@@ -437,7 +437,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private void updateProjectChanged(final ProTrackEvent event) {
         if (this.model.isActive()) {
             this
-                    .setTitle(Messages.getString("Global.Title") + " - " + this.model.getSelectedProject() + Messages.getString("MainFrame.9") + Constants.hhMMFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
+                    .setTitle(Messages.getString("Global.Title") + " - " + this.model.getSelectedProject() + Messages.getString("MainFrame.9") + Constants.HHmmFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
         }
         getProjectSelector().setSelectedItem((Project) event.getData());
     }
@@ -452,7 +452,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         // Clear description in settings.
         Settings.instance().setLastDescription(StringUtils.EMPTY);
 
-        this.setTitle(Messages.getString("Global.Title") + " - " + this.model.getSelectedProject() + Messages.getString("MainFrame.11") + Constants.hhMMFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
+        this.setTitle(Messages.getString("Global.Title") + " - " + this.model.getSelectedProject() + Messages.getString("MainFrame.11") + Constants.HHmmFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
         getStartStopButton().setAction(new StopAction(this.model));
     }
 
@@ -466,7 +466,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         // Clear description in settings.
         Settings.instance().setLastDescription(StringUtils.EMPTY);
 
-        this.setTitle(Messages.getString("Global.Title") + " " + Messages.getString("MainFrame.12") + " " + Constants.hhMMFormat.format(this.model.getStop())); //$NON-NLS-1$
+        this.setTitle(Messages.getString("Global.Title") + " " + Messages.getString("MainFrame.12") + " " + Constants.HHmmFormat.format(this.model.getStop())); //$NON-NLS-1$
         getStartStopButton().setAction(new StartAction(this.model));
     }
 
@@ -477,7 +477,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      */
     private JMenuItem getExcelExportItem() {
         if (excelExportItem == null) {
-            final AbstractBaralgaAction excelExportAction = new ExcelExportAction(this.model);
+            final AbstractBaralgaAction excelExportAction = new ExcelExportAction(this, this.model);
             excelExportItem = new JMenuItem(excelExportAction);
             excelExportItem.setMnemonic(excelExportAction.getMnemonic());
         }
