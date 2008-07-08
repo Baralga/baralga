@@ -108,7 +108,7 @@ public class FilteredActivitiesPane extends JXPanel {
     public FilteredActivitiesPane(PresentationModel model) {
         super();
         this.model = model;
-
+        
         initialize();
     }
 
@@ -234,8 +234,6 @@ public class FilteredActivitiesPane extends JXPanel {
         
         initCategorizedTabs();
         
-
-        
         for (JideToggleButton categoryButton : categoryToggleButtons) {
             if (categoryButton != toggledCategoryButton) {
                 categoryButton.setSelected(false);
@@ -248,16 +246,11 @@ public class FilteredActivitiesPane extends JXPanel {
         tabs.addTab(tab.getTitle(), tab.getIcon(), tab.getComponent(), tab.getTip());   
     }
 
-    /**
-     * @return the filter
-     */
-    public Filter getFilter() {
-        return filter;
-    }
 
     /**
      * @param filter
      *            the filter to set
+     * @deprecated replace by oberserver
      */
     public void setFilter(final Filter filter) {
         this.filter = filter;
