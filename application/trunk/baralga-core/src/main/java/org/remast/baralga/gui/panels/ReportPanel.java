@@ -24,7 +24,6 @@ import org.remast.baralga.gui.lists.MonthFilterList;
 import org.remast.baralga.gui.lists.ProjectFilterList;
 import org.remast.baralga.gui.lists.YearFilterList;
 import org.remast.baralga.gui.model.PresentationModel;
-import org.remast.baralga.gui.panels.FilteredActivitiesPane;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.filter.Filter;
 
@@ -288,10 +287,5 @@ public class ReportPanel extends JXPanel implements ActionListener {
 
         // 3. Save to model
         model.setFilter(filter, this);
-
-        // 4. Propagate to children
-        if (filteredActivitiesPane != null) {
-            filteredActivitiesPane.setFilter(filter);
-        }
     }
 }

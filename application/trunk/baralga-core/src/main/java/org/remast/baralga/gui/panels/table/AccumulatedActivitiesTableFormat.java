@@ -12,10 +12,17 @@ import ca.odell.glazedlists.gui.TableFormat;
  */
 public class AccumulatedActivitiesTableFormat implements TableFormat<AccumulatedProjectActivity> {
 
+    /**
+     * Gets the number of columns for the table.
+     */
     public int getColumnCount() {
         return 3;
     }
 
+    /**
+     * Gets the name of the given column.
+     * @param column the number of the column
+     */
     public String getColumnName(int col) {
         switch (col) {
             case 0:

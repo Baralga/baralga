@@ -10,10 +10,17 @@ import ca.odell.glazedlists.gui.TableFormat;
  */
 public class HoursByProjectTableFormat implements TableFormat<HoursByProject> {
 
+    /**
+     * Gets the number of columns for the table.
+     */
     public int getColumnCount() {
         return 2;
     }
 
+    /**
+     * Gets the name of the given column.
+     * @param column the number of the column
+     */
     public String getColumnName(int column) {
         switch (column) {
         case 0:

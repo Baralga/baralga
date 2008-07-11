@@ -2,11 +2,13 @@ package org.remast.baralga.gui.panels;
 
 import info.clearthought.layout.TableLayout;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.AbstractAction;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.lang.StringUtils;
@@ -21,7 +23,6 @@ import org.remast.baralga.gui.panels.report.HoursByDayPanel;
 import org.remast.baralga.gui.panels.report.HoursByProjectChartPanel;
 import org.remast.baralga.gui.panels.report.HoursByProjectPanel;
 import org.remast.baralga.gui.panels.report.HoursByWeekPanel;
-import org.remast.baralga.model.filter.Filter;
 
 import com.jidesoft.swing.JideTabbedPane;
 import com.jidesoft.swing.JideToggleButton;
@@ -31,25 +32,25 @@ import com.jidesoft.swing.JideToggleButton;
  */
 @SuppressWarnings("serial")//$NON-NLS-1$
 public class FilteredActivitiesPane extends JXPanel {
-
+    
+    
     private PresentationModel model;
-
-    private Filter filter;
-
-    private AccummulatedActitvitiesPanel accummulatedActitvitiesPanel;
-
-    CategorizedTab accummulatedActitvitiesTab;
     
-    private List<CategorizedTab> categorizedTabs = new ArrayList<CategorizedTab>();
-    
+    /** The category that's shown right now.     */
     private String shownCategory;
 
+    /** The tab container for the categorized tabs. */
     private JideTabbedPane tabs = new JideTabbedPane();
-
     
+    /** All categorized tabs. */
+    private List<CategorizedTab> categorizedTabs = new ArrayList<CategorizedTab>();
+
     //------------------------------------------------
     // Tabs with their panels
     //------------------------------------------------
+    
+    private AccummulatedActitvitiesPanel accummulatedActitvitiesPanel;
+    private CategorizedTab accummulatedActitvitiesTab;
 
     private HoursByWeekPanel hoursByWeekPanel;
     private CategorizedTab hoursByWeekTab;
@@ -70,7 +71,7 @@ public class FilteredActivitiesPane extends JXPanel {
     private CategorizedTab descriptionTab;
     
     //------------------------------------------------
-    // Toggle buttons for tab categorys
+    // Toggle buttons for tab categories
     //------------------------------------------------
 
     private JXPanel categoryButtonPanel = new JXPanel();
@@ -105,7 +106,7 @@ public class FilteredActivitiesPane extends JXPanel {
             generalButton, projectButton, timeButton
     };
 
-    public FilteredActivitiesPane(PresentationModel model) {
+    public FilteredActivitiesPane(final PresentationModel model) {
         super();
         this.model = model;
         
@@ -210,8 +211,6 @@ public class FilteredActivitiesPane extends JXPanel {
         );
         categorizedTabs.add(hoursByProjectChartTab);
         
-
-        
         this.initCategorizedTabs();
         this.add(tabs, "0, 1");
     }
@@ -227,13 +226,23 @@ public class FilteredActivitiesPane extends JXPanel {
         
     }
 
-    public void toggleCategory(String cat, JideToggleButton toggledCategoryButton) {
-        shownCategory = cat;
+    /**
+     * Processes the action that the user toggles a category button.
+     * @param category the toggled category
+     * @param toggledCategoryButton the toggled button
+     */
+    private void toggleCategory(final String category, final JideToggleButton toggledCategoryButton) {
+        // 1. Store category
+        //  a) internally
+        shownCategory = category;
         
-        Settings.instance().setShownCategory(cat);
+        //  b) in user settings
+        Settings.instance().setShownCategory(category);
         
+        // 2. Set tab visibility
         initCategorizedTabs();
         
+        // 3.  Deselect all categoryToggleButtons except the one toggled
         for (JideToggleButton categoryButton : categoryToggleButtons) {
             if (categoryButton != toggledCategoryButton) {
                 categoryButton.setSelected(false);
@@ -242,17 +251,84 @@ public class FilteredActivitiesPane extends JXPanel {
         
     }
 
-    private void addCategorizedTab(CategorizedTab tab) {
-        tabs.addTab(tab.getTitle(), tab.getIcon(), tab.getComponent(), tab.getTip());   
-    }
-
-
     /**
-     * @param filter
-     *            the filter to set
-     * @deprecated replace by oberserver
+     * Add a categorized tab to the tabs.
+     * @param tab the tab to add
      */
-    public void setFilter(final Filter filter) {
-        this.filter = filter;
+    private void addCategorizedTab(final CategorizedTab tab) {
+        if (tab == null) {
+            return;
+        }
+        
+        tabs.addTab(tab.getTitle(), tab.getIcon(), tab.getComponent(), tab.getTooltip());   
     }
+    
+    /**
+     * A tab belonging to a category.
+     * @remast
+     */
+    private class CategorizedTab {
+        
+        /** The category of the tab. */
+        private String category;
+        
+        /** The title of the tab. */
+        private String title;
+
+        /** The icon of the tab. */
+        private Icon icon;
+        
+        /** The tooltip of the tab. */
+        private String tooltip;
+
+        /** The component displayed in the tab. */
+        private Component component;
+        
+        private CategorizedTab(final String category) {
+            this.category = category;
+        }
+        
+        private void setComponent(final String title, final Icon icon, final Component component, final String tooltip) {
+            this.title = title;
+            this.icon = icon;
+            this.component = component;
+            this.tooltip = tooltip;
+        }
+
+        /**
+         * @return the category
+         */
+        private final String getCategory() {
+            return category;
+        }
+
+        /**
+         * @return the title
+         */
+        private final String getTitle() {
+            return title;
+        }
+
+        /**
+         * @return the icon
+         */
+        private final Icon getIcon() {
+            return icon;
+        }
+
+        /**
+         * @return the component
+         */
+        private final Component getComponent() {
+            return component;
+        }
+
+        /**
+         * @return the tip
+         */
+        private final String getTooltip() {
+            return tooltip;
+        }
+    }
+
 }

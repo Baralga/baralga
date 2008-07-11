@@ -33,6 +33,10 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         return 5;
     }
 
+    /**
+     * Gets the name of the given column.
+     * @param column the number of the column
+     */
     public String getColumnName(int col) {
         switch (col) {
             case 0:
@@ -68,7 +72,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
     }
 
     public boolean isEditable(final ProjectActivity baseObject, final int column) {
-        // All columns except the Duration are editable
+        // All columns except the duration are editable
         return column != 4;
     }
 
