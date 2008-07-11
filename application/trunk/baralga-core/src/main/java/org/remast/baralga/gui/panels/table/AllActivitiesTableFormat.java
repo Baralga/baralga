@@ -4,12 +4,14 @@ import java.beans.PropertyChangeEvent;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.gui.util.Constants;
+import org.remast.util.DateUtils;
 
 import ca.odell.glazedlists.gui.WritableTableFormat;
 
@@ -61,9 +63,9 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
             case 1:
                 return activity.getStart();
             case 2:
-                return activity.getStart();
+                return Constants.HHmmFormat.format(activity.getStart());
             case 3:
-                return activity.getEnd();
+                return Constants.HHmmFormat.format(activity.getEnd());
             case 4:
                 return activity.getDuration();
             default:
@@ -113,7 +115,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         // Start time
         else if (column == 2) {
             try {
-                final Date newStart = Constants.HHmmFormat.parse((String) editedValue);
+                final Date newStart = DateUtils.parseTimeSmart((String) editedValue);
 
                 final Date oldStart = activity.getStart();
                 activity.getStart().setHours(newStart.getHours());
@@ -131,7 +133,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
             try {
                 final Date oldEnd = activity.getEnd();
 
-                final Date newEnd = Constants.HHmmFormat.parse((String) editedValue);
+                final Date newEnd = DateUtils.parseTimeSmart((String) editedValue);
                 activity.getEnd().setHours(newEnd.getHours());
                 activity.getEnd().setMinutes(newEnd.getMinutes());
 

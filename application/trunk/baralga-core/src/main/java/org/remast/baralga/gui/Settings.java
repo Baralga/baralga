@@ -2,7 +2,6 @@ package org.remast.baralga.gui;
 
 import java.io.File;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -124,7 +123,7 @@ public class Settings {
     // Filter Settings
     //------------------------------------------------
     
-    /** Selected month of filter. */
+    /** The key for the selected month of filter. */
     public static final String SELECTED_MONTH = "filter.month"; //$NON-NLS-1$
 
     public String getFilterSelectedMonth() {
@@ -135,7 +134,7 @@ public class Settings {
         config.setProperty(SELECTED_MONTH, month);
     }
     
-    /** Selected year of filter. */
+    /** The key for the selected year of filter. */
     public static final String SELECTED_YEAR = "filter.year"; //$NON-NLS-1$
 
     public String getFilterSelectedYear() {
@@ -146,7 +145,7 @@ public class Settings {
         config.setProperty(SELECTED_YEAR, year);
     }
 
-    /** Selected project id of filter. */
+    /** The key for the selected project id of filter. */
     public static final String SELECTED_PROJECT_ID = "filter.projectId"; //$NON-NLS-1$
 
     public Long getFilterSelectedProjectId() {
@@ -156,7 +155,12 @@ public class Settings {
     public void setFilterSelectedProjectId(long projectId) {
         config.setProperty(SELECTED_PROJECT_ID, new Long(projectId));
     }
+
+    //------------------------------------------------
+    // Shown category
+    //------------------------------------------------
     
+    /** The key for the shown category. */
     public static final String SHOWN_CATEGORY = "shown.category"; //$NON-NLS-1$
 
     public String getShownCategory() {
@@ -174,23 +178,25 @@ public class Settings {
     public Filter restoreFromSettings() {
         final Filter filter = new Filter();
         
+        // 1. Restore the month
         final String selectedMonth = getFilterSelectedMonth();
         if (StringUtils.isNotBlank(selectedMonth) && !MonthFilterList.ALL_MONTHS_DUMMY.equals(selectedMonth)) {
-            final Date month = new Date();
             try {
-                month.setMonth(Integer.parseInt(selectedMonth) - 1);
-                filter.setMonth(month);
+                final Calendar calendar = GregorianCalendar.getInstance();
+                calendar.set(Calendar.MONTH, Integer.parseInt(selectedMonth) - 1);
+                filter.setMonth(calendar.getTime());
             } catch (NumberFormatException e) {
                 log.error(e, e);
             }
         }
         
+        // 1. Restore the year
         final String selectedYear = Settings.instance().getFilterSelectedYear();
         if (StringUtils.isNotBlank(selectedYear) && !YearFilterList.ALL_YEARS_DUMMY.equals(selectedYear)) {
             try {
-                Calendar cal = GregorianCalendar.getInstance();
-                cal.set(Calendar.YEAR, Integer.parseInt(selectedYear));
-                filter.setYear(cal.getTime());
+                final Calendar calendar = GregorianCalendar.getInstance();
+                calendar.set(Calendar.YEAR, Integer.parseInt(selectedYear));
+                filter.setYear(calendar.getTime());
             } catch (NumberFormatException e) {
                 log.error(e, e);
             }

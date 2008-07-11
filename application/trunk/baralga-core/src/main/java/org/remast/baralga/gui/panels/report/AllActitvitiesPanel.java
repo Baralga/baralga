@@ -203,6 +203,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
                     
                 case ProTrackEvent.PROJECT_ACTIVITY_CHANGED:
                     tableModel.fireTableDataChanged();
+                    break;
                     
                 case ProTrackEvent.FILTER_CHANGED:
                     final Filter newFilter = (Filter) event.getData();

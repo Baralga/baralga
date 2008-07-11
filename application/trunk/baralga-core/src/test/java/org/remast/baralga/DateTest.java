@@ -1,4 +1,4 @@
-package org.remast.baralga.test;
+package org.remast.baralga;
 
 import java.util.Date;
 
