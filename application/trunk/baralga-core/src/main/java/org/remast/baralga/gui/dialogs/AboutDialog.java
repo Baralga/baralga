@@ -16,7 +16,7 @@ import org.jdesktop.swingx.JXPanel;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.utils.BrowserControlAction;
 import org.remast.gui.dialog.EscapeDialog;
-import org.remast.gui.util.Constants;
+import org.remast.gui.util.GuiConstants;
 
 /**
  * Displays information about the application like version and
@@ -47,10 +47,10 @@ public class AboutDialog extends EscapeDialog {
         this.setLayout(new BorderLayout());
         
         JXImagePanel image = new JXImagePanel(getClass().getResource("/icons/Baralga-About.png"));
-        image.setBackground(Constants.BEIGE);
+        image.setBackground(GuiConstants.BEIGE);
         
         JXPanel aboutInfo = new JXPanel();
-        aboutInfo.setBackground(Constants.BEIGE);
+        aboutInfo.setBackground(GuiConstants.BEIGE);
         double border = 5;
         double size[][] = { { border, TableLayout.PREFERRED, border, TableLayout.FILL, border }, // Columns
                 { border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border*2} }; // Rows
@@ -73,7 +73,7 @@ public class AboutDialog extends EscapeDialog {
 
         this.add(versionLabel, BorderLayout.SOUTH);
         
-        this.getContentPane().setBackground(Constants.BEIGE);
+        this.getContentPane().setBackground(GuiConstants.BEIGE);
         this.add(image, BorderLayout.NORTH);
         
         this.setSize(260, 280);

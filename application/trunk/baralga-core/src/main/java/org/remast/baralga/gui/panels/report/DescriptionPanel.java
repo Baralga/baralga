@@ -17,7 +17,7 @@ import org.remast.baralga.gui.events.ProTrackEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
-import org.remast.gui.util.Constants;
+import org.remast.gui.util.GuiConstants;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.SortedList;
@@ -86,7 +86,7 @@ public class DescriptionPanel extends JXPanel implements Observer {
             if (filteredActivitiesList.indexOf(activity) % 2 == 0) {
                 descriptionPanelEntry.setBackground(Color.WHITE);
             } else {
-                descriptionPanelEntry.setBackground(Constants.BEIGE);
+                descriptionPanelEntry.setBackground(GuiConstants.BEIGE);
             }
 
             // Save entry
@@ -125,7 +125,7 @@ public class DescriptionPanel extends JXPanel implements Observer {
                 if (entriesByActivity.size() % 2 == 1) {
                     newEntryPanel.setBackground(Color.WHITE);
                 } else {
-                    newEntryPanel.setBackground(Constants.BEIGE);
+                    newEntryPanel.setBackground(GuiConstants.BEIGE);
                 }
                 break;
 

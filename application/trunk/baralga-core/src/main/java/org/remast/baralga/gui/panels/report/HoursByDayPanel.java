@@ -14,7 +14,7 @@ import org.jdesktop.swingx.renderer.FormatStringValue;
 import org.remast.baralga.gui.model.report.HoursByDay;
 import org.remast.baralga.gui.model.report.HoursByDayReport;
 import org.remast.baralga.gui.panels.table.HoursByDayTableFormat;
-import org.remast.gui.util.Constants;
+import org.remast.gui.util.GuiConstants;
 
 import ca.odell.glazedlists.swing.EventTableModel;
 
@@ -56,11 +56,11 @@ public class HoursByDayPanel extends JXPanel implements Observer {
         tableModel = new EventTableModel<HoursByDay>(this.report.getHoursByDay(), new HoursByDayTableFormat());
 
         final JXTable table = new JXTable(tableModel);
-        table.setHighlighters(Constants.HIGHLIGHTERS);
+        table.setHighlighters(GuiConstants.HIGHLIGHTERS);
         table.setAutoResizeMode(JXTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         
         table.getColumn(0).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance()))) ;
-        table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(Constants.durationFormat))) ;
+        table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(GuiConstants.durationFormat))) ;
         
         JScrollPane table_scroll_pane = new JScrollPane(table);
 

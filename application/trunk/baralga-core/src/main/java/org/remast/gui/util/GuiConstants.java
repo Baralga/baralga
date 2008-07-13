@@ -4,23 +4,24 @@ import java.awt.Color;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 
 import org.jdesktop.swingx.decorator.ColorHighlighter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
 import org.jdesktop.swingx.decorator.Highlighter;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
+import org.remast.text.SmartTimeFormat;
 
 /**
+ * Misc constants for the application.
  * @author remast
  */
-public interface Constants {
+public interface GuiConstants {
 
     // ------------------------------------------------
     // Date Formats
     // ------------------------------------------------
     public static final DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
-    public static final SimpleDateFormat HHmmFormat = new SimpleDateFormat("HH:mm"); //$NON-NLS-1$
+    public static final DateFormat timeFormat = new SmartTimeFormat(); //$NON-NLS-1$
 
     
     // ------------------------------------------------

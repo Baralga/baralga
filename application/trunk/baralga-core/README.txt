@@ -1,10 +1,13 @@
-== Baralga Version 1.3-SNAPSHOT ==
+== Baralga Version 1.3 ==
 User Interface
  * Enhanced tooltips.
  * Improved sorting by hours in different tables.
+ * Reports belong to categories like General, Time or Project.
+ * Smart parsing of time, e.g. 12 -> 12:00 or 12,5 -> 12:30.
 
 Functionality
  * New report for working hours by project.
+ * New chart for working hour distribution by project.
 
 == Baralga Version 1.2.3 ==
  * On exit running activities are stopped. 

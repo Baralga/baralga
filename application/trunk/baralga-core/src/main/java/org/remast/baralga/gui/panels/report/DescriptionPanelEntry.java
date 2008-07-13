@@ -11,7 +11,7 @@ import javax.swing.border.TitledBorder;
 import org.jdesktop.swingx.JXPanel;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.gui.text.TextEditor;
-import org.remast.gui.util.Constants;
+import org.remast.gui.util.GuiConstants;
 
 /**
  * Holds the editor for the description of a project activity.
@@ -34,12 +34,12 @@ public class DescriptionPanelEntry extends JXPanel {
     private void initialize() {
         this.setLayout(new BorderLayout());
         titledBorder = BorderFactory.createTitledBorder(String.valueOf(activity));
-        titledBorder.setTitleColor(Constants.DARK_BLUE);
+        titledBorder.setTitleColor(GuiConstants.DARK_BLUE);
         this.setBorder(titledBorder);
 
         editor = new TextEditor();
         editor.setText(activity.getDescription());
-        editor.setBorder(BorderFactory.createLineBorder(Constants.VERY_LIGHT_GREY));
+        editor.setBorder(BorderFactory.createLineBorder(GuiConstants.VERY_LIGHT_GREY));
         this.add(editor, BorderLayout.CENTER);
 
         editor.addTextObserver(new TextEditor.TextChangeObserver() {

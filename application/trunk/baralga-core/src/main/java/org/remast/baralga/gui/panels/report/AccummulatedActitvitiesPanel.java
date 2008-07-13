@@ -16,7 +16,7 @@ import org.remast.baralga.gui.model.report.ObservingAccumulatedActivitiesReport;
 import org.remast.baralga.gui.panels.table.AccumulatedActivitiesTableFormat;
 import org.remast.baralga.model.report.AccumulatedActivitiesReport;
 import org.remast.baralga.model.report.AccumulatedProjectActivity;
-import org.remast.gui.util.Constants;
+import org.remast.gui.util.GuiConstants;
 
 import ca.odell.glazedlists.swing.EventTableModel;
 
@@ -48,10 +48,10 @@ public class AccummulatedActitvitiesPanel extends JXPanel implements Observer {
 
         tableModel = new EventTableModel<AccumulatedProjectActivity>(this.report.getAccumulatedActivitiesByDay(), new AccumulatedActivitiesTableFormat());
         final JXTable table = new JXTable(tableModel);
-        table.setHighlighters(Constants.HIGHLIGHTERS);
+        table.setHighlighters(GuiConstants.HIGHLIGHTERS);
 
         table.getColumn(0).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance()))) ;
-        table.getColumn(2).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(Constants.durationFormat))) ;
+        table.getColumn(2).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(GuiConstants.durationFormat))) ;
 
         table.setAutoResizeMode(JXTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         JScrollPane table_scroll_pane = new JScrollPane(table);

@@ -26,7 +26,7 @@ import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.gui.dialog.EscapeDialog;
 import org.remast.gui.text.TextEditor;
-import org.remast.gui.util.Constants;
+import org.remast.gui.util.GuiConstants;
 import org.remast.util.DateUtils;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
@@ -132,7 +132,7 @@ public class AddActivityDialog extends EscapeDialog {
         }
         
         // Initialize start and end time with current time
-        final String now = Constants.HHmmFormat.format(new Date());
+        final String now = GuiConstants.timeFormat.format(new Date());
         this.startField.setText(now);
         this.endField.setText(now);
 
@@ -181,7 +181,7 @@ public class AddActivityDialog extends EscapeDialog {
 
         this.add(descriptionLabel, "1, 9");
         descriptionEditor = new TextEditor(true, false);
-        descriptionEditor.setBorder(BorderFactory.createLineBorder(Constants.VERY_LIGHT_GREY));
+        descriptionEditor.setBorder(BorderFactory.createLineBorder(GuiConstants.VERY_LIGHT_GREY));
         this.add(descriptionEditor, "3, 9");
 
         this.add(getAddActivityButton(), "1, 11, 3, 11");
@@ -231,7 +231,7 @@ public class AddActivityDialog extends EscapeDialog {
      */
     private JFormattedTextField getStartField() {
         if (startField == null) {
-            DateFormatter df = new DateFormatter(Constants.HHmmFormat);
+            DateFormatter df = new DateFormatter(GuiConstants.timeFormat);
             startField = new JFormattedTextField(df);
             df.install(startField);
 
@@ -247,7 +247,7 @@ public class AddActivityDialog extends EscapeDialog {
     private JFormattedTextField getEndField() {
         if (endField == null) {
             DateFormatter df;
-            df = new DateFormatter(Constants.HHmmFormat);
+            df = new DateFormatter(GuiConstants.timeFormat);
             endField = new JFormattedTextField(df);
             df.install(endField);
         }
@@ -272,8 +272,8 @@ public class AddActivityDialog extends EscapeDialog {
         }
 
         try {
-            start = Constants.HHmmFormat.parse(getStartField().getText());
-            end = Constants.HHmmFormat.parse(getEndField().getText());
+            start = GuiConstants.timeFormat.parse(getStartField().getText());
+            end = GuiConstants.timeFormat.parse(getEndField().getText());
             
             correctDates();
         } catch (ParseException e) {

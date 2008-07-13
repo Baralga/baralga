@@ -40,7 +40,7 @@ import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.panels.ReportPanel;
 import org.remast.baralga.model.Project;
 import org.remast.gui.text.TextEditor;
-import org.remast.gui.util.Constants;
+import org.remast.gui.util.GuiConstants;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 
@@ -140,7 +140,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         // 1. Init start-/stop-Buttons
         if (this.model.isActive()) {
             this
-                    .setTitle(Messages.getString("Global.Title") + " - " + this.model.getSelectedProject() + Messages.getString("MainFrame.9") + Constants.HHmmFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
+                    .setTitle(Messages.getString("Global.Title") + " - " + this.model.getSelectedProject() + Messages.getString("MainFrame.9") + GuiConstants.timeFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
             getStartStopButton().setAction(new StopAction(this.model));
         } else {
             this.setTitle(Messages.getString("Global.Title")); //$NON-NLS-1$
@@ -233,7 +233,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             currentActivityPanel.add(getProjectSelector(), "3, 1");
 
             descriptionEditor = new TextEditor(true);
-            descriptionEditor.setBorder(BorderFactory.createLineBorder(Constants.VERY_LIGHT_GREY));
+            descriptionEditor.setBorder(BorderFactory.createLineBorder(GuiConstants.VERY_LIGHT_GREY));
             descriptionEditor.setPreferredSize(new Dimension(200, 100));
             descriptionEditor.setCollapseEditToolbar(false);
             descriptionEditor.addTextObserver(new TextEditor.TextChangeObserver() {
@@ -437,7 +437,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private void updateProjectChanged(final ProTrackEvent event) {
         if (this.model.isActive()) {
             this
-                    .setTitle(Messages.getString("Global.Title") + " - " + this.model.getSelectedProject() + Messages.getString("MainFrame.9") + Constants.HHmmFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
+                    .setTitle(Messages.getString("Global.Title") + " - " + this.model.getSelectedProject() + Messages.getString("MainFrame.9") + GuiConstants.timeFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
         }
         getProjectSelector().setSelectedItem((Project) event.getData());
     }
@@ -452,7 +452,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         // Clear description in settings.
         Settings.instance().setLastDescription(StringUtils.EMPTY);
 
-        this.setTitle(Messages.getString("Global.Title") + " - " + this.model.getSelectedProject() + Messages.getString("MainFrame.11") + Constants.HHmmFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
+        this.setTitle(Messages.getString("Global.Title") + " - " + this.model.getSelectedProject() + Messages.getString("MainFrame.11") + GuiConstants.timeFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
         getStartStopButton().setAction(new StopAction(this.model));
     }
 
@@ -466,7 +466,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         // Clear description in settings.
         Settings.instance().setLastDescription(StringUtils.EMPTY);
 
-        this.setTitle(Messages.getString("Global.Title") + " " + Messages.getString("MainFrame.12") + " " + Constants.HHmmFormat.format(this.model.getStop())); //$NON-NLS-1$
+        this.setTitle(Messages.getString("Global.Title") + " " + Messages.getString("MainFrame.12") + " " + GuiConstants.timeFormat.format(this.model.getStop())); //$NON-NLS-1$
         getStartStopButton().setAction(new StartAction(this.model));
     }
 

@@ -6,7 +6,7 @@ package org.remast.baralga.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.remast.gui.util.Constants;
+import org.remast.gui.util.GuiConstants;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
@@ -113,9 +113,9 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
     @Override
     public String toString() {
 
-        return Constants.dateFormat.format(this.start) + " "
-                + Constants.HHmmFormat.format(this.start) + " - " + Constants.HHmmFormat.format(this.end) + " ("
-                + Constants.durationFormat.format(this.getDuration()) + "h) " + this.project;
+        return GuiConstants.dateFormat.format(this.start) + " "
+                + GuiConstants.timeFormat.format(this.start) + " - " + GuiConstants.timeFormat.format(this.end) + " ("
+                + GuiConstants.durationFormat.format(this.getDuration()) + "h) " + this.project;
     }
 
     public int compareTo(ProjectActivity activity) {
