@@ -4,14 +4,12 @@ import java.beans.PropertyChangeEvent;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.gui.util.GuiConstants;
-import org.remast.util.DateUtils;
 
 import ca.odell.glazedlists.gui.WritableTableFormat;
 

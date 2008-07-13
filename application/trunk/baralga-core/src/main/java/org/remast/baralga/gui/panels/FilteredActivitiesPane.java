@@ -33,10 +33,10 @@ import com.jidesoft.swing.JideToggleButton;
 @SuppressWarnings("serial")//$NON-NLS-1$
 public class FilteredActivitiesPane extends JXPanel {
     
-    
+    /** The model. */
     private PresentationModel model;
     
-    /** The category that's shown right now.     */
+    /** The category that's shown right now. */
     private String shownCategory;
 
     /** The tab container for the categorized tabs. */
@@ -80,7 +80,7 @@ public class FilteredActivitiesPane extends JXPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            FilteredActivitiesPane.this.toggleCategory("General", generalButton);
+            FilteredActivitiesPane.this.toggleCategory("General"); //$NON-NLS-1$
         }
         
     });
@@ -89,7 +89,7 @@ public class FilteredActivitiesPane extends JXPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            FilteredActivitiesPane.this.toggleCategory("Time", timeButton);
+            FilteredActivitiesPane.this.toggleCategory("Time"); //$NON-NLS-1$
         }
         
     });
@@ -97,7 +97,7 @@ public class FilteredActivitiesPane extends JXPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            FilteredActivitiesPane.this.toggleCategory("Project", projectButton);
+            FilteredActivitiesPane.this.toggleCategory("Project"); //$NON-NLS-1$
         }
         
     });
@@ -124,17 +124,17 @@ public class FilteredActivitiesPane extends JXPanel {
         
         int border = 5;
         categoryButtonPanel.setLayout(new TableLayout(new double [][] {{0, TableLayout.FILL, border, TableLayout.FILL, border, TableLayout.FILL},{border, TableLayout.PREFERRED, border-3}}));
-        categoryButtonPanel.add(generalButton, "1, 1");
-        categoryButtonPanel.add(timeButton, "3, 1");
-        categoryButtonPanel.add(projectButton, "5, 1");
-        this.add(categoryButtonPanel, "0, 0");
+        categoryButtonPanel.add(generalButton, "1, 1"); //$NON-NLS-1$
+        categoryButtonPanel.add(timeButton, "3, 1"); //$NON-NLS-1$
+        categoryButtonPanel.add(projectButton, "5, 1"); //$NON-NLS-1$
+        this.add(categoryButtonPanel, "0, 0"); //$NON-NLS-1$
 
         tabs.setTabShape(JideTabbedPane.SHAPE_WINDOWS);
         tabs.setTabColorProvider(JideTabbedPane.ONENOTE_COLOR_PROVIDER);
         
         shownCategory = Settings.instance().getShownCategory();
 
-        accummulatedActitvitiesTab = new CategorizedTab("General");
+        accummulatedActitvitiesTab = new CategorizedTab("General"); //$NON-NLS-1$
         accummulatedActitvitiesPanel = new AccummulatedActitvitiesPanel(model.getFilteredReport());
         accummulatedActitvitiesTab.setComponent(
                 Messages.getString("FilteredActivitiesPane.Tab.AccumulatedActivities"),  //$NON-NLS-1$
@@ -212,12 +212,37 @@ public class FilteredActivitiesPane extends JXPanel {
         categorizedTabs.add(hoursByProjectChartTab);
         
         this.initCategorizedTabs();
-        this.add(tabs, "0, 1");
+        
+        this.initToggleButtons();
+        
+        this.add(tabs, "0, 1"); //$NON-NLS-1$
     }
 
+    /**
+     * Initializes the toggle buttons for the categories from the settings.
+     */
+    private void initToggleButtons() {
+        // 1. Deselect all buttons
+        generalButton.setSelected(false);
+        timeButton.setSelected(false);
+        projectButton.setSelected(false);
+
+        // 2. Select shown button
+        if (StringUtils.equals("General", shownCategory)) { //$NON-NLS-1$
+            generalButton.setSelected(true);
+        } else if (StringUtils.equals("Time", shownCategory)) { //$NON-NLS-1$
+            timeButton.setSelected(true);
+        } else if (StringUtils.equals("Project", shownCategory)) { //$NON-NLS-1$
+            projectButton.setSelected(true);
+        }
+    }
+    /**
+     * Initializes the categorized tabs from the settings.
+     */
     private void initCategorizedTabs() {
         tabs.removeAll();
         
+        // Show tabs of the shown category.
         for (CategorizedTab tab : categorizedTabs) {
             if (StringUtils.equals(shownCategory, tab.getCategory())) {
                 this.addCategorizedTab(tab);
@@ -231,7 +256,7 @@ public class FilteredActivitiesPane extends JXPanel {
      * @param category the toggled category
      * @param toggledCategoryButton the toggled button
      */
-    private void toggleCategory(final String category, final JideToggleButton toggledCategoryButton) {
+    private void toggleCategory(final String category) {
         // 1. Store category
         //  a) internally
         shownCategory = category;
@@ -243,12 +268,7 @@ public class FilteredActivitiesPane extends JXPanel {
         initCategorizedTabs();
         
         // 3.  Deselect all categoryToggleButtons except the one toggled
-        for (JideToggleButton categoryButton : categoryToggleButtons) {
-            if (categoryButton != toggledCategoryButton) {
-                categoryButton.setSelected(false);
-            }
-        }
-        
+        initToggleButtons();
     }
 
     /**
@@ -265,7 +285,6 @@ public class FilteredActivitiesPane extends JXPanel {
     
     /**
      * A tab belonging to a category.
-     * @remast
      */
     private class CategorizedTab {
         
