@@ -7,7 +7,6 @@ import junit.framework.TestCase;
 public class DateUtilsTest extends TestCase {
     
     public void testParseDateSmart() throws ParseException {
-        assertNull(DateUtils.parseTimeSmart(null));
     }
 
 }

@@ -33,7 +33,7 @@ import org.remast.baralga.gui.panels.table.AllActivitiesTableFormat;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
-import org.remast.gui.util.Constants;
+import org.remast.gui.util.GuiConstants;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.SortedList;
@@ -101,9 +101,9 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance()))) ;
         table.getColumn(1).setCellEditor(new DatePickerCellEditor());
         
-        table.getColumn(2).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(Constants.HHmmFormat))) ;
-        table.getColumn(3).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(Constants.HHmmFormat))) ;
-        table.getColumn(4).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(Constants.durationFormat))) ;
+        table.getColumn(2).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(GuiConstants.timeFormat))) ;
+        table.getColumn(3).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(GuiConstants.timeFormat))) ;
+        table.getColumn(4).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(GuiConstants.durationFormat))) ;
 
         table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
@@ -117,7 +117,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
                 for(int i : table.getSelectedRows()) {
                     duration += filteredActivitiesList.get(i).getDuration();
                 }
-                table.setToolTipText(Messages.getString("AllActivitiesPanel.tooltipDuration") + Constants.durationFormat.format(duration)); //$NON-NLS-1$
+                table.setToolTipText(Messages.getString("AllActivitiesPanel.tooltipDuration") + GuiConstants.durationFormat.format(duration)); //$NON-NLS-1$
                 
             }
             
@@ -154,7 +154,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         });
         table.setPreferredScrollableViewportSize(table.getPreferredSize());
 
-        table.setHighlighters(Constants.HIGHLIGHTERS);
+        table.setHighlighters(GuiConstants.HIGHLIGHTERS);
         table.setCellEditor(new JXTable.GenericEditor());
 
         final TableColumn projectColumn = table.getColumn(0);
