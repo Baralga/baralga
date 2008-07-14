@@ -14,13 +14,12 @@ import org.jdesktop.swingx.JXImagePanel;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.remast.baralga.Messages;
-import org.remast.swing.action.BrowserControlAction;
+import org.remast.swing.action.OpenBrowserAction;
 import org.remast.swing.dialog.EscapeDialog;
 import org.remast.swing.util.GuiConstants;
 
 /**
- * Displays information about the application like version and
- * homepage.
+ * Displays information about the application like version and homepage.
  * @author remast
  */
 @SuppressWarnings("serial")
@@ -59,11 +58,11 @@ public class AboutDialog extends EscapeDialog {
         aboutInfo.setLayout(tableLayout);
         
         aboutInfo.add(new JLabel(Messages.getString("AboutDialog.HomepageLabel")), "1, 1");
-        JXHyperlink hyperlinkHomepage = new JXHyperlink(new BrowserControlAction(Messages.getString("AboutDialog.HomepageUrl")));
+        JXHyperlink hyperlinkHomepage = new JXHyperlink(new OpenBrowserAction(Messages.getString("AboutDialog.HomepageUrl")));
         aboutInfo.add(hyperlinkHomepage, "3, 1");
 
         aboutInfo.add(new JLabel(Messages.getString("AboutDialog.BugLabel")), "1, 3");
-        JXHyperlink hyperlinkBug = new JXHyperlink(new BrowserControlAction(Messages.getString("AboutDialog.BugUrl")));
+        JXHyperlink hyperlinkBug = new JXHyperlink(new OpenBrowserAction(Messages.getString("AboutDialog.BugUrl")));
         aboutInfo.add(hyperlinkBug, "3, 3");
         
         this.add(aboutInfo, BorderLayout.CENTER);

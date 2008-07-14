@@ -12,6 +12,7 @@ import org.remast.baralga.gui.dialogs.AddActivityDialog;
 import org.remast.baralga.gui.model.PresentationModel;
 
 /**
+ * Displays the dialog to add a new project activity.
  * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
@@ -25,8 +26,12 @@ public class AddActivityAction extends AbstractBaralgaAction {
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke('N', InputEvent.CTRL_MASK));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void actionPerformed(ActionEvent event) {
-        AddActivityDialog addActivityDialog = new AddActivityDialog(getOwner(), getModel());
+        // Display dialog to add activity
+        final AddActivityDialog addActivityDialog = new AddActivityDialog(getOwner(), getModel());
         addActivityDialog.setVisible(true);
     }
 

@@ -6,7 +6,7 @@ import java.beans.PropertyChangeEvent;
  * Events of Baralga.
  * @author remast
  */
-public class ProTrackEvent {
+public class BaralgaEvent {
 
     //------------------------------------------------
     // Constants for ProTrack Events
@@ -46,7 +46,7 @@ public class ProTrackEvent {
      * Constructor for a new event.
      * @param type the type of the event.
      */
-    public ProTrackEvent(final int type) {
+    public BaralgaEvent(final int type) {
         this.type = type;
     }
 
@@ -55,7 +55,7 @@ public class ProTrackEvent {
      * @param type the type of the event.
      * @param source the source that fired the event
      */
-    public ProTrackEvent(final int type, final Object source) {
+    public BaralgaEvent(final int type, final Object source) {
         this.type = type;
         this.source = source;
     }

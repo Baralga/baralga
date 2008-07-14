@@ -22,7 +22,7 @@ import org.remast.baralga.gui.MainFrame;
 import org.remast.baralga.gui.Settings;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.model.ProjectStateException;
-import org.remast.baralga.gui.model.io.DataBackupStrategy;
+import org.remast.baralga.gui.model.io.DataBackup;
 import org.remast.baralga.gui.model.io.SaveTimer;
 import org.remast.baralga.gui.utils.BaralgaUtils;
 import org.remast.baralga.model.ProTrack;
@@ -96,10 +96,10 @@ public class BaralgaMain {
                 }
             } catch (IOException dataFileIOException) {
                 // Make a backup copy of the corrupt file
-                DataBackupStrategy.saveCorruptDataFile();
+                DataBackup.saveCorruptDataFile();
 
                 // Reading data file was not successful so we try the backup files. 
-                final List<File> backupFiles = DataBackupStrategy.getBackupFiles();
+                final List<File> backupFiles = DataBackup.getBackupFiles();
 
                 if (CollectionUtils.isNotEmpty(backupFiles)) {
                     for (File backupFile : backupFiles) {
@@ -107,7 +107,7 @@ public class BaralgaMain {
                             final ProTrack data = readData(backupFile);
                             model.setData(data);
 
-                            final Date backupDate = DataBackupStrategy.getDateOfBackup(backupFile);
+                            final Date backupDate = DataBackup.getDateOfBackup(backupFile);
                             String backupDateString = backupFile.getName();
                             if (backupDate != null)  {
                                 backupDateString = DateFormat.getDateTimeInstance().format(backupDate);

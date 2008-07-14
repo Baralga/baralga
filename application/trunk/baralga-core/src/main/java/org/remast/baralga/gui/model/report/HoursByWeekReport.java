@@ -6,7 +6,7 @@ import java.util.Observer;
 import java.util.Vector;
 
 import org.joda.time.DateTime;
-import org.remast.baralga.gui.events.ProTrackEvent;
+import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
@@ -89,25 +89,25 @@ public class HoursByWeekReport extends Observable implements Observer  {
     }
 
     public void update(Observable source, Object eventObject) {
-        if (eventObject != null && eventObject instanceof ProTrackEvent) {
-            final ProTrackEvent event = (ProTrackEvent) eventObject;
+        if (eventObject != null && eventObject instanceof BaralgaEvent) {
+            final BaralgaEvent event = (BaralgaEvent) eventObject;
             switch (event.getType()) {
 
-                case ProTrackEvent.PROJECT_ACTIVITY_ADDED:
+                case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
                     ProjectActivity activity = (ProjectActivity) event.getData();
                     addHours(activity);
                     break;
 
-                case ProTrackEvent.PROJECT_ACTIVITY_REMOVED:
+                case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
                     calculateHours();
                     break;
 
-                case ProTrackEvent.PROJECT_ACTIVITY_CHANGED:
+                case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
                     // TODO: Replace calculation by remove + add.
                     calculateHours();
                     break;
                     
-                case ProTrackEvent.FILTER_CHANGED:
+                case BaralgaEvent.FILTER_CHANGED:
                     final Filter newFilter = (Filter) event.getData();
                     setFilter(newFilter);
                     break;

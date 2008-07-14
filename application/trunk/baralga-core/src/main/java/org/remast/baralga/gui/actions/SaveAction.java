@@ -14,6 +14,7 @@ import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.PresentationModel;
 
 /**
+ * Saves the data.
  * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
@@ -31,6 +32,9 @@ public final class SaveAction extends AbstractBaralgaAction {
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke('S', InputEvent.CTRL_MASK) );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void actionPerformed(ActionEvent arg0) {
         try {
             getModel().save();

@@ -10,12 +10,12 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.Settings;
-import org.remast.baralga.gui.events.ProTrackEvent;
+import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.lists.MonthFilterList;
 import org.remast.baralga.gui.lists.ProjectFilterList;
 import org.remast.baralga.gui.lists.YearFilterList;
 import org.remast.baralga.gui.model.edit.EditStack;
-import org.remast.baralga.gui.model.io.DataBackupStrategy;
+import org.remast.baralga.gui.model.io.DataBackup;
 import org.remast.baralga.gui.model.report.HoursByDayReport;
 import org.remast.baralga.gui.model.report.HoursByProjectReport;
 import org.remast.baralga.gui.model.report.HoursByWeekReport;
@@ -118,7 +118,7 @@ public class PresentationModel extends Observable {
         // Mark data as dirty
         this.dirty = true;
 
-        final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ADDED, source);
+        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ADDED, source);
         event.setData(project);
         
         notify(event);
@@ -136,7 +136,7 @@ public class PresentationModel extends Observable {
         // Mark data as dirty
         this.dirty = true;
 
-        final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_REMOVED, source);
+        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_REMOVED, source);
         event.setData(project);
         
         notify(event);
@@ -161,7 +161,7 @@ public class PresentationModel extends Observable {
         setStart(DateUtils.getNow());
         
         // Fire start event
-        final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.START);
+        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.START);
         notify(event);
     }
     
@@ -169,13 +169,13 @@ public class PresentationModel extends Observable {
      * Helper method to notify all observers of an event.
      * @param event the event to forward to the observers
      */
-    private void notify(final ProTrackEvent event) {
+    private void notify(final BaralgaEvent event) {
         setChanged();
         notifyObservers(event);
     }
     
     public void fireProjectActivityChangedEvent(final ProjectActivity changedActivity, final PropertyChangeEvent propertyChangeEvent) {
-        final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_CHANGED);
+        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_CHANGED);
         event.setData(changedActivity);
         event.setPropertyChangeEvent(propertyChangeEvent);
         notify(event);
@@ -202,7 +202,7 @@ public class PresentationModel extends Observable {
         
         final Date now = DateUtils.getNow();
         
-        ProTrackEvent eventOnEndDay = null;
+        BaralgaEvent eventOnEndDay = null;
         Date stop2 = null;
         
         // If start is on a different day from now end the activity at 0:00 one day after start.
@@ -222,7 +222,7 @@ public class PresentationModel extends Observable {
             this.activitiesList.add(activityOnEndDay);
 
             // Create Event for Project Activity
-            eventOnEndDay  = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_ADDED);
+            eventOnEndDay  = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED);
             eventOnEndDay.setData(activityOnEndDay);
         } else {
             stop = now;
@@ -244,7 +244,7 @@ public class PresentationModel extends Observable {
         
         if (notifyObservers) {
             // Create Event for Project Activity
-            ProTrackEvent event  = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_ADDED);
+            BaralgaEvent event  = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED);
             event.setData(activityOnStartDay);
             notify(event);
             
@@ -254,7 +254,7 @@ public class PresentationModel extends Observable {
             }
 
             // Create Stop Event
-            event = new ProTrackEvent(ProTrackEvent.STOP);
+            event = new BaralgaEvent(BaralgaEvent.STOP);
             notify(event);
         }
     }
@@ -300,7 +300,7 @@ public class PresentationModel extends Observable {
             Settings.instance().setLastDescription(StringUtils.EMPTY);
 
             // 3. Broadcast project activity event.
-            final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_ADDED);
+            final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED);
             event.setData(activity);
             notify(event);
         }
@@ -311,7 +311,7 @@ public class PresentationModel extends Observable {
         setStart((Date) now.clone());
 
         // Fire project changed event
-        final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_CHANGED);
+        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_CHANGED);
         event.setData(activeProject);
         notify(event);
     }
@@ -332,7 +332,7 @@ public class PresentationModel extends Observable {
         BaralgaUtils.checkOrCreateBaralgaDir();
 
         final File proTrackFile = new File(Settings.getProTrackFileLocation());
-        DataBackupStrategy.createBackup(proTrackFile);
+        DataBackup.createBackup(proTrackFile);
 
         writer.write(proTrackFile);        
     }
@@ -349,7 +349,7 @@ public class PresentationModel extends Observable {
         this.dirty = true;
         
         // Fire event
-        final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_ADDED, source);
+        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED, source);
         event.setData(activity);
         notify(event);
     }
@@ -366,7 +366,7 @@ public class PresentationModel extends Observable {
         this.dirty = true;
         
         // Fire event
-        final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_REMOVED, source);
+        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_REMOVED, source);
         event.setData(activity);
         notify(event);
     }
@@ -506,7 +506,7 @@ public class PresentationModel extends Observable {
         this.filter = filter;
         
         // Fire event
-        final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.FILTER_CHANGED, source);
+        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.FILTER_CHANGED, source);
         event.setData(filter);
         notify(event);
     }

@@ -10,7 +10,7 @@ import java.util.Stack;
 import org.apache.commons.collections.CollectionUtils;
 import org.remast.baralga.gui.actions.RedoAction;
 import org.remast.baralga.gui.actions.UndoAction;
-import org.remast.baralga.gui.events.ProTrackEvent;
+import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
 
@@ -32,12 +32,12 @@ public class EditStack implements Observer {
     /**
      * The undoable edit events.
      */
-    private final Stack<ProTrackEvent> undoStack = new Stack<ProTrackEvent>();
+    private final Stack<BaralgaEvent> undoStack = new Stack<BaralgaEvent>();
 
     /**
      * The redoable edit events.
      */
-    private final Stack<ProTrackEvent> redoStack = new Stack<ProTrackEvent>();
+    private final Stack<BaralgaEvent> redoStack = new Stack<BaralgaEvent>();
 
     /** The model. */
     private PresentationModel model;
@@ -51,8 +51,8 @@ public class EditStack implements Observer {
     }
 
     public void update(Observable source, Object eventObject) {
-        if (eventObject != null && eventObject instanceof ProTrackEvent) {
-            final ProTrackEvent event = (ProTrackEvent) eventObject;
+        if (eventObject != null && eventObject instanceof BaralgaEvent) {
+            final BaralgaEvent event = (BaralgaEvent) eventObject;
 
             // Ignore our own events
             if (this == event.getSource()) {
@@ -98,7 +98,7 @@ public class EditStack implements Observer {
             return;
         }
 
-        final ProTrackEvent event = undoStack.pop();
+        final BaralgaEvent event = undoStack.pop();
         redoStack.push(event);
 
         executeUndo(event);
@@ -114,7 +114,7 @@ public class EditStack implements Observer {
             return;
         }
 
-        final ProTrackEvent event = redoStack.pop();
+        final BaralgaEvent event = redoStack.pop();
         undoStack.push(event);
 
         executeRedo(event);
@@ -122,18 +122,18 @@ public class EditStack implements Observer {
         updateActions();
     }
 
-    private void executeUndo(final ProTrackEvent event) {
-        if (ProTrackEvent.PROJECT_ACTIVITY_REMOVED == event.getType()) {
+    private void executeUndo(final BaralgaEvent event) {
+        if (BaralgaEvent.PROJECT_ACTIVITY_REMOVED == event.getType()) {
             model.addActivity((ProjectActivity) event.getData(), this);
-        } else if (ProTrackEvent.PROJECT_ACTIVITY_ADDED == event.getType()) {
+        } else if (BaralgaEvent.PROJECT_ACTIVITY_ADDED == event.getType()) {
             model.removeActivity((ProjectActivity) event.getData(), this);
         }
     }
 
-    private void executeRedo(final ProTrackEvent event) {
-        if (ProTrackEvent.PROJECT_ACTIVITY_REMOVED == event.getType()) {
+    private void executeRedo(final BaralgaEvent event) {
+        if (BaralgaEvent.PROJECT_ACTIVITY_REMOVED == event.getType()) {
             model.removeActivity((ProjectActivity) event.getData(), this);
-        } else if (ProTrackEvent.PROJECT_ACTIVITY_ADDED == event.getType()) {
+        } else if (BaralgaEvent.PROJECT_ACTIVITY_ADDED == event.getType()) {
             model.addActivity((ProjectActivity) event.getData(), this);
         }
     }

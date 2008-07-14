@@ -35,7 +35,7 @@ import org.remast.baralga.gui.actions.ManageProjectsAction;
 import org.remast.baralga.gui.actions.SaveAction;
 import org.remast.baralga.gui.actions.StartAction;
 import org.remast.baralga.gui.actions.StopAction;
-import org.remast.baralga.gui.events.ProTrackEvent;
+import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.panels.ReportPanel;
 import org.remast.baralga.model.Project;
@@ -405,27 +405,27 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     }
 
     public void update(Observable source, Object eventObject) {
-        if (eventObject != null && eventObject instanceof ProTrackEvent) {
-            final ProTrackEvent event = (ProTrackEvent) eventObject;
+        if (eventObject != null && eventObject instanceof BaralgaEvent) {
+            final BaralgaEvent event = (BaralgaEvent) eventObject;
 
             switch (event.getType()) {
 
-                case ProTrackEvent.START:
+                case BaralgaEvent.START:
                     this.updateStart();
                     break;
 
-                case ProTrackEvent.STOP:
+                case BaralgaEvent.STOP:
                     this.updateStop();
                     break;
 
-                case ProTrackEvent.PROJECT_CHANGED:
+                case BaralgaEvent.PROJECT_CHANGED:
                     this.updateProjectChanged(event);
                     break;
 
-                case ProTrackEvent.PROJECT_ADDED:
+                case BaralgaEvent.PROJECT_ADDED:
                     break;
 
-                case ProTrackEvent.PROJECT_REMOVED:
+                case BaralgaEvent.PROJECT_REMOVED:
                     break;
             }
         }
@@ -434,7 +434,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     /**
      * Executed on project changed event.
      */
-    private void updateProjectChanged(final ProTrackEvent event) {
+    private void updateProjectChanged(final BaralgaEvent event) {
         if (this.model.isActive()) {
             this
                     .setTitle(Messages.getString("Global.Title") + " - " + this.model.getSelectedProject() + Messages.getString("MainFrame.9") + GuiConstants.timeFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$

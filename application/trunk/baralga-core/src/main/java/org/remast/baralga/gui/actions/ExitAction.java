@@ -10,6 +10,7 @@ import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.PresentationModel;
 
 /**
+ * Action to exit the application.
  * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
@@ -24,14 +25,18 @@ public class ExitAction extends AbstractBaralgaAction {
         putValue(LONG_DESCRIPTION, Messages.getString("ExitAction.LongDescription")); //$NON-NLS-1$
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void actionPerformed(ActionEvent event) {
         boolean quit = true;
 
+        // If activity is running, then double check with user.
         if (getModel().isActive()) {
             final int dialogResult = JOptionPane.showConfirmDialog(
                     getOwner(), 
-                    Messages.getString("ExitConfirmDialog.Message"), 
-                    Messages.getString("ExitConfirmDialog.Title"), 
+                    Messages.getString("ExitConfirmDialog.Message"),  //$NON-NLS-1$
+                    Messages.getString("ExitConfirmDialog.Title"),  //$NON-NLS-1$
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.INFORMATION_MESSAGE
             );

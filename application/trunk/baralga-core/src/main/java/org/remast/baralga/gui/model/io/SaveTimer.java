@@ -22,7 +22,7 @@ public class SaveTimer extends TimerTask {
      * Create a time which periodically saves the model.
      * @param model the model
      */
-    public SaveTimer(PresentationModel model) {
+    public SaveTimer(final PresentationModel model) {
         this.model = model;
     }
 

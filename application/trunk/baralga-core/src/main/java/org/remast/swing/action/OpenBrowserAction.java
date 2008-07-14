@@ -14,10 +14,10 @@ import org.apache.commons.logging.LogFactory;
  * @author remast
  */
 @SuppressWarnings("serial")
-public class BrowserControlAction extends AbstractAction {
+public class OpenBrowserAction extends AbstractAction {
 
 	/** The logger. */
-	private static final Log log = LogFactory.getLog(BrowserControlAction.class);
+	private static final Log log = LogFactory.getLog(OpenBrowserAction.class);
 
 	/** The url to be opened. */
 	private String url;
@@ -26,7 +26,7 @@ public class BrowserControlAction extends AbstractAction {
 	 * Creates a new action that opens the given url.
 	 * @param url the url to be opened when the action is performed
 	 */
-	public BrowserControlAction(String url) {
+	public OpenBrowserAction(String url) {
 		super(url);
 		this.url = url;
 	}

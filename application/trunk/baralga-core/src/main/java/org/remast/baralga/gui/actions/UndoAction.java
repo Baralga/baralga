@@ -9,7 +9,10 @@ import javax.swing.KeyStroke;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.edit.EditStack;
 
-@SuppressWarnings("serial")
+/**
+ * Undoes the last edit activity.
+ * @author remast
+ */@SuppressWarnings("serial") //$NON-NLS-1$
 public class UndoAction extends AbstractEditAction {
 
     public UndoAction(final EditStack editStack) {
@@ -21,6 +24,9 @@ public class UndoAction extends AbstractEditAction {
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke('Z', InputEvent.CTRL_MASK) );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void actionPerformed(ActionEvent e) {
         undo();
     }

@@ -19,12 +19,13 @@ import org.apache.commons.logging.LogFactory;
 import org.remast.baralga.gui.Settings;
 
 /**
+ * Misc utility methods for creating and reading backups.
  * @author remast
  */
-public class DataBackupStrategy {
+public class DataBackup {
 
     /** The logger. */
-    private static final Log log = LogFactory.getLog(DataBackupStrategy.class);
+    private static final Log log = LogFactory.getLog(DataBackup.class);
 
     /** The date format for dates used in the names of backup files. */
     private static final SimpleDateFormat BACKUP_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd_HHmmss");
@@ -79,7 +80,7 @@ public class DataBackupStrategy {
     /**
      * Get a list of all backup files in order of the backup date (with the latest backup as first). If 
      * there there are no backups <code>Collections.EMPTY_LIST</code> is returned.
-     * @return
+     * @return the list of backup files
      */
     public static List<File> getBackupFiles()  {
         final SortedMap<Date, File> sortedBackupFiles = new TreeMap<Date, File>();
@@ -127,7 +128,7 @@ public class DataBackupStrategy {
 
     /**
      * Get the date on which the backup file has been created. 
-     * @param backupFile
+     * @param backupFile the backup file to get date for
      * @return The date on which the backup file has been created. If no date could be inferred <code>null</code> is returned.
      */
     public static Date getDateOfBackup(final File backupFile) {
@@ -140,7 +141,7 @@ public class DataBackupStrategy {
     }
 
     /**
-     * Make a backup copy of the corrupt file.
+     * Make a backup copy of the corrupt data file.
      */
     public static void saveCorruptDataFile() {
         try {

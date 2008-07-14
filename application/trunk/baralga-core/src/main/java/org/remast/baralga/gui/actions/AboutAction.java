@@ -15,6 +15,10 @@ import org.remast.baralga.gui.dialogs.AboutDialog;
 @SuppressWarnings("serial")//$NON-NLS-1$
 public class AboutAction extends AbstractBaralgaAction {
 
+    /**
+     * Creates a new about action.
+     * @param owner the owning frame
+     */
     public AboutAction(final Frame owner) {
         super(owner);
 
@@ -23,7 +27,11 @@ public class AboutAction extends AbstractBaralgaAction {
         putValue(SHORT_DESCRIPTION, Messages.getString("AboutAction.ShortDescription")); //$NON-NLS-1$
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void actionPerformed(ActionEvent event) {
+        // Display the about dialog
         final AboutDialog aboutDialog = new AboutDialog(getOwner());
         aboutDialog.setVisible(true);
     }

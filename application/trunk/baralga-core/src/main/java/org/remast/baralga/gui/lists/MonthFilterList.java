@@ -5,7 +5,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import org.remast.baralga.Messages;
-import org.remast.baralga.gui.events.ProTrackEvent;
+import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
 
@@ -49,16 +49,16 @@ public class MonthFilterList implements Observer {
     }
 
     public void update(final Observable source, final Object eventObject) {
-        if (eventObject != null && eventObject instanceof ProTrackEvent) {
-            final ProTrackEvent event = (ProTrackEvent) eventObject;
+        if (eventObject != null && eventObject instanceof BaralgaEvent) {
+            final BaralgaEvent event = (BaralgaEvent) eventObject;
 
             switch (event.getType()) {
 
-                case ProTrackEvent.PROJECT_ACTIVITY_ADDED:
+                case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
                     this.addMonth((ProjectActivity) event.getData());
                     break;
 
-                case ProTrackEvent.PROJECT_ACTIVITY_REMOVED:
+                case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
                     this.initialize();
                     break;
             }

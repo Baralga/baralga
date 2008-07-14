@@ -18,7 +18,10 @@ public abstract class AbstractBaralgaAction extends AbstractAction {
     /** The owning frame. */
     private final Frame owner;
 
-
+    /**
+     * Creates a new action for the given model.
+     * @param model the model to create action for
+     */
     public AbstractBaralgaAction(final PresentationModel model) {
         this(null, model);
     }
@@ -39,7 +42,7 @@ public abstract class AbstractBaralgaAction extends AbstractAction {
     /**
      * @return the model
      */
-    public PresentationModel getModel() {
+    protected PresentationModel getModel() {
         return model;
     }
 
@@ -47,7 +50,7 @@ public abstract class AbstractBaralgaAction extends AbstractAction {
      * Getter for the owning frame of this action.
      * @return the owning frame of this action
      */
-    public Frame getOwner() {
+    protected Frame getOwner() {
         return owner;
     }
 
@@ -61,6 +64,7 @@ public abstract class AbstractBaralgaAction extends AbstractAction {
             try {
                 return name.charAt(0);
             } catch (StringIndexOutOfBoundsException e) {
+                // Ignore
             }
         }
 

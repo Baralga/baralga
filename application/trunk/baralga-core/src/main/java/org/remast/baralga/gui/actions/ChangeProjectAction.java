@@ -32,6 +32,9 @@ public class ChangeProjectAction extends AbstractBaralgaAction {
         putValue(SHORT_DESCRIPTION, Messages.getString("ChangeProjectAction.ShortDescription") + String.valueOf(newProject) + "."); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void actionPerformed(final ActionEvent e) {
         getModel().changeProject(newProject);
     }

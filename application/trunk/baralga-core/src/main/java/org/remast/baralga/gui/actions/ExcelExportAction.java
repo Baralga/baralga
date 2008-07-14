@@ -34,8 +34,11 @@ public final class ExcelExportAction extends AbstractBaralgaAction {
         putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/gnome-mime-application-vnd.ms-excel.png"))); //$NON-NLS-1$
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void actionPerformed(ActionEvent event) {
-        JFileChooser chooser = new JFileChooser();
+        final JFileChooser chooser = new JFileChooser();
         
         // Set selection to last export location
         chooser.setSelectedFile(new File(Settings.instance().getLastExcelExportLocation()));

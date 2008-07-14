@@ -14,6 +14,7 @@ import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.model.ProjectStateException;
 
 /**
+ * Stops the currently running project activity.
  * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
@@ -30,9 +31,8 @@ public class StopAction extends AbstractBaralgaAction {
         putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/gtk-stop.png"))); //$NON-NLS-1$
     }
 
-
     /**
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+     * {@inheritDoc}
      */
     public void actionPerformed(ActionEvent event) {
         try {

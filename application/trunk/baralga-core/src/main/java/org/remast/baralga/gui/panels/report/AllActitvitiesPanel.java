@@ -27,7 +27,7 @@ import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.FormatStringValue;
 import org.jdesktop.swingx.table.DatePickerCellEditor;
 import org.remast.baralga.Messages;
-import org.remast.baralga.gui.events.ProTrackEvent;
+import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.panels.table.AllActivitiesTableFormat;
 import org.remast.baralga.model.Project;
@@ -188,24 +188,24 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
      * Update the panel from observed event.
      */
     public void update(Observable source, Object eventObject) {
-        if (eventObject != null && eventObject instanceof ProTrackEvent) {
-            final ProTrackEvent event = (ProTrackEvent) eventObject;
+        if (eventObject != null && eventObject instanceof BaralgaEvent) {
+            final BaralgaEvent event = (BaralgaEvent) eventObject;
 
             switch (event.getType()) {
 
-                case ProTrackEvent.PROJECT_ACTIVITY_ADDED:
+                case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
                     applyFilter();
                     break;
 
-                case ProTrackEvent.PROJECT_ACTIVITY_REMOVED:
+                case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
                     applyFilter();
                     break;
                     
-                case ProTrackEvent.PROJECT_ACTIVITY_CHANGED:
+                case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
                     tableModel.fireTableDataChanged();
                     break;
                     
-                case ProTrackEvent.FILTER_CHANGED:
+                case BaralgaEvent.FILTER_CHANGED:
                     final Filter newFilter = (Filter) event.getData();
                     setFilter(newFilter);
                     break;

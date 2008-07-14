@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXPanel;
-import org.remast.baralga.gui.events.ProTrackEvent;
+import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
@@ -106,16 +106,16 @@ public class DescriptionPanel extends JXPanel implements Observer {
             return;
         }
 
-        if (!(eventObject instanceof ProTrackEvent)) {
+        if (!(eventObject instanceof BaralgaEvent)) {
             return;
         }
 
-        final ProTrackEvent event = (ProTrackEvent) eventObject;
+        final BaralgaEvent event = (BaralgaEvent) eventObject;
         ProjectActivity activity;
 
         switch (event.getType()) {
 
-            case ProTrackEvent.PROJECT_ACTIVITY_ADDED:
+            case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
                 activity = (ProjectActivity) event.getData();
                 DescriptionPanelEntry newEntryPanel = new DescriptionPanelEntry(activity);
                 entriesByActivity.put(activity, newEntryPanel);
@@ -129,14 +129,14 @@ public class DescriptionPanel extends JXPanel implements Observer {
                 }
                 break;
 
-            case ProTrackEvent.PROJECT_ACTIVITY_CHANGED:
+            case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
                 activity = (ProjectActivity) event.getData();
                 if (entriesByActivity.containsKey(activity)) {
                     entriesByActivity.get(activity).update();
                 }
                 break;
 
-            case ProTrackEvent.PROJECT_ACTIVITY_REMOVED:
+            case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
                 activity = (ProjectActivity) event.getData();
                 if (entriesByActivity.containsKey(activity)) {
                     DescriptionPanelEntry entryPanel = entriesByActivity.get(activity);
@@ -144,7 +144,7 @@ public class DescriptionPanel extends JXPanel implements Observer {
                 }
                 break;
         
-            case ProTrackEvent.FILTER_CHANGED:
+            case BaralgaEvent.FILTER_CHANGED:
                 final Filter newFilter = (Filter) event.getData();
                 setFilter(newFilter);
                 break;

@@ -26,6 +26,7 @@ import org.remast.swing.dialog.EscapeDialog;
 import ca.odell.glazedlists.swing.EventListModel;
 
 /**
+ * The dialog to manage the available projects.
  * @author remast
  * :TODO: Rework the dialog to use table layout.
  */
@@ -112,7 +113,6 @@ public class ManageProjectsDialog extends EscapeDialog {
 
     /**
      * This method initializes newProjectTextField	
-     * 	
      * @return javax.swing.JTextField	
      */
     private JTextField getNewProjectTextField() {
@@ -194,8 +194,8 @@ public class ManageProjectsDialog extends EscapeDialog {
     }
 
     /**
-     * This method initializes jPanel1	
-     * 	
+     * This method initializes the Panel with the name of the new 
+     * project.
      * @return javax.swing.JPanel	
      */
     private JPanel getNewProjectNamePanel() {

@@ -21,7 +21,7 @@ import org.remast.baralga.gui.actions.ChangeProjectAction;
 import org.remast.baralga.gui.actions.ExitAction;
 import org.remast.baralga.gui.actions.StartAction;
 import org.remast.baralga.gui.actions.StopAction;
-import org.remast.baralga.gui.events.ProTrackEvent;
+import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
 import org.remast.swing.util.AWTUtils;
@@ -127,29 +127,29 @@ public class BaralgaTray implements Observer {
     }
 
     public void update(Observable source, Object eventObject) {
-        if (eventObject != null && eventObject instanceof ProTrackEvent) {
-            ProTrackEvent event = (ProTrackEvent) eventObject;
+        if (eventObject != null && eventObject instanceof BaralgaEvent) {
+            BaralgaEvent event = (BaralgaEvent) eventObject;
 
             switch (event.getType()) {
 
-                case ProTrackEvent.START:
+                case BaralgaEvent.START:
                     this.updateStart();
                     break;
 
-                case ProTrackEvent.STOP:
+                case BaralgaEvent.STOP:
                     this.updateStop();
                     break;
 
-                case ProTrackEvent.PROJECT_CHANGED:
+                case BaralgaEvent.PROJECT_CHANGED:
                     this.updateProjectChanged();
                     this.buildMenu();
                     break;
 
-                case ProTrackEvent.PROJECT_ADDED:
+                case BaralgaEvent.PROJECT_ADDED:
                     this.buildMenu();
                     break;
 
-                case ProTrackEvent.PROJECT_REMOVED:
+                case BaralgaEvent.PROJECT_REMOVED:
                     this.buildMenu();
                     break;
             }

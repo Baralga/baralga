@@ -10,6 +10,7 @@ import org.remast.baralga.gui.dialogs.ManageProjectsDialog;
 import org.remast.baralga.gui.model.PresentationModel;
 
 /**
+ * Displays the dialog to manage the projects.
  * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
@@ -22,9 +23,13 @@ public class ManageProjectsAction extends AbstractBaralgaAction {
         putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/gtk-edit.png"))); //$NON-NLS-1$
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void actionPerformed(final ActionEvent event) {
-        ManageProjectsDialog mp = new ManageProjectsDialog(getOwner(), getModel());
-        mp.setVisible(true);
+        // Display dialog to manage projects
+        final ManageProjectsDialog manageProjectsDialog = new ManageProjectsDialog(getOwner(), getModel());
+        manageProjectsDialog.setVisible(true);
     }
 
 }

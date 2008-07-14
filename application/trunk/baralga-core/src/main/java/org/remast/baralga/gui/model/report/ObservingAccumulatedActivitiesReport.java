@@ -3,7 +3,7 @@ package org.remast.baralga.gui.model.report;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.remast.baralga.gui.events.ProTrackEvent;
+import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
@@ -25,24 +25,24 @@ public class ObservingAccumulatedActivitiesReport extends AccumulatedActivitiesR
     }
 
     public void update(Observable source, Object eventObject) {
-        if (eventObject != null && eventObject instanceof ProTrackEvent) {
-            final ProTrackEvent event = (ProTrackEvent) eventObject;
+        if (eventObject != null && eventObject instanceof BaralgaEvent) {
+            final BaralgaEvent event = (BaralgaEvent) eventObject;
             switch (event.getType()) {
 
-                case ProTrackEvent.PROJECT_ACTIVITY_ADDED:
+                case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
                     ProjectActivity activity = (ProjectActivity) event.getData();
                     this.acummulateActivity(activity);
                     break;
 
-                case ProTrackEvent.PROJECT_ACTIVITY_REMOVED:
+                case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
                     this.accumulate();
                     break;
 
-                case ProTrackEvent.PROJECT_ACTIVITY_CHANGED:
+                case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
                     this.accumulate();
                     break;
                     
-                case ProTrackEvent.FILTER_CHANGED:
+                case BaralgaEvent.FILTER_CHANGED:
                     final Filter newFilter = (Filter) event.getData();
                     setFilter(newFilter);
                     break;
