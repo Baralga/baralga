@@ -1,4 +1,4 @@
-package org.remast.gui.util;
+package org.remast.swing.util;
 
 import java.awt.MenuItem;
 

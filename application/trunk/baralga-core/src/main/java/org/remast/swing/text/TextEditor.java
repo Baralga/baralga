@@ -1,4 +1,4 @@
-package org.remast.gui.text;
+package org.remast.swing.text;
 
 import java.awt.BorderLayout;
 import java.awt.KeyboardFocusManager;

@@ -10,8 +10,8 @@ import javax.swing.border.TitledBorder;
 
 import org.jdesktop.swingx.JXPanel;
 import org.remast.baralga.model.ProjectActivity;
-import org.remast.gui.text.TextEditor;
-import org.remast.gui.util.GuiConstants;
+import org.remast.swing.text.TextEditor;
+import org.remast.swing.util.GuiConstants;
 
 /**
  * Holds the editor for the description of a project activity.

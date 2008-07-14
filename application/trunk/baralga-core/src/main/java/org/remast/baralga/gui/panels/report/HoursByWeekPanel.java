@@ -13,7 +13,7 @@ import org.jdesktop.swingx.renderer.FormatStringValue;
 import org.remast.baralga.gui.model.report.HoursByWeek;
 import org.remast.baralga.gui.model.report.HoursByWeekReport;
 import org.remast.baralga.gui.panels.table.HoursByWeekTableFormat;
-import org.remast.gui.util.GuiConstants;
+import org.remast.swing.util.GuiConstants;
 
 import ca.odell.glazedlists.swing.EventTableModel;
 

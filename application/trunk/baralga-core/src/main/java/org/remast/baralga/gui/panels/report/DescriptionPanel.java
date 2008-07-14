@@ -17,7 +17,7 @@ import org.remast.baralga.gui.events.ProTrackEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
-import org.remast.gui.util.GuiConstants;
+import org.remast.swing.util.GuiConstants;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.SortedList;

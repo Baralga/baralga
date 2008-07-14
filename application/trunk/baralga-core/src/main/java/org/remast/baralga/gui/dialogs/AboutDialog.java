@@ -14,9 +14,9 @@ import org.jdesktop.swingx.JXImagePanel;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.remast.baralga.Messages;
-import org.remast.baralga.gui.utils.BrowserControlAction;
-import org.remast.gui.dialog.EscapeDialog;
-import org.remast.gui.util.GuiConstants;
+import org.remast.swing.action.BrowserControlAction;
+import org.remast.swing.dialog.EscapeDialog;
+import org.remast.swing.util.GuiConstants;
 
 /**
  * Displays information about the application like version and

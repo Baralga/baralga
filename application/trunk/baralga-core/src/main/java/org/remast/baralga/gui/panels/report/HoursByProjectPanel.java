@@ -14,7 +14,7 @@ import org.jdesktop.swingx.renderer.FormatStringValue;
 import org.remast.baralga.gui.model.report.HoursByProject;
 import org.remast.baralga.gui.model.report.HoursByProjectReport;
 import org.remast.baralga.gui.panels.table.HoursByProjectTableFormat;
-import org.remast.gui.util.GuiConstants;
+import org.remast.swing.util.GuiConstants;
 
 import ca.odell.glazedlists.swing.EventTableModel;
 

@@ -16,7 +16,7 @@ import org.remast.baralga.gui.model.report.ObservingAccumulatedActivitiesReport;
 import org.remast.baralga.gui.panels.table.AccumulatedActivitiesTableFormat;
 import org.remast.baralga.model.report.AccumulatedActivitiesReport;
 import org.remast.baralga.model.report.AccumulatedProjectActivity;
-import org.remast.gui.util.GuiConstants;
+import org.remast.swing.util.GuiConstants;
 
 import ca.odell.glazedlists.swing.EventTableModel;
 

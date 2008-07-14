@@ -21,7 +21,7 @@ import org.jdesktop.swingx.JXList;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
-import org.remast.gui.dialog.EscapeDialog;
+import org.remast.swing.dialog.EscapeDialog;
 
 import ca.odell.glazedlists.swing.EventListModel;
 

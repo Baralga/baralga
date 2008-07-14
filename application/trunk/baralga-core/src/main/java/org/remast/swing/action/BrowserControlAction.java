@@ -1,4 +1,4 @@
-package org.remast.baralga.gui.utils;
+package org.remast.swing.action;
 
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;

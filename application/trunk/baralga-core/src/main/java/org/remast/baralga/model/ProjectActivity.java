@@ -6,7 +6,7 @@ package org.remast.baralga.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.remast.gui.util.GuiConstants;
+import org.remast.swing.util.GuiConstants;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 

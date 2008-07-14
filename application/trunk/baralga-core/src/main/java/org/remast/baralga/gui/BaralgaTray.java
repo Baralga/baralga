@@ -24,8 +24,8 @@ import org.remast.baralga.gui.actions.StopAction;
 import org.remast.baralga.gui.events.ProTrackEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
-import org.remast.gui.util.AWTUtils;
-import org.remast.gui.util.GuiConstants;
+import org.remast.swing.util.AWTUtils;
+import org.remast.swing.util.GuiConstants;
 
 /**
  * Tray icon for quick start, stop and switching of project activities.
