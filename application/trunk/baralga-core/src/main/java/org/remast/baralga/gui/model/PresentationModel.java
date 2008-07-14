@@ -151,6 +151,7 @@ public class PresentationModel extends Observable {
             throw new ProjectStateException(Messages.getString("PresentationModel.NoActiveProjectSelectedError")); //$NON-NLS-1$
         }
         
+        // Mark as active
         setActive(true);
 
         // Mark data as dirty
@@ -159,6 +160,7 @@ public class PresentationModel extends Observable {
         // Set start time to now
         setStart(DateUtils.getNow());
         
+        // Fire start event
         final ProTrackEvent event = new ProTrackEvent(ProTrackEvent.START);
         notify(event);
     }
@@ -197,13 +199,31 @@ public class PresentationModel extends Observable {
         if (!isActive()) {
             throw new ProjectStateException(Messages.getString("PresentationModel.NoActiveProjectError")); //$NON-NLS-1$
         }
-
-        // If start is on a different day from now end the activity at 0:00 one day after start.
+        
         final Date now = DateUtils.getNow();
+        
+        ProTrackEvent eventOnEndDay = null;
+        Date stop2 = null;
+        
+        // If start is on a different day from now end the activity at 0:00 one day after start.
+        // Also make a new activity from 0:00 the next day until the stop time of the next day.
         if (!org.apache.commons.lang.time.DateUtils.isSameDay(start, now)) {
             DateTime dt = new DateTime(start);
             dt = dt.plusDays(1);
+            
             stop = dt.toDateMidnight().toDate();
+
+            stop2 = dt.toDate();
+            final Date start2 = stop;
+            
+            final ProjectActivity activityOnEndDay = new ProjectActivity(start2, stop2, getSelectedProject());
+            activityOnEndDay.setDescription(this.description);
+            getData().getActivities().add(activityOnEndDay);
+            this.activitiesList.add(activityOnEndDay);
+
+            // Create Event for Project Activity
+            eventOnEndDay  = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_ADDED);
+            eventOnEndDay.setData(activityOnEndDay);
         } else {
             stop = now;
         }
@@ -223,13 +243,18 @@ public class PresentationModel extends Observable {
         this.dirty = true;
         
         if (notifyObservers) {
-            // Create Stop Event
-            ProTrackEvent event = new ProTrackEvent(ProTrackEvent.STOP);
+            // Create Event for Project Activity
+            ProTrackEvent event  = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_ADDED);
+            event.setData(activityOnStartDay);
             notify(event);
             
-            // Create Event for Project Activity
-            event  = new ProTrackEvent(ProTrackEvent.PROJECT_ACTIVITY_ADDED);
-            event.setData(activityOnStartDay);
+            if (eventOnEndDay != null)  {
+                notify(eventOnEndDay);
+                stop = stop2;
+            }
+
+            // Create Stop Event
+            event = new ProTrackEvent(ProTrackEvent.STOP);
             notify(event);
         }
     }
@@ -346,11 +371,18 @@ public class PresentationModel extends Observable {
         notify(event);
     }
 
-
+    /**
+     * Getter for the list of projects.
+     * @return the list with all projects
+     */
     public EventList<Project> getProjectList() {
         return projectList;
     }
 
+    /**
+     * Getter for the list of project activities.
+     * @return the list with all project activities
+     */
     public EventList<ProjectActivity> getActivitiesList() {
         return activitiesList;
     }
@@ -390,6 +422,7 @@ public class PresentationModel extends Observable {
     public HoursByProjectReport getHoursByProjectReport() {
         return new HoursByProjectReport(this);
     }
+    
     /**
      * @return the start
      */
@@ -420,6 +453,7 @@ public class PresentationModel extends Observable {
     }
     
     /**
+     * Checks whether a project activity is currently running.
      * @return the active
      */
     public boolean isActive() {

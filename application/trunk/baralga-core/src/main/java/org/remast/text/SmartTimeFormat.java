@@ -1,8 +1,6 @@
 package org.remast.text;
 
-import java.text.FieldPosition;
 import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
@@ -18,21 +16,7 @@ import org.apache.commons.lang.StringUtils;
  * @author remast
  */
 @SuppressWarnings("serial")
-public class SmartTimeFormat extends SimpleDateFormat {
-    
-    /**
-     * Definition of the time format to parse.
-     */
-    private static final String HHMM_FORMAT = "HH:mm"; //$NON-NLS-1$
-    
-    public SmartTimeFormat() {
-        super(HHMM_FORMAT);
-    }
-
-    @Override
-    public StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition fieldPosition) {
-        return super.format(date, toAppendTo, fieldPosition);
-    }
+public class SmartTimeFormat extends TimeFormat {
 
     @Override
     public Date parse(final String source, final ParsePosition pos) {

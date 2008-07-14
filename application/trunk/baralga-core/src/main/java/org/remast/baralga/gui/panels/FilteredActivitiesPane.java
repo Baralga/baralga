@@ -101,10 +101,6 @@ public class FilteredActivitiesPane extends JXPanel {
         }
         
     });
-    
-    private JideToggleButton [] categoryToggleButtons = new JideToggleButton [] {
-            generalButton, projectButton, timeButton
-    };
 
     public FilteredActivitiesPane(final PresentationModel model) {
         super();
