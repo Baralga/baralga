@@ -3,6 +3,10 @@ package org.remast.baralga.gui.model.report;
 import org.apache.commons.lang.ObjectUtils;
 import org.remast.baralga.model.Project;
 
+/**
+ * Item of the hours by project report.
+ * @author remast
+ */
 public class HoursByProject {
     
     /** The project. */

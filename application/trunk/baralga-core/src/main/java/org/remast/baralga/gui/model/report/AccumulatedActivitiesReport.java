@@ -11,6 +11,10 @@ import org.remast.baralga.model.report.AccumulatedProjectActivity;
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 
+/**
+ * Report for the accumulated working hours.
+ * @author remast
+ */
 public class AccumulatedActivitiesReport extends Observable {
 
     /** The data of the report. */

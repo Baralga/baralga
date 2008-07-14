@@ -4,6 +4,10 @@ import java.util.Date;
 
 import org.apache.commons.lang.time.DateUtils;
 
+/**
+ * Item of the hours by day report.
+ * @author remast
+ */
 public class HoursByDay {
     
     /** The week of the year. */

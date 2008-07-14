@@ -13,6 +13,10 @@ import org.remast.baralga.model.filter.Filter;
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 
+/**
+ * Report for the working hours by project.
+ * @author remast
+ */
 public class HoursByProjectReport extends Observable implements Observer  {
 
     /** The model. */

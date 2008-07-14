@@ -14,6 +14,10 @@ import org.remast.baralga.model.filter.Filter;
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 
+/**
+ * Report for the working hours by week.
+ * @author remast
+ */
 public class HoursByWeekReport extends Observable implements Observer  {
 
     /** The model. */
@@ -103,7 +107,6 @@ public class HoursByWeekReport extends Observable implements Observer  {
                     break;
 
                 case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
-                    // TODO: Replace calculation by remove + add.
                     calculateHours();
                     break;
                     
