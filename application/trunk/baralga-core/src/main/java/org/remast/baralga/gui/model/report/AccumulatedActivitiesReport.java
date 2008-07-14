@@ -11,7 +11,7 @@ import org.remast.baralga.model.report.AccumulatedProjectActivity;
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 
-public class FilteredReport extends Observable {
+public class AccumulatedActivitiesReport extends Observable {
 
     /** The data of the report. */
     private ProTrack data;
@@ -25,7 +25,7 @@ public class FilteredReport extends Observable {
     /**
      * Create report from data.
      */
-    public FilteredReport(final ProTrack data) {
+    public AccumulatedActivitiesReport(final ProTrack data) {
         this.data = data;
         accumulatedActivitiesByDay = new BasicEventList<AccumulatedProjectActivity>();
 

@@ -8,7 +8,7 @@ import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 
-public class ObservingFilteredReport extends FilteredReport implements Observer {
+public class ObservingFilteredReport extends AccumulatedActivitiesReport implements Observer {
 
     private final PresentationModel model;
 
