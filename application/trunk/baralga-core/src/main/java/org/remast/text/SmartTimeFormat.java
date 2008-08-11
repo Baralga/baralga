@@ -27,6 +27,7 @@ public class SmartTimeFormat extends TimeFormat {
             return super.parse(time, pos);
         }
         
+        // Treat 11,5 and 11,50 as 12:30
         if (time.contains(",50")) { //$NON-NLS-1$
             time = time.replace(",50", ":30"); //$NON-NLS-1$ // $NON-NLS-2$
         }
@@ -35,10 +36,21 @@ public class SmartTimeFormat extends TimeFormat {
             time = time.replace(",5", ":30"); //$NON-NLS-1$ // $NON-NLS-2$
         }
         
+        // Treat 11;5 and 11;50 as 12:30
+        if (time.contains(";50")) { //$NON-NLS-1$
+            time = time.replace(";50", ":30"); //$NON-NLS-1$ // $NON-NLS-2$
+        }
+
+        if (time.contains(";5")) { //$NON-NLS-1$
+            time = time.replace(";5", ":30"); //$NON-NLS-1$ // $NON-NLS-2$
+        }
+
+        // Treat 11 as 11:30
         if (!time.contains(":")) { //$NON-NLS-1$
             time = time + ":00"; //$NON-NLS-1$
         }
         
+        // Treat 8:20 as 08:20
         if (time.length() == 4) {
             time = "0" + time; //$NON-NLS-1$
         }

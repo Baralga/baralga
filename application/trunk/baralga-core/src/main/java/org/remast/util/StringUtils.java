@@ -6,6 +6,7 @@ package org.remast.util;
 import org.apache.commons.lang.StringEscapeUtils;
 
 /**
+ * Utility methods for working with strings.
  * @author remast
  */
 public abstract class StringUtils {
@@ -23,8 +24,13 @@ public abstract class StringUtils {
             return xml;
         }
         
+        // 1. Remove xml tags
         String strippedXml = xml.replaceAll(XML_TAG_PATTERN, org.apache.commons.lang.StringUtils.EMPTY);
+        
+        // 2. Unescape xml
         strippedXml = StringEscapeUtils.unescapeXml(strippedXml);
+        
+        // 3. Trim whitespace
         strippedXml = org.apache.commons.lang.StringUtils.trim(strippedXml);
         return strippedXml;
     }

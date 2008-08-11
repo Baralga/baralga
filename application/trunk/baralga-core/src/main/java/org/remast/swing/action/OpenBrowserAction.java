@@ -32,7 +32,7 @@ public class OpenBrowserAction extends AbstractAction {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		try {
 			Desktop.getDesktop().browse(new URL(url).toURI());
 		} catch (Exception ex) {
