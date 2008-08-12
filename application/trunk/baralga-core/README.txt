@@ -4,10 +4,17 @@ User Interface
  * Improved sorting by hours in different tables.
  * Reports belong to categories like General, Time or Project.
  * Smart parsing of time, e.g. 12 -> 12:00 or 12,5 -> 12:30.
+ * Combo boxes for filtering by project, month and year are sorted.
+ * Reports grouped in categories general, time and project.
 
 Functionality
  * New report for working hours by project.
  * New chart for working hour distribution by project.
+ 
+Fixes
+ * Activities can go on until after midnight. That results in two activity
+   entries.
+
 
 == Baralga Version 1.2.3 ==
  * On exit running activities are stopped. 
@@ -20,8 +27,10 @@ User Interface
 Fixes
  * Sorting of accumulated activities by date corrected.
 
+
 == Baralga Version 1.2.2 ==
  * Improved the editing of dates in the table of all activities.
+
 
 == Baralga Version 1.2.1 ==
  * Adding activities can be undone.
