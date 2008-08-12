@@ -6,6 +6,7 @@ User Interface
  * Smart parsing of time, e.g. 12 -> 12:00 or 12,5 -> 12:30.
  * Combo boxes for filtering by project, month and year are sorted.
  * Reports grouped in categories general, time and project.
+ * Look and feel of tray icon improved.
 
 Functionality
  * New report for working hours by project.
