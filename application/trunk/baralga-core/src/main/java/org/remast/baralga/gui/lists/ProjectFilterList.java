@@ -10,6 +10,7 @@ import org.remast.baralga.model.Project;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
+import ca.odell.glazedlists.SortedList;
 
 public class ProjectFilterList implements Observer {
 
@@ -39,8 +40,8 @@ public class ProjectFilterList implements Observer {
         }
     }
 
-    public EventList<FilterItem<Project>> getProjectList() {
-        return this.projectList;
+    public SortedList<FilterItem<Project>> getProjectList() {
+        return new SortedList<FilterItem<Project>>(this.projectList);
     }
 
     public void update(Observable source, Object eventObject) {

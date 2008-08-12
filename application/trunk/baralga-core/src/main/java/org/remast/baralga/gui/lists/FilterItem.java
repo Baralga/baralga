@@ -2,7 +2,7 @@ package org.remast.baralga.gui.lists;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 
-public class FilterItem<E> {
+public class FilterItem<E extends Comparable<E>> implements Comparable<FilterItem<E>>{
     
     /** The item. */
     private final E item;
@@ -54,5 +54,11 @@ public class FilterItem<E> {
         }
         return false;
     }
+
+	@Override
+	public int compareTo(FilterItem<E> o) {
+		return this.getItem().compareTo(o.getItem());
+	}
+
 
 }

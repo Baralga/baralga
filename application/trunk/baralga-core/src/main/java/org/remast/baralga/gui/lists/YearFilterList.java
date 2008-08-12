@@ -11,6 +11,7 @@ import org.remast.baralga.model.ProjectActivity;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
+import ca.odell.glazedlists.SortedList;
 
 public class YearFilterList implements Observer {
 
@@ -19,16 +20,16 @@ public class YearFilterList implements Observer {
     /** The model. */
     private final PresentationModel model;
 
-    public static final String ALL_YEARS_DUMMY = "*"; //$NON-NLS-1$
+    public static final int ALL_YEARS_DUMMY = -1; //$NON-NLS-1$
 
-    public static final FilterItem<String> ALL_YEARS_FILTER_ITEM = new FilterItem<String>(ALL_YEARS_DUMMY, Messages
+    public static final FilterItem<Integer> ALL_YEARS_FILTER_ITEM = new FilterItem<Integer>(ALL_YEARS_DUMMY, Messages
             .getString("YearFilterList.AllYearsLabel")); //$NON-NLS-1$
 
-    private EventList<FilterItem<String>> yearList;
+    private EventList<FilterItem<Integer>> yearList;
 
     public YearFilterList(final PresentationModel model) {
         this.model = model;
-        this.yearList = new BasicEventList<FilterItem<String>>();
+        this.yearList = new BasicEventList<FilterItem<Integer>>();
         this.model.addObserver(this);
 
         initialize();
@@ -42,8 +43,8 @@ public class YearFilterList implements Observer {
         }
     }
 
-    public EventList<FilterItem<String>> getYearList() {
-        return this.yearList;
+    public SortedList<FilterItem<Integer>> getYearList() {
+        return new SortedList<FilterItem<Integer>>(this.yearList);
     }
 
     public void update(final Observable source, final Object eventObject) {
@@ -65,9 +66,10 @@ public class YearFilterList implements Observer {
     }
 
     private void addYear(final ProjectActivity activity) {
-        final FilterItem<String> year = new FilterItem<String>(YEAR_FORMAT.format(activity.getStart()));
-        if (!this.yearList.contains(year)) {
-            this.yearList.add(year);
+    	final String year = YEAR_FORMAT.format(activity.getStart());
+        final FilterItem<Integer> yearItem = new FilterItem<Integer>(Integer.parseInt(year), year);
+        if (!this.yearList.contains(yearItem)) {
+            this.yearList.add(yearItem);
         }
     }
 

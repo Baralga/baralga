@@ -27,22 +27,26 @@ public class SmartTimeFormat extends TimeFormat {
             return super.parse(time, pos);
         }
         
-        // Treat 11,5 and 11,50 as 12:30
+        // Remove semikolons
+        time = StringUtils.replaceChars(time, ';', ',');
+        
+        // Treat 11,25 as 11:15
+        if (time.contains(",25")) { //$NON-NLS-1$
+            time = time.replace(",25", ":15"); //$NON-NLS-1$ // $NON-NLS-2$
+        }
+
+        // Treat 11,75 as 11:45
+        if (time.contains(",75")) { //$NON-NLS-1$
+            time = time.replace(",75", ":45"); //$NON-NLS-1$ // $NON-NLS-2$
+        }
+        
+        // Treat 11,5 and 11,50 as 11:30
         if (time.contains(",50")) { //$NON-NLS-1$
             time = time.replace(",50", ":30"); //$NON-NLS-1$ // $NON-NLS-2$
         }
 
         if (time.contains(",5")) { //$NON-NLS-1$
             time = time.replace(",5", ":30"); //$NON-NLS-1$ // $NON-NLS-2$
-        }
-        
-        // Treat 11;5 and 11;50 as 12:30
-        if (time.contains(";50")) { //$NON-NLS-1$
-            time = time.replace(";50", ":30"); //$NON-NLS-1$ // $NON-NLS-2$
-        }
-
-        if (time.contains(";5")) { //$NON-NLS-1$
-            time = time.replace(";5", ":30"); //$NON-NLS-1$ // $NON-NLS-2$
         }
 
         // Treat 11 as 11:30

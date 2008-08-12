@@ -11,7 +11,6 @@ import javax.swing.JComboBox;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jdesktop.swingx.JXLabel;
@@ -106,7 +105,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
     public JComboBox getMonthFilterSelector() {
         if (monthFilterSelector == null) {
             monthFilterList = model.getMonthFilterList();
-            monthFilterSelector = new JComboBox(new EventComboBoxModel<FilterItem<String>>(monthFilterList
+            monthFilterSelector = new JComboBox(new EventComboBoxModel<FilterItem<Integer>>(monthFilterList
                     .getMonthList()));
             monthFilterSelector.setToolTipText(Messages.getString("MonthFilterSelector.ToolTipText"));
             
@@ -118,11 +117,11 @@ public class ReportPanel extends JXPanel implements ActionListener {
             // Read from Settings.
             String selectedMonth = Settings.instance().getFilterSelectedMonth();
             if (selectedMonth != null) {
-                if (MonthFilterList.ALL_MONTHS_DUMMY.equals(selectedMonth)) {
+                if (MonthFilterList.ALL_MONTHS_DUMMY == Integer.parseInt(selectedMonth)) {
                     monthFilterSelector.setSelectedItem(MonthFilterList.ALL_MONTHS_FILTER_ITEM);
                 } else {
-                    for (FilterItem<String> item : monthFilterList.getMonthList()) {
-                        if (StringUtils.equals(selectedMonth, item.getItem())) {
+                    for (FilterItem<Integer> item : monthFilterList.getMonthList()) {
+                        if (Integer.parseInt(selectedMonth) == item.getItem()) {
                             monthFilterSelector.setSelectedItem(item);
                             break;
                         }
@@ -176,7 +175,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
     public JComboBox getYearFilterSelector() {
         if (yearFilterSelector == null) {
             yearFilterList = model.getYearFilterList();
-            yearFilterSelector = new JComboBox(new EventComboBoxModel<FilterItem<String>>(yearFilterList.getYearList()));
+            yearFilterSelector = new JComboBox(new EventComboBoxModel<FilterItem<Integer>>(yearFilterList.getYearList()));
             yearFilterSelector.setToolTipText(Messages.getString("YearFilterSelector.ToolTipText"));
 
             // Select first entry
@@ -187,11 +186,11 @@ public class ReportPanel extends JXPanel implements ActionListener {
             // Read from Settings.
             String selectedYear = Settings.instance().getFilterSelectedYear();
             if (selectedYear != null) {
-                if (YearFilterList.ALL_YEARS_DUMMY.equals(selectedYear)) {
+                if (YearFilterList.ALL_YEARS_DUMMY == Integer.parseInt(selectedYear)) {
                     yearFilterSelector.setSelectedItem(YearFilterList.ALL_YEARS_FILTER_ITEM);
                 } else {
-                    for (FilterItem<String> item : yearFilterList.getYearList()) {
-                        if (StringUtils.equals(selectedYear, item.getItem())) {
+                    for (FilterItem<Integer> item : yearFilterList.getYearList()) {
+                        if (Integer.parseInt(selectedYear) == item.getItem()) {
                             yearFilterSelector.setSelectedItem(item);
                             break;
                         }
@@ -211,22 +210,22 @@ public class ReportPanel extends JXPanel implements ActionListener {
     public Filter createFilter() {
         final Filter filter = new Filter();
 
-        FilterItem<String> filterItem = (FilterItem<String>) getMonthFilterSelector().getSelectedItem();
-        final String selectedMonth = filterItem.getItem();
-        if (!MonthFilterList.ALL_MONTHS_DUMMY.equals(selectedMonth)) {
+        FilterItem<Integer> filterItem = (FilterItem<Integer>) getMonthFilterSelector().getSelectedItem();
+        final int selectedMonth = filterItem.getItem();
+        if (MonthFilterList.ALL_MONTHS_DUMMY != selectedMonth) {
             try {
-                Date month = MonthFilterList.MONTH_FORMAT.parse(selectedMonth);
+                Date month = MonthFilterList.MONTH_FORMAT.parse(String.valueOf(selectedMonth));
                 filter.setMonth(month);
             } catch (ParseException e) {
                 log.error(e, e);
             }
         }
 
-        filterItem = (FilterItem<String>) getYearFilterSelector().getSelectedItem();
-        final String selectedYear = filterItem.getItem();
-        if (!YearFilterList.ALL_YEARS_DUMMY.equals(selectedYear)) {
+        filterItem = (FilterItem<Integer>) getYearFilterSelector().getSelectedItem();
+        final int selectedYear = filterItem.getItem();
+        if (YearFilterList.ALL_YEARS_DUMMY != selectedYear) {
             try {
-                Date year = YearFilterList.YEAR_FORMAT.parse(selectedYear);
+                Date year = YearFilterList.YEAR_FORMAT.parse(String.valueOf(selectedYear));
                 filter.setYear(year);
             } catch (ParseException e) {
                 log.error(e, e);
@@ -246,21 +245,21 @@ public class ReportPanel extends JXPanel implements ActionListener {
      */
     private void saveToPreferences() {
         // Store filter by month
-        FilterItem<String> filterItem = (FilterItem<String>) getMonthFilterSelector().getSelectedItem();
-        final String selectedMonth = filterItem.getItem();
-        if (!MonthFilterList.ALL_MONTHS_DUMMY.equals(selectedMonth)) {
-            Settings.instance().setFilterSelectedMonth(selectedMonth);
+        FilterItem<Integer> filterItem = (FilterItem<Integer>) getMonthFilterSelector().getSelectedItem();
+        final int selectedMonth = filterItem.getItem();
+        if (MonthFilterList.ALL_MONTHS_DUMMY != selectedMonth) {
+            Settings.instance().setFilterSelectedMonth(String.valueOf(selectedMonth));
         } else {
-            Settings.instance().setFilterSelectedMonth(MonthFilterList.ALL_MONTHS_DUMMY);
+            Settings.instance().setFilterSelectedMonth(String.valueOf(MonthFilterList.ALL_MONTHS_DUMMY));
         }
 
         // Store filter by year
-        filterItem = (FilterItem<String>) getYearFilterSelector().getSelectedItem();
-        final String selectedYear = filterItem.getItem();
-        if (!YearFilterList.ALL_YEARS_DUMMY.equals(selectedYear)) {
-            Settings.instance().setFilterSelectedYear(selectedYear);
+        filterItem = (FilterItem<Integer>) getYearFilterSelector().getSelectedItem();
+        final int selectedYear = filterItem.getItem();
+        if (YearFilterList.ALL_YEARS_DUMMY != selectedYear) {
+            Settings.instance().setFilterSelectedYear(String.valueOf(selectedYear));
         } else {
-            Settings.instance().setFilterSelectedYear(YearFilterList.ALL_YEARS_DUMMY);
+            Settings.instance().setFilterSelectedYear(String.valueOf(YearFilterList.ALL_YEARS_DUMMY));
         }
 
         // Store filter by project

@@ -127,6 +127,12 @@ public class Settings {
     public static final String SELECTED_MONTH = "filter.month"; //$NON-NLS-1$
 
     public String getFilterSelectedMonth() {
+    	// -- 
+    	// :INFO: Migrate from < 1.3 where * was used as dummy value
+        if (StringUtils.equals("*", config.getString(SELECTED_MONTH, null))) {
+        	setFilterSelectedMonth(String.valueOf(MonthFilterList.ALL_MONTHS_DUMMY));
+        }
+        // --
         return config.getString(SELECTED_MONTH, null);
     }
 
@@ -138,6 +144,12 @@ public class Settings {
     public static final String SELECTED_YEAR = "filter.year"; //$NON-NLS-1$
 
     public String getFilterSelectedYear() {
+    	// -- 
+    	// :INFO: Migrate from < 1.3 where * was used as dummy value
+        if (StringUtils.equals("*", config.getString(SELECTED_YEAR, null))) {
+        	setFilterSelectedYear(String.valueOf(YearFilterList.ALL_YEARS_DUMMY));
+        }
+    	// -- 
         return config.getString(SELECTED_YEAR, null);
     }
 
@@ -180,7 +192,7 @@ public class Settings {
         
         // 1. Restore the month
         final String selectedMonth = getFilterSelectedMonth();
-        if (StringUtils.isNotBlank(selectedMonth) && !MonthFilterList.ALL_MONTHS_DUMMY.equals(selectedMonth)) {
+        if (StringUtils.isNotBlank(selectedMonth) && MonthFilterList.ALL_MONTHS_DUMMY != Integer.parseInt(selectedMonth)) {
             try {
                 final Calendar calendar = GregorianCalendar.getInstance();
                 calendar.set(Calendar.MONTH, Integer.parseInt(selectedMonth) - 1);
@@ -192,7 +204,7 @@ public class Settings {
         
         // 1. Restore the year
         final String selectedYear = Settings.instance().getFilterSelectedYear();
-        if (StringUtils.isNotBlank(selectedYear) && !YearFilterList.ALL_YEARS_DUMMY.equals(selectedYear)) {
+        if (StringUtils.isNotBlank(selectedYear) && YearFilterList.ALL_YEARS_DUMMY != Integer.parseInt(selectedYear)) {
             try {
                 final Calendar calendar = GregorianCalendar.getInstance();
                 calendar.set(Calendar.YEAR, Integer.parseInt(selectedYear));
