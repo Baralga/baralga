@@ -1,5 +1,6 @@
 package org.remast.baralga;
 
+import java.awt.SystemTray;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -142,7 +143,11 @@ public class BaralgaMain {
             
             // Create try icon.
             try {
-                tray = new BaralgaTray(model, mainFrame);
+            	if (SystemTray.isSupported()) {
+            		tray = new BaralgaTray(model, mainFrame);
+            	} else {
+            		tray = null;
+            	}
             } catch (UnsupportedOperationException e) {
                 // Tray icon not supported on the current platform.
                 tray = null;

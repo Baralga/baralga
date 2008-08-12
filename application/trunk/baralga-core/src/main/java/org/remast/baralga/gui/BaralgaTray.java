@@ -26,7 +26,6 @@ import org.remast.baralga.gui.actions.StopAction;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
-import org.remast.swing.util.AWTUtils;
 import org.remast.swing.util.GuiConstants;
 
 /**
@@ -90,7 +89,7 @@ public class BaralgaTray implements Observer {
      */
     private void buildMenu() {
         menu.removeAll();
-        ExitAction exitAction = new ExitAction(null, model);
+        final ExitAction exitAction = new ExitAction(null, model);
         exitAction.putValue(AbstractAction.SMALL_ICON, null);
         menu.add(exitAction);
 
@@ -98,7 +97,7 @@ public class BaralgaTray implements Observer {
         menu.add(new JSeparator());
 
         for (Project project : model.getData().getProjects()) {
-            ChangeProjectAction changeAction = new ChangeProjectAction(model, project);
+        	final ChangeProjectAction changeAction = new ChangeProjectAction(model, project);
             menu.add(changeAction);
         }
 
@@ -106,11 +105,11 @@ public class BaralgaTray implements Observer {
         menu.add(new JSeparator());
 
         if (model.isActive()) {
-        	StopAction stopAction = new StopAction(model);
+        	final StopAction stopAction = new StopAction(model);
         	stopAction.putValue(AbstractAction.SMALL_ICON, null);
             menu.add(stopAction);
         } else {
-        	StartAction startAction = new StartAction(model);
+        	final StartAction startAction = new StartAction(model);
         	startAction.putValue(AbstractAction.SMALL_ICON, null);
             menu.add(startAction);
         }
@@ -120,19 +119,23 @@ public class BaralgaTray implements Observer {
      * Show the tray icon.
      */
     public void show() {
-        SystemTray tray = SystemTray.getSystemTray(); 
-        try {
-            tray.add(trayIcon);
-        } catch (AWTException e) {
-            log.error(e, e);
-        }
+    	if (SystemTray.isSupported()) {
+    		SystemTray tray = SystemTray.getSystemTray(); 
+    		try {
+    			tray.add(trayIcon);
+    		} catch (AWTException e) {
+    			log.error(e, e);
+    		}
+    	}
     }
 
     /**
      * Hide the tray icon.
      */
     public void hide() {
-        SystemTray.getSystemTray().remove(trayIcon);        
+    	if (SystemTray.isSupported()) {
+    		SystemTray.getSystemTray().remove(trayIcon);        
+    	}
     }
 
     public void update(Observable source, Object eventObject) {
