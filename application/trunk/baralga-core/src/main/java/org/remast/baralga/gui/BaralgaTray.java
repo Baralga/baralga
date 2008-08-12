@@ -2,19 +2,21 @@ package org.remast.baralga.gui;
 
 import java.awt.AWTException;
 import java.awt.Image;
-import java.awt.PopupMenu;
 import java.awt.SystemTray;
-import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JPopupMenu;
+import javax.swing.JSeparator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jdesktop.swinghelper.tray.JXTrayIcon;
 import org.remast.baralga.BaralgaMain;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.actions.ChangeProjectAction;
@@ -46,10 +48,10 @@ public class BaralgaTray implements Observer {
     private PresentationModel model;
 
     /** The tray icon. */
-    private TrayIcon trayIcon;
+    private JXTrayIcon trayIcon;
 
     /** The menu of the tray icon. */
-    private PopupMenu menu = new PopupMenu();
+    private JPopupMenu menu = new JPopupMenu();
 
     public BaralgaTray(final PresentationModel model, final MainFrame mainFrame) {
         this.model = model;
@@ -57,8 +59,9 @@ public class BaralgaTray implements Observer {
 
         buildMenu();
 
-        trayIcon = new TrayIcon(NORMAL_ICON, Messages.getString("Global.Title")); //$NON-NLS-1$
-        trayIcon.setPopupMenu(menu);
+        trayIcon = new JXTrayIcon(NORMAL_ICON); //$NON-NLS-1$
+        trayIcon.setToolTip(Messages.getString("Global.Title"));
+        trayIcon.setJPopupMenu(menu);
         trayIcon.setImageAutoSize(true);
 
         trayIcon.addActionListener(new ActionListener() {
@@ -87,23 +90,29 @@ public class BaralgaTray implements Observer {
      */
     private void buildMenu() {
         menu.removeAll();
-        menu.add(AWTUtils.createFromAction(new ExitAction(null, model)));
+        ExitAction exitAction = new ExitAction(null, model);
+        exitAction.putValue(AbstractAction.SMALL_ICON, null);
+        menu.add(exitAction);
 
         // Add separator
-        menu.add("-"); //$NON-NLS-1$
+        menu.add(new JSeparator());
 
         for (Project project : model.getData().getProjects()) {
             ChangeProjectAction changeAction = new ChangeProjectAction(model, project);
-            menu.add(AWTUtils.createFromAction(changeAction));
+            menu.add(changeAction);
         }
 
         // Add separator
-        menu.add("-"); //$NON-NLS-1$
+        menu.add(new JSeparator());
 
         if (model.isActive()) {
-            menu.add(AWTUtils.createFromAction(new StopAction(model)));
+        	StopAction stopAction = new StopAction(model);
+        	stopAction.putValue(AbstractAction.SMALL_ICON, null);
+            menu.add(stopAction);
         } else {
-            menu.add(AWTUtils.createFromAction(new StartAction(model)));
+        	StartAction startAction = new StartAction(model);
+        	startAction.putValue(AbstractAction.SMALL_ICON, null);
+            menu.add(startAction);
         }
     }
 
