@@ -53,7 +53,7 @@ public class AccumulatedActivitiesReport extends Observable {
      * @param activity
      *            the activity to be added
      */
-    public void acummulateActivity(final ProjectActivity activity) {
+    private void acummulateActivity(final ProjectActivity activity) {
         AccumulatedProjectActivity newAccActivity = new AccumulatedProjectActivity(activity.getProject(), activity
                 .getStart(), activity.getDuration());
         if(filter != null && !filter.satisfiesPredicates(activity))
@@ -72,7 +72,7 @@ public class AccumulatedActivitiesReport extends Observable {
     protected void accumulate() {
         this.accumulatedActivitiesByDay.clear();
 
-        List<ProjectActivity> filteredActivities = getFilteredActivities();
+        final List<ProjectActivity> filteredActivities = getFilteredActivities();
         for (ProjectActivity activity : filteredActivities) {
             this.acummulateActivity(activity);
         }
@@ -108,7 +108,7 @@ public class AccumulatedActivitiesReport extends Observable {
      * @param filter
      *            the filter to set
      */
-    protected void setFilter(Filter filter) {
+    protected void setFilter(final Filter filter) {
         this.filter = filter;
         accumulate();
     }

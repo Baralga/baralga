@@ -6,7 +6,7 @@ import javax.swing.ImageIcon;
 
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.PresentationModel;
-import org.remast.baralga.gui.model.ProjectStateException;
+import org.remast.baralga.gui.model.ProjectActivityStateException;
 
 /**
  * Starts a new project activity.
@@ -29,7 +29,7 @@ public class StartAction extends AbstractBaralgaAction {
     public void actionPerformed(ActionEvent arg0) {
         try {
             getModel().start();
-        } catch (ProjectStateException e1) {
+        } catch (ProjectActivityStateException e1) {
             // :TODO: Show error dialog.
             e1.printStackTrace();
         }

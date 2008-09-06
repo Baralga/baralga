@@ -22,7 +22,7 @@ import org.remast.baralga.gui.BaralgaTray;
 import org.remast.baralga.gui.MainFrame;
 import org.remast.baralga.gui.Settings;
 import org.remast.baralga.gui.model.PresentationModel;
-import org.remast.baralga.gui.model.ProjectStateException;
+import org.remast.baralga.gui.model.ProjectActivityStateException;
 import org.remast.baralga.gui.model.io.DataBackup;
 import org.remast.baralga.gui.model.io.SaveTimer;
 import org.remast.baralga.gui.utils.BaralgaUtils;
@@ -170,7 +170,7 @@ public class BaralgaMain {
                     if (model.isActive() ) {
                         try {
                           model.stop(false);
-                        } catch (ProjectStateException e) {
+                        } catch (ProjectActivityStateException e) {
                           // ignore
                         }
                     }

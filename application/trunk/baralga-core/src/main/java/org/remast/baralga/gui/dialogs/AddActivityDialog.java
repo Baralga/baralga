@@ -157,14 +157,13 @@ public class AddActivityDialog extends EscapeDialog {
      * @return javax.swing.JPanel
      */
     private void initializeLayout() {
-        double border = 5;
-        double size[][] = {
+        final double border = 5;
+        final double size[][] = {
                 { border, TableLayout.PREFERRED, border, TableLayout.FILL, border }, // Columns
                 { border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED,
                     border, TableLayout.PREFERRED, border, TableLayout.FILL, border, TableLayout.PREFERRED, border} }; // Rows
 
-        TableLayout tableLayout = new TableLayout(size);
-
+        final TableLayout tableLayout = new TableLayout(size);
         this.setLayout(tableLayout);
 
         this.add(projectLabel, "1, 1");
@@ -197,6 +196,7 @@ public class AddActivityDialog extends EscapeDialog {
             addActivityButton.setText(Messages.getString("AddActivityDialog.AddLabel")); //$NON-NLS-1$
             addActivityButton.setIcon(new ImageIcon(getClass().getResource("/icons/gtk-add.png"))); //$NON-NLS-1$
 
+            // Confirm with 'Enter' key
             addActivityButton.setMnemonic(KeyEvent.VK_ENTER);
 
             addActivityButton.addActionListener(new ActionListener() {
@@ -215,12 +215,10 @@ public class AddActivityDialog extends EscapeDialog {
         return addActivityButton;
     }
 
-
     private JXDatePicker getDatePicker() {
         if (datePicker == null) {
             datePicker = new JXDatePicker(new Date());
         }
-
         return datePicker;
     }
 
@@ -246,10 +244,9 @@ public class AddActivityDialog extends EscapeDialog {
      */
     private JFormattedTextField getEndField() {
         if (endField == null) {
-            DateFormatter df;
-            df = new DateFormatter(GuiConstants.timeFormat);
-            endField = new JFormattedTextField(df);
-            df.install(endField);
+            final DateFormatter dateFormatter = new DateFormatter(GuiConstants.timeFormat);
+            endField = new JFormattedTextField(dateFormatter);
+            dateFormatter.install(endField);
         }
         return endField;
     }

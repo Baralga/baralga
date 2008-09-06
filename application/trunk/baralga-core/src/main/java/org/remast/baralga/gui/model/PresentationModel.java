@@ -31,6 +31,12 @@ import org.remast.util.DateUtils;
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 
+/**
+ * The model of the Baralga application. This is the model capturing both the state
+ * of the application as well as the application logic.
+ * For further information on the pattern see <a href="http://www.martinfowler.com/eaaDev/PresentationModel.html">presentation model</a>.
+ * @author remast
+ */
 public class PresentationModel extends Observable {
     
     /** The list of projects. */
@@ -94,7 +100,7 @@ public class PresentationModel extends Observable {
         if (active && !org.apache.commons.lang.time.DateUtils.isSameDay(start, DateUtils.getNow())) {
             try {
                 stop();
-            } catch (ProjectStateException e) {
+            } catch (ProjectActivityStateException e) {
                 // Ignore
             }
         }
@@ -144,11 +150,11 @@ public class PresentationModel extends Observable {
 
     /**
      * Start a project activity.
-     * @throws ProjectStateException if there is already a running project
+     * @throws ProjectActivityStateException if there is already a running project
      */
-    public void start() throws ProjectStateException {
+    public void start() throws ProjectActivityStateException {
         if (getSelectedProject() == null) {
-            throw new ProjectStateException(Messages.getString("PresentationModel.NoActiveProjectSelectedError")); //$NON-NLS-1$
+            throw new ProjectActivityStateException(Messages.getString("PresentationModel.NoActiveProjectSelectedError")); //$NON-NLS-1$
         }
         
         // Mark as active
@@ -183,21 +189,21 @@ public class PresentationModel extends Observable {
 
     /**
      * Stop a project activity.
-     * @throws ProjectStateException if there is no running project
+     * @throws ProjectActivityStateException if there is no running project
      * @see #stop(boolean)
      */
-    public void stop() throws ProjectStateException {
+    public void stop() throws ProjectActivityStateException {
         // Stop with notifying observers.
         stop(true);
     }
 
     /**
      * Stop a project activity.
-     * @throws ProjectStateException if there is no running project
+     * @throws ProjectActivityStateException if there is no running project
      */
-    public void stop(boolean notifyObservers) throws ProjectStateException {
+    public void stop(boolean notifyObservers) throws ProjectActivityStateException {
         if (!isActive()) {
-            throw new ProjectStateException(Messages.getString("PresentationModel.NoActiveProjectError")); //$NON-NLS-1$
+            throw new ProjectActivityStateException(Messages.getString("PresentationModel.NoActiveProjectError")); //$NON-NLS-1$
         }
         
         final Date now = DateUtils.getNow();

@@ -12,7 +12,6 @@ import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.annotations.Annotations;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 /**
@@ -46,10 +45,8 @@ public class ProTrackWriter {
             final OutputStream fileOut = new BufferedOutputStream( new FileOutputStream(file) );
             try {
                 final XStream xstream = new XStream(new DomDriver());
-
-                Annotations.configureAliases(xstream, ProTrack.class);
-                Annotations.configureAliases(xstream, Project.class);
-                Annotations.configureAliases(xstream, ProjectActivity.class);
+                xstream.processAnnotations(new Class[] {ProTrack.class, Project.class, ProjectActivity.class});
+                xstream.autodetectAnnotations(true);
 
                 xstream.setMode(XStream.ID_REFERENCES);
                 xstream.toXML(data, fileOut);

@@ -22,14 +22,14 @@ import org.remast.swing.util.GuiConstants;
  * Displays information about the application like version and homepage.
  * @author remast
  */
-@SuppressWarnings("serial")
+@SuppressWarnings("serial") //$NON-NLS-1$
 public class AboutDialog extends EscapeDialog {
 
     public AboutDialog(final Frame owner) {
         super(owner);
         
-        this.setName("aboutDialog");
-        setTitle(Messages.getString("AboutDialog.AboutTitle")); //$NON-NLS-1$
+        this.setName("aboutDialog"); //$NON-NLS-1$
+        setTitle(""); //$NON-NLS-1$
         this.setAlwaysOnTop(true);
         setModal(true);
         setResizable(true);
@@ -45,33 +45,32 @@ public class AboutDialog extends EscapeDialog {
         setLocationRelativeTo(getOwner());
         this.setLayout(new BorderLayout());
         
-        JXImagePanel image = new JXImagePanel(getClass().getResource("/icons/Baralga-About.png"));
+        final JXImagePanel image = new JXImagePanel(getClass().getResource("/icons/Baralga-About.png")); //$NON-NLS-1$
         image.setBackground(GuiConstants.BEIGE);
         
-        JXPanel aboutInfo = new JXPanel();
+        final JXPanel aboutInfo = new JXPanel();
         aboutInfo.setBackground(GuiConstants.BEIGE);
-        double border = 5;
-        double size[][] = { { border, TableLayout.PREFERRED, border, TableLayout.FILL, border }, // Columns
+        final double border = 5;
+        final double size[][] = { { border, TableLayout.PREFERRED, border, TableLayout.FILL, border }, // Columns
                 { border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border*2} }; // Rows
 
-        TableLayout tableLayout = new TableLayout(size);
+        final TableLayout tableLayout = new TableLayout(size);
         aboutInfo.setLayout(tableLayout);
         
-        aboutInfo.add(new JLabel(Messages.getString("AboutDialog.HomepageLabel")), "1, 1");
-        JXHyperlink hyperlinkHomepage = new JXHyperlink(new OpenBrowserAction(Messages.getString("AboutDialog.HomepageUrl")));
-        aboutInfo.add(hyperlinkHomepage, "3, 1");
+        aboutInfo.add(new JLabel(Messages.getString("AboutDialog.HomepageLabel")), "1, 1"); //$NON-NLS-1$ //$NON-NLS-2$
+        final JXHyperlink hyperlinkHomepage = new JXHyperlink(new OpenBrowserAction(Messages.getString("AboutDialog.HomepageUrl"))); //$NON-NLS-1$
+        aboutInfo.add(hyperlinkHomepage, "3, 1"); //$NON-NLS-1$
 
-        aboutInfo.add(new JLabel(Messages.getString("AboutDialog.BugLabel")), "1, 3");
-        JXHyperlink hyperlinkBug = new JXHyperlink(new OpenBrowserAction(Messages.getString("AboutDialog.BugUrl")));
-        aboutInfo.add(hyperlinkBug, "3, 3");
+        aboutInfo.add(new JLabel(Messages.getString("AboutDialog.BugLabel")), "1, 3"); //$NON-NLS-1$ //$NON-NLS-2$
+        final JXHyperlink hyperlinkBug = new JXHyperlink(new OpenBrowserAction(Messages.getString("AboutDialog.BugUrl"))); //$NON-NLS-1$
+        aboutInfo.add(hyperlinkBug, "3, 3"); //$NON-NLS-1$
         
         this.add(aboutInfo, BorderLayout.CENTER);
         
-        JLabel versionLabel = new JXLabel("<html><font color=blue size=\"big\"><h2>" + Messages.getString("Global.Version") + " " + Messages.getString("Global.VersionNumber") + "</h2></font></html>", JLabel.CENTER);
+        final JLabel versionLabel = new JXLabel("<html><font color=blue size=\"big\"><h2>" + Messages.getString("Global.Version") + " " + Messages.getString("Global.VersionNumber") + "</h2></font></html>", JLabel.CENTER); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
         versionLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
-
-        this.add(versionLabel, BorderLayout.SOUTH);
         
+        this.add(versionLabel, BorderLayout.SOUTH);
         this.getContentPane().setBackground(GuiConstants.BEIGE);
         this.add(image, BorderLayout.NORTH);
         

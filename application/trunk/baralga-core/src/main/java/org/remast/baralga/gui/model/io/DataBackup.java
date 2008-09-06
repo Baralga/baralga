@@ -63,8 +63,8 @@ public class DataBackup {
      * Cleans up old backup files so that not more backup files than <code>NUMBER_OF_BACKUPS</code> exist.
      */
     private static void cleanupBackupFiles() {
-        List<File> backupFiles = getBackupFiles();
-        if (backupFiles.size() > NUMBER_OF_BACKUPS) {
+        final List<File> backupFiles = getBackupFiles();
+        if (backupFiles != null && backupFiles.size() > NUMBER_OF_BACKUPS) {
             final int numberOfFilesToDelete = backupFiles.size() - NUMBER_OF_BACKUPS;
 
             for (int i = 1; i <= numberOfFilesToDelete; i++) {

@@ -1,9 +1,9 @@
 package org.remast.baralga;
 
+import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -23,6 +23,11 @@ public abstract class Messages {
     /** The resource bundle. */
     private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 
+    /**
+     * Get internationalized string for the given key.
+     * @param key the key for the internationalization
+     * @return the resolved message
+     */
     public static String getString(final String key) {
         try {
             return RESOURCE_BUNDLE.getString(key);
@@ -32,7 +37,13 @@ public abstract class Messages {
         }
     }
 
-    public static String getString(final String key, final Object argument) {
-        return StringUtils.replace(getString(key), "{0}", String.valueOf(argument));
+    /**
+     * Get internationalized string for the given key and resolve arguments.
+     * @param key the key for the internationalization
+     * @param arguments the arguments to be resolved
+     * @return the resolved message
+     */
+    public static String getString(final String key, final Object... arguments) {
+    	return MessageFormat.format(getString(key), arguments);
     }
 }

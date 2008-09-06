@@ -11,7 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.PresentationModel;
-import org.remast.baralga.gui.model.ProjectStateException;
+import org.remast.baralga.gui.model.ProjectActivityStateException;
 
 /**
  * Stops the currently running project activity.
@@ -37,7 +37,7 @@ public class StopAction extends AbstractBaralgaAction {
     public void actionPerformed(ActionEvent event) {
         try {
             getModel().stop();
-        } catch (ProjectStateException e) {
+        } catch (ProjectActivityStateException e) {
             log.error(e, e);
         }
     }

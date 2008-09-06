@@ -14,62 +14,64 @@ import ca.odell.glazedlists.SortedList;
 
 public class ProjectFilterList implements Observer {
 
-    /** The model. */
-    private final PresentationModel model;
+	/** The model. */
+	private final PresentationModel model;
 
-    public static final Project ALL_PROJECTS_DUMMY = new Project(0, "*", "*"); //$NON-NLS-1$ //$NON-NLS-2$
-    
-    public static final FilterItem<Project> ALL_PROJECTS_FILTER_ITEM = new FilterItem<Project>(ALL_PROJECTS_DUMMY, Messages.getString("ProjectFilterList.AllProjectsLabel")); //$NON-NLS-1$
+	public static final Project ALL_PROJECTS_DUMMY = new Project(0, "*", "*"); //$NON-NLS-1$ //$NON-NLS-2$
 
-    private final EventList<FilterItem<Project>> projectList;
+	public static final FilterItem<Project> ALL_PROJECTS_FILTER_ITEM = new FilterItem<Project>(ALL_PROJECTS_DUMMY, Messages.getString("ProjectFilterList.AllProjectsLabel")); //$NON-NLS-1$
 
-    public ProjectFilterList(final PresentationModel model) {
-        this.model = model;
-        this.projectList = new BasicEventList<FilterItem<Project>>();
-        this.model.addObserver(this);
+	private final EventList<FilterItem<Project>> projectList;
 
-        initialize();
-    }
+	public ProjectFilterList(final PresentationModel model) {
+		this.model = model;
+		this.projectList = new BasicEventList<FilterItem<Project>>();
+		this.model.addObserver(this);
 
-    private void initialize() {
-        this.projectList.clear();
-        this.projectList.add(ALL_PROJECTS_FILTER_ITEM);
-        
-        for (Project activity : this.model.getData().getProjects()) {
-            this.addProject(activity);
-        }
-    }
+		initialize();
+	}
 
-    public SortedList<FilterItem<Project>> getProjectList() {
-        return new SortedList<FilterItem<Project>>(this.projectList);
-    }
+	private void initialize() {
+		this.projectList.clear();
+		this.projectList.add(ALL_PROJECTS_FILTER_ITEM);
 
-    public void update(Observable source, Object eventObject) {
-        if (eventObject != null && eventObject instanceof BaralgaEvent) {
-            BaralgaEvent event = (BaralgaEvent) eventObject;
+		for (Project activity : this.model.getData().getProjects()) {
+			this.addProject(activity);
+		}
+	}
 
-            switch (event.getType()) {
+	public SortedList<FilterItem<Project>> getProjectList() {
+		return new SortedList<FilterItem<Project>>(this.projectList);
+	}
 
-            case BaralgaEvent.PROJECT_ADDED:
-                this.addProject((Project) event.getData());
-                break;
+	public void update(Observable source, Object eventObject) {
+		if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
+			return;
+		}
 
-            case BaralgaEvent.PROJECT_REMOVED:
-                this.removeProject((Project) event.getData());
-                break;
-            }
-        }
-    }
+		final BaralgaEvent event = (BaralgaEvent) eventObject;
 
-    private void addProject(final Project project) {
-        if (project != null && !this.projectList.contains(project)) {
-            this.projectList.add(new FilterItem<Project>(project));
-        }
-    }
+		switch (event.getType()) {
 
-    private void removeProject(final Project project) {
-        if (project != null && this.projectList.contains(project)) {
-            this.projectList.remove(project);
-        }
-    }
+		case BaralgaEvent.PROJECT_ADDED:
+			this.addProject((Project) event.getData());
+			break;
+
+		case BaralgaEvent.PROJECT_REMOVED:
+			this.removeProject((Project) event.getData());
+			break;
+		}
+	}
+
+	private void addProject(final Project project) {
+		if (project != null && !this.projectList.contains(project)) {
+			this.projectList.add(new FilterItem<Project>(project));
+		}
+	}
+
+	private void removeProject(final Project project) {
+		if (project != null && this.projectList.contains(project)) {
+			this.projectList.remove(project);
+		}
+	}
 }
