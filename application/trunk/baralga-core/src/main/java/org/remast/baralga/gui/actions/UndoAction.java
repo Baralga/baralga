@@ -10,7 +10,7 @@ import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.edit.EditStack;
 
 /**
- * Undoes the last edit activity.
+ * Undoes the last edit activity using the {@link EditStack}.
  * @author remast
  */@SuppressWarnings("serial") //$NON-NLS-1$
 public class UndoAction extends AbstractEditAction {

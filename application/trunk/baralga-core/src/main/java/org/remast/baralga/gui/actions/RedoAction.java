@@ -10,7 +10,7 @@ import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.edit.EditStack;
 
 /**
- * Redoes the last edit activity.
+ * Redoes the last edit activity using the {@link EditStack}.
  * @author remast
  */
 @SuppressWarnings("serial")
