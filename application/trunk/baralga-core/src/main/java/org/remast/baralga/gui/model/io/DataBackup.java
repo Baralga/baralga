@@ -106,7 +106,7 @@ public class DataBackup {
 
         for (String backupFile : backupFiles) {
             try {
-                Date backupDate = BACKUP_DATE_FORMAT.parse(backupFile.substring(Settings.DEFAULT_FILE_NAME.length()+1));
+            	final Date backupDate = BACKUP_DATE_FORMAT.parse(backupFile.substring(Settings.DEFAULT_FILE_NAME.length()+1));
                 sortedBackupFiles.put(backupDate, new File(Settings.DEFAULT_DIRECTORY + File.separator + backupFile));
             } catch (ParseException e) {
                 log.error(e, e);
