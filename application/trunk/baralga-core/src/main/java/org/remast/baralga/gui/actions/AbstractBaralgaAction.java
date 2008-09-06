@@ -7,7 +7,7 @@ import javax.swing.AbstractAction;
 import org.remast.baralga.gui.model.PresentationModel;
 
 /**
- * Abstract basic class for all Baralga actions.
+ * Abstract base class for all Baralga actions.
  * @author remast
  */
 public abstract class AbstractBaralgaAction extends AbstractAction {
