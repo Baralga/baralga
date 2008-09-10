@@ -167,7 +167,7 @@ public class PresentationModel extends Observable {
         setStart(DateUtils.getNow());
         
         // Fire start event
-        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.START);
+        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_STARTED);
         notify(event);
     }
     
@@ -260,7 +260,7 @@ public class PresentationModel extends Observable {
             }
 
             // Create Stop Event
-            event = new BaralgaEvent(BaralgaEvent.STOP);
+            event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_STOPPED);
             notify(event);
         }
     }

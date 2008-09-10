@@ -14,13 +14,22 @@ public class Project implements Serializable, Comparable<Project>{
      */
     private static final long serialVersionUID = 1L;
 
+    /** The unique identifier of the project. */
     private final long id;
     
+    /** The title of the project. */
     private final String title;
     
+    /** A description of the project. */
     private String description;
     
-    public Project(long id, String title, String description) {
+    /**
+     * Creates a new project.
+     * @param id the unique id
+     * @param title the project title
+     * @param description the project description
+     */
+    public Project(final long id,final String title, final String description) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -67,12 +76,13 @@ public class Project implements Serializable, Comparable<Project>{
         return eqBuilder.isEquals();
     }
 
+    @Override
     public int compareTo(Project project) {
         if (project == null || this.getTitle() == null) {
             return 0;
         }
         
-        // Sort by title.
+        // Compare the title only.
         return this.getTitle().compareTo(project.getTitle());
     }
 }

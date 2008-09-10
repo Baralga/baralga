@@ -26,6 +26,7 @@ public class StartAction extends AbstractBaralgaAction {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void actionPerformed(ActionEvent arg0) {
         try {
             getModel().start();

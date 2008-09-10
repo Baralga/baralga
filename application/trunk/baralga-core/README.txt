@@ -1,3 +1,10 @@
+== Baralga Version 1.3.1 ==
+Misc
+ * Libraries upgraded.
+ 
+Fixes
+ * Added title to about dialog.
+
 == Baralga Version 1.3 ==
 User Interface
  * Enhanced tooltips.

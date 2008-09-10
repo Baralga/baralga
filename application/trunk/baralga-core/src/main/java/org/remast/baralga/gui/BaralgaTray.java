@@ -144,11 +144,11 @@ public class BaralgaTray implements Observer {
 
             switch (event.getType()) {
 
-                case BaralgaEvent.START:
+                case BaralgaEvent.PROJECT_ACTIVITY_STARTED:
                     this.updateStart();
                     break;
 
-                case BaralgaEvent.STOP:
+                case BaralgaEvent.PROJECT_ACTIVITY_STOPPED:
                     this.updateStop();
                     break;
 

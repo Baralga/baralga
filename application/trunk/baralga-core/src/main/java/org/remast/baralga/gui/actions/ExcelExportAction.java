@@ -37,6 +37,7 @@ public final class ExcelExportAction extends AbstractBaralgaAction {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void actionPerformed(ActionEvent event) {
         final JFileChooser chooser = new JFileChooser();
         

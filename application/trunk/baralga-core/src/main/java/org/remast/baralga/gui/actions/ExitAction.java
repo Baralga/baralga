@@ -28,6 +28,7 @@ public class ExitAction extends AbstractBaralgaAction {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void actionPerformed(ActionEvent event) {
         boolean quit = true;
 

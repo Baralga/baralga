@@ -35,6 +35,7 @@ public final class SaveAction extends AbstractBaralgaAction {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void actionPerformed(ActionEvent arg0) {
         try {
             getModel().save();

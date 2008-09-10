@@ -34,6 +34,7 @@ public class StopAction extends AbstractBaralgaAction {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void actionPerformed(ActionEvent event) {
         try {
             getModel().stop();

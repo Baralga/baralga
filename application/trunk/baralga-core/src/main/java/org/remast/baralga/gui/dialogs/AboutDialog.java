@@ -29,7 +29,7 @@ public class AboutDialog extends EscapeDialog {
         super(owner);
         
         this.setName("aboutDialog"); //$NON-NLS-1$
-        setTitle(""); //$NON-NLS-1$
+        setTitle(Messages.getString("AboutDialog.Title")); //$NON-NLS-1$
         this.setAlwaysOnTop(true);
         setModal(true);
         setResizable(true);

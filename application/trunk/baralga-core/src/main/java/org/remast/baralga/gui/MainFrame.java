@@ -410,11 +410,11 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
             switch (event.getType()) {
 
-                case BaralgaEvent.START:
+                case BaralgaEvent.PROJECT_ACTIVITY_STARTED:
                     this.updateStart();
                     break;
 
-                case BaralgaEvent.STOP:
+                case BaralgaEvent.PROJECT_ACTIVITY_STOPPED:
                     this.updateStop();
                     break;
 

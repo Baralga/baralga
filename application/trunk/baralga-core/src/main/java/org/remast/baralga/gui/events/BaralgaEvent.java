@@ -14,9 +14,9 @@ public class BaralgaEvent {
 
     public static final int PROJECT_CHANGED = 0;
 
-    public static final int START = 1;
+    public static final int PROJECT_ACTIVITY_STARTED = 1;
 
-    public static final int STOP = 2;
+    public static final int PROJECT_ACTIVITY_STOPPED = 2;
 
     public static final int PROJECT_ADDED = 3;
 

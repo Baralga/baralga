@@ -27,6 +27,7 @@ public class UndoAction extends AbstractEditAction {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void actionPerformed(ActionEvent e) {
         undo();
     }
