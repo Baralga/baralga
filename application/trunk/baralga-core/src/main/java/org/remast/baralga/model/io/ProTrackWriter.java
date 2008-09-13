@@ -20,7 +20,10 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
  */
 public class ProTrackWriter {
 
-    /** The data to write. */
+	/** Encoding of output file. */
+    private static final String OUTPUT_ENCODING = "UTF-8";
+    
+	/** The data to write. */
     private ProTrack data;
 
     /**
@@ -44,7 +47,7 @@ public class ProTrackWriter {
         synchronized(data) {
             final OutputStream fileOut = new BufferedOutputStream( new FileOutputStream(file) );
             try {
-                final XStream xstream = new XStream(new DomDriver());
+                final XStream xstream = new XStream(new DomDriver(OUTPUT_ENCODING));
                 xstream.processAnnotations(new Class[] {ProTrack.class, Project.class, ProjectActivity.class});
                 xstream.autodetectAnnotations(true);
 

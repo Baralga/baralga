@@ -279,7 +279,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
         // 1. Create filter from selection.
-        Filter filter = this.createFilter();
+        final Filter filter = this.createFilter();
 
         // 2. Save selection to preferences.
         saveToPreferences();
