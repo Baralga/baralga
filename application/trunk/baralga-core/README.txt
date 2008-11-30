@@ -1,3 +1,7 @@
+== Known Bugs ==
+
+ * Adding or removing project does not affect the filter by projects.
+
 == Baralga Version 1.3.1 ==
 Misc
  * Libraries upgraded.
