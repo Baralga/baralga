@@ -1,6 +1,11 @@
 == Known Bugs ==
 
 
+== Further Development ==
+ * Support for portable version for removable devices.
+ * Installer without JRE included.
+
+
 == Baralga Version 1.3.1 ==
 Misc
  * Libraries upgraded.
@@ -62,5 +67,3 @@ Performance and Security
 
 User Interface
  * Calculate hours by day.
- 
-== Further Development ==
