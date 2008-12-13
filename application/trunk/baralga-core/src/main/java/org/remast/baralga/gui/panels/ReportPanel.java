@@ -85,29 +85,29 @@ public class ReportPanel extends JXPanel implements ActionListener {
         this.add(filterSep, "1, 1, 11, 1"); //$NON-NLS-1$
 
         this.add(new JXLabel(Messages.getString("ReportPanel.ProjectLabel")), "1, 3");
-        this.add(getProjectFilterSelector(), "3, 3");
+        this.add(getProjectFilterSelector(), "3, 3"); //$NON-NLS-1$
 
         this.add(new JXLabel(Messages.getString("ReportPanel.YearLabel")), "5, 3");
-        this.add(getYearFilterSelector(), "7, 3");
+        this.add(getYearFilterSelector(), "7, 3"); //$NON-NLS-1$
 
         this.add(new JXLabel(Messages.getString("ReportPanel.MonthLabel")), "9, 3");
-        this.add(getMonthFilterSelector(), "11, 3");
+        this.add(getMonthFilterSelector(), "11, 3"); //$NON-NLS-1$
 
-        JXTitledSeparator sep = new JXTitledSeparator(Messages.getString("ReportPanel.DataLabel"));
+        JXTitledSeparator sep = new JXTitledSeparator(Messages.getString("ReportPanel.DataLabel")); //$NON-NLS-1$
         this.add(sep, "1, 5, 11, 1"); //$NON-NLS-1$
 
-        this.add(filteredActivitiesPane, "1, 7, 11, 7");
+        this.add(filteredActivitiesPane, "1, 7, 11, 7"); //$NON-NLS-1$
     }
 
     /**
      * @return the monthFilterSelector
      */
-    public JComboBox getMonthFilterSelector() {
+    private JComboBox getMonthFilterSelector() {
         if (monthFilterSelector == null) {
             monthFilterList = model.getMonthFilterList();
             monthFilterSelector = new JComboBox(new EventComboBoxModel<FilterItem<Integer>>(monthFilterList
                     .getMonthList()));
-            monthFilterSelector.setToolTipText(Messages.getString("MonthFilterSelector.ToolTipText"));
+            monthFilterSelector.setToolTipText(Messages.getString("MonthFilterSelector.ToolTipText")); //$NON-NLS-1$
             
             // Select first entry
             if (!monthFilterList.getMonthList().isEmpty()) {
@@ -137,12 +137,12 @@ public class ReportPanel extends JXPanel implements ActionListener {
     /**
      * @return the projectFilterSelector
      */
-    public JComboBox getProjectFilterSelector() {
+    private JComboBox getProjectFilterSelector() {
         if (projectFilterSelector == null) {
             projectFilterList = model.getProjectFilterList();
             projectFilterSelector = new JComboBox(new EventComboBoxModel<FilterItem<Project>>(projectFilterList
                     .getProjectList()));
-            projectFilterSelector.setToolTipText(Messages.getString("ProjectFilterSelector.ToolTipText"));
+            projectFilterSelector.setToolTipText(Messages.getString("ProjectFilterSelector.ToolTipText")); //$NON-NLS-1$
             
             // Select first entry
             if (!projectFilterList.getProjectList().isEmpty()) {
@@ -150,7 +150,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
             }
 
             // Read from Settings.
-            Long selectedProjectId = Settings.instance().getFilterSelectedProjectId();
+            final Long selectedProjectId = Settings.instance().getFilterSelectedProjectId();
             if (selectedProjectId != null) {
                 if (selectedProjectId.longValue() == -1) {
                     projectFilterSelector.setSelectedItem(ProjectFilterList.ALL_PROJECTS_FILTER_ITEM);
@@ -172,7 +172,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
     /**
      * @return the yearFilterSelector
      */
-    public JComboBox getYearFilterSelector() {
+    private JComboBox getYearFilterSelector() {
         if (yearFilterSelector == null) {
             yearFilterList = model.getYearFilterList();
             yearFilterSelector = new JComboBox(new EventComboBoxModel<FilterItem<Integer>>(yearFilterList.getYearList()));
@@ -184,7 +184,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
             }
 
             // Read from Settings.
-            String selectedYear = Settings.instance().getFilterSelectedYear();
+            final String selectedYear = Settings.instance().getFilterSelectedYear();
             if (selectedYear != null) {
                 if (YearFilterList.ALL_YEARS_DUMMY == Integer.parseInt(selectedYear)) {
                     yearFilterSelector.setSelectedItem(YearFilterList.ALL_YEARS_FILTER_ITEM);
@@ -214,7 +214,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
         final int selectedMonth = filterItem.getItem();
         if (MonthFilterList.ALL_MONTHS_DUMMY != selectedMonth) {
             try {
-                Date month = MonthFilterList.MONTH_FORMAT.parse(String.valueOf(selectedMonth));
+                final Date month = MonthFilterList.MONTH_FORMAT.parse(String.valueOf(selectedMonth));
                 filter.setMonth(month);
             } catch (ParseException e) {
                 log.error(e, e);
@@ -225,7 +225,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
         final int selectedYear = filterItem.getItem();
         if (YearFilterList.ALL_YEARS_DUMMY != selectedYear) {
             try {
-                Date year = YearFilterList.YEAR_FORMAT.parse(String.valueOf(selectedYear));
+            	final Date year = YearFilterList.YEAR_FORMAT.parse(String.valueOf(selectedYear));
                 filter.setYear(year);
             } catch (ParseException e) {
                 log.error(e, e);
