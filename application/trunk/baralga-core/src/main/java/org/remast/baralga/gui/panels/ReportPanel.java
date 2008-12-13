@@ -31,7 +31,7 @@ import ca.odell.glazedlists.swing.EventComboBoxModel;
 /**
  * @author remast
  */
-@SuppressWarnings("serial")//$NON-NLS-1$
+@SuppressWarnings("serial") //$NON-NLS-1$
 public class ReportPanel extends JXPanel implements ActionListener {
 
     /** The logger. */
@@ -81,16 +81,16 @@ public class ReportPanel extends JXPanel implements ActionListener {
                         TableLayout.FILL, border } }; // Rows
         this.setLayout(new TableLayout(size));
 
-        JXTitledSeparator filterSep = new JXTitledSeparator(Messages.getString("ReportPanel.FiltersLabel"));
+        JXTitledSeparator filterSep = new JXTitledSeparator(Messages.getString("ReportPanel.FiltersLabel")); //$NON-NLS-1$
         this.add(filterSep, "1, 1, 11, 1"); //$NON-NLS-1$
 
-        this.add(new JXLabel(Messages.getString("ReportPanel.ProjectLabel")), "1, 3");
+        this.add(new JXLabel(Messages.getString("ReportPanel.ProjectLabel")), "1, 3"); //$NON-NLS-1$ //$NON-NLS-2$
         this.add(getProjectFilterSelector(), "3, 3"); //$NON-NLS-1$
 
-        this.add(new JXLabel(Messages.getString("ReportPanel.YearLabel")), "5, 3");
+        this.add(new JXLabel(Messages.getString("ReportPanel.YearLabel")), "5, 3"); //$NON-NLS-1$ //$NON-NLS-2$
         this.add(getYearFilterSelector(), "7, 3"); //$NON-NLS-1$
 
-        this.add(new JXLabel(Messages.getString("ReportPanel.MonthLabel")), "9, 3");
+        this.add(new JXLabel(Messages.getString("ReportPanel.MonthLabel")), "9, 3"); //$NON-NLS-1$ //$NON-NLS-2$
         this.add(getMonthFilterSelector(), "11, 3"); //$NON-NLS-1$
 
         JXTitledSeparator sep = new JXTitledSeparator(Messages.getString("ReportPanel.DataLabel")); //$NON-NLS-1$
@@ -176,7 +176,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
         if (yearFilterSelector == null) {
             yearFilterList = model.getYearFilterList();
             yearFilterSelector = new JComboBox(new EventComboBoxModel<FilterItem<Integer>>(yearFilterList.getYearList()));
-            yearFilterSelector.setToolTipText(Messages.getString("YearFilterSelector.ToolTipText"));
+            yearFilterSelector.setToolTipText(Messages.getString("YearFilterSelector.ToolTipText")); //$NON-NLS-1$
 
             // Select first entry
             if (!CollectionUtils.isEmpty(yearFilterList.getYearList())) {
