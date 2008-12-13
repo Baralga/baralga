@@ -6,9 +6,16 @@ import javax.swing.filechooser.FileFilter;
 
 import org.remast.baralga.Messages;
 
+/**
+ * Container of misc {@link FileFilter}s for different file formats.
+ * @author remast
+ */
 public abstract class FileFilters {
 
-    public static class ExcelFileFilter extends FileFilter {
+	/**
+	 * Filter for Microsoft Excel files.
+	 */
+    public static final class ExcelFileFilter extends FileFilter {
 
         @Override
         public boolean accept(File file) {
