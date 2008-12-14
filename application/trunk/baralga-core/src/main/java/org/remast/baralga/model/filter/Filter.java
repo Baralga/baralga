@@ -12,15 +12,22 @@ public class Filter {
 
     /** The predicates of the filter. */
     private final List<Predicate> predicates = new ArrayList<Predicate>();
+    
+    private Date weekOfYear;
 
+    private Predicate weekOfYearPredicate;
+
+    
     private Date month;
 
     private Predicate monthPredicate;
+    
 
     private Date year;
 
     private Predicate yearPredicate;
 
+    
     private Project project;
 
     private Predicate projectPredicate;
@@ -58,7 +65,28 @@ public class Filter {
         }
         return true;
     }
+ 
+    public Date getWeekOfYear() {
+        return this.weekOfYear;
+    }
 
+    public void setWeekOfYear(final Date weekOfYear) {
+        this.weekOfYear = weekOfYear;
+
+        if (this.weekOfYearPredicate != null) {
+            this.predicates.remove(this.weekOfYearPredicate);
+        }
+
+        // If week is null set week predicate also to null.
+        if (this.weekOfYear == null) {
+            this.weekOfYearPredicate = null;
+        }
+
+        final Predicate newWeekOfYearPredicate = new WeekOfYearPredicate(weekOfYear);
+        this.weekOfYearPredicate = newWeekOfYearPredicate;
+        this.predicates.add(newWeekOfYearPredicate);
+    }
+    
     public Date getMonth() {
         return this.month;
     }

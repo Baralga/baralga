@@ -16,8 +16,10 @@ public class ProjectFilterList implements Observer {
 
 	/** The model. */
 	private final PresentationModel model;
+	
+	public static final int ALL_PROJECTS_DUMMY_VALUE = -10;
 
-	public static final Project ALL_PROJECTS_DUMMY = new Project(0, "*", "*"); //$NON-NLS-1$ //$NON-NLS-2$
+	public static final Project ALL_PROJECTS_DUMMY = new Project(ALL_PROJECTS_DUMMY_VALUE, "*", "*"); //$NON-NLS-1$ //$NON-NLS-2$
 
 	public static final FilterItem<Project> ALL_PROJECTS_FILTER_ITEM = new FilterItem<Project>(ALL_PROJECTS_DUMMY, Messages.getString("ProjectFilterList.AllProjectsLabel")); //$NON-NLS-1$
 

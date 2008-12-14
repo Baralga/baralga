@@ -20,7 +20,7 @@ public class MonthFilterList implements Observer {
 	/** The model. */
 	private final PresentationModel model;
 
-	public static final int ALL_MONTHS_DUMMY = -1;
+	public static final int ALL_MONTHS_DUMMY = -10;
 
 	public static final FilterItem<Integer> ALL_MONTHS_FILTER_ITEM = new FilterItem<Integer>(ALL_MONTHS_DUMMY, Messages
 			.getString("MonthFilterList.AllMonthsLabel")); //$NON-NLS-1$

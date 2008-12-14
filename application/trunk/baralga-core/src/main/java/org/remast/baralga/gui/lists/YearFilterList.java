@@ -20,7 +20,7 @@ public class YearFilterList implements Observer {
 	/** The model. */
 	private final PresentationModel model;
 
-	public static final int ALL_YEARS_DUMMY = -1; //$NON-NLS-1$
+	public static final int ALL_YEARS_DUMMY = -10; //$NON-NLS-1$
 
 	public static final FilterItem<Integer> ALL_YEARS_FILTER_ITEM = new FilterItem<Integer>(ALL_YEARS_DUMMY, Messages
 			.getString("YearFilterList.AllYearsLabel")); //$NON-NLS-1$

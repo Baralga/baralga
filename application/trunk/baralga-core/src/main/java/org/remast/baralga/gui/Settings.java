@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.remast.baralga.gui.lists.MonthFilterList;
+import org.remast.baralga.gui.lists.WeekOfYearFilterList;
 import org.remast.baralga.gui.lists.YearFilterList;
 import org.remast.baralga.model.filter.Filter;
 
@@ -139,6 +140,17 @@ public class Settings {
     public void setFilterSelectedMonth(String month) {
         config.setProperty(SELECTED_MONTH, month);
     }
+
+    /** The key for the selected week of filter. */
+    public static final String SELECTED_WEEK_OF_YEAR = "filter.weekOfYear"; //$NON-NLS-1$
+
+    public String getFilterSelectedWeekOfYear() {
+        return config.getString(SELECTED_WEEK_OF_YEAR, null);
+    }
+
+    public void setFilterSelectedWeekOfYear(String weekOfYear) {
+        config.setProperty(SELECTED_WEEK_OF_YEAR, weekOfYear);
+    }
     
     /** The key for the selected year of filter. */
     public static final String SELECTED_YEAR = "filter.year"; //$NON-NLS-1$
@@ -189,10 +201,22 @@ public class Settings {
      */
     public Filter restoreFromSettings() {
         final Filter filter = new Filter();
-        
-        // 1. Restore the month
+
+        // Restore the month
+        final String selectedWeekOfYear = getFilterSelectedWeekOfYear();
+        if (StringUtils.isNotBlank(selectedWeekOfYear) && Integer.parseInt(selectedWeekOfYear) != WeekOfYearFilterList.ALL_WEEKS_OF_YEAR_DUMMY) {
+            try {
+                final Calendar calendar = GregorianCalendar.getInstance();
+                calendar.set(Calendar.WEEK_OF_YEAR, Integer.parseInt(selectedWeekOfYear));
+                filter.setWeekOfYear(calendar.getTime());
+            } catch (NumberFormatException e) {
+                log.error(e, e);
+            }
+        }
+
+        // Restore the month
         final String selectedMonth = getFilterSelectedMonth();
-        if (StringUtils.isNotBlank(selectedMonth) && MonthFilterList.ALL_MONTHS_DUMMY != Integer.parseInt(selectedMonth)) {
+        if (StringUtils.isNotBlank(selectedMonth) && Integer.parseInt(selectedMonth) != MonthFilterList.ALL_MONTHS_DUMMY) {
             try {
                 final Calendar calendar = GregorianCalendar.getInstance();
                 calendar.set(Calendar.MONTH, Integer.parseInt(selectedMonth) - 1);
@@ -202,9 +226,9 @@ public class Settings {
             }
         }
         
-        // 1. Restore the year
+        // Restore the year
         final String selectedYear = Settings.instance().getFilterSelectedYear();
-        if (StringUtils.isNotBlank(selectedYear) && YearFilterList.ALL_YEARS_DUMMY != Integer.parseInt(selectedYear)) {
+        if (StringUtils.isNotBlank(selectedYear) && Integer.parseInt(selectedYear) != YearFilterList.ALL_YEARS_DUMMY) {
             try {
                 final Calendar calendar = GregorianCalendar.getInstance();
                 calendar.set(Calendar.YEAR, Integer.parseInt(selectedYear));

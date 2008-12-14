@@ -98,6 +98,34 @@ public abstract class DateUtils {
     }
 
     /**
+     * Checks if the given dates are in the similar week of the year. E.g. both dates
+     * are in march.
+     */
+    public static boolean isSimilarWeekOfYear(Date date1, Date date2) {
+        if (date1 == null || date2 == null) {
+            throw new IllegalArgumentException("The date must not be null"); //$NON-NLS-1$
+        }
+        final Calendar cal1 = Calendar.getInstance();
+        cal1.setTime(date1);
+
+        final Calendar cal2 = Calendar.getInstance();
+        cal2.setTime(date2);
+
+        return isSimilarWeekOfYear(cal1, cal2);
+    }
+
+    /**
+     * Checks if the given calendars are in the similar month. E.g. both dates
+     * are in march.
+     */
+    private static boolean isSimilarWeekOfYear(Calendar cal1, Calendar cal2) {
+        if (cal1 == null || cal2 == null) {
+            throw new IllegalArgumentException("The date must not be null"); //$NON-NLS-1$
+        }
+        return cal1.get(Calendar.WEEK_OF_YEAR) == cal2.get(Calendar.WEEK_OF_YEAR);
+    }
+    
+    /**
      * Checks if the given dates are in the similar month. E.g. both dates
      * are in march.
      */

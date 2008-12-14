@@ -7,6 +7,9 @@
 
 
 == Baralga Version 1.3.1 ==
+Functionality
+ * Filter for week of the year.
+
 Misc
  * Libraries upgraded.
  

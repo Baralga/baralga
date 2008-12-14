@@ -13,6 +13,7 @@ import org.remast.baralga.gui.Settings;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.lists.MonthFilterList;
 import org.remast.baralga.gui.lists.ProjectFilterList;
+import org.remast.baralga.gui.lists.WeekOfYearFilterList;
 import org.remast.baralga.gui.lists.YearFilterList;
 import org.remast.baralga.gui.model.edit.EditStack;
 import org.remast.baralga.gui.model.io.DataBackup;
@@ -87,13 +88,16 @@ public class PresentationModel extends Observable {
         this.projectList.addAll(this.data.getProjects());
         this.activitiesList.addAll(this.data.getActivities());
         
+        // Restore filter from settings
+        // a) restore week of year, month and year
         this.filter = Settings.instance().restoreFromSettings();
-        this.description = Settings.instance().getLastDescription();
-
+        // b) restore project (can be done here only as we need to search all projects)
         final Long selectedProjectId = Settings.instance().getFilterSelectedProjectId();
         if (selectedProjectId != null) {
             filter.setProject(this.data.findProjectById(selectedProjectId.longValue()));
         }
+        
+        this.description = Settings.instance().getLastDescription();
         
         // If there is a active project that has been started on another day,
         // we end it here.
@@ -411,6 +415,14 @@ public class PresentationModel extends Observable {
      */
     public MonthFilterList getMonthFilterList() {
         return new MonthFilterList(this);
+    }
+    
+    /**
+     * Get all weeks in which there are project activities.
+     * @return List of weeks with activities as String.
+     */
+    public WeekOfYearFilterList getWeekFilterList() {
+        return new WeekOfYearFilterList(this);
     }
     
     public ObservingAccumulatedActivitiesReport getFilteredReport() {
