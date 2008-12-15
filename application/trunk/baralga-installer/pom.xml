@@ -1,23 +1,25 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.remast.baralga</groupId>
-	<artifactId>installer</artifactId>
+	<artifactId>baralga-installer</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0</version>
 	<name>Baralga Installer</name>
-	<url>http://maven.apache.org</url>
+	<url>http://baralga.origo.ethz.ch</url>
 	<parent>
 		<groupId>com.remast.baralga</groupId>
 		<artifactId>parent</artifactId>
 		<version>1.0</version>
 	</parent>
 	<properties>
-		<baralga.version>1.3</baralga.version>
+		<baralga.version>1.3.1-SNAPSHOT</baralga.version>
 	</properties>
 	<build>
-		<finalName>baralga-installer-${baralga.version}</finalName>
+		<!--
+			Use version number of baralga-core instead of installer version.
+		-->
+		<finalName>${project.artifactId}-${baralga.version}</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -33,9 +35,6 @@
 					<descriptors>
 						<descriptor>
 							src/main/assembly/installer.xml
-						</descriptor>
-						<descriptor>
-							src/main/assembly/installer-linux.xml
 						</descriptor>
 					</descriptors>
 				</configuration>
@@ -64,41 +63,19 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
+				<groupId>org.codehaus.izpack</groupId>
+				<artifactId>izpack-maven-plugin</artifactId>
 				<executions>
 					<execution>
 						<phase>package</phase>
-						<configuration>
-							<tasks>
-								<taskdef name="launch4j"
-									classname="net.sf.launch4j.ant.Launch4jTask"
-									classpath="C:/Programme/Launch4j/launch4j.jar:C:/Programme/Launch4j/lib/xstream.jar" />
-								<launch4j
-									configFile="src/main/config/l4j/Baralga.cfg.xml"
-									jar="target/baralga-core-${baralga.version}.jar"
-									outfile="target/${build.finalName}.dir/Baralga-${baralga.version}.exe" />
-								<property name="make-nsis"
-									location="C:\Programme\NSIS\makensis.exe" />
-								<exec executable="${make-nsis}"
-									dir=".">
-									<arg
-										value="/DexecName=Baralga-${baralga.version}.exe" />
-									<arg
-										value="/DexecVersion=${baralga.version}" />
-									<arg
-										value="/Dexec=..\..\..\..\target\${build.finalName}.dir\Baralga-${baralga.version}.exe" />
-									<arg
-										value="/Dsetup=..\..\..\..\target\Baralga-Installer-${baralga.version}.exe" />
-									<arg
-										value="/Dinstaller.dir=..\..\..\..\target\${build.finalName}.dir\" />
-									<arg
-										value="src/main/config/nsis/baralga-installer.nsi" />
-								</exec>
-							</tasks>
-						</configuration>
 						<goals>
-							<goal>run</goal>
+							<goal>izpack</goal>
 						</goals>
+						<configuration>
+							<izpackBasedir>target/${project.artifactId}-${baralga.version}.dir</izpackBasedir>
+							<descriptorEncoding>UTF-8</descriptorEncoding>
+							<installerFile>Baralga-Installer-${baralga.version}.jar</installerFile>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -106,7 +83,7 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>${pom.groupId}</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>baralga-core</artifactId>
 			<version>${baralga.version}</version>
 		</dependency>
