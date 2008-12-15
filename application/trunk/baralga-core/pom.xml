@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><project>
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
   <parent>
     <artifactId>parent</artifactId>
     <groupId>com.remast.baralga</groupId>
@@ -70,7 +71,7 @@
               <packageName>org.remast.baralga</packageName>
               <addClasspath>true</addClasspath>
               <classpathPrefix>lib/</classpathPrefix>
-              <addExtensions />
+              <addExtensions/>
             </manifest>
             <manifestEntries>
               <Implementation-Build>${buildNumber}</Implementation-Build>
