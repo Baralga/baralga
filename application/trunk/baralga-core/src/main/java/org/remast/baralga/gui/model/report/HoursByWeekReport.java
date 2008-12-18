@@ -55,7 +55,7 @@ public class HoursByWeekReport extends Observable implements Observer  {
     }
 
     public void addHours(final ProjectActivity activity) {
-        if (filter != null && !filter.satisfiesPredicates(activity)) {
+        if (filter != null && !filter.matchesCriteria(activity)) {
             return;
         }
 
@@ -92,7 +92,7 @@ public class HoursByWeekReport extends Observable implements Observer  {
         return filteredActivitiesList;
     }
 
-    public void update(Observable source, Object eventObject) {
+    public void update(final Observable source, final Object eventObject) {
         if (eventObject != null && eventObject instanceof BaralgaEvent) {
             final BaralgaEvent event = (BaralgaEvent) eventObject;
             switch (event.getType()) {

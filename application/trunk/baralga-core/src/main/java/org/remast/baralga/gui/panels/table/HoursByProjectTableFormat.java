@@ -21,7 +21,7 @@ public class HoursByProjectTableFormat implements TableFormat<HoursByProject> {
      * Gets the name of the given column.
      * @param column the number of the column
      */
-    public String getColumnName(int column) {
+    public String getColumnName(final int column) {
         switch (column) {
         case 0:
             return Messages.getString("HoursByDayProjectFormat.ProjectHeading"); //$NON-NLS-1$
@@ -32,7 +32,7 @@ public class HoursByProjectTableFormat implements TableFormat<HoursByProject> {
         }
     }
 
-    public Object getColumnValue(HoursByProject baseObject, int column) {
+    public Object getColumnValue(final HoursByProject baseObject, final int column) {
         switch (column) {
         case 0:
             return baseObject.getProject();

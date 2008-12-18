@@ -14,7 +14,7 @@ public class AccumulatedProjectActivity {
 
     private double time;
 
-    public AccumulatedProjectActivity(Project project, Date day, double time) {
+    public AccumulatedProjectActivity(final Project project, final Date day, final double time) {
         this.project = project;
         this.day = day;
         this.time = time;
@@ -42,7 +42,7 @@ public class AccumulatedProjectActivity {
     }
 
     /** Adds the given time to this accumulated activity. */
-    public void addTime(double toAdd) {
+    public void addTime(final double toAdd) {
         this.time += toAdd;
     }
 
@@ -52,7 +52,7 @@ public class AccumulatedProjectActivity {
     }
 
     @Override
-    public boolean equals(Object that) {
+    public boolean equals(final Object that) {
         if (this == that) {
             return true;
         }

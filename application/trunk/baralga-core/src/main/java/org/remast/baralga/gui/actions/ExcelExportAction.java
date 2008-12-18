@@ -11,11 +11,11 @@ import javax.swing.SwingWorker;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.remast.baralga.Messages;
 import org.remast.baralga.gui.Settings;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.export.ExcelExport;
-import org.remast.util.FileFilters;
+import org.remast.swing.util.FileFilters;
+import org.remast.util.TextResourceBundle;
 
 /**
  * @author remast
@@ -23,14 +23,17 @@ import org.remast.util.FileFilters;
 @SuppressWarnings("serial") //$NON-NLS-1$
 public final class ExcelExportAction extends AbstractBaralgaAction {
 
+    /** The bundle for internationalized texts. */
+    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(ExcelExportAction.class);
+
     /** The logger. */
     private static final Log log = LogFactory.getLog(ExcelExportAction.class);
 
-    public ExcelExportAction(Frame owner, PresentationModel model) {
+    public ExcelExportAction(final Frame owner, final PresentationModel model) {
         super(owner, model);
 
-        putValue(NAME, Messages.getString("ExcelExportAction.Name")); //$NON-NLS-1$
-        putValue(SHORT_DESCRIPTION, Messages.getString("ExcelExportAction.ShortDescription")); //$NON-NLS-1$
+        putValue(NAME, textBundle.textFor("ExcelExportAction.Name")); //$NON-NLS-1$
+        putValue(SHORT_DESCRIPTION, textBundle.textFor("ExcelExportAction.ShortDescription")); //$NON-NLS-1$
         putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/gnome-mime-application-vnd.ms-excel.png"))); //$NON-NLS-1$
     }
 
@@ -38,7 +41,7 @@ public final class ExcelExportAction extends AbstractBaralgaAction {
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed(ActionEvent event) {
+    public void actionPerformed(final ActionEvent event) {
         final JFileChooser chooser = new JFileChooser();
         
         // Set selection to last export location
@@ -50,8 +53,8 @@ public final class ExcelExportAction extends AbstractBaralgaAction {
 
         if (JFileChooser.APPROVE_OPTION == returnVal) {
             File file = chooser.getSelectedFile();
-            if(!file.getAbsolutePath().endsWith(Messages.getString("ExcelExportAction.ExcelFileExtension"))) { //$NON-NLS-1$
-                file = new File(file.getAbsolutePath()+Messages.getString("ExcelExportAction.ExcelFileExtension")); //$NON-NLS-1$
+            if(!file.getAbsolutePath().endsWith(textBundle.textFor("ExcelExportAction.ExcelFileExtension"))) { //$NON-NLS-1$
+                file = new File(file.getAbsolutePath()+textBundle.textFor("ExcelExportAction.ExcelFileExtension")); //$NON-NLS-1$
             }
 
             final ExportWorker exportWorker = new ExportWorker(getModel(), file);
@@ -64,7 +67,7 @@ public final class ExcelExportAction extends AbstractBaralgaAction {
         private PresentationModel model;
         private File file;
 
-        public ExportWorker(PresentationModel model, File file) {
+        public ExportWorker(final PresentationModel model, final File file) {
             this.model = model;
             this.file = file;
         }
@@ -77,7 +80,7 @@ public final class ExcelExportAction extends AbstractBaralgaAction {
                 // store export location in settings
                 Settings.instance().setLastExcelExportLocation(file.getAbsolutePath());
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, Messages.getString("ExcelExportAction.IOException1") + file.getAbsolutePath() + ".", Messages.getString("ExcelExportAction.IOException2"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                JOptionPane.showMessageDialog(null, textBundle.textFor("ExcelExportAction.IOException1") + file.getAbsolutePath() + ".", textBundle.textFor("ExcelExportAction.IOException2"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                         JOptionPane.ERROR_MESSAGE);
                 log.error(e, e);
             }

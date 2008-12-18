@@ -10,18 +10,22 @@ import org.joda.time.DateTime;
 
 /**
  * Miscellaneous utility methods for dealing with dates.
+ * 
  * @author remast
  */
 public abstract class DateUtils {
 
     /** The format for a time with hours and minutes. */
-    private static final SimpleDateFormat HHmmFormat = new SimpleDateFormat("HH:mm"); //$NON-NLS-1$
+    private static final SimpleDateFormat HHmmFormat = new SimpleDateFormat(
+            "HH:mm"); //$NON-NLS-1$
 
     /** Hide constructor. */
-    private DateUtils()  {}
+    private DateUtils() {
+    }
 
     /**
      * Get current time rounded to minutes.
+     * 
      * @return
      */
     public static Date getNow() {
@@ -46,7 +50,7 @@ public abstract class DateUtils {
     /**
      * Checks if the given dates are in the same year and month.
      */
-    public static boolean isSameMonth(Date date1, Date date2) {
+    public static boolean isSameMonth(final Date date1, final Date date2) {
         if (date1 == null || date2 == null) {
             throw new IllegalArgumentException("The date must not be null"); //$NON-NLS-1$
         }
@@ -62,20 +66,21 @@ public abstract class DateUtils {
 
     /**
      * Checks if the given calendars are in the same year and month.
+     * @return whether year and month of the given calendars match
      */
-    private static boolean isSameMonth(Calendar cal1, Calendar cal2) {
+    private static boolean isSameMonth(final Calendar cal1, final Calendar cal2) {
         if (cal1 == null || cal2 == null) {
             throw new IllegalArgumentException("The date must not be null"); //$NON-NLS-1$
         }
-        return (cal1.get(Calendar.ERA) == cal2.get(Calendar.ERA) &&
-                cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
-                cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH));
+        return (cal1.get(Calendar.ERA) == cal2.get(Calendar.ERA)
+                && cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) && cal1
+                .get(Calendar.MONTH) == cal2.get(Calendar.MONTH));
     }
 
     /**
      * Checks if the given dates are in the same year.
      */
-    public static boolean isSameYear(Date date1, Date date2) {
+    public static boolean isSameYear(final Date date1, final Date date2) {
         if (date1 == null || date2 == null) {
             throw new IllegalArgumentException("The date must not be null"); //$NON-NLS-1$
         }
@@ -89,19 +94,19 @@ public abstract class DateUtils {
     /**
      * Checks if the given calendars are in the same year.
      */
-    private static boolean isSameYear(Calendar calendar1, Calendar calendar2) {
+    private static boolean isSameYear(final Calendar calendar1, final Calendar calendar2) {
         if (calendar1 == null || calendar2 == null) {
             throw new IllegalArgumentException("The date must not be null"); //$NON-NLS-1$
         }
-        return (calendar1.get(Calendar.ERA) == calendar2.get(Calendar.ERA) &&
-                calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR));
+        return (calendar1.get(Calendar.ERA) == calendar2.get(Calendar.ERA) && calendar1
+                .get(Calendar.YEAR) == calendar2.get(Calendar.YEAR));
     }
 
     /**
-     * Checks if the given dates are in the similar week of the year. E.g. both dates
-     * are in march.
+     * Checks if the given dates are in the similar week of the year. E.g. both
+     * dates are in march.
      */
-    public static boolean isSimilarWeekOfYear(Date date1, Date date2) {
+    public static boolean isSimilarWeekOfYear(final Date date1, final Date date2) {
         if (date1 == null || date2 == null) {
             throw new IllegalArgumentException("The date must not be null"); //$NON-NLS-1$
         }
@@ -118,18 +123,19 @@ public abstract class DateUtils {
      * Checks if the given calendars are in the similar month. E.g. both dates
      * are in march.
      */
-    private static boolean isSimilarWeekOfYear(Calendar cal1, Calendar cal2) {
+    private static boolean isSimilarWeekOfYear(final Calendar cal1, final Calendar cal2) {
         if (cal1 == null || cal2 == null) {
             throw new IllegalArgumentException("The date must not be null"); //$NON-NLS-1$
         }
-        return cal1.get(Calendar.WEEK_OF_YEAR) == cal2.get(Calendar.WEEK_OF_YEAR);
+        return cal1.get(Calendar.WEEK_OF_YEAR) == cal2
+                .get(Calendar.WEEK_OF_YEAR);
     }
-    
+
     /**
-     * Checks if the given dates are in the similar month. E.g. both dates
-     * are in march.
+     * Checks if the given dates are in the similar month. E.g. both dates are
+     * in march.
      */
-    public static boolean isSimilarMonth(Date date1, Date date2) {
+    public static boolean isSimilarMonth(final Date date1, final Date date2) {
         if (date1 == null || date2 == null) {
             throw new IllegalArgumentException("The date must not be null"); //$NON-NLS-1$
         }
@@ -146,37 +152,35 @@ public abstract class DateUtils {
      * Checks if the given calendars are in the similar month. E.g. both dates
      * are in march.
      */
-    private static boolean isSimilarMonth(Calendar cal1, Calendar cal2) {
+    private static boolean isSimilarMonth(final Calendar cal1, final Calendar cal2) {
         if (cal1 == null || cal2 == null) {
             throw new IllegalArgumentException("The date must not be null"); //$NON-NLS-1$
         }
         return cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH);
     }
 
-
     /**
      * Parses a time from the given string. This is done smartly for easier use.
-     * <h3>Examples</h3> 
-     * 12 parsed as 12:00
-     * @param time
-     * @return
-     * @throws ParseException 
+     * <h3>Examples</h3> 12 parsed as 12:00
+     * @param time the string to be parsed
+     * @throws ParseException on parse error
+     * @return parsed time as {@link Date} object
      */
-    public static Date parseTimeSmart(String time) throws ParseException {
+    public static Date parseTimeSmart(final String time) throws ParseException {
         if (StringUtils.isBlank(time)) {
             return null;
         }
-        
+
         String timeToParse = time;
 
         if (timeToParse.length() == 1) {
             timeToParse = "0" + time;
         }
-        
+
         if (timeToParse.length() == 2) {
             timeToParse = time + ":00";
         }
-        
+
         try {
             return HHmmFormat.parse(timeToParse);
         } catch (ParseException e) {

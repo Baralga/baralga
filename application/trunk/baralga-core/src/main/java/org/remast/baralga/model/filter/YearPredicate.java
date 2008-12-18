@@ -6,6 +6,7 @@ import org.apache.commons.collections.Predicate;
 import org.remast.baralga.Messages;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.util.DateUtils;
+import org.remast.util.TextResourceBundle;
 
 /**
  * Holds for all project activities of one year.
@@ -13,11 +14,18 @@ import org.remast.util.DateUtils;
  */
 public class YearPredicate implements Predicate {
 
+    /** The bundle for internationalized texts. */
+    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(YearPredicate.class);
+
     /**
      * The year to check for.
      */
     private final Date dateInYear;
 
+    /**
+     * Constructor for a new predicate.
+     * @param dateInYear the year of the predicate
+     */
     public YearPredicate(final Date dateInYear) {
         this.dateInYear = dateInYear;
     }
@@ -28,7 +36,7 @@ public class YearPredicate implements Predicate {
      * @return <code>true</code> if the given object is a project activity
      * of that year else <code>false</code>
      */
-    public boolean evaluate(Object object) {
+    public final boolean evaluate(final Object object) {
         if (object == null) {
             return false;
         }

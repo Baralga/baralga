@@ -26,7 +26,7 @@ public class DescriptionPanelEntry extends JXPanel {
 
     private TitledBorder titledBorder;
 
-    public DescriptionPanelEntry(ProjectActivity activity) {
+    public DescriptionPanelEntry(final ProjectActivity activity) {
         this.activity = activity;
         initialize();
     }

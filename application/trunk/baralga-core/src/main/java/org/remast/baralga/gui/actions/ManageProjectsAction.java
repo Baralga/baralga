@@ -5,9 +5,9 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.ImageIcon;
 
-import org.remast.baralga.Messages;
 import org.remast.baralga.gui.dialogs.ManageProjectsDialog;
 import org.remast.baralga.gui.model.PresentationModel;
+import org.remast.util.TextResourceBundle;
 
 /**
  * Displays the dialog to manage the projects.
@@ -16,10 +16,13 @@ import org.remast.baralga.gui.model.PresentationModel;
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class ManageProjectsAction extends AbstractBaralgaAction {
 
-    public ManageProjectsAction(final Frame owner, PresentationModel model) {
+    /** The bundle for internationalized texts. */
+    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(ManageProjectsAction.class);
+
+    public ManageProjectsAction(final Frame owner, final PresentationModel model) {
         super(owner, model);
-        putValue(NAME, Messages.getString("ManageProjectsAction.Name")); //$NON-NLS-1$
-        putValue(SHORT_DESCRIPTION, Messages.getString("ManageProjectsAction.ShortDescription")); //$NON-NLS-1$
+        putValue(NAME, textBundle.textFor("ManageProjectsAction.Name")); //$NON-NLS-1$
+        putValue(SHORT_DESCRIPTION, textBundle.textFor("ManageProjectsAction.ShortDescription")); //$NON-NLS-1$
         putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/gtk-edit.png"))); //$NON-NLS-1$
     }
 

@@ -43,7 +43,7 @@ public class DescriptionPanel extends JXPanel implements Observer {
 
     private JPanel container;
 
-    public DescriptionPanel(PresentationModel model) {
+    public DescriptionPanel(final PresentationModel model) {
         super();
         this.setLayout(new BorderLayout());
         this.model = model;
@@ -101,7 +101,7 @@ public class DescriptionPanel extends JXPanel implements Observer {
     /**
      * Update the panel from observed event.
      */
-    public void update(Observable source, Object eventObject) {
+    public void update(final Observable source, final Object eventObject) {
         if (eventObject == null) {
             return;
         }

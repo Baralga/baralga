@@ -37,15 +37,15 @@ public class ProTrackWriter {
     /**
      * Write the data to the given file.
      * @param file the file to write to
-     * @throws IOException
+     * @throws IOException on write error
      */
-    public void write(final File file) throws IOException {
+    public final void write(final File file) throws IOException {
         if (file == null) {
             return;
         }
         
-        synchronized(data) {
-            final OutputStream fileOut = new BufferedOutputStream( new FileOutputStream(file) );
+        synchronized (data) {
+            final OutputStream fileOut = new BufferedOutputStream(new FileOutputStream(file));
             try {
                 final XStream xstream = new XStream(new DomDriver(OUTPUT_ENCODING));
                 xstream.processAnnotations(new Class[] {ProTrack.class, Project.class, ProjectActivity.class});

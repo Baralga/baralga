@@ -23,7 +23,7 @@ public class AccumulatedActivitiesTableFormat implements TableFormat<Accumulated
      * Gets the name of the given column.
      * @param column the number of the column
      */
-    public String getColumnName(int col) {
+    public String getColumnName(final int col) {
         switch (col) {
             case 0:
                 return Messages.getString("AccumulatedActivitiesTableFormat.DayHeading"); //$NON-NLS-1$
@@ -36,7 +36,7 @@ public class AccumulatedActivitiesTableFormat implements TableFormat<Accumulated
         }
     }
 
-    public Object getColumnValue(AccumulatedProjectActivity accActivity, int col) {
+    public Object getColumnValue(final AccumulatedProjectActivity accActivity, final int col) {
         switch (col) {
             case 0:
                 return accActivity.getDay();

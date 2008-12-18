@@ -2,9 +2,9 @@ package org.remast.baralga.gui.actions;
 
 import java.awt.event.ActionEvent;
 
-import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
+import org.remast.util.TextResourceBundle;
 
 /**
  * Action to change the active project.
@@ -12,6 +12,9 @@ import org.remast.baralga.model.Project;
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class ChangeProjectAction extends AbstractBaralgaAction {
+
+    /** The bundle for internationalized texts. */
+    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(ChangeProjectAction.class);
 
     /**
      * The project to be activated when the action is performed.
@@ -29,7 +32,7 @@ public class ChangeProjectAction extends AbstractBaralgaAction {
         }
         
         putValue(NAME, projectName);
-        putValue(SHORT_DESCRIPTION, Messages.getString("ChangeProjectAction.ShortDescription") + String.valueOf(newProject) + "."); //$NON-NLS-1$ //$NON-NLS-2$
+        putValue(SHORT_DESCRIPTION, textBundle.textFor("ChangeProjectAction.ShortDescription") + String.valueOf(newProject) + "."); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /**

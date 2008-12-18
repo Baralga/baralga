@@ -62,12 +62,14 @@ public class Project implements Serializable, Comparable<Project>{
     }
     
     @Override
-    public boolean equals(Object that) {
-        if ( this == that ) 
+    public boolean equals(final Object that) {
+        if (this == that) {
             return true;
+        }
         
-        if (that == null || !(that instanceof Project))
+        if (that == null || !(that instanceof Project)) {
             return false;
+        }
         
         final Project project = (Project) that;
         
@@ -77,7 +79,7 @@ public class Project implements Serializable, Comparable<Project>{
     }
 
     @Override
-    public int compareTo(Project project) {
+    public int compareTo(final Project project) {
         if (project == null || this.getTitle() == null) {
             return 0;
         }

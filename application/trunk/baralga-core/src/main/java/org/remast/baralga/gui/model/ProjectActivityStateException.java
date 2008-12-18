@@ -1,5 +1,6 @@
 package org.remast.baralga.gui.model;
 
+
 /**
  * Exception for an illegal state of a project activity. For example
  * when an activity is not running but is stopped.
@@ -9,7 +10,11 @@ package org.remast.baralga.gui.model;
 @SuppressWarnings("serial")
 public class ProjectActivityStateException extends Exception {
 
-    public ProjectActivityStateException(String message) {
+    /**
+     * Creates a new exception with the given message.
+     * @param message the exception message
+     */
+    public ProjectActivityStateException(final String message) {
         super(message);
     }
 }

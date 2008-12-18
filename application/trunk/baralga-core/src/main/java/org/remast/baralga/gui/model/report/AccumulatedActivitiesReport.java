@@ -42,7 +42,7 @@ public class AccumulatedActivitiesReport extends Observable {
 
         // accumulate activities for every day
         for (AccumulatedProjectActivity activity : accumulatedActivitiesByDay) {
-            result.append( activity.toString() ).append( ":" ); //$NON-NLS-1$
+            result.append(activity.toString()).append(":"); //$NON-NLS-1$
         }
 
         return "[" + result + "]"; //$NON-NLS-1$ //$NON-NLS-2$
@@ -56,7 +56,7 @@ public class AccumulatedActivitiesReport extends Observable {
     private void acummulateActivity(final ProjectActivity activity) {
         AccumulatedProjectActivity newAccActivity = new AccumulatedProjectActivity(activity.getProject(), activity
                 .getStart(), activity.getDuration());
-        if(filter != null && !filter.satisfiesPredicates(activity))
+        if(filter != null && !filter.matchesCriteria(activity))
             return;
 
         if (this.accumulatedActivitiesByDay.contains(newAccActivity)) {

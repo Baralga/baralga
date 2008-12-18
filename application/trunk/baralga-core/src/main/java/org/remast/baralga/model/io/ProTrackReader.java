@@ -48,7 +48,7 @@ public class ProTrackReader {
 			o = xstream.fromXML(fis);
 		} catch (Exception e)  {
 			log.error(e, e);
-			throw new IOException("The file " + (file != null ? file.getName() : "<null>" ) + " does not contain valid Baralga data.", e);
+			throw new IOException("The file " + (file != null ? file.getName() : "<null>") + " does not contain valid Baralga data.", e);
 		} finally {
 			IOUtils.closeQuietly(fis);
 		}
@@ -57,7 +57,7 @@ public class ProTrackReader {
 			data = (ProTrack) o;
 		} catch (ClassCastException e) {
 			log.error(e, e);
-			throw new IOException("The file " + (file != null ? file.getName() : "<null>" ) + " does not contain valid Baralga data.", e);
+			throw new IOException("The file " + (file != null ? file.getName() : "<null>") + " does not contain valid Baralga data.", e);
 		}
 	}
 

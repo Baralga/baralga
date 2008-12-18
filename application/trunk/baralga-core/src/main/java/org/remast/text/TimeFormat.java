@@ -23,7 +23,7 @@ public class TimeFormat extends DateFormat {
      * @return
      * @see java.text.DateFormat#format(java.util.Date, java.lang.StringBuffer, java.text.FieldPosition)
      */
-    public StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition fieldPosition) {
+    public StringBuffer format(final Date date, final StringBuffer toAppendTo, final FieldPosition fieldPosition) {
         return timeFormat.format(date, toAppendTo, fieldPosition);
     }
 
@@ -33,7 +33,7 @@ public class TimeFormat extends DateFormat {
      * @return
      * @see java.text.DateFormat#parse(java.lang.String, java.text.ParsePosition)
      */
-    public Date parse(String source, ParsePosition pos) {
+    public Date parse(final String source, final ParsePosition pos) {
         return timeFormat.parse(source, pos);
     }
 

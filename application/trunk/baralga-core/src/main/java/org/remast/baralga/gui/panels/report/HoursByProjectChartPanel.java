@@ -69,7 +69,7 @@ public class HoursByProjectChartPanel extends JXPanel implements Observer {
         }
     }
 
-    public void update(Observable o, Object arg) {
+    public void update(final Observable o, final Object arg) {
         if (o != null && o instanceof HoursByProjectReport) {
             initChartData();
         }

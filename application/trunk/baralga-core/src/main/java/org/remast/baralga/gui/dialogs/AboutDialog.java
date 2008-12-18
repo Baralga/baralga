@@ -25,6 +25,10 @@ import org.remast.swing.util.GuiConstants;
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class AboutDialog extends EscapeDialog {
 
+    /**
+     * Creates a new dialog.
+     * @param owner
+     */
     public AboutDialog(final Frame owner) {
         super(owner);
         

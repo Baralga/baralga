@@ -6,11 +6,13 @@ import java.util.ResourceBundle;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.remast.util.TextResourceBundle;
 
 /**
  * Gives access to all text resources for Baralga.
  * TODO: Split up into two classes. One for the gui and one for the model.
  * @author remast
+ * @deprecated replaced by {@link TextResourceBundle} to get texts from bundles in package
  */
 public abstract class Messages {
 

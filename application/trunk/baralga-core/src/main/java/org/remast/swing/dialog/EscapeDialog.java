@@ -19,7 +19,7 @@ import javax.swing.KeyStroke;
 @SuppressWarnings("serial")
 public class EscapeDialog extends JDialog {
 
-    public EscapeDialog(Frame owner) {
+    public EscapeDialog(final Frame owner) {
         super(owner, true);
     }
 
@@ -29,7 +29,7 @@ public class EscapeDialog extends JDialog {
 
         final Action actionListener = new AbstractAction() {
             
-            public void actionPerformed(ActionEvent actionEvent) {
+            public void actionPerformed(final ActionEvent actionEvent) {
                 setVisible(false);
             }
             

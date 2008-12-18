@@ -39,7 +39,7 @@ public class TextEditor extends JXPanel {
 	 * {@link CardPanel#addTextObserver} method to hook it to the CardPanel.
 	 */
 	public interface TextChangeObserver {
-		public void onTextChange();
+		void onTextChange();
 	}
 
 	private List<TextChangeObserver> textObservers = new ArrayList<TextChangeObserver>();
@@ -136,13 +136,13 @@ public class TextEditor extends JXPanel {
 		setTabBehavior();
 		textPane.addFocusListener(new FocusListener() {
 
-			public void focusGained(FocusEvent e) {
+			public void focusGained(final FocusEvent e) {
 				if (collapseEditToolbar) {
 					collapsiblePane.setCollapsed(false);
 				}
 			}
 
-			public void focusLost(FocusEvent e) {
+			public void focusLost(final FocusEvent e) {
 				if (collapseEditToolbar) {
 					if (e.getOppositeComponent() != null && e.getOppositeComponent().getParent() != toolbar) {
 						collapsiblePane.setCollapsed(true);
@@ -154,15 +154,15 @@ public class TextEditor extends JXPanel {
 
 		textPane.getDocument().addDocumentListener(new DocumentListener() {
 
-			public void changedUpdate(DocumentEvent e) {
+			public void changedUpdate(final DocumentEvent e) {
 				notifyTextObservers();
 			}
 
-			public void insertUpdate(DocumentEvent e) {
+			public void insertUpdate(final DocumentEvent e) {
 				notifyTextObservers();
 			}
 
-			public void removeUpdate(DocumentEvent e) {
+			public void removeUpdate(final DocumentEvent e) {
 				notifyTextObservers();
 			}
 
@@ -239,7 +239,7 @@ public class TextEditor extends JXPanel {
 		return collapseEditToolbar;
 	}
 
-	public void setCollapseEditToolbar(boolean collapseEditToolbar) {
+	public void setCollapseEditToolbar(final boolean collapseEditToolbar) {
 		this.collapseEditToolbar = collapseEditToolbar;
 
 		if (!collapseEditToolbar) {

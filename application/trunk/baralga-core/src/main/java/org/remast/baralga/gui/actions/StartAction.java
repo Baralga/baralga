@@ -4,9 +4,9 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.ImageIcon;
 
-import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.model.ProjectActivityStateException;
+import org.remast.util.TextResourceBundle;
 
 /**
  * Starts a new project activity.
@@ -15,11 +15,14 @@ import org.remast.baralga.gui.model.ProjectActivityStateException;
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class StartAction extends AbstractBaralgaAction {
 
-    public StartAction(PresentationModel model) {
+    /** The bundle for internationalized texts. */
+    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(StartAction.class);
+
+    public StartAction(final PresentationModel model) {
         super(model);
 
-        putValue(NAME, Messages.getString("StartAction.Name")); //$NON-NLS-1$
-        putValue(SHORT_DESCRIPTION, Messages.getString("StartAction.ShortDescription")); //$NON-NLS-1$
+        putValue(NAME, textBundle.textFor("StartAction.Name")); //$NON-NLS-1$
+        putValue(SHORT_DESCRIPTION, textBundle.textFor("StartAction.ShortDescription")); //$NON-NLS-1$
         putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/gtk-ok.png"))); //$NON-NLS-1$
     }
 
@@ -27,7 +30,7 @@ public class StartAction extends AbstractBaralgaAction {
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed(ActionEvent arg0) {
+    public void actionPerformed(final ActionEvent arg0) {
         try {
             getModel().start();
         } catch (ProjectActivityStateException e1) {

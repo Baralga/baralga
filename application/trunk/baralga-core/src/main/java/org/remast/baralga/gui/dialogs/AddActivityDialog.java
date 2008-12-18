@@ -20,6 +20,7 @@ import javax.swing.text.DateFormatter;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXDatePicker;
+import org.remast.baralga.FormatConstants;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
@@ -132,7 +133,7 @@ public class AddActivityDialog extends EscapeDialog {
         }
         
         // Initialize start and end time with current time
-        final String now = GuiConstants.timeFormat.format(new Date());
+        final String now = FormatConstants.timeFormat.format(new Date());
         this.startField.setText(now);
         this.endField.setText(now);
 
@@ -141,7 +142,7 @@ public class AddActivityDialog extends EscapeDialog {
     }
 
     /**
-     * This method initializes projectSelector
+     * This method initializes projectSelector.
      * @return javax.swing.JComboBox
      */
     private JComboBox getProjectSelector() {
@@ -152,9 +153,7 @@ public class AddActivityDialog extends EscapeDialog {
     }
 
     /**
-     * This method initializes activityPanel
-     * 
-     * @return javax.swing.JPanel
+     * This method initializes activityPanel.
      */
     private void initializeLayout() {
         final double border = 5;
@@ -187,7 +186,7 @@ public class AddActivityDialog extends EscapeDialog {
     }
 
     /**
-     * This method initializes jButton
+     * This method initializes addActivityButton.
      * @return javax.swing.JButton
      */
     private JButton getAddActivityButton() {
@@ -200,7 +199,7 @@ public class AddActivityDialog extends EscapeDialog {
             addActivityButton.setMnemonic(KeyEvent.VK_ENTER);
 
             addActivityButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent event) {
+                public void actionPerformed(final ActionEvent event) {
                     if (AddActivityDialog.this.validateFields()) {
                         final ProjectActivity activity = new ProjectActivity(start, end, project);
                         activity.setDescription(descriptionEditor.getText());
@@ -223,13 +222,12 @@ public class AddActivityDialog extends EscapeDialog {
     }
 
     /**
-     * This method initializes startField
-     * 
+     * This method initializes startField.
      * @return javax.swing.JTextField
      */
     private JFormattedTextField getStartField() {
         if (startField == null) {
-            DateFormatter df = new DateFormatter(GuiConstants.timeFormat);
+            DateFormatter df = new DateFormatter(FormatConstants.timeFormat);
             startField = new JFormattedTextField(df);
             df.install(startField);
 
@@ -238,13 +236,12 @@ public class AddActivityDialog extends EscapeDialog {
     }
 
     /**
-     * This method initializes endField
-     * 
+     * This method initializes endField.
      * @return javax.swing.JFormattedTextField
      */
     private JFormattedTextField getEndField() {
         if (endField == null) {
-            final DateFormatter dateFormatter = new DateFormatter(GuiConstants.timeFormat);
+            final DateFormatter dateFormatter = new DateFormatter(FormatConstants.timeFormat);
             endField = new JFormattedTextField(dateFormatter);
             dateFormatter.install(endField);
         }
@@ -269,8 +266,8 @@ public class AddActivityDialog extends EscapeDialog {
         }
 
         try {
-            start = GuiConstants.timeFormat.parse(getStartField().getText());
-            end = GuiConstants.timeFormat.parse(getEndField().getText());
+            start = FormatConstants.timeFormat.parse(getStartField().getText());
+            end = FormatConstants.timeFormat.parse(getEndField().getText());
             
             correctDates();
         } catch (ParseException e) {

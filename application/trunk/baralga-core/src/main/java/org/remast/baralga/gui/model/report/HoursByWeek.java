@@ -14,7 +14,7 @@ public class HoursByWeek {
     /** The amount of hours worked that week. */
     private double hours;
     
-    public HoursByWeek(int week, double hours) {
+    public HoursByWeek(final int week, final double hours) {
         this.week = week;
         this.hours = hours;
     }
@@ -34,7 +34,7 @@ public class HoursByWeek {
     }
     
     @Override
-    public boolean equals(Object that) {
+    public boolean equals(final Object that) {
         if (this == that) {
             return true;
         }
@@ -53,7 +53,7 @@ public class HoursByWeek {
      * Adds the given hours to the hours in this week.
      * @param additionalHours the hours to add
      */
-    public void addHours(double additionalHours) {
+    public void addHours(final double additionalHours) {
         this.hours += additionalHours;
     }
 

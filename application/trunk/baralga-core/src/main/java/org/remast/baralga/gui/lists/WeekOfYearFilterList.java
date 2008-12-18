@@ -51,7 +51,7 @@ public class WeekOfYearFilterList implements Observer {
 	}
 
 	public void update(final Observable source, final Object eventObject) {
-		if (eventObject == null && !(eventObject instanceof BaralgaEvent)) {
+		if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
 			return;
 		}
 		

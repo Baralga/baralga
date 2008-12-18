@@ -18,8 +18,8 @@ import org.remast.baralga.model.filter.Filter;
  * Stores and reads the user settings.
  * @author remast
  */
-public class Settings {
-    
+public final class Settings {
+
     /** The logger. */
     private static final Log log = LogFactory.getLog(Settings.class);
 
@@ -28,7 +28,7 @@ public class Settings {
     //------------------------------------------------
 
     /** Default directory of ProTrack. */
-    public static final File DEFAULT_DIRECTORY = new File( System.getProperty("user.home") + File.separator + ".ProTrack" ); //$NON-NLS-1$ //$NON-NLS-2$
+    public static final File DEFAULT_DIRECTORY = new File(System.getProperty("user.home") + File.separator + ".ProTrack"); //$NON-NLS-1$ //$NON-NLS-2$
 
     /** Default name of the ProTrack data file. */
     public static final String DEFAULT_FILE_NAME = "ProTrack.ptd"; //$NON-NLS-1$
@@ -49,15 +49,15 @@ public class Settings {
         return DEFAULT_DIRECTORY;
     }
 
-   
+    /** Key for the name of the properties file. */
     private static String PROPERTIES_FILENAME = DEFAULT_DIRECTORY + File.separator + "baralga.properties";
-    
+
     /** Node for Baralga user preferences. */
     private PropertiesConfiguration config;
-    
+
     /** The singleton instance. */
     private static Settings instance;
-    
+
     /**
      * Getter for singleton instance.
      * @return the settings singleton
@@ -68,7 +68,10 @@ public class Settings {
         }
         return instance;
     }
-    
+
+    /**
+     * Constructor for the settings.
+     */
     private Settings() {
         final File file = new File(PROPERTIES_FILENAME);
         try {
@@ -78,7 +81,7 @@ public class Settings {
             log.error(e, e);
         }
     }
-    
+
     //------------------------------------------------
     // Lock file Location
     //------------------------------------------------
@@ -86,6 +89,10 @@ public class Settings {
     /** Name of the lock file. */
     public static final String LOCK_FILE_NAME = "lock"; //$NON-NLS-1$
 
+    /** 
+     * Gets the location of the lock file.
+     * @return the location of the lock file
+     */
     public static String getLockFileLocation() {
         return DEFAULT_DIRECTORY + File.separator + LOCK_FILE_NAME;
     }
@@ -94,13 +101,21 @@ public class Settings {
     // Excel Export Location
     //------------------------------------------------
 
-    /** Location of last Excel export. */
+    /** Key for the location of last Excel export. */
     public static final String LAST_EXCEL_EXPORT_LOCATION = "export.excel"; //$NON-NLS-1$
 
+    /**
+     * Gets the location of the last Excel export.
+     * @return the location of the last Excel export
+     */
     public String getLastExcelExportLocation() {
         return config.getString(LAST_EXCEL_EXPORT_LOCATION, System.getProperty("user.home"));
     }
 
+    /**
+     * Sets the location of the last Excel export.
+     * @param excelExportLocation the location of the last Excel export to set
+     */
     public void setLastExcelExportLocation(final String excelExportLocation) {
         config.setProperty(LAST_EXCEL_EXPORT_LOCATION, excelExportLocation);
     }
@@ -119,25 +134,25 @@ public class Settings {
     public void setLastDescription(final String lastDescription) {
         config.setProperty(LAST_DESCRIPTION, lastDescription);
     }
-    
+
     //------------------------------------------------
     // Filter Settings
     //------------------------------------------------
-    
+
     /** The key for the selected month of filter. */
     public static final String SELECTED_MONTH = "filter.month"; //$NON-NLS-1$
 
     public String getFilterSelectedMonth() {
-    	// -- 
-    	// :INFO: Migrate from < 1.3 where * was used as dummy value
+        // -- 
+        // :INFO: Migrate from < 1.3 where * was used as dummy value
         if (StringUtils.equals("*", config.getString(SELECTED_MONTH, null))) {
-        	setFilterSelectedMonth(String.valueOf(MonthFilterList.ALL_MONTHS_DUMMY));
+            setFilterSelectedMonth(String.valueOf(MonthFilterList.ALL_MONTHS_DUMMY));
         }
         // --
         return config.getString(SELECTED_MONTH, null);
     }
 
-    public void setFilterSelectedMonth(String month) {
+    public void setFilterSelectedMonth(final String month) {
         config.setProperty(SELECTED_MONTH, month);
     }
 
@@ -148,24 +163,24 @@ public class Settings {
         return config.getString(SELECTED_WEEK_OF_YEAR, null);
     }
 
-    public void setFilterSelectedWeekOfYear(String weekOfYear) {
+    public void setFilterSelectedWeekOfYear(final String weekOfYear) {
         config.setProperty(SELECTED_WEEK_OF_YEAR, weekOfYear);
     }
-    
+
     /** The key for the selected year of filter. */
     public static final String SELECTED_YEAR = "filter.year"; //$NON-NLS-1$
 
     public String getFilterSelectedYear() {
-    	// -- 
-    	// :INFO: Migrate from < 1.3 where * was used as dummy value
+        // -- 
+        // :INFO: Migrate from < 1.3 where * was used as dummy value
         if (StringUtils.equals("*", config.getString(SELECTED_YEAR, null))) {
-        	setFilterSelectedYear(String.valueOf(YearFilterList.ALL_YEARS_DUMMY));
+            setFilterSelectedYear(String.valueOf(YearFilterList.ALL_YEARS_DUMMY));
         }
-    	// -- 
+        // -- 
         return config.getString(SELECTED_YEAR, null);
     }
 
-    public void setFilterSelectedYear(String year) {
+    public void setFilterSelectedYear(final String year) {
         config.setProperty(SELECTED_YEAR, year);
     }
 
@@ -176,14 +191,14 @@ public class Settings {
         return config.getLong(SELECTED_PROJECT_ID, null);
     }
 
-    public void setFilterSelectedProjectId(long projectId) {
-        config.setProperty(SELECTED_PROJECT_ID, new Long(projectId));
+    public void setFilterSelectedProjectId(final long projectId) {
+        config.setProperty(SELECTED_PROJECT_ID, Long.valueOf(projectId));
     }
 
     //------------------------------------------------
     // Shown category
     //------------------------------------------------
-    
+
     /** The key for the shown category. */
     public static final String SHOWN_CATEGORY = "shown.category"; //$NON-NLS-1$
 
@@ -191,7 +206,7 @@ public class Settings {
         return config.getString(SHOWN_CATEGORY, "General");
     }
 
-    public void setShownCategory(String shownCategory) {
+    public void setShownCategory(final String shownCategory) {
         config.setProperty(SHOWN_CATEGORY, shownCategory);
     }
 
@@ -225,7 +240,7 @@ public class Settings {
                 log.error(e, e);
             }
         }
-        
+
         // Restore the year
         final String selectedYear = Settings.instance().getFilterSelectedYear();
         if (StringUtils.isNotBlank(selectedYear) && Integer.parseInt(selectedYear) != YearFilterList.ALL_YEARS_DUMMY) {
@@ -237,7 +252,7 @@ public class Settings {
                 log.error(e, e);
             }
         }
-        
+
         return filter;
     }
 }

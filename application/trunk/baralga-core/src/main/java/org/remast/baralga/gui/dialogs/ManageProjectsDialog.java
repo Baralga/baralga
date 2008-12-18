@@ -80,8 +80,7 @@ public class ManageProjectsDialog extends EscapeDialog {
     }
 
     /**
-     * This method initializes jContentPane
-     * 
+     * This method initializes jContentPane.
      * @return javax.swing.JPanel
      */
     private JPanel getJContentPane() {
@@ -98,8 +97,7 @@ public class ManageProjectsDialog extends EscapeDialog {
     }
 
     /**
-     * This method initializes projectList	
-     * 	
+     * This method initializes projectList.
      * @return javax.swing.JList	
      */
     private JList getProjectList() {
@@ -112,7 +110,7 @@ public class ManageProjectsDialog extends EscapeDialog {
     }
 
     /**
-     * This method initializes newProjectTextField	
+     * This method initializes newProjectTextField.
      * @return javax.swing.JTextField	
      */
     private JTextField getNewProjectTextField() {
@@ -127,13 +125,12 @@ public class ManageProjectsDialog extends EscapeDialog {
     }
 
     /**
-     * This method initializes jPanel	
-     * 	
+     * This method initializes projectsPanel.
      * @return javax.swing.JPanel	
      */
     private JPanel getProjectsPanel() {
         if (projectsPanel == null) {
-            GridLayout gridLayout = new GridLayout();
+            final GridLayout gridLayout = new GridLayout();
             gridLayout.setRows(2);
             projectsPanel = new JPanel();
             projectsPanel.setLayout(gridLayout);
@@ -154,7 +151,7 @@ public class ManageProjectsDialog extends EscapeDialog {
             addProjectButton.setText(Messages.getString("ManageProjectsDialog.AddProjectButton.Title")); //$NON-NLS-1$
             addProjectButton.setToolTipText(Messages.getString("ManageProjectsDialog.AddProjectButton.ToolTipText")); //$NON-NLS-1$
             addProjectButton.addActionListener(new java.awt.event.ActionListener() {   
-            	public void actionPerformed(java.awt.event.ActionEvent e) {
+            	public void actionPerformed(final java.awt.event.ActionEvent e) {
                     String projectName = getNewProjectTextField().getText();
                     getModel().addProject(new Project(RandomUtils.nextLong(), projectName, projectName), ManageProjectsDialog.this);
                     getNewProjectTextField().setText(""); //$NON-NLS-1$
@@ -176,7 +173,7 @@ public class ManageProjectsDialog extends EscapeDialog {
             removeProjectButton.setText(Messages.getString("ManageProjectsDialog.RemoveProjectButton.Title")); //$NON-NLS-1$
             removeProjectButton.setToolTipText(Messages.getString("ManageProjectsDialog.RemoveProjectButton.ToolTipText")); //$NON-NLS-1$
             removeProjectButton.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent e) {
+                public void actionPerformed(final java.awt.event.ActionEvent e) {
                     for (Object item : getProjectList().getSelectedValues()) {
                         getModel().removeProject((Project) item, ManageProjectsDialog.this);
                     }

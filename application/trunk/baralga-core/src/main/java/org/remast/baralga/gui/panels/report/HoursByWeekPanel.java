@@ -10,6 +10,7 @@ import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.FormatStringValue;
+import org.remast.baralga.FormatConstants;
 import org.remast.baralga.gui.model.report.HoursByWeek;
 import org.remast.baralga.gui.model.report.HoursByWeekReport;
 import org.remast.baralga.gui.panels.table.HoursByWeekTableFormat;
@@ -39,7 +40,7 @@ public class HoursByWeekPanel extends JXPanel implements Observer {
      * Creates a new panel for the given report of hours by week.
      * @param report the report with hours by week
      */
-    public HoursByWeekPanel(HoursByWeekReport report) {
+    public HoursByWeekPanel(final HoursByWeekReport report) {
         this.report = report;
         this.setLayout(new BorderLayout());
         
@@ -58,14 +59,14 @@ public class HoursByWeekPanel extends JXPanel implements Observer {
         table.setHighlighters(GuiConstants.HIGHLIGHTERS);
         table.setAutoResizeMode(JXTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         
-        table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(GuiConstants.durationFormat))) ;
+        table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatConstants.durationFormat)));
         
         JScrollPane table_scroll_pane = new JScrollPane(table);
 
         this.add(table_scroll_pane, BorderLayout.CENTER);
     }
 
-    public void update(Observable o, Object arg) {
+    public void update(final Observable o, final Object arg) {
         if (o != null && o instanceof HoursByWeekReport) {
             tableModel.fireTableDataChanged();
         }

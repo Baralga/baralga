@@ -24,7 +24,7 @@ import javax.swing.JToolBar;
 import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXFrame;
 import org.jdesktop.swingx.JXTitledSeparator;
-import org.remast.baralga.BaralgaMain;
+import org.remast.baralga.FormatConstants;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.actions.AboutAction;
 import org.remast.baralga.gui.actions.AbstractBaralgaAction;
@@ -113,8 +113,8 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private JMenuItem saveItem = null;
 
     /**
-     * This is the default constructor
-     * @param model
+     * This is the default constructor.
+     * @param model the model
      */
     public MainFrame(final PresentationModel model) {
         super();
@@ -140,7 +140,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         // 1. Init start-/stop-Buttons
         if (this.model.isActive()) {
             this
-                    .setTitle(Messages.getString("Global.Title") + " - " + this.model.getSelectedProject() + Messages.getString("MainFrame.9") + GuiConstants.timeFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
+                    .setTitle(Messages.getString("Global.Title") + " - " + this.model.getSelectedProject() + Messages.getString("MainFrame.9") + FormatConstants.timeFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
             getStartStopButton().setAction(new StopAction(this.model));
         } else {
             this.setTitle(Messages.getString("Global.Title")); //$NON-NLS-1$
@@ -177,8 +177,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     }
 
     /**
-     * This method initializes mainMenuBar
-     * 
+     * This method initializes mainMenuBar.
      * @return javax.swing.JMenuBar
      */
     private JMenuBar getMainMenuBar() {
@@ -192,8 +191,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     }
 
     /**
-     * This method initializes toolBar
-     * 
+     * This method initializes toolBar.
      * @return javax.swing.JToolBar
      */
     public JToolBar getToolBar() {
@@ -213,8 +211,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     }
 
     /**
-     * This method initializes currentPanel
-     * 
+     * This method initializes currentPanel.
      * @return javax.swing.JPanel
      */
     private JPanel getCurrentActivityPanel() {
@@ -260,8 +257,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     }
 
     /**
-     * This method initializes startStopButton
-     * 
+     * This method initializes startStopButton.
      * @return javax.swing.JButton
      */
     private JButton getStartStopButton() {
@@ -272,8 +268,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     }
 
     /**
-     * This method initializes projectSelector
-     * 
+     * This method initializes projectSelector.
      * @return javax.swing.JComboBox
      */
     private JComboBox getProjectSelector() {
@@ -301,8 +296,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     }
 
     /**
-     * This method initializes aboutMenu
-     * 
+     * This method initializes aboutMenu.
      * @return javax.swing.JMenu
      */
     private JMenu getHelpMenu() {
@@ -315,8 +309,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     }
 
     /**
-     * This method initializes fileMenu
-     * 
+     * This method initializes fileMenu.
      * @return javax.swing.JMenu
      */
     private JMenu getFileMenu() {
@@ -333,8 +326,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     }
 
     /**
-     * This method initializes editMenu
-     * 
+     * This method initializes editMenu.
      * @return javax.swing.JMenu
      */
     private JMenu getEditMenu() {
@@ -355,8 +347,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     }
 
     /**
-     * This method initializes addActivityMenuItem
-     * 
+     * This method initializes addActivityMenuItem.
      * @return javax.swing.JMenuItem
      */
     private JMenuItem getAddActivityMenuItem() {
@@ -369,8 +360,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     }
     
     /**
-     * This method initializes editProjectsMenuItem
-     * 
+     * This method initializes editProjectsMenuItem.
      * @return javax.swing.JMenuItem
      */
     private JMenuItem getEditProjectsMenuItem() {
@@ -383,8 +373,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     }
     
     /**
-     * This method initializes aboutMenuItem
-     * 
+     * This method initializes aboutMenuItem.
      * @return javax.swing.JMenuItem
      */
     private JMenuItem getAboutMenuItem() {
@@ -404,7 +393,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         this.model = model;
     }
 
-    public void update(Observable source, Object eventObject) {
+    public void update(final Observable source, final Object eventObject) {
         if (eventObject != null && eventObject instanceof BaralgaEvent) {
             final BaralgaEvent event = (BaralgaEvent) eventObject;
 
@@ -437,7 +426,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private void updateProjectChanged(final BaralgaEvent event) {
         if (this.model.isActive()) {
             this
-                    .setTitle(Messages.getString("Global.Title") + " - " + this.model.getSelectedProject() + Messages.getString("MainFrame.9") + GuiConstants.timeFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
+                    .setTitle(Messages.getString("Global.Title") + " - " + this.model.getSelectedProject() + Messages.getString("MainFrame.9") + FormatConstants.timeFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
         }
         getProjectSelector().setSelectedItem((Project) event.getData());
     }
@@ -452,7 +441,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         // Clear description in settings.
         Settings.instance().setLastDescription(StringUtils.EMPTY);
 
-        this.setTitle(Messages.getString("Global.Title") + " - " + this.model.getSelectedProject() + Messages.getString("MainFrame.11") + GuiConstants.timeFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
+        this.setTitle(Messages.getString("Global.Title") + " - " + this.model.getSelectedProject() + Messages.getString("MainFrame.11") + FormatConstants.timeFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
         getStartStopButton().setAction(new StopAction(this.model));
     }
 
@@ -466,13 +455,12 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         // Clear description in settings.
         Settings.instance().setLastDescription(StringUtils.EMPTY);
 
-        this.setTitle(Messages.getString("Global.Title") + " " + Messages.getString("MainFrame.12") + " " + GuiConstants.timeFormat.format(this.model.getStop())); //$NON-NLS-1$
+        this.setTitle(Messages.getString("Global.Title") + " " + Messages.getString("MainFrame.12") + " " + FormatConstants.timeFormat.format(this.model.getStop())); //$NON-NLS-1$
         getStartStopButton().setAction(new StartAction(this.model));
     }
 
     /**
-     * This method initializes ExcelExportItem
-     * 
+     * This method initializes excelExportItem.
      * @return javax.swing.JMenuItem
      */
     private JMenuItem getExcelExportItem() {
@@ -485,8 +473,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     }
 
     /**
-     * This method initializes ExportMenu
-     * 
+     * This method initializes exportMenu.
      * @return javax.swing.JMenu
      */
     private JMenu getExportMenu() {
@@ -500,17 +487,17 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         return exportMenu;
     }
 
-    public void windowIconified(java.awt.event.WindowEvent e) {
+    public void windowIconified(final java.awt.event.WindowEvent e) {
         if (BaralgaMain.getTray() != null) {
             this.setVisible(false);
             BaralgaMain.getTray().show();
         }
     }
 
-    public void windowOpened(java.awt.event.WindowEvent e) {
+    public void windowOpened(final java.awt.event.WindowEvent e) {
     }
 
-    public void windowClosing(java.awt.event.WindowEvent e) {
+    public void windowClosing(final java.awt.event.WindowEvent e) {
         if (BaralgaMain.getTray() != null) {
             this.setVisible(false);
             BaralgaMain.getTray().show();
@@ -534,21 +521,20 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         }
     }
 
-    public void windowClosed(java.awt.event.WindowEvent e) {
+    public void windowClosed(final java.awt.event.WindowEvent e) {
     }
 
-    public void windowDeiconified(java.awt.event.WindowEvent e) {
+    public void windowDeiconified(final java.awt.event.WindowEvent e) {
     }
 
-    public void windowActivated(java.awt.event.WindowEvent e) {
+    public void windowActivated(final java.awt.event.WindowEvent e) {
     }
 
-    public void windowDeactivated(java.awt.event.WindowEvent e) {
+    public void windowDeactivated(final java.awt.event.WindowEvent e) {
     }
 
     /**
-     * This method initializes exitItem
-     * 
+     * This method initializes exitItem.
      * @return javax.swing.JMenuItem
      */
     private JMenuItem getExitItem() {
@@ -561,8 +547,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     }
 
     /**
-     * This method initializes saveItem
-     * 
+     * This method initializes saveItem.
      * @return javax.swing.JMenuItem
      */
     private JMenuItem getSaveItem() {

@@ -14,7 +14,7 @@ public abstract class AbstractEditAction extends AbstractAction {
     private EditStack editStack;
 
     /**
-     * Creates an AbstractEditAction for undoing and redoing edit actions
+     * Creates an AbstractEditAction for undoing and redoing edit actions.
      * @param editStack the actions to be undone and redone
      */
     public AbstractEditAction(final EditStack editStack) {

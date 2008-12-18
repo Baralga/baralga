@@ -40,33 +40,34 @@ public class JXTrayIcon extends TrayIcon {
     }
     
     private static PopupMenuListener popupListener = new PopupMenuListener() {
-        public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+        
+        public void popupMenuWillBecomeVisible(final PopupMenuEvent e) {
         }
 
-        public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+        public void popupMenuWillBecomeInvisible(final PopupMenuEvent e) {
             dialog.setVisible(false);
         }
 
-        public void popupMenuCanceled(PopupMenuEvent e) {
+        public void popupMenuCanceled(final PopupMenuEvent e) {
             dialog.setVisible(false);
         }
     };
 
 
-    public JXTrayIcon(Image image) {
+    public JXTrayIcon(final Image image) {
         super(image);
         addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
+            public void mousePressed(final MouseEvent e) {
                 showJPopupMenu(e);
             }
 
-            public void mouseReleased(MouseEvent e) {
+            public void mouseReleased(final MouseEvent e) {
                 showJPopupMenu(e);
             }
         });
     }
 
-    private void showJPopupMenu(MouseEvent e) {
+    private void showJPopupMenu(final MouseEvent e) {
         if (e.isPopupTrigger() && menu != null) {
             Dimension size = menu.getPreferredSize();
             dialog.setLocation(e.getX(), e.getY() - size.height);
@@ -81,7 +82,7 @@ public class JXTrayIcon extends TrayIcon {
         return menu;
     }
 
-    public void setJPopupMenu(JPopupMenu menu) {
+    public void setJPopupMenu(final JPopupMenu menu) {
         if (this.menu != null) {
             this.menu.removePopupMenuListener(popupListener);
         }
@@ -99,8 +100,7 @@ public class JXTrayIcon extends TrayIcon {
         }
     }
 
-    public static void main(String[] args) throws Exception {
-
+    public static void main(final String[] args) throws Exception {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
         SwingUtilities.invokeLater(new Runnable() {
@@ -128,9 +128,10 @@ public class JXTrayIcon extends TrayIcon {
         submenu.add(new JMenuItem("item 2"));
         submenu.add(new JMenuItem("item 3"));
         m.add(submenu);        
+        
         JMenuItem exitItem = new JMenuItem("Exit");
         exitItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 System.exit(0);
             }
         });

@@ -79,7 +79,7 @@ public class FilteredActivitiesPane extends JXPanel {
 	private JideToggleButton generalButton = new JideToggleButton(new AbstractAction(Messages.getString("Category.General"), new ImageIcon(getClass().getResource("/icons/gtk-dnd-multiple.png"))) {
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(final ActionEvent e) {
 			FilteredActivitiesPane.this.toggleCategory("General"); //$NON-NLS-1$
 		}
 
@@ -91,7 +91,7 @@ public class FilteredActivitiesPane extends JXPanel {
 	private JideToggleButton timeButton = new JideToggleButton(new AbstractAction(Messages.getString("Category.Time"), new ImageIcon(getClass().getResource("/icons/stock_calendar-view-day.png"))) {
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(final ActionEvent e) {
 			FilteredActivitiesPane.this.toggleCategory("Time"); //$NON-NLS-1$
 		}
 
@@ -103,7 +103,7 @@ public class FilteredActivitiesPane extends JXPanel {
 	private JideToggleButton projectButton = new JideToggleButton(new AbstractAction(Messages.getString("Category.Project"), new ImageIcon(getClass().getResource("/icons/stock_calendar-view-day.png"))) {
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(final ActionEvent e) {
 			FilteredActivitiesPane.this.toggleCategory("Project"); //$NON-NLS-1$
 		}
 
@@ -292,7 +292,7 @@ public class FilteredActivitiesPane extends JXPanel {
 	/**
 	 * A tab belonging to a category.
 	 */
-	private class CategorizedTab {
+	private static class CategorizedTab {
 
 		/** The category of the tab. */
 		private String category;
@@ -323,35 +323,35 @@ public class FilteredActivitiesPane extends JXPanel {
 		/**
 		 * @return the category
 		 */
-		 private final String getCategory() {
+		 private String getCategory() {
 			 return category;
 		 }
 
 		 /**
 		  * @return the title
 		  */
-		 private final String getTitle() {
+		 private String getTitle() {
 			 return title;
 		 }
 
 		 /**
 		  * @return the icon
 		  */
-		 private final Icon getIcon() {
+		 private Icon getIcon() {
 			 return icon;
 		 }
 
 		 /**
 		  * @return the component
 		  */
-		 private final Component getComponent() {
+		 private Component getComponent() {
 			 return component;
 		 }
 
 		 /**
 		  * @return the tip
 		  */
-		 private final String getTooltip() {
+		 private String getTooltip() {
 			 return tooltip;
 		 }
 	}

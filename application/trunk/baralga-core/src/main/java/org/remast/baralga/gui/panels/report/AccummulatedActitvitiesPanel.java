@@ -12,6 +12,7 @@ import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.FormatStringValue;
+import org.remast.baralga.FormatConstants;
 import org.remast.baralga.gui.model.report.ObservingAccumulatedActivitiesReport;
 import org.remast.baralga.gui.panels.table.AccumulatedActivitiesTableFormat;
 import org.remast.baralga.model.report.AccumulatedActivitiesReport;
@@ -31,7 +32,7 @@ public class AccummulatedActitvitiesPanel extends JXPanel implements Observer {
     
     private EventTableModel<AccumulatedProjectActivity> tableModel;
 
-    public AccummulatedActitvitiesPanel(AccumulatedActivitiesReport report) {
+    public AccummulatedActitvitiesPanel(final AccumulatedActivitiesReport report) {
         this.report = report;
         this.setLayout(new BorderLayout());
 
@@ -50,8 +51,8 @@ public class AccummulatedActitvitiesPanel extends JXPanel implements Observer {
         final JXTable table = new JXTable(tableModel);
         table.setHighlighters(GuiConstants.HIGHLIGHTERS);
 
-        table.getColumn(0).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance()))) ;
-        table.getColumn(2).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(GuiConstants.durationFormat))) ;
+        table.getColumn(0).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance())));
+        table.getColumn(2).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatConstants.durationFormat)));
 
         table.setAutoResizeMode(JXTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         JScrollPane table_scroll_pane = new JScrollPane(table);
@@ -59,7 +60,7 @@ public class AccummulatedActitvitiesPanel extends JXPanel implements Observer {
         this.add(table_scroll_pane, BorderLayout.CENTER);
     }
 
-    public void update(Observable o, Object arg) {
+    public void update(final Observable o, final Object arg) {
         if (o != null && o instanceof ObservingAccumulatedActivitiesReport) {
             tableModel.fireTableDataChanged();
         }

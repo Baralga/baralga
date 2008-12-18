@@ -34,6 +34,11 @@ public abstract class AbstractBaralgaAction extends AbstractAction {
         this(owner, null);
     }
 
+    /**
+     * Create a new action for the given owning frame and model.
+     * @param owner the owning frame
+     * @param model the model to create action for
+     */
     public AbstractBaralgaAction(final Frame owner, final PresentationModel model) {
         this.owner = owner;
         this.model = model;

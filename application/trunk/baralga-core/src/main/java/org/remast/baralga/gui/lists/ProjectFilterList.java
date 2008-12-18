@@ -46,7 +46,7 @@ public class ProjectFilterList implements Observer {
 		return new SortedList<FilterItem<Project>>(this.projectList);
 	}
 
-	public void update(Observable source, Object eventObject) {
+	public void update(final Observable source, final Object eventObject) {
 		if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
 			return;
 		}

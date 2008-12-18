@@ -88,7 +88,7 @@ public class DataBackup {
         final File dir = Settings.DEFAULT_DIRECTORY;
         final String [] backupFiles = dir.list(new FilenameFilter() {
 
-            public boolean accept(File dir, String name) {
+            public boolean accept(final File dir, final String name) {
                 if (!StringUtils.equals(ERROR_FILE_NAME, name) 
                         && !StringUtils.equals(Settings.DEFAULT_FILE_NAME, name) 
                         && name.startsWith(Settings.DEFAULT_FILE_NAME)) {

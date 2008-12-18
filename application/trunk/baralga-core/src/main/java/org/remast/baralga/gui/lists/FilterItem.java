@@ -11,11 +11,11 @@ public class FilterItem<E extends Comparable<E>> implements Comparable<FilterIte
     private String label;
     
 
-    public FilterItem(E filterObject) {
+    public FilterItem(final E filterObject) {
         this.item = filterObject;
     }
 
-    public FilterItem(E filterObject, String label) {
+    public FilterItem(final E filterObject, final String label) {
         this.item = filterObject;
         this.label = label;
     }
@@ -43,7 +43,7 @@ public class FilterItem<E extends Comparable<E>> implements Comparable<FilterIte
     }
     
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj != null
                 && (obj instanceof FilterItem)) {
             FilterItem<E> that = (FilterItem<E>) obj;
@@ -56,7 +56,7 @@ public class FilterItem<E extends Comparable<E>> implements Comparable<FilterIte
     }
 
 	@Override
-	public int compareTo(FilterItem<E> o) {
+	public int compareTo(final FilterItem<E> o) {
 		return this.getItem().compareTo(o.getItem());
 	}
 

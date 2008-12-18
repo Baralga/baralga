@@ -314,7 +314,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 	/**
 	 * One of the filter criteria changed. So we create and apply the filter.
 	 */
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		// 1. Create filter from selection.
 		final Filter filter = this.createFilter();
 

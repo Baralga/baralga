@@ -44,6 +44,10 @@ public class EditStack implements Observer {
 	/** The model. */
 	private PresentationModel model;
 
+	/**
+	 * Creates a new edit stack for the given model.
+	 * @param model the edited model to create stack for
+	 */
 	public EditStack(final PresentationModel model) {
 		this.model = model;
 		this.undoAction = new UndoAction(this);
@@ -96,7 +100,7 @@ public class EditStack implements Observer {
 	/**
 	 * Undo last edit action.
 	 */
-	public void undo() {
+	public final void undo() {
 		if (CollectionUtils.isEmpty(undoStack)) {
 			return;
 		}
@@ -112,7 +116,7 @@ public class EditStack implements Observer {
 	/**
 	 * Redo last edit action.
 	 */
-	public void redo() {
+	public final void redo() {
 		if (CollectionUtils.isEmpty(redoStack)) {
 			return;
 		}
@@ -125,6 +129,10 @@ public class EditStack implements Observer {
 		updateActions();
 	}
 
+    /**
+     * Undoes the given event.
+     * @param event the event to undo
+     */
 	private void executeUndo(final BaralgaEvent event) {
 		if (BaralgaEvent.PROJECT_ACTIVITY_REMOVED == event.getType()) {
 			model.addActivity((ProjectActivity) event.getData(), this);
@@ -133,6 +141,10 @@ public class EditStack implements Observer {
 		}
 	}
 
+	/**
+	 * Redoes the given event.
+	 * @param event the event to redo
+	 */
 	private void executeRedo(final BaralgaEvent event) {
 		if (BaralgaEvent.PROJECT_ACTIVITY_REMOVED == event.getType()) {
 			model.removeActivity((ProjectActivity) event.getData(), this);

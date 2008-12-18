@@ -15,7 +15,7 @@ public class HoursByProject {
     /** The amount of hours worked that week. */
     private double hours;
     
-    public HoursByProject(Project project, double hours) {
+    public HoursByProject(final Project project, final double hours) {
         this.project = project;
         this.hours = hours;
     }
@@ -35,7 +35,7 @@ public class HoursByProject {
     }
     
     @Override
-    public boolean equals(Object that) {
+    public boolean equals(final Object that) {
         if (this == that) {
             return true;
         }
@@ -51,7 +51,7 @@ public class HoursByProject {
      * Adds the given hours to the hours on that day.
      * @param additionalHours the hours to add
      */
-    public void addHours(double additionalHours) {
+    public void addHours(final double additionalHours) {
         this.hours += additionalHours;
     }
 

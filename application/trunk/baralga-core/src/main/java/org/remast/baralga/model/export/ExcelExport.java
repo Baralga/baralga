@@ -20,23 +20,27 @@ import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 
 import org.apache.commons.lang.StringUtils;
-import org.remast.baralga.Messages;
 import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.baralga.model.report.AccumulatedActivitiesReport;
 import org.remast.baralga.model.report.AccumulatedProjectActivity;
+import org.remast.util.TextResourceBundle;
 
 /**
  * Exports data files to Excel.
  * @author remast
  */
 public abstract class ExcelExport {
-    
+
+    /** The bundle for internationalized texts. */
+    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(ExcelExport.class);
+
     /** Hide constructor. */
-    private ExcelExport() {}
+    private ExcelExport() { }
 
     public static final SimpleDateFormat MONTH_FORMAT = new SimpleDateFormat("MM"); //$NON-NLS-1$
+
     public static final SimpleDateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy"); //$NON-NLS-1$
 
     private static WritableCellFormat headingFormat;
@@ -47,24 +51,25 @@ public abstract class ExcelExport {
             final WritableWorkbook workbook = Workbook.createWorkbook(file);
             createFilteredReport(workbook, data, filter);
             
-            final WritableSheet sheet = workbook.createSheet(Messages.getString("ExcelExport.SheetTitleActivityRecords"), 1); //$NON-NLS-1$
+            final WritableSheet sheet = workbook.createSheet(textBundle.textFor("ExcelExport.SheetTitleActivityRecords"), 1); //$NON-NLS-1$
             
             int row = 0;
             int col = 0;
             
-            sheet.addCell(new Label(col++, row, Messages.getString("ExcelExport.ProjectHeading"), headingFormat)); //$NON-NLS-1$
-            sheet.addCell(new Label(col++, row, Messages.getString("ExcelExport.DateHeading"), headingFormat)); //$NON-NLS-1$
-            sheet.addCell(new Label(col++, row, Messages.getString("ExcelExport.StartTimeHeading"), headingFormat)); //$NON-NLS-1$
-            sheet.addCell(new Label(col++, row, Messages.getString("ExcelExport.EndTimeHeading"), headingFormat)); //$NON-NLS-1$
-            sheet.addCell(new Label(col++, row, Messages.getString("ExcelExport.HoursHeading"), headingFormat)); //$NON-NLS-1$
-            sheet.addCell(new Label(col++, row, Messages.getString("ExcelExport.DescriptionHeading"), headingFormat)); //$NON-NLS-1$
+            sheet.addCell(new Label(col++, row, textBundle.textFor("ExcelExport.ProjectHeading"), headingFormat)); //$NON-NLS-1$
+            sheet.addCell(new Label(col++, row, textBundle.textFor("ExcelExport.DateHeading"), headingFormat)); //$NON-NLS-1$
+            sheet.addCell(new Label(col++, row, textBundle.textFor("ExcelExport.StartTimeHeading"), headingFormat)); //$NON-NLS-1$
+            sheet.addCell(new Label(col++, row, textBundle.textFor("ExcelExport.EndTimeHeading"), headingFormat)); //$NON-NLS-1$
+            sheet.addCell(new Label(col++, row, textBundle.textFor("ExcelExport.HoursHeading"), headingFormat)); //$NON-NLS-1$
+            sheet.addCell(new Label(col++, row, textBundle.textFor("ExcelExport.DescriptionHeading"), headingFormat)); //$NON-NLS-1$
             
             col = 0;
             row++;
 
             List<ProjectActivity> activities = data.getActivities();
-            if(filter != null)
+            if (filter != null)  {
                 activities = filter.applyFilters(data.getActivities());
+            }
             
             for (ProjectActivity actitivity : activities) {
                 sheet.addCell(new Label(col++, row, actitivity.getProject().getTitle()));
@@ -81,7 +86,7 @@ public abstract class ExcelExport {
                 sheet.addCell(new Label(col++, row, description));
                 
                 col = 0;
-                row ++;
+                row++;
             }
             // reset col
             col = 0;
@@ -107,7 +112,7 @@ public abstract class ExcelExport {
         headingFormat.setBackground(Colour.GRAY_25);
     }
 
-    private static void createFilteredReport(WritableWorkbook workbook, ProTrack data, Filter filter) throws JXLException {
+    private static void createFilteredReport(final WritableWorkbook workbook, final ProTrack data, final Filter filter) throws JXLException {
         String year = "";
         if (filter != null && filter.getYear() != null) {
             year = YEAR_FORMAT.format(filter.getYear());
@@ -118,7 +123,7 @@ public abstract class ExcelExport {
             month = MONTH_FORMAT.format(filter.getMonth());
         }
         
-        String reportName = Messages.getString("ExcelExport.SheetTitleStart"); //$NON-NLS-1$
+        String reportName = textBundle.textFor("ExcelExport.SheetTitleStart"); //$NON-NLS-1$
         if (StringUtils.isNotBlank(year)) {
             reportName += year;
         }
@@ -134,9 +139,9 @@ public abstract class ExcelExport {
         int row = 0;
         int col = 0;
         
-        sheet.addCell(new Label(col++, row, Messages.getString("ExcelExport.DateHeading"), headingFormat)); //$NON-NLS-1$
-        sheet.addCell(new Label(col++, row, Messages.getString("ExcelExport.ProjectHeading"), headingFormat)); //$NON-NLS-1$
-        sheet.addCell(new Label(col++, row, Messages.getString("ExcelExport.TimeHeading"), headingFormat)); //$NON-NLS-1$
+        sheet.addCell(new Label(col++, row, textBundle.textFor("ExcelExport.DateHeading"), headingFormat)); //$NON-NLS-1$
+        sheet.addCell(new Label(col++, row, textBundle.textFor("ExcelExport.ProjectHeading"), headingFormat)); //$NON-NLS-1$
+        sheet.addCell(new Label(col++, row, textBundle.textFor("ExcelExport.TimeHeading"), headingFormat)); //$NON-NLS-1$
 
         row++;
         col = 0;
@@ -161,20 +166,20 @@ public abstract class ExcelExport {
         sheet.setColumnView(col++, v);
     }
 
-    private static jxl.write.Number makeNumberCell(int col, int row, double number) {
-        final WritableCellFormat floatFormat = new WritableCellFormat (NumberFormats.FLOAT); 
+    private static jxl.write.Number makeNumberCell(final int col, final int row, final double number) {
+        final WritableCellFormat floatFormat = new WritableCellFormat(NumberFormats.FLOAT); 
         return new jxl.write.Number(col, row, number, floatFormat); 
         }
 
-    private static WritableCell makeTimeCell(int col, int row, Date date) {
-        final DateFormat customDateFormat = new DateFormat ("hh:mm"); //$NON-NLS-1$
-        final WritableCellFormat dateFormat = new WritableCellFormat (customDateFormat);
+    private static WritableCell makeTimeCell(final int col, final int row, final Date date) {
+        final DateFormat customDateFormat = new DateFormat("hh:mm"); //$NON-NLS-1$
+        final WritableCellFormat dateFormat = new WritableCellFormat(customDateFormat);
         return new DateTime(col, row, date, dateFormat); 
     }
 
-    private static DateTime makeDateCell(int i, int j, Date date) {
-        final DateFormat customDateFormat = new DateFormat ("DD.MM.yyyy"); //$NON-NLS-1$
-        final WritableCellFormat dateFormat = new WritableCellFormat (customDateFormat);
+    private static DateTime makeDateCell(final int i, final int j, final Date date) {
+        final DateFormat customDateFormat = new DateFormat("DD.MM.yyyy"); //$NON-NLS-1$
+        final WritableCellFormat dateFormat = new WritableCellFormat(customDateFormat);
         return new DateTime(i, j, date, dateFormat); 
     }
 

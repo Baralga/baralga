@@ -8,28 +8,41 @@ import org.apache.commons.collections.Predicate;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 
+/**
+ * Filter for selecting only those project activities which satisfy 
+ * some selected criteria.
+ * @author remast
+ */
 public class Filter {
 
     /** The predicates of the filter. */
     private final List<Predicate> predicates = new ArrayList<Predicate>();
     
+    
+    /** The week of the year to filter by. */
     private Date weekOfYear;
 
+    /** The predicate to filter by week of year. */
     private Predicate weekOfYearPredicate;
-
     
+    
+    /** The month to filter by. */
     private Date month;
 
+    /** The predicate to filter by month. */
     private Predicate monthPredicate;
     
-
+    /** The year to filter by. */
     private Date year;
 
+    
+    /** The predicate to filter by year. */
     private Predicate yearPredicate;
 
-    
+    /** The project to filter by. */
     private Project project;
 
+    /** The predicate to filter by project. */
     private Predicate projectPredicate;
 
     /**
@@ -58,18 +71,33 @@ public class Filter {
         return filteredElements;
     }
 
-    public boolean satisfiesPredicates(final ProjectActivity activity) {
+    /**
+     * Checks whether the given activity matches the filter criteria.
+     * @param activity the project activity to check
+     * @return <code>true</code> if activity matches the filter
+     * otherwise <code>false</code>
+     */
+    public final boolean matchesCriteria(final ProjectActivity activity) {
         for (Predicate predicate : predicates) {
-            if (!predicate.evaluate(activity))
+            if (!predicate.evaluate(activity)) {
                 return false;
+            }
         }
         return true;
     }
  
+    /**
+     * Getter for the week of year.
+     * @return the week of year
+     */
     public Date getWeekOfYear() {
         return this.weekOfYear;
     }
 
+    /**
+     * Sets the weekOfYear to filter by.
+     * @param weekOfYear the weekOfYear to set
+     */
     public void setWeekOfYear(final Date weekOfYear) {
         this.weekOfYear = weekOfYear;
 
@@ -87,10 +115,18 @@ public class Filter {
         this.predicates.add(newWeekOfYearPredicate);
     }
     
+    /**
+     * Getter for the month.
+     * @return the month
+     */
     public Date getMonth() {
         return this.month;
     }
 
+    /**
+     * Sets the month to filter by.
+     * @param month the month to set
+     */
     public void setMonth(final Date month) {
         this.month = month;
 
@@ -108,10 +144,18 @@ public class Filter {
         this.predicates.add(newMonthPredicate);
     }
 
+    /**
+     * Getter for the year.
+     * @return the year
+     */
     public Date getYear() {
         return this.year;
     }
 
+    /**
+     * Sets the year to filter by.
+     * @param year the year to set
+     */
     public void setYear(final Date year) {
         this.year = year;
 
@@ -131,6 +175,10 @@ public class Filter {
         this.predicates.add(newYearPredicate);
     }
 
+    /**
+     * Sets the project to filter by.
+     * @param project the project to set
+     */
     public void setProject(final Project project) {
         this.project = project;
 

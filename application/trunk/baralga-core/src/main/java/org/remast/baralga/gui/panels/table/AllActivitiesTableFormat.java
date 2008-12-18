@@ -5,11 +5,11 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.remast.baralga.FormatConstants;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
-import org.remast.swing.util.GuiConstants;
 
 import ca.odell.glazedlists.gui.WritableTableFormat;
 
@@ -37,7 +37,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
      * Gets the name of the given column.
      * @param column the number of the column
      */
-    public String getColumnName(int col) {
+    public String getColumnName(final int col) {
         switch (col) {
             case 0:
                 return Messages.getString("AllActivitiesTableFormat.ProjectHeading"); //$NON-NLS-1$
@@ -61,9 +61,9 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
             case 1:
                 return activity.getStart();
             case 2:
-                return GuiConstants.timeFormat.format(activity.getStart());
+                return FormatConstants.timeFormat.format(activity.getStart());
             case 3:
-                return GuiConstants.timeFormat.format(activity.getEnd());
+                return FormatConstants.timeFormat.format(activity.getEnd());
             case 4:
                 return activity.getDuration();
             default:
@@ -76,7 +76,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         return column != 4;
     }
 
-    public ProjectActivity setColumnValue(ProjectActivity activity, Object editedValue, int column) {
+    public ProjectActivity setColumnValue(final ProjectActivity activity, final Object editedValue, final int column) {
         // Project
         if (column == 0) {
             final Project oldProject = activity.getProject();
@@ -113,7 +113,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         // Start time
         else if (column == 2) {
             try {
-                final Date newStart = GuiConstants.timeFormat.parse((String) editedValue);
+                final Date newStart = FormatConstants.timeFormat.parse((String) editedValue);
 
                 final Date oldStart = activity.getStart();
                 activity.getStart().setHours(newStart.getHours());
@@ -131,7 +131,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
             try {
                 final Date oldEnd = activity.getEnd();
 
-                final Date newEnd = GuiConstants.timeFormat.parse((String) editedValue);
+                final Date newEnd = FormatConstants.timeFormat.parse((String) editedValue);
                 activity.getEnd().setHours(newEnd.getHours());
                 activity.getEnd().setMinutes(newEnd.getMinutes());
 

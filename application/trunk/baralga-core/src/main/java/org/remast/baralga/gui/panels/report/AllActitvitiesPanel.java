@@ -26,6 +26,7 @@ import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.FormatStringValue;
 import org.jdesktop.swingx.table.DatePickerCellEditor;
+import org.remast.baralga.FormatConstants;
 import org.remast.baralga.Messages;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
@@ -98,17 +99,17 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
                 new AllActivitiesTableFormat(model));
         final JXTable table = new JXTable(tableModel);
 
-        table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance()))) ;
+        table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance())));
         table.getColumn(1).setCellEditor(new DatePickerCellEditor());
         
-        table.getColumn(2).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(GuiConstants.timeFormat))) ;
-        table.getColumn(3).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(GuiConstants.timeFormat))) ;
-        table.getColumn(4).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(GuiConstants.durationFormat))) ;
+        table.getColumn(2).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatConstants.timeFormat)));
+        table.getColumn(3).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatConstants.timeFormat)));
+        table.getColumn(4).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatConstants.durationFormat)));
 
         table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
             @Override
-            public void valueChanged(ListSelectionEvent e) {
+            public void valueChanged(final ListSelectionEvent e) {
                 if (table.getSelectedRows() == null) {
                     table.setToolTipText(null);
                 }
@@ -117,7 +118,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
                 for(int i : table.getSelectedRows()) {
                     duration += filteredActivitiesList.get(i).getDuration();
                 }
-                table.setToolTipText(Messages.getString("AllActivitiesPanel.tooltipDuration") + GuiConstants.durationFormat.format(duration)); //$NON-NLS-1$
+                table.setToolTipText(Messages.getString("AllActivitiesPanel.tooltipDuration") + FormatConstants.durationFormat.format(duration)); //$NON-NLS-1$
                 
             }
             
@@ -129,7 +130,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         final JPopupMenu menu = new JPopupMenu();
         menu.add(new AbstractAction(Messages.getString("AllActitvitiesPanel.Delete"), new ImageIcon(getClass().getResource("/icons/gtk-delete.png"))) { //$NON-NLS-1$
 
-                    public void actionPerformed(ActionEvent event) {
+                    public void actionPerformed(final ActionEvent event) {
                         // 1. Get selected activities
                         int[] selectionIndices = table.getSelectedRows();
 
@@ -142,7 +143,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
                 });
 
         table.addMouseListener(new MouseAdapter() {
-            public void mouseReleased(MouseEvent e) {
+            public void mouseReleased(final MouseEvent e) {
                 if (e.isPopupTrigger()) {
                     JTable source = (JTable) e.getSource();
                     int row = source.rowAtPoint(e.getPoint());
@@ -187,7 +188,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
     /**
      * Update the panel from observed event.
      */
-    public void update(Observable source, Object eventObject) {
+    public void update(final Observable source, final Object eventObject) {
         if (eventObject != null && eventObject instanceof BaralgaEvent) {
             final BaralgaEvent event = (BaralgaEvent) eventObject;
 

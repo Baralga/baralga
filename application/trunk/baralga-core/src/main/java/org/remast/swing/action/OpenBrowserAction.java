@@ -26,7 +26,7 @@ public class OpenBrowserAction extends AbstractAction {
 	 * Creates a new action that opens the given url.
 	 * @param url the url to be opened when the action is performed
 	 */
-	public OpenBrowserAction(String url) {
+	public OpenBrowserAction(final String url) {
 		super(url);
 		this.url = url;
 	}

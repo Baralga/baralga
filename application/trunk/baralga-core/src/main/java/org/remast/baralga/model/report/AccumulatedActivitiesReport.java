@@ -52,7 +52,7 @@ public class AccumulatedActivitiesReport extends Observable {
     public void acummulateActivity(final ProjectActivity activity) {
         AccumulatedProjectActivity newAccActivity = new AccumulatedProjectActivity(activity.getProject(), activity
                 .getStart(), activity.getDuration());
-        if(filter != null && !filter.satisfiesPredicates(activity))
+        if(filter != null && !filter.matchesCriteria(activity))
             return;
 
         if (this.accumulatedActivitiesByDay.contains(newAccActivity)) {
@@ -102,7 +102,7 @@ public class AccumulatedActivitiesReport extends Observable {
      * @param filter
      *            the filter to set
      */
-    public void setFilter(Filter filter) {
+    public void setFilter(final Filter filter) {
         this.filter = filter;
         accumulate();
     }

@@ -21,7 +21,7 @@ public class HoursByDayTableFormat implements TableFormat<HoursByDay> {
      * Gets the name of the given column.
      * @param column the number of the column
      */
-    public String getColumnName(int column) {
+    public String getColumnName(final int column) {
         switch (column) {
         case 0:
             return Messages.getString("HoursByDayTableFormat.DayHeading"); //$NON-NLS-1$
@@ -32,7 +32,7 @@ public class HoursByDayTableFormat implements TableFormat<HoursByDay> {
         }
     }
 
-    public Object getColumnValue(HoursByDay baseObject, int column) {
+    public Object getColumnValue(final HoursByDay baseObject, final int column) {
         switch (column) {
         case 0:
             return baseObject.getDay();

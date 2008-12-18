@@ -21,7 +21,6 @@ import org.remast.baralga.gui.model.report.HoursByDayReport;
 import org.remast.baralga.gui.model.report.HoursByProjectReport;
 import org.remast.baralga.gui.model.report.HoursByWeekReport;
 import org.remast.baralga.gui.model.report.ObservingAccumulatedActivitiesReport;
-import org.remast.baralga.gui.utils.BaralgaUtils;
 import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
@@ -64,6 +63,7 @@ public class PresentationModel extends Observable {
     /** Stop date of activity. */
     private Date stop;
     
+    /** The data file that is presented by this model. */
     private ProTrack data;
     
     /** Current activity filter. */
@@ -72,6 +72,9 @@ public class PresentationModel extends Observable {
     /** The stack of edit actions (for undo and redo). */
     private EditStack editStack;
     
+    /**
+     * Creates a new model.
+     */
     public PresentationModel() {
         this.data = new ProTrack();
         this.projectList = new BasicEventList<Project>();
@@ -80,6 +83,9 @@ public class PresentationModel extends Observable {
         initialize();
     }
     
+    /**
+     * Initializes the model.
+     */
     private void initialize() {
         this.active = this.data.isActive();
         this.start = this.data.getStartTime();
@@ -91,6 +97,7 @@ public class PresentationModel extends Observable {
         // Restore filter from settings
         // a) restore week of year, month and year
         this.filter = Settings.instance().restoreFromSettings();
+        
         // b) restore project (can be done here only as we need to search all projects)
         final Long selectedProjectId = Settings.instance().getFilterSelectedProjectId();
         if (selectedProjectId != null) {
@@ -121,7 +128,7 @@ public class PresentationModel extends Observable {
      * @param project the project to add
      * @param source the source of the edit activity
      */
-    public void addProject(final Project project, Object source) {
+    public final void addProject(final Project project, final Object source) {
         getData().add(project);
         this.projectList.add(project);
         
@@ -139,7 +146,7 @@ public class PresentationModel extends Observable {
      * @param project the project to remove
      * @param source the source of the edit activity
      */
-    public void removeProject(final Project project, Object source) {
+    public final void removeProject(final Project project, final Object source) {
         getData().remove(project);
         this.projectList.remove(project);
 
@@ -156,7 +163,7 @@ public class PresentationModel extends Observable {
      * Start a project activity.
      * @throws ProjectActivityStateException if there is already a running project
      */
-    public void start() throws ProjectActivityStateException {
+    public final void start() throws ProjectActivityStateException {
         if (getSelectedProject() == null) {
             throw new ProjectActivityStateException(Messages.getString("PresentationModel.NoActiveProjectSelectedError")); //$NON-NLS-1$
         }
@@ -196,7 +203,7 @@ public class PresentationModel extends Observable {
      * @throws ProjectActivityStateException if there is no running project
      * @see #stop(boolean)
      */
-    public void stop() throws ProjectActivityStateException {
+    public final void stop() throws ProjectActivityStateException {
         // Stop with notifying observers.
         stop(true);
     }
@@ -205,7 +212,7 @@ public class PresentationModel extends Observable {
      * Stop a project activity.
      * @throws ProjectActivityStateException if there is no running project
      */
-    public void stop(boolean notifyObservers) throws ProjectActivityStateException {
+    public final void stop(final boolean notifyObservers) throws ProjectActivityStateException {
         if (!isActive()) {
             throw new ProjectActivityStateException(Messages.getString("PresentationModel.NoActiveProjectError")); //$NON-NLS-1$
         }
@@ -273,7 +280,7 @@ public class PresentationModel extends Observable {
      * Changes to the given project.
      * @param activeProject the new active project
      */
-    public void changeProject(final Project activeProject) {
+    public final void changeProject(final Project activeProject) {
         // If there's no change we're done.
         if (ObjectUtils.equals(getSelectedProject(), activeProject)) {
             return;
@@ -330,7 +337,7 @@ public class PresentationModel extends Observable {
      * Save the model.
      * @throws Exception on error during saving
      */
-    public void save() throws Exception {
+    public final void save() throws Exception {
         // If there are no changes there's nothing to do.
         if (!dirty)  {
             return;
@@ -338,8 +345,6 @@ public class PresentationModel extends Observable {
         
         // Save data to disk.
         final ProTrackWriter writer = new ProTrackWriter(data);
-
-        BaralgaUtils.checkOrCreateBaralgaDir();
 
         final File proTrackFile = new File(Settings.getProTrackFileLocation());
         DataBackup.createBackup(proTrackFile);
@@ -351,7 +356,7 @@ public class PresentationModel extends Observable {
      * Add a new activity to the model.
      * @param activity the activity to add
      */
-    public void addActivity(final ProjectActivity activity, Object source) {
+    public final void addActivity(final ProjectActivity activity, final Object source) {
         getData().getActivities().add(activity);
         this.getActivitiesList().add(activity);
         
@@ -368,7 +373,7 @@ public class PresentationModel extends Observable {
      * Remove an activity from the model.
      * @param activity the activity to remove
      */
-    public void removeActivity(final ProjectActivity activity, Object source) {
+    public final void removeActivity(final ProjectActivity activity, final Object source) {
         getData().getActivities().remove(activity);
         this.getActivitiesList().remove(activity);
         
@@ -380,7 +385,7 @@ public class PresentationModel extends Observable {
         event.setData(activity);
         notify(event);
     }
-
+    
     /**
      * Getter for the list of projects.
      * @return the list with all projects
@@ -442,6 +447,7 @@ public class PresentationModel extends Observable {
     }
     
     /**
+     * Gets the start of the current activity.
      * @return the start
      */
     public Date getStart() {
@@ -449,6 +455,7 @@ public class PresentationModel extends Observable {
     }
 
     /**
+     * Sets the start of a new activity.
      * @param start the start to set
      */
     private void setStart(final Date start) {
@@ -520,7 +527,7 @@ public class PresentationModel extends Observable {
      * @param filter the filter to set
      * @param source the source of the new filter
      */
-    public void setFilter(final Filter filter, Object source) {
+    public void setFilter(final Filter filter, final Object source) {
         this.filter = filter;
         
         // Fire event
@@ -533,7 +540,7 @@ public class PresentationModel extends Observable {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -554,7 +561,7 @@ public class PresentationModel extends Observable {
     /**
      * @param dirty the dirty to set
      */
-    public final void setDirty(boolean dirty) {
+    public final void setDirty(final boolean dirty) {
         this.dirty = dirty;
     }
 
