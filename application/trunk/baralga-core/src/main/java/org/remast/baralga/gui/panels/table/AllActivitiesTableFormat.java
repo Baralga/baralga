@@ -6,10 +6,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.remast.baralga.FormatConstants;
-import org.remast.baralga.Messages;
+import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
+import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.gui.WritableTableFormat;
 
@@ -18,6 +19,9 @@ import ca.odell.glazedlists.gui.WritableTableFormat;
  * @author remast
  */
 public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActivity> {
+
+    /** The bundle for internationalized texts. */
+    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
 
     /** The model. */
     private PresentationModel model;
@@ -40,15 +44,15 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
     public String getColumnName(final int col) {
         switch (col) {
             case 0:
-                return Messages.getString("AllActivitiesTableFormat.ProjectHeading"); //$NON-NLS-1$
+                return textBundle.textFor("AllActivitiesTableFormat.ProjectHeading"); //$NON-NLS-1$
             case 1:
-                return Messages.getString("AllActivitiesTableFormat.DateHeading"); //$NON-NLS-1$
+                return textBundle.textFor("AllActivitiesTableFormat.DateHeading"); //$NON-NLS-1$
             case 2:
-                return Messages.getString("AllActivitiesTableFormat.StartHeading"); //$NON-NLS-1$
+                return textBundle.textFor("AllActivitiesTableFormat.StartHeading"); //$NON-NLS-1$
             case 3:
-                return Messages.getString("AllActivitiesTableFormat.EndHeading"); //$NON-NLS-1$
+                return textBundle.textFor("AllActivitiesTableFormat.EndHeading"); //$NON-NLS-1$
             case 4:
-                return Messages.getString("AllActivitiesTableFormat.DurationHeading"); //$NON-NLS-1$
+                return textBundle.textFor("AllActivitiesTableFormat.DurationHeading"); //$NON-NLS-1$
             default:
                 return ""; //$NON-NLS-1$
         }

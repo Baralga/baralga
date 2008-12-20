@@ -16,7 +16,7 @@ import org.apache.commons.logging.LogFactory;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTitledSeparator;
-import org.remast.baralga.Messages;
+import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.Settings;
 import org.remast.baralga.gui.lists.FilterItem;
 import org.remast.baralga.gui.lists.MonthFilterList;
@@ -26,6 +26,7 @@ import org.remast.baralga.gui.lists.YearFilterList;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.filter.Filter;
+import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 
@@ -34,6 +35,9 @@ import ca.odell.glazedlists.swing.EventComboBoxModel;
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class ReportPanel extends JXPanel implements ActionListener {
+
+    /** The bundle for internationalized texts. */
+    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
 
 	/** The logger. */
 	private static final Log log = LogFactory.getLog(ReportPanel.class);
@@ -89,22 +93,22 @@ public class ReportPanel extends JXPanel implements ActionListener {
 						TableLayout.FILL, border } }; // Rows
 		this.setLayout(new TableLayout(size));
 
-		JXTitledSeparator filterSep = new JXTitledSeparator(Messages.getString("ReportPanel.FiltersLabel")); //$NON-NLS-1$
+		JXTitledSeparator filterSep = new JXTitledSeparator(textBundle.textFor("ReportPanel.FiltersLabel")); //$NON-NLS-1$
 		this.add(filterSep, "1, 1, 15, 1"); //$NON-NLS-1$
 
-		this.add(new JXLabel(Messages.getString("ReportPanel.ProjectLabel")), "1, 3"); //$NON-NLS-1$ //$NON-NLS-2$
+		this.add(new JXLabel(textBundle.textFor("ReportPanel.ProjectLabel")), "1, 3"); //$NON-NLS-1$ //$NON-NLS-2$
 		this.add(getProjectFilterSelector(), "3, 3"); //$NON-NLS-1$
 
-		this.add(new JXLabel(Messages.getString("ReportPanel.YearLabel")), "5, 3"); //$NON-NLS-1$ //$NON-NLS-2$
+		this.add(new JXLabel(textBundle.textFor("ReportPanel.YearLabel")), "5, 3"); //$NON-NLS-1$ //$NON-NLS-2$
 		this.add(getYearFilterSelector(), "7, 3"); //$NON-NLS-1$
 
-		this.add(new JXLabel(Messages.getString("ReportPanel.MonthLabel")), "9, 3"); //$NON-NLS-1$ //$NON-NLS-2$
+		this.add(new JXLabel(textBundle.textFor("ReportPanel.MonthLabel")), "9, 3"); //$NON-NLS-1$ //$NON-NLS-2$
 		this.add(getMonthFilterSelector(), "11, 3"); //$NON-NLS-1$
 
-		this.add(new JXLabel(Messages.getString("ReportPanel.WeekLabel")), "13, 3"); //$NON-NLS-1$ //$NON-NLS-2$
+		this.add(new JXLabel(textBundle.textFor("ReportPanel.WeekLabel")), "13, 3"); //$NON-NLS-1$ //$NON-NLS-2$
 		this.add(getWeekFilterSelector(), "15, 3"); //$NON-NLS-1$
 
-		JXTitledSeparator sep = new JXTitledSeparator(Messages.getString("ReportPanel.DataLabel")); //$NON-NLS-1$
+		JXTitledSeparator sep = new JXTitledSeparator(textBundle.textFor("ReportPanel.DataLabel")); //$NON-NLS-1$
 		this.add(sep, "1, 5, 15, 1"); //$NON-NLS-1$
 
 		this.add(filteredActivitiesPane, "1, 7, 15, 7"); //$NON-NLS-1$
@@ -118,7 +122,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 			monthFilterList = model.getMonthFilterList();
 			monthFilterSelector = new JComboBox(new EventComboBoxModel<FilterItem<Integer>>(monthFilterList
 					.getMonthList()));
-			monthFilterSelector.setToolTipText(Messages.getString("MonthFilterSelector.ToolTipText")); //$NON-NLS-1$
+			monthFilterSelector.setToolTipText(textBundle.textFor("MonthFilterSelector.ToolTipText")); //$NON-NLS-1$
 
 			// Select first entry
 			if (!monthFilterList.getMonthList().isEmpty()) {
@@ -149,7 +153,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 			weekFilterList = model.getWeekFilterList();
 			weekFilterSelector = new JComboBox(new EventComboBoxModel<FilterItem<Integer>>(weekFilterList
 					.getWeekList()));
-			weekFilterSelector.setToolTipText(Messages.getString("WeekFilterSelector.ToolTipText")); //$NON-NLS-1$
+			weekFilterSelector.setToolTipText(textBundle.textFor("WeekFilterSelector.ToolTipText")); //$NON-NLS-1$
 
 			// Select first entry
 			if (!weekFilterList.getWeekList().isEmpty()) {
@@ -180,7 +184,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 			projectFilterList = model.getProjectFilterList();
 			projectFilterSelector = new JComboBox(new EventComboBoxModel<FilterItem<Project>>(projectFilterList
 					.getProjectList()));
-			projectFilterSelector.setToolTipText(Messages.getString("ProjectFilterSelector.ToolTipText")); //$NON-NLS-1$
+			projectFilterSelector.setToolTipText(textBundle.textFor("ProjectFilterSelector.ToolTipText")); //$NON-NLS-1$
 
 			// Select first entry
 			if (!projectFilterList.getProjectList().isEmpty()) {
@@ -210,7 +214,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 		if (yearFilterSelector == null) {
 			yearFilterList = model.getYearFilterList();
 			yearFilterSelector = new JComboBox(new EventComboBoxModel<FilterItem<Integer>>(yearFilterList.getYearList()));
-			yearFilterSelector.setToolTipText(Messages.getString("YearFilterSelector.ToolTipText")); //$NON-NLS-1$
+			yearFilterSelector.setToolTipText(textBundle.textFor("YearFilterSelector.ToolTipText")); //$NON-NLS-1$
 
 			// Select first entry
 			if (!CollectionUtils.isEmpty(yearFilterList.getYearList())) {

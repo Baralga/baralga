@@ -8,6 +8,7 @@ import org.remast.baralga.gui.model.edit.EditStack;
  * Base class for edit actions that can be redone and undone.
  * @author remast
  */
+@SuppressWarnings("serial")
 public abstract class AbstractEditAction extends AbstractAction {
 
     /** The stack to manage edit actions. */
@@ -24,14 +25,14 @@ public abstract class AbstractEditAction extends AbstractAction {
     /**
      * Undo the last edit action.
      */
-    protected void undo() {
+    protected final void undo() {
         this.editStack.undo();
     }
     
     /**
      * Redo the last edit action.
      */
-    protected void redo() {
+    protected final void redo() {
         this.editStack.redo();
     }
 }

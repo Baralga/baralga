@@ -32,7 +32,7 @@ public class RedoAction extends AbstractEditAction {
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed(final ActionEvent e) {
+    public final void actionPerformed(final ActionEvent e) {
         redo();
     }
 

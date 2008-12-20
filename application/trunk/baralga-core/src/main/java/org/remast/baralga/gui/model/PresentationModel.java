@@ -8,7 +8,7 @@ import java.util.Observable;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
-import org.remast.baralga.Messages;
+import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.Settings;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.lists.MonthFilterList;
@@ -27,6 +27,7 @@ import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.baralga.model.io.ProTrackWriter;
 import org.remast.util.DateUtils;
+import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
@@ -38,6 +39,9 @@ import ca.odell.glazedlists.EventList;
  * @author remast
  */
 public class PresentationModel extends Observable {
+
+    /** The bundle for internationalized texts. */
+    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
     
     /** The list of projects. */
     private EventList<Project> projectList;
@@ -165,7 +169,7 @@ public class PresentationModel extends Observable {
      */
     public final void start() throws ProjectActivityStateException {
         if (getSelectedProject() == null) {
-            throw new ProjectActivityStateException(Messages.getString("PresentationModel.NoActiveProjectSelectedError")); //$NON-NLS-1$
+            throw new ProjectActivityStateException(textBundle.textFor("PresentationModel.NoActiveProjectSelectedError")); //$NON-NLS-1$
         }
         
         // Mark as active
@@ -214,7 +218,7 @@ public class PresentationModel extends Observable {
      */
     public final void stop(final boolean notifyObservers) throws ProjectActivityStateException {
         if (!isActive()) {
-            throw new ProjectActivityStateException(Messages.getString("PresentationModel.NoActiveProjectError")); //$NON-NLS-1$
+            throw new ProjectActivityStateException(textBundle.textFor("PresentationModel.NoActiveProjectError")); //$NON-NLS-1$
         }
         
         final Date now = DateUtils.getNow();

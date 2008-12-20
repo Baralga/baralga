@@ -13,7 +13,7 @@ import javax.swing.ImageIcon;
 
 import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXPanel;
-import org.remast.baralga.Messages;
+import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.Settings;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.panels.report.AccummulatedActitvitiesPanel;
@@ -23,6 +23,7 @@ import org.remast.baralga.gui.panels.report.HoursByDayPanel;
 import org.remast.baralga.gui.panels.report.HoursByProjectChartPanel;
 import org.remast.baralga.gui.panels.report.HoursByProjectPanel;
 import org.remast.baralga.gui.panels.report.HoursByWeekPanel;
+import org.remast.util.TextResourceBundle;
 
 import com.jidesoft.swing.JideTabbedPane;
 import com.jidesoft.swing.JideToggleButton;
@@ -32,6 +33,9 @@ import com.jidesoft.swing.JideToggleButton;
  */
 @SuppressWarnings("serial")//$NON-NLS-1$
 public class FilteredActivitiesPane extends JXPanel {
+
+    /** The bundle for internationalized texts. */
+    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
 
 	/** The model. */
 	private PresentationModel model;
@@ -76,7 +80,7 @@ public class FilteredActivitiesPane extends JXPanel {
 
 	private JXPanel categoryButtonPanel = new JXPanel();
 
-	private JideToggleButton generalButton = new JideToggleButton(new AbstractAction(Messages.getString("Category.General"), new ImageIcon(getClass().getResource("/icons/gtk-dnd-multiple.png"))) {
+	private JideToggleButton generalButton = new JideToggleButton(new AbstractAction(textBundle.textFor("Category.General"), new ImageIcon(getClass().getResource("/icons/gtk-dnd-multiple.png"))) {
 
 		@Override
 		public void actionPerformed(final ActionEvent e) {
@@ -85,10 +89,10 @@ public class FilteredActivitiesPane extends JXPanel {
 
 	});
 	{
-		generalButton.setToolTipText(Messages.getString("Category.General.ToolTipText"));
+		generalButton.setToolTipText(textBundle.textFor("Category.General.ToolTipText"));
 	}
 
-	private JideToggleButton timeButton = new JideToggleButton(new AbstractAction(Messages.getString("Category.Time"), new ImageIcon(getClass().getResource("/icons/stock_calendar-view-day.png"))) {
+	private JideToggleButton timeButton = new JideToggleButton(new AbstractAction(textBundle.textFor("Category.Time"), new ImageIcon(getClass().getResource("/icons/stock_calendar-view-day.png"))) {
 
 		@Override
 		public void actionPerformed(final ActionEvent e) {
@@ -97,10 +101,10 @@ public class FilteredActivitiesPane extends JXPanel {
 
 	});
 	{
-		timeButton.setToolTipText(Messages.getString("Category.Time.ToolTipText"));
+		timeButton.setToolTipText(textBundle.textFor("Category.Time.ToolTipText"));
 	}
 
-	private JideToggleButton projectButton = new JideToggleButton(new AbstractAction(Messages.getString("Category.Project"), new ImageIcon(getClass().getResource("/icons/stock_calendar-view-day.png"))) {
+	private JideToggleButton projectButton = new JideToggleButton(new AbstractAction(textBundle.textFor("Category.Project"), new ImageIcon(getClass().getResource("/icons/stock_calendar-view-day.png"))) {
 
 		@Override
 		public void actionPerformed(final ActionEvent e) {
@@ -109,7 +113,7 @@ public class FilteredActivitiesPane extends JXPanel {
 
 	});
 	{
-		projectButton.setToolTipText(Messages.getString("Category.Project.ToolTipText"));
+		projectButton.setToolTipText(textBundle.textFor("Category.Project.ToolTipText"));
 	}
 
 	public FilteredActivitiesPane(final PresentationModel model) {
@@ -143,77 +147,77 @@ public class FilteredActivitiesPane extends JXPanel {
 		accummulatedActitvitiesTab = new CategorizedTab("General"); //$NON-NLS-1$
 		accummulatedActitvitiesPanel = new AccummulatedActitvitiesPanel(model.getFilteredReport());
 		accummulatedActitvitiesTab.setComponent(
-				Messages.getString("FilteredActivitiesPane.Tab.AccumulatedActivities"),  //$NON-NLS-1$
+				textBundle.textFor("FilteredActivitiesPane.Tab.AccumulatedActivities"),  //$NON-NLS-1$
 				null,
 //				new ImageIcon(getClass().getResource("/icons/gnome-calculator.png")),  //$NON-NLS-1$
 				accummulatedActitvitiesPanel, 
-				Messages.getString("FilteredActivitiesPane.Tab.AccumulatedActivities.Tooltip") //$NON-NLS-1$
+				textBundle.textFor("FilteredActivitiesPane.Tab.AccumulatedActivities.Tooltip") //$NON-NLS-1$
 		);
 		categorizedTabs.add(accummulatedActitvitiesTab);
 
 		filteredActitvitiesTab = new CategorizedTab("General");
 		filteredActitvitiesPanel = new AllActitvitiesPanel(model);
 		filteredActitvitiesTab.setComponent(
-				Messages.getString("FilteredActivitiesPane.Tab.AllActivities"),  //$NON-NLS-1$
+				textBundle.textFor("FilteredActivitiesPane.Tab.AllActivities"),  //$NON-NLS-1$
 				null,
 //				new ImageIcon(getClass().getResource("/icons/gtk-dnd-multiple.png")),  //$NON-NLS-1$
 				filteredActitvitiesPanel, 
-				Messages.getString("FilteredActivitiesPane.Tab.AllActivities.Tooltip") //$NON-NLS-1$
+				textBundle.textFor("FilteredActivitiesPane.Tab.AllActivities.Tooltip") //$NON-NLS-1$
 		);
 		categorizedTabs.add(filteredActitvitiesTab);
 
 		descriptionTab = new CategorizedTab("General");
 		descriptionPanel = new DescriptionPanel(model);
 		descriptionTab.setComponent(
-				Messages.getString("FilteredActivitiesPane.Tab.Descriptions"),  //$NON-NLS-1$
+				textBundle.textFor("FilteredActivitiesPane.Tab.Descriptions"),  //$NON-NLS-1$
 				null,
 //				new ImageIcon(getClass().getResource("/icons/gnome-mime-text-x-readme.png")), 
 				descriptionPanel, 
-				Messages.getString("FilteredActivitiesPane.Tab.Descriptions.Tooltip") //$NON-NLS-1$
+				textBundle.textFor("FilteredActivitiesPane.Tab.Descriptions.Tooltip") //$NON-NLS-1$
 		);
 		categorizedTabs.add(descriptionTab);
 
 		hoursByWeekTab = new CategorizedTab("Time");
 		hoursByWeekPanel = new HoursByWeekPanel(model.getHoursByWeekReport());
 		hoursByWeekTab.setComponent(
-				Messages.getString("FilteredActivitiesPane.Tab.HoursByWeek"),  //$NON-NLS-1$
+				textBundle.textFor("FilteredActivitiesPane.Tab.HoursByWeek"),  //$NON-NLS-1$
 				null,
 //				new ImageIcon(getClass().getResource("/icons/stock_calendar-view-work-week.png")),  //$NON-NLS-1$
 				hoursByWeekPanel, 
-				Messages.getString("FilteredActivitiesPane.Tab.HoursByWeek.Tooltip") //$NON-NLS-1$
+				textBundle.textFor("FilteredActivitiesPane.Tab.HoursByWeek.Tooltip") //$NON-NLS-1$
 		);
 		categorizedTabs.add(hoursByWeekTab);
 
 		hoursByDayTab = new CategorizedTab("Time");
 		hoursByDayPanel = new HoursByDayPanel(model.getHoursByDayReport());
 		hoursByDayTab.setComponent(
-				Messages.getString("FilteredActivitiesPane.Tab.HoursByDay"),  //$NON-NLS-1$
+				textBundle.textFor("FilteredActivitiesPane.Tab.HoursByDay"),  //$NON-NLS-1$
 				null,
 //				new ImageIcon(getClass().getResource("/icons/stock_calendar-view-day.png")),  //$NON-NLS-1$
 				hoursByDayPanel, 
-				Messages.getString("FilteredActivitiesPane.Tab.HoursByDay.Tooltip") //$NON-NLS-1$
+				textBundle.textFor("FilteredActivitiesPane.Tab.HoursByDay.Tooltip") //$NON-NLS-1$
 		);
 		categorizedTabs.add(hoursByDayTab);
 
 		hoursByProjectTab = new CategorizedTab("Project");
 		hoursByProjectPanel = new HoursByProjectPanel(model.getHoursByProjectReport());
 		hoursByProjectTab.setComponent(
-				Messages.getString("FilteredActivitiesPane.Tab.HoursByProject"),  //$NON-NLS-1$
+				textBundle.textFor("FilteredActivitiesPane.Tab.HoursByProject"),  //$NON-NLS-1$
 				null,
 //				new ImageIcon(getClass().getResource("/icons/stock_calendar-view-day.png")),  //$NON-NLS-1$
 				hoursByProjectPanel, 
-				Messages.getString("FilteredActivitiesPane.Tab.HoursByProject.Tooltip") //$NON-NLS-1$
+				textBundle.textFor("FilteredActivitiesPane.Tab.HoursByProject.Tooltip") //$NON-NLS-1$
 		);
 		categorizedTabs.add(hoursByProjectTab);
 
 		hoursByProjectChartTab = new CategorizedTab("Project");
 		hoursByProjectChartPanel = new HoursByProjectChartPanel(model.getHoursByProjectReport());
 		hoursByProjectChartTab.setComponent(
-				Messages.getString("FilteredActivitiesPane.Tab.HoursByProjectChart"),  //$NON-NLS-1$
+				textBundle.textFor("FilteredActivitiesPane.Tab.HoursByProjectChart"),  //$NON-NLS-1$
 				null,
 //				new ImageIcon(getClass().getResource("/icons/stock_calendar-view-day.png")),  //$NON-NLS-1$
 				hoursByProjectChartPanel, 
-				Messages.getString("FilteredActivitiesPane.Tab.HoursByProjectChart.Tooltip") //$NON-NLS-1$
+				textBundle.textFor("FilteredActivitiesPane.Tab.HoursByProjectChart.Tooltip") //$NON-NLS-1$
 		);
 		categorizedTabs.add(hoursByProjectChartTab);
 

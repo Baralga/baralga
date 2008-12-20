@@ -5,16 +5,19 @@ import java.util.Observable;
 import java.util.Observer;
 
 import org.joda.time.DateTime;
-import org.remast.baralga.Messages;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
+import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.SortedList;
 
 public class WeekOfYearFilterList implements Observer {
+
+    /** The bundle for internationalized texts. */
+    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(WeekOfYearFilterList.class);
 
 	public static final SimpleDateFormat WEEK_OF_YEAR_FORMAT = new SimpleDateFormat("w"); //$NON-NLS-1$
 
@@ -23,8 +26,7 @@ public class WeekOfYearFilterList implements Observer {
 
 	public static final int ALL_WEEKS_OF_YEAR_DUMMY = -10;
 
-	public static final FilterItem<Integer> ALL_WEEKS_OF_YEAR_FILTER_ITEM = new FilterItem<Integer>(ALL_WEEKS_OF_YEAR_DUMMY, Messages
-			.getString("WeekOfYearFilterList.AllWeeksOfYearLabel")); //$NON-NLS-1$
+	public static final FilterItem<Integer> ALL_WEEKS_OF_YEAR_FILTER_ITEM = new FilterItem<Integer>(ALL_WEEKS_OF_YEAR_DUMMY, textBundle.textFor("WeekOfYearFilterList.AllWeeksOfYearLabel")); //$NON-NLS-1$
 
 	private EventList<FilterItem<Integer>> weekOfYearList;
 

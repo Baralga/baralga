@@ -13,10 +13,11 @@ import org.jdesktop.swingx.JXHyperlink;
 import org.jdesktop.swingx.JXImagePanel;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
-import org.remast.baralga.Messages;
+import org.remast.baralga.gui.actions.AboutAction;
 import org.remast.swing.action.OpenBrowserAction;
 import org.remast.swing.dialog.EscapeDialog;
 import org.remast.swing.util.GuiConstants;
+import org.remast.util.TextResourceBundle;
 
 /**
  * Displays information about the application like version and homepage.
@@ -24,6 +25,9 @@ import org.remast.swing.util.GuiConstants;
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class AboutDialog extends EscapeDialog {
+
+    /** The bundle for internationalized texts. */
+    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(AboutAction.class);
 
     /**
      * Creates a new dialog.
@@ -33,7 +37,7 @@ public class AboutDialog extends EscapeDialog {
         super(owner);
         
         this.setName("aboutDialog"); //$NON-NLS-1$
-        setTitle(Messages.getString("AboutDialog.Title")); //$NON-NLS-1$
+        setTitle(textBundle.textFor("AboutDialog.Title")); //$NON-NLS-1$
         this.setAlwaysOnTop(true);
         setModal(true);
         setResizable(true);
@@ -61,17 +65,17 @@ public class AboutDialog extends EscapeDialog {
         final TableLayout tableLayout = new TableLayout(size);
         aboutInfo.setLayout(tableLayout);
         
-        aboutInfo.add(new JLabel(Messages.getString("AboutDialog.HomepageLabel")), "1, 1"); //$NON-NLS-1$ //$NON-NLS-2$
-        final JXHyperlink hyperlinkHomepage = new JXHyperlink(new OpenBrowserAction(Messages.getString("AboutDialog.HomepageUrl"))); //$NON-NLS-1$
+        aboutInfo.add(new JLabel(textBundle.textFor("AboutDialog.HomepageLabel")), "1, 1"); //$NON-NLS-1$ //$NON-NLS-2$
+        final JXHyperlink hyperlinkHomepage = new JXHyperlink(new OpenBrowserAction(textBundle.textFor("AboutDialog.HomepageUrl"))); //$NON-NLS-1$
         aboutInfo.add(hyperlinkHomepage, "3, 1"); //$NON-NLS-1$
 
-        aboutInfo.add(new JLabel(Messages.getString("AboutDialog.BugLabel")), "1, 3"); //$NON-NLS-1$ //$NON-NLS-2$
-        final JXHyperlink hyperlinkBug = new JXHyperlink(new OpenBrowserAction(Messages.getString("AboutDialog.BugUrl"))); //$NON-NLS-1$
+        aboutInfo.add(new JLabel(textBundle.textFor("AboutDialog.BugLabel")), "1, 3"); //$NON-NLS-1$ //$NON-NLS-2$
+        final JXHyperlink hyperlinkBug = new JXHyperlink(new OpenBrowserAction(textBundle.textFor("AboutDialog.BugUrl"))); //$NON-NLS-1$
         aboutInfo.add(hyperlinkBug, "3, 3"); //$NON-NLS-1$
         
         this.add(aboutInfo, BorderLayout.CENTER);
         
-        final JLabel versionLabel = new JXLabel("<html><font color=blue size=\"big\"><h2>" + Messages.getString("Global.Version") + " " + Messages.getString("Global.VersionNumber") + "</h2></font></html>", JLabel.CENTER); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+        final JLabel versionLabel = new JXLabel("<html><font color=blue size=\"big\"><h2>" + textBundle.textFor("Global.Version") + " " + textBundle.textFor("Global.VersionNumber") + "</h2></font></html>", JLabel.CENTER); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
         versionLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
         
         this.add(versionLabel, BorderLayout.SOUTH);

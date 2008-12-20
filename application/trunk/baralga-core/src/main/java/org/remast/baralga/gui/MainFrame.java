@@ -25,7 +25,6 @@ import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXFrame;
 import org.jdesktop.swingx.JXTitledSeparator;
 import org.remast.baralga.FormatConstants;
-import org.remast.baralga.Messages;
 import org.remast.baralga.gui.actions.AboutAction;
 import org.remast.baralga.gui.actions.AbstractBaralgaAction;
 import org.remast.baralga.gui.actions.AddActivityAction;
@@ -41,11 +40,15 @@ import org.remast.baralga.gui.panels.ReportPanel;
 import org.remast.baralga.model.Project;
 import org.remast.swing.text.TextEditor;
 import org.remast.swing.util.GuiConstants;
+import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 
 @SuppressWarnings("serial")//$NON-NLS-1$
 public class MainFrame extends JXFrame implements Observer, WindowListener {
+
+    /** The bundle for internationalized texts. */
+    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(MainFrame.class);
 
     /** The model. */
     private PresentationModel model;
@@ -140,10 +143,10 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         // 1. Init start-/stop-Buttons
         if (this.model.isActive()) {
             this
-                    .setTitle(Messages.getString("Global.Title") + " - " + this.model.getSelectedProject() + Messages.getString("MainFrame.9") + FormatConstants.timeFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
+                    .setTitle(textBundle.textFor("Global.Title") + " - " + this.model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatConstants.timeFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
             getStartStopButton().setAction(new StopAction(this.model));
         } else {
-            this.setTitle(Messages.getString("Global.Title")); //$NON-NLS-1$
+            this.setTitle(textBundle.textFor("Global.Title")); //$NON-NLS-1$
 
             getStartStopButton().setAction(new StartAction(this.model));
         }
@@ -249,7 +252,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             descriptionEditor.setText(model.getDescription());
             descriptionEditor.setEditable(model.isActive());
 
-            currentActivityPanel.add(new JXTitledSeparator(Messages.getString("MainFrame.DescriptionLabel")),
+            currentActivityPanel.add(new JXTitledSeparator(textBundle.textFor("MainFrame.DescriptionLabel")),
                     "1, 5, 3, 5");
             currentActivityPanel.add(descriptionEditor, "1, 7, 3, 7");
         }
@@ -274,7 +277,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private JComboBox getProjectSelector() {
         if (projectSelector == null) {
             projectSelector = new JComboBox();
-            projectSelector.setToolTipText(Messages.getString("ProjectSelector.ToolTipText"));
+            projectSelector.setToolTipText(textBundle.textFor("ProjectSelector.ToolTipText"));
 
             projectSelector.setModel(new EventComboBoxModel<Project>(this.model.getProjectList()));
 
@@ -301,8 +304,8 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      */
     private JMenu getHelpMenu() {
         if (helpMenu == null) {
-            helpMenu = new JMenu(Messages.getString("MainFrame.HelpMenu.Title"));
-            helpMenu.setMnemonic(Messages.getString("MainFrame.HelpMenu.Title").charAt(0));
+            helpMenu = new JMenu(textBundle.textFor("MainFrame.HelpMenu.Title"));
+            helpMenu.setMnemonic(textBundle.textFor("MainFrame.HelpMenu.Title").charAt(0));
             helpMenu.add(getAboutMenuItem());
         }
         return helpMenu;
@@ -315,8 +318,8 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private JMenu getFileMenu() {
         if (fileMenu == null) {
             fileMenu = new JMenu();
-            fileMenu.setText(Messages.getString("MainFrame.FileMenu.Title")); //$NON-NLS-1$
-            fileMenu.setMnemonic(Messages.getString("MainFrame.FileMenu.Title").charAt(0)); //$NON-NLS-1$
+            fileMenu.setText(textBundle.textFor("MainFrame.FileMenu.Title")); //$NON-NLS-1$
+            fileMenu.setMnemonic(textBundle.textFor("MainFrame.FileMenu.Title").charAt(0)); //$NON-NLS-1$
             fileMenu.add(getExportMenu());
             fileMenu.addSeparator();
             fileMenu.add(getExitItem());
@@ -332,8 +335,8 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private JMenu getEditMenu() {
         if (editMenu == null) {
             editMenu = new JMenu();
-            editMenu.setText(Messages.getString("MainFrame.EditMenu.Title")); //$NON-NLS-1$
-            editMenu.setMnemonic(Messages.getString("MainFrame.EditMenu.Title").charAt(0)); //$NON-NLS-1$
+            editMenu.setText(textBundle.textFor("MainFrame.EditMenu.Title")); //$NON-NLS-1$
+            editMenu.setMnemonic(textBundle.textFor("MainFrame.EditMenu.Title").charAt(0)); //$NON-NLS-1$
 
             editMenu.add(this.model.getEditStack().getRedoAction());
             editMenu.add(this.model.getEditStack().getUndoAction());
@@ -426,7 +429,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private void updateProjectChanged(final BaralgaEvent event) {
         if (this.model.isActive()) {
             this
-                    .setTitle(Messages.getString("Global.Title") + " - " + this.model.getSelectedProject() + Messages.getString("MainFrame.9") + FormatConstants.timeFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
+                    .setTitle(textBundle.textFor("Global.Title") + " - " + this.model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatConstants.timeFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
         }
         getProjectSelector().setSelectedItem((Project) event.getData());
     }
@@ -441,7 +444,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         // Clear description in settings.
         Settings.instance().setLastDescription(StringUtils.EMPTY);
 
-        this.setTitle(Messages.getString("Global.Title") + " - " + this.model.getSelectedProject() + Messages.getString("MainFrame.11") + FormatConstants.timeFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
+        this.setTitle(textBundle.textFor("Global.Title") + " - " + this.model.getSelectedProject() + textBundle.textFor("MainFrame.11") + FormatConstants.timeFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
         getStartStopButton().setAction(new StopAction(this.model));
     }
 
@@ -455,7 +458,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         // Clear description in settings.
         Settings.instance().setLastDescription(StringUtils.EMPTY);
 
-        this.setTitle(Messages.getString("Global.Title") + " " + Messages.getString("MainFrame.12") + " " + FormatConstants.timeFormat.format(this.model.getStop())); //$NON-NLS-1$
+        this.setTitle(textBundle.textFor("Global.Title") + " " + textBundle.textFor("MainFrame.12") + " " + FormatConstants.timeFormat.format(this.model.getStop())); //$NON-NLS-1$
         getStartStopButton().setAction(new StartAction(this.model));
     }
 
@@ -480,8 +483,8 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         if (exportMenu == null) {
             exportMenu = new JMenu();
             exportMenu.setIcon(new ImageIcon(getClass().getResource("/icons/gnome-mime-text-x-credits.png")));
-            exportMenu.setText(Messages.getString("MainFrame.ExportMenu.Title")); //$NON-NLS-1$
-            exportMenu.setMnemonic(Messages.getString("MainFrame.ExportMenu.Title").charAt(0)); //$NON-NLS-1$
+            exportMenu.setText(textBundle.textFor("MainFrame.ExportMenu.Title")); //$NON-NLS-1$
+            exportMenu.setMnemonic(textBundle.textFor("MainFrame.ExportMenu.Title").charAt(0)); //$NON-NLS-1$
             exportMenu.add(getExcelExportItem());
         }
         return exportMenu;
@@ -507,8 +510,8 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             if (model.isActive()) {
                 final int dialogResult = JOptionPane.showConfirmDialog(
                         getOwner(), 
-                        Messages.getString("ExitConfirmDialog.Message"), 
-                        Messages.getString("ExitConfirmDialog.Title"), 
+                        textBundle.textFor("ExitConfirmDialog.Message"), 
+                        textBundle.textFor("ExitConfirmDialog.Title"), 
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.INFORMATION_MESSAGE
                 );

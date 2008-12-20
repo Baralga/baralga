@@ -3,16 +3,19 @@ package org.remast.baralga.gui.lists;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.remast.baralga.Messages;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
+import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.SortedList;
 
 public class ProjectFilterList implements Observer {
+
+    /** The bundle for internationalized texts. */
+    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(ProjectFilterList.class);
 
 	/** The model. */
 	private final PresentationModel model;
@@ -21,7 +24,7 @@ public class ProjectFilterList implements Observer {
 
 	public static final Project ALL_PROJECTS_DUMMY = new Project(ALL_PROJECTS_DUMMY_VALUE, "*", "*"); //$NON-NLS-1$ //$NON-NLS-2$
 
-	public static final FilterItem<Project> ALL_PROJECTS_FILTER_ITEM = new FilterItem<Project>(ALL_PROJECTS_DUMMY, Messages.getString("ProjectFilterList.AllProjectsLabel")); //$NON-NLS-1$
+	public static final FilterItem<Project> ALL_PROJECTS_FILTER_ITEM = new FilterItem<Project>(ALL_PROJECTS_DUMMY, textBundle.textFor("ProjectFilterList.AllProjectsLabel")); //$NON-NLS-1$
 
 	private final EventList<FilterItem<Project>> projectList;
 

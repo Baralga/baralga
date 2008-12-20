@@ -30,7 +30,7 @@ public class ManageProjectsAction extends AbstractBaralgaAction {
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed(final ActionEvent event) {
+    public final void actionPerformed(final ActionEvent event) {
         // Display dialog to manage projects
         final ManageProjectsDialog manageProjectsDialog = new ManageProjectsDialog(getOwner(), getModel());
         manageProjectsDialog.setVisible(true);

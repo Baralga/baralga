@@ -18,15 +18,18 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.xml.DOMConfigurator;
-import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.model.ProjectActivityStateException;
 import org.remast.baralga.gui.model.io.DataBackup;
 import org.remast.baralga.gui.model.io.SaveTimer;
 import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.io.ProTrackReader;
+import org.remast.util.TextResourceBundle;
 
 public class BaralgaMain {
+
+    /** The bundle for internationalized texts. */
+    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
 
     /** The logger. */
     private static final Log log = LogFactory.getLog(BaralgaMain.class);
@@ -78,8 +81,8 @@ public class BaralgaMain {
             initLookAndFeel();
 
             if (!tryLock()) {
-                JOptionPane.showMessageDialog(null, Messages.getString("BaralgaMain.ErrorAlreadyRunning"), "Error", JOptionPane.ERROR_MESSAGE);
-                log.info(Messages.getString("BaralgaMain.ErrorAlreadyRunning")); //$NON-NLS-1$
+                JOptionPane.showMessageDialog(null, textBundle.textFor("BaralgaMain.ErrorAlreadyRunning"), "Error", JOptionPane.ERROR_MESSAGE);
+                log.info(textBundle.textFor("BaralgaMain.ErrorAlreadyRunning")); //$NON-NLS-1$
                 return;
             }
 
@@ -118,8 +121,8 @@ public class BaralgaMain {
                             }
 
                             JOptionPane.showMessageDialog(null, 
-                                    Messages.getString("BaralgaMain.DataLoading.ErrorText", backupDateString), //$NON-NLS-1$
-                                    Messages.getString("BaralgaMain.DataLoading.ErrorTitle"), //$NON-NLS-1$
+                                    textBundle.textFor("BaralgaMain.DataLoading.ErrorText", backupDateString), //$NON-NLS-1$
+                                    textBundle.textFor("BaralgaMain.DataLoading.ErrorTitle"), //$NON-NLS-1$
                                     JOptionPane.INFORMATION_MESSAGE
                             );
 
@@ -131,8 +134,8 @@ public class BaralgaMain {
                 } else {
                     // Data corrupt and no backup file found
                     JOptionPane.showMessageDialog(null, 
-                            Messages.getString("BaralgaMain.DataLoading.ErrorTextNoBackup"), //$NON-NLS-1$
-                            Messages.getString("BaralgaMain.DataLoading.ErrorTitle"), //$NON-NLS-1$
+                            textBundle.textFor("BaralgaMain.DataLoading.ErrorTextNoBackup"), //$NON-NLS-1$
+                            textBundle.textFor("BaralgaMain.DataLoading.ErrorTitle"), //$NON-NLS-1$
                             JOptionPane.ERROR_MESSAGE
                     );
                 }
@@ -275,7 +278,7 @@ public class BaralgaMain {
               return false;
             }
         } catch (IOException e) {
-            final String error = Messages.getString("ProTrackMain.8"); //$NON-NLS-1$
+            final String error = textBundle.textFor("ProTrackMain.8"); //$NON-NLS-1$
             log.error(error, e);
             throw new RuntimeException(error);
         }

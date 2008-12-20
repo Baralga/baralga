@@ -21,7 +21,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXDatePicker;
 import org.remast.baralga.FormatConstants;
-import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
@@ -29,6 +28,7 @@ import org.remast.swing.dialog.EscapeDialog;
 import org.remast.swing.text.TextEditor;
 import org.remast.swing.util.GuiConstants;
 import org.remast.util.DateUtils;
+import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 
@@ -39,24 +39,27 @@ import ca.odell.glazedlists.swing.EventComboBoxModel;
 @SuppressWarnings("serial")//$NON-NLS-1$
 public class AddActivityDialog extends EscapeDialog {
 
+    /** The bundle for internationalized texts. */
+    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(AddActivityDialog.class);
+
     // ------------------------------------------------
     // Labels
     // ------------------------------------------------
     
     /** Label for activity start time. */
-    private final JLabel startLabel = new JLabel(Messages.getString("AddActivityDialog.StartLabel")); //$NON-NLS-1$
+    private final JLabel startLabel = new JLabel(textBundle.textFor("AddActivityDialog.StartLabel")); //$NON-NLS-1$
 
     /** Label for activity end time. */
-    private final JLabel endLabel = new JLabel(Messages.getString("AddActivityDialog.EndLabel")); //$NON-NLS-1$;
+    private final JLabel endLabel = new JLabel(textBundle.textFor("AddActivityDialog.EndLabel")); //$NON-NLS-1$;
 
     /** Label for description. */
-    private final JLabel descriptionLabel = new JLabel(Messages.getString("AddActivityDialog.DescriptionLabel")); //$NON-NLS-1$
+    private final JLabel descriptionLabel = new JLabel(textBundle.textFor("AddActivityDialog.DescriptionLabel")); //$NON-NLS-1$
 
     /** Label for project. */
-    private final JLabel projectLabel = new JLabel(Messages.getString("AddActivityDialog.ProjectLabel")); //$NON-NLS-1$
+    private final JLabel projectLabel = new JLabel(textBundle.textFor("AddActivityDialog.ProjectLabel")); //$NON-NLS-1$
 
     /** Label for date. */
-    private final JLabel dateLabel = new JLabel(Messages.getString("AddActivityDialog.DateLabel")); //$NON-NLS-1$
+    private final JLabel dateLabel = new JLabel(textBundle.textFor("AddActivityDialog.DateLabel")); //$NON-NLS-1$
 
     // ------------------------------------------------
     // Edit components
@@ -114,7 +117,7 @@ public class AddActivityDialog extends EscapeDialog {
         setLocationRelativeTo(getOwner());
         this.setIconImage(new ImageIcon(getClass().getResource("/icons/gtk-add.png")).getImage()); //$NON-NLS-1$
         this.setSize(300, 350);
-        this.setTitle(Messages.getString("AddActivityDialog.AddActivityLabel")); //$NON-NLS-1$
+        this.setTitle(textBundle.textFor("AddActivityDialog.AddActivityLabel")); //$NON-NLS-1$
         this.setModal(true);
         
         initializeLayout();
@@ -192,7 +195,7 @@ public class AddActivityDialog extends EscapeDialog {
     private JButton getAddActivityButton() {
         if (addActivityButton == null) {
             addActivityButton = new JButton();
-            addActivityButton.setText(Messages.getString("AddActivityDialog.AddLabel")); //$NON-NLS-1$
+            addActivityButton.setText(textBundle.textFor("AddActivityDialog.AddLabel")); //$NON-NLS-1$
             addActivityButton.setIcon(new ImageIcon(getClass().getResource("/icons/gtk-add.png"))); //$NON-NLS-1$
 
             // Confirm with 'Enter' key

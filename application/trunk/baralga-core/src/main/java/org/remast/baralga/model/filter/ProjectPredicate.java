@@ -36,7 +36,7 @@ public class ProjectPredicate implements Predicate {
         }
 
         if (!(object instanceof ProjectActivity)) {
-            throw new IllegalArgumentException(textBundle.textFor("ProjectPredicate.ErrorNoProjectActivity")); //$NON-NLS-1$
+            return false;
         }
 
         final ProjectActivity activity = (ProjectActivity) object;

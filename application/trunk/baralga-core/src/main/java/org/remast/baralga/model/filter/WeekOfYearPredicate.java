@@ -41,7 +41,7 @@ public class WeekOfYearPredicate implements Predicate {
         }
 
         if (!(object instanceof ProjectActivity)) {
-            throw new IllegalArgumentException(textBundle.textFor("WeekOfYearPredicate.ErrorNoProjectActivity")); //$NON-NLS-1$
+            return false;
         }
 
         final ProjectActivity activity = (ProjectActivity) object;

@@ -4,16 +4,19 @@ import java.text.SimpleDateFormat;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.remast.baralga.Messages;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
+import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.SortedList;
 
 public class YearFilterList implements Observer {
+
+    /** The bundle for internationalized texts. */
+    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(YearFilterList.class);
 
 	public static final SimpleDateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy"); //$NON-NLS-1$
 
@@ -22,8 +25,7 @@ public class YearFilterList implements Observer {
 
 	public static final int ALL_YEARS_DUMMY = -10; //$NON-NLS-1$
 
-	public static final FilterItem<Integer> ALL_YEARS_FILTER_ITEM = new FilterItem<Integer>(ALL_YEARS_DUMMY, Messages
-			.getString("YearFilterList.AllYearsLabel")); //$NON-NLS-1$
+	public static final FilterItem<Integer> ALL_YEARS_FILTER_ITEM = new FilterItem<Integer>(ALL_YEARS_DUMMY, textBundle.textFor("YearFilterList.AllYearsLabel")); //$NON-NLS-1$
 
 	private EventList<FilterItem<Integer>> yearList;
 

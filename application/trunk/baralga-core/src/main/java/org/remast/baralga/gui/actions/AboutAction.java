@@ -34,7 +34,7 @@ public class AboutAction extends AbstractBaralgaAction {
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed(final ActionEvent event) {
+    public final void actionPerformed(final ActionEvent event) {
         // Display the about dialog
         final AboutDialog aboutDialog = new AboutDialog(getOwner());
         aboutDialog.setVisible(true);

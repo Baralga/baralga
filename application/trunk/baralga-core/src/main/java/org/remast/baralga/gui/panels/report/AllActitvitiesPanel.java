@@ -27,7 +27,7 @@ import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.FormatStringValue;
 import org.jdesktop.swingx.table.DatePickerCellEditor;
 import org.remast.baralga.FormatConstants;
-import org.remast.baralga.Messages;
+import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.panels.table.AllActivitiesTableFormat;
@@ -35,6 +35,7 @@ import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.swing.util.GuiConstants;
+import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.SortedList;
@@ -46,6 +47,9 @@ import ca.odell.glazedlists.swing.EventTableModel;
  */
 @SuppressWarnings("serial")//$NON-NLS-1$
 public class AllActitvitiesPanel extends JXPanel implements Observer {
+
+    /** The bundle for internationalized texts. */
+    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
 
     /** The model. */
     private final PresentationModel model;
@@ -118,7 +122,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
                 for(int i : table.getSelectedRows()) {
                     duration += filteredActivitiesList.get(i).getDuration();
                 }
-                table.setToolTipText(Messages.getString("AllActivitiesPanel.tooltipDuration") + FormatConstants.durationFormat.format(duration)); //$NON-NLS-1$
+                table.setToolTipText(textBundle.textFor("AllActivitiesPanel.tooltipDuration") + FormatConstants.durationFormat.format(duration)); //$NON-NLS-1$
                 
             }
             
@@ -128,7 +132,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         table.setSortable(false);
 
         final JPopupMenu menu = new JPopupMenu();
-        menu.add(new AbstractAction(Messages.getString("AllActitvitiesPanel.Delete"), new ImageIcon(getClass().getResource("/icons/gtk-delete.png"))) { //$NON-NLS-1$
+        menu.add(new AbstractAction(textBundle.textFor("AllActitvitiesPanel.Delete"), new ImageIcon(getClass().getResource("/icons/gtk-delete.png"))) { //$NON-NLS-1$
 
                     public void actionPerformed(final ActionEvent event) {
                         // 1. Get selected activities

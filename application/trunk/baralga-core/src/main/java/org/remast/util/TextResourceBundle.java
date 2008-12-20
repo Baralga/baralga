@@ -11,9 +11,16 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
+ * Provides easy access to texts from properties files. This uses the default 
+ * Java mechanisms but looks for properties files in the package of a class.
+ * This makes it easier to modularize texts in applications as texts are always
+ * bundled with the class.
  * @author remast
  */
 public class TextResourceBundle {
+
+    /** The name of the properties file. */
+    private static final String PROPERTIES_FILE_NAME = "Texts";
 
     /** The logger. */
     private static final Log log = LogFactory.getLog(TextResourceBundle.class);
@@ -27,13 +34,18 @@ public class TextResourceBundle {
         }
 
         try {
-            resourceBundle = ResourceBundle.getBundle(clazz.getPackage().getName() + "."+ "Texts");
+            resourceBundle = ResourceBundle.getBundle(clazz.getPackage().getName() + "." + PROPERTIES_FILE_NAME);
         } catch (MissingResourceException e) {
             log.error(e, e);
         }
     }
 
-    public static TextResourceBundle getBundle(Class clazz) {
+    /**
+     * Get's the bundle to resolve texts.
+     * @param clazz the class to resolve bundle for
+     * @return the resolved text bundle
+     */
+    public static TextResourceBundle getBundle(final Class clazz) {
         if (clazz == null) {
             throw new IllegalArgumentException("Parameter clazz may not be null.");
         }

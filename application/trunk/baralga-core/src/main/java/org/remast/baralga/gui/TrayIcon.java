@@ -18,7 +18,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jdesktop.swinghelper.tray.JXTrayIcon;
 import org.remast.baralga.FormatConstants;
-import org.remast.baralga.Messages;
 import org.remast.baralga.gui.actions.ChangeProjectAction;
 import org.remast.baralga.gui.actions.ExitAction;
 import org.remast.baralga.gui.actions.StartAction;
@@ -26,12 +25,16 @@ import org.remast.baralga.gui.actions.StopAction;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
+import org.remast.util.TextResourceBundle;
 
 /**
  * Tray icon for quick start, stop and switching of project activities.
  * @author remast
  */
 public class TrayIcon implements Observer {
+
+    /** The bundle for internationalized texts. */
+    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(TrayIcon.class);
 
     /** The logger. */
     private static final Log log = LogFactory.getLog(TrayIcon.class);
@@ -58,7 +61,7 @@ public class TrayIcon implements Observer {
         buildMenu();
 
         trayIcon = new JXTrayIcon(NORMAL_ICON); //$NON-NLS-1$
-        trayIcon.setToolTip(Messages.getString("Global.Title"));
+        trayIcon.setToolTip(textBundle.textFor("Global.Title"));
         trayIcon.setJPopupMenu(menu);
         trayIcon.setImageAutoSize(true);
 
@@ -78,7 +81,7 @@ public class TrayIcon implements Observer {
 
         if (model.isActive()) {
             trayIcon.setImage(ACTIVE_ICON);
-            trayIcon.setToolTip(Messages.getString("Global.Title") + " - " + model.getSelectedProject() + Messages.getString("MainFrame.9") + FormatConstants.timeFormat.format(model.getStart()));
+            trayIcon.setToolTip(textBundle.textFor("Global.Title") + " - " + model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatConstants.timeFormat.format(model.getStart()));
         }
 
     }
@@ -172,7 +175,7 @@ public class TrayIcon implements Observer {
      */    
     private void updateProjectChanged() {
         if (model.isActive()) {
-            trayIcon.setToolTip(Messages.getString("Global.Title") + " - " + model.getSelectedProject() + Messages.getString("MainFrame.9") + FormatConstants.timeFormat.format(model.getStart()));
+            trayIcon.setToolTip(textBundle.textFor("Global.Title") + " - " + model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatConstants.timeFormat.format(model.getStart()));
         }
     }
 
@@ -181,7 +184,7 @@ public class TrayIcon implements Observer {
      */    
     private void updateStop() {
         this.trayIcon.setImage(NORMAL_ICON);
-        trayIcon.setToolTip(Messages.getString("Global.Title") + " - "+ Messages.getString("MainFrame.12") + FormatConstants.timeFormat.format(model.getStop()));
+        trayIcon.setToolTip(textBundle.textFor("Global.Title") + " - "+ textBundle.textFor("MainFrame.12") + FormatConstants.timeFormat.format(model.getStop()));
         this.buildMenu();
     }
 
@@ -190,7 +193,7 @@ public class TrayIcon implements Observer {
      */    
     private void updateStart() {
         this.trayIcon.setImage(ACTIVE_ICON);
-        trayIcon.setToolTip(Messages.getString("Global.Title") + " - " + model.getSelectedProject() + Messages.getString("MainFrame.9") + FormatConstants.timeFormat.format(model.getStart())); //$NON-NLS-1$
+        trayIcon.setToolTip(textBundle.textFor("Global.Title") + " - " + model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatConstants.timeFormat.format(model.getStart())); //$NON-NLS-1$
         this.buildMenu();
     }
 

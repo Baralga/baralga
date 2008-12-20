@@ -1,7 +1,8 @@
 package org.remast.baralga.gui.panels.table;
 
-import org.remast.baralga.Messages;
+import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.model.report.AccumulatedProjectActivity;
+import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.gui.TableFormat;
 
@@ -11,6 +12,9 @@ import ca.odell.glazedlists.gui.TableFormat;
  * @author remast
  */
 public class AccumulatedActivitiesTableFormat implements TableFormat<AccumulatedProjectActivity> {
+
+    /** The bundle for internationalized texts. */
+    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
 
     /**
      * Gets the number of columns for the table.
@@ -26,11 +30,11 @@ public class AccumulatedActivitiesTableFormat implements TableFormat<Accumulated
     public String getColumnName(final int col) {
         switch (col) {
             case 0:
-                return Messages.getString("AccumulatedActivitiesTableFormat.DayHeading"); //$NON-NLS-1$
+                return textBundle.textFor("AccumulatedActivitiesTableFormat.DayHeading"); //$NON-NLS-1$
             case 1:
-                return Messages.getString("AccumulatedActivitiesTableFormat.ProjectHeading"); //$NON-NLS-1$
+                return textBundle.textFor("AccumulatedActivitiesTableFormat.ProjectHeading"); //$NON-NLS-1$
             case 2:
-                return Messages.getString("AccumulatedActivitiesTableFormat.DurationHeading"); //$NON-NLS-1$
+                return textBundle.textFor("AccumulatedActivitiesTableFormat.DurationHeading"); //$NON-NLS-1$
             default:
                 return ""; //$NON-NLS-1$
         }

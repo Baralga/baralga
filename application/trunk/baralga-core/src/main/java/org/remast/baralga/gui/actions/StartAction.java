@@ -30,7 +30,7 @@ public class StartAction extends AbstractBaralgaAction {
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed(final ActionEvent arg0) {
+    public final void actionPerformed(final ActionEvent arg0) {
         try {
             getModel().start();
         } catch (ProjectActivityStateException e1) {

@@ -38,7 +38,7 @@ public class StopAction extends AbstractBaralgaAction {
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed(final ActionEvent event) {
+    public final void actionPerformed(final ActionEvent event) {
         try {
             getModel().stop();
         } catch (ProjectActivityStateException e) {

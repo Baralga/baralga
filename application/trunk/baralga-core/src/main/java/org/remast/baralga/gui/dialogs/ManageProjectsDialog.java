@@ -18,10 +18,10 @@ import javax.swing.JTextField;
 
 import org.apache.commons.lang.math.RandomUtils;
 import org.jdesktop.swingx.JXList;
-import org.remast.baralga.Messages;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
 import org.remast.swing.dialog.EscapeDialog;
+import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.swing.EventListModel;
 
@@ -32,6 +32,9 @@ import ca.odell.glazedlists.swing.EventListModel;
  */
 @SuppressWarnings("serial")
 public class ManageProjectsDialog extends EscapeDialog {
+
+    /** The bundle for internationalized texts. */
+    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(ManageProjectsDialog.class);
 
     private JPanel jContentPane = null;
 
@@ -72,7 +75,7 @@ public class ManageProjectsDialog extends EscapeDialog {
         
         this.setModal(true);
         this.setPreferredSize(new Dimension(350, 120));
-        this.setTitle(Messages.getString("ManageProjectsDialog.Title")); //$NON-NLS-1$
+        this.setTitle(textBundle.textFor("ManageProjectsDialog.Title")); //$NON-NLS-1$
         this.setContentPane(getJContentPane());
         
         // Set default Button to AddProjectsButton.
@@ -104,7 +107,7 @@ public class ManageProjectsDialog extends EscapeDialog {
         if (projectList == null) {
             projectList = new JXList();
             projectList.setModel(new EventListModel<Project>(getModel().getProjectList()));
-            projectList.setToolTipText(Messages.getString("ManageProjectsDialog.ProjectList.ToolTipText")); //$NON-NLS-1$
+            projectList.setToolTipText(textBundle.textFor("ManageProjectsDialog.ProjectList.ToolTipText")); //$NON-NLS-1$
         }
         return projectList;
     }
@@ -116,9 +119,9 @@ public class ManageProjectsDialog extends EscapeDialog {
     private JTextField getNewProjectTextField() {
         if (newProjectTextField == null) {
             newProjectTextField = new JTextField();
-            newProjectTextField.setName(Messages.getString("ManageProjectsDialog.4")); //$NON-NLS-1$
-            newProjectTextField.setText(Messages.getString("ManageProjectsDialog.NewProjectTitle.DefaultNewProjectName")); //$NON-NLS-1$
-            newProjectTextField.setToolTipText(Messages.getString("ManageProjectsDialog.NewProjectTitle.ToolTipText")); //$NON-NLS-1$
+            newProjectTextField.setName(textBundle.textFor("ManageProjectsDialog.4")); //$NON-NLS-1$
+            newProjectTextField.setText(textBundle.textFor("ManageProjectsDialog.NewProjectTitle.DefaultNewProjectName")); //$NON-NLS-1$
+            newProjectTextField.setToolTipText(textBundle.textFor("ManageProjectsDialog.NewProjectTitle.ToolTipText")); //$NON-NLS-1$
             newProjectTextField.setPreferredSize(new Dimension(224, 19));
         }
         return newProjectTextField;
@@ -148,8 +151,8 @@ public class ManageProjectsDialog extends EscapeDialog {
     private JButton getAddProjectButton() {
         if (addProjectButton == null) {
             addProjectButton = new JButton(new ImageIcon(getClass().getResource("/icons/gtk-add.png")));
-            addProjectButton.setText(Messages.getString("ManageProjectsDialog.AddProjectButton.Title")); //$NON-NLS-1$
-            addProjectButton.setToolTipText(Messages.getString("ManageProjectsDialog.AddProjectButton.ToolTipText")); //$NON-NLS-1$
+            addProjectButton.setText(textBundle.textFor("ManageProjectsDialog.AddProjectButton.Title")); //$NON-NLS-1$
+            addProjectButton.setToolTipText(textBundle.textFor("ManageProjectsDialog.AddProjectButton.ToolTipText")); //$NON-NLS-1$
             addProjectButton.addActionListener(new java.awt.event.ActionListener() {   
             	public void actionPerformed(final java.awt.event.ActionEvent e) {
                     String projectName = getNewProjectTextField().getText();
@@ -170,8 +173,8 @@ public class ManageProjectsDialog extends EscapeDialog {
     private JButton getRemoveProjectButton() {
         if (removeProjectButton == null) {
             removeProjectButton = new JButton(new ImageIcon(getClass().getResource("/icons/gtk-stop.png")));
-            removeProjectButton.setText(Messages.getString("ManageProjectsDialog.RemoveProjectButton.Title")); //$NON-NLS-1$
-            removeProjectButton.setToolTipText(Messages.getString("ManageProjectsDialog.RemoveProjectButton.ToolTipText")); //$NON-NLS-1$
+            removeProjectButton.setText(textBundle.textFor("ManageProjectsDialog.RemoveProjectButton.Title")); //$NON-NLS-1$
+            removeProjectButton.setToolTipText(textBundle.textFor("ManageProjectsDialog.RemoveProjectButton.ToolTipText")); //$NON-NLS-1$
             removeProjectButton.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(final java.awt.event.ActionEvent e) {
                     for (Object item : getProjectList().getSelectedValues()) {
@@ -202,7 +205,7 @@ public class ManageProjectsDialog extends EscapeDialog {
             flowLayout.setVgap(3);
             flowLayout.setHgap(3);
             lableProjectTitle = new JLabel();
-            lableProjectTitle.setText(Messages.getString("ManageProjectsDialog.ProjectSelector.Title")); //$NON-NLS-1$
+            lableProjectTitle.setText(textBundle.textFor("ManageProjectsDialog.ProjectSelector.Title")); //$NON-NLS-1$
             lableProjectTitle.setBackground(Color.lightGray);
             newProjectNamePanel = new JPanel();
             newProjectNamePanel.setLayout(flowLayout);

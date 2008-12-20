@@ -32,7 +32,7 @@ public class ExitAction extends AbstractBaralgaAction {
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed(final ActionEvent event) {
+    public final void actionPerformed(final ActionEvent event) {
         boolean quit = true;
 
         // If activity is running, then double check with user.

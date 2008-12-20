@@ -4,16 +4,19 @@ import java.text.SimpleDateFormat;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.remast.baralga.Messages;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
+import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.SortedList;
 
 public class MonthFilterList implements Observer {
+
+    /** The bundle for internationalized texts. */
+    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(MonthFilterList.class);
 
 	public static final SimpleDateFormat MONTH_FORMAT = new SimpleDateFormat("MM"); //$NON-NLS-1$
 
@@ -22,8 +25,7 @@ public class MonthFilterList implements Observer {
 
 	public static final int ALL_MONTHS_DUMMY = -10;
 
-	public static final FilterItem<Integer> ALL_MONTHS_FILTER_ITEM = new FilterItem<Integer>(ALL_MONTHS_DUMMY, Messages
-			.getString("MonthFilterList.AllMonthsLabel")); //$NON-NLS-1$
+	public static final FilterItem<Integer> ALL_MONTHS_FILTER_ITEM = new FilterItem<Integer>(ALL_MONTHS_DUMMY, textBundle.textFor("MonthFilterList.AllMonthsLabel")); //$NON-NLS-1$
 
 	private EventList<FilterItem<Integer>> monthList;
 

@@ -39,7 +39,7 @@ public class ChangeProjectAction extends AbstractBaralgaAction {
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed(final ActionEvent e) {
+    public final void actionPerformed(final ActionEvent e) {
         getModel().changeProject(newProject);
     }
     

@@ -33,7 +33,7 @@ public class AddActivityAction extends AbstractBaralgaAction {
      * {@inheritDoc}
      */
     @Override
-    public void actionPerformed(final ActionEvent event) {
+    public final void actionPerformed(final ActionEvent event) {
         // Display dialog to add activity
         final AddActivityDialog addActivityDialog = new AddActivityDialog(getOwner(), getModel());
         addActivityDialog.setVisible(true);

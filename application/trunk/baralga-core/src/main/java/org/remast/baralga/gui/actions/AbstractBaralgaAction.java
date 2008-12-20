@@ -10,6 +10,7 @@ import org.remast.baralga.gui.model.PresentationModel;
  * Abstract base class for all Baralga actions.
  * @author remast
  */
+@SuppressWarnings("serial")
 public abstract class AbstractBaralgaAction extends AbstractAction {
 
     /** The model. */
