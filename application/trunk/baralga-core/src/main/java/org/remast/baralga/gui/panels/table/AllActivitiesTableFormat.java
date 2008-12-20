@@ -43,35 +43,39 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
      */
     public String getColumnName(final int col) {
         switch (col) {
-            case 0:
-                return textBundle.textFor("AllActivitiesTableFormat.ProjectHeading"); //$NON-NLS-1$
-            case 1:
-                return textBundle.textFor("AllActivitiesTableFormat.DateHeading"); //$NON-NLS-1$
-            case 2:
-                return textBundle.textFor("AllActivitiesTableFormat.StartHeading"); //$NON-NLS-1$
-            case 3:
-                return textBundle.textFor("AllActivitiesTableFormat.EndHeading"); //$NON-NLS-1$
-            case 4:
-                return textBundle.textFor("AllActivitiesTableFormat.DurationHeading"); //$NON-NLS-1$
-            default:
-                return ""; //$NON-NLS-1$
+        case 0:
+            return textBundle.textFor("AllActivitiesTableFormat.ProjectHeading"); //$NON-NLS-1$
+        case 1:
+            return textBundle.textFor("AllActivitiesTableFormat.DateHeading"); //$NON-NLS-1$
+        case 2:
+            return textBundle.textFor("AllActivitiesTableFormat.StartHeading"); //$NON-NLS-1$
+        case 3:
+            return textBundle.textFor("AllActivitiesTableFormat.EndHeading"); //$NON-NLS-1$
+        case 4:
+            return textBundle.textFor("AllActivitiesTableFormat.DurationHeading"); //$NON-NLS-1$
+        default:
+            return ""; //$NON-NLS-1$
         }
     }
 
     public Object getColumnValue(final ProjectActivity activity,final int column) {
         switch (column) {
-            case 0:
-                return activity.getProject();
-            case 1:
-                return activity.getStart();
-            case 2:
+        case 0:
+            return activity.getProject();
+        case 1:
+            return activity.getStart();
+        case 2:
+            synchronized (FormatConstants.timeFormat) {
                 return FormatConstants.timeFormat.format(activity.getStart());
-            case 3:
+            }
+        case 3:
+            synchronized (FormatConstants.timeFormat) {
                 return FormatConstants.timeFormat.format(activity.getEnd());
-            case 4:
-                return activity.getDuration();
-            default:
-                return ""; //$NON-NLS-1$
+            }
+        case 4:
+            return activity.getDuration();
+        default:
+            return ""; //$NON-NLS-1$
         }
     }
 

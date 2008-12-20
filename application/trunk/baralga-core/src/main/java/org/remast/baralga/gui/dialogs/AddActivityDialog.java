@@ -45,7 +45,7 @@ public class AddActivityDialog extends EscapeDialog {
     // ------------------------------------------------
     // Labels
     // ------------------------------------------------
-    
+
     /** Label for activity start time. */
     private final JLabel startLabel = new JLabel(textBundle.textFor("AddActivityDialog.StartLabel")); //$NON-NLS-1$
 
@@ -64,7 +64,7 @@ public class AddActivityDialog extends EscapeDialog {
     // ------------------------------------------------
     // Edit components
     // ------------------------------------------------
-    
+
     /** Selects the project of the activity. */
     private JComboBox projectSelector = null;
 
@@ -84,7 +84,7 @@ public class AddActivityDialog extends EscapeDialog {
 
     /** The description of the activity. */
     private TextEditor descriptionEditor;
-    
+
     // ------------------------------------------------
     // Fields for project activity
     // ------------------------------------------------
@@ -119,7 +119,7 @@ public class AddActivityDialog extends EscapeDialog {
         this.setSize(300, 350);
         this.setTitle(textBundle.textFor("AddActivityDialog.AddActivityLabel")); //$NON-NLS-1$
         this.setModal(true);
-        
+
         initializeLayout();
 
         // Initialize selected project
@@ -134,9 +134,12 @@ public class AddActivityDialog extends EscapeDialog {
             // b) Take selected project
             projectSelector.setSelectedItem(model.getSelectedProject());
         }
-        
+
         // Initialize start and end time with current time
-        final String now = FormatConstants.timeFormat.format(new Date());
+        final String now;
+        synchronized (FormatConstants.timeFormat) {
+            now = FormatConstants.timeFormat.format(new Date());
+        }
         this.startField.setText(now);
         this.endField.setText(now);
 
@@ -271,13 +274,13 @@ public class AddActivityDialog extends EscapeDialog {
         try {
             start = FormatConstants.timeFormat.parse(getStartField().getText());
             end = FormatConstants.timeFormat.parse(getEndField().getText());
-            
+
             correctDates();
         } catch (ParseException e) {
             // On parse error one of the dates is not valid
             return false;
         }
-        
+
         project = (Project) getProjectSelector().getSelectedItem();
 
         // All tests passed so dialog contains valid data

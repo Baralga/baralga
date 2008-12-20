@@ -8,12 +8,12 @@ import java.util.Date;
 
 @SuppressWarnings("serial")
 public class TimeFormat extends DateFormat {
-    
+
     /**
      * Definition of the time format to parse.
      */
     private static final String HHMM_FORMAT = "HH:mm"; //$NON-NLS-1$
-    
+
     private static final DateFormat timeFormat = new SimpleDateFormat(HHMM_FORMAT);
 
     /**
@@ -24,7 +24,9 @@ public class TimeFormat extends DateFormat {
      * @see java.text.DateFormat#format(java.util.Date, java.lang.StringBuffer, java.text.FieldPosition)
      */
     public StringBuffer format(final Date date, final StringBuffer toAppendTo, final FieldPosition fieldPosition) {
-        return timeFormat.format(date, toAppendTo, fieldPosition);
+        synchronized (timeFormat) {
+            return timeFormat.format(date, toAppendTo, fieldPosition);
+        }
     }
 
     /**
@@ -34,7 +36,9 @@ public class TimeFormat extends DateFormat {
      * @see java.text.DateFormat#parse(java.lang.String, java.text.ParsePosition)
      */
     public Date parse(final String source, final ParsePosition pos) {
-        return timeFormat.parse(source, pos);
+        synchronized (timeFormat) {
+            return timeFormat.parse(source, pos);
+        }
     }
 
 

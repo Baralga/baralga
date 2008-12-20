@@ -70,7 +70,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     /** The description editor. */
     private TextEditor descriptionEditor;
 
-    
+
     // ------------------------------------------------
     // Other stuff
     // ------------------------------------------------
@@ -78,7 +78,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     /** The filtered report. */
     private ReportPanel reportPanel;
 
-    
+
     // ------------------------------------------------
     // The menus
     // ------------------------------------------------
@@ -97,14 +97,14 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
     /** The edit menu. */
     private JMenu editMenu = null;
-    
+
 
     // ------------------------------------------------
     // The menu items
     // ------------------------------------------------
 
     private JMenuItem aboutMenuItem = null;
-    
+
     private JMenuItem addActivityMenuItem = null;
 
     private JMenuItem editProjectsMenuItem = null;
@@ -133,8 +133,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      */
     private void initialize() {
         this.setSize(530, 720);
-        this.setIconImage(Toolkit.getDefaultToolkit().getImage(
-                getClass().getResource("/icons/Baralga-Tray.gif"))); //$NON-NLS-1$
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/Baralga-Tray.gif"))); //$NON-NLS-1$
         this.setResizable(true);
         this.setJMenuBar(getMainMenuBar());
 
@@ -142,8 +141,9 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
         // 1. Init start-/stop-Buttons
         if (this.model.isActive()) {
-            this
-                    .setTitle(textBundle.textFor("Global.Title") + " - " + this.model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatConstants.timeFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
+            this.setTitle(
+                    textBundle.textFor("Global.Title") + " - " + this.model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatConstants.timeFormat.format(this.model.getStart()) //$NON-NLS-1$ //$NON-NLS-2$
+            );
             getStartStopButton().setAction(new StopAction(this.model));
         } else {
             this.setTitle(textBundle.textFor("Global.Title")); //$NON-NLS-1$
@@ -153,17 +153,23 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
         // 2. Restore selected project if set.
         if (this.model.getData().getActiveProject() != null) {
-            this.getProjectSelector().setSelectedItem(this.model.getData().getActiveProject());
+            this.getProjectSelector().setSelectedItem(
+                    this.model.getData().getActiveProject()
+            );
         } else {
             // If not set initially select first project
             if (!this.model.getProjectList().isEmpty()) {
-                getProjectSelector().setSelectedItem(this.model.getProjectList().get(0));
+                getProjectSelector().setSelectedItem(
+                        this.model.getProjectList().get(0)
+                );
             }
         }
 
         // 3. Set layout
-        double size[][] = { { TableLayout.FILL }, // Columns
-                { TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.FILL } }; // Rows
+        double[][] size = { 
+                {TableLayout.FILL }, // Columns
+                {TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.FILL}
+        }; // Rows
 
         TableLayout tableLayout = new TableLayout(size);
         this.setLayout(tableLayout);
@@ -223,7 +229,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             double size[][] = {
                     { border, TableLayout.FILL, border, TableLayout.FILL, border }, // Columns
                     { border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED,
-                            border, TableLayout.PREFERRED, border } }; // Rows
+                        border, TableLayout.PREFERRED, border } }; // Rows
 
             TableLayout tableLayout = new TableLayout(size);
 
@@ -253,7 +259,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             descriptionEditor.setEditable(model.isActive());
 
             currentActivityPanel.add(new JXTitledSeparator(textBundle.textFor("MainFrame.DescriptionLabel")),
-                    "1, 5, 3, 5");
+            "1, 5, 3, 5");
             currentActivityPanel.add(descriptionEditor, "1, 7, 3, 7");
         }
         return currentActivityPanel;
@@ -340,9 +346,9 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
             editMenu.add(this.model.getEditStack().getRedoAction());
             editMenu.add(this.model.getEditStack().getUndoAction());
-            
+
             editMenu.addSeparator();
-            
+
             editMenu.add(getEditProjectsMenuItem());
             editMenu.add(getAddActivityMenuItem());
         }
@@ -361,7 +367,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         }
         return addActivityMenuItem;
     }
-    
+
     /**
      * This method initializes editProjectsMenuItem.
      * @return javax.swing.JMenuItem
@@ -374,7 +380,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         }
         return editProjectsMenuItem;
     }
-    
+
     /**
      * This method initializes aboutMenuItem.
      * @return javax.swing.JMenuItem
@@ -387,7 +393,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         }
         return aboutMenuItem;
     }
-    
+
 
     /**
      * @param model the model to set
@@ -402,23 +408,23 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
             switch (event.getType()) {
 
-                case BaralgaEvent.PROJECT_ACTIVITY_STARTED:
-                    this.updateStart();
-                    break;
+            case BaralgaEvent.PROJECT_ACTIVITY_STARTED:
+                this.updateStart();
+                break;
 
-                case BaralgaEvent.PROJECT_ACTIVITY_STOPPED:
-                    this.updateStop();
-                    break;
+            case BaralgaEvent.PROJECT_ACTIVITY_STOPPED:
+                this.updateStop();
+                break;
 
-                case BaralgaEvent.PROJECT_CHANGED:
-                    this.updateProjectChanged(event);
-                    break;
+            case BaralgaEvent.PROJECT_CHANGED:
+                this.updateProjectChanged(event);
+                break;
 
-                case BaralgaEvent.PROJECT_ADDED:
-                    break;
+            case BaralgaEvent.PROJECT_ADDED:
+                break;
 
-                case BaralgaEvent.PROJECT_REMOVED:
-                    break;
+            case BaralgaEvent.PROJECT_REMOVED:
+                break;
             }
         }
     }
@@ -429,7 +435,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private void updateProjectChanged(final BaralgaEvent event) {
         if (this.model.isActive()) {
             this
-                    .setTitle(textBundle.textFor("Global.Title") + " - " + this.model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatConstants.timeFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
+            .setTitle(textBundle.textFor("Global.Title") + " - " + this.model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatConstants.timeFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
         }
         getProjectSelector().setSelectedItem((Project) event.getData());
     }

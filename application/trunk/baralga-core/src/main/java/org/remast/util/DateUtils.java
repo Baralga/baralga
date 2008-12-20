@@ -14,10 +14,14 @@ import org.joda.time.DateTime;
  * @author remast
  */
 public abstract class DateUtils {
+    
+    /**
+     * Definition of the time format to parse.
+     */
+    private static final String HHMM_FORMAT = "HH:mm"; //$NON-NLS-1$
 
     /** The format for a time with hours and minutes. */
-    private static final SimpleDateFormat HHmmFormat = new SimpleDateFormat(
-            "HH:mm"); //$NON-NLS-1$
+    private static final SimpleDateFormat timeFormat = new SimpleDateFormat(HHMM_FORMAT);
 
     /** Hide constructor. */
     private DateUtils() {
@@ -128,7 +132,7 @@ public abstract class DateUtils {
             throw new IllegalArgumentException("The date must not be null"); //$NON-NLS-1$
         }
         return cal1.get(Calendar.WEEK_OF_YEAR) == cal2
-                .get(Calendar.WEEK_OF_YEAR);
+        .get(Calendar.WEEK_OF_YEAR);
     }
 
     /**
@@ -181,10 +185,12 @@ public abstract class DateUtils {
             timeToParse = time + ":00";
         }
 
-        try {
-            return HHmmFormat.parse(timeToParse);
-        } catch (ParseException e) {
-            // Ignore
+        synchronized (timeFormat) {
+            try {
+                return timeFormat.parse(timeToParse);
+            } catch (ParseException e) {
+                // Ignore
+            }
         }
 
         throw new ParseException("Could not parse time from " + time + ".", -1);

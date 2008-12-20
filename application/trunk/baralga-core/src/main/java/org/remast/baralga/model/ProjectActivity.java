@@ -129,7 +129,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
      * Calculate the duration of the given activity in decimal hours.
      * @return decimal value of the duration (e.g. for 30 minutes, 0.5 and so on)
      */    
-    public double getDuration() {
+    public final double getDuration() {
         long timeMilliSec = end.getTime() - start.getTime();
         long timeMin = timeMilliSec / 1000 / 60;
         long hours = timeMin / 60;
