@@ -28,10 +28,15 @@ public class TextResourceBundle {
     /** The resource bundle. */
     private ResourceBundle resourceBundle = null;
 
+    /** The class to resolve texts for. */
+    private Class clazz;
+
     private TextResourceBundle(final Class clazz) {
         if (clazz == null) {
             throw new IllegalArgumentException("Parameter clazz may not be null.");
         }
+        
+        this.clazz = clazz;
 
         try {
             resourceBundle = ResourceBundle.getBundle(clazz.getPackage().getName() + "." + PROPERTIES_FILE_NAME);
@@ -67,7 +72,7 @@ public class TextResourceBundle {
 
             return resourceBundle.getString(key);
         } catch (MissingResourceException e) {
-            log.error(e, e);
+            log.error("Could not resolve text for class " + clazz.getName() + " and key \""  + key + "\".", e);
             return '!' + key + '!';
         }
     }
