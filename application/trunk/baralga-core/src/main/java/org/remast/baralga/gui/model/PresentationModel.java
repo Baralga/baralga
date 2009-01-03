@@ -83,7 +83,7 @@ public class PresentationModel extends Observable {
         this.data = new ProTrack();
         this.projectList = new BasicEventList<Project>();
         this.activitiesList = new BasicEventList<ProjectActivity>();
-        
+
         initialize();
     }
 
@@ -111,7 +111,7 @@ public class PresentationModel extends Observable {
         }
 
         this.description = Settings.instance().getLastDescription();
-        
+
         // If there is a active project that has been started on another day,
         // we end it here.
         if (active && !org.apache.commons.lang.time.DateUtils.isSameDay(start, DateUtils.getNow())) {
@@ -203,12 +203,6 @@ public class PresentationModel extends Observable {
         event.setPropertyChangeEvent(propertyChangeEvent);
         notify(event);
     }
-    
-    public final void ping() {
-        if (isActive()) {
-            Settings.instance().setPingTime(DateUtils.getNow());
-        }
-    }
 
     /**
      * Stop a project activity.
@@ -263,7 +257,10 @@ public class PresentationModel extends Observable {
         this.activitiesList.add(activityOnStartDay);
 
         // Clear old activity
-        clearProjectActivityAttributes();
+        description = StringUtils.EMPTY;
+        Settings.instance().setLastDescription(StringUtils.EMPTY);
+        setActive(false);
+        start = null;
 
         // Mark data as dirty
         this.dirty = true;
@@ -286,17 +283,6 @@ public class PresentationModel extends Observable {
     }
 
     /**
-     * 
-     */
-    private void clearProjectActivityAttributes() {
-        description = StringUtils.EMPTY;
-        Settings.instance().setLastDescription(StringUtils.EMPTY);
-        setActive(false);
-        Settings.instance().setPingTime(null);
-        start = null;
-    }
-
-    /**
      * Changes to the given project.
      * @param activeProject the new active project
      */
@@ -310,11 +296,13 @@ public class PresentationModel extends Observable {
         final Project previousProject = getSelectedProject();
 
         // Set selected project to new project
-        setSelectedProject(activeProject);
+        this.selectedProject = activeProject;
 
         // Mark data as dirty
         this.dirty = true;
 
+        // Set active project to new project
+        this.data.setActiveProject(activeProject);
 
         final Date now = DateUtils.getNow();
 
@@ -481,7 +469,6 @@ public class PresentationModel extends Observable {
         this.data.setStartTime(start);
     }
 
-    
     /**
      * @return the stop
      */
@@ -492,7 +479,7 @@ public class PresentationModel extends Observable {
     /**
      * @param stop the stop to set
      */
-    public void setStop(final Date stop) {
+    private void setStop(final Date stop) {
         this.stop = stop;
     }
 
@@ -519,12 +506,6 @@ public class PresentationModel extends Observable {
     public Project getSelectedProject() {
         return selectedProject;
     }
-    
-    private void setSelectedProject(final Project activeProject) {
-        this.selectedProject = activeProject;
-        this.data.setActiveProject(activeProject);
-    }
-
 
     /**
      * @return the data
