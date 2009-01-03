@@ -4,6 +4,7 @@
 == Further Development ==
  * Support for portable version for removable devices.
  * Installer without JRE included.
+ * Smart filters for current week of the year, current year and current month.
 
 
 == Baralga Version 1.3.1 ==
