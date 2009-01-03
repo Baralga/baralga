@@ -225,8 +225,28 @@ public final class Settings {
         restoreMonthFilter(filter);
 
         // Restore the year
+        restoreYearFilter(filter);
+
+        return filter;
+    }
+
+    /**
+     * Restores the filter for the year.
+     * @param filter the restored filter
+     */
+    private void restoreYearFilter(final Filter filter) {
         final String selectedYear = Settings.instance().getFilterSelectedYear();
-        if (StringUtils.isNotBlank(selectedYear) && Integer.parseInt(selectedYear) != YearFilterList.ALL_YEARS_DUMMY) {
+
+        if (StringUtils.isBlank(selectedYear)) {
+            return;
+        }
+        
+        if (Integer.parseInt(selectedYear) == YearFilterList.CURRENT_YEAR_DUMMY) {
+            filter.setYear(DateUtils.getNow());
+            return;
+        } 
+        
+        if (Integer.parseInt(selectedYear) != YearFilterList.ALL_YEARS_DUMMY) {
             try {
                 final Calendar calendar = GregorianCalendar.getInstance();
                 calendar.set(Calendar.YEAR, Integer.parseInt(selectedYear));
@@ -235,8 +255,6 @@ public final class Settings {
                 log.error(e, e);
             }
         }
-
-        return filter;
     }
 
     /**
@@ -249,9 +267,13 @@ public final class Settings {
         if (StringUtils.isBlank(selectedMonth)) {
             return;
         }
-        if (Integer.parseInt(selectedMonth) != MonthFilterList.CURRENT_MONTH_DUMMY) {
+        
+        if (Integer.parseInt(selectedMonth) == MonthFilterList.CURRENT_MONTH_DUMMY) {
             filter.setMonth(DateUtils.getNow());
-        } else if (Integer.parseInt(selectedMonth) != MonthFilterList.ALL_MONTHS_DUMMY) {
+            return;
+        } 
+        
+        if (Integer.parseInt(selectedMonth) != MonthFilterList.ALL_MONTHS_DUMMY) {
             try {
                 final Calendar calendar = GregorianCalendar.getInstance();
                 calendar.set(Calendar.MONTH, Integer.parseInt(selectedMonth) - 1);
@@ -273,9 +295,12 @@ public final class Settings {
             return;
         }
 
-        if (Integer.parseInt(selectedWeekOfYear) != WeekOfYearFilterList.CURRENT_WEEK_OF_YEAR_DUMMY) {
+        if (Integer.parseInt(selectedWeekOfYear) == WeekOfYearFilterList.CURRENT_WEEK_OF_YEAR_DUMMY) {
             filter.setWeekOfYear(DateUtils.getNow());
-        } else if (Integer.parseInt(selectedWeekOfYear) != WeekOfYearFilterList.ALL_WEEKS_OF_YEAR_DUMMY) {
+            return;
+        } 
+        
+        if (Integer.parseInt(selectedWeekOfYear) != WeekOfYearFilterList.ALL_WEEKS_OF_YEAR_DUMMY) {
             try {
                 final Calendar calendar = GregorianCalendar.getInstance();
                 calendar.set(Calendar.WEEK_OF_YEAR, Integer.parseInt(selectedWeekOfYear));

@@ -276,7 +276,11 @@ public class ReportPanel extends JXPanel implements ActionListener {
 
         filterItem = (FilterItem<Integer>) getYearFilterSelector().getSelectedItem();
         final int selectedYear = filterItem.getItem();
-        if (YearFilterList.ALL_YEARS_DUMMY != selectedYear) {
+        
+        if (YearFilterList.CURRENT_YEAR_DUMMY == selectedYear) {
+            final Date year = DateUtils.getNow();
+            filter.setYear(year);
+        } else if (YearFilterList.ALL_YEARS_DUMMY != selectedYear) {
             try {
                 final Date year = YearFilterList.YEAR_FORMAT.parse(String.valueOf(selectedYear));
                 filter.setYear(year);
