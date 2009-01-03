@@ -1,7 +1,10 @@
 package org.remast.baralga.gui;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -240,12 +243,12 @@ public final class Settings {
         if (selectedYear == null) {
             return;
         }
-        
+
         if (selectedYear == YearFilterList.CURRENT_YEAR_DUMMY) {
             filter.setYear(DateUtils.getNow());
             return;
         } 
-        
+
         if (selectedYear != YearFilterList.ALL_YEARS_DUMMY) {
             try {
                 final Calendar calendar = GregorianCalendar.getInstance();
@@ -267,12 +270,12 @@ public final class Settings {
         if (selectedMonth == null) {
             return;
         }
-        
+
         if (selectedMonth == MonthFilterList.CURRENT_MONTH_DUMMY) {
             filter.setMonth(DateUtils.getNow());
             return;
         } 
-        
+
         if (selectedMonth != MonthFilterList.ALL_MONTHS_DUMMY) {
             try {
                 final Calendar calendar = GregorianCalendar.getInstance();
@@ -299,7 +302,7 @@ public final class Settings {
             filter.setWeekOfYear(DateUtils.getNow());
             return;
         } 
-        
+
         if (selectedWeekOfYear != WeekOfYearFilterList.ALL_WEEKS_OF_YEAR_DUMMY) {
             try {
                 final Calendar calendar = GregorianCalendar.getInstance();
@@ -308,6 +311,45 @@ public final class Settings {
             } catch (NumberFormatException e) {
                 log.error(e, e);
             }
+        }
+    }
+
+    //------------------------------------------------
+    // Excel Export Location
+    //------------------------------------------------
+
+    /** Key for the location of last Excel export. */
+    public static final String PING_TIME = "projectActivity.pingTime"; //$NON-NLS-1$
+
+    /**
+     * Gets the location of the last Excel export.
+     * @return the location of the last Excel export
+     */
+    public Date getPingTime() {
+        final String pingTimeString = config.getString(PING_TIME, null);
+        if (pingTimeString == null) {
+            return null;
+        }
+
+        try {
+            final Date pingTime = DateFormat.getDateTimeInstance().parse(pingTimeString);
+            return pingTime;
+        } catch (ParseException e) {
+            log.error(e, e);
+            return null;
+        }
+
+    }
+
+    /**
+     * Sets the location of the last Excel export.
+     * @param excelExportLocation the location of the last Excel export to set
+     */
+    public void setPingTime(final Date pingTime) {
+        if (pingTime != null) {
+            config.setProperty(PING_TIME, DateFormat.getDateTimeInstance().format(pingTime));
+        } else {
+            config.setProperty(PING_TIME, null);
         }
     }
 }

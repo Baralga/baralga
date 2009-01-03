@@ -83,7 +83,7 @@ public class PresentationModel extends Observable {
         this.data = new ProTrack();
         this.projectList = new BasicEventList<Project>();
         this.activitiesList = new BasicEventList<ProjectActivity>();
-
+        
         initialize();
     }
 
@@ -111,7 +111,7 @@ public class PresentationModel extends Observable {
         }
 
         this.description = Settings.instance().getLastDescription();
-
+        
         // If there is a active project that has been started on another day,
         // we end it here.
         if (active && !org.apache.commons.lang.time.DateUtils.isSameDay(start, DateUtils.getNow())) {
@@ -203,6 +203,12 @@ public class PresentationModel extends Observable {
         event.setPropertyChangeEvent(propertyChangeEvent);
         notify(event);
     }
+    
+    public final void ping() {
+        if (isActive()) {
+            Settings.instance().setPingTime(DateUtils.getNow());
+        }
+    }
 
     /**
      * Stop a project activity.
@@ -257,10 +263,7 @@ public class PresentationModel extends Observable {
         this.activitiesList.add(activityOnStartDay);
 
         // Clear old activity
-        description = StringUtils.EMPTY;
-        Settings.instance().setLastDescription(StringUtils.EMPTY);
-        setActive(false);
-        start = null;
+        clearProjectActivityAttributes();
 
         // Mark data as dirty
         this.dirty = true;
@@ -280,6 +283,17 @@ public class PresentationModel extends Observable {
             event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_STOPPED);
             notify(event);
         }
+    }
+
+    /**
+     * 
+     */
+    private void clearProjectActivityAttributes() {
+        description = StringUtils.EMPTY;
+        Settings.instance().setLastDescription(StringUtils.EMPTY);
+        setActive(false);
+        Settings.instance().setPingTime(null);
+        start = null;
     }
 
     /**
@@ -469,6 +483,7 @@ public class PresentationModel extends Observable {
         this.data.setStartTime(start);
     }
 
+    
     /**
      * @return the stop
      */
@@ -479,7 +494,7 @@ public class PresentationModel extends Observable {
     /**
      * @param stop the stop to set
      */
-    private void setStop(final Date stop) {
+    public void setStop(final Date stop) {
         this.stop = stop;
     }
 

@@ -29,6 +29,7 @@ public class SaveTimer extends TimerTask {
     @Override
     public void run() {
         try {
+            this.model.ping();
             this.model.save();
         } catch (Exception e) {
             log.error(e, e);

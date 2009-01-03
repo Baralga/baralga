@@ -23,6 +23,7 @@ import org.remast.baralga.gui.model.ProjectActivityStateException;
 import org.remast.baralga.gui.model.io.DataBackup;
 import org.remast.baralga.gui.model.io.SaveTimer;
 import org.remast.baralga.model.ProTrack;
+import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.io.ProTrackReader;
 import org.remast.util.TextResourceBundle;
 
@@ -146,14 +147,14 @@ public class BaralgaMain {
             initTimer(model);
 
             final MainFrame mainFrame = new MainFrame(model);
-            
+
             // Create try icon.
             try {
-            	if (SystemTray.isSupported()) {
-            		tray = new TrayIcon(model, mainFrame);
-            	} else {
-            		tray = null;
-            	}
+                if (SystemTray.isSupported()) {
+                    tray = new TrayIcon(model, mainFrame);
+                } else {
+                    tray = null;
+                }
             } catch (UnsupportedOperationException e) {
                 // Tray icon not supported on the current platform.
                 tray = null;
@@ -175,12 +176,12 @@ public class BaralgaMain {
                     // 1. Stop current activity, if any.
                     if (model.isActive()) {
                         try {
-                          model.stop(false);
+                            model.stop(false);
                         } catch (ProjectActivityStateException e) {
-                          // ignore
+                            // ignore
                         }
                     }
-                  
+
                     // 2. Save model
                     try {
                         model.save();
@@ -193,6 +194,20 @@ public class BaralgaMain {
                 }
 
             });
+
+
+            if (Settings.instance().getPingTime() != null) {
+                JOptionPane.showConfirmDialog(
+                        mainFrame,
+                        textBundle.textFor("BaralgaMain.RestoreProjectActivity.Message", model.getSelectedProject(), DateFormat.getDateTimeInstance().format(Settings.instance().getPingTime())),  //$NON-NLS-1$
+                        textBundle.textFor("BaralgaMain.RestoreProjectActivity.Title"),  //$NON-NLS-1$
+                        JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+
+                model.setStop(Settings.instance().getPingTime());
+                model.stop();
+            }
         } catch (Exception e) {
             log.error(e, e);
         } catch (Throwable t) {
@@ -263,7 +278,7 @@ public class BaralgaMain {
      * @throws RuntimeException if an I/O error occurred
      */
     private static boolean tryLock() {
-    	checkOrCreateBaralgaDir();
+        checkOrCreateBaralgaDir();
         final File lockFile = new File(Settings.getLockFileLocation());
         try {
             if (!lockFile.exists()) {
@@ -273,9 +288,9 @@ public class BaralgaMain {
             final FileChannel channel = new RandomAccessFile(lockFile, "rw").getChannel(); //$NON-NLS-1$
             lock = channel.tryLock();
             if (lock != null) {
-              return true;
+                return true;
             } else {
-              return false;
+                return false;
             }
         } catch (IOException e) {
             final String error = textBundle.textFor("ProTrackMain.8"); //$NON-NLS-1$
@@ -283,7 +298,7 @@ public class BaralgaMain {
             throw new RuntimeException(error);
         }
     }
-    
+
     /**
      * Checks whether the Baralga directory exists and creates it if necessary.
      */
@@ -307,11 +322,11 @@ public class BaralgaMain {
             } catch (IOException e) {
                 log.error(e, e);
             } finally {
-              try {
-                  lock.channel().close();
-              } catch (Exception e) {
-                  // ignore
-              }
+                try {
+                    lock.channel().close();
+                } catch (Exception e) {
+                    // ignore
+                }
             }
         }
         lockFile.delete();
