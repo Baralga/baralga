@@ -67,7 +67,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
     private MonthFilterList monthFilterList;
 
     /** List of months by which can be filtered. */
-    private WeekOfYearFilterList weekFilterList;
+    private WeekOfYearFilterList weekOfYearFilterList;
 
     /** List of projects by which can be filtered. */
     private ProjectFilterList projectFilterList;
@@ -107,7 +107,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
         this.add(getMonthFilterSelector(), "11, 3"); //$NON-NLS-1$
 
         this.add(new JXLabel(textBundle.textFor("ReportPanel.WeekLabel")), "13, 3"); //$NON-NLS-1$ //$NON-NLS-2$
-        this.add(getWeekFilterSelector(), "15, 3"); //$NON-NLS-1$
+        this.add(getWeekOfYearFilterSelector(), "15, 3"); //$NON-NLS-1$
 
         JXTitledSeparator sep = new JXTitledSeparator(textBundle.textFor("ReportPanel.DataLabel")); //$NON-NLS-1$
         this.add(sep, "1, 5, 15, 1"); //$NON-NLS-1$
@@ -131,10 +131,10 @@ public class ReportPanel extends JXPanel implements ActionListener {
             }
 
             // Read from Settings.
-            final String selectedMonth = Settings.instance().getFilterSelectedMonth();
+            final Integer selectedMonth = Settings.instance().getFilterSelectedMonth();
             if (selectedMonth != null) {
                 for (FilterItem<Integer> item : monthFilterList.getMonthList()) {
-                    if (Integer.parseInt(selectedMonth) == item.getItem()) {
+                    if (item.getItem().equals(selectedMonth)) {
                         monthFilterSelector.setSelectedItem(item);
                         break;
                     }
@@ -149,23 +149,23 @@ public class ReportPanel extends JXPanel implements ActionListener {
     /**
      * @return the weekFilterSelector
      */
-    private JComboBox getWeekFilterSelector() {
+    private JComboBox getWeekOfYearFilterSelector() {
         if (weekFilterSelector == null) {
-            weekFilterList = model.getWeekFilterList();
-            weekFilterSelector = new JComboBox(new EventComboBoxModel<FilterItem<Integer>>(weekFilterList
+            weekOfYearFilterList = model.getWeekFilterList();
+            weekFilterSelector = new JComboBox(new EventComboBoxModel<FilterItem<Integer>>(weekOfYearFilterList
                     .getWeekList()));
-            weekFilterSelector.setToolTipText(textBundle.textFor("WeekFilterSelector.ToolTipText")); //$NON-NLS-1$
+            weekFilterSelector.setToolTipText(textBundle.textFor("WeekOfYearFilterSelector.ToolTipText")); //$NON-NLS-1$
 
             // Select first entry
-            if (!weekFilterList.getWeekList().isEmpty()) {
+            if (!weekOfYearFilterList.getWeekList().isEmpty()) {
                 weekFilterSelector.setSelectedIndex(0);
             }
 
             // Read from Settings.
-            final String selectedWeek = Settings.instance().getFilterSelectedWeekOfYear();
+            final Integer selectedWeek = Settings.instance().getFilterSelectedWeekOfYear();
             if (selectedWeek != null) {
-                for (FilterItem<Integer> item : weekFilterList.getWeekList()) {
-                    if (Integer.parseInt(selectedWeek) == item.getItem()) {
+                for (FilterItem<Integer> item : weekOfYearFilterList.getWeekList()) {
+                    if (item.getItem().equals(selectedWeek)) {
                         weekFilterSelector.setSelectedItem(item);
                         break;
                     }
@@ -223,10 +223,10 @@ public class ReportPanel extends JXPanel implements ActionListener {
             }
 
             // Read from Settings.
-            final String selectedYear = Settings.instance().getFilterSelectedYear();
+            final Integer selectedYear = Settings.instance().getFilterSelectedYear();
             if (selectedYear != null) {
                 for (FilterItem<Integer> item : yearFilterList.getYearList()) {
-                    if (Integer.parseInt(selectedYear) == item.getItem()) {
+                    if (item.getItem().equals(selectedYear)) {
                         yearFilterSelector.setSelectedItem(item);
                         break;
                     }
@@ -259,7 +259,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
             }
         }
 
-        filterItem = (FilterItem<Integer>) getWeekFilterSelector().getSelectedItem();
+        filterItem = (FilterItem<Integer>) getWeekOfYearFilterSelector().getSelectedItem();
         final int selectedWeekOfYear= filterItem.getItem();
 
         if (WeekOfYearFilterList.CURRENT_WEEK_OF_YEAR_DUMMY == selectedWeekOfYear) {
@@ -304,17 +304,17 @@ public class ReportPanel extends JXPanel implements ActionListener {
         // Store filter by month
         FilterItem<Integer> filterItem = (FilterItem<Integer>) getMonthFilterSelector().getSelectedItem();
         final int selectedMonth = filterItem.getItem();
-        Settings.instance().setFilterSelectedMonth(String.valueOf(selectedMonth));
+        Settings.instance().setFilterSelectedMonth(selectedMonth);
 
         // Store filter by year
         filterItem = (FilterItem<Integer>) getYearFilterSelector().getSelectedItem();
         final int selectedYear = filterItem.getItem();
-        Settings.instance().setFilterSelectedYear(String.valueOf(selectedYear));
+        Settings.instance().setFilterSelectedYear(selectedYear);
 
         // Store filter by week of year
-        filterItem = (FilterItem<Integer>) getWeekFilterSelector().getSelectedItem();
+        filterItem = (FilterItem<Integer>) getWeekOfYearFilterSelector().getSelectedItem();
         final int selectedWeekOfYear = filterItem.getItem();
-        Settings.instance().setFilterSelectedWeekOfYear(String.valueOf(selectedWeekOfYear));
+        Settings.instance().setFilterSelectedWeekOfYear(selectedWeekOfYear);
 
         // Store filter by project
         final FilterItem<Project> projectFilterItem = (FilterItem<Project>) getProjectFilterSelector().getSelectedItem();

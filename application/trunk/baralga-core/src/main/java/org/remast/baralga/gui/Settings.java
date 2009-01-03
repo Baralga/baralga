@@ -143,45 +143,45 @@ public final class Settings {
     /** The key for the selected month of filter. */
     public static final String SELECTED_MONTH = "filter.month"; //$NON-NLS-1$
 
-    public String getFilterSelectedMonth() {
+    public Integer getFilterSelectedMonth() {
         // -- 
         // :INFO: Migrate from < 1.3 where * was used as dummy value
         if (StringUtils.equals("*", config.getString(SELECTED_MONTH, null))) {
-            setFilterSelectedMonth(String.valueOf(MonthFilterList.ALL_MONTHS_DUMMY));
+            setFilterSelectedMonth(MonthFilterList.ALL_MONTHS_DUMMY);
         }
         // --
-        return config.getString(SELECTED_MONTH, null);
+        return config.getInteger(SELECTED_MONTH, null);
     }
 
-    public void setFilterSelectedMonth(final String month) {
+    public void setFilterSelectedMonth(final Integer month) {
         config.setProperty(SELECTED_MONTH, month);
     }
 
     /** The key for the selected week of filter. */
     public static final String SELECTED_WEEK_OF_YEAR = "filter.weekOfYear"; //$NON-NLS-1$
 
-    public String getFilterSelectedWeekOfYear() {
-        return config.getString(SELECTED_WEEK_OF_YEAR, null);
+    public Integer getFilterSelectedWeekOfYear() {
+        return config.getInteger(SELECTED_WEEK_OF_YEAR, null);
     }
 
-    public void setFilterSelectedWeekOfYear(final String weekOfYear) {
+    public void setFilterSelectedWeekOfYear(final Integer weekOfYear) {
         config.setProperty(SELECTED_WEEK_OF_YEAR, weekOfYear);
     }
 
     /** The key for the selected year of filter. */
     public static final String SELECTED_YEAR = "filter.year"; //$NON-NLS-1$
 
-    public String getFilterSelectedYear() {
+    public Integer getFilterSelectedYear() {
         // -- 
         // :INFO: Migrate from < 1.3 where * was used as dummy value
         if (StringUtils.equals("*", config.getString(SELECTED_YEAR, null))) {
-            setFilterSelectedYear(String.valueOf(YearFilterList.ALL_YEARS_DUMMY));
+            setFilterSelectedYear(YearFilterList.ALL_YEARS_DUMMY);
         }
         // -- 
-        return config.getString(SELECTED_YEAR, null);
+        return config.getInteger(SELECTED_YEAR, null);
     }
 
-    public void setFilterSelectedYear(final String year) {
+    public void setFilterSelectedYear(final Integer year) {
         config.setProperty(SELECTED_YEAR, year);
     }
 
@@ -235,21 +235,21 @@ public final class Settings {
      * @param filter the restored filter
      */
     private void restoreYearFilter(final Filter filter) {
-        final String selectedYear = Settings.instance().getFilterSelectedYear();
+        final Integer selectedYear = Settings.instance().getFilterSelectedYear();
 
-        if (StringUtils.isBlank(selectedYear)) {
+        if (selectedYear == null) {
             return;
         }
         
-        if (Integer.parseInt(selectedYear) == YearFilterList.CURRENT_YEAR_DUMMY) {
+        if (selectedYear == YearFilterList.CURRENT_YEAR_DUMMY) {
             filter.setYear(DateUtils.getNow());
             return;
         } 
         
-        if (Integer.parseInt(selectedYear) != YearFilterList.ALL_YEARS_DUMMY) {
+        if (selectedYear != YearFilterList.ALL_YEARS_DUMMY) {
             try {
                 final Calendar calendar = GregorianCalendar.getInstance();
-                calendar.set(Calendar.YEAR, Integer.parseInt(selectedYear));
+                calendar.set(Calendar.YEAR, selectedYear);
                 filter.setYear(calendar.getTime());
             } catch (NumberFormatException e) {
                 log.error(e, e);
@@ -262,21 +262,21 @@ public final class Settings {
      * @param filter the restored filter
      */
     private void restoreMonthFilter(final Filter filter) {
-        final String selectedMonth = getFilterSelectedMonth();
+        final Integer selectedMonth = getFilterSelectedMonth();
 
-        if (StringUtils.isBlank(selectedMonth)) {
+        if (selectedMonth == null) {
             return;
         }
         
-        if (Integer.parseInt(selectedMonth) == MonthFilterList.CURRENT_MONTH_DUMMY) {
+        if (selectedMonth == MonthFilterList.CURRENT_MONTH_DUMMY) {
             filter.setMonth(DateUtils.getNow());
             return;
         } 
         
-        if (Integer.parseInt(selectedMonth) != MonthFilterList.ALL_MONTHS_DUMMY) {
+        if (selectedMonth != MonthFilterList.ALL_MONTHS_DUMMY) {
             try {
                 final Calendar calendar = GregorianCalendar.getInstance();
-                calendar.set(Calendar.MONTH, Integer.parseInt(selectedMonth) - 1);
+                calendar.set(Calendar.MONTH, selectedMonth - 1);
                 filter.setMonth(calendar.getTime());
             } catch (NumberFormatException e) {
                 log.error(e, e);
@@ -289,21 +289,21 @@ public final class Settings {
      * @param filter the restored filter
      */
     private void restoreWeekOfYearFilter(final Filter filter) {
-        final String selectedWeekOfYear = getFilterSelectedWeekOfYear();
+        final Integer selectedWeekOfYear = getFilterSelectedWeekOfYear();
 
-        if (StringUtils.isBlank(selectedWeekOfYear)) {
+        if (selectedWeekOfYear == null) {
             return;
         }
 
-        if (Integer.parseInt(selectedWeekOfYear) == WeekOfYearFilterList.CURRENT_WEEK_OF_YEAR_DUMMY) {
+        if (selectedWeekOfYear == WeekOfYearFilterList.CURRENT_WEEK_OF_YEAR_DUMMY) {
             filter.setWeekOfYear(DateUtils.getNow());
             return;
         } 
         
-        if (Integer.parseInt(selectedWeekOfYear) != WeekOfYearFilterList.ALL_WEEKS_OF_YEAR_DUMMY) {
+        if (selectedWeekOfYear != WeekOfYearFilterList.ALL_WEEKS_OF_YEAR_DUMMY) {
             try {
                 final Calendar calendar = GregorianCalendar.getInstance();
-                calendar.set(Calendar.WEEK_OF_YEAR, Integer.parseInt(selectedWeekOfYear));
+                calendar.set(Calendar.WEEK_OF_YEAR, selectedWeekOfYear);
                 filter.setWeekOfYear(calendar.getTime());
             } catch (NumberFormatException e) {
                 log.error(e, e);
