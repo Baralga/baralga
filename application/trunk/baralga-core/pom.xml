@@ -71,8 +71,7 @@
 						<manifest>
 							<addDefaultImplementationEntries>true
 							</addDefaultImplementationEntries>
-							<mainClass>org.remast.baralga.BaralgaMain
-							</mainClass>
+							<mainClass>org.remast.baralga.gui.BaralgaMain</mainClass>
 							<packageName>org.remast.baralga</packageName>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
