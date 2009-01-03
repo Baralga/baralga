@@ -29,7 +29,6 @@ public abstract class DateUtils {
 
     /**
      * Get current time rounded to minutes.
-     * 
      * @return
      */
     public static Date getNow() {
