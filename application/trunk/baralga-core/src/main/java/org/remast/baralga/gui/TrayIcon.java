@@ -111,7 +111,7 @@ public class TrayIcon implements Observer {
         	stopAction.putValue(AbstractAction.SMALL_ICON, null);
             menu.add(stopAction);
         } else {
-        	final StartAction startAction = new StartAction(model);
+        	final StartAction startAction = new StartAction(null, model);
         	startAction.putValue(AbstractAction.SMALL_ICON, null);
             menu.add(startAction);
         }

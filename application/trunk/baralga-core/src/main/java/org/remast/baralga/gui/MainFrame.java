@@ -148,7 +148,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         } else {
             this.setTitle(textBundle.textFor("Global.Title")); //$NON-NLS-1$
 
-            getStartStopButton().setAction(new StartAction(this.model));
+            getStartStopButton().setAction(new StartAction(this, this.model));
         }
 
         // 2. Restore selected project if set.
@@ -271,7 +271,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      */
     private JButton getStartStopButton() {
         if (startStopButton == null) {
-            startStopButton = new JButton(new StartAction(this.model));
+            startStopButton = new JButton(new StartAction(this, this.model));
         }
         return startStopButton;
     }
@@ -465,7 +465,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         Settings.instance().setLastDescription(StringUtils.EMPTY);
 
         this.setTitle(textBundle.textFor("Global.Title") + " " + textBundle.textFor("MainFrame.12") + " " + FormatConstants.timeFormat.format(this.model.getStop())); //$NON-NLS-1$
-        getStartStopButton().setAction(new StartAction(this.model));
+        getStartStopButton().setAction(new StartAction(this, this.model));
     }
 
     /**
