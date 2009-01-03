@@ -310,13 +310,11 @@ public class PresentationModel extends Observable {
         final Project previousProject = getSelectedProject();
 
         // Set selected project to new project
-        this.selectedProject = activeProject;
+        setSelectedProject(activeProject);
 
         // Mark data as dirty
         this.dirty = true;
 
-        // Set active project to new project
-        this.data.setActiveProject(activeProject);
 
         final Date now = DateUtils.getNow();
 
@@ -521,6 +519,12 @@ public class PresentationModel extends Observable {
     public Project getSelectedProject() {
         return selectedProject;
     }
+    
+    private void setSelectedProject(final Project activeProject) {
+        this.selectedProject = activeProject;
+        this.data.setActiveProject(activeProject);
+    }
+
 
     /**
      * @return the data
