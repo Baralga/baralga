@@ -18,64 +18,77 @@ public class MonthFilterList implements Observer {
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(MonthFilterList.class);
 
-	public static final SimpleDateFormat MONTH_FORMAT = new SimpleDateFormat("MM"); //$NON-NLS-1$
+    public static final SimpleDateFormat MONTH_FORMAT = new SimpleDateFormat("MM"); //$NON-NLS-1$
 
-	/** The model. */
-	private final PresentationModel model;
+    /** The model. */
+    private final PresentationModel model;
 
     /** Value for the all months dummy. */
-	public static final int ALL_MONTHS_DUMMY = -10;
+    public static final int ALL_MONTHS_DUMMY = -10;
 
     /** filter item for the all months dummy. */
-	public static final FilterItem<Integer> ALL_MONTHS_FILTER_ITEM = new FilterItem<Integer>(ALL_MONTHS_DUMMY, textBundle.textFor("MonthFilterList.AllMonthsLabel")); //$NON-NLS-1$
+    public static final FilterItem<Integer> ALL_MONTHS_FILTER_ITEM = new FilterItem<Integer>(
+            ALL_MONTHS_DUMMY,
+            textBundle.textFor("MonthFilterList.AllMonthsLabel") //$NON-NLS-1$
+    );
+    
+    /** Value for the current month dummy. */
+    public static final int CURRENT_MONTH_DUMMY = -5;
 
-	private EventList<FilterItem<Integer>> monthList;
+    /** filter item for the current month dummy. */
+    public static final FilterItem<Integer> CURRENT_MONTH_FILTER_ITEM = new FilterItem<Integer>(
+            CURRENT_MONTH_DUMMY,
+            textBundle.textFor("MonthFilterList.CurrentMonthLabel") //$NON-NLS-1$
+    );
 
-	public MonthFilterList(final PresentationModel model) {
-		this.model = model;
-		this.monthList = new BasicEventList<FilterItem<Integer>>();
+    private EventList<FilterItem<Integer>> monthList;
 
-		this.model.addObserver(this);
+    public MonthFilterList(final PresentationModel model) {
+        this.model = model;
+        this.monthList = new BasicEventList<FilterItem<Integer>>();
 
-		initialize();
-	}
+        this.model.addObserver(this);
 
-	private void initialize() {
-		this.monthList.clear();
-		this.monthList.add(ALL_MONTHS_FILTER_ITEM);
+        initialize();
+    }
 
-		for (ProjectActivity activity : this.model.getData().getActivities()) {
-			this.addMonth(activity);
-		}
-	}
+    private void initialize() {
+        this.monthList.clear();
+        this.monthList.add(ALL_MONTHS_FILTER_ITEM);
+        this.monthList.add(CURRENT_MONTH_FILTER_ITEM);
 
-	public SortedList<FilterItem<Integer>> getMonthList() {
-		return new SortedList<FilterItem<Integer>>(this.monthList);
-	}
+        for (ProjectActivity activity : this.model.getData().getActivities()) {
+            this.addMonth(activity);
+        }
+    }
 
-	public void update(final Observable source, final Object eventObject) {
-		if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
-			return;
-		}
-		
-		final BaralgaEvent event = (BaralgaEvent) eventObject;
+    public SortedList<FilterItem<Integer>> getMonthList() {
+        return new SortedList<FilterItem<Integer>>(this.monthList);
+    }
 
-		switch (event.getType()) {
+    public void update(final Observable source, final Object eventObject) {
+        if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
+            return;
+        }
 
-		case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
-			this.addMonth((ProjectActivity) event.getData());
-			break;
+        final BaralgaEvent event = (BaralgaEvent) eventObject;
 
-		case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
-			this.initialize();
-			break;
-		}
-	}
+        switch (event.getType()) {
 
-	private void addMonth(final ProjectActivity activity) {
-		final String month = MONTH_FORMAT.format(activity.getStart());
-		final FilterItem<Integer> monthItem = new FilterItem<Integer>(Integer.parseInt(month), month);
-		if (!this.monthList.contains(monthItem))
-			this.monthList.add(monthItem);
-	}
+        case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
+            this.addMonth((ProjectActivity) event.getData());
+            break;
+
+        case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
+            this.initialize();
+            break;
+        }
+    }
+
+    private void addMonth(final ProjectActivity activity) {
+        final String month = MONTH_FORMAT.format(activity.getStart());
+        final FilterItem<Integer> monthItem = new FilterItem<Integer>(Integer.parseInt(month), month);
+        if (!this.monthList.contains(monthItem))
+            this.monthList.add(monthItem);
+    }
 }
