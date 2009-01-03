@@ -19,64 +19,79 @@ public class WeekOfYearFilterList implements Observer {
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(WeekOfYearFilterList.class);
 
-	public static final SimpleDateFormat WEEK_OF_YEAR_FORMAT = new SimpleDateFormat("w"); //$NON-NLS-1$
+    public static final SimpleDateFormat WEEK_OF_YEAR_FORMAT = new SimpleDateFormat("w"); //$NON-NLS-1$
 
-	/** The model. */
-	private final PresentationModel model;
+    /** The model. */
+    private final PresentationModel model;
 
-	public static final int ALL_WEEKS_OF_YEAR_DUMMY = -10;
+    /** Value for the all weeks of year dummy. */
+    public static final int ALL_WEEKS_OF_YEAR_DUMMY = -10;
 
-	public static final FilterItem<Integer> ALL_WEEKS_OF_YEAR_FILTER_ITEM = new FilterItem<Integer>(ALL_WEEKS_OF_YEAR_DUMMY, textBundle.textFor("WeekOfYearFilterList.AllWeeksOfYearLabel")); //$NON-NLS-1$
+    /** Filter item for the all weeks of year dummy. */
+    public static final FilterItem<Integer> ALL_WEEKS_OF_YEAR_FILTER_ITEM = new FilterItem<Integer>(
+            ALL_WEEKS_OF_YEAR_DUMMY, 
+            textBundle.textFor("WeekOfYearFilterList.AllWeeksOfYearLabel") //$NON-NLS-1$
+    );
 
-	private EventList<FilterItem<Integer>> weekOfYearList;
+    /** Value for the current week of year dummy. */
+    public static final int CURRENT_WEEK_OF_YEAR_DUMMY = -5;
 
-	public WeekOfYearFilterList(final PresentationModel model) {
-		this.model = model;
-		this.weekOfYearList = new BasicEventList<FilterItem<Integer>>();
+    /** Filter item for the current week of year dummy. */
+    public static final FilterItem<Integer> CURRENT_WEEK_OF_YEAR_FILTER_ITEM = new FilterItem<Integer>(
+            CURRENT_WEEK_OF_YEAR_DUMMY,
+            textBundle.textFor("WeekOfYearFilterList.CurrentWeekOfYearLabel") //$NON-NLS-1$
+    );
 
-		this.model.addObserver(this);
+    private EventList<FilterItem<Integer>> weekOfYearList;
 
-		initialize();
-	}
+    public WeekOfYearFilterList(final PresentationModel model) {
+        this.model = model;
+        this.weekOfYearList = new BasicEventList<FilterItem<Integer>>();
 
-	private void initialize() {
-		this.weekOfYearList.clear();
-		this.weekOfYearList.add(ALL_WEEKS_OF_YEAR_FILTER_ITEM);
+        this.model.addObserver(this);
 
-		for (ProjectActivity activity : this.model.getData().getActivities()) {
-			this.addMonth(activity);
-		}
-	}
+        initialize();
+    }
 
-	public SortedList<FilterItem<Integer>> getWeekList() {
-		return new SortedList<FilterItem<Integer>>(this.weekOfYearList);
-	}
+    private void initialize() {
+        this.weekOfYearList.clear();
+        this.weekOfYearList.add(ALL_WEEKS_OF_YEAR_FILTER_ITEM);
+        this.weekOfYearList.add(CURRENT_WEEK_OF_YEAR_FILTER_ITEM);
 
-	public void update(final Observable source, final Object eventObject) {
-		if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
-			return;
-		}
-		
-		final BaralgaEvent event = (BaralgaEvent) eventObject;
+        for (ProjectActivity activity : this.model.getData().getActivities()) {
+            this.addWeekOfYear(activity);
+        }
+    }
 
-		switch (event.getType()) {
+    public SortedList<FilterItem<Integer>> getWeekList() {
+        return new SortedList<FilterItem<Integer>>(this.weekOfYearList);
+    }
 
-		case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
-			this.addMonth((ProjectActivity) event.getData());
-			break;
+    public void update(final Observable source, final Object eventObject) {
+        if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
+            return;
+        }
 
-		case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
-			this.initialize();
-			break;
-		}
-	}
+        final BaralgaEvent event = (BaralgaEvent) eventObject;
 
-	private void addMonth(final ProjectActivity activity) {
-		final DateTime dateTime = new DateTime(activity.getStart());
-		final Integer weekOfYear = dateTime.getWeekOfWeekyear();
-		
-		final FilterItem<Integer> filterItem = new FilterItem<Integer>(weekOfYear);
-		if (!this.weekOfYearList.contains(filterItem))
-			this.weekOfYearList.add(filterItem);
-	}
+        switch (event.getType()) {
+
+        case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
+            this.addWeekOfYear((ProjectActivity) event.getData());
+            break;
+
+        case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
+            this.initialize();
+            break;
+        }
+    }
+
+    private void addWeekOfYear(final ProjectActivity activity) {
+        final DateTime dateTime = new DateTime(activity.getStart());
+        final Integer weekOfYear = dateTime.getWeekOfWeekyear();
+
+        final FilterItem<Integer> filterItem = new FilterItem<Integer>(weekOfYear);
+        if (!this.weekOfYearList.contains(filterItem))
+            this.weekOfYearList.add(filterItem);
+    }
 }

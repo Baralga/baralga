@@ -13,6 +13,7 @@ import org.remast.baralga.gui.lists.MonthFilterList;
 import org.remast.baralga.gui.lists.WeekOfYearFilterList;
 import org.remast.baralga.gui.lists.YearFilterList;
 import org.remast.baralga.model.filter.Filter;
+import org.remast.util.DateUtils;
 
 /**
  * Stores and reads the user settings.
@@ -217,17 +218,8 @@ public final class Settings {
     public Filter restoreFromSettings() {
         final Filter filter = new Filter();
 
-        // Restore the month
-        final String selectedWeekOfYear = getFilterSelectedWeekOfYear();
-        if (StringUtils.isNotBlank(selectedWeekOfYear) && Integer.parseInt(selectedWeekOfYear) != WeekOfYearFilterList.ALL_WEEKS_OF_YEAR_DUMMY) {
-            try {
-                final Calendar calendar = GregorianCalendar.getInstance();
-                calendar.set(Calendar.WEEK_OF_YEAR, Integer.parseInt(selectedWeekOfYear));
-                filter.setWeekOfYear(calendar.getTime());
-            } catch (NumberFormatException e) {
-                log.error(e, e);
-            }
-        }
+        // Restore the week of the year
+        restoreWeekOfYearFilter(filter);
 
         // Restore the month
         final String selectedMonth = getFilterSelectedMonth();
@@ -254,5 +246,29 @@ public final class Settings {
         }
 
         return filter;
+    }
+
+    private void restoreWeekOfYearFilter(final Filter filter) {
+        final String selectedWeekOfYear = getFilterSelectedWeekOfYear();
+
+        if (StringUtils.isBlank(selectedWeekOfYear)) {
+            return;
+        }
+
+        if (Integer.parseInt(selectedWeekOfYear) != WeekOfYearFilterList.CURRENT_WEEK_OF_YEAR_DUMMY) {
+            try {
+                filter.setWeekOfYear(DateUtils.getNow());
+            } catch (NumberFormatException e) {
+                log.error(e, e);
+            }
+        } else if (Integer.parseInt(selectedWeekOfYear) != WeekOfYearFilterList.ALL_WEEKS_OF_YEAR_DUMMY) {
+            try {
+                final Calendar calendar = GregorianCalendar.getInstance();
+                calendar.set(Calendar.WEEK_OF_YEAR, Integer.parseInt(selectedWeekOfYear));
+                filter.setWeekOfYear(calendar.getTime());
+            } catch (NumberFormatException e) {
+                log.error(e, e);
+            }
+        }
     }
 }

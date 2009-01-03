@@ -23,8 +23,10 @@ public class MonthFilterList implements Observer {
 	/** The model. */
 	private final PresentationModel model;
 
+    /** Value for the all months dummy. */
 	public static final int ALL_MONTHS_DUMMY = -10;
 
+    /** filter item for the all months dummy. */
 	public static final FilterItem<Integer> ALL_MONTHS_FILTER_ITEM = new FilterItem<Integer>(ALL_MONTHS_DUMMY, textBundle.textFor("MonthFilterList.AllMonthsLabel")); //$NON-NLS-1$
 
 	private EventList<FilterItem<Integer>> monthList;

@@ -26,6 +26,7 @@ import org.remast.baralga.gui.lists.YearFilterList;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.filter.Filter;
+import org.remast.util.DateUtils;
 import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
@@ -257,7 +258,11 @@ public class ReportPanel extends JXPanel implements ActionListener {
 
 		filterItem = (FilterItem<Integer>) getWeekFilterSelector().getSelectedItem();
 		final int selectedWeekOfYear= filterItem.getItem();
-		if (WeekOfYearFilterList.ALL_WEEKS_OF_YEAR_DUMMY != selectedWeekOfYear) {
+		
+        if (WeekOfYearFilterList.CURRENT_WEEK_OF_YEAR_DUMMY == selectedWeekOfYear) {
+            final Date weekOfYear = DateUtils.getNow();
+            filter.setWeekOfYear(weekOfYear);
+        } else if (WeekOfYearFilterList.ALL_WEEKS_OF_YEAR_DUMMY != selectedWeekOfYear) {
 			try {
 				final Date weekOfYear = WeekOfYearFilterList.WEEK_OF_YEAR_FORMAT.parse(String.valueOf(selectedWeekOfYear));
 				filter.setWeekOfYear(weekOfYear);

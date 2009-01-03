@@ -23,8 +23,10 @@ public class YearFilterList implements Observer {
 	/** The model. */
 	private final PresentationModel model;
 
+    /** Value for the all years dummy. */
 	public static final int ALL_YEARS_DUMMY = -10; //$NON-NLS-1$
 
+    /** Filter item for the all years dummy. */
 	public static final FilterItem<Integer> ALL_YEARS_FILTER_ITEM = new FilterItem<Integer>(ALL_YEARS_DUMMY, textBundle.textFor("YearFilterList.AllYearsLabel")); //$NON-NLS-1$
 
 	private EventList<FilterItem<Integer>> yearList;
