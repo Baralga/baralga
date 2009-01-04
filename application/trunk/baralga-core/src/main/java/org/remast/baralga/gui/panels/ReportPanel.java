@@ -32,6 +32,7 @@ import org.remast.util.TextResourceBundle;
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 
 /**
+ * Displays the reports generated from the project activities.
  * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
@@ -58,8 +59,6 @@ public class ReportPanel extends JXPanel implements ActionListener {
     /** Filter by selected week. */
     private JComboBox weekFilterSelector;
 
-    private FilteredActivitiesPane filteredActivitiesPane;
-
     /** List of years by which can be filtered. */
     private YearFilterList yearFilterList;
 
@@ -71,6 +70,9 @@ public class ReportPanel extends JXPanel implements ActionListener {
 
     /** List of projects by which can be filtered. */
     private ProjectFilterList projectFilterList;
+
+    /** The panel that actually displays the filtered activities. */
+    private FilteredActivitiesPane filteredActivitiesPane;
 
     public ReportPanel(final PresentationModel model) {
         this.model = model;
@@ -121,8 +123,9 @@ public class ReportPanel extends JXPanel implements ActionListener {
     private JComboBox getMonthFilterSelector() {
         if (monthFilterSelector == null) {
             monthFilterList = model.getMonthFilterList();
-            monthFilterSelector = new JComboBox(new EventComboBoxModel<FilterItem<Integer>>(monthFilterList
-                    .getMonthList()));
+            monthFilterSelector = new JComboBox(
+                    new EventComboBoxModel<FilterItem<Integer>>(monthFilterList.getMonthList())
+            );
             monthFilterSelector.setToolTipText(textBundle.textFor("MonthFilterSelector.ToolTipText")); //$NON-NLS-1$
 
             // Select first entry
@@ -183,8 +186,9 @@ public class ReportPanel extends JXPanel implements ActionListener {
     private JComboBox getProjectFilterSelector() {
         if (projectFilterSelector == null) {
             projectFilterList = model.getProjectFilterList();
-            projectFilterSelector = new JComboBox(new EventComboBoxModel<FilterItem<Project>>(projectFilterList
-                    .getProjectList()));
+            projectFilterSelector = new JComboBox(
+                    new EventComboBoxModel<FilterItem<Project>>(projectFilterList.getProjectList())
+            );
             projectFilterSelector.setToolTipText(textBundle.textFor("ProjectFilterSelector.ToolTipText")); //$NON-NLS-1$
 
             // Select first entry
@@ -214,7 +218,9 @@ public class ReportPanel extends JXPanel implements ActionListener {
     private JComboBox getYearFilterSelector() {
         if (yearFilterSelector == null) {
             yearFilterList = model.getYearFilterList();
-            yearFilterSelector = new JComboBox(new EventComboBoxModel<FilterItem<Integer>>(yearFilterList.getYearList()));
+            yearFilterSelector = new JComboBox(
+                    new EventComboBoxModel<FilterItem<Integer>>(yearFilterList.getYearList())
+            );
             yearFilterSelector.setToolTipText(textBundle.textFor("YearFilterSelector.ToolTipText")); //$NON-NLS-1$
 
             // Select first entry
@@ -245,50 +251,83 @@ public class ReportPanel extends JXPanel implements ActionListener {
     public Filter createFilter() {
         final Filter filter = new Filter();
 
+        // Filter for month
         FilterItem<Integer> filterItem = (FilterItem<Integer>) getMonthFilterSelector().getSelectedItem();
         final int selectedMonth = filterItem.getItem();
-        if (MonthFilterList.CURRENT_MONTH_DUMMY == selectedMonth) {
-            final Date month =  DateUtils.getNow();
-            filter.setMonth(month);
-        } else if (MonthFilterList.ALL_MONTHS_DUMMY != selectedMonth) {
+
+        switch (selectedMonth) {
+        case MonthFilterList.CURRENT_MONTH_DUMMY:
+            filter.setMonth(DateUtils.getNow());
+            break;
+
+        case MonthFilterList.ALL_MONTHS_DUMMY:
+            // No filtering by month
+            break;
+
+        default:
             try {
-                final Date month = MonthFilterList.MONTH_FORMAT.parse(String.valueOf(selectedMonth));
+                final Date month = MonthFilterList.MONTH_FORMAT.parse(
+                        String.valueOf(selectedMonth)
+                );
                 filter.setMonth(month);
             } catch (ParseException e) {
                 log.error(e, e);
             }
+            break;
         }
 
+        // Filter for week of year
         filterItem = (FilterItem<Integer>) getWeekOfYearFilterSelector().getSelectedItem();
         final int selectedWeekOfYear= filterItem.getItem();
 
-        if (WeekOfYearFilterList.CURRENT_WEEK_OF_YEAR_DUMMY == selectedWeekOfYear) {
-            final Date weekOfYear = DateUtils.getNow();
-            filter.setWeekOfYear(weekOfYear);
-        } else if (WeekOfYearFilterList.ALL_WEEKS_OF_YEAR_DUMMY != selectedWeekOfYear) {
+        switch (selectedWeekOfYear) {
+        case WeekOfYearFilterList.CURRENT_WEEK_OF_YEAR_DUMMY:
+            filter.setWeekOfYear(DateUtils.getNow());
+            break;
+
+        case WeekOfYearFilterList.ALL_WEEKS_OF_YEAR_DUMMY:
+            // No filtering by week of year
+            break;
+
+        default:
             try {
-                final Date weekOfYear = WeekOfYearFilterList.WEEK_OF_YEAR_FORMAT.parse(String.valueOf(selectedWeekOfYear));
+                final Date weekOfYear = WeekOfYearFilterList.WEEK_OF_YEAR_FORMAT.parse(
+                        String.valueOf(selectedWeekOfYear)
+                );
                 filter.setWeekOfYear(weekOfYear);
             } catch (ParseException e) {
                 log.error(e, e);
             }
+            break;
         }
 
+        // Filter for year
         filterItem = (FilterItem<Integer>) getYearFilterSelector().getSelectedItem();
         final int selectedYear = filterItem.getItem();
-        
-        if (YearFilterList.CURRENT_YEAR_DUMMY == selectedYear) {
-            final Date year = DateUtils.getNow();
-            filter.setYear(year);
-        } else if (YearFilterList.ALL_YEARS_DUMMY != selectedYear) {
+
+
+        switch (selectedYear) {
+        case YearFilterList.CURRENT_YEAR_DUMMY:
+            filter.setYear(DateUtils.getNow());
+            break;
+
+        case YearFilterList.ALL_YEARS_DUMMY:
+            // No filtering by year
+            break;
+
+        default:
             try {
-                final Date year = YearFilterList.YEAR_FORMAT.parse(String.valueOf(selectedYear));
+                final Date year = YearFilterList.YEAR_FORMAT.parse(
+                        String.valueOf(selectedYear)
+                );
                 filter.setYear(year);
             } catch (ParseException e) {
                 log.error(e, e);
             }
+            break;
         }
 
+        // Filter for project
         final FilterItem<Project> projectFilterItem = (FilterItem<Project>) getProjectFilterSelector().getSelectedItem();
         final Project project = projectFilterItem.getItem();
         if (!ProjectFilterList.ALL_PROJECTS_DUMMY.equals(project)) {
@@ -323,14 +362,16 @@ public class ReportPanel extends JXPanel implements ActionListener {
             long projectId = project.getId();
             Settings.instance().setFilterSelectedProjectId(projectId);
         } else {
-            Settings.instance().setFilterSelectedProjectId(ProjectFilterList.ALL_PROJECTS_DUMMY_VALUE);
+            Settings.instance().setFilterSelectedProjectId(
+                    ProjectFilterList.ALL_PROJECTS_DUMMY_VALUE
+            );
         }
     }
 
     /**
      * One of the filter criteria changed. So we create and apply the filter.
      */
-    public void actionPerformed(final ActionEvent e) {
+    public final void actionPerformed(final ActionEvent event) {
         // 1. Create filter from selection.
         final Filter filter = this.createFilter();
 
