@@ -1,6 +1,5 @@
 package org.remast.baralga.model.io;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -36,7 +35,7 @@ public class ProTrackReader {
 	 * @throws IOException
 	 */
 	public void read(final File file) throws IOException {
-		final InputStream fis = new BufferedInputStream(new FileInputStream(file));
+		final InputStream fis = new FileInputStream(file);
 
 		final XStream xstream = new XStream(new DomDriver(INPUT_ENCODING));
 		xstream.setMode(XStream.ID_REFERENCES);

@@ -1,6 +1,5 @@
 package org.remast.baralga.model.io;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -43,9 +42,9 @@ public class ProTrackWriter {
         if (file == null) {
             return;
         }
-        
+
         synchronized (data) {
-            final OutputStream fileOut = new BufferedOutputStream(new FileOutputStream(file));
+            final OutputStream fileOut = new FileOutputStream(file);
             try {
                 final XStream xstream = new XStream(new DomDriver(OUTPUT_ENCODING));
                 xstream.processAnnotations(new Class[] {ProTrack.class, Project.class, ProjectActivity.class});
