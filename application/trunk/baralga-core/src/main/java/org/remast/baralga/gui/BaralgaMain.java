@@ -50,7 +50,7 @@ public class BaralgaMain {
 
 
     //------------------------------------------------
-    // User settings
+    // Application resources
     //------------------------------------------------
 
     /** The Tray icon. */
@@ -320,7 +320,6 @@ public class BaralgaMain {
 
     /**
      * Tries to create and lock a lock file at <code>${user.home}/.ProTrack/lock</code>.
-     * 
      * @return <code>true</code> if the lock could be acquired. <code>false</code> if
      *   the lock is held by another program
      * @throws RuntimeException if an I/O error occurred
