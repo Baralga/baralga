@@ -38,12 +38,12 @@ public final class Settings {
      * Get the location of the data file.
      * @return the path of the data file
      */
-    public static String getProTrackFileLocation() {
+    public static String getDataFileLocation() {
         return DEFAULT_DIRECTORY.getPath() + File.separator + DEFAULT_FILE_NAME;
     }
 
     /**
-     * Get the directory of Baralga in the profile of the user.
+     * Get the directory of the application in the profile of the user.
      * @return the directory for user settings
      */
     public static File getBaralgaDirectory()  {

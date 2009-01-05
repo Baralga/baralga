@@ -352,7 +352,7 @@ public class PresentationModel extends Observable {
         // Save data to disk.
         final ProTrackWriter writer = new ProTrackWriter(data);
 
-        final File proTrackFile = new File(Settings.getProTrackFileLocation());
+        final File proTrackFile = new File(Settings.getDataFileLocation());
         DataBackup.createBackup(proTrackFile);
 
         writer.write(proTrackFile);        

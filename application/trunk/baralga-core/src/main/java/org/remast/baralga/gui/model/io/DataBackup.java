@@ -31,7 +31,7 @@ public class DataBackup {
     private static final SimpleDateFormat BACKUP_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd_HHmmss");
 
     /** The full path of the backed up corrupt data file. */
-    private static final String ERROR_FILE_PATH = Settings.getProTrackFileLocation() + ".Error";
+    private static final String ERROR_FILE_PATH = Settings.getDataFileLocation() + ".Error";
 
     /** The name of the backed up corrupt data file. */
     private static final String ERROR_FILE_NAME = Settings.DEFAULT_FILE_NAME + ".Error";
@@ -51,7 +51,7 @@ public class DataBackup {
         try {
             FileUtils.copyFile(
                     toBackup, 
-                    new File(Settings.getProTrackFileLocation() + "." + BACKUP_DATE_FORMAT.format(new Date()))
+                    new File(Settings.getDataFileLocation() + "." + BACKUP_DATE_FORMAT.format(new Date()))
             );
             cleanupBackupFiles();
         } catch (Exception e) {
@@ -145,7 +145,7 @@ public class DataBackup {
      */
     public static void saveCorruptDataFile() {
         try {
-            FileUtils.copyFile(new File(Settings.getProTrackFileLocation()), new File(ERROR_FILE_PATH));
+            FileUtils.copyFile(new File(Settings.getDataFileLocation()), new File(ERROR_FILE_PATH));
         } catch (IOException e) {
             log.error(e, e);
         }
