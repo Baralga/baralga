@@ -13,7 +13,6 @@ import org.jdesktop.swingx.JXHyperlink;
 import org.jdesktop.swingx.JXImagePanel;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
-import org.remast.baralga.gui.actions.AboutAction;
 import org.remast.swing.action.OpenBrowserAction;
 import org.remast.swing.dialog.EscapeDialog;
 import org.remast.swing.util.GuiConstants;
@@ -27,7 +26,7 @@ import org.remast.util.TextResourceBundle;
 public class AboutDialog extends EscapeDialog {
 
     /** The bundle for internationalized texts. */
-    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(AboutAction.class);
+    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(AboutDialog.class);
 
     /**
      * Creates a new dialog.
