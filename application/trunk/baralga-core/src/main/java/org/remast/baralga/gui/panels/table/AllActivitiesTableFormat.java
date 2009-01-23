@@ -5,7 +5,7 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.remast.baralga.FormatConstants;
+import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
@@ -65,12 +65,12 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         case 1:
             return activity.getStart();
         case 2:
-            synchronized (FormatConstants.timeFormat) {
-                return FormatConstants.timeFormat.format(activity.getStart());
+            synchronized (FormatUtils.timeFormat) {
+                return FormatUtils.timeFormat.format(activity.getStart());
             }
         case 3:
-            synchronized (FormatConstants.timeFormat) {
-                return FormatConstants.timeFormat.format(activity.getEnd());
+            synchronized (FormatUtils.timeFormat) {
+                return FormatUtils.timeFormat.format(activity.getEnd());
             }
         case 4:
             return activity.getDuration();
@@ -121,7 +121,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         // Start time
         else if (column == 2) {
             try {
-                final Date newStart = FormatConstants.timeFormat.parse((String) editedValue);
+                final Date newStart = FormatUtils.timeFormat.parse((String) editedValue);
 
                 final Date oldStart = activity.getStart();
                 activity.getStart().setHours(newStart.getHours());
@@ -139,7 +139,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
             try {
                 final Date oldEnd = activity.getEnd();
 
-                final Date newEnd = FormatConstants.timeFormat.parse((String) editedValue);
+                final Date newEnd = FormatUtils.timeFormat.parse((String) editedValue);
                 activity.getEnd().setHours(newEnd.getHours());
                 activity.getEnd().setMinutes(newEnd.getMinutes());
 

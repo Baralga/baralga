@@ -26,7 +26,7 @@ import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.FormatStringValue;
 import org.jdesktop.swingx.table.DatePickerCellEditor;
-import org.remast.baralga.FormatConstants;
+import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
@@ -106,9 +106,9 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance())));
         table.getColumn(1).setCellEditor(new DatePickerCellEditor());
         
-        table.getColumn(2).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatConstants.timeFormat)));
-        table.getColumn(3).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatConstants.timeFormat)));
-        table.getColumn(4).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatConstants.durationFormat)));
+        table.getColumn(2).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.timeFormat)));
+        table.getColumn(3).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.timeFormat)));
+        table.getColumn(4).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.durationFormat)));
 
         table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
@@ -122,7 +122,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
                 for(int i : table.getSelectedRows()) {
                     duration += filteredActivitiesList.get(i).getDuration();
                 }
-                table.setToolTipText(textBundle.textFor("AllActivitiesPanel.tooltipDuration") + FormatConstants.durationFormat.format(duration)); //$NON-NLS-1$
+                table.setToolTipText(textBundle.textFor("AllActivitiesPanel.tooltipDuration") + FormatUtils.durationFormat.format(duration)); //$NON-NLS-1$
                 
             }
             

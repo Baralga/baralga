@@ -6,8 +6,11 @@ import java.text.NumberFormat;
 
 import org.remast.text.SmartTimeFormat;
 
-/** Hide constructor in utility class. */
-public abstract class FormatConstants {
+/** Utility class for formatting. */
+public abstract class FormatUtils {
+    
+    /** Hide constructor in utility class. */
+    private FormatUtils() { }
 
     // ------------------------------------------------
     // Date Formats

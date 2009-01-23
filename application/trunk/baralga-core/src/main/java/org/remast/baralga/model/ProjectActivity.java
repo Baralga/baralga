@@ -3,7 +3,7 @@ package org.remast.baralga.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.remast.baralga.FormatConstants;
+import org.remast.baralga.FormatUtils;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
@@ -110,9 +110,9 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
 
     @Override
     public String toString() {
-        return FormatConstants.dateFormat.format(this.start) + " "
-                + FormatConstants.timeFormat.format(this.start) + " - " + FormatConstants.timeFormat.format(this.end) + " ("
-                + FormatConstants.durationFormat.format(this.getDuration()) + "h) " + this.project;
+        return FormatUtils.dateFormat.format(this.start) + " "
+                + FormatUtils.timeFormat.format(this.start) + " - " + FormatUtils.timeFormat.format(this.end) + " ("
+                + FormatUtils.durationFormat.format(this.getDuration()) + "h) " + this.project;
     }
 
     @Override
@@ -130,12 +130,12 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
      * @return decimal value of the duration (e.g. for 30 minutes, 0.5 and so on)
      */    
     public final double getDuration() {
-        long timeMilliSec = end.getTime() - start.getTime();
-        long timeMin = timeMilliSec / 1000 / 60;
-        long hours = timeMin / 60;
+        final long timeMilliSec = end.getTime() - start.getTime();
+        final long timeMin = timeMilliSec / 1000 / 60;
+        final long hours = timeMin / 60;
 
-        long mins = timeMin % 60;
-        double minsD = Math.round(mins * (1 + 2.0 / 3.0)) / 100.0;
+        final long mins = timeMin % 60;
+        final double minsD = Math.round(mins * (1 + 2.0 / 3.0)) / 100.0;
 
         return hours + minsD;
     }

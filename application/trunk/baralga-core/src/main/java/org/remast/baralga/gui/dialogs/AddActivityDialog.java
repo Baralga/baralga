@@ -20,7 +20,7 @@ import javax.swing.text.DateFormatter;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXDatePicker;
-import org.remast.baralga.FormatConstants;
+import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
@@ -137,8 +137,8 @@ public class AddActivityDialog extends EscapeDialog {
 
         // Initialize start and end time with current time
         final String now;
-        synchronized (FormatConstants.timeFormat) {
-            now = FormatConstants.timeFormat.format(new Date());
+        synchronized (FormatUtils.timeFormat) {
+            now = FormatUtils.timeFormat.format(new Date());
         }
         this.startField.setText(now);
         this.endField.setText(now);
@@ -233,7 +233,7 @@ public class AddActivityDialog extends EscapeDialog {
      */
     private JFormattedTextField getStartField() {
         if (startField == null) {
-            DateFormatter df = new DateFormatter(FormatConstants.timeFormat);
+            DateFormatter df = new DateFormatter(FormatUtils.timeFormat);
             startField = new JFormattedTextField(df);
             df.install(startField);
 
@@ -247,7 +247,7 @@ public class AddActivityDialog extends EscapeDialog {
      */
     private JFormattedTextField getEndField() {
         if (endField == null) {
-            final DateFormatter dateFormatter = new DateFormatter(FormatConstants.timeFormat);
+            final DateFormatter dateFormatter = new DateFormatter(FormatUtils.timeFormat);
             endField = new JFormattedTextField(dateFormatter);
             dateFormatter.install(endField);
         }
@@ -272,8 +272,8 @@ public class AddActivityDialog extends EscapeDialog {
         }
 
         try {
-            start = FormatConstants.timeFormat.parse(getStartField().getText());
-            end = FormatConstants.timeFormat.parse(getEndField().getText());
+            start = FormatUtils.timeFormat.parse(getStartField().getText());
+            end = FormatUtils.timeFormat.parse(getEndField().getText());
 
             correctDates();
         } catch (ParseException e) {
@@ -287,7 +287,9 @@ public class AddActivityDialog extends EscapeDialog {
         return true;
     }
 
-    /** Correct the start and end date so that they are on the same day in year. */
+    /** 
+     * Correct the start and end date so that they are on the same day in year.
+     */
     private void correctDates() {
         final Date day = getDatePicker().getDate();
         start = DateUtils.adjustToSameDay(day, start);

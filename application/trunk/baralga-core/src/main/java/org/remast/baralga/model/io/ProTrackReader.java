@@ -21,51 +21,53 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
  */
 public class ProTrackReader {
 
-	/** Encoding of input file. */
-	private static final String INPUT_ENCODING = "UTF-8";
+    /** Encoding of input file. */
+    private static final String INPUT_ENCODING = "UTF-8";
 
-	/** The logger. */
-	private static final Log log = LogFactory.getLog(ProTrackReader.class);
+    /** The logger. */
+    private static final Log log = LogFactory.getLog(ProTrackReader.class);
 
-	/** The data read. */
-	private ProTrack data;
+    /** The data read. */
+    private ProTrack data;
 
-	/**
-	 * Actually read the data from file.
-	 * @throws IOException
-	 */
-	public void read(final File file) throws IOException {
-		final InputStream fis = new FileInputStream(file);
+    /**
+     * Actually read the data from file.
+     * @throws IOException
+     */
+    public void read(final File file) throws IOException {
+        final InputStream fis = new FileInputStream(file);
 
-		final XStream xstream = new XStream(new DomDriver(INPUT_ENCODING));
-		xstream.setMode(XStream.ID_REFERENCES);
-		xstream.processAnnotations(new Class[] {ProTrack.class, Project.class, ProjectActivity.class});
-		xstream.autodetectAnnotations(true);
+        final XStream xstream = new XStream(new DomDriver(INPUT_ENCODING));
+        xstream.setMode(XStream.ID_REFERENCES);
+        xstream.processAnnotations(
+                new Class[] {ProTrack.class, Project.class, ProjectActivity.class}
+        );
+        xstream.autodetectAnnotations(true);
 
-		Object o = null;
-		try {
-			o = xstream.fromXML(fis);
-		} catch (Exception e)  {
-			log.error(e, e);
-			throw new IOException("The file " + (file != null ? file.getName() : "<null>") + " does not contain valid Baralga data.", e);
-		} finally {
-			IOUtils.closeQuietly(fis);
-		}
+        Object o = null;
+        try {
+            o = xstream.fromXML(fis);
+        } catch (Exception e)  {
+            log.error(e, e);
+            throw new IOException("The file " + (file != null ? file.getName() : "<null>") + " does not contain valid Baralga data.", e);
+        } finally {
+            IOUtils.closeQuietly(fis);
+        }
 
-		try {
-			data = (ProTrack) o;
-		} catch (ClassCastException e) {
-			log.error(e, e);
-			throw new IOException("The file " + (file != null ? file.getName() : "<null>") + " does not contain valid Baralga data.", e);
-		}
-	}
+        try {
+            data = (ProTrack) o;
+        } catch (ClassCastException e) {
+            log.error(e, e);
+            throw new IOException("The file " + (file != null ? file.getName() : "<null>") + " does not contain valid Baralga data.", e);
+        }
+    }
 
-	/**
-	 * Getter for the data read.
-	 * @return the proTrack
-	 */
-	public ProTrack getData() {
-		return data;
-	}
+    /**
+     * Getter for the data read.
+     * @return the proTrack
+     */
+    public ProTrack getData() {
+        return data;
+    }
 
 }

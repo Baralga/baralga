@@ -21,6 +21,10 @@ public class MonthPredicate implements Predicate {
      */
     private final Date dateInMonth;
 
+    /**
+     * Creates a new predicate that holds for the given month.
+     * @param dateInMonth the month the predicate holds for
+     */
     public MonthPredicate(final Date dateInMonth) {
         this.dateInMonth = dateInMonth;
     }

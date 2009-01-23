@@ -24,7 +24,7 @@ import javax.swing.JToolBar;
 import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXFrame;
 import org.jdesktop.swingx.JXTitledSeparator;
-import org.remast.baralga.FormatConstants;
+import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.actions.AboutAction;
 import org.remast.baralga.gui.actions.AbstractBaralgaAction;
 import org.remast.baralga.gui.actions.AddActivityAction;
@@ -142,7 +142,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         // 1. Init start-/stop-Buttons
         if (this.model.isActive()) {
             this.setTitle(
-                    textBundle.textFor("Global.Title") + " - " + this.model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatConstants.timeFormat.format(this.model.getStart()) //$NON-NLS-1$ //$NON-NLS-2$
+                    textBundle.textFor("Global.Title") + " - " + this.model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatUtils.timeFormat.format(this.model.getStart()) //$NON-NLS-1$ //$NON-NLS-2$
             );
             getStartStopButton().setAction(new StopAction(this.model));
         } else {
@@ -435,7 +435,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private void updateProjectChanged(final BaralgaEvent event) {
         if (this.model.isActive()) {
             this
-            .setTitle(textBundle.textFor("Global.Title") + " - " + this.model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatConstants.timeFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
+            .setTitle(textBundle.textFor("Global.Title") + " - " + this.model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatUtils.timeFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
         }
         getProjectSelector().setSelectedItem((Project) event.getData());
     }
@@ -450,7 +450,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         // Clear description in settings.
         Settings.instance().setLastDescription(StringUtils.EMPTY);
 
-        this.setTitle(textBundle.textFor("Global.Title") + " - " + this.model.getSelectedProject() + textBundle.textFor("MainFrame.11") + FormatConstants.timeFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
+        this.setTitle(textBundle.textFor("Global.Title") + " - " + this.model.getSelectedProject() + textBundle.textFor("MainFrame.11") + FormatUtils.timeFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
         getStartStopButton().setAction(new StopAction(this.model));
     }
 
@@ -464,7 +464,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         // Clear description in settings.
         Settings.instance().setLastDescription(StringUtils.EMPTY);
 
-        this.setTitle(textBundle.textFor("Global.Title") + " " + textBundle.textFor("MainFrame.12") + " " + FormatConstants.timeFormat.format(this.model.getStop())); //$NON-NLS-1$
+        this.setTitle(textBundle.textFor("Global.Title") + " " + textBundle.textFor("MainFrame.12") + " " + FormatUtils.timeFormat.format(this.model.getStop())); //$NON-NLS-1$
         getStartStopButton().setAction(new StartAction(this, this.model));
     }
 

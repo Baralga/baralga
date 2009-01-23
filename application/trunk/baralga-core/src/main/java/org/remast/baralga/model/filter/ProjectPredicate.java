@@ -20,6 +20,10 @@ public class ProjectPredicate implements Predicate {
      */
     private final Project project;
 
+    /**
+     * Creates a new predicate that holds for the given project.
+     * @param project the project the predicate holds for
+     */
     public ProjectPredicate(final Project project) {
         this.project = project;
     }

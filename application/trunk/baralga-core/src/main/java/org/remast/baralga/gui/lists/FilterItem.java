@@ -2,6 +2,12 @@ package org.remast.baralga.gui.lists;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 
+/**
+ * Represents an item to filter by in the GUI. A {@link FilterItem} consists 
+ * of an item object and a label for that object.
+ * @author remast
+ * @param <E> the type to be filtered by
+ */
 public class FilterItem<E extends Comparable<E>> implements Comparable<FilterItem<E>>{
     
     /** The item. */
@@ -46,10 +52,12 @@ public class FilterItem<E extends Comparable<E>> implements Comparable<FilterIte
     public boolean equals(final Object obj) {
         if (obj != null
                 && (obj instanceof FilterItem)) {
-            FilterItem<E> that = (FilterItem<E>) obj;
+            final FilterItem<E> that = (FilterItem<E>) obj;
             
+            // Compare the item objects of both FilterItems
             final EqualsBuilder eqBuilder = new EqualsBuilder();
             eqBuilder.append(this.getItem(), that.getItem());
+            
             return eqBuilder.isEquals();
         }
         return false;

@@ -17,7 +17,7 @@ import javax.swing.JSeparator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jdesktop.swinghelper.tray.JXTrayIcon;
-import org.remast.baralga.FormatConstants;
+import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.actions.ChangeProjectAction;
 import org.remast.baralga.gui.actions.ExitAction;
 import org.remast.baralga.gui.actions.StartAction;
@@ -81,7 +81,7 @@ public class TrayIcon implements Observer {
 
         if (model.isActive()) {
             trayIcon.setImage(ACTIVE_ICON);
-            trayIcon.setToolTip(textBundle.textFor("Global.Title") + " - " + model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatConstants.timeFormat.format(model.getStart()));
+            trayIcon.setToolTip(textBundle.textFor("Global.Title") + " - " + model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatUtils.timeFormat.format(model.getStart()));
         }
 
     }
@@ -175,7 +175,7 @@ public class TrayIcon implements Observer {
      */    
     private void updateProjectChanged() {
         if (model.isActive()) {
-            trayIcon.setToolTip(textBundle.textFor("Global.Title") + " - " + model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatConstants.timeFormat.format(model.getStart()));
+            trayIcon.setToolTip(textBundle.textFor("Global.Title") + " - " + model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatUtils.timeFormat.format(model.getStart()));
         }
     }
 
@@ -184,7 +184,7 @@ public class TrayIcon implements Observer {
      */    
     private void updateStop() {
         this.trayIcon.setImage(NORMAL_ICON);
-        trayIcon.setToolTip(textBundle.textFor("Global.Title") + " - "+ textBundle.textFor("MainFrame.12") + FormatConstants.timeFormat.format(model.getStop()));
+        trayIcon.setToolTip(textBundle.textFor("Global.Title") + " - "+ textBundle.textFor("MainFrame.12") + FormatUtils.timeFormat.format(model.getStop()));
         this.buildMenu();
     }
 
@@ -193,7 +193,7 @@ public class TrayIcon implements Observer {
      */    
     private void updateStart() {
         this.trayIcon.setImage(ACTIVE_ICON);
-        trayIcon.setToolTip(textBundle.textFor("Global.Title") + " - " + model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatConstants.timeFormat.format(model.getStart())); //$NON-NLS-1$
+        trayIcon.setToolTip(textBundle.textFor("Global.Title") + " - " + model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatUtils.timeFormat.format(model.getStart())); //$NON-NLS-1$
         this.buildMenu();
     }
 

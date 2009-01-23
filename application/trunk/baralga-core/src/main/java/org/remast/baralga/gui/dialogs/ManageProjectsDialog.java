@@ -200,7 +200,7 @@ public class ManageProjectsDialog extends EscapeDialog {
      */
     private JPanel getNewProjectNamePanel() {
         if (newProjectNamePanel == null) {
-            FlowLayout flowLayout = new FlowLayout();
+            final FlowLayout flowLayout = new FlowLayout();
             flowLayout.setAlignment(java.awt.FlowLayout.LEFT);
             flowLayout.setVgap(3);
             flowLayout.setHgap(3);

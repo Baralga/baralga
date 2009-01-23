@@ -52,8 +52,9 @@ public class AccumulatedActivitiesReport extends Observable {
     public void acummulateActivity(final ProjectActivity activity) {
         AccumulatedProjectActivity newAccActivity = new AccumulatedProjectActivity(activity.getProject(), activity
                 .getStart(), activity.getDuration());
-        if(filter != null && !filter.matchesCriteria(activity))
+        if (filter != null && !filter.matchesCriteria(activity)) {
             return;
+        }
 
         if (this.accumulatedActivitiesByDay.contains(newAccActivity)) {
             final AccumulatedProjectActivity accActivity = this.accumulatedActivitiesByDay.get(accumulatedActivitiesByDay.indexOf(newAccActivity));

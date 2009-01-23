@@ -11,7 +11,7 @@ import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.FormatStringValue;
-import org.remast.baralga.FormatConstants;
+import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.model.report.HoursByProject;
 import org.remast.baralga.gui.model.report.HoursByProjectReport;
 import org.remast.baralga.gui.panels.table.HoursByProjectTableFormat;
@@ -61,7 +61,7 @@ public class HoursByProjectPanel extends JXPanel implements Observer {
         table.setAutoResizeMode(JXTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         
         table.getColumn(0).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance())));
-        table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatConstants.durationFormat)));
+        table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.durationFormat)));
         
         JScrollPane table_scroll_pane = new JScrollPane(table);
 
