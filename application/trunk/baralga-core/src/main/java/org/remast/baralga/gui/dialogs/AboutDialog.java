@@ -39,7 +39,7 @@ public class AboutDialog extends EscapeDialog {
         setTitle(textBundle.textFor("AboutDialog.Title")); //$NON-NLS-1$
         this.setAlwaysOnTop(true);
         setModal(true);
-        setResizable(true);
+        setResizable(false);
         setBackground(Color.WHITE);
         
         initialize();
@@ -51,7 +51,6 @@ public class AboutDialog extends EscapeDialog {
     private void initialize() {
         setLocationRelativeTo(getOwner());
         this.setLayout(new BorderLayout());
-        setResizable(false);
         
         final JXImagePanel image = new JXImagePanel(getClass().getResource("/icons/Baralga-About.png")); //$NON-NLS-1$
         image.setBackground(GuiConstants.BEIGE);
