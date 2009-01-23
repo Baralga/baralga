@@ -30,7 +30,7 @@ public class AboutDialog extends EscapeDialog {
 
     /**
      * Creates a new dialog.
-     * @param owner
+     * @param owner the owning frame
      */
     public AboutDialog(final Frame owner) {
         super(owner);
@@ -51,6 +51,7 @@ public class AboutDialog extends EscapeDialog {
     private void initialize() {
         setLocationRelativeTo(getOwner());
         this.setLayout(new BorderLayout());
+        setResizable(false);
         
         final JXImagePanel image = new JXImagePanel(getClass().getResource("/icons/Baralga-About.png")); //$NON-NLS-1$
         image.setBackground(GuiConstants.BEIGE);
@@ -81,7 +82,7 @@ public class AboutDialog extends EscapeDialog {
         this.getContentPane().setBackground(GuiConstants.BEIGE);
         this.add(image, BorderLayout.NORTH);
         
-        this.setSize(260, 280);
+        this.setSize(280, 290);
     }
     
 }
