@@ -25,31 +25,38 @@ public class ObservingAccumulatedActivitiesReport extends AccumulatedActivitiesR
     }
 
     public void update(final Observable source, final Object eventObject) {
-        if (eventObject != null && eventObject instanceof BaralgaEvent) {
-            final BaralgaEvent event = (BaralgaEvent) eventObject;
-            switch (event.getType()) {
-
-                case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
-                    ProjectActivity activity = (ProjectActivity) event.getData();
-                    this.acummulateActivity(activity);
-                    break;
-
-                case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
-                    this.accumulate();
-                    break;
-
-                case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
-                    this.accumulate();
-                    break;
-                    
-                case BaralgaEvent.FILTER_CHANGED:
-                    final Filter newFilter = (Filter) event.getData();
-                    setFilter(newFilter);
-                    break;
-            }
-            setChanged();
-            notifyObservers();
+        if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
+            return;
         }
+
+        final BaralgaEvent event = (BaralgaEvent) eventObject;
+        switch (event.getType()) {
+
+        case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
+            ProjectActivity activity = (ProjectActivity) event.getData();
+            this.acummulateActivity(activity);
+            break;
+
+        case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
+            this.accumulate();
+            break;
+
+        case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
+            this.accumulate();
+            break;
+
+        case BaralgaEvent.FILTER_CHANGED:
+            final Filter newFilter = (Filter) event.getData();
+            setFilter(newFilter);
+            break;
+
+        case BaralgaEvent.DATA_CHANGED:
+            setData(model.getData());
+            break;
+        }
+        
+        setChanged();
+        notifyObservers();
     }
 
 }

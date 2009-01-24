@@ -1,9 +1,7 @@
 package org.remast.baralga.gui.model.report;
 
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Vector;
 
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
@@ -48,7 +46,7 @@ public class HoursByProjectReport extends Observable implements Observer  {
     public void calculateHours() {
         this.hoursByProjectList.clear();
 
-        for (ProjectActivity activity : getFilteredActivities()) {
+        for (ProjectActivity activity : this.model.getActivitiesList()) {
             this.addHours(activity);
         }
     }
@@ -71,22 +69,6 @@ public class HoursByProjectReport extends Observable implements Observer  {
 
     public EventList<HoursByProject> getHoursByProject() {
         return hoursByProjectList;
-    }
-
-    /**
-     * Get all filtered activities.
-     * 
-     * @return all activities after applying the filter.
-     */
-    private List<ProjectActivity> getFilteredActivities() {
-        final List<ProjectActivity> filteredActivitiesList = new Vector<ProjectActivity>();
-
-        if (filter != null) {
-            filteredActivitiesList.addAll(filter.applyFilters(this.model.getActivitiesList()));
-        } else {
-            filteredActivitiesList.addAll(this.model.getActivitiesList());
-        }
-        return filteredActivitiesList;
     }
 
     public void update(final Observable source, final Object eventObject) {

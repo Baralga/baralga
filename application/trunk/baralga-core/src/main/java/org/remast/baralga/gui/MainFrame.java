@@ -28,8 +28,10 @@ import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.actions.AboutAction;
 import org.remast.baralga.gui.actions.AbstractBaralgaAction;
 import org.remast.baralga.gui.actions.AddActivityAction;
-import org.remast.baralga.gui.actions.ExcelExportAction;
 import org.remast.baralga.gui.actions.ExitAction;
+import org.remast.baralga.gui.actions.ExportDataAction;
+import org.remast.baralga.gui.actions.ExportExcelAction;
+import org.remast.baralga.gui.actions.ImportDataAction;
 import org.remast.baralga.gui.actions.ManageProjectsAction;
 import org.remast.baralga.gui.actions.SaveAction;
 import org.remast.baralga.gui.actions.StartAction;
@@ -44,6 +46,10 @@ import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 
+/**
+ * The main frame of the application.
+ * @author remast
+ */
 @SuppressWarnings("serial")//$NON-NLS-1$
 public class MainFrame extends JXFrame implements Observer, WindowListener {
 
@@ -95,6 +101,9 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     /** The export menu. */
     private JMenu exportMenu = null;
 
+    /** The import menu. */
+    private JMenu importMenu = null;
+
     /** The edit menu. */
     private JMenu editMenu = null;
 
@@ -109,9 +118,13 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
     private JMenuItem editProjectsMenuItem = null;
 
-    private JMenuItem excelExportItem = null;
+    private JMenuItem exportExcelItem = null;
+
+    private JMenuItem exportDataItem = null;
 
     private JMenuItem exitItem = null;
+
+    private JMenuItem importItem = null;
 
     private JMenuItem saveItem = null;
 
@@ -210,7 +223,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         }
         toolBar.add(new SaveAction(this, this.model));
         toolBar.add(new ManageProjectsAction(this, this.model));
-        toolBar.add(new ExcelExportAction(this, this.model));
+        toolBar.add(new ExportExcelAction(this, this.model));
         toolBar.add(new AddActivityAction(this, this.model));
         toolBar.add(new JToolBar.Separator());
         toolBar.add(this.model.getEditStack().getUndoAction());
@@ -326,12 +339,28 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             fileMenu = new JMenu();
             fileMenu.setText(textBundle.textFor("MainFrame.FileMenu.Title")); //$NON-NLS-1$
             fileMenu.setMnemonic(textBundle.textFor("MainFrame.FileMenu.Title").charAt(0)); //$NON-NLS-1$
+
             fileMenu.add(getExportMenu());
+            fileMenu.add(getImportMenu());
             fileMenu.addSeparator();
+
             fileMenu.add(getExitItem());
             fileMenu.add(getSaveItem());
         }
         return fileMenu;
+    }
+    
+    /**
+     * This method initializes exitItem.
+     * @return javax.swing.JMenuItem
+     */
+    private JMenuItem getImportItem() {
+        if (importItem == null) {
+            final AbstractBaralgaAction exitAction = new ImportDataAction(this, this.model);
+            importItem = new JMenuItem(exitAction);
+            importItem.setMnemonic(exitAction.getMnemonic());
+        }
+        return importItem;
     }
 
     /**
@@ -469,16 +498,29 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     }
 
     /**
-     * This method initializes excelExportItem.
+     * This method initializes exportExcelItem.
      * @return javax.swing.JMenuItem
      */
-    private JMenuItem getExcelExportItem() {
-        if (excelExportItem == null) {
-            final AbstractBaralgaAction excelExportAction = new ExcelExportAction(this, this.model);
-            excelExportItem = new JMenuItem(excelExportAction);
-            excelExportItem.setMnemonic(excelExportAction.getMnemonic());
+    private JMenuItem getExportExcelItem() {
+        if (exportExcelItem == null) {
+            final AbstractBaralgaAction excelExportAction = new ExportExcelAction(this, this.model);
+            exportExcelItem = new JMenuItem(excelExportAction);
+            exportExcelItem.setMnemonic(excelExportAction.getMnemonic());
         }
-        return excelExportItem;
+        return exportExcelItem;
+    }
+    
+    /**
+     * This method initializes exportDataItem.
+     * @return javax.swing.JMenuItem
+     */
+    private JMenuItem getExportDataItem() {
+        if (exportDataItem == null) {
+            final AbstractBaralgaAction exportDataAction = new ExportDataAction(this, this.model);
+            exportDataItem = new JMenuItem(exportDataAction);
+            exportDataItem.setMnemonic(exportDataAction.getMnemonic());
+        }
+        return exportDataItem;
     }
 
     /**
@@ -488,12 +530,28 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private JMenu getExportMenu() {
         if (exportMenu == null) {
             exportMenu = new JMenu();
-            exportMenu.setIcon(new ImageIcon(getClass().getResource("/icons/gnome-mime-text-x-credits.png")));
+            exportMenu.setIcon(new ImageIcon(getClass().getResource("/icons/export-menu.png")));
             exportMenu.setText(textBundle.textFor("MainFrame.ExportMenu.Title")); //$NON-NLS-1$
             exportMenu.setMnemonic(textBundle.textFor("MainFrame.ExportMenu.Title").charAt(0)); //$NON-NLS-1$
-            exportMenu.add(getExcelExportItem());
+            exportMenu.add(getExportExcelItem());
+            exportMenu.add(getExportDataItem());
         }
         return exportMenu;
+    }
+    
+    /**
+     * This method initializes importMenu.
+     * @return javax.swing.JMenu
+     */
+    private JMenu getImportMenu() {
+        if (importMenu == null) {
+            importMenu = new JMenu();
+            importMenu.setIcon(new ImageIcon(getClass().getResource("/icons/import-menu.png")));
+            importMenu.setText(textBundle.textFor("MainFrame.ImportMenu.Title")); //$NON-NLS-1$
+            importMenu.setMnemonic(textBundle.textFor("MainFrame.ImportMenu.Title").charAt(0)); //$NON-NLS-1$
+            importMenu.add(getImportItem());
+        }
+        return importMenu;
     }
 
     public void windowIconified(final java.awt.event.WindowEvent e) {

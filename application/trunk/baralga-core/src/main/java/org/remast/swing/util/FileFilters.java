@@ -31,5 +31,22 @@ public abstract class FileFilters {
         }
 
     }
+    
+    /**
+     * Filter for data files.
+     */
+    public static final class DataFileFilter extends FileFilter {
+
+        @Override
+        public boolean accept(final File file) {
+            return file.isDirectory() || file.getName().endsWith(".ptd.xml"); //$NON-NLS-1$
+        }
+
+        @Override
+        public String getDescription() {
+            return textBundle.textFor("FileFilters.DataFile"); //$NON-NLS-1$
+        }
+
+    }
 
 }

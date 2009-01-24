@@ -3,7 +3,6 @@ package org.remast.baralga.gui.panels.report;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -19,9 +18,6 @@ import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.swing.util.GuiConstants;
 
-import ca.odell.glazedlists.BasicEventList;
-import ca.odell.glazedlists.SortedList;
-
 /**
  * Display and edit the descriptions of all project activities.
  * @author remast
@@ -31,9 +27,6 @@ public class DescriptionPanel extends JXPanel implements Observer {
 
     /** The model. */
     private final PresentationModel model;
-
-    /** The list of activities. */
-    private final SortedList<ProjectActivity> filteredActivitiesList;
 
     /** Cache for all entries by activity. */
     private final Map<ProjectActivity, DescriptionPanelEntry> entriesByActivity;
@@ -47,7 +40,6 @@ public class DescriptionPanel extends JXPanel implements Observer {
         super();
         this.setLayout(new BorderLayout());
         this.model = model;
-        this.filteredActivitiesList = new SortedList<ProjectActivity>(new BasicEventList<ProjectActivity>());
         this.entriesByActivity = new HashMap<ProjectActivity, DescriptionPanelEntry>();
         this.model.addObserver(this);
         this.filter = model.getFilter();
@@ -66,24 +58,16 @@ public class DescriptionPanel extends JXPanel implements Observer {
 
     private void applyFilter() {
         // clear filtered activities
-        filteredActivitiesList.clear();
         entriesByActivity.clear();
-
-        if (filter != null) {
-            final List<ProjectActivity> filteredResult = filter.applyFilters(model.getActivitiesList());
-            filteredActivitiesList.addAll(filteredResult);
-        } else {
-            filteredActivitiesList.addAll(model.getActivitiesList());
-        }
 
         // Remove old description panels.
         container.removeAll();
 
-        for (final ProjectActivity activity : filteredActivitiesList) {
+        for (final ProjectActivity activity : this.model.getActivitiesList()) {
             final DescriptionPanelEntry descriptionPanelEntry = new DescriptionPanelEntry(activity);
 
             // Alternate background color
-            if (filteredActivitiesList.indexOf(activity) % 2 == 0) {
+            if (this.model.getActivitiesList().indexOf(activity) % 2 == 0) {
                 descriptionPanelEntry.setBackground(Color.WHITE);
             } else {
                 descriptionPanelEntry.setBackground(GuiConstants.BEIGE);

@@ -31,6 +31,7 @@ import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
+import ca.odell.glazedlists.SortedList;
 
 /**
  * The model of the Baralga application. This is the model capturing both the state
@@ -82,7 +83,7 @@ public class PresentationModel extends Observable {
     public PresentationModel() {
         this.data = new ProTrack();
         this.projectList = new BasicEventList<Project>();
-        this.activitiesList = new BasicEventList<ProjectActivity>();
+        this.activitiesList = new SortedList<ProjectActivity>(new BasicEventList<ProjectActivity>());
 
         initialize();
     }
@@ -95,12 +96,13 @@ public class PresentationModel extends Observable {
         this.start = this.data.getStartTime();
         this.selectedProject = this.data.getActiveProject();
 
-        this.projectList.addAll(this.data.getProjects());
-        this.activitiesList.addAll(this.data.getActivities());
+        this.projectList.clear();
+        this.projectList.addAll(this.data.getProjects());        
 
-        // Restore filter from settings
-        // a) restore week of year, month and year
-        this.filter = Settings.instance().restoreFromSettings();
+        this.activitiesList.clear();
+
+        // Set restored filter from settings
+        setFilter(Settings.instance().restoreFromSettings(), this);
 
         // b) restore project (can be done here only as we need to search all projects)
         final Long selectedProjectId = Settings.instance().getFilterSelectedProjectId();
@@ -126,6 +128,17 @@ public class PresentationModel extends Observable {
         if (editStack == null) {
             editStack = new EditStack(this);
             this.addObserver(editStack);
+        }
+
+    }
+
+    private void applyFilter() {
+        this.activitiesList.clear();
+        
+        if (this.filter == null) {
+            this.activitiesList.addAll(this.data.getActivities());
+        } else {
+            this.activitiesList.addAll(this.filter.applyFilters(this.data.getActivities()));
         }
     }
 
@@ -364,11 +377,15 @@ public class PresentationModel extends Observable {
      */
     public final void addActivity(final ProjectActivity activity, final Object source) {
         getData().getActivities().add(activity);
-        this.getActivitiesList().add(activity);
+        
+        // Add activity if there is no filter or the filter matches
+        if (this.filter == null || this.filter.matchesCriteria(activity)) {
+            this.getActivitiesList().add(activity);
+        }
 
         // Mark data as dirty
         this.dirty = true;
-
+        
         // Fire event
         final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED, source);
         event.setData(activity);
@@ -382,6 +399,11 @@ public class PresentationModel extends Observable {
     public final void removeActivity(final ProjectActivity activity, final Object source) {
         getData().getActivities().remove(activity);
         this.getActivitiesList().remove(activity);
+        
+        // Remove activity if there is no filter or the filter matches
+        if (this.filter == null || this.filter.matchesCriteria(activity)) {
+            this.getActivitiesList().remove(activity);
+        }
 
         // Mark data as dirty
         this.dirty = true;
@@ -518,8 +540,17 @@ public class PresentationModel extends Observable {
      * @param data the data to set
      */
     public void setData(final ProTrack data) {
+        if (ObjectUtils.equals(this.data, data)) {
+            return;
+        }
+        
         this.data = data;
+        
         initialize();
+        
+        // Fire event
+        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.DATA_CHANGED, this);
+        notify(event);
     }
 
     /**
@@ -534,11 +565,18 @@ public class PresentationModel extends Observable {
      * @param source the source of the new filter
      */
     public void setFilter(final Filter filter, final Object source) {
+        if (ObjectUtils.equals(this.filter, filter)) {
+            return;
+        }
+        // Store filter
         this.filter = filter;
+        
+        applyFilter();
 
         // Fire event
         final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.FILTER_CHANGED, source);
         event.setData(filter);
+
         notify(event);
     }
 

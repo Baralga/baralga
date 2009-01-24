@@ -39,6 +39,9 @@ public class BaralgaEvent {
     /** The filter has been changed. */
     public static final int FILTER_CHANGED = 8;
 
+    /** The data has changed. */
+    public static final int DATA_CHANGED = 9;
+    
     /** The type of the event. */
     private final int type;
 

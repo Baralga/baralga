@@ -107,4 +107,13 @@ public class AccumulatedActivitiesReport extends Observable {
         this.filter = filter;
         accumulate();
     }
+
+    /**
+     * @param data
+     *            the data to set
+     */
+    public void setData(final ProTrack data) {
+        this.data = data;
+        accumulate();
+    }
 }

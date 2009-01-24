@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DateFormat;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -33,12 +32,9 @@ import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.panels.table.AllActivitiesTableFormat;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
-import org.remast.baralga.model.filter.Filter;
 import org.remast.swing.util.GuiConstants;
 import org.remast.util.TextResourceBundle;
 
-import ca.odell.glazedlists.BasicEventList;
-import ca.odell.glazedlists.SortedList;
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 import ca.odell.glazedlists.swing.EventTableModel;
 
@@ -54,12 +50,6 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
     /** The model. */
     private final PresentationModel model;
 
-    /** The applied filter. */
-    private Filter filter;
-
-    /** The list of activities. */
-    private SortedList<ProjectActivity> filteredActivitiesList;
-
     private EventTableModel<ProjectActivity> tableModel;
 
     /**
@@ -70,36 +60,18 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
      */
     public AllActitvitiesPanel(final PresentationModel model) {
         this.model = model;
-        this.filteredActivitiesList = new SortedList<ProjectActivity>(new BasicEventList<ProjectActivity>());
         this.model.addObserver(this);
-        this.filter = this.model.getFilter();
         this.setLayout(new BorderLayout());
 
         initialize();
     }
 
-    /**
-     * Apply the filter to the list of activities.
-     */
-    private void applyFilter() {
-        // clear filtered activities
-        filteredActivitiesList.clear();
-
-        if (filter != null) {
-            List<ProjectActivity> filteredResult = filter.applyFilters(model.getActivitiesList());
-            filteredActivitiesList.addAll(filteredResult);
-        } else {
-            filteredActivitiesList.addAll(model.getActivitiesList());
-        }
-    }
 
     /**
      * Set up GUI components.
      */
     private void initialize() {
-        applyFilter();
-
-        tableModel = new EventTableModel<ProjectActivity>(this.filteredActivitiesList,
+        tableModel = new EventTableModel<ProjectActivity>(model.getActivitiesList(),
                 new AllActivitiesTableFormat(model));
         final JXTable table = new JXTable(tableModel);
 
@@ -120,7 +92,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
                 
                 double duration = 0;
                 for(int i : table.getSelectedRows()) {
-                    duration += filteredActivitiesList.get(i).getDuration();
+                    duration += model.getActivitiesList().get(i).getDuration();
                 }
                 table.setToolTipText(textBundle.textFor("AllActivitiesPanel.tooltipDuration") + FormatUtils.durationFormat.format(duration)); //$NON-NLS-1$
                 
@@ -140,7 +112,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
 
                         // 2. Remove all selected activities
                         for (int selectionIndex : selectionIndices) {
-                            model.removeActivity(filteredActivitiesList.get(selectionIndex), this);
+                            model.removeActivity(model.getActivitiesList().get(selectionIndex), this);
                         }
                     }
 
@@ -171,23 +143,6 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         this.add(table_scroll_pane);
     }
 
-    /**
-     * @return the filter
-     */
-    public Filter getFilter() {
-        return filter;
-    }
-
-    /**
-     * Set and apply new filter.
-     * 
-     * @param filter
-     *            the filter to set
-     */
-    private void setFilter(final Filter filter) {
-        this.filter = filter;
-        applyFilter();
-    }
 
     /**
      * Update the panel from observed event.
@@ -197,23 +152,11 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
             final BaralgaEvent event = (BaralgaEvent) eventObject;
 
             switch (event.getType()) {
-
-                case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
-                    applyFilter();
-                    break;
-
-                case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
-                    applyFilter();
-                    break;
                     
                 case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
                     tableModel.fireTableDataChanged();
                     break;
-                    
-                case BaralgaEvent.FILTER_CHANGED:
-                    final Filter newFilter = (Filter) event.getData();
-                    setFilter(newFilter);
-                    break;
+
             }
         }
     }

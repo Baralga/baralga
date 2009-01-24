@@ -7,6 +7,7 @@
 
 == Baralga Version 1.3.1 ==
 Functionality
+ * Data files can be exported and imported.
  * Filter for week of the year.
  * Smart filters for the current week of the year, current year and the current month.
 

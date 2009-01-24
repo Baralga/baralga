@@ -105,12 +105,14 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
             // Save date to start
             final Calendar startCal = Calendar.getInstance();
             startCal.setTime(activity.getStart());
+            startCal.set(Calendar.YEAR, newCal.get(Calendar.YEAR));
             startCal.set(Calendar.DAY_OF_YEAR, newCal.get(Calendar.DAY_OF_YEAR));
             activity.setStart(startCal.getTime());
 
             // Copy date to end to preserve day in year
             final Calendar endCal = Calendar.getInstance();
             endCal.setTime(activity.getEnd());
+            endCal.set(Calendar.YEAR, newCal.get(Calendar.YEAR));
             endCal.set(Calendar.DAY_OF_YEAR, newCal.get(Calendar.DAY_OF_YEAR));
             activity.setEnd(endCal.getTime());
 
