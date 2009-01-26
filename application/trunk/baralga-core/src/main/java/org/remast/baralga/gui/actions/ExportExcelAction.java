@@ -80,7 +80,7 @@ public final class ExportExcelAction extends AbstractBaralgaAction {
                 // store export location in settings
                 Settings.instance().setLastExcelExportLocation(file.getAbsolutePath());
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, textBundle.textFor("ExcelExportAction.IOException1") + file.getAbsolutePath() + ".", textBundle.textFor("ExcelExportAction.IOException2"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                JOptionPane.showMessageDialog(null, textBundle.textFor("ExcelExportAction.IOException.Message", file.getAbsolutePath()), textBundle.textFor("ExcelExportAction.IOException.Heading"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                         JOptionPane.ERROR_MESSAGE);
                 log.error(e, e);
             }
