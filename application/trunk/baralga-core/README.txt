@@ -3,16 +3,16 @@
 
 == Further Development ==
  * Support for portable version for removable devices.
- * Installer without JRE included.
 
 == Baralga Version 1.3.1 ==
 Functionality
- * Data files can be exported and imported.
+ * Data backup files can be exported and imported.
  * Filter for week of the year.
  * Smart filters for the current week of the year, current year and the current month.
 
 Misc
  * Libraries upgraded.
+ * Installer without JRE included.
  
 Fixes
  * Added title to about dialog.

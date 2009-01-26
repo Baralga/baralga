@@ -33,7 +33,6 @@ import org.remast.baralga.gui.actions.ExportDataAction;
 import org.remast.baralga.gui.actions.ExportExcelAction;
 import org.remast.baralga.gui.actions.ImportDataAction;
 import org.remast.baralga.gui.actions.ManageProjectsAction;
-import org.remast.baralga.gui.actions.SaveAction;
 import org.remast.baralga.gui.actions.StartAction;
 import org.remast.baralga.gui.actions.StopAction;
 import org.remast.baralga.gui.events.BaralgaEvent;
@@ -221,7 +220,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             toolBar = new JToolBar();
             toolBar.setFloatable(false);
         }
-        toolBar.add(new SaveAction(this, this.model));
+        
         toolBar.add(new ManageProjectsAction(this, this.model));
         toolBar.add(new ExportExcelAction(this, this.model));
         toolBar.add(new AddActivityAction(this, this.model));
@@ -345,7 +344,6 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             fileMenu.addSeparator();
 
             fileMenu.add(getExitItem());
-            fileMenu.add(getSaveItem());
         }
         return fileMenu;
     }
@@ -611,19 +609,6 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             exitItem.setMnemonic(exitAction.getMnemonic());
         }
         return exitItem;
-    }
-
-    /**
-     * This method initializes saveItem.
-     * @return javax.swing.JMenuItem
-     */
-    private JMenuItem getSaveItem() {
-        if (saveItem == null) {
-            final AbstractBaralgaAction saveAction = new SaveAction(this, this.model);
-            saveItem = new JMenuItem(saveAction);
-            saveItem.setMnemonic(saveAction.getMnemonic());            
-        }
-        return saveItem;
     }
 
 }
