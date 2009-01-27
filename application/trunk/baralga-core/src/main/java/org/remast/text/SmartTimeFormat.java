@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
  *  <li>12    -> 12:00</li>
  *  <li>12,5  -> 12:30</li>
  *  <li>12,50 -> 12:30</li>
+ *  <li>12.30 -> 12:30</li>
  * </ul>
  * @author remast
  */
@@ -27,8 +28,8 @@ public class SmartTimeFormat extends TimeFormat {
             return super.parse(time, pos);
         }
         
-        // Remove semikolons
         time = StringUtils.replaceChars(time, ';', ',');
+        time = StringUtils.replaceChars(time, '.', ':');
         
         // Treat 11,25 as 11:15
         if (time.contains(",25")) { //$NON-NLS-1$
@@ -55,7 +56,7 @@ public class SmartTimeFormat extends TimeFormat {
         }
         
         // Treat 8:20 as 08:20
-        if (time.length() == 4) {
+        if (time.length() == (HHMM_FORMAT.length() - 1)) {
             time = "0" + time; //$NON-NLS-1$
         }
         
