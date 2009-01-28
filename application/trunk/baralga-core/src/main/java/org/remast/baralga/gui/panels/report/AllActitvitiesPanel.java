@@ -94,8 +94,8 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
                 for(int i : table.getSelectedRows()) {
                     duration += model.getActivitiesList().get(i).getDuration();
                 }
-                table.setToolTipText(textBundle.textFor("AllActivitiesPanel.tooltipDuration") + FormatUtils.durationFormat.format(duration)); //$NON-NLS-1$
                 
+                table.setToolTipText(textBundle.textFor("AllActivitiesPanel.tooltipDuration", FormatUtils.durationFormat.format(duration))); //$NON-NLS-1$
             }
             
         });
