@@ -25,6 +25,7 @@ public class HoursByProjectChartPanel extends JXPanel implements Observer {
      */
     private HoursByProjectReport report;
 
+    /** Dataset for the displayed chart. */
     private DefaultPieDataset hoursByProjectDataset;
 
     /**
@@ -48,8 +49,9 @@ public class HoursByProjectChartPanel extends JXPanel implements Observer {
         initChartData();
 
         final JFreeChart chart = ChartFactory.createPieChart3D(null, hoursByProjectDataset, false, true, false);
+        chart.setBorderVisible(false);
+        chart.setAntiAlias(true);
 
-        
         final ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setMouseZoomable(false);
         chartPanel.setEnabled(false);
