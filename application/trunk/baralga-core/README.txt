@@ -17,6 +17,7 @@ Misc
 Fixes
  * Added title to about dialog.
  * Adding or removing project does not affect the filter by projects.
+ * Enabled editing of year in activity.
 
 
 == Baralga Version 1.3 ==

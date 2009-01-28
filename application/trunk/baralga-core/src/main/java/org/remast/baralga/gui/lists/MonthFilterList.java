@@ -87,7 +87,7 @@ public class MonthFilterList implements Observer {
 
     private void addMonth(final ProjectActivity activity) {
         final String month = MONTH_FORMAT.format(activity.getStart());
-        final FilterItem<Integer> monthItem = new FilterItem<Integer>(Integer.parseInt(month), month);
+        final FilterItem<Integer> monthItem = new FilterItem<Integer>(Integer.valueOf(month), month);
         if (!this.monthList.contains(monthItem))
             this.monthList.add(monthItem);
     }

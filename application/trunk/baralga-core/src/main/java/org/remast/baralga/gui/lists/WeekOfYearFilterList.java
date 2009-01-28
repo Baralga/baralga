@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.joda.time.DateTime;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
@@ -19,7 +18,7 @@ public class WeekOfYearFilterList implements Observer {
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(WeekOfYearFilterList.class);
 
-    public static final SimpleDateFormat WEEK_OF_YEAR_FORMAT = new SimpleDateFormat("w"); //$NON-NLS-1$
+    public static final SimpleDateFormat WEEK_OF_YEAR_FORMAT = new SimpleDateFormat("ww"); //$NON-NLS-1$
 
     /** The model. */
     private final PresentationModel model;
@@ -87,10 +86,8 @@ public class WeekOfYearFilterList implements Observer {
     }
 
     private void addWeekOfYear(final ProjectActivity activity) {
-        final DateTime dateTime = new DateTime(activity.getStart());
-        final Integer weekOfYear = dateTime.getWeekOfWeekyear();
-
-        final FilterItem<Integer> filterItem = new FilterItem<Integer>(weekOfYear);
+        final String weekOfYear = WEEK_OF_YEAR_FORMAT.format(activity.getStart());
+        final FilterItem<Integer> filterItem = new FilterItem<Integer>(Integer.valueOf(weekOfYear), weekOfYear);
         if (!this.weekOfYearList.contains(filterItem))
             this.weekOfYearList.add(filterItem);
     }
