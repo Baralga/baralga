@@ -59,7 +59,7 @@ public class HoursByDay implements Comparable<HoursByDay> {
     @Override
     public int compareTo(HoursByDay that) {
         if (that == null) {
-        return 0;
+            return 0;
         }
         
         // Sort by start date but the other way round. That way the latest
