@@ -6,7 +6,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
  * Item of the hours by week report.
  * @author remast
  */
-public class HoursByWeek {
+public class HoursByWeek implements Comparable<HoursByWeek> {
     
     /** The week of the year. */
     private int week;
@@ -55,6 +55,15 @@ public class HoursByWeek {
      */
     public void addHours(final double additionalHours) {
         this.hours += additionalHours;
+    }
+
+    @Override
+    public int compareTo(HoursByWeek that) {
+        if (that == null) {
+            return 0;
+        }
+        
+        return new Integer(this.week).compareTo(that.getWeek());
     }
 
 }

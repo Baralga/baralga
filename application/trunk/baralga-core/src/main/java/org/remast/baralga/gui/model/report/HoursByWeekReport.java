@@ -11,6 +11,7 @@ import org.remast.baralga.model.filter.Filter;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
+import ca.odell.glazedlists.SortedList;
 
 /**
  * Report for the working hours by week.
@@ -39,7 +40,7 @@ public class HoursByWeekReport extends Observable implements Observer  {
         this.model = model;
         this.filter = model.getFilter();
         this.model.addObserver(this);
-        this.hoursByWeekList = new BasicEventList<HoursByWeek>();
+        this.hoursByWeekList = new SortedList<HoursByWeek>(new BasicEventList<HoursByWeek>());
 
         calculateHours();
     }

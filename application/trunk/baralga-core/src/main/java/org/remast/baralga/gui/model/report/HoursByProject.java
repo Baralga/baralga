@@ -7,7 +7,7 @@ import org.remast.baralga.model.Project;
  * Item of the hours by project report.
  * @author remast
  */
-public class HoursByProject {
+public class HoursByProject implements Comparable<HoursByProject> {
     
     /** The project. */
     private Project project;
@@ -49,10 +49,19 @@ public class HoursByProject {
 
     /**
      * Adds the given hours to the hours on that day.
-     * @param additionalHours the hours to add
+     * @param that the hours to add
      */
-    public void addHours(final double additionalHours) {
-        this.hours += additionalHours;
+    public void addHours(final double that) {
+        this.hours += that;
+    }
+
+    @Override
+    public int compareTo(HoursByProject hoursByProject) {
+        if (hoursByProject == null) {
+        return 0;
+        }
+        
+        return this.getProject().compareTo(hoursByProject.getProject());
     }
 
 }

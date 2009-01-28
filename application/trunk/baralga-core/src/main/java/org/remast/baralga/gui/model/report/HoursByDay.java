@@ -8,7 +8,7 @@ import org.apache.commons.lang.time.DateUtils;
  * Item of the hours by day report.
  * @author remast
  */
-public class HoursByDay {
+public class HoursByDay implements Comparable<HoursByDay> {
     
     /** The week of the year. */
     private Date day;
@@ -54,6 +54,17 @@ public class HoursByDay {
      */
     public void addHours(final double additionalHours) {
         this.hours += additionalHours;
+    }
+
+    @Override
+    public int compareTo(HoursByDay that) {
+        if (that == null) {
+        return 0;
+        }
+        
+        // Sort by start date but the other way round. That way the latest
+        // activity is always on top.
+        return this.getDay().compareTo(that.getDay()) * -1;
     }
 
 }

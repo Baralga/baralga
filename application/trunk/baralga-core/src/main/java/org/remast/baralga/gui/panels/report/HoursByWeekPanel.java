@@ -1,6 +1,7 @@
 package org.remast.baralga.gui.panels.report;
 
 import java.awt.BorderLayout;
+import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -59,6 +60,7 @@ public class HoursByWeekPanel extends JXPanel implements Observer {
         table.setHighlighters(GuiConstants.HIGHLIGHTERS);
         table.setAutoResizeMode(JXTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         
+        table.getColumn(0).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(new DecimalFormat("##00"))));
         table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.durationFormat)));
         
         JScrollPane table_scroll_pane = new JScrollPane(table);
