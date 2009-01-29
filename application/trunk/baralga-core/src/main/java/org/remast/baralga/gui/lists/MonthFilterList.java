@@ -7,6 +7,7 @@ import java.util.Observer;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
+import org.remast.util.DateUtils;
 import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.BasicEventList;
@@ -38,7 +39,7 @@ public class MonthFilterList implements Observer {
     /** filter item for the current month dummy. */
     public static final FilterItem<Integer> CURRENT_MONTH_FILTER_ITEM = new FilterItem<Integer>(
             CURRENT_MONTH_DUMMY,
-            textBundle.textFor("MonthFilterList.CurrentMonthLabel") //$NON-NLS-1$
+            textBundle.textFor("MonthFilterList.CurrentMonthLabel", MONTH_FORMAT.format(DateUtils.getNow())) //$NON-NLS-1$
     );
 
     private EventList<FilterItem<Integer>> monthList;

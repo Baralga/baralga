@@ -7,6 +7,7 @@ import java.util.Observer;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
+import org.remast.util.DateUtils;
 import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.BasicEventList;
@@ -38,7 +39,7 @@ public class WeekOfYearFilterList implements Observer {
     /** Filter item for the current week of year dummy. */
     public static final FilterItem<Integer> CURRENT_WEEK_OF_YEAR_FILTER_ITEM = new FilterItem<Integer>(
             CURRENT_WEEK_OF_YEAR_DUMMY,
-            textBundle.textFor("WeekOfYearFilterList.CurrentWeekOfYearLabel") //$NON-NLS-1$
+            textBundle.textFor("WeekOfYearFilterList.CurrentWeekOfYearLabel", WEEK_OF_YEAR_FORMAT.format(DateUtils.getNow())) //$NON-NLS-1$
     );
 
     private EventList<FilterItem<Integer>> weekOfYearList;
