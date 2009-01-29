@@ -491,7 +491,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         // Clear description in settings.
         Settings.instance().setLastDescription(StringUtils.EMPTY);
 
-        this.setTitle(textBundle.textFor("Global.Title") + " " + textBundle.textFor("MainFrame.12") + " " + FormatUtils.timeFormat.format(this.model.getStop())); //$NON-NLS-1$
+        this.setTitle(textBundle.textFor("Global.Title") + " " + textBundle.textFor("MainFrame.12") + FormatUtils.timeFormat.format(this.model.getStop())); //$NON-NLS-1$
         getStartStopButton().setAction(new StartAction(this, this.model));
     }
 
