@@ -9,6 +9,7 @@ Functionality
  * Data backup files can be exported and imported.
  * Filter for week of the year.
  * Smart filters for the current week of the year, current year and the current month.
+ * Sorting in tables improved.
 
 Misc
  * Libraries upgraded.
