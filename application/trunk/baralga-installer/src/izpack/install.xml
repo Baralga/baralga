@@ -13,8 +13,9 @@
 	<native type="izpack" name="ShellLink.dll"/>
 
 	<!-- Gui Preferences -->
-	<guiprefs height="640" resizable="yes" width="480">
+	<guiprefs height="480" resizable="yes" width="480">
 	</guiprefs>
+	
 
 	<locale>
 		<langpack iso3="eng" />
