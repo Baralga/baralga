@@ -1,0 +1,37 @@
+<proTrack id="1" active="false" startTime="2009-01-24 22:02:00.0 CET">
+  <activeProjects id="2"/>
+  <projectsToBeDeleted id="3">
+    <project id="4">
+      <id>3998056515203860480</id>
+      <title>2</title>
+      <description>2</description>
+    </project>
+    <project id="5">
+      <id>8699647950529173504</id>
+      <title>6</title>
+      <description>6</description>
+    </project>
+    <project id="6">
+      <id>8742016910185280512</id>
+      <title>5</title>
+      <description>5</description>
+    </project>
+    <project id="7">
+      <id>3120897936375786496</id>
+      <title>4</title>
+      <description>4</description>
+    </project>
+    <project id="8">
+      <id>6641273911046759424</id>
+      <title>3</title>
+      <description>3</description>
+    </project>
+    <project id="9">
+      <id>7091238231983162368</id>
+      <title>1</title>
+      <description>1</description>
+    </project>
+  </projectsToBeDeleted>
+  <activities id="10"/>
+  <activeProject reference="9"/>
+</proTrack>
