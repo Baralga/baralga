@@ -48,7 +48,7 @@ public class PresentationModel extends Observable {
     private EventList<Project> projectList;
 
     /** The list of project activities. */
-    private EventList<ProjectActivity> activitiesList;
+    private SortedList<ProjectActivity> activitiesList;
 
     /** The currently selected project. */
     private Project selectedProject;
@@ -426,7 +426,7 @@ public class PresentationModel extends Observable {
      * Getter for the list of project activities.
      * @return the list with all project activities
      */
-    public EventList<ProjectActivity> getActivitiesList() {
+    public SortedList<ProjectActivity> getActivitiesList() {
         return activitiesList;
     }
 

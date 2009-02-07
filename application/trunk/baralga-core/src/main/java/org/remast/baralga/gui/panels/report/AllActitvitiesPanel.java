@@ -36,6 +36,7 @@ import org.remast.swing.util.GuiConstants;
 import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
+import ca.odell.glazedlists.swing.EventListJXTableSorting;
 import ca.odell.glazedlists.swing.EventTableModel;
 
 /**
@@ -74,6 +75,9 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         tableModel = new EventTableModel<ProjectActivity>(model.getActivitiesList(),
                 new AllActivitiesTableFormat(model));
         final JXTable table = new JXTable(tableModel);
+        
+        // Fix sorting
+        EventListJXTableSorting.install(table, model.getActivitiesList());
 
         table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance())));
         table.getColumn(1).setCellEditor(new DatePickerCellEditor());
@@ -99,9 +103,6 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
             }
             
         });
-        
-        // :INFO: Sorting is done via GlazedLists. We need to disable sorting here to avoid to sort order icons.
-        table.setSortable(false);
 
         final JPopupMenu menu = new JPopupMenu();
         menu.add(new AbstractAction(textBundle.textFor("AllActitvitiesPanel.Delete"), new ImageIcon(getClass().getResource("/icons/gtk-delete.png"))) { //$NON-NLS-1$

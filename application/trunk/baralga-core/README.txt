@@ -4,6 +4,11 @@
 == Further Development ==
  * Support for portable version for removable devices.
 
+== Baralga Version 1.4 ==
+Fixes
+ * All activities table is sortable.
+
+
 == Baralga Version 1.3.1 ==
 Functionality
  * Data backup files can be exported and imported.
