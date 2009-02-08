@@ -45,7 +45,7 @@ public class PresentationModel extends Observable {
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
 
     /** The list of projects. */
-    private EventList<Project> projectList;
+    private SortedList<Project> projectList;
 
     /** The list of project activities. */
     private SortedList<ProjectActivity> activitiesList;
@@ -82,7 +82,7 @@ public class PresentationModel extends Observable {
      */
     public PresentationModel() {
         this.data = new ProTrack();
-        this.projectList = new BasicEventList<Project>();
+        this.projectList = new SortedList<Project>(new BasicEventList<Project>());
         this.activitiesList = new SortedList<ProjectActivity>(new BasicEventList<ProjectActivity>());
 
         initialize();
@@ -418,7 +418,7 @@ public class PresentationModel extends Observable {
      * Getter for the list of projects.
      * @return the list with all projects
      */
-    public EventList<Project> getProjectList() {
+    public SortedList<Project> getProjectList() {
         return projectList;
     }
 

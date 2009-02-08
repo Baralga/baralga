@@ -7,6 +7,7 @@
 == Baralga Version 1.4 ==
 Fixes
  * All activities table is sortable.
+ * List of projects sorted alphabetically.
 
 
 == Baralga Version 1.3.1 ==
