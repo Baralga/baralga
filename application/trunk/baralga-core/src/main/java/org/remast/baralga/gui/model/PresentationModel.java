@@ -30,7 +30,6 @@ import org.remast.util.DateUtils;
 import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.BasicEventList;
-import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.SortedList;
 
 /**
@@ -111,6 +110,7 @@ public class PresentationModel extends Observable {
                     this.data.findProjectById(selectedProjectId.longValue())
             );
         }
+        applyFilter();
 
         this.description = Settings.instance().getLastDescription();
 
@@ -214,6 +214,21 @@ public class PresentationModel extends Observable {
         final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_CHANGED);
         event.setData(changedActivity);
         event.setPropertyChangeEvent(propertyChangeEvent);
+        
+        // Mark data as dirty
+        this.dirty = true;
+
+        notify(event);
+    }
+    
+    public void fireProjectChangedEvent(final Project changedProject, final PropertyChangeEvent propertyChangeEvent) {
+        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_CHANGED);
+        event.setData(changedProject);
+        event.setPropertyChangeEvent(propertyChangeEvent);
+        
+        // Mark data as dirty
+        this.dirty = true;
+
         notify(event);
     }
 

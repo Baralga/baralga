@@ -5,8 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DateFormat;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
@@ -27,7 +25,6 @@ import org.jdesktop.swingx.renderer.FormatStringValue;
 import org.jdesktop.swingx.table.DatePickerCellEditor;
 import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.BaralgaMain;
-import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.panels.table.AllActivitiesTableFormat;
 import org.remast.baralga.model.Project;
@@ -43,7 +40,7 @@ import ca.odell.glazedlists.swing.EventTableModel;
  * @author remast
  */
 @SuppressWarnings("serial")//$NON-NLS-1$
-public class AllActitvitiesPanel extends JXPanel implements Observer {
+public class AllActitvitiesPanel extends JXPanel {
 
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
@@ -51,7 +48,6 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
     /** The model. */
     private final PresentationModel model;
 
-    private EventTableModel<ProjectActivity> tableModel;
 
     /**
      * Create a panel showing all activities of the given model.
@@ -61,7 +57,6 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
      */
     public AllActitvitiesPanel(final PresentationModel model) {
         this.model = model;
-        this.model.addObserver(this);
         this.setLayout(new BorderLayout());
 
         initialize();
@@ -72,7 +67,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
      * Set up GUI components.
      */
     private void initialize() {
-        tableModel = new EventTableModel<ProjectActivity>(model.getActivitiesList(),
+        final EventTableModel<ProjectActivity> tableModel = new EventTableModel<ProjectActivity>(model.getActivitiesList(),
                 new AllActivitiesTableFormat(model));
         final JXTable table = new JXTable(tableModel);
         
@@ -142,24 +137,6 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
 
         JScrollPane table_scroll_pane = new JScrollPane(table);
         this.add(table_scroll_pane);
-    }
-
-
-    /**
-     * Update the panel from observed event.
-     */
-    public void update(final Observable source, final Object eventObject) {
-        if (eventObject != null && eventObject instanceof BaralgaEvent) {
-            final BaralgaEvent event = (BaralgaEvent) eventObject;
-
-            switch (event.getType()) {
-                    
-                case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
-                    tableModel.fireTableDataChanged();
-                    break;
-
-            }
-        }
     }
 
 }

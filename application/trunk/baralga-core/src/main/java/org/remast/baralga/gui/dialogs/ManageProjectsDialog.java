@@ -11,19 +11,19 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import org.apache.commons.lang.math.RandomUtils;
-import org.jdesktop.swingx.JXList;
+import org.jdesktop.swingx.JXTable;
+import org.remast.baralga.gui.dialogs.table.ProjectListTableFormat;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
 import org.remast.swing.dialog.EscapeDialog;
 import org.remast.util.TextResourceBundle;
 
-import ca.odell.glazedlists.swing.EventListModel;
+import ca.odell.glazedlists.swing.EventTableModel;
 
 /**
  * The dialog to manage the available projects.
@@ -38,7 +38,7 @@ public class ManageProjectsDialog extends EscapeDialog {
 
     private JPanel jContentPane = null;
 
-    private JXList projectList = null;
+    private JXTable projectList = null;
 
     private JTextField newProjectTextField = null;
 
@@ -59,9 +59,9 @@ public class ManageProjectsDialog extends EscapeDialog {
      */
     public ManageProjectsDialog(final Frame owner, final PresentationModel model) {
         super(owner);
-        
+
         this.model = model;
-        
+
         initialize();
     }
 
@@ -72,12 +72,12 @@ public class ManageProjectsDialog extends EscapeDialog {
         setLocationRelativeTo(getOwner());
         this.setSize(300, 200);
         this.setIconImage(new ImageIcon(getClass().getResource("/icons/gtk-edit.png")).getImage()); //$NON-NLS-1$
-        
+
         this.setModal(true);
         this.setPreferredSize(new Dimension(350, 120));
         this.setTitle(textBundle.textFor("ManageProjectsDialog.Title")); //$NON-NLS-1$
         this.setContentPane(getJContentPane());
-        
+
         // Set default Button to AddProjectsButton.
         this.getRootPane().setDefaultButton(addProjectButton);
     }
@@ -92,7 +92,7 @@ public class ManageProjectsDialog extends EscapeDialog {
             jContentPane.setLayout(new BorderLayout());
             jContentPane.add(getNewProjectNamePanel(), BorderLayout.NORTH);
             jContentPane.add(getProjectsPanel(), BorderLayout.EAST);
-            
+
             JScrollPane projectListScrollPane = new JScrollPane(getProjectList());
             jContentPane.add(projectListScrollPane, BorderLayout.CENTER);
         }
@@ -103,10 +103,14 @@ public class ManageProjectsDialog extends EscapeDialog {
      * This method initializes projectList.
      * @return javax.swing.JList	
      */
-    private JList getProjectList() {
+    private JXTable getProjectList() {
         if (projectList == null) {
-            projectList = new JXList();
-            projectList.setModel(new EventListModel<Project>(getModel().getProjectList()));
+            projectList = new JXTable();
+            projectList.setSortable(false);
+            projectList.getTableHeader().setVisible(false);
+            final EventTableModel<Project> projectListTableModel = new EventTableModel<Project>(getModel().getProjectList(), new ProjectListTableFormat(model));
+
+            projectList.setModel(projectListTableModel);
             projectList.setToolTipText(textBundle.textFor("ManageProjectsDialog.ProjectList.ToolTipText")); //$NON-NLS-1$
         }
         return projectList;
@@ -140,7 +144,7 @@ public class ManageProjectsDialog extends EscapeDialog {
             projectsPanel.add(getAddProjectButton(), null);
             projectsPanel.add(getRemoveProjectButton(), null);
         }
-        
+
         return projectsPanel;
     }
 
@@ -154,12 +158,12 @@ public class ManageProjectsDialog extends EscapeDialog {
             addProjectButton.setText(textBundle.textFor("ManageProjectsDialog.AddProjectButton.Title")); //$NON-NLS-1$
             addProjectButton.setToolTipText(textBundle.textFor("ManageProjectsDialog.AddProjectButton.ToolTipText")); //$NON-NLS-1$
             addProjectButton.addActionListener(new java.awt.event.ActionListener() {   
-            	public void actionPerformed(final java.awt.event.ActionEvent e) {
+                public void actionPerformed(final java.awt.event.ActionEvent e) {
                     String projectName = getNewProjectTextField().getText();
                     getModel().addProject(new Project(RandomUtils.nextLong(), projectName, projectName), ManageProjectsDialog.this);
                     getNewProjectTextField().setText(""); //$NON-NLS-1$
-            	}
-            
+                }
+
             });
             addProjectButton.setDefaultCapable(true);
         }
@@ -177,8 +181,8 @@ public class ManageProjectsDialog extends EscapeDialog {
             removeProjectButton.setToolTipText(textBundle.textFor("ManageProjectsDialog.RemoveProjectButton.ToolTipText")); //$NON-NLS-1$
             removeProjectButton.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(final java.awt.event.ActionEvent e) {
-                    for (Object item : getProjectList().getSelectedValues()) {
-                        getModel().removeProject((Project) item, ManageProjectsDialog.this);
+                    for (int index : getProjectList().getSelectedRows()) {
+                        getModel().removeProject(model.getProjectList().get(index), ManageProjectsDialog.this);
                     }
                 }
             });
