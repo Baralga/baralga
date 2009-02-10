@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DateFormat;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
@@ -25,6 +27,7 @@ import org.jdesktop.swingx.renderer.FormatStringValue;
 import org.jdesktop.swingx.table.DatePickerCellEditor;
 import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.BaralgaMain;
+import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.panels.table.AllActivitiesTableFormat;
 import org.remast.baralga.model.Project;
@@ -40,13 +43,15 @@ import ca.odell.glazedlists.swing.EventTableModel;
  * @author remast
  */
 @SuppressWarnings("serial")//$NON-NLS-1$
-public class AllActitvitiesPanel extends JXPanel {
+public class AllActitvitiesPanel extends JXPanel implements Observer {
 
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
 
     /** The model. */
     private final PresentationModel model;
+
+    private EventTableModel<ProjectActivity> tableModel;
 
 
     /**
@@ -57,6 +62,8 @@ public class AllActitvitiesPanel extends JXPanel {
      */
     public AllActitvitiesPanel(final PresentationModel model) {
         this.model = model;
+        this.model.addObserver(this);
+
         this.setLayout(new BorderLayout());
 
         initialize();
@@ -67,16 +74,16 @@ public class AllActitvitiesPanel extends JXPanel {
      * Set up GUI components.
      */
     private void initialize() {
-        final EventTableModel<ProjectActivity> tableModel = new EventTableModel<ProjectActivity>(model.getActivitiesList(),
+        tableModel = new EventTableModel<ProjectActivity>(model.getActivitiesList(),
                 new AllActivitiesTableFormat(model));
         final JXTable table = new JXTable(tableModel);
-        
+
         // Fix sorting
         EventListJXTableSorting.install(table, model.getActivitiesList());
 
         table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance())));
         table.getColumn(1).setCellEditor(new DatePickerCellEditor());
-        
+
         table.getColumn(2).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.timeFormat)));
         table.getColumn(3).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.timeFormat)));
         table.getColumn(4).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.durationFormat)));
@@ -88,31 +95,31 @@ public class AllActitvitiesPanel extends JXPanel {
                 if (table.getSelectedRows() == null) {
                     table.setToolTipText(null);
                 }
-                
+
                 double duration = 0;
                 for(int i : table.getSelectedRows()) {
                     duration += model.getActivitiesList().get(i).getDuration();
                 }
-                
+
                 table.setToolTipText(textBundle.textFor("AllActivitiesPanel.tooltipDuration", FormatUtils.durationFormat.format(duration))); //$NON-NLS-1$
             }
-            
+
         });
 
         final JPopupMenu menu = new JPopupMenu();
         menu.add(new AbstractAction(textBundle.textFor("AllActitvitiesPanel.Delete"), new ImageIcon(getClass().getResource("/icons/gtk-delete.png"))) { //$NON-NLS-1$
 
-                    public void actionPerformed(final ActionEvent event) {
-                        // 1. Get selected activities
-                        int[] selectionIndices = table.getSelectedRows();
+            public void actionPerformed(final ActionEvent event) {
+                // 1. Get selected activities
+                int[] selectionIndices = table.getSelectedRows();
 
-                        // 2. Remove all selected activities
-                        for (int selectionIndex : selectionIndices) {
-                            model.removeActivity(model.getActivitiesList().get(selectionIndex), this);
-                        }
-                    }
+                // 2. Remove all selected activities
+                for (int selectionIndex : selectionIndices) {
+                    model.removeActivity(model.getActivitiesList().get(selectionIndex), this);
+                }
+            }
 
-                });
+        });
 
         table.addMouseListener(new MouseAdapter() {
             public void mouseReleased(final MouseEvent e) {
@@ -137,6 +144,26 @@ public class AllActitvitiesPanel extends JXPanel {
 
         JScrollPane table_scroll_pane = new JScrollPane(table);
         this.add(table_scroll_pane);
+    }
+
+
+    @Override
+    public void update(Observable source, Object eventObject) {
+        if (source == null || !(eventObject instanceof BaralgaEvent)) {
+            return;
+        }
+
+        final BaralgaEvent event = (BaralgaEvent) eventObject;
+
+        switch (event.getType()) {
+        case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
+            tableModel.fireTableDataChanged();
+            break;
+
+        case BaralgaEvent.PROJECT_CHANGED:
+            tableModel.fireTableDataChanged();
+            break;
+        }
     }
 
 }

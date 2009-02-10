@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Map.Entry;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -127,7 +128,13 @@ public class DescriptionPanel extends JXPanel implements Observer {
                     this.container.remove(entryPanel);
                 }
                 break;
-        
+
+            case BaralgaEvent.PROJECT_CHANGED:
+                for (Entry<ProjectActivity, DescriptionPanelEntry> entry : entriesByActivity.entrySet()) {
+                    entry.getValue().update();
+                }
+                break;
+
             case BaralgaEvent.FILTER_CHANGED:
                 final Filter newFilter = (Filter) event.getData();
                 setFilter(newFilter);

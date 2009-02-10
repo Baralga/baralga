@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.GridLayout;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -18,6 +20,7 @@ import javax.swing.JTextField;
 import org.apache.commons.lang.math.RandomUtils;
 import org.jdesktop.swingx.JXTable;
 import org.remast.baralga.gui.dialogs.table.ProjectListTableFormat;
+import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
 import org.remast.swing.dialog.EscapeDialog;
@@ -31,7 +34,7 @@ import ca.odell.glazedlists.swing.EventTableModel;
  * :TODO: Rework the dialog to use table layout.
  */
 @SuppressWarnings("serial")
-public class ManageProjectsDialog extends EscapeDialog {
+public class ManageProjectsDialog extends EscapeDialog implements Observer {
 
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(ManageProjectsDialog.class);
@@ -54,6 +57,8 @@ public class ManageProjectsDialog extends EscapeDialog {
 
     private final PresentationModel model;
 
+    private EventTableModel<Project> projectListTableModel;
+
     /**
      * @param owner
      */
@@ -61,6 +66,7 @@ public class ManageProjectsDialog extends EscapeDialog {
         super(owner);
 
         this.model = model;
+        this.model.addObserver(this);
 
         initialize();
     }
@@ -108,8 +114,8 @@ public class ManageProjectsDialog extends EscapeDialog {
             projectList = new JXTable();
             projectList.setSortable(false);
             projectList.getTableHeader().setVisible(false);
-            final EventTableModel<Project> projectListTableModel = new EventTableModel<Project>(getModel().getProjectList(), new ProjectListTableFormat(model));
 
+            projectListTableModel = new EventTableModel<Project>(model.getProjectList(), new ProjectListTableFormat(model));
             projectList.setModel(projectListTableModel);
             projectList.setToolTipText(textBundle.textFor("ManageProjectsDialog.ProjectList.ToolTipText")); //$NON-NLS-1$
         }
@@ -160,7 +166,7 @@ public class ManageProjectsDialog extends EscapeDialog {
             addProjectButton.addActionListener(new java.awt.event.ActionListener() {   
                 public void actionPerformed(final java.awt.event.ActionEvent e) {
                     String projectName = getNewProjectTextField().getText();
-                    getModel().addProject(new Project(RandomUtils.nextLong(), projectName, projectName), ManageProjectsDialog.this);
+                    model.addProject(new Project(RandomUtils.nextLong(), projectName, projectName), ManageProjectsDialog.this);
                     getNewProjectTextField().setText(""); //$NON-NLS-1$
                 }
 
@@ -182,19 +188,15 @@ public class ManageProjectsDialog extends EscapeDialog {
             removeProjectButton.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(final java.awt.event.ActionEvent e) {
                     for (int index : getProjectList().getSelectedRows()) {
-                        getModel().removeProject(model.getProjectList().get(index), ManageProjectsDialog.this);
+                        model.removeProject(
+                                model.getProjectList().get(index), 
+                                ManageProjectsDialog.this
+                        );
                     }
                 }
             });
         }
         return removeProjectButton;
-    }
-
-    /**
-     * @return the model
-     */
-    public PresentationModel getModel() {
-        return model;
     }
 
     /**
@@ -220,4 +222,18 @@ public class ManageProjectsDialog extends EscapeDialog {
         return newProjectNamePanel;
     }
 
+    @Override
+    public void update(Observable source, Object eventObject) {
+        if (source == null || !(eventObject instanceof BaralgaEvent)) {
+            return;
+        }
+
+        final BaralgaEvent event = (BaralgaEvent) eventObject;
+
+        switch (event.getType()) {
+        case BaralgaEvent.PROJECT_CHANGED:
+            projectListTableModel.fireTableDataChanged();
+            break;
+        }
+    }
 }

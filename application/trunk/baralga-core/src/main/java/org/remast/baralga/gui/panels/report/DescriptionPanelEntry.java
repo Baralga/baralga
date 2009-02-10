@@ -56,6 +56,7 @@ public class DescriptionPanelEntry extends JXPanel {
      */
     public void update() {
         this.titledBorder.setTitle(String.valueOf(activity));
+        updateUI();
     }
 
 }

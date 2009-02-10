@@ -41,8 +41,8 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
      * Gets the name of the given column.
      * @param column the number of the column
      */
-    public String getColumnName(final int col) {
-        switch (col) {
+    public String getColumnName(final int column) {
+        switch (column) {
         case 0:
             return textBundle.textFor("AllActivitiesTableFormat.ProjectHeading"); //$NON-NLS-1$
         case 1:
@@ -58,7 +58,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         }
     }
 
-    public Object getColumnValue(final ProjectActivity activity,final int column) {
+    public Object getColumnValue(final ProjectActivity activity, final int column) {
         switch (column) {
         case 0:
             return activity.getProject();

@@ -4,12 +4,13 @@
 == Further Development ==
  * Support for portable version for removable devices.
 
+
 == Baralga Version 1.3.2 ==
 Functionality
  * Project title is editable.
+ * All activities table is sortable.
 
 Fixes
- * All activities table is sortable.
  * List of projects sorted alphabetically.
  * Project filter now restored correctly.
  * Save data after project or activity has changed.

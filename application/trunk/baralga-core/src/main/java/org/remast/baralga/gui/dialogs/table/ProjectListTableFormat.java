@@ -7,6 +7,10 @@ import org.remast.baralga.model.Project;
 
 import ca.odell.glazedlists.gui.WritableTableFormat;
 
+/**
+ * Format for table containing the projects.
+ * @author remast
+ */
 public class ProjectListTableFormat implements WritableTableFormat<Project> {
 
     /** The model. */
@@ -16,42 +20,35 @@ public class ProjectListTableFormat implements WritableTableFormat<Project> {
         this.model = model;
     }
 
-        @Override
-        public boolean isEditable(Project arg0, int arg1) {
-            return arg1 == 0;
-        }
+    public boolean isEditable(final Project project, final int column) {
+        return column == 0;
+    }
 
-        @Override
-        public Project setColumnValue(Project project, Object arg1,
-                int arg2) {
-            if (arg2 == 0) {
-                final String oldTitle = project.getTitle();
-                final String newTitle = (String) arg1;
-                project.setTitle(newTitle);
+    public Project setColumnValue(final Project project, final Object value,
+            final int column) {
+        if (column == 0) {
+            final String oldTitle = project.getTitle();
+            final String newTitle = (String) value;
+            project.setTitle(newTitle);
 
-                // Fire event
-                final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(project, Project.PROPERTY_TITLE, oldTitle, newTitle);
-                model.fireProjectChangedEvent(project, propertyChangeEvent);
-            }
-            return null;
+            // Fire event
+            final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(project, Project.PROPERTY_TITLE, oldTitle, newTitle);
+            model.fireProjectChangedEvent(project, propertyChangeEvent);
         }
+        
+        return project;
+    }
 
-        @Override
-        public int getColumnCount() {
-            // TODO Auto-generated method stub
-            return 1;
-        }
+    public int getColumnCount() {
+        return 1;
+    }
 
-        @Override
-        public String getColumnName(int arg0) {
-            // TODO Auto-generated method stub
-            return null;
-        }
+    public String getColumnName(final int column) {
+        return null;
+    }
 
-        @Override
-        public Object getColumnValue(Project arg0, int arg1) {
-            // TODO Auto-generated method stub
-            return arg0.getTitle();
-        }
+    public Object getColumnValue(final Project project, final int column) {
+        return project.getTitle();
+    }
 
 }

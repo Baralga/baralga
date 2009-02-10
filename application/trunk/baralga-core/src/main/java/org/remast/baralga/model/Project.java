@@ -60,6 +60,9 @@ public class Project implements Serializable, Comparable<Project>{
     
     public void setTitle(String title) {
         this.title = title;
+        
+        // Use title also as description for the moment.
+        this.description = title;
     }
 
     @Override
