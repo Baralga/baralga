@@ -65,7 +65,7 @@ public class DescriptionPanel extends JXPanel implements Observer {
         container.removeAll();
 
         for (final ProjectActivity activity : this.model.getActivitiesList()) {
-            final DescriptionPanelEntry descriptionPanelEntry = new DescriptionPanelEntry(activity);
+            final DescriptionPanelEntry descriptionPanelEntry = new DescriptionPanelEntry(activity, this.model);
 
             // Alternate background color
             if (this.model.getActivitiesList().indexOf(activity) % 2 == 0) {
@@ -102,7 +102,7 @@ public class DescriptionPanel extends JXPanel implements Observer {
 
             case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
                 activity = (ProjectActivity) event.getData();
-                DescriptionPanelEntry newEntryPanel = new DescriptionPanelEntry(activity);
+                DescriptionPanelEntry newEntryPanel = new DescriptionPanelEntry(activity, this.model);
                 entriesByActivity.put(activity, newEntryPanel);
                 this.container.add(newEntryPanel);
 
