@@ -5,6 +5,11 @@
  * Support for portable version for removable devices.
 
 
+== Baralga Version 1.?.? ==
+Fixes
+ * Projects in tray icon sorted alphabetically.
+
+
 == Baralga Version 1.3.2 ==
 Functionality
  * Project title is editable.

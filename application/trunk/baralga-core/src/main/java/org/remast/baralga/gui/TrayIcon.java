@@ -98,7 +98,7 @@ public class TrayIcon implements Observer {
         // Add separator
         menu.add(new JSeparator());
 
-        for (Project project : model.getData().getProjects()) {
+        for (Project project : model.getProjectList()) {
         	final ChangeProjectAction changeAction = new ChangeProjectAction(model, project);
             menu.add(changeAction);
         }
