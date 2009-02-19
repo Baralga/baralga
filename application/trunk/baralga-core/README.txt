@@ -10,6 +10,7 @@
 Fixes
  * Projects in tray icon sorted alphabetically.
  * Hours by day report fixed.
+ * Linux installation now installs an executable jar.
 
 == Baralga Version 1.3.2 ==
 Functionality
