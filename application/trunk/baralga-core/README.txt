@@ -1,14 +1,15 @@
 == Known Bugs ==
-
+ * Data export locations not remembered.
+ * Only one activity can be deleted at a time.
 
 == Further Development ==
  * Support for portable version for removable devices.
 
 
-== Baralga Version 1.?.? ==
+== Baralga Version 1.3.3 ==
 Fixes
  * Projects in tray icon sorted alphabetically.
-
+ * Hours by day report fixed.
 
 == Baralga Version 1.3.2 ==
 Functionality

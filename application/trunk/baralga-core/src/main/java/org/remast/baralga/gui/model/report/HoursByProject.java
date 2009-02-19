@@ -58,9 +58,13 @@ public class HoursByProject implements Comparable<HoursByProject> {
     @Override
     public int compareTo(HoursByProject hoursByProject) {
         if (hoursByProject == null) {
-        return 0;
+            return 0;
         }
         
+        if (this.equals(hoursByProject)) {
+            return 0;
+        }
+
         return this.getProject().compareTo(hoursByProject.getProject());
     }
 

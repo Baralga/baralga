@@ -62,6 +62,10 @@ public class HoursByDay implements Comparable<HoursByDay> {
             return 0;
         }
         
+        if (this.equals(that)) {
+            return 0;
+        }
+        
         // Sort by start date but the other way round. That way the latest
         // activity is always on top.
         return this.getDay().compareTo(that.getDay()) * -1;
