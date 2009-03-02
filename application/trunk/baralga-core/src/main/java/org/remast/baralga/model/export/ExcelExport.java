@@ -1,6 +1,6 @@
 package org.remast.baralga.model.export;
 
-import java.io.File;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -31,24 +31,23 @@ import org.remast.util.TextResourceBundle;
  * Exports data files to Excel.
  * @author remast
  */
-public abstract class ExcelExport {
+public class ExcelExport {
 
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(ExcelExport.class);
 
-    /** Hide constructor. */
-    private ExcelExport() { }
+    public ExcelExport() { }
 
-    public static final SimpleDateFormat MONTH_FORMAT = new SimpleDateFormat("MM"); //$NON-NLS-1$
+    public final SimpleDateFormat MONTH_FORMAT = new SimpleDateFormat("MM"); //$NON-NLS-1$
 
-    public static final SimpleDateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy"); //$NON-NLS-1$
+    public final SimpleDateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy"); //$NON-NLS-1$
 
     private static WritableCellFormat headingFormat;
 
-    public static void export(final ProTrack data, final Filter filter, final File file) throws Exception {
+    public void export(final ProTrack data, final Filter filter, final OutputStream outputStream) throws Exception {
             init();
             
-            final WritableWorkbook workbook = Workbook.createWorkbook(file);
+            final WritableWorkbook workbook = Workbook.createWorkbook(outputStream);
             createFilteredReport(workbook, data, filter);
             
             final WritableSheet sheet = workbook.createSheet(textBundle.textFor("ExcelExport.SheetTitleActivityRecords"), 1); //$NON-NLS-1$
@@ -112,7 +111,7 @@ public abstract class ExcelExport {
         headingFormat.setBackground(Colour.GRAY_25);
     }
 
-    private static void createFilteredReport(final WritableWorkbook workbook, final ProTrack data, final Filter filter) throws JXLException {
+    private void createFilteredReport(final WritableWorkbook workbook, final ProTrack data, final Filter filter) throws JXLException {
         String year = "";
         if (filter != null && filter.getYear() != null) {
             year = YEAR_FORMAT.format(filter.getYear());
