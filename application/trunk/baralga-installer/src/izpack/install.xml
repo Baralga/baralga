@@ -20,6 +20,7 @@
 	<locale>
 		<langpack iso3="eng" />
 		<langpack iso3="deu" />
+		<langpack iso3="fra" />
 	</locale>
 
 	<!--
