@@ -6,6 +6,11 @@
  * Support for portable version for removable devices.
 
 
+== Baralga Version 1.3.4 ==
+Functionality
+ * French language support (thanks to Adrien).
+
+
 == Baralga Version 1.3.3 ==
 Fixes
  * Projects in tray icon sorted alphabetically.
