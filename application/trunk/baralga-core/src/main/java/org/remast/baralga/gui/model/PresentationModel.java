@@ -9,7 +9,6 @@ import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.remast.baralga.gui.BaralgaMain;
-import org.remast.baralga.gui.Settings;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.lists.MonthFilterList;
 import org.remast.baralga.gui.lists.ProjectFilterList;
@@ -21,6 +20,7 @@ import org.remast.baralga.gui.model.report.HoursByDayReport;
 import org.remast.baralga.gui.model.report.HoursByProjectReport;
 import org.remast.baralga.gui.model.report.HoursByWeekReport;
 import org.remast.baralga.gui.model.report.ObservingAccumulatedActivitiesReport;
+import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
@@ -101,10 +101,10 @@ public class PresentationModel extends Observable {
         this.activitiesList.clear();
 
         // Set restored filter from settings
-        setFilter(Settings.instance().restoreFromSettings(), this);
+        setFilter(UserSettings.instance().restoreFromSettings(), this);
 
         // b) restore project (can be done here only as we need to search all projects)
-        final Long selectedProjectId = Settings.instance().getFilterSelectedProjectId();
+        final Long selectedProjectId = UserSettings.instance().getFilterSelectedProjectId();
         if (selectedProjectId != null) {
             filter.setProject(
                     this.data.findProjectById(selectedProjectId.longValue())
@@ -112,7 +112,7 @@ public class PresentationModel extends Observable {
         }
         applyFilter();
 
-        this.description = Settings.instance().getLastDescription();
+        this.description = UserSettings.instance().getLastDescription();
 
         // If there is a active project that has been started on another day,
         // we end it here.
@@ -286,7 +286,7 @@ public class PresentationModel extends Observable {
 
         // Clear old activity
         description = StringUtils.EMPTY;
-        Settings.instance().setLastDescription(StringUtils.EMPTY);
+        UserSettings.instance().setLastDescription(StringUtils.EMPTY);
         setActive(false);
         start = null;
 
@@ -348,7 +348,7 @@ public class PresentationModel extends Observable {
 
             // Clear description
             description = StringUtils.EMPTY;
-            Settings.instance().setLastDescription(StringUtils.EMPTY);
+            UserSettings.instance().setLastDescription(StringUtils.EMPTY);
 
             // 3. Broadcast project activity event.
             final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED);
@@ -380,7 +380,7 @@ public class PresentationModel extends Observable {
         // Save data to disk.
         final ProTrackWriter writer = new ProTrackWriter(data);
 
-        final File proTrackFile = new File(Settings.getDataFileLocation());
+        final File proTrackFile = new File(UserSettings.instance().getDataFileLocation());
         DataBackup.createBackup(proTrackFile);
 
         writer.write(proTrackFile);        

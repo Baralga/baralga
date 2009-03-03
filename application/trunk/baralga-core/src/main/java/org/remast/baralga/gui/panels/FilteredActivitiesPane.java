@@ -14,7 +14,6 @@ import javax.swing.ImageIcon;
 import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXPanel;
 import org.remast.baralga.gui.BaralgaMain;
-import org.remast.baralga.gui.Settings;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.panels.report.AccummulatedActitvitiesPanel;
 import org.remast.baralga.gui.panels.report.AllActitvitiesPanel;
@@ -23,6 +22,7 @@ import org.remast.baralga.gui.panels.report.HoursByDayPanel;
 import org.remast.baralga.gui.panels.report.HoursByProjectChartPanel;
 import org.remast.baralga.gui.panels.report.HoursByProjectPanel;
 import org.remast.baralga.gui.panels.report.HoursByWeekPanel;
+import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.util.TextResourceBundle;
 
 import com.jidesoft.swing.JideTabbedPane;
@@ -142,7 +142,7 @@ public class FilteredActivitiesPane extends JXPanel {
 		tabs.setTabShape(JideTabbedPane.SHAPE_WINDOWS);
 		tabs.setTabColorProvider(JideTabbedPane.ONENOTE_COLOR_PROVIDER);
 
-		shownCategory = Settings.instance().getShownCategory();
+		shownCategory = UserSettings.instance().getShownCategory();
 
 		accummulatedActitvitiesTab = new CategorizedTab("General"); //$NON-NLS-1$
 		accummulatedActitvitiesPanel = new AccummulatedActitvitiesPanel(model.getFilteredReport());
@@ -272,7 +272,7 @@ public class FilteredActivitiesPane extends JXPanel {
 		shownCategory = category;
 
 		//  b) in user settings
-		Settings.instance().setShownCategory(category);
+		UserSettings.instance().setShownCategory(category);
 
 		// 2. Set tab visibility
 		initCategorizedTabs();

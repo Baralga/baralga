@@ -33,11 +33,13 @@ import org.remast.baralga.gui.actions.ExportDataAction;
 import org.remast.baralga.gui.actions.ExportExcelAction;
 import org.remast.baralga.gui.actions.ImportDataAction;
 import org.remast.baralga.gui.actions.ManageProjectsAction;
+import org.remast.baralga.gui.actions.SettingsAction;
 import org.remast.baralga.gui.actions.StartAction;
 import org.remast.baralga.gui.actions.StopAction;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.panels.ReportPanel;
+import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.baralga.model.Project;
 import org.remast.swing.text.TextEditor;
 import org.remast.swing.util.GuiConstants;
@@ -178,7 +180,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         }
 
         // 3. Set layout
-        double[][] size = { 
+        final double[][] size = { 
                 {TableLayout.FILL }, // Columns
                 {TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.FILL}
         }; // Rows
@@ -263,7 +265,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
                     model.setDescription(description);
 
                     // Save description in settings.
-                    Settings.instance().setLastDescription(description);
+                    UserSettings.instance().setLastDescription(description);
                 }
             });
 
@@ -378,6 +380,10 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
             editMenu.add(getEditProjectsMenuItem());
             editMenu.add(getAddActivityMenuItem());
+
+//          :TODO: Uncomment to enable settings menu.
+//          editMenu.addSeparator();
+//          editMenu.add(new JMenuItem(new SettingsAction(this)));
         }
         return editMenu;
     }
@@ -475,7 +481,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         descriptionEditor.setEditable(true);
 
         // Clear description in settings.
-        Settings.instance().setLastDescription(StringUtils.EMPTY);
+        UserSettings.instance().setLastDescription(StringUtils.EMPTY);
 
         this.setTitle(textBundle.textFor("Global.Title") + " - " + this.model.getSelectedProject() + textBundle.textFor("MainFrame.11") + FormatUtils.timeFormat.format(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
         getStartStopButton().setAction(new StopAction(this.model));
@@ -489,7 +495,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         descriptionEditor.setEditable(false);
 
         // Clear description in settings.
-        Settings.instance().setLastDescription(StringUtils.EMPTY);
+        UserSettings.instance().setLastDescription(StringUtils.EMPTY);
 
         this.setTitle(textBundle.textFor("Global.Title") + " " + textBundle.textFor("MainFrame.12") + FormatUtils.timeFormat.format(this.model.getStop())); //$NON-NLS-1$
         getStartStopButton().setAction(new StartAction(this, this.model));

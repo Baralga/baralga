@@ -22,6 +22,8 @@ import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.model.ProjectActivityStateException;
 import org.remast.baralga.gui.model.io.DataBackup;
 import org.remast.baralga.gui.model.io.SaveTimer;
+import org.remast.baralga.gui.settings.ApplicationSettings;
+import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.io.ProTrackReader;
 import org.remast.util.TextResourceBundle;
@@ -205,7 +207,7 @@ public class BaralgaMain {
         // Initialize with new site
         final PresentationModel model = new PresentationModel();
 
-        final String dataFileLocation = Settings.getDataFileLocation();
+        final String dataFileLocation = UserSettings.instance().getDataFileLocation();
         final File file = new File(dataFileLocation);
 
         try {
@@ -326,7 +328,7 @@ public class BaralgaMain {
      */
     private static boolean tryLock() {
         checkOrCreateBaralgaDir();
-        final File lockFile = new File(Settings.getLockFileLocation());
+        final File lockFile = new File(UserSettings.getLockFileLocation());
         try {
             if (!lockFile.exists()) {
                 lockFile.createNewFile();
@@ -347,7 +349,7 @@ public class BaralgaMain {
      * Checks whether the Baralga directory exists and creates it if necessary.
      */
     private static void checkOrCreateBaralgaDir() {
-        final File baralgaDir = Settings.getBaralgaDirectory();
+        final File baralgaDir = ApplicationSettings.instance().getApplicationDataDirectory();
         if (!baralgaDir.exists()) {
             baralgaDir.mkdir();
         }
@@ -362,7 +364,7 @@ public class BaralgaMain {
             return;
         }
 
-        final File lockFile = new File(Settings.getLockFileLocation());
+        final File lockFile = new File(UserSettings.getLockFileLocation());
 
         try {
             lock.release();

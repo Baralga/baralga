@@ -17,13 +17,13 @@ import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTitledSeparator;
 import org.remast.baralga.gui.BaralgaMain;
-import org.remast.baralga.gui.Settings;
 import org.remast.baralga.gui.lists.FilterItem;
 import org.remast.baralga.gui.lists.MonthFilterList;
 import org.remast.baralga.gui.lists.ProjectFilterList;
 import org.remast.baralga.gui.lists.WeekOfYearFilterList;
 import org.remast.baralga.gui.lists.YearFilterList;
 import org.remast.baralga.gui.model.PresentationModel;
+import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.util.DateUtils;
@@ -134,7 +134,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
             }
 
             // Read from Settings.
-            final Integer selectedMonth = Settings.instance().getFilterSelectedMonth();
+            final Integer selectedMonth = UserSettings.instance().getFilterSelectedMonth();
             if (selectedMonth != null) {
                 for (FilterItem<Integer> item : monthFilterList.getMonthList()) {
                     if (item.getItem().equals(selectedMonth)) {
@@ -165,7 +165,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
             }
 
             // Read from Settings.
-            final Integer selectedWeek = Settings.instance().getFilterSelectedWeekOfYear();
+            final Integer selectedWeek = UserSettings.instance().getFilterSelectedWeekOfYear();
             if (selectedWeek != null) {
                 for (FilterItem<Integer> item : weekOfYearFilterList.getWeekList()) {
                     if (item.getItem().equals(selectedWeek)) {
@@ -197,7 +197,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
             }
 
             // Read from Settings.
-            final Long selectedProjectId = Settings.instance().getFilterSelectedProjectId();
+            final Long selectedProjectId = UserSettings.instance().getFilterSelectedProjectId();
             if (selectedProjectId != null) {
                 for (FilterItem<Project> item : projectFilterList.getProjectList()) {
                     if (ObjectUtils.equals(item.getItem().getId(), selectedProjectId.longValue())) {
@@ -229,7 +229,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
             }
 
             // Read from Settings.
-            final Integer selectedYear = Settings.instance().getFilterSelectedYear();
+            final Integer selectedYear = UserSettings.instance().getFilterSelectedYear();
             if (selectedYear != null) {
                 for (FilterItem<Integer> item : yearFilterList.getYearList()) {
                     if (item.getItem().equals(selectedYear)) {
@@ -343,26 +343,26 @@ public class ReportPanel extends JXPanel implements ActionListener {
         // Store filter by month
         FilterItem<Integer> filterItem = (FilterItem<Integer>) getMonthFilterSelector().getSelectedItem();
         final int selectedMonth = filterItem.getItem();
-        Settings.instance().setFilterSelectedMonth(selectedMonth);
+        UserSettings.instance().setFilterSelectedMonth(selectedMonth);
 
         // Store filter by year
         filterItem = (FilterItem<Integer>) getYearFilterSelector().getSelectedItem();
         final int selectedYear = filterItem.getItem();
-        Settings.instance().setFilterSelectedYear(selectedYear);
+        UserSettings.instance().setFilterSelectedYear(selectedYear);
 
         // Store filter by week of year
         filterItem = (FilterItem<Integer>) getWeekOfYearFilterSelector().getSelectedItem();
         final int selectedWeekOfYear = filterItem.getItem();
-        Settings.instance().setFilterSelectedWeekOfYear(selectedWeekOfYear);
+        UserSettings.instance().setFilterSelectedWeekOfYear(selectedWeekOfYear);
 
         // Store filter by project
         final FilterItem<Project> projectFilterItem = (FilterItem<Project>) getProjectFilterSelector().getSelectedItem();
         final Project project = projectFilterItem.getItem();
         if (!ProjectFilterList.ALL_PROJECTS_DUMMY.equals(project)) {
             long projectId = project.getId();
-            Settings.instance().setFilterSelectedProjectId(projectId);
+            UserSettings.instance().setFilterSelectedProjectId(projectId);
         } else {
-            Settings.instance().setFilterSelectedProjectId(
+            UserSettings.instance().setFilterSelectedProjectId(
                     ProjectFilterList.ALL_PROJECTS_DUMMY_VALUE
             );
         }

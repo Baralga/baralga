@@ -16,7 +16,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.remast.baralga.gui.Settings;
+import org.remast.baralga.gui.settings.ApplicationSettings;
+import org.remast.baralga.gui.settings.UserSettings;
 
 /**
  * Misc utility methods for creating and reading backups.
@@ -31,10 +32,10 @@ public class DataBackup {
     private static final SimpleDateFormat BACKUP_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd_HHmmss");
 
     /** The full path of the backed up corrupt data file. */
-    private static final String ERROR_FILE_PATH = Settings.getDataFileLocation() + ".Error";
+    private static final String ERROR_FILE_PATH = UserSettings.instance().getDataFileLocation() + ".Error";
 
     /** The name of the backed up corrupt data file. */
-    private static final String ERROR_FILE_NAME = Settings.DEFAULT_FILE_NAME + ".Error";
+    private static final String ERROR_FILE_NAME = UserSettings.DEFAULT_FILE_NAME + ".Error";
 
     /** The number of backup files to keep. */
     private static final int NUMBER_OF_BACKUPS = 3;
@@ -51,7 +52,7 @@ public class DataBackup {
         try {
             FileUtils.copyFile(
                     toBackup, 
-                    new File(Settings.getDataFileLocation() + "." + BACKUP_DATE_FORMAT.format(new Date()))
+                    new File(UserSettings.instance().getDataFileLocation() + "." + BACKUP_DATE_FORMAT.format(new Date()))
             );
             cleanupBackupFiles();
         } catch (Exception e) {
@@ -85,13 +86,13 @@ public class DataBackup {
     public static List<File> getBackupFiles()  {
         final SortedMap<Date, File> sortedBackupFiles = new TreeMap<Date, File>();
 
-        final File dir = Settings.DEFAULT_DIRECTORY;
+        final File dir = ApplicationSettings.instance().getApplicationDataDirectory();
         final String [] backupFiles = dir.list(new FilenameFilter() {
 
             public boolean accept(final File dir, final String name) {
                 if (!StringUtils.equals(ERROR_FILE_NAME, name) 
-                        && !StringUtils.equals(Settings.DEFAULT_FILE_NAME, name) 
-                        && name.startsWith(Settings.DEFAULT_FILE_NAME)) {
+                        && !StringUtils.equals(UserSettings.DEFAULT_FILE_NAME, name) 
+                        && name.startsWith(UserSettings.DEFAULT_FILE_NAME)) {
                     return true;
                 }
 
@@ -106,8 +107,8 @@ public class DataBackup {
 
         for (String backupFile : backupFiles) {
             try {
-            	final Date backupDate = BACKUP_DATE_FORMAT.parse(backupFile.substring(Settings.DEFAULT_FILE_NAME.length()+1));
-                sortedBackupFiles.put(backupDate, new File(Settings.DEFAULT_DIRECTORY + File.separator + backupFile));
+            	final Date backupDate = BACKUP_DATE_FORMAT.parse(backupFile.substring(UserSettings.DEFAULT_FILE_NAME.length()+1));
+                sortedBackupFiles.put(backupDate, new File(ApplicationSettings.instance().getApplicationDataDirectory() + File.separator + backupFile));
             } catch (ParseException e) {
                 log.error(e, e);
             }
@@ -133,7 +134,7 @@ public class DataBackup {
      */
     public static Date getDateOfBackup(final File backupFile) {
         try {
-            return BACKUP_DATE_FORMAT.parse(backupFile.getName().substring(Settings.DEFAULT_FILE_NAME.length()+1));
+            return BACKUP_DATE_FORMAT.parse(backupFile.getName().substring(UserSettings.DEFAULT_FILE_NAME.length()+1));
         } catch (Exception e) {
             log.error(e, e);
             return null;
@@ -145,7 +146,7 @@ public class DataBackup {
      */
     public static void saveCorruptDataFile() {
         try {
-            FileUtils.copyFile(new File(Settings.getDataFileLocation()), new File(ERROR_FILE_PATH));
+            FileUtils.copyFile(new File(UserSettings.instance().getDataFileLocation()), new File(ERROR_FILE_PATH));
         } catch (IOException e) {
             log.error(e, e);
         }
