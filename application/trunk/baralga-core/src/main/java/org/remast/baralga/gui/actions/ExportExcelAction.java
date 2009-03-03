@@ -97,7 +97,9 @@ public final class ExportExcelAction extends AbstractBaralgaAction {
 				JOptionPane.showMessageDialog(null, textBundle.textFor("ExcelExportAction.IOException.Message", file.getAbsolutePath()), textBundle.textFor("ExcelExportAction.IOException.Heading"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 						JOptionPane.ERROR_MESSAGE);
 			} finally {
-				IOUtils.closeQuietly(outputStream);
+                if (outputStream != null) {
+                    IOUtils.closeQuietly(outputStream);
+                }
 			}
 			return null;
 		}
