@@ -2,6 +2,7 @@
  * Data export locations not remembered.
  * Only one activity can be deleted at a time.
 
+
 == Further Development ==
  * Support for portable version for removable devices.
 

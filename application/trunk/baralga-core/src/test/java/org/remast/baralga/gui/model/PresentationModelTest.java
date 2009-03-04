@@ -10,6 +10,11 @@ import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.util.DateUtils;
 
+/**
+ * Tests for the presentation model.
+ * @author remast
+ * @see PresentationModel
+ */
 public class PresentationModelTest extends TestCase {
 
     /** The model under test. */
@@ -30,6 +35,7 @@ public class PresentationModelTest extends TestCase {
     /**
      * Test for an activity that goes on until after midnight.
      * @throws ProjectActivityStateException should never be thrown if test is ok
+     * @see Issue <a href="http://baralga.origo.ethz.ch/node/87">#17</a>
      */
     public void testAcitivityOverMidnight() throws ProjectActivityStateException {
         final Date nowTmp = DateUtils.getNow();
