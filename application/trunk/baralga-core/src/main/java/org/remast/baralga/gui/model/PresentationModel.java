@@ -134,7 +134,7 @@ public class PresentationModel extends Observable {
 
     private void applyFilter() {
         this.activitiesList.clear();
-        
+
         if (this.filter == null) {
             this.activitiesList.addAll(this.data.getActivities());
         } else {
@@ -179,10 +179,11 @@ public class PresentationModel extends Observable {
     }
 
     /**
-     * Start a project activity.
+     * Start a project activity at the given time.<br/>
+     * <em>This method is meant for unit testing only!!</em>
      * @throws ProjectActivityStateException if there is already a running project
      */
-    public final void start() throws ProjectActivityStateException {
+    public final void start(final Date startTime) throws ProjectActivityStateException {
         if (getSelectedProject() == null) {
             throw new ProjectActivityStateException(textBundle.textFor("PresentationModel.NoActiveProjectSelectedError")); //$NON-NLS-1$
         }
@@ -194,11 +195,23 @@ public class PresentationModel extends Observable {
         this.dirty = true;
 
         // Set start time to now
-        setStart(DateUtils.getNow());
+        if (startTime == null) {
+            setStart(DateUtils.getNow());
+        } else {
+            setStart(startTime);
+        }
 
         // Fire start event
         final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_STARTED);
         notify(event);
+    }
+
+    /**
+     * Start a project activity.
+     * @throws ProjectActivityStateException if there is already a running project
+     */
+    public final void start() throws ProjectActivityStateException {
+        start(DateUtils.getNow());
     }
 
     /**
@@ -214,18 +227,18 @@ public class PresentationModel extends Observable {
         final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_CHANGED);
         event.setData(changedActivity);
         event.setPropertyChangeEvent(propertyChangeEvent);
-        
+
         // Mark data as dirty
         this.dirty = true;
 
         notify(event);
     }
-    
+
     public void fireProjectChangedEvent(final Project changedProject, final PropertyChangeEvent propertyChangeEvent) {
         final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_CHANGED);
         event.setData(changedProject);
         event.setPropertyChangeEvent(propertyChangeEvent);
-        
+
         // Mark data as dirty
         this.dirty = true;
 
@@ -243,7 +256,7 @@ public class PresentationModel extends Observable {
     }
 
     /**
-     * Stop a project activity.
+     * Stop a project activity.<br/>
      * @throws ProjectActivityStateException if there is no running project
      */
     public final void stop(final boolean notifyObservers) throws ProjectActivityStateException {
@@ -264,7 +277,7 @@ public class PresentationModel extends Observable {
 
             stop = dt.toDateMidnight().toDate();
 
-            stop2 = dt.toDate();
+            stop2 = DateUtils.getNow();
             final Date start2 = stop;
 
             final ProjectActivity activityOnEndDay = new ProjectActivity(start2, stop2, getSelectedProject());
@@ -392,7 +405,7 @@ public class PresentationModel extends Observable {
      */
     public final void addActivity(final ProjectActivity activity, final Object source) {
         getData().getActivities().add(activity);
-        
+
         // Add activity if there is no filter or the filter matches
         if (this.filter == null || this.filter.matchesCriteria(activity)) {
             this.getActivitiesList().add(activity);
@@ -400,7 +413,7 @@ public class PresentationModel extends Observable {
 
         // Mark data as dirty
         this.dirty = true;
-        
+
         // Fire event
         final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED, source);
         event.setData(activity);
@@ -414,7 +427,7 @@ public class PresentationModel extends Observable {
     public final void removeActivity(final ProjectActivity activity, final Object source) {
         getData().getActivities().remove(activity);
         this.getActivitiesList().remove(activity);
-        
+
         // Remove activity if there is no filter or the filter matches
         if (this.filter == null || this.filter.matchesCriteria(activity)) {
             this.getActivitiesList().remove(activity);
@@ -558,11 +571,11 @@ public class PresentationModel extends Observable {
         if (ObjectUtils.equals(this.data, data)) {
             return;
         }
-        
+
         this.data = data;
-        
+
         initialize();
-        
+
         // Fire event
         final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.DATA_CHANGED, this);
         notify(event);
@@ -585,7 +598,7 @@ public class PresentationModel extends Observable {
         }
         // Store filter
         this.filter = filter;
-        
+
         applyFilter();
 
         // Fire event
