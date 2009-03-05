@@ -9,13 +9,13 @@ import org.apache.commons.lang.StringEscapeUtils;
  * Utility methods for working with strings.
  * @author remast
  */
-public abstract class StringUtils {
+public class StringUtils {
 
     /** Regular expression for xml tags. */
     private static final String XML_TAG_PATTERN = "<[^<>]+>";
     
     /**
-     * Strip all xml tags from given String.
+     * Strip all xml tags from given String and unescape xml characters.
      * @param xml
      * @return
      */

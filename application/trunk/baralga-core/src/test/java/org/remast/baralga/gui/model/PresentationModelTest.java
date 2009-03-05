@@ -82,10 +82,14 @@ public class PresentationModelTest extends TestCase {
 
     /**
      * Test for changing the active project.
+     * @see PresentationModel#changeProject(Project)
      */
     public void testChangeProject() {
+        model.setDirty(false);
+        
         model.changeProject(project1);
         assertEquals(project1, model.getSelectedProject());
+        assertEquals(true, model.isDirty());
 
         model.changeProject(project2);
         assertEquals(project2, model.getSelectedProject());
