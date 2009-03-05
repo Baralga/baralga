@@ -13,7 +13,7 @@ import org.apache.commons.logging.LogFactory;
  * Stores and reads all settings specific to the whole application.
  * @author remast
  */
-public class ApplicationSettings {
+public final class ApplicationSettings {
 
     /** The logger. */
     private static final Log log = LogFactory.getLog(ApplicationSettings.class);
@@ -22,7 +22,7 @@ public class ApplicationSettings {
     private static ApplicationSettings instance;
 
     /** Key for the name of the application properties file. */
-    private static String APPLICATION_PROPERTIES_FILENAME = "application.properties";
+    private static String APPLICATION_PROPERTIES_FILENAME = "application.properties"; //$NON-NLS-1$
 
     /** Node for Baralga application preferences. */
     private PropertiesConfiguration applicationConfig;
@@ -31,10 +31,11 @@ public class ApplicationSettings {
     // Data locations
     //------------------------------------------------
 
-    /** Default directory of ProTrack. */
-    public static final File DATA_DIRECTORY_DEFAULT = new File(System.getProperty("user.home") + File.separator + ".ProTrack"); //$NON-NLS-1$ //$NON-NLS-2$
+    /** Default data directory. */
+    public static final File dataDirectoryDefault = new File(System.getProperty("user.home") + File.separator + ".ProTrack"); //$NON-NLS-1$ //$NON-NLS-2$
 
-    public File DATA_DIRECTORY_APPLICATION_RELATIVE = null;
+    /** Data directory relative to application installation. */
+    public File dataDirectoryApplicationRelative = null;
 
     /**
      * Getter for singleton instance.
@@ -49,15 +50,25 @@ public class ApplicationSettings {
 
     private ApplicationSettings() {
         try {
-            DATA_DIRECTORY_APPLICATION_RELATIVE = new File(new File(UserSettings.class.getResource("/").toURI()).getParentFile(), "data");
+            dataDirectoryApplicationRelative = new File(
+                    new File(UserSettings.class.getResource("/").toURI()).getParentFile(), //$NON-NLS-1$
+                    "data" //$NON-NLS-1$
+            );
 
-            final File dataDir = new File(new File(UserSettings.class.getResource("/").toURI()).getParentFile(), "data");
-            if (!dataDir.exists())
+            final File dataDir = new File(
+                    new File(UserSettings.class.getResource("/").toURI()).getParentFile(), //$NON-NLS-1$
+                    "data" //$NON-NLS-1$
+            );
+            
+            if (!dataDir.exists()) {
                 dataDir.mkdir();
+            }
 
             final File file = new File(
                     dataDir,
-                    APPLICATION_PROPERTIES_FILENAME);
+                    APPLICATION_PROPERTIES_FILENAME
+            );
+
             applicationConfig = new PropertiesConfiguration(file);
             applicationConfig.setAutoSave(true);
         } catch (ConfigurationException e) {
@@ -67,8 +78,15 @@ public class ApplicationSettings {
         }
     }
 
-    private static final String STORE_DATA_IN_APPLICATION_DIRECTORY = "storeDataInApplicationDirectory";
+    /** Key for storage mode. */
+    private static final String STORE_DATA_IN_APPLICATION_DIRECTORY = "storeDataInApplicationDirectory"; //$NON-NLS-1$
 
+    /**
+     * Getter for storage mode. This can either be the default directory 
+     * (user specific) or a directory relative to the application installation.
+     * @return <code>true</code> if data is stored in application installation 
+     * directory or <code>false</code> if data is stored in default directory
+     */
     public boolean isStoreDataInApplicationDirectory() {
         try {
             return applicationConfig.getBoolean(STORE_DATA_IN_APPLICATION_DIRECTORY);
@@ -77,18 +95,23 @@ public class ApplicationSettings {
         }
     }
 
-    public void setStoreDataInApplicationDirectory(boolean storeDataInApplicationDirectory) {
+    /**
+     * Sets the storage mode of the application.
+     * @param storeDataInApplicationDirectory the new storage mode
+     */
+    public void setStoreDataInApplicationDirectory(final boolean storeDataInApplicationDirectory) {
         applicationConfig.setProperty(STORE_DATA_IN_APPLICATION_DIRECTORY, storeDataInApplicationDirectory);
     }
+
     /**
      * Get the directory of the application in the profile of the user.
      * @return the directory for user settings
      */
     public File getApplicationDataDirectory()  {
         if (isStoreDataInApplicationDirectory()) {
-            return DATA_DIRECTORY_APPLICATION_RELATIVE;
+            return dataDirectoryApplicationRelative;
         } else {
-            return DATA_DIRECTORY_DEFAULT;
+            return dataDirectoryDefault;
         }
     }
 }
