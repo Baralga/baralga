@@ -5,12 +5,11 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.ImageIcon;
 
-import org.remast.baralga.gui.dialogs.AboutDialog;
 import org.remast.baralga.gui.dialogs.SettingsDialog;
 import org.remast.util.TextResourceBundle;
 
 /**
- * Shows the about dialog.
+ * Shows the settings dialog.
  * @author remast
  */
 @SuppressWarnings("serial")//$NON-NLS-1$
@@ -27,7 +26,7 @@ public class SettingsAction extends AbstractBaralgaAction {
         super(owner);
 
         putValue(NAME, textBundle.textFor("AboutAction.Name")); //$NON-NLS-1$
-        putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/gtk-about.png"))); //$NON-NLS-1$
+        putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/stock_folder-properties.png"))); //$NON-NLS-1$
         putValue(SHORT_DESCRIPTION, textBundle.textFor("AboutAction.ShortDescription")); //$NON-NLS-1$
     }
 
