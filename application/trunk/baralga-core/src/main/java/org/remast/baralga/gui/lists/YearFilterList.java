@@ -7,6 +7,7 @@ import java.util.Observer;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
+import org.remast.swing.util.LabeledItem;
 import org.remast.util.DateUtils;
 import org.remast.util.TextResourceBundle;
 
@@ -28,7 +29,7 @@ public class YearFilterList implements Observer {
     public static final int ALL_YEARS_DUMMY = -10; //$NON-NLS-1$
 
     /** Filter item for the all years dummy. */
-    public static final FilterItem<Integer> ALL_YEARS_FILTER_ITEM = new FilterItem<Integer>(
+    public static final LabeledItem<Integer> ALL_YEARS_FILTER_ITEM = new LabeledItem<Integer>(
             ALL_YEARS_DUMMY,
             textBundle.textFor("YearFilterList.AllYearsLabel") //$NON-NLS-1$
     );
@@ -37,16 +38,16 @@ public class YearFilterList implements Observer {
     public static final int CURRENT_YEAR_DUMMY = -5; //$NON-NLS-1$
 
     /** Filter item for the current year dummy. */
-    public static final FilterItem<Integer> CURRENT_YEAR_FILTER_ITEM = new FilterItem<Integer>(
+    public static final LabeledItem<Integer> CURRENT_YEAR_FILTER_ITEM = new LabeledItem<Integer>(
             CURRENT_YEAR_DUMMY,
             textBundle.textFor("YearFilterList.CurrentYearsLabel", YEAR_FORMAT.format(DateUtils.getNow())) //$NON-NLS-1$
     );
 
-    private EventList<FilterItem<Integer>> yearList;
+    private EventList<LabeledItem<Integer>> yearList;
 
     public YearFilterList(final PresentationModel model) {
         this.model = model;
-        this.yearList = new BasicEventList<FilterItem<Integer>>();
+        this.yearList = new BasicEventList<LabeledItem<Integer>>();
         this.model.addObserver(this);
 
         initialize();
@@ -62,8 +63,8 @@ public class YearFilterList implements Observer {
         }
     }
 
-    public SortedList<FilterItem<Integer>> getYearList() {
-        return new SortedList<FilterItem<Integer>>(this.yearList);
+    public SortedList<LabeledItem<Integer>> getYearList() {
+        return new SortedList<LabeledItem<Integer>>(this.yearList);
     }
 
     public void update(final Observable source, final Object eventObject) {
@@ -88,7 +89,7 @@ public class YearFilterList implements Observer {
 
     private void addYear(final ProjectActivity activity) {
         final String year = YEAR_FORMAT.format(activity.getStart());
-        final FilterItem<Integer> yearItem = new FilterItem<Integer>(Integer.parseInt(year), year);
+        final LabeledItem<Integer> yearItem = new LabeledItem<Integer>(Integer.parseInt(year), year);
         if (!this.yearList.contains(yearItem)) {
             this.yearList.add(yearItem);
         }

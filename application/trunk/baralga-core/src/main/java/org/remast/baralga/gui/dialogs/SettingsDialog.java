@@ -4,19 +4,20 @@ import info.clearthought.layout.TableLayout;
 
 import java.awt.Frame;
 
-import javax.swing.AbstractListModel;
-import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
-import javax.swing.event.ListDataListener;
 
 import org.jdesktop.swingx.JXHeader;
 import org.jdesktop.swingx.JXLabel;
 import org.remast.swing.dialog.EscapeDialog;
 
+/**
+ * The settings dialog for editing both application and user settings.
+ * @author remast
+ */
 @SuppressWarnings("serial")
 public class SettingsDialog extends EscapeDialog {
 
-    public SettingsDialog(Frame owner) {
+    public SettingsDialog(final Frame owner) {
         super(owner);
 
         initialize();
@@ -31,7 +32,8 @@ public class SettingsDialog extends EscapeDialog {
         final double border = 5;
         final double size[][] = {
                 { border, TableLayout.FILL, border, TableLayout.PREFERRED, border }, // Columns
-                { border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border} }; // Rows
+                { border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border}  // Rows
+        };
 
         final TableLayout tableLayout = new TableLayout(size);
         this.setLayout(tableLayout);

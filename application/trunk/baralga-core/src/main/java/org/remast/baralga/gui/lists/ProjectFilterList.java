@@ -6,6 +6,7 @@ import java.util.Observer;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
+import org.remast.swing.util.LabeledItem;
 import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.BasicEventList;
@@ -24,13 +25,13 @@ public class ProjectFilterList implements Observer {
 
 	public static final Project ALL_PROJECTS_DUMMY = new Project(ALL_PROJECTS_DUMMY_VALUE, "*", "*"); //$NON-NLS-1$ //$NON-NLS-2$
 
-	public static final FilterItem<Project> ALL_PROJECTS_FILTER_ITEM = new FilterItem<Project>(ALL_PROJECTS_DUMMY, textBundle.textFor("ProjectFilterList.AllProjectsLabel")); //$NON-NLS-1$
+	public static final LabeledItem<Project> ALL_PROJECTS_FILTER_ITEM = new LabeledItem<Project>(ALL_PROJECTS_DUMMY, textBundle.textFor("ProjectFilterList.AllProjectsLabel")); //$NON-NLS-1$
 
-	private final EventList<FilterItem<Project>> projectList;
+	private final EventList<LabeledItem<Project>> projectList;
 
 	public ProjectFilterList(final PresentationModel model) {
 		this.model = model;
-		this.projectList = new BasicEventList<FilterItem<Project>>();
+		this.projectList = new BasicEventList<LabeledItem<Project>>();
 		this.model.addObserver(this);
 
 		initialize();
@@ -45,8 +46,8 @@ public class ProjectFilterList implements Observer {
 		}
 	}
 
-	public SortedList<FilterItem<Project>> getProjectList() {
-		return new SortedList<FilterItem<Project>>(this.projectList);
+	public SortedList<LabeledItem<Project>> getProjectList() {
+		return new SortedList<LabeledItem<Project>>(this.projectList);
 	}
 
 	public void update(final Observable source, final Object eventObject) {
@@ -70,12 +71,12 @@ public class ProjectFilterList implements Observer {
 
 	private void addProject(final Project project) {
 		if (project != null && !this.projectList.contains(project)) {
-			this.projectList.add(new FilterItem<Project>(project));
+			this.projectList.add(new LabeledItem<Project>(project));
 		}
 	}
 
 	private void removeProject(final Project project) {
-		final FilterItem<Project> filterItem = new FilterItem<Project>(project);
+		final LabeledItem<Project> filterItem = new LabeledItem<Project>(project);
 		if (project != null && this.projectList.contains(filterItem)) {
 			this.projectList.remove(filterItem);
 		}

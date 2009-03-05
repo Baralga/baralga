@@ -7,6 +7,7 @@ import java.util.Observer;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
+import org.remast.swing.util.LabeledItem;
 import org.remast.util.DateUtils;
 import org.remast.util.TextResourceBundle;
 
@@ -28,7 +29,7 @@ public class MonthFilterList implements Observer {
     public static final int ALL_MONTHS_DUMMY = -10;
 
     /** filter item for the all months dummy. */
-    public static final FilterItem<Integer> ALL_MONTHS_FILTER_ITEM = new FilterItem<Integer>(
+    public static final LabeledItem<Integer> ALL_MONTHS_FILTER_ITEM = new LabeledItem<Integer>(
             ALL_MONTHS_DUMMY,
             textBundle.textFor("MonthFilterList.AllMonthsLabel") //$NON-NLS-1$
     );
@@ -37,16 +38,16 @@ public class MonthFilterList implements Observer {
     public static final int CURRENT_MONTH_DUMMY = -5;
 
     /** filter item for the current month dummy. */
-    public static final FilterItem<Integer> CURRENT_MONTH_FILTER_ITEM = new FilterItem<Integer>(
+    public static final LabeledItem<Integer> CURRENT_MONTH_FILTER_ITEM = new LabeledItem<Integer>(
             CURRENT_MONTH_DUMMY,
             textBundle.textFor("MonthFilterList.CurrentMonthLabel", MONTH_FORMAT.format(DateUtils.getNow())) //$NON-NLS-1$
     );
 
-    private EventList<FilterItem<Integer>> monthList;
+    private EventList<LabeledItem<Integer>> monthList;
 
     public MonthFilterList(final PresentationModel model) {
         this.model = model;
-        this.monthList = new BasicEventList<FilterItem<Integer>>();
+        this.monthList = new BasicEventList<LabeledItem<Integer>>();
 
         this.model.addObserver(this);
 
@@ -63,8 +64,8 @@ public class MonthFilterList implements Observer {
         }
     }
 
-    public SortedList<FilterItem<Integer>> getMonthList() {
-        return new SortedList<FilterItem<Integer>>(this.monthList);
+    public SortedList<LabeledItem<Integer>> getMonthList() {
+        return new SortedList<LabeledItem<Integer>>(this.monthList);
     }
 
     public void update(final Observable source, final Object eventObject) {
@@ -88,7 +89,7 @@ public class MonthFilterList implements Observer {
 
     private void addMonth(final ProjectActivity activity) {
         final String month = MONTH_FORMAT.format(activity.getStart());
-        final FilterItem<Integer> monthItem = new FilterItem<Integer>(Integer.valueOf(month), month);
+        final LabeledItem<Integer> monthItem = new LabeledItem<Integer>(Integer.valueOf(month), month);
         if (!this.monthList.contains(monthItem))
             this.monthList.add(monthItem);
     }

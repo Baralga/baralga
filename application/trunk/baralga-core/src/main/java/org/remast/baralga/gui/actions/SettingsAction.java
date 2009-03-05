@@ -9,7 +9,7 @@ import org.remast.baralga.gui.dialogs.SettingsDialog;
 import org.remast.util.TextResourceBundle;
 
 /**
- * Shows the settings dialog.
+ * Shows the settings dialog of the application.
  * @author remast
  */
 @SuppressWarnings("serial")//$NON-NLS-1$
@@ -19,15 +19,15 @@ public class SettingsAction extends AbstractBaralgaAction {
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(SettingsAction.class);
 
     /**
-     * Creates a new about action.
+     * Creates a new settings action.
      * @param owner the owning frame
      */
     public SettingsAction(final Frame owner) {
         super(owner);
 
-        putValue(NAME, textBundle.textFor("AboutAction.Name")); //$NON-NLS-1$
+        putValue(NAME, textBundle.textFor("SettingsAction.Name")); //$NON-NLS-1$
         putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/stock_folder-properties.png"))); //$NON-NLS-1$
-        putValue(SHORT_DESCRIPTION, textBundle.textFor("AboutAction.ShortDescription")); //$NON-NLS-1$
+        putValue(SHORT_DESCRIPTION, textBundle.textFor("SettingsAction.ShortDescription")); //$NON-NLS-1$
     }
 
     /**
@@ -35,7 +35,7 @@ public class SettingsAction extends AbstractBaralgaAction {
      */
     @Override
     public final void actionPerformed(final ActionEvent event) {
-        // Display the about dialog
+        // Display the settings dialog
         final SettingsDialog settingsDialog = new SettingsDialog(getOwner());
         settingsDialog.setVisible(true);
     }

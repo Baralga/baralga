@@ -7,6 +7,7 @@ import java.util.Observer;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
+import org.remast.swing.util.LabeledItem;
 import org.remast.util.DateUtils;
 import org.remast.util.TextResourceBundle;
 
@@ -28,7 +29,7 @@ public class WeekOfYearFilterList implements Observer {
     public static final int ALL_WEEKS_OF_YEAR_DUMMY = -10;
 
     /** Filter item for the all weeks of year dummy. */
-    public static final FilterItem<Integer> ALL_WEEKS_OF_YEAR_FILTER_ITEM = new FilterItem<Integer>(
+    public static final LabeledItem<Integer> ALL_WEEKS_OF_YEAR_FILTER_ITEM = new LabeledItem<Integer>(
             ALL_WEEKS_OF_YEAR_DUMMY, 
             textBundle.textFor("WeekOfYearFilterList.AllWeeksOfYearLabel") //$NON-NLS-1$
     );
@@ -37,16 +38,16 @@ public class WeekOfYearFilterList implements Observer {
     public static final int CURRENT_WEEK_OF_YEAR_DUMMY = -5;
 
     /** Filter item for the current week of year dummy. */
-    public static final FilterItem<Integer> CURRENT_WEEK_OF_YEAR_FILTER_ITEM = new FilterItem<Integer>(
+    public static final LabeledItem<Integer> CURRENT_WEEK_OF_YEAR_FILTER_ITEM = new LabeledItem<Integer>(
             CURRENT_WEEK_OF_YEAR_DUMMY,
             textBundle.textFor("WeekOfYearFilterList.CurrentWeekOfYearLabel", WEEK_OF_YEAR_FORMAT.format(DateUtils.getNow())) //$NON-NLS-1$
     );
 
-    private EventList<FilterItem<Integer>> weekOfYearList;
+    private EventList<LabeledItem<Integer>> weekOfYearList;
 
     public WeekOfYearFilterList(final PresentationModel model) {
         this.model = model;
-        this.weekOfYearList = new BasicEventList<FilterItem<Integer>>();
+        this.weekOfYearList = new BasicEventList<LabeledItem<Integer>>();
 
         this.model.addObserver(this);
 
@@ -63,8 +64,8 @@ public class WeekOfYearFilterList implements Observer {
         }
     }
 
-    public SortedList<FilterItem<Integer>> getWeekList() {
-        return new SortedList<FilterItem<Integer>>(this.weekOfYearList);
+    public SortedList<LabeledItem<Integer>> getWeekList() {
+        return new SortedList<LabeledItem<Integer>>(this.weekOfYearList);
     }
 
     public void update(final Observable source, final Object eventObject) {
@@ -88,7 +89,7 @@ public class WeekOfYearFilterList implements Observer {
 
     private void addWeekOfYear(final ProjectActivity activity) {
         final String weekOfYear = WEEK_OF_YEAR_FORMAT.format(activity.getStart());
-        final FilterItem<Integer> filterItem = new FilterItem<Integer>(Integer.valueOf(weekOfYear), weekOfYear);
+        final LabeledItem<Integer> filterItem = new LabeledItem<Integer>(Integer.valueOf(weekOfYear), weekOfYear);
         if (!this.weekOfYearList.contains(filterItem))
             this.weekOfYearList.add(filterItem);
     }
