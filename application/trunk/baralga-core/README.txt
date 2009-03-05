@@ -7,6 +7,11 @@
  * Support for portable version for removable devices.
 
 
+== Baralga Version 1.3.? ==
+Fixes
+ * Issue #17 (http://baralga.origo.ethz.ch/node/87).
+
+
 == Baralga Version 1.3.4 ==
 Functionality
  * French language support (thanks to Adrien).
