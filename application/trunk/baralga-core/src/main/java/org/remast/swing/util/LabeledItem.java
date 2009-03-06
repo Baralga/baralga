@@ -69,6 +69,7 @@ public class LabeledItem<E extends Comparable<E>> implements Comparable<LabeledI
             return false;
         }
 
+        @SuppressWarnings("unchecked")
         final LabeledItem<E> that = (LabeledItem<E>) obj;
 
         return this.getItem().equals(that.getItem());

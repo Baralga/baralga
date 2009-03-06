@@ -29,9 +29,9 @@ public class TextResourceBundle {
     private ResourceBundle resourceBundle = null;
 
     /** The class to resolve texts for. */
-    private Class clazz;
+    private Class<?> clazz;
 
-    private TextResourceBundle(final Class clazz) {
+    private TextResourceBundle(final Class<?> clazz) {
         if (clazz == null) {
             throw new IllegalArgumentException("Parameter clazz may not be null.");
         }
@@ -50,7 +50,7 @@ public class TextResourceBundle {
      * @param clazz the class to resolve bundle for
      * @return the resolved text bundle
      */
-    public static TextResourceBundle getBundle(final Class clazz) {
+    public static TextResourceBundle getBundle(final Class<?> clazz) {
         if (clazz == null) {
             throw new IllegalArgumentException("Parameter clazz may not be null.");
         }

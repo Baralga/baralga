@@ -248,6 +248,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
      * Create filter from selection in this panel.
      * @return the filter for the selection
      */
+    @SuppressWarnings("unchecked")
     public Filter createFilter() {
         final Filter filter = new Filter();
 
@@ -339,6 +340,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
     /**
      * Stores the filter in the user settings.
      */
+    @SuppressWarnings("unchecked")
     private void storeFilterInSettings() {
         // Store filter by month
         LabeledItem<Integer> filterItem = (LabeledItem<Integer>) getMonthFilterSelector().getSelectedItem();
