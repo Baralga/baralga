@@ -1,7 +1,9 @@
 package org.remast.baralga.gui.settings;
 
 import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.NoSuchElementException;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -50,16 +52,34 @@ public final class ApplicationSettings {
 
     private ApplicationSettings() {
         try {
+            // TRICKY: Obtaining relative path outside of executable JAR with the following.
+            String url = ApplicationSettings.class.getResource("/" + ApplicationSettings.class.getName().replaceAll("\\.", "/") + ".class").toString();
+            url = url.substring(4).replaceFirst("/[^/]+\\.jar!.*$", "/");
+            
+            File rootDirectory = null;
+            
+            // TRICKY: Here's a hack to make it work for production environment, jUnit tests and development.
+            // So we check if the url is a file 
+            //   -> production 
+            //   else -> development
+            if (url.startsWith("file")) {
+                // production environment (packaging as jar)
+                rootDirectory = new File(new URL(url).toURI());
+            } else {
+                // development environment (compiled classes)
+                rootDirectory = new File(ApplicationSettings.class.getResource("/").toURI()); //$NON-NLS-1$
+            }
+
             dataDirectoryApplicationRelative = new File(
-                    new File(UserSettings.class.getResource("/").toURI()).getParentFile(), //$NON-NLS-1$
+                    rootDirectory,
                     "data" //$NON-NLS-1$
             );
 
             final File dataDir = new File(
-                    new File(UserSettings.class.getResource("/").toURI()).getParentFile(), //$NON-NLS-1$
+                    rootDirectory,
                     "data" //$NON-NLS-1$
             );
-            
+
             if (!dataDir.exists()) {
                 dataDir.mkdir();
             }
@@ -71,6 +91,8 @@ public final class ApplicationSettings {
 
             applicationConfig = new PropertiesConfiguration(file);
             applicationConfig.setAutoSave(true);
+        } catch (MalformedURLException e) {
+            log.error(e, e);
         } catch (ConfigurationException e) {
             log.error(e, e);
         } catch (URISyntaxException e) {
@@ -100,6 +122,10 @@ public final class ApplicationSettings {
      * @param storeDataInApplicationDirectory the new storage mode
      */
     public void setStoreDataInApplicationDirectory(final boolean storeDataInApplicationDirectory) {
+        if (isStoreDataInApplicationDirectory() == storeDataInApplicationDirectory) {
+            return;
+        }
+
         applicationConfig.setProperty(STORE_DATA_IN_APPLICATION_DIRECTORY, storeDataInApplicationDirectory);
     }
 

@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 
 import org.remast.baralga.gui.dialogs.SettingsDialog;
+import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.util.TextResourceBundle;
 
 /**
@@ -22,8 +23,8 @@ public class SettingsAction extends AbstractBaralgaAction {
      * Creates a new settings action.
      * @param owner the owning frame
      */
-    public SettingsAction(final Frame owner) {
-        super(owner);
+    public SettingsAction(final Frame owner, final PresentationModel model) {
+        super(owner, model);
 
         putValue(NAME, textBundle.textFor("SettingsAction.Name")); //$NON-NLS-1$
         putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/stock_folder-properties.png"))); //$NON-NLS-1$
@@ -36,7 +37,7 @@ public class SettingsAction extends AbstractBaralgaAction {
     @Override
     public final void actionPerformed(final ActionEvent event) {
         // Display the settings dialog
-        final SettingsDialog settingsDialog = new SettingsDialog(getOwner());
+        final SettingsDialog settingsDialog = new SettingsDialog(getOwner(), getModel());
         settingsDialog.setVisible(true);
     }
 

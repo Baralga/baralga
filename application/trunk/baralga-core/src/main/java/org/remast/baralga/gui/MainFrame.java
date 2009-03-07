@@ -383,7 +383,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
 //          :TODO: Uncomment to enable settings menu.
           editMenu.addSeparator();
-          editMenu.add(new JMenuItem(new SettingsAction(this)));
+          editMenu.add(new JMenuItem(new SettingsAction(this, model)));
         }
         return editMenu;
     }
