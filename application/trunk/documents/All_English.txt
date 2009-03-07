@@ -188,3 +188,6 @@ WeekOfYearPredicate.ErrorNoProjectActivity=No instance of ProjectActivity provid
 MonthPredicate.ErrorNoProjectActivity=No instance of ProjectActivity provided.
 FileFilters.MicrosoftExcelFile=Microsoft Excel File (*.xls)
 FileFilters.DataFile=Baralga Data File (*.ptd.xml)
+
+StartActivityConfirmDialog.Title=Start activity?
+StartActivityConfirmDialog.Message=No activity is currently running. \nStart working on selected project?

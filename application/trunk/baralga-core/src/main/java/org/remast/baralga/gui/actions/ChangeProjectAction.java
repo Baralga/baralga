@@ -1,8 +1,15 @@
 package org.remast.baralga.gui.actions;
 
 import java.awt.event.ActionEvent;
+import java.awt.*;
 
+import javax.swing.JOptionPane;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.remast.baralga.gui.model.PresentationModel;
+import org.remast.baralga.gui.model.ProjectActivityStateException;
+import org.remast.baralga.gui.dialogs.StartActivityConfirmDialog;
 import org.remast.baralga.model.Project;
 import org.remast.util.TextResourceBundle;
 
@@ -10,9 +17,12 @@ import org.remast.util.TextResourceBundle;
  * Action to change the active project.
  * @author remast
  */
-@SuppressWarnings("serial") //$NON-NLS-1$
 public class ChangeProjectAction extends AbstractBaralgaAction {
 
+    private static final long serialVersionUID = 1L;
+
+    private static final Log log = LogFactory.getLog(ExportDataAction.class);
+    
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(ChangeProjectAction.class);
 
@@ -41,6 +51,27 @@ public class ChangeProjectAction extends AbstractBaralgaAction {
     @Override
     public final void actionPerformed(final ActionEvent e) {
         getModel().changeProject(newProject);
+
+        if( !getModel().isActive() ) {
+            startActivityIfConfirmed();
+        }
+    }
+
+    private void startActivityIfConfirmed() {
+        // unfortunately Systray gives no hint where it is located, so we have to guess
+        // by getting the current mouse location.
+        Point currentMousePosition = MouseInfo.getPointerInfo().getLocation();
+        String title = textBundle.textFor("StartActivityConfirmDialog.Title"); //$NON-NLS-1$
+        String msg  = textBundle.textFor("StartActivityConfirmDialog.Message"); //$NON-NLS-1$
+        
+        StartActivityConfirmDialog dialog = new StartActivityConfirmDialog( title, msg, currentMousePosition );
+        if( dialog.getSelectedValue() == JOptionPane.YES_OPTION ) {
+            try {
+                getModel().start();
+            } catch (ProjectActivityStateException e1) {
+                log.warn("Race condition in ChangeProjectAction?", e1 ); //$NON-NLS-1$
+            }
+        }
     }
     
 }

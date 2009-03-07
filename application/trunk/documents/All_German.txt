@@ -200,4 +200,5 @@ MonthPredicate.ErrorNoProjectActivity=Keine Instanz von ProjectActivity verfügba
 FileFilters.MicrosoftExcelFile=Microsoft Excel Datei (*.xls)
 FileFilters.DataFile=Baralga Daten (*.ptd.xml)
 
-
+StartActivityConfirmDialog.Title=Aktivität starten?
+StartActivityConfirmDialog.Message=Zurzeit läuft keine Aktivität. \nArbeit an ausgewähltem Projekt starten?

@@ -10,7 +10,7 @@
 == Baralga Version 1.3.? ==
 Fixes
  * Issue #17 (http://baralga.origo.ethz.ch/node/87).
-
+ * Start activity when selection changes in systray (Issue #16 http://baralga.origo.ethz.ch/node/85)
 
 == Baralga Version 1.3.4 ==
 Functionality
