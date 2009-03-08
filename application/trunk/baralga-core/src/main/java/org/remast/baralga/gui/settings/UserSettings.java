@@ -42,16 +42,13 @@ public final class UserSettings {
     private PropertiesConfiguration userConfig;
 
     /** The singleton instance. */
-    private static UserSettings instance;
+    private static UserSettings instance = new UserSettings();
 
     /**
      * Getter for singleton instance.
      * @return the settings singleton
      */
     public static UserSettings instance() {
-        if (instance == null) {
-            instance = new UserSettings();
-        }
         return instance;
     }
 
