@@ -67,7 +67,7 @@ public class HoursByWeek implements Comparable<HoursByWeek> {
             return 0;
         }
         
-        return new Integer(this.week).compareTo(that.getWeek());
+        return Integer.valueOf(this.week).compareTo(that.getWeek());
     }
 
 }
