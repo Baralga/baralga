@@ -21,9 +21,8 @@ import org.remast.util.TextResourceBundle;
  * Action to change the active project.
  * @author remast
  */
+@SuppressWarnings("serial") //$NON-NLS-1$
 public class ChangeProjectAction extends AbstractBaralgaAction {
-
-    private static final long serialVersionUID = 1L;
 
     private static final Log log = LogFactory.getLog(ExportDataAction.class);
 
