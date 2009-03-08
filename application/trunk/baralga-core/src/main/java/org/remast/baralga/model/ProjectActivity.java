@@ -7,11 +7,15 @@ import org.remast.baralga.FormatUtils;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+
 /**
  * An activity for a project.
  * @author remast
  */
 @XStreamAlias("projectActivity")//$NON-NLS-1$
+@SuppressWarnings(value={"EI_EXPOSE_REP","EI_EXPOSE_REP2"},
+        justification="We trust callers that they won't change Dates we receive or hand out")
 public class ProjectActivity implements Serializable, Comparable<ProjectActivity> {
 
     /**
@@ -110,7 +114,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
 
     @Override
     public String toString() {
-        return FormatUtils.dateFormat.format(this.start) + " "
+        return FormatUtils.getDateFormat().format(this.start) + " "
                 + FormatUtils.timeFormat.format(this.start) + " - " + FormatUtils.timeFormat.format(this.end) + " ("
                 + FormatUtils.durationFormat.format(this.getDuration()) + "h) " + this.project;
     }
