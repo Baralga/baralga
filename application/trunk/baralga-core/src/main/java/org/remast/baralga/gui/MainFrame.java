@@ -40,7 +40,6 @@ import org.remast.baralga.gui.actions.ManageProjectsAction;
 import org.remast.baralga.gui.actions.SettingsAction;
 import org.remast.baralga.gui.actions.StartAction;
 import org.remast.baralga.gui.actions.StopAction;
-import org.remast.baralga.gui.actions.ExportCsvAction;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.model.ProjectActivityStateException;
