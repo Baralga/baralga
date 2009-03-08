@@ -3,8 +3,6 @@ package org.remast.baralga.gui;
 import info.clearthought.layout.TableLayout;
 
 import java.awt.Dimension;
-import java.awt.MouseInfo;
-import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,7 +14,6 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -31,18 +28,15 @@ import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.actions.AboutAction;
 import org.remast.baralga.gui.actions.AbstractBaralgaAction;
 import org.remast.baralga.gui.actions.AddActivityAction;
-import org.remast.baralga.gui.actions.ChangeProjectAction;
 import org.remast.baralga.gui.actions.ExitAction;
 import org.remast.baralga.gui.actions.ExportDataAction;
 import org.remast.baralga.gui.actions.ExportExcelAction;
 import org.remast.baralga.gui.actions.ImportDataAction;
 import org.remast.baralga.gui.actions.ManageProjectsAction;
-import org.remast.baralga.gui.actions.SettingsAction;
 import org.remast.baralga.gui.actions.StartAction;
 import org.remast.baralga.gui.actions.StopAction;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
-import org.remast.baralga.gui.model.ProjectActivityStateException;
 import org.remast.baralga.gui.panels.ReportPanel;
 import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.baralga.model.Project;
@@ -308,62 +302,15 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
             /* Handling of selection events: */
             projectSelector.addActionListener(new ActionListener() {
-                private Project selectedProject;
                 public void actionPerformed(final ActionEvent e) {
-                    
-                    if( selectedProject != null ) {
-                        // 1. Set current project to the just selected project.
-                        selectedProject = (Project) projectSelector.getSelectedItem();
-                        PresentationModel model = MainFrame.this.model;
-                        model.changeProject(selectedProject);
+                    // 1. Set current project to the just selected project.
+                    final Project selectedProject = (Project) projectSelector.getSelectedItem();
+                    MainFrame.this.model.changeProject(selectedProject);
 
-                        // 2. Start project if confirmed by user
-                        if( !model.isActive() && isStartConfirmed() ) {
-                            try {
-                                model.start();
-                            } catch (ProjectActivityStateException e1) {
-                                //log.warn("Race condition in ChangeProjectAction?", e1 ); //$NON-NLS-1$
-                            }
-                        }
-                        
-                        new ChangeProjectAction( MainFrame.this.model, selectedProject).actionPerformed(e);
-
-                        // 3. Clear the description.
-                        if (descriptionEditor != null) {
-                            descriptionEditor.setText(StringUtils.EMPTY);
-                        }
-                    } else {
-                        // no action on initial select
-                        selectedProject = (Project) projectSelector.getSelectedItem();
+                    // 2. Clear the description.
+                    if (descriptionEditor != null) {
+                        descriptionEditor.setText(StringUtils.EMPTY);
                     }
-                    
-                }
-                
-                private boolean isStartConfirmed() {
-                    // unfortunately Systray gives no hint where it is located, so we have
-                    // to guess
-                    // by getting the current mouse location.
-                    Point currentMousePosition = MouseInfo.getPointerInfo().getLocation();
-                    String title = textBundle.textFor("StartActivityConfirmDialog.Title"); //$NON-NLS-1$
-                    String msg = textBundle.textFor("StartActivityConfirmDialog.Message"); //$NON-NLS-1$
-                    
-                    JOptionPane pane = new JOptionPane(msg, JOptionPane.QUESTION_MESSAGE,
-                            JOptionPane.YES_NO_OPTION);
-
-                    JDialog dialog = pane.createDialog(title);
-                    dialog.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/Baralga-Tray.gif")));//$NON-NLS-1$ 
-                    Dimension d = dialog.getPreferredSize();
-                    // TODO: check that dialog stays within screen boundaries
-                    dialog.setLocation(currentMousePosition.x - d.width,
-                            currentMousePosition.y - d.height);
-
-                    dialog.setVisible(true);
-                    dialog.dispose();
-
-                    Object selectedValue = pane.getValue();
-
-                    return selectedValue instanceof Integer
-                            && (((Integer) selectedValue).intValue() == JOptionPane.YES_OPTION);
                 }
             });
         }
@@ -433,9 +380,9 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             editMenu.add(getEditProjectsMenuItem());
             editMenu.add(getAddActivityMenuItem());
 
-//          :TODO: Uncomment to enable settings menu.
-          editMenu.addSeparator();
-          editMenu.add(new JMenuItem(new SettingsAction(this, model)));
+//          INFO: Uncomment to enable settings menu.
+//          editMenu.addSeparator();
+//          editMenu.add(new JMenuItem(new SettingsAction(this, model)));
         }
         return editMenu;
     }
