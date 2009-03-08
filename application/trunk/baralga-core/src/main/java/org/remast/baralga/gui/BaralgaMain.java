@@ -82,7 +82,15 @@ public class BaralgaMain {
      */
     public static void main(final String[] args) {
         try {
+            boolean minimized = false;
+            for(String arg : args) {
+                if(arg.startsWith("-m=") ) {
+                    minimized = Boolean.parseBoolean( arg.substring("-m=".length()) );
+                }
+            }
+
             final BaralgaMain mainInstance = new BaralgaMain();
+            mainInstance.minimized = minimized;
 
             initLogger();
 
