@@ -13,6 +13,7 @@ import org.jdesktop.swingx.JXHyperlink;
 import org.jdesktop.swingx.JXImagePanel;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
+import org.remast.baralga.gui.settings.ApplicationSettings;
 import org.remast.swing.action.OpenBrowserAction;
 import org.remast.swing.dialog.EscapeDialog;
 import org.remast.swing.util.GuiConstants;
@@ -73,8 +74,19 @@ public class AboutDialog extends EscapeDialog {
         aboutInfo.add(hyperlinkBug, "3, 3"); //$NON-NLS-1$
         
         this.add(aboutInfo, BorderLayout.CENTER);
+      
+        // Get storage mode from ApplicationSettings
+        String storageMode = null;
+        if (ApplicationSettings.instance().isStoreDataInApplicationDirectory()) {
+            storageMode = textBundle.textFor("Settings.DataStorage.PortableLabel");
+        } else {
+            storageMode = textBundle.textFor("Settings.DataStorage.NormalLabel");
+        }
         
-        final JLabel versionLabel = new JXLabel("<html><font color=blue size=\"big\"><h2>" + textBundle.textFor("Global.Version") + " " + textBundle.textFor("Global.VersionNumber") + "</h2></font></html>", JLabel.CENTER); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+        final String versionInfo = "<html>" +
+        		"<font color=blue size=\"big\"><h2>" + textBundle.textFor("Global.Version") + " " + textBundle.textFor("Global.VersionNumber") + " " + storageMode + "</h2></font>" +
+        		"</html>";
+        final JLabel versionLabel = new JXLabel(versionInfo, JLabel.CENTER);
         versionLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
         
         this.add(versionLabel, BorderLayout.SOUTH);
