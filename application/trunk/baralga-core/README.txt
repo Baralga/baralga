@@ -7,10 +7,14 @@
  * Support for portable version for removable devices.
 
 
-== Baralga Version 1.3.? ==
+== Baralga Version 1.3.5 ==
 Fixes
  * Issue #17 (http://baralga.origo.ethz.ch/node/87).
  * Start activity when selection changes in systray (Issue #16 http://baralga.origo.ethz.ch/node/85)
+ * Remember location of last data export.
+ 
+Functionality
+ * Special version for use as portable application.
 
 == Baralga Version 1.3.4 ==
 Functionality

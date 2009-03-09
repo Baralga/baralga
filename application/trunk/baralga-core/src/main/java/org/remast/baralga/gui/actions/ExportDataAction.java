@@ -12,6 +12,7 @@ import javax.swing.SwingWorker;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.remast.baralga.gui.model.PresentationModel;
+import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.baralga.model.io.ProTrackWriter;
 import org.remast.swing.util.FileFilters;
 import org.remast.util.TextResourceBundle;
@@ -43,6 +44,10 @@ public class ExportDataAction extends AbstractBaralgaAction {
     @Override
     public final void actionPerformed(final ActionEvent event) {
         final JFileChooser chooser = new JFileChooser();
+        
+        // Set selection to last export location
+        chooser.setSelectedFile(new File(UserSettings.instance().getLastDataExportLocation()));
+        
         chooser.setFileFilter(new FileFilters.DataFileFilter());
 
         int returnVal = chooser.showSaveDialog(getOwner());
@@ -72,6 +77,11 @@ public class ExportDataAction extends AbstractBaralgaAction {
             try {
                 final ProTrackWriter writer = new ProTrackWriter(model.getData());
                 writer.write(file);
+                
+                // Store export location in settings
+                UserSettings.instance().setLastDataExportLocation(
+                        file.getAbsolutePath()
+                );
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, textBundle.textFor("ExportDataAction.IOException.Message", file.getAbsolutePath()), textBundle.textFor("ExportDataAction.IOException.Heading"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                         JOptionPane.ERROR_MESSAGE);

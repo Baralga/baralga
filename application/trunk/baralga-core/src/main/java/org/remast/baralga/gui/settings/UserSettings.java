@@ -102,6 +102,29 @@ public final class UserSettings {
     public void setLastExcelExportLocation(final String excelExportLocation) {
         userConfig.setProperty(LAST_EXCEL_EXPORT_LOCATION, excelExportLocation);
     }
+    
+    //------------------------------------------------
+    // Data Export Location
+    //------------------------------------------------
+
+    /** Key for the location of last Data export. */
+    private static final String LAST_DATA_EXPORT_LOCATION = "export.data"; //$NON-NLS-1$
+
+    /**
+     * Gets the location of the last Data export.
+     * @return the location of the last Data export
+     */
+    public String getLastDataExportLocation() {
+        return userConfig.getString(LAST_DATA_EXPORT_LOCATION, System.getProperty("user.home"));
+    }
+
+    /**
+     * Sets the location of the last Data export.
+     * @param excelExportLocation the location of the last Data export to set
+     */
+    public void setLastDataExportLocation(final String excelExportLocation) {
+        userConfig.setProperty(LAST_DATA_EXPORT_LOCATION, excelExportLocation);
+    }
 
     //------------------------------------------------
     // Description
