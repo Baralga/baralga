@@ -120,10 +120,33 @@ public final class UserSettings {
 
     /**
      * Sets the location of the last Data export.
-     * @param excelExportLocation the location of the last Data export to set
+     * @param dataExportLocation the location of the last data export to set
      */
-    public void setLastDataExportLocation(final String excelExportLocation) {
-        userConfig.setProperty(LAST_DATA_EXPORT_LOCATION, excelExportLocation);
+    public void setLastDataExportLocation(final String dataExportLocation) {
+        userConfig.setProperty(LAST_DATA_EXPORT_LOCATION, dataExportLocation);
+    }
+    
+    //------------------------------------------------
+    // Csv Export Location
+    //------------------------------------------------
+
+    /** Key for the location of last Csv export. */
+    private static final String LAST_CSV_EXPORT_LOCATION = "export.data"; //$NON-NLS-1$
+
+    /**
+     * Gets the location of the last Csv export.
+     * @return the location of the last Csv export
+     */
+    public String getLastCsvExportLocation() {
+        return userConfig.getString(LAST_CSV_EXPORT_LOCATION, System.getProperty("user.home"));
+    }
+
+    /**
+     * Sets the location of the last Csv export.
+     * @param csvExportLocation the location of the last Csv export to set
+     */
+    public void setLastCsvExportLocation(final String csvExportLocation) {
+        userConfig.setProperty(LAST_CSV_EXPORT_LOCATION, csvExportLocation);
     }
 
     //------------------------------------------------

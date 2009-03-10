@@ -23,6 +23,7 @@
   <classpathentry kind="var" path="M2_REPO/net/sourceforge/jexcelapi/jxl/2.6.8/jxl-2.6.8.jar"/>
   <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.15/log4j-1.2.15.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/jgoodies/looks/2.2.1/looks-2.2.1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/net/sf/opencsv/opencsv/1.8/opencsv-1.8.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/swinglabs/swingx/0.9.5-2/swingx-0.9.5-2.jar"/>
   <classpathentry kind="var" path="M2_REPO/tablelayout/TableLayout/20050920/TableLayout-20050920.jar"/>
   <classpathentry kind="var" path="M2_REPO/xpp3/xpp3_min/1.1.4c/xpp3_min-1.1.4c.jar"/>

@@ -15,6 +15,7 @@ Fixes
  
 Functionality
  * Special version for use as portable application.
+ * Export to Comma Separated Value (CSV) format.
 
 == Baralga Version 1.3.4 ==
 Functionality

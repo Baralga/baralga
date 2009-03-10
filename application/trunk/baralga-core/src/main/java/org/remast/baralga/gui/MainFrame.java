@@ -29,6 +29,7 @@ import org.remast.baralga.gui.actions.AboutAction;
 import org.remast.baralga.gui.actions.AbstractBaralgaAction;
 import org.remast.baralga.gui.actions.AddActivityAction;
 import org.remast.baralga.gui.actions.ExitAction;
+import org.remast.baralga.gui.actions.ExportCsvAction;
 import org.remast.baralga.gui.actions.ExportDataAction;
 import org.remast.baralga.gui.actions.ExportExcelAction;
 import org.remast.baralga.gui.actions.ImportDataAction;
@@ -119,6 +120,8 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private JMenuItem editProjectsMenuItem = null;
 
     private JMenuItem exportExcelItem = null;
+    
+    private JMenuItem exportCsvItem = null;
 
     private JMenuItem exportDataItem = null;
 
@@ -514,6 +517,19 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     }
     
     /**
+     * This method initializes exportCsvItem.
+     * @return javax.swing.JMenuItem
+     */
+    private JMenuItem getExportCsvItem() {
+        if (exportCsvItem == null) {
+            final AbstractBaralgaAction csvExportAction = new ExportCsvAction(this, this.model);
+            exportCsvItem = new JMenuItem(csvExportAction);
+            exportCsvItem.setMnemonic(csvExportAction.getMnemonic());
+        }
+        return exportCsvItem;
+    }
+    
+    /**
      * This method initializes exportDataItem.
      * @return javax.swing.JMenuItem
      */
@@ -536,7 +552,9 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             exportMenu.setIcon(new ImageIcon(getClass().getResource("/icons/export-menu.png")));
             exportMenu.setText(textBundle.textFor("MainFrame.ExportMenu.Title")); //$NON-NLS-1$
             exportMenu.setMnemonic(textBundle.textFor("MainFrame.ExportMenu.Title").charAt(0)); //$NON-NLS-1$
+            
             exportMenu.add(getExportExcelItem());
+            exportMenu.add(getExportCsvItem());
             exportMenu.add(getExportDataItem());
         }
         return exportMenu;

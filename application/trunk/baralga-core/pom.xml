@@ -197,6 +197,11 @@
 			<version>2.6.8</version>
 		</dependency>
 		<dependency>
+			<groupId>net.sf.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>1.8</version>
+		</dependency>
+		<dependency>
 			<groupId>com.jgoodies</groupId>
 			<artifactId>looks</artifactId>
 			<version>2.2.1</version>
@@ -274,7 +279,7 @@
 		  <groupId>findbugs</groupId>
 		  <artifactId>annotations</artifactId>
 		  <version>1.0.0</version>
-		  <scope>provided</scope>
+		  <scope>compile</scope>
 		</dependency>
 	</dependencies>
 </project>

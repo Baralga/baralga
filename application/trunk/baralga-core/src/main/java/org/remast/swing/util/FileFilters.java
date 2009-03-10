@@ -33,6 +33,23 @@ public abstract class FileFilters {
     }
     
     /**
+     * Filter for Comma Separated Value (CSV) files.
+     */
+    public static final class CsvFileFilter extends FileFilter {
+
+        @Override
+        public boolean accept(final File file) {
+            return file.isDirectory() || file.getName().endsWith(".csv"); //$NON-NLS-1$
+        }
+
+        @Override
+        public String getDescription() {
+            return textBundle.textFor("FileFilters.CommaSeparatedValuesFile"); //$NON-NLS-1$
+        }
+
+    }
+    
+    /**
      * Filter for data files.
      */
     public static final class DataFileFilter extends FileFilter {

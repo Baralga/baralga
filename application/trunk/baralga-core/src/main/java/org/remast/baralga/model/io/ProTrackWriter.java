@@ -46,17 +46,27 @@ public class ProTrackWriter {
         synchronized (data) {
             final OutputStream fileOut = new FileOutputStream(file);
             try {
-                final XStream xstream = new XStream(new DomDriver(OUTPUT_ENCODING));
-                xstream.processAnnotations(
-                        new Class[] {ProTrack.class, Project.class, ProjectActivity.class}
-                );
-                xstream.autodetectAnnotations(true);
-
-                xstream.setMode(XStream.ID_REFERENCES);
-                xstream.toXML(data, fileOut);
+                write(fileOut);
+                fileOut.flush();
             } finally {
                 IOUtils.closeQuietly(fileOut);
             }
         }
+    }
+    
+    /**
+     * Write the data to the given {@link OutputStream}.
+     * @param outputStream the outputStream to write to
+     * @throws IOException on write error
+     */
+    public final void write(final OutputStream outputStream) throws IOException {
+        final XStream xstream = new XStream(new DomDriver(OUTPUT_ENCODING));
+        xstream.processAnnotations(
+                new Class[] {ProTrack.class, Project.class, ProjectActivity.class}
+        );
+        xstream.autodetectAnnotations(true);
+
+        xstream.setMode(XStream.ID_REFERENCES);
+        xstream.toXML(data, outputStream);
     }
 }
