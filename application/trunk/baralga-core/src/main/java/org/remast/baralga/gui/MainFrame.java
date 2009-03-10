@@ -3,7 +3,7 @@ package org.remast.baralga.gui;
 import info.clearthought.layout.TableLayout;
 
 import java.awt.Dimension;
-import java.awt.Toolkit;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowListener;
@@ -56,6 +56,12 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(MainFrame.class);
+
+    /** The standard icon image. */
+    private static final Image NORMAL_ICON = new ImageIcon(BaralgaMain.class.getResource("/icons/Baralga-Tray.gif")).getImage(); //$NON-NLS-1$
+
+    /** The icon image when an activity is running. */
+    private static final Image ACTIVE_ICON = new ImageIcon(BaralgaMain.class.getResource("/icons/Baralga-Tray-Green.png")).getImage(); //$NON-NLS-1$
 
     /** The model. */
     private PresentationModel model;
@@ -129,8 +135,6 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
     private JMenuItem importItem = null;
 
-    private JMenuItem saveItem = null;
-
     /**
      * This is the default constructor.
      * @param model the model
@@ -149,7 +153,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      */
     private void initialize() {
         this.setSize(530, 720);
-        this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/Baralga-Tray.gif"))); //$NON-NLS-1$
+        this.setIconImage(NORMAL_ICON);
         this.setResizable(true);
         this.setJMenuBar(getMainMenuBar());
 
@@ -479,6 +483,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      * Executed on start event.
      */
     private void updateStart() {
+        setIconImage(ACTIVE_ICON);
         descriptionEditor.setText(StringUtils.EMPTY);
         descriptionEditor.setEditable(true);
 
@@ -493,6 +498,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      * Executed on stop event.
      */
     private void updateStop() {
+        setIconImage(NORMAL_ICON);
         descriptionEditor.setText(StringUtils.EMPTY);
         descriptionEditor.setEditable(false);
 
