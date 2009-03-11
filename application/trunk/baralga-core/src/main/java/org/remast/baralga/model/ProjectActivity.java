@@ -3,6 +3,7 @@ package org.remast.baralga.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.joda.time.MutableDateTime;
 import org.remast.baralga.FormatUtils;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -11,6 +12,11 @@ import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 
 /**
  * An activity for a project.
+ * 
+ * Invariants of this class:
+ * - start and end date of an activity must always be on the same day
+ * unless end date is at 0:00h. In that situation end date is on the following date to the start date.
+ * 
  * @author remast
  */
 @XStreamAlias("projectActivity")//$NON-NLS-1$
@@ -81,6 +87,37 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
     public void setEnd(final Date end) {
         this.end = end;
     }
+    
+    /**
+     * Sets the end hours and minutes while respecting the class invariants.
+     * 
+     * Note: When setting the end date to 0:00h it is always supposed to mean
+     * midnight i.e. 0:00h the next day!
+     */
+    @java.lang.SuppressWarnings("deprecation")
+    public void setEndHourMinutes(final int hours, final int minutes) {
+        if( hours == this.end.getHours() && minutes == this.end.getMinutes() ) {
+            return;
+        }
+        
+        MutableDateTime dt = new MutableDateTime(this.end.getTime());
+        if(dt.getHourOfDay() == 0 && dt.getMinuteOfHour() == 0) { // adjust day if old end was on midnight
+            dt.addDays( -1 );
+        }
+        
+        dt.setHourOfDay(hours);
+        dt.setMinuteOfHour(minutes);
+        
+        if(hours == 0 && minutes == 0) {
+            dt.addDays(1); // adjust day if new end is on midnight
+        }
+        
+        if(dt.getMillis() < this.start.getTime()) {
+            throw new IllegalArgumentException("End time may not be before start time!");
+        }
+        
+        this.end = dt.toDate();
+    }
 
     /**
      * @return the project
@@ -112,6 +149,25 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
         this.start = start;
     }
 
+    /**
+     * Sets the start hours and minutes while respecting the class invariants.
+     */
+    @java.lang.SuppressWarnings("deprecation")
+    public void setStartHourMinutes(final int hours, final int minutes) {
+        if( hours == this.start.getHours() && minutes == this.start.getMinutes() ) {
+            return;
+        }
+        
+        Date newStart = new Date(this.start.getTime());
+        newStart.setHours(hours);
+        newStart.setMinutes(minutes);
+        if(newStart.getTime() > this.end.getTime()) {
+            throw new IllegalArgumentException("Start time may not be after end time!");
+        }
+        
+        this.start = newStart;
+    }
+    
     @Override
     public String toString() {
         return FormatUtils.timeFormat.format(this.start) + " "
