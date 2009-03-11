@@ -24,6 +24,10 @@ public class ProjectActivityTest extends TestCase {
         assertEquals(1.5, act.getDuration());
     }
     
+    /**
+     * Tests that start and end dates are on the same day.
+     * Unless end date is at 0:00h in which case end date is on the next day.
+     */
     @SuppressWarnings("deprecation")
     public void testStartAndEndOnSameDay() {
         ProjectActivity act = new ProjectActivity(new Date(99, 1, 1), new Date(99, 1, 1, 23, 0), null);
@@ -40,13 +44,21 @@ public class ProjectActivityTest extends TestCase {
         assertEquals(1, act.getEnd().getDate());
     }
 
+    /**
+     * Tests that an exception is thrown when someone tries to set
+     * end < start.
+     */
     @SuppressWarnings("deprecation")
     public void testStartNotAfterEnd() {
         try {
             ProjectActivity act = new ProjectActivity(new Date(99, 1, 1, 13, 0), new Date(99, 1, 1, 12, 0), null);
-            // TODO: fail
+            fail("Expected IllegalArgumentException");
         } catch( IllegalArgumentException e) {
             // ok, expected
         }
+        
+        ProjectActivity act = new ProjectActivity(new Date(99, 1, 1, 11, 0), new Date(99, 1, 1, 12, 0), null);
+        act.setEnd(new Date(99, 1, 1, 12, 0));
+        // TODO fail("Expected IllegalArgumentException");
     }
 }

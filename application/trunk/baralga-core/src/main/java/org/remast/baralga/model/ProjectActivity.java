@@ -53,6 +53,9 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
     public static final String PROPERTY_DESCRIPTION = "org.remast.baralga.model.ProjectActivity.description";
 
     public ProjectActivity(final Date start, final Date end, final Project project) {
+        if(start.getTime() > end.getTime()) {
+            throw new IllegalArgumentException("Activity end time must not be before start time!");
+        }
         this.start = start;
         this.end = end;
         this.project = project;
