@@ -15,7 +15,8 @@ import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 /**
  * An activity for a project.
  * 
- * Invariants of this class:
+ * Invariants of this class (not enforced, yet):
+ * - start time must not be after end time
  * - start and end date of an activity must always be on the same day
  * unless end date is at 0:00h. In that situation end date is on the following date to the start date.
  * 
@@ -55,9 +56,9 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
     public static final String PROPERTY_DESCRIPTION = "org.remast.baralga.model.ProjectActivity.description";
 
     public ProjectActivity(final Date start, final Date end, final Project project) {
-        if(start.getTime() > end.getTime()) {
-            throw new IllegalArgumentException("Activity end time must not be before start time!");
-        }
+//        if(start.getTime() > end.getTime()) {
+//            throw new IllegalArgumentException("Activity end time must not be before start time!");
+//        }
         this.start = start;
         this.end = end;
         this.project = project;
