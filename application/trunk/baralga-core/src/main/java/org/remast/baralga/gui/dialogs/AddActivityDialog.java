@@ -272,8 +272,10 @@ public class AddActivityDialog extends EscapeDialog {
         }
 
         try {
-            start = FormatUtils.timeFormat.parse(getStartField().getText());
-            end = FormatUtils.timeFormat.parse(getEndField().getText());
+            synchronized (FormatUtils.timeFormat) {
+                start = FormatUtils.timeFormat.parse(getStartField().getText());
+                end = FormatUtils.timeFormat.parse(getEndField().getText());
+            }
 
             correctDates();
         } catch (ParseException e) {

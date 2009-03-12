@@ -107,7 +107,7 @@ public class DescriptionPanel extends JXPanel implements Observer {
                 this.container.add(newEntryPanel);
 
                 // Set color
-                if (entriesByActivity.size() % 2 == 1) {
+                if (Math.abs(entriesByActivity.size()) % 2 == 1) {
                     newEntryPanel.setBackground(Color.WHITE);
                 } else {
                     newEntryPanel.setBackground(GuiConstants.BEIGE);

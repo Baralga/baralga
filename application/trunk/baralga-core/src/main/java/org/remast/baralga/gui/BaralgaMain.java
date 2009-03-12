@@ -334,6 +334,7 @@ public class BaralgaMain {
      *   the lock is held by another program
      * @throws RuntimeException if an I/O error occurred
      */
+    @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE", justification="Its irrelevant if lock file already existed or not.")
     private static boolean tryLock() {
         checkOrCreateBaralgaDir();
         final File lockFile = new File(UserSettings.getLockFileLocation());
@@ -359,7 +360,10 @@ public class BaralgaMain {
     private static void checkOrCreateBaralgaDir() {
         final File baralgaDir = ApplicationSettings.instance().getApplicationDataDirectory();
         if (!baralgaDir.exists()) {
-            baralgaDir.mkdir();
+            final boolean baralgaDirCreated = baralgaDir.mkdir();
+            if (!baralgaDirCreated) {
+                throw new RuntimeException("Could not create directory at " + baralgaDir.getAbsolutePath() + ".");
+            }
         }
     }
 
@@ -386,6 +390,9 @@ public class BaralgaMain {
             }
         }
 
-        lockFile.delete();
+        final boolean deleteSuccessfull = lockFile.delete();
+        if (!deleteSuccessfull) {
+            log.warn("Could not delete lock file at " + lockFile.getAbsolutePath() + ". Please delete manually.");
+        }
     }
 }

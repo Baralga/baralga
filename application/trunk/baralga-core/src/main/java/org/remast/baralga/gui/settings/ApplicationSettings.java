@@ -81,7 +81,10 @@ public final class ApplicationSettings {
             );
 
             if (!dataDir.exists()) {
-                dataDir.mkdir();
+                final boolean dataDirCreated = dataDir.mkdir();
+                if (!dataDirCreated) {
+                    throw new RuntimeException("Could not create directory at " + dataDir.getAbsolutePath() + ".");
+                }
             }
 
             final File file = new File(

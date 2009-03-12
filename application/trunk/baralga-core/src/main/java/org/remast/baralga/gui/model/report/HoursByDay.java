@@ -70,5 +70,10 @@ public class HoursByDay implements Comparable<HoursByDay> {
         // activity is always on top.
         return this.getDay().compareTo(that.getDay()) * -1;
     }
+    
+    @Override
+    public int hashCode() {
+        return this.getDay().hashCode();
+    }
 
 }

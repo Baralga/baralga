@@ -68,4 +68,8 @@ public class HoursByProject implements Comparable<HoursByProject> {
         return this.getProject().compareTo(hoursByProject.getProject());
     }
 
+    @Override
+    public int hashCode() {
+        return this.getProject().hashCode();
+    }
 }

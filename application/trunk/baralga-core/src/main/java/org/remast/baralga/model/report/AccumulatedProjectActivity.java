@@ -68,4 +68,10 @@ public class AccumulatedProjectActivity {
         
         return eqBuilder.isEquals() && DateUtils.isSameDay(this.getDay(), accAct.getDay());
     }
+    
+    @Override
+    public int hashCode() {
+        // Unique for each project so use hash code of project
+        return this.getProject().hashCode();
+    }
 }

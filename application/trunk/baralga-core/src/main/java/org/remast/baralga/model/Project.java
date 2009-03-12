@@ -3,6 +3,7 @@ package org.remast.baralga.model;
 import java.io.Serializable;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
@@ -84,6 +85,7 @@ public class Project implements Serializable, Comparable<Project>{
         
         final EqualsBuilder eqBuilder = new EqualsBuilder();
         eqBuilder.append(this.getId(), project.getId());
+        
         return eqBuilder.isEquals();
     }
 
@@ -95,5 +97,12 @@ public class Project implements Serializable, Comparable<Project>{
         
         // Compare the title only.
         return this.getTitle().compareTo(project.getTitle());
+    }
+    
+    @Override
+    public int hashCode() {
+        final HashCodeBuilder hashCodeBuilder = new HashCodeBuilder();
+        hashCodeBuilder.append(this.getId());
+        return hashCodeBuilder.toHashCode();
     }
 }

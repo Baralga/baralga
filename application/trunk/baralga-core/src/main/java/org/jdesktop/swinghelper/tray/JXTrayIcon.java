@@ -131,6 +131,7 @@ public class JXTrayIcon extends TrayIcon {
         
         JMenuItem exitItem = new JMenuItem("Exit");
         exitItem.addActionListener(new ActionListener() {
+            @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="DM_EXIT", justification="That's what this action is good for")
             public void actionPerformed(final ActionEvent e) {
                 System.exit(0);
             }

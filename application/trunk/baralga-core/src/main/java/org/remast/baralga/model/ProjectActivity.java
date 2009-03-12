@@ -3,6 +3,8 @@ package org.remast.baralga.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.MutableDateTime;
 import org.remast.baralga.FormatUtils;
 
@@ -187,6 +189,38 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
         // Sort by start date but the other way round. That way the latest
         // activity is always on top.
         return this.getStart().compareTo(activity.getStart()) * -1;
+    }
+    
+    @Override
+    public boolean equals(final Object that) {
+        if (this == that) {
+            return true;
+        }
+        
+        if (that == null || !(that instanceof ProjectActivity)) {
+            return false;
+        }
+        
+        final ProjectActivity activity = (ProjectActivity) that;
+        
+        final EqualsBuilder eqBuilder = new EqualsBuilder();
+        
+        eqBuilder.append(this.getStart(), activity.getStart());
+        eqBuilder.append(this.getEnd(), activity.getEnd());
+        eqBuilder.append(this.getProject(), activity.getProject());
+        
+        return eqBuilder.isEquals();
+    }
+    
+    @Override
+    public int hashCode() {
+        final HashCodeBuilder hashCodeBuilder = new HashCodeBuilder();
+        
+        hashCodeBuilder.append(this.getStart());
+        hashCodeBuilder.append(this.getEnd());
+        hashCodeBuilder.append(this.getProject());
+        
+        return hashCodeBuilder.toHashCode();
     }
     
     /**

@@ -555,7 +555,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private JMenu getExportMenu() {
         if (exportMenu == null) {
             exportMenu = new JMenu();
-            exportMenu.setIcon(new ImageIcon(getClass().getResource("/icons/export-menu.png")));
+            exportMenu.setIcon(new ImageIcon(MainFrame.class.getResource("/icons/export-menu.png")));
             exportMenu.setText(textBundle.textFor("MainFrame.ExportMenu.Title")); //$NON-NLS-1$
             exportMenu.setMnemonic(textBundle.textFor("MainFrame.ExportMenu.Title").charAt(0)); //$NON-NLS-1$
             
@@ -573,7 +573,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private JMenu getImportMenu() {
         if (importMenu == null) {
             importMenu = new JMenu();
-            importMenu.setIcon(new ImageIcon(getClass().getResource("/icons/import-menu.png")));
+            importMenu.setIcon(new ImageIcon(MainFrame.class.getResource("/icons/import-menu.png")));
             importMenu.setText(textBundle.textFor("MainFrame.ImportMenu.Title")); //$NON-NLS-1$
             importMenu.setMnemonic(textBundle.textFor("MainFrame.ImportMenu.Title").charAt(0)); //$NON-NLS-1$
             importMenu.add(getImportItem());
