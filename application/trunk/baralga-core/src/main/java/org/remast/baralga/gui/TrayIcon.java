@@ -81,7 +81,7 @@ public class TrayIcon implements Observer {
 
         if (model.isActive()) {
             trayIcon.setImage(ACTIVE_ICON);
-            trayIcon.setToolTip(textBundle.textFor("Global.Title") + " - " + model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatUtils.timeFormat.format(model.getStart()));
+            trayIcon.setToolTip(textBundle.textFor("Global.Title") + " - " + model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatUtils.formatTime(model.getStart()));
         }
 
     }
@@ -175,7 +175,7 @@ public class TrayIcon implements Observer {
      */    
     private void updateProjectChanged() {
         if (model.isActive()) {
-            trayIcon.setToolTip(textBundle.textFor("Global.Title") + " - " + model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatUtils.timeFormat.format(model.getStart()));
+            trayIcon.setToolTip(textBundle.textFor("Global.Title") + " - " + model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatUtils.formatTime(model.getStart()));
         }
     }
 
@@ -184,7 +184,7 @@ public class TrayIcon implements Observer {
      */    
     private void updateStop() {
         this.trayIcon.setImage(NORMAL_ICON);
-        trayIcon.setToolTip(textBundle.textFor("Global.Title") + " - "+ textBundle.textFor("MainFrame.12") + FormatUtils.timeFormat.format(model.getStop()));
+        trayIcon.setToolTip(textBundle.textFor("Global.Title") + " - "+ textBundle.textFor("MainFrame.12") + FormatUtils.formatTime(model.getStop()));
         this.buildMenu();
     }
 
@@ -193,7 +193,7 @@ public class TrayIcon implements Observer {
      */    
     private void updateStart() {
         this.trayIcon.setImage(ACTIVE_ICON);
-        trayIcon.setToolTip(textBundle.textFor("Global.Title") + " - " + model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatUtils.timeFormat.format(model.getStart())); //$NON-NLS-1$
+        trayIcon.setToolTip(textBundle.textFor("Global.Title") + " - " + model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatUtils.formatTime(model.getStart())); //$NON-NLS-1$
         this.buildMenu();
     }
 

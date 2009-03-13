@@ -65,13 +65,9 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         case 1:
             return activity.getStart();
         case 2:
-            synchronized (FormatUtils.timeFormat) {
-                return FormatUtils.timeFormat.format(activity.getStart());
-            }
+            return FormatUtils.formatTime(activity.getStart());
         case 3:
-            synchronized (FormatUtils.timeFormat) {
-                return FormatUtils.timeFormat.format(activity.getEnd());
-            }
+            return FormatUtils.formatTime(activity.getEnd());
         case 4:
             return activity.getDuration();
         default:
@@ -123,7 +119,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         // Start time
         else if (column == 2) {
             try {
-                final Date newStart = FormatUtils.timeFormat.parse((String) editedValue);
+                final Date newStart = FormatUtils.parseTime((String) editedValue);
 
                 final Date oldStart = activity.getStart();
                 activity.getStart().setHours(newStart.getHours());
@@ -141,7 +137,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
             try {
                 final Date oldEnd = activity.getEnd();
 
-                final Date newEnd = FormatUtils.timeFormat.parse((String) editedValue);
+                final Date newEnd = FormatUtils.parseTime((String) editedValue);
                 activity.getEnd().setHours(newEnd.getHours());
                 activity.getEnd().setMinutes(newEnd.getMinutes());
 

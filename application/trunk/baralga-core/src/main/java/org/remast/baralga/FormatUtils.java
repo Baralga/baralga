@@ -3,6 +3,8 @@ package org.remast.baralga;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Date;
 
 import org.remast.text.SmartTimeFormat;
 
@@ -15,9 +17,24 @@ public abstract class FormatUtils {
     // ------------------------------------------------
     // Date Formats
     // ------------------------------------------------
-    public static final DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
 
-    public static final DateFormat timeFormat = new SmartTimeFormat(); //$NON-NLS-1$
+    private static final DateFormat timeFormat = new SmartTimeFormat();
+       
+    public static String formatTime(final Date date) {
+        synchronized (timeFormat) {
+            return timeFormat.format(date);
+        }
+    }
+    
+    public static Date parseTime(final String time) throws ParseException {
+        synchronized (timeFormat) {
+            return timeFormat.parse(time);
+        }
+    }
+    
+    public static DateFormat createTimeFormat() {
+        return new SmartTimeFormat();
+    }
     
     // ------------------------------------------------
     // Number Formats
