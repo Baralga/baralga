@@ -1,9 +1,10 @@
 package org.remast.baralga.gui.lists;
 
-import java.text.SimpleDateFormat;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
@@ -20,7 +21,7 @@ public class WeekOfYearFilterList implements Observer {
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(WeekOfYearFilterList.class);
 
-    public static final SimpleDateFormat WEEK_OF_YEAR_FORMAT = new SimpleDateFormat("ww"); //$NON-NLS-1$
+    public static final DateTimeFormatter WEEK_OF_YEAR_FORMAT = DateTimeFormat.forPattern("ww"); //$NON-NLS-1$
 
     /** The model. */
     private final PresentationModel model;
@@ -40,7 +41,7 @@ public class WeekOfYearFilterList implements Observer {
     /** Filter item for the current week of year dummy. */
     public static final LabeledItem<Integer> CURRENT_WEEK_OF_YEAR_FILTER_ITEM = new LabeledItem<Integer>(
             CURRENT_WEEK_OF_YEAR_DUMMY,
-            textBundle.textFor("WeekOfYearFilterList.CurrentWeekOfYearLabel", WEEK_OF_YEAR_FORMAT.format(DateUtils.getNow())) //$NON-NLS-1$
+            textBundle.textFor("WeekOfYearFilterList.CurrentWeekOfYearLabel", WEEK_OF_YEAR_FORMAT.print(DateUtils.getNowAsDateTime())) //$NON-NLS-1$
     );
 
     private EventList<LabeledItem<Integer>> weekOfYearList;
@@ -88,7 +89,7 @@ public class WeekOfYearFilterList implements Observer {
     }
 
     private void addWeekOfYear(final ProjectActivity activity) {
-        final String weekOfYear = WEEK_OF_YEAR_FORMAT.format(activity.getStart());
+        final String weekOfYear = WEEK_OF_YEAR_FORMAT.print(activity.getStart());
         final LabeledItem<Integer> filterItem = new LabeledItem<Integer>(Integer.valueOf(weekOfYear), weekOfYear);
         if (!this.weekOfYearList.contains(filterItem))
             this.weekOfYearList.add(filterItem);

@@ -2,14 +2,15 @@ package org.remast.baralga.gui.panels.table;
 
 import java.beans.PropertyChangeEvent;
 import java.text.ParseException;
-import java.util.Calendar;
 import java.util.Date;
 
+import org.joda.time.DateTime;
 import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
+import org.remast.text.SmartTimeFormat;
 import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.gui.WritableTableFormat;
@@ -63,7 +64,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         case 0:
             return activity.getProject();
         case 1:
-            return activity.getStart();
+            return activity.getStart().toDate();
         case 2:
             return FormatUtils.formatTime(activity.getStart());
         case 3:
@@ -92,25 +93,10 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         }
         // Day and month
         else if (column == 1) {
-            final Date oldDate = activity.getEnd();
+            final Date oldDate = activity.getEnd().toDate();
             Date newDate = (Date) editedValue;
 
-            final Calendar newCal = Calendar.getInstance();
-            newCal.setTime(newDate);
-
-            // Save date to start
-            final Calendar startCal = Calendar.getInstance();
-            startCal.setTime(activity.getStart());
-            startCal.set(Calendar.YEAR, newCal.get(Calendar.YEAR));
-            startCal.set(Calendar.DAY_OF_YEAR, newCal.get(Calendar.DAY_OF_YEAR));
-            activity.setStart(startCal.getTime());
-
-            // Copy date to end to preserve day in year
-            final Calendar endCal = Calendar.getInstance();
-            endCal.setTime(activity.getEnd());
-            endCal.set(Calendar.YEAR, newCal.get(Calendar.YEAR));
-            endCal.set(Calendar.DAY_OF_YEAR, newCal.get(Calendar.DAY_OF_YEAR));
-            activity.setEnd(endCal.getTime());
+            activity.setDay(new DateTime(newDate));
 
             // Fire event
             final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(activity, ProjectActivity.PROPERTY_DATE, oldDate, newDate);
@@ -119,31 +105,35 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         // Start time
         else if (column == 2) {
             try {
-                final Date newStart = FormatUtils.parseTime((String) editedValue);
-
-                final Date oldStart = activity.getStart();
-                activity.getStart().setHours(newStart.getHours());
-                activity.getStart().setMinutes(newStart.getMinutes());
+                final Date oldStart = activity.getStart().toDate();
+                
+                int[] hoursMinutes = SmartTimeFormat.parseToHourAndMinutes((String) editedValue);
+                activity.setStartTime(hoursMinutes[0], hoursMinutes[1]);
 
                 // Fire event
-                final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(activity, ProjectActivity.PROPERTY_START, oldStart, newStart);
+                final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(activity, ProjectActivity.PROPERTY_START,
+                        oldStart, activity.getStart().toDate());
                 model.fireProjectActivityChangedEvent(activity, propertyChangeEvent);
-            } catch (ParseException e) {
+            } catch( IllegalArgumentException e ) {
+                // Ignore and don't save changes to model.
+            } catch( ParseException e ) {
                 // Ignore and don't save changes to model.
             }
         }
         // End time
         else if (column == 3) {
             try {
-                final Date oldEnd = activity.getEnd();
+                final Date oldEnd = activity.getEnd().toDate();
 
-                final Date newEnd = FormatUtils.parseTime((String) editedValue);
-                activity.getEnd().setHours(newEnd.getHours());
-                activity.getEnd().setMinutes(newEnd.getMinutes());
-
+                int[] hoursMinutes = SmartTimeFormat.parseToHourAndMinutes((String) editedValue);
+                activity.setEndTime(hoursMinutes[0], hoursMinutes[1]);
+                               
                 // Fire event
-                final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(activity, ProjectActivity.PROPERTY_END, oldEnd, newEnd);
+                final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(activity, ProjectActivity.PROPERTY_END,
+                        oldEnd, activity.getEnd().toDate());
                 model.fireProjectActivityChangedEvent(activity, propertyChangeEvent);
+            } catch( IllegalArgumentException e ) {
+                // Ignore and don't save changes to model.
             } catch (ParseException e) {
                 // Ignore and don't save changes to model.
             }

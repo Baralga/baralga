@@ -1,11 +1,8 @@
 package org.remast.baralga.model.filter;
 
-import java.util.Date;
-
 import org.apache.commons.collections.Predicate;
+import org.joda.time.DateTime;
 import org.remast.baralga.model.ProjectActivity;
-import org.remast.util.DateUtils;
-import org.remast.util.TextResourceBundle;
 
 /**
  * Holds for all project activities of one week of the year.
@@ -13,19 +10,16 @@ import org.remast.util.TextResourceBundle;
  */
 public class WeekOfYearPredicate implements Predicate {
 
-    /** The bundle for internationalized texts. */
-    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(WeekOfYearPredicate.class);
-
     /**
      * The week of year to check for.
      */
-    private final Date dateInWeekOfYear;
+    private final DateTime dateInWeekOfYear;
 
     /**
      * Constructor for a new predicate.
      * @param dateInWeekOfYear the week of year of the predicate
      */
-    public WeekOfYearPredicate(final Date dateInWeekOfYear) {
+    public WeekOfYearPredicate(final DateTime dateInWeekOfYear) {
         this.dateInWeekOfYear = dateInWeekOfYear;
     }
 
@@ -45,7 +39,7 @@ public class WeekOfYearPredicate implements Predicate {
         }
 
         final ProjectActivity activity = (ProjectActivity) object;
-        return DateUtils.isSimilarWeekOfYear(activity.getStart(), this.dateInWeekOfYear);
+        return this.dateInWeekOfYear.getWeekOfWeekyear() == activity.getStart().getWeekOfWeekyear();
     }
 
 }

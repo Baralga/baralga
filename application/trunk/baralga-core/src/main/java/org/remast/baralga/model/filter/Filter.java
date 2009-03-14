@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.Predicate;
+import org.joda.time.DateTime;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 
@@ -20,20 +21,20 @@ public class Filter {
     
     
     /** The week of the year to filter by. */
-    private Date weekOfYear;
+    private DateTime weekOfYear;
 
     /** The predicate to filter by week of year. */
     private Predicate weekOfYearPredicate;
     
     
     /** The month to filter by. */
-    private Date month;
+    private DateTime month;
 
     /** The predicate to filter by month. */
     private Predicate monthPredicate;
     
     /** The year to filter by. */
-    private Date year;
+    private DateTime year;
 
     
     /** The predicate to filter by year. */
@@ -91,14 +92,14 @@ public class Filter {
      * @return the week of year
      */
     public Date getWeekOfYear() {
-        return this.weekOfYear;
+        return this.weekOfYear != null ? this.weekOfYear.toDate() : null;
     }
 
     /**
      * Sets the weekOfYear to filter by.
      * @param weekOfYear the weekOfYear to set
      */
-    public void setWeekOfYear(final Date weekOfYear) {
+    public void setWeekOfYear(final DateTime weekOfYear) {
         this.weekOfYear = weekOfYear;
 
         if (this.weekOfYearPredicate != null) {
@@ -120,14 +121,14 @@ public class Filter {
      * @return the month
      */
     public Date getMonth() {
-        return this.month;
+        return this.month != null ? this.month.toDate() : null;
     }
 
     /**
      * Sets the month to filter by.
      * @param month the month to set
      */
-    public void setMonth(final Date month) {
+    public void setMonth(final DateTime month) {
         this.month = month;
 
         if (this.monthPredicate != null) {
@@ -149,14 +150,14 @@ public class Filter {
      * @return the year
      */
     public Date getYear() {
-        return this.year;
+        return this.year != null ? this.year.toDate() : null;
     }
 
     /**
      * Sets the year to filter by.
      * @param year the year to set
      */
-    public void setYear(final Date year) {
+    public void setYear(final DateTime year) {
         this.year = year;
 
         if (this.yearPredicate != null) {

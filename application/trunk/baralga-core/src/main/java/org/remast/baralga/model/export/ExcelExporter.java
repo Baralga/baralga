@@ -81,10 +81,10 @@ public class ExcelExporter implements Exporter {
             
             for (ProjectActivity actitivity : activities) {
                 sheet.addCell(new Label(col++, row, actitivity.getProject().getTitle()));
-                sheet.addCell(makeDateCell(col++, row, actitivity.getStart()));
-                sheet.addCell(makeTimeCell(col++, row, actitivity.getStart()));
+                sheet.addCell(makeDateCell(col++, row, actitivity.getStart().toDate()));
+                sheet.addCell(makeTimeCell(col++, row, actitivity.getStart().toDate()));
                 
-                WritableCell c = makeTimeCell(col++, row, actitivity.getEnd());
+                WritableCell c = makeTimeCell(col++, row, actitivity.getEnd().toDate());
                 sheet.addCell(c);
                 sheet.addCell(makeNumberCell(col++, row, actitivity.getDuration()));
 

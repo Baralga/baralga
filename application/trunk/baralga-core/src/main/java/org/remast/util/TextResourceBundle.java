@@ -4,6 +4,7 @@
 package org.remast.util;
 
 import java.text.MessageFormat;
+import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
@@ -39,7 +40,8 @@ public class TextResourceBundle {
         this.clazz = clazz;
 
         try {
-            resourceBundle = ResourceBundle.getBundle(clazz.getPackage().getName() + "." + PROPERTIES_FILE_NAME);
+            resourceBundle = ResourceBundle.getBundle(clazz.getPackage().getName() + "." + PROPERTIES_FILE_NAME,
+                    Locale.getDefault(), clazz.getClassLoader());
         } catch (MissingResourceException e) {
             log.error(e, e);
         }

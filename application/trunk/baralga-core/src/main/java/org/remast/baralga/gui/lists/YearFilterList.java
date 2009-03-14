@@ -1,9 +1,10 @@
 package org.remast.baralga.gui.lists;
 
-import java.text.SimpleDateFormat;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
@@ -20,7 +21,7 @@ public class YearFilterList implements Observer {
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(YearFilterList.class);
 
-    public static final SimpleDateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy"); //$NON-NLS-1$
+    public static final DateTimeFormatter YEAR_FORMAT = DateTimeFormat.forPattern("yyyy"); //$NON-NLS-1$
 
     /** The model. */
     private final PresentationModel model;
@@ -40,7 +41,7 @@ public class YearFilterList implements Observer {
     /** Filter item for the current year dummy. */
     public static final LabeledItem<Integer> CURRENT_YEAR_FILTER_ITEM = new LabeledItem<Integer>(
             CURRENT_YEAR_DUMMY,
-            textBundle.textFor("YearFilterList.CurrentYearsLabel", YEAR_FORMAT.format(DateUtils.getNow())) //$NON-NLS-1$
+            textBundle.textFor("YearFilterList.CurrentYearsLabel", YEAR_FORMAT.print(DateUtils.getNowAsDateTime())) //$NON-NLS-1$
     );
 
     private EventList<LabeledItem<Integer>> yearList;
@@ -88,7 +89,7 @@ public class YearFilterList implements Observer {
     }
 
     private void addYear(final ProjectActivity activity) {
-        final String year = YEAR_FORMAT.format(activity.getStart());
+        final String year = YEAR_FORMAT.print(activity.getStart());
         final LabeledItem<Integer> yearItem = new LabeledItem<Integer>(Integer.parseInt(year), year);
         if (!this.yearList.contains(yearItem)) {
             this.yearList.add(yearItem);

@@ -55,7 +55,7 @@ public class PresentationModelTest extends TestCase {
         model.changeProject(project1);
 
         // Start activity on yesterday
-        model.start(yesterday);
+        model.start(new DateTime(yesterday));
 
         // End activity today
         final Date now = DateUtils.getNow();
@@ -72,12 +72,12 @@ public class PresentationModelTest extends TestCase {
         final ProjectActivity yesterdaysActivity = model.getActivitiesList().get(1);
 
         // 1. Check yesterdays activity
-        assertEquals(yesterday, yesterdaysActivity.getStart());
-        assertEquals(midnight, yesterdaysActivity.getEnd());
+        assertEquals(yesterday, yesterdaysActivity.getStart().toDate());
+        assertEquals(midnight, yesterdaysActivity.getEnd().toDate());
 
         // 2. Check today activity
-        assertEquals(midnight, todaysActivity.getStart());
-        assertEquals(now, todaysActivity.getEnd());
+        assertEquals(midnight, todaysActivity.getStart().toDate());
+        assertEquals(now, todaysActivity.getEnd().toDate());
     }
 
     /**
@@ -98,4 +98,19 @@ public class PresentationModelTest extends TestCase {
         assertEquals(null, model.getSelectedProject());
     }
 
+    public void testExceptionOnDoubleStart() throws ProjectActivityStateException {
+        model.setDirty(false);
+        model.changeProject(project1);
+        model.start();
+        
+        assertTrue(model.isActive());
+        assertTrue(model.isDirty());
+        
+        try {
+            model.start();
+            fail( "ProjectActivityStateException expected" );
+        } catch( ProjectActivityStateException e ) {
+            // ok, expected
+        }
+    }
 }

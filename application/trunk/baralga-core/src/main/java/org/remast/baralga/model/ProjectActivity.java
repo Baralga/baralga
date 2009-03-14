@@ -5,7 +5,7 @@ import java.util.Date;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.joda.time.MutableDateTime;
+import org.joda.time.DateTime;
 import org.remast.baralga.FormatUtils;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -55,12 +55,17 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
 
     public static final String PROPERTY_DESCRIPTION = "org.remast.baralga.model.ProjectActivity.description";
 
-    public ProjectActivity(final Date start, final Date end, final Project project) {
-//        if(start.getTime() > end.getTime()) {
-//            throw new IllegalArgumentException("Activity end time must not be before start time!");
-//        }
-        this.start = start;
-        this.end = end;
+    /**
+     * Creates a new {@link ProjectActivity}.
+     * 
+     * @throws IllegalArgumentException if end time is before start time
+     */
+    public ProjectActivity(final DateTime start, final DateTime end, final Project project) {
+        if(start.isAfter(end)) {
+            throw new IllegalArgumentException("End time may not be before start time!");
+        }
+        this.start = start.toDate();
+        this.end = end.toDate();
         this.project = project;
     }
 
@@ -80,18 +85,40 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
     }
 
     /**
-     * @return the end
+     * Sets the day of the activity.
+     * 
+     * @param day the new activity day.
+     *   Hours, minutes, seconds and so on in the passed value are ignored.
      */
-    public Date getEnd() {
-        return end;
+    public void setDay(DateTime day) {
+        DateTime start = getStart();
+        start = start.withYear(day.getYear()).withMonthOfYear(day.getMonthOfYear())
+            .withDayOfMonth(day.getDayOfMonth());
+        this.start = start.toDate();
+        
+        DateTime end = getEnd();
+        end = end.withYear(day.getYear()).withMonthOfYear(day.getMonthOfYear())
+            .withDayOfMonth(day.getDayOfMonth());
+        if(end.getHourOfDay() == 0 && end.getMinuteOfHour() == 0) {
+            end = end.plusDays(1);
+        }
+        this.end = end.toDate();
+    }
+    
+    /**
+     * Returns the day of the activity
+     * 
+     * Hours, minutes, seconds of the returned value are to be ignored.
+     */
+    public DateTime getDay() {
+        return getStart().withMillisOfDay(0);
     }
 
     /**
-     * @param end
-     *            the end to set
+     * @return the end
      */
-    public void setEnd(final Date end) {
-        this.end = end;
+    public DateTime getEnd() {
+        return new DateTime( end );
     }
     
     /**
@@ -99,30 +126,27 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
      * 
      * Note: When setting the end date to 0:00h it is always supposed to mean
      * midnight i.e. 0:00h the next day!
+     * 
+     * @throws IllegalArgumentException if end time is before start time
      */
-    @java.lang.SuppressWarnings("deprecation")
-    public void setEndHourMinutes(final int hours, final int minutes) {
-        if( hours == this.end.getHours() && minutes == this.end.getMinutes() ) {
+    public void setEndTime(final int hours, final int minutes) {
+        DateTime endDt = getEnd();
+        if( hours == endDt.getHourOfDay() && minutes == endDt.getMinuteOfHour() ) {
             return;
         }
         
-        MutableDateTime dt = new MutableDateTime(this.end.getTime());
-        if(dt.getHourOfDay() == 0 && dt.getMinuteOfHour() == 0) { // adjust day if old end was on midnight
-            dt.addDays( -1 );
+        if(endDt.getHourOfDay() == 0 && endDt.getMinuteOfHour() == 0) { // adjust day if old end was on midnight
+            endDt = endDt.minusDays( 1 );
+        } else if(hours == 0 && minutes == 0) { // adjust day if new end is on midnight
+            endDt = endDt.plusDays(1);
         }
         
-        dt.setHourOfDay(hours);
-        dt.setMinuteOfHour(minutes);
+        endDt = endDt.withHourOfDay(hours).withMinuteOfHour(minutes);
         
-        if(hours == 0 && minutes == 0) {
-            dt.addDays(1); // adjust day if new end is on midnight
-        }
-        
-        if(dt.getMillis() < this.start.getTime()) {
+        if( endDt.isBefore( getStart() ) ) {
             throw new IllegalArgumentException("End time may not be before start time!");
         }
-        
-        this.end = dt.toDate();
+        this.end = endDt.toDate();
     }
 
     /**
@@ -140,44 +164,37 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
         this.project = project;
     }
 
+
     /**
      * @return the start
      */
-    public Date getStart() {
-        return start;
+    public DateTime getStart() {
+        return new DateTime( start );
     }
-
-    /**
-     * @param start
-     *            the start to set
-     */
-    public void setStart(final Date start) {
-        this.start = start;
-    }
-
+    
     /**
      * Sets the start hours and minutes while respecting the class invariants.
+     * 
+     * @throws IllegalArgumentException if end time is before start time
      */
-    @java.lang.SuppressWarnings("deprecation")
-    public void setStartHourMinutes(final int hours, final int minutes) {
-        if( hours == this.start.getHours() && minutes == this.start.getMinutes() ) {
+    public void setStartTime(final int hours, final int minutes) {
+        DateTime startDt = getStart();
+        if( hours == startDt.getHourOfDay() && minutes == startDt.getMinuteOfHour() ) {
             return;
         }
         
-        Date newStart = new Date(this.start.getTime());
-        newStart.setHours(hours);
-        newStart.setMinutes(minutes);
-        if(newStart.getTime() > this.end.getTime()) {
-            throw new IllegalArgumentException("Start time may not be after end time!");
-        }
+        startDt = startDt.withHourOfDay(hours).withMinuteOfHour(minutes);
         
-        this.start = newStart;
+        if( startDt.isAfter( getEnd() ) ) {
+            throw new IllegalArgumentException("End time may not be before start time!");
+        }
+        this.start = startDt.toDate();
     }
     
     @Override
     public String toString() {
-        return FormatUtils.formatTime(this.start) + " "
-                + FormatUtils.formatTime(this.start) + " - " + FormatUtils.formatTime(this.end) + " ("
+        return FormatUtils.formatTime(getStart()) + " "
+                + FormatUtils.formatTime(getStart()) + " - " + FormatUtils.formatTime(getEnd()) + " ("
                 + FormatUtils.durationFormat.format(this.getDuration()) + "h) " + this.project;
     }
 

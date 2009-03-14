@@ -12,7 +12,7 @@ public class TimeFormat extends DateFormat {
     /**
      * Definition of the time format to parse.
      */
-    protected static final String HHMM_FORMAT = "HH:mm"; //$NON-NLS-1$
+    public static final String HHMM_FORMAT = "HH:mm"; //$NON-NLS-1$
 
     private static final DateFormat timeFormat = new SimpleDateFormat(HHMM_FORMAT);
 

@@ -4,16 +4,12 @@ import org.apache.commons.collections.Predicate;
 import org.apache.commons.lang.ObjectUtils;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
-import org.remast.util.TextResourceBundle;
 
 /**
  * Holds for all activities of one project.
  * @author remast
  */
 public class ProjectPredicate implements Predicate {
-
-    /** The bundle for internationalized texts. */
-    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(ProjectPredicate.class);
 
     /**
      * The project to check for.

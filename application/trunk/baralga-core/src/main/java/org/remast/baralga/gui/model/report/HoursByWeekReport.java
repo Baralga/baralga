@@ -58,7 +58,7 @@ public class HoursByWeekReport extends Observable implements Observer  {
             return;
         }
 
-        final DateTime dateTime = new DateTime(activity.getStart());
+        final DateTime dateTime = activity.getStart();
 
         final HoursByWeek newHoursByWeek = new HoursByWeek(dateTime.getWeekOfWeekyear(), activity.getDuration());
 

@@ -70,15 +70,20 @@ public class ProjectFilterList implements Observer {
 	}
 
 	private void addProject(final Project project) {
-		if (project != null && !this.projectList.contains(project)) {
-			this.projectList.add(new LabeledItem<Project>(project));
+		if (project != null ) {
+		    final LabeledItem<Project> filterItem = new LabeledItem<Project>( project );
+		    if(!this.projectList.contains(filterItem)) {
+		        this.projectList.add(new LabeledItem<Project>(project));
+		    }
 		}
 	}
 
 	private void removeProject(final Project project) {
-		final LabeledItem<Project> filterItem = new LabeledItem<Project>(project);
-		if (project != null && this.projectList.contains(filterItem)) {
-			this.projectList.remove(filterItem);
-		}
+	    if (project != null) {
+    		final LabeledItem<Project> filterItem = new LabeledItem<Project>(project);
+    		if (this.projectList.contains(filterItem)) {
+    			this.projectList.remove(filterItem);
+    		}
+	    }
 	}
 }

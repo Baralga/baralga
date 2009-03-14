@@ -4,9 +4,12 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.Date;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.remast.text.SmartTimeFormat;
+import org.remast.text.TimeFormat;
 
 /** Utility class for formatting. */
 public abstract class FormatUtils {
@@ -17,18 +20,18 @@ public abstract class FormatUtils {
     // ------------------------------------------------
     // Date Formats
     // ------------------------------------------------
-
+    
     private static final DateFormat timeFormat = new SmartTimeFormat();
+    
+    private static final DateTimeFormatter timeFormatter = DateTimeFormat.forPattern(TimeFormat.HHMM_FORMAT);
        
-    public static String formatTime(final Date date) {
-        synchronized (timeFormat) {
-            return timeFormat.format(date);
-        }
+    public static String formatTime(final DateTime date) {
+        return timeFormatter.print(date);
     }
     
-    public static Date parseTime(final String time) throws ParseException {
+    public static DateTime parseTime(final String time) throws ParseException {
         synchronized (timeFormat) {
-            return timeFormat.parse(time);
+            return new DateTime( timeFormat.parse(time) );
         }
     }
     
@@ -40,5 +43,5 @@ public abstract class FormatUtils {
     // Number Formats
     // ------------------------------------------------
     public static final NumberFormat durationFormat = new DecimalFormat("#0.00"); //$NON-NLS-1$
-
+    
 }

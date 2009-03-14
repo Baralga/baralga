@@ -2,13 +2,13 @@ package org.remast.baralga.model.export;
 
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
@@ -25,9 +25,9 @@ public class CsvExporter implements Exporter {
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(CsvExporter.class);
 
-    final DateFormat timeFormat = new SimpleDateFormat("hh:mm"); //$NON-NLS-1$
+    private static final DateTimeFormatter timeFormat = DateTimeFormat.forPattern("hh:mm"); //$NON-NLS-1$
 
-    final DateFormat dateFormat = new SimpleDateFormat("DD.MM.yyyy"); //$NON-NLS-1$
+    private static final DateTimeFormatter dateFormat = DateTimeFormat.forPattern("dd.MM.yyyy"); //$NON-NLS-1$
 
     public static final NumberFormat durationFormat = new DecimalFormat("#0.00"); //$NON-NLS-1$
 
@@ -88,9 +88,9 @@ public class CsvExporter implements Exporter {
         final String[] csvLine = new String[6];
 
         csvLine[0] = activity.getProject().getTitle();
-        csvLine[1] = dateFormat.format(activity.getStart());
-        csvLine[2] = timeFormat.format(activity.getStart());
-        csvLine[3] = timeFormat.format(activity.getEnd());
+        csvLine[1] = dateFormat.print(activity.getStart());
+        csvLine[2] = timeFormat.print(activity.getStart());
+        csvLine[3] = timeFormat.print(activity.getEnd());
         csvLine[4] = durationFormat.format(activity.getDuration());
 
         // Description

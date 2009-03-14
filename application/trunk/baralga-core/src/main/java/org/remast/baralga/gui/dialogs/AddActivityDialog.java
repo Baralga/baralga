@@ -15,11 +15,13 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.text.DateFormatter;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXDatePicker;
+import org.joda.time.DateTime;
 import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
@@ -93,10 +95,10 @@ public class AddActivityDialog extends EscapeDialog {
     private Project project;
 
     /** The start time of the activity. */
-    private Date start;
+    private DateTime start;
 
     /** The end time of the activity. */
-    private Date end;
+    private DateTime end;
 
     /**
      * Create a new dialog.
@@ -136,7 +138,7 @@ public class AddActivityDialog extends EscapeDialog {
         }
 
         // Initialize start and end time with current time
-        final String now = FormatUtils.formatTime(new Date());
+        final String now = FormatUtils.formatTime(new DateTime());
         this.startField.setText(now);
         this.endField.setText(now);
 
@@ -204,7 +206,18 @@ public class AddActivityDialog extends EscapeDialog {
             addActivityButton.addActionListener(new ActionListener() {
                 public void actionPerformed(final ActionEvent event) {
                     if (AddActivityDialog.this.validateFields()) {
-                        final ProjectActivity activity = new ProjectActivity(start, end, project);
+                        final ProjectActivity activity;
+                        try {
+                            activity = new ProjectActivity(start, end, project);
+                        } catch (IllegalArgumentException e) {
+                            String title = textBundle.textFor("AddActivityDialog.Error.Title");
+                            String msg = textBundle.textFor("AddActivityDialog.Error.InvalidStartEnd");
+                            JOptionPane.showMessageDialog(
+                                    AddActivityDialog.this, msg,
+                                    title, JOptionPane.ERROR_MESSAGE );
+                            // ignore activity add: invalid start and end time
+                            return;
+                        }
                         activity.setDescription(descriptionEditor.getText());
                         model.addActivity(activity, this);
                         AddActivityDialog.this.dispose();
@@ -288,9 +301,9 @@ public class AddActivityDialog extends EscapeDialog {
      * Correct the start and end date so that they are on the same day in year.
      */
     private void correctDates() {
-        final Date day = getDatePicker().getDate();
-        start = DateUtils.adjustToSameDay(day, start);
-        end = DateUtils.adjustToSameDay(day, end);
+        final DateTime day = new DateTime( getDatePicker().getDate() );
+        start = DateUtils.adjustToSameDay(day, start, false);
+        end = DateUtils.adjustToSameDay(day, end, true);
     }
 
 }

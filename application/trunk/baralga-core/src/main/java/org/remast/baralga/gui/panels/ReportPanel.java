@@ -4,8 +4,6 @@ import info.clearthought.layout.TableLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.util.Date;
 
 import javax.swing.JComboBox;
 
@@ -16,6 +14,7 @@ import org.apache.commons.logging.LogFactory;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTitledSeparator;
+import org.joda.time.DateTime;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.lists.MonthFilterList;
 import org.remast.baralga.gui.lists.ProjectFilterList;
@@ -258,7 +257,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 
         switch (selectedMonth) {
         case MonthFilterList.CURRENT_MONTH_DUMMY:
-            filter.setMonth(DateUtils.getNow());
+            filter.setMonth(DateUtils.getNowAsDateTime());
             break;
 
         case MonthFilterList.ALL_MONTHS_DUMMY:
@@ -267,11 +266,11 @@ public class ReportPanel extends JXPanel implements ActionListener {
 
         default:
             try {
-                final Date month = MonthFilterList.MONTH_FORMAT.parse(
+                final DateTime month = MonthFilterList.MONTH_FORMAT.parseDateTime(
                         String.valueOf(selectedMonth)
                 );
                 filter.setMonth(month);
-            } catch (ParseException e) {
+            } catch (IllegalArgumentException e) {
                 log.error(e, e);
             }
             break;
@@ -283,7 +282,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 
         switch (selectedWeekOfYear) {
         case WeekOfYearFilterList.CURRENT_WEEK_OF_YEAR_DUMMY:
-            filter.setWeekOfYear(DateUtils.getNow());
+            filter.setWeekOfYear(DateUtils.getNowAsDateTime());
             break;
 
         case WeekOfYearFilterList.ALL_WEEKS_OF_YEAR_DUMMY:
@@ -292,11 +291,11 @@ public class ReportPanel extends JXPanel implements ActionListener {
 
         default:
             try {
-                final Date weekOfYear = WeekOfYearFilterList.WEEK_OF_YEAR_FORMAT.parse(
+                final DateTime weekOfYear = WeekOfYearFilterList.WEEK_OF_YEAR_FORMAT.parseDateTime(
                         String.valueOf(selectedWeekOfYear)
                 );
                 filter.setWeekOfYear(weekOfYear);
-            } catch (ParseException e) {
+            } catch (IllegalArgumentException e) {
                 log.error(e, e);
             }
             break;
@@ -309,7 +308,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 
         switch (selectedYear) {
         case YearFilterList.CURRENT_YEAR_DUMMY:
-            filter.setYear(DateUtils.getNow());
+            filter.setYear(DateUtils.getNowAsDateTime());
             break;
 
         case YearFilterList.ALL_YEARS_DUMMY:
@@ -318,11 +317,11 @@ public class ReportPanel extends JXPanel implements ActionListener {
 
         default:
             try {
-                final Date year = YearFilterList.YEAR_FORMAT.parse(
+                final DateTime year = YearFilterList.YEAR_FORMAT.parseDateTime(
                         String.valueOf(selectedYear)
                 );
                 filter.setYear(year);
-            } catch (ParseException e) {
+            } catch (IllegalArgumentException e) {
                 log.error(e, e);
             }
             break;

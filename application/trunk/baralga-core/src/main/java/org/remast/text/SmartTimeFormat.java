@@ -1,5 +1,6 @@
 package org.remast.text;
 
+import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Date;
 
@@ -63,4 +64,51 @@ public class SmartTimeFormat extends TimeFormat {
         return super.parse(time, pos);
     }
 
+    public static int[] parseToHourAndMinutes( String s ) throws ParseException {
+        // TODO: remove code duplication with parse()
+        String time = s;
+        time = StringUtils.trimToEmpty(time);
+        
+        if (StringUtils.isBlank(time)) {
+            throw new ParseException( "String is empty", 1 );
+        }
+        
+        time = StringUtils.replaceChars(time, ';', ',');
+        time = StringUtils.replaceChars(time, '.', ':');
+        
+        // Treat 11,25 as 11:15
+        if (time.contains(",25")) { //$NON-NLS-1$
+            time = time.replace(",25", ":15"); //$NON-NLS-1$ // $NON-NLS-2$
+        }
+
+        // Treat 11,75 as 11:45
+        if (time.contains(",75")) { //$NON-NLS-1$
+            time = time.replace(",75", ":45"); //$NON-NLS-1$ // $NON-NLS-2$
+        }
+        
+        // Treat 11,5 and 11,50 as 11:30
+        if (time.contains(",50")) { //$NON-NLS-1$
+            time = time.replace(",50", ":30"); //$NON-NLS-1$ // $NON-NLS-2$
+        }
+
+        if (time.contains(",5")) { //$NON-NLS-1$
+            time = time.replace(",5", ":30"); //$NON-NLS-1$ // $NON-NLS-2$
+        }
+
+        // Treat 11 as 11:30
+        if (!time.contains(":")) { //$NON-NLS-1$
+            time = time + ":00"; //$NON-NLS-1$
+        }
+        
+        String[] splitted = time.split(":");
+        if( splitted.length != 2 ) {
+            throw new ParseException( "String '" + s + "' has an unsupported format", 1 );
+        } else {
+            int[] result = new int[2];
+            for( int i=0; i<2; i++ ) {
+                result[i] = Integer.parseInt(splitted[i]);
+            }
+            return result;
+        }
+    }
 }

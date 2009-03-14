@@ -1,14 +1,13 @@
 package org.remast.baralga.gui.settings;
 
 import java.io.File;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.joda.time.DateTime;
 import org.remast.baralga.gui.lists.MonthFilterList;
 import org.remast.baralga.gui.lists.WeekOfYearFilterList;
 import org.remast.baralga.gui.lists.YearFilterList;
@@ -270,15 +269,14 @@ public final class UserSettings {
         }
 
         if (selectedYear == YearFilterList.CURRENT_YEAR_DUMMY) {
-            filter.setYear(DateUtils.getNow());
+            filter.setYear(DateUtils.getNowAsDateTime());
             return;
         } 
 
         if (selectedYear != YearFilterList.ALL_YEARS_DUMMY) {
             try {
-                final Calendar calendar = GregorianCalendar.getInstance();
-                calendar.set(Calendar.YEAR, selectedYear);
-                filter.setYear(calendar.getTime());
+                DateTime year = new DateTime().withYear(selectedYear);
+                filter.setYear(year);
             } catch (NumberFormatException e) {
                 log.error(e, e);
             }
@@ -297,15 +295,14 @@ public final class UserSettings {
         }
 
         if (selectedMonth == MonthFilterList.CURRENT_MONTH_DUMMY) {
-            filter.setMonth(DateUtils.getNow());
+            filter.setMonth(DateUtils.getNowAsDateTime());
             return;
         } 
 
         if (selectedMonth != MonthFilterList.ALL_MONTHS_DUMMY) {
             try {
-                final Calendar calendar = GregorianCalendar.getInstance();
-                calendar.set(Calendar.MONTH, selectedMonth - 1);
-                filter.setMonth(calendar.getTime());
+                DateTime month = new DateTime().withMonthOfYear(selectedMonth);
+                filter.setMonth(month);
             } catch (NumberFormatException e) {
                 log.error(e, e);
             }
@@ -324,15 +321,14 @@ public final class UserSettings {
         }
 
         if (selectedWeekOfYear == WeekOfYearFilterList.CURRENT_WEEK_OF_YEAR_DUMMY) {
-            filter.setWeekOfYear(DateUtils.getNow());
+            filter.setWeekOfYear(DateUtils.getNowAsDateTime());
             return;
         } 
 
         if (selectedWeekOfYear != WeekOfYearFilterList.ALL_WEEKS_OF_YEAR_DUMMY) {
             try {
-                final Calendar calendar = GregorianCalendar.getInstance();
-                calendar.set(Calendar.WEEK_OF_YEAR, selectedWeekOfYear);
-                filter.setWeekOfYear(calendar.getTime());
+                DateTime weekOfYear = new DateTime().withWeekOfWeekyear(selectedWeekOfYear);
+                filter.setWeekOfYear(weekOfYear);
             } catch (NumberFormatException e) {
                 log.error(e, e);
             }

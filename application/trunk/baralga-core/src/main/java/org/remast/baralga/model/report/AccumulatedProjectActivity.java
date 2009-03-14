@@ -3,18 +3,18 @@ package org.remast.baralga.model.report;
 import java.util.Date;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.time.DateUtils;
+import org.joda.time.DateTime;
 import org.remast.baralga.model.Project;
 
 public class AccumulatedProjectActivity {
 
-    private final Date day;
+    private final DateTime day;
 
     private final Project project;
 
     private double time;
 
-    public AccumulatedProjectActivity(final Project project, final Date day, final double time) {
+    public AccumulatedProjectActivity(final Project project, final DateTime day, final double time) {
         this.project = project;
         this.day = day;
         this.time = time;
@@ -24,7 +24,7 @@ public class AccumulatedProjectActivity {
      * @return the day
      */
     public Date getDay() {
-        return day;
+        return day.toDate();
     }
 
     /**
@@ -66,7 +66,7 @@ public class AccumulatedProjectActivity {
         final EqualsBuilder eqBuilder = new EqualsBuilder();
         eqBuilder.append(this.getProject(), accAct.getProject());
         
-        return eqBuilder.isEquals() && DateUtils.isSameDay(this.getDay(), accAct.getDay());
+        return eqBuilder.isEquals() && this.day.getDayOfYear() == accAct.day.getDayOfYear();
     }
     
     @Override

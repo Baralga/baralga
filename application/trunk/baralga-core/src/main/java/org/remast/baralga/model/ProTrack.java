@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
@@ -118,19 +120,16 @@ public class ProTrack implements Serializable {
 		this.active = active;
 	}
 
-	/**
-	 * @return the startTime
-	 */
-	public Date getStartTime() {
-		return startTime;
+	public DateTime getStart() {
+	    return new DateTime(startTime);
 	}
 
 	/**
-	 * @param startTime the startTime to set
-	 */
-	public void setStartTime(final Date startTime) {
-		this.startTime = startTime;
-	}
+     * @param startTime the startTime to set
+     */
+    public void setStartTime(final DateTime startTime) {
+        this.startTime = startTime.toDate();
+    }
 
 	/**
 	 * @return the activeProject

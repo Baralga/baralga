@@ -2,7 +2,7 @@ package org.remast.baralga.gui.model.report;
 
 import java.util.Date;
 
-import org.apache.commons.lang.time.DateUtils;
+import org.joda.time.DateTime;
 
 /**
  * Item of the hours by day report.
@@ -10,13 +10,13 @@ import org.apache.commons.lang.time.DateUtils;
  */
 public class HoursByDay implements Comparable<HoursByDay> {
     
-    /** The week of the year. */
-    private Date day;
+    /** The day of the year. */
+    private DateTime day;
     
     /** The amount of hours worked that week. */
     private double hours;
     
-    public HoursByDay(final Date day, final double hours) {
+    public HoursByDay(final DateTime day, final double hours) {
         this.day = day;
         this.hours = hours;
     }
@@ -25,7 +25,7 @@ public class HoursByDay implements Comparable<HoursByDay> {
      * @return the week
      */
     public Date getDay() {
-        return day;
+        return day.toDate();
     }
 
     /**
@@ -45,7 +45,7 @@ public class HoursByDay implements Comparable<HoursByDay> {
         }
 
         final HoursByDay accAct = (HoursByDay) that;
-        return DateUtils.isSameDay(this.getDay(), accAct.getDay());
+        return this.day.getDayOfYear() == accAct.day.getDayOfYear();
     }
 
     /**

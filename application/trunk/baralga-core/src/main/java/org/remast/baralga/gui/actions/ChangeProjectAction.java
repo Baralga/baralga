@@ -10,8 +10,6 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.model.ProjectActivityStateException;
 import org.remast.baralga.model.Project;
@@ -23,8 +21,6 @@ import org.remast.util.TextResourceBundle;
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class ChangeProjectAction extends AbstractBaralgaAction {
-
-    private static final Log log = LogFactory.getLog(ExportDataAction.class);
 
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(ChangeProjectAction.class);

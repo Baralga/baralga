@@ -32,9 +32,17 @@ public abstract class DateUtils {
      * @return
      */
     public static Date getNow() {
+        return getNowAsDateTime().toDate();
+    }
+    
+    /**
+     * Get current time rounded to minutes.
+     * @return
+     */
+    public static DateTime getNowAsDateTime() {
         DateTime now = new DateTime();
         DateTime nowRounded = now.minuteOfDay().roundHalfCeilingCopy();
-        return nowRounded.toDate();
+        return nowRounded;
     }
 
     public static Date adjustToSameDay(final Date day, final Date timeToAdjust) {
@@ -48,6 +56,20 @@ public abstract class DateUtils {
         timeCal.set(Calendar.DAY_OF_YEAR, cal1.get(Calendar.DAY_OF_YEAR));
 
         return timeCal.getTime();
+    }
+    
+    /**
+     * Sets <code>timeToAdjust</code> to the same year and week-of-year as <code>day</code>.
+     * 
+     * @param midnightOnNextDay iff <code>true</code> treats midnight (0:00h) as belonging to the next day
+     */
+    public static DateTime adjustToSameDay(final DateTime day, final DateTime timeToAdjust,
+            boolean midnightOnNextDay) {
+        DateTime result = timeToAdjust.withYear(day.getYear()).withDayOfYear(day.getDayOfYear());
+        if( midnightOnNextDay && result.getHourOfDay() == 0 && result.getMinuteOfHour() == 0 ) {
+            result = result.plusDays(1);
+        }
+        return result;
     }
 
     /**

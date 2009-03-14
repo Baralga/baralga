@@ -1,9 +1,10 @@
 package org.remast.baralga.gui.lists;
 
-import java.text.SimpleDateFormat;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
@@ -20,7 +21,7 @@ public class MonthFilterList implements Observer {
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(MonthFilterList.class);
 
-    public static final SimpleDateFormat MONTH_FORMAT = new SimpleDateFormat("MM"); //$NON-NLS-1$
+    public static final DateTimeFormatter MONTH_FORMAT = DateTimeFormat.forPattern("MM"); //$NON-NLS-1$
 
     /** The model. */
     private final PresentationModel model;
@@ -40,7 +41,7 @@ public class MonthFilterList implements Observer {
     /** filter item for the current month dummy. */
     public static final LabeledItem<Integer> CURRENT_MONTH_FILTER_ITEM = new LabeledItem<Integer>(
             CURRENT_MONTH_DUMMY,
-            textBundle.textFor("MonthFilterList.CurrentMonthLabel", MONTH_FORMAT.format(DateUtils.getNow())) //$NON-NLS-1$
+            textBundle.textFor("MonthFilterList.CurrentMonthLabel", MONTH_FORMAT.print(DateUtils.getNowAsDateTime())) //$NON-NLS-1$
     );
 
     private EventList<LabeledItem<Integer>> monthList;
@@ -88,7 +89,7 @@ public class MonthFilterList implements Observer {
     }
 
     private void addMonth(final ProjectActivity activity) {
-        final String month = MONTH_FORMAT.format(activity.getStart());
+        final String month = MONTH_FORMAT.print(activity.getStart());
         final LabeledItem<Integer> monthItem = new LabeledItem<Integer>(Integer.valueOf(month), month);
         if (!this.monthList.contains(monthItem))
             this.monthList.add(monthItem);

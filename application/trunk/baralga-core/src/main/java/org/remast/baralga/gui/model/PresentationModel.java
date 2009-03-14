@@ -2,7 +2,6 @@ package org.remast.baralga.gui.model;
 
 import java.beans.PropertyChangeEvent;
 import java.io.File;
-import java.util.Date;
 import java.util.Observable;
 
 import org.apache.commons.lang.ObjectUtils;
@@ -58,14 +57,18 @@ public class PresentationModel extends Observable {
     /** Flag indicating whether selected project is active or not. */
     private boolean active;
 
-    /** Flag indicating whether data has been saved after last change. */
-    private boolean dirty = false;
+    /** Flag indicating whether data has been saved after last change.
+     * 
+     * Also - because it's volatile - acts as a memory barrier, so
+     * different threads can see the changes.
+     */
+    private volatile boolean dirty = false;
 
     /** Start date of activity. */
-    private Date start;
+    private DateTime start;
 
     /** Stop date of activity. */
-    private Date stop;
+    private DateTime stop;
 
     /** The data file that is presented by this model. */
     private ProTrack data;
@@ -92,7 +95,7 @@ public class PresentationModel extends Observable {
      */
     private void initialize() {
         this.active = this.data.isActive();
-        this.start = this.data.getStartTime();
+        this.start = this.data.getStart();
         this.selectedProject = this.data.getActiveProject();
 
         this.projectList.clear();
@@ -116,7 +119,7 @@ public class PresentationModel extends Observable {
 
         // If there is a active project that has been started on another day,
         // we end it here.
-        if (active && !org.apache.commons.lang.time.DateUtils.isSameDay(start, DateUtils.getNow())) {
+        if (active && !org.apache.commons.lang.time.DateUtils.isSameDay(start.toDate(), DateUtils.getNow())) {
             try {
                 stop();
             } catch (ProjectActivityStateException e) {
@@ -182,10 +185,15 @@ public class PresentationModel extends Observable {
      * Start a project activity at the given time.<br/>
      * <em>This method is meant for unit testing only!!</em>
      * @throws ProjectActivityStateException if there is already a running project
+     *   or if no project is selected, currently
      */
-    public final void start(final Date startTime) throws ProjectActivityStateException {
+    public final void start(final DateTime startTime) throws ProjectActivityStateException {
         if (getSelectedProject() == null) {
             throw new ProjectActivityStateException(textBundle.textFor("PresentationModel.NoActiveProjectSelectedError")); //$NON-NLS-1$
+        }
+        
+        if(isActive()) {
+            throw new ProjectActivityStateException("There is already an activity running"); // TODO L10N
         }
 
         // Mark as active
@@ -196,7 +204,7 @@ public class PresentationModel extends Observable {
 
         // Set start time to now
         if (startTime == null) {
-            setStart(DateUtils.getNow());
+            setStart(DateUtils.getNowAsDateTime());
         } else {
             setStart(startTime);
         }
@@ -211,7 +219,7 @@ public class PresentationModel extends Observable {
      * @throws ProjectActivityStateException if there is already a running project
      */
     public final void start() throws ProjectActivityStateException {
-        start(DateUtils.getNow());
+        start(DateUtils.getNowAsDateTime());
     }
 
     /**
@@ -264,21 +272,21 @@ public class PresentationModel extends Observable {
             throw new ProjectActivityStateException(textBundle.textFor("PresentationModel.NoActiveProjectError")); //$NON-NLS-1$
         }
 
-        final Date now = DateUtils.getNow();
+        final DateTime now = DateUtils.getNowAsDateTime();
 
         BaralgaEvent eventOnEndDay = null;
-        Date stop2 = null;
+        DateTime stop2 = null;
 
         // If start is on a different day from now end the activity at 0:00 one day after start.
         // Also make a new activity from 0:00 the next day until the stop time of the next day.
-        if (!org.apache.commons.lang.time.DateUtils.isSameDay(start, now)) {
+        if (!org.apache.commons.lang.time.DateUtils.isSameDay(start.toDate(), now.toDate())) {
             DateTime dt = new DateTime(start);
             dt = dt.plusDays(1);
 
-            stop = dt.toDateMidnight().toDate();
+            stop = dt.toDateMidnight().toDateTime();
 
-            stop2 = DateUtils.getNow();
-            final Date start2 = stop;
+            stop2 = DateUtils.getNowAsDateTime();
+            final DateTime start2 = stop;
 
             final ProjectActivity activityOnEndDay = new ProjectActivity(start2, stop2, getSelectedProject());
             activityOnEndDay.setDescription(this.description);
@@ -345,7 +353,7 @@ public class PresentationModel extends Observable {
         // Set active project to new project
         this.data.setActiveProject(activeProject);
 
-        final Date now = DateUtils.getNow();
+        final DateTime now = DateUtils.getNowAsDateTime();
 
         // If a project is currently running we create a new project activity.
         if (isActive()) {
@@ -370,9 +378,8 @@ public class PresentationModel extends Observable {
         }
 
         // Set start time to now.
-        // :INFO: We need to clone the date so we don't work with the 
-        // exact same reference
-        setStart((Date) now.clone());
+        // :INFO: No need to clone instance because DateTime is immutable 
+        setStart(now);
 
         // Fire project changed event
         final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_CHANGED);
@@ -506,7 +513,7 @@ public class PresentationModel extends Observable {
      * Gets the start of the current activity.
      * @return the start
      */
-    public Date getStart() {
+    public DateTime getStart() {
         return start;
     }
 
@@ -514,7 +521,7 @@ public class PresentationModel extends Observable {
      * Sets the start of a new activity.
      * @param start the start to set
      */
-    private void setStart(final Date start) {
+    private void setStart(final DateTime start) {
         this.start = start;
         this.data.setStartTime(start);
     }
@@ -522,14 +529,14 @@ public class PresentationModel extends Observable {
     /**
      * @return the stop
      */
-    public Date getStop() {
+    public DateTime getStop() {
         return stop;
     }
 
     /**
      * @param stop the stop to set
      */
-    private void setStop(final Date stop) {
+    private void setStop(final DateTime stop) {
         this.stop = stop;
     }
 
