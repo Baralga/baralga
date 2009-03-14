@@ -69,6 +69,8 @@ AddActivityDialog.StartLabel=Start:
 AddActivityDialog.EndLabel=End:
 AddActivityDialog.DateLabel=Date:
 AddActivityDialog.AddLabel=Add
+AddActivityDialog.Error.Title=Error
+AddActivityDialog.Error.InvalidStartEnd=Invalid start and end times.
 
 ManageProjectsDialog.Title=Manage Projects
 ManageProjectsDialog.ProjectList.ToolTipText=List of projects.
