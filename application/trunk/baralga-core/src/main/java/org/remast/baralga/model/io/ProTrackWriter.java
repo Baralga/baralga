@@ -19,9 +19,6 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
  */
 public class ProTrackWriter {
 
-    /** Encoding of output file. */
-    private static final String OUTPUT_ENCODING = "UTF-8";
-
     /** The data to write. */
     private ProTrack data;
 
@@ -60,7 +57,7 @@ public class ProTrackWriter {
      * @throws IOException on write error
      */
     public final void write(final OutputStream outputStream) throws IOException {
-        final XStream xstream = new XStream(new DomDriver(OUTPUT_ENCODING));
+        final XStream xstream = new XStream(new DomDriver(IOConstants.FILE_ENCODING));
         xstream.processAnnotations(
                 new Class[] {ProTrack.class, Project.class, ProjectActivity.class}
         );

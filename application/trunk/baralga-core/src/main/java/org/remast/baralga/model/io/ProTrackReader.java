@@ -21,9 +21,6 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
  */
 public class ProTrackReader {
 
-    /** Encoding of input file. */
-    private static final String INPUT_ENCODING = "UTF-8";
-
     /** The logger. */
     private static final Log log = LogFactory.getLog(ProTrackReader.class);
 
@@ -36,8 +33,21 @@ public class ProTrackReader {
      */
     public void read(final File file) throws IOException {
         final InputStream fis = new FileInputStream(file);
+        try {
+            read(fis);
+        } catch(IOException e) {
+            throw new IOException("The file " + (file != null ? file.getName() : "<null>") + " does not contain valid Baralga data.", e);
+        } finally {
+            IOUtils.closeQuietly(fis);
+        }
+    }
 
-        final XStream xstream = new XStream(new DomDriver(INPUT_ENCODING));
+    /**
+     * Read the data from an {@link InputStream}.
+     * @throws IOException
+     */
+    public void read(final InputStream in) throws IOException {
+        final XStream xstream = new XStream(new DomDriver(IOConstants.FILE_ENCODING));
         xstream.setMode(XStream.ID_REFERENCES);
         xstream.processAnnotations(
                 new Class[] {ProTrack.class, Project.class, ProjectActivity.class}
@@ -46,19 +56,17 @@ public class ProTrackReader {
 
         Object o = null;
         try {
-            o = xstream.fromXML(fis);
+            o = xstream.fromXML(in);
         } catch (Exception e)  {
             log.error(e, e);
-            throw new IOException("The file " + (file != null ? file.getName() : "<null>") + " does not contain valid Baralga data.", e);
-        } finally {
-            IOUtils.closeQuietly(fis);
+            throw new IOException("The input stream does not contain valid Baralga data.", e);
         }
 
         try {
             data = (ProTrack) o;
         } catch (ClassCastException e) {
             log.error(e, e);
-            throw new IOException("The file " + (file != null ? file.getName() : "<null>") + " does not contain valid Baralga data.", e);
+            throw new IOException("The file input stream does not contain valid Baralga data.", e);
         }
     }
 
