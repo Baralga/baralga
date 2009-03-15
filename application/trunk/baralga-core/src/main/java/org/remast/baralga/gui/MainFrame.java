@@ -153,7 +153,6 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      */
     private void initialize() {
         this.setSize(530, 720);
-        this.setIconImage(NORMAL_ICON);
         this.setResizable(true);
         this.setJMenuBar(getMainMenuBar());
 
@@ -161,11 +160,13 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
         // 1. Init start-/stop-Buttons
         if (this.model.isActive()) {
+            this.setIconImage(ACTIVE_ICON);
             this.setTitle(
                     textBundle.textFor("Global.Title") + " - " + this.model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatUtils.formatTime(this.model.getStart()) //$NON-NLS-1$ //$NON-NLS-2$
             );
             getStartStopButton().setAction(new StopAction(this.model));
         } else {
+            this.setIconImage(NORMAL_ICON);
             this.setTitle(textBundle.textFor("Global.Title")); //$NON-NLS-1$
 
             getStartStopButton().setAction(new StartAction(this, this.model));
