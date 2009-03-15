@@ -30,7 +30,7 @@ public class ImportDataAction extends AbstractBaralgaAction {
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(ImportDataAction.class);
 
     public ImportDataAction(final Frame owner, final PresentationModel model) {
-        super(model);
+        super(owner, model);
 
         putValue(NAME, textBundle.textFor("ImportDataAction.Name")); //$NON-NLS-1$
         putValue(SHORT_DESCRIPTION, textBundle.textFor("ImportDataAction.ShortDescription")); //$NON-NLS-1$
