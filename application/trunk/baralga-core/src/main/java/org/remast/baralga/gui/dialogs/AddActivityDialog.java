@@ -283,8 +283,7 @@ public class AddActivityDialog extends EscapeDialog {
         project = (Project) getProjectSelector().getSelectedItem();
 
         try {
-            @SuppressWarnings("unused")
-            final ProjectActivity activity = new ProjectActivity(start, end, project);
+            new ProjectActivity(start, end, project);
         } catch (IllegalArgumentException e) {
             final String title = textBundle.textFor("AddActivityDialog.Error.Title");
             final String message = textBundle.textFor("AddActivityDialog.Error.InvalidStartEnd");
