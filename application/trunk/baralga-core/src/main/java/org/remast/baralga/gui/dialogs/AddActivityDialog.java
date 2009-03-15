@@ -206,18 +206,7 @@ public class AddActivityDialog extends EscapeDialog {
             addActivityButton.addActionListener(new ActionListener() {
                 public void actionPerformed(final ActionEvent event) {
                     if (AddActivityDialog.this.validateFields()) {
-                        final ProjectActivity activity;
-                        try {
-                            activity = new ProjectActivity(start, end, project);
-                        } catch (IllegalArgumentException e) {
-                            String title = textBundle.textFor("AddActivityDialog.Error.Title");
-                            String msg = textBundle.textFor("AddActivityDialog.Error.InvalidStartEnd");
-                            JOptionPane.showMessageDialog(
-                                    AddActivityDialog.this, msg,
-                                    title, JOptionPane.ERROR_MESSAGE );
-                            // ignore activity add: invalid start and end time
-                            return;
-                        }
+                        final ProjectActivity activity = new ProjectActivity(start, end, project);
                         activity.setDescription(descriptionEditor.getText());
                         model.addActivity(activity, this);
                         AddActivityDialog.this.dispose();
@@ -292,6 +281,23 @@ public class AddActivityDialog extends EscapeDialog {
         }
 
         project = (Project) getProjectSelector().getSelectedItem();
+
+        try {
+            final ProjectActivity activity = new ProjectActivity(start, end, project);
+        } catch (IllegalArgumentException e) {
+            final String title = textBundle.textFor("AddActivityDialog.Error.Title");
+            final String message = textBundle.textFor("AddActivityDialog.Error.InvalidStartEnd");
+            
+            JOptionPane.showMessageDialog(
+                    AddActivityDialog.this, 
+                    message,
+                    title, 
+                    JOptionPane.ERROR_MESSAGE
+            );
+            
+            // invalid start and end time
+            return false;
+        }
 
         // All tests passed so dialog contains valid data
         return true;
