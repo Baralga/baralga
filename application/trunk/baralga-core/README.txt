@@ -9,7 +9,8 @@
 
 == Baralga Version 1.3.5 ==
 Fixes
- * Issue #17 (http://baralga.origo.ethz.ch/node/87).
+ * Activity editing bugs (Issue #19 http://baralga.origo.ethz.ch/node/94)
+ * Midnight bug (Issue #17 http://baralga.origo.ethz.ch/node/87).
  * Start activity when selection changes in systray (Issue #16 http://baralga.origo.ethz.ch/node/85)
  * Remember location of last data export.
  
