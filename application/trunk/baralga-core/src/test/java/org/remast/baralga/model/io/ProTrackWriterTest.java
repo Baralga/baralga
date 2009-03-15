@@ -32,7 +32,7 @@ public class ProTrackWriterTest extends TestCase {
         
         ProjectActivity activity = new ProjectActivity(new DateTime(2009, 3, 13, 15, 0, 0, 0),
                 new DateTime(2009, 3, 13, 17, 0, 0, 0), a);
-        data.addActivity(activity);
+        data.getActivities().add(activity);
         
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ProTrackWriter writer = new ProTrackWriter(data);
