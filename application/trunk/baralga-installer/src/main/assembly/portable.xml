@@ -7,14 +7,14 @@
 	<fileSets>
 		<fileSet>
 			<directory>.</directory>
-			<outputDirectory>.</outputDirectory>
+			<outputDirectory></outputDirectory>
 			<includes>
 				<include>Licence.txt</include>
 			</includes>
 		</fileSet>
 		<fileSet>
 			<directory>src/portable</directory>
-			<outputDirectory>./data</outputDirectory>
+			<outputDirectory>data</outputDirectory>
 			<includes>
 				<include>application.properties</include>
 			</includes>
@@ -34,7 +34,7 @@
 			</excludes>
 		</dependencySet>
 		<dependencySet>
-			<outputDirectory>.</outputDirectory>
+			<outputDirectory></outputDirectory>
 			<outputFileNameMapping>
 				Baralga-${artifact.version}.${artifact.extension}
 			</outputFileNameMapping>
