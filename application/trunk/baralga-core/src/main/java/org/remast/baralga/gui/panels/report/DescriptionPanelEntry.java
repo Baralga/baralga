@@ -4,7 +4,6 @@
 package org.remast.baralga.gui.panels.report;
 
 import java.awt.BorderLayout;
-import java.beans.PropertyChangeEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.border.TitledBorder;
@@ -50,13 +49,11 @@ public class DescriptionPanelEntry extends JXPanel {
         editor.addTextObserver(new TextEditor.TextChangeObserver() {
 
             public void onTextChange() {
-                final String oldDescription = activity.getDescription();
                 final String newDescription = editor.getText();
                 
-                activity.setDescription(newDescription);
+                ProjectActivity newActivity = activity.withDescription(newDescription);
 
-                final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(activity, ProjectActivity.PROPERTY_DESCRIPTION, oldDescription, newDescription);
-                model.fireProjectActivityChangedEvent(activity, propertyChangeEvent);
+                model.replaceActivity(activity, newActivity, this);
             }
         });
     }

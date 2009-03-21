@@ -19,10 +19,10 @@ public class Project implements Serializable, Comparable<Project>{
     private final long id;
     
     /** The title of the project. */
-    private String title;
+    private final String title;
     
     /** A description of the project. */
-    private String description;
+    private final String description;
     
     public static final String PROPERTY_TITLE = "org.remast.baralga.model.title";
 
@@ -32,7 +32,7 @@ public class Project implements Serializable, Comparable<Project>{
      * @param title the project title
      * @param description the project description
      */
-    public Project(final long id,final String title, final String description) {
+    public Project(final long id, final String title, final String description) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -59,11 +59,9 @@ public class Project implements Serializable, Comparable<Project>{
         return title;
     }
     
-    public void setTitle(String title) {
-        this.title = title;
-        
+    public Project withTitle(String title) {
         // Use title also as description for the moment.
-        this.description = title;
+        return new Project(getId(), title, title);
     }
 
     @Override

@@ -89,11 +89,6 @@ public class HoursByProjectReport extends Observable implements Observer  {
                 calculateHours();
                 break;
 
-            case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
-                // TODO: Replace calculation by remove + add.
-                calculateHours();
-                break;
-
             case BaralgaEvent.FILTER_CHANGED:
                 final Filter newFilter = (Filter) event.getData();
                 setFilter(newFilter);

@@ -1,6 +1,5 @@
 package org.remast.baralga.gui.panels.table;
 
-import java.beans.PropertyChangeEvent;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -84,36 +83,23 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
     public ProjectActivity setColumnValue(final ProjectActivity activity, final Object editedValue, final int column) {
         // Project
         if (column == 0) {
-            final Project oldProject = activity.getProject();
-            activity.setProject((Project) editedValue);
+            ProjectActivity newActivity = activity.withProject((Project) editedValue);
 
-            // Fire event
-            final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(activity, ProjectActivity.PROPERTY_PROJECT, oldProject, editedValue);
-            model.fireProjectActivityChangedEvent(activity, propertyChangeEvent);
+            model.replaceActivity(activity, newActivity, this);
         }
         // Day and month
         else if (column == 1) {
-            final Date oldDate = activity.getEnd().toDate();
-            Date newDate = (Date) editedValue;
+            ProjectActivity newActivity = activity.withDay(new DateTime((Date) editedValue));
 
-            activity.setDay(new DateTime(newDate));
-
-            // Fire event
-            final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(activity, ProjectActivity.PROPERTY_DATE, oldDate, newDate);
-            model.fireProjectActivityChangedEvent(activity, propertyChangeEvent);
+            model.replaceActivity(activity, newActivity, this);
         }
         // Start time
         else if (column == 2) {
             try {
-                final Date oldStart = activity.getStart().toDate();
-                
                 int[] hoursMinutes = SmartTimeFormat.parseToHourAndMinutes((String) editedValue);
-                activity.setStartTime(hoursMinutes[0], hoursMinutes[1]);
+                ProjectActivity newActivity = activity.withStartTime(hoursMinutes[0], hoursMinutes[1]);
 
-                // Fire event
-                final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(activity, ProjectActivity.PROPERTY_START,
-                        oldStart, activity.getStart().toDate());
-                model.fireProjectActivityChangedEvent(activity, propertyChangeEvent);
+                model.replaceActivity(activity, newActivity, this);
             } catch( IllegalArgumentException e ) {
                 // Ignore and don't save changes to model.
             } catch( ParseException e ) {
@@ -123,15 +109,10 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         // End time
         else if (column == 3) {
             try {
-                final Date oldEnd = activity.getEnd().toDate();
-
                 int[] hoursMinutes = SmartTimeFormat.parseToHourAndMinutes((String) editedValue);
-                activity.setEndTime(hoursMinutes[0], hoursMinutes[1]);
+                ProjectActivity newActivity = activity.withEndTime(hoursMinutes[0], hoursMinutes[1]);
                                
-                // Fire event
-                final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(activity, ProjectActivity.PROPERTY_END,
-                        oldEnd, activity.getEnd().toDate());
-                model.fireProjectActivityChangedEvent(activity, propertyChangeEvent);
+                model.replaceActivity(activity, newActivity, this);
             } catch( IllegalArgumentException e ) {
                 // Ignore and don't save changes to model.
             } catch (ParseException e) {

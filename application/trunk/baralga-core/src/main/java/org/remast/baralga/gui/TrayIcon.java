@@ -46,7 +46,7 @@ public class TrayIcon implements Observer {
     private static final Image ACTIVE_ICON = new ImageIcon(BaralgaMain.class.getResource("/icons/Baralga-Tray-Green.png")).getImage();
 
     /** The model. */
-    private PresentationModel model;
+    private final PresentationModel model;
 
     /** The tray icon. */
     private JXTrayIcon trayIcon;

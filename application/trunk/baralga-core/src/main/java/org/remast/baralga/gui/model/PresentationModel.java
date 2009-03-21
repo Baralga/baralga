@@ -43,15 +43,15 @@ public class PresentationModel extends Observable {
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
 
     /** The list of projects. */
-    private SortedList<Project> projectList;
+    private final SortedList<Project> projectList;
 
     /** The list of project activities. */
-    private SortedList<ProjectActivity> activitiesList;
+    private final SortedList<ProjectActivity> activitiesList;
 
     /** The currently selected project. */
     private Project selectedProject;
 
-    /** The description of the activity. */
+    /** The description of the current activity. */
     private String description;
 
     /** Flag indicating whether selected project is active or not. */
@@ -180,6 +180,27 @@ public class PresentationModel extends Observable {
 
         notify(event);
     }
+    
+    /**
+     * Replaces an old project with a new, updated project.
+     * @param source the source of the edit activity
+     */
+    public final void replaceProject(final Project oldProject, final Project newProject, final Object source) {
+        getData().replaceProject(oldProject, newProject);
+        this.projectList.remove(oldProject);
+        this.projectList.add(newProject);
+
+        // Mark data as dirty
+        this.dirty = true;
+
+        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_REMOVED, source);
+        event.setData(oldProject);
+        notify(event);
+        
+        final BaralgaEvent event2 = new BaralgaEvent(BaralgaEvent.PROJECT_ADDED, source);
+        event2.setData(newProject);
+        notify(event2);
+    }
 
     /**
      * Start a project activity at the given time.<br/>
@@ -202,12 +223,11 @@ public class PresentationModel extends Observable {
         // Mark data as dirty
         this.dirty = true;
 
-        // Set start time to now
-        if (startTime == null) {
-            setStart(DateUtils.getNowAsDateTime());
-        } else {
-            setStart(startTime);
-        }
+        
+        // Set start time to now if null
+        DateTime start = startTime != null ? startTime : DateUtils.getNowAsDateTime();
+        setStart(start);
+        getData().start(start);
 
         // Fire start event
         final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_STARTED);
@@ -229,17 +249,6 @@ public class PresentationModel extends Observable {
     private void notify(final BaralgaEvent event) {
         setChanged();
         notifyObservers(event);
-    }
-
-    public void fireProjectActivityChangedEvent(final ProjectActivity changedActivity, final PropertyChangeEvent propertyChangeEvent) {
-        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_CHANGED);
-        event.setData(changedActivity);
-        event.setPropertyChangeEvent(propertyChangeEvent);
-
-        // Mark data as dirty
-        this.dirty = true;
-
-        notify(event);
     }
 
     public void fireProjectChangedEvent(final Project changedProject, final PropertyChangeEvent propertyChangeEvent) {
@@ -288,9 +297,9 @@ public class PresentationModel extends Observable {
             stop2 = DateUtils.getNowAsDateTime();
             final DateTime start2 = stop;
 
-            final ProjectActivity activityOnEndDay = new ProjectActivity(start2, stop2, getSelectedProject());
-            activityOnEndDay.setDescription(this.description);
-            getData().getActivities().add(activityOnEndDay);
+            final ProjectActivity activityOnEndDay = new ProjectActivity(start2, stop2,
+                    getSelectedProject(), this.description);
+            getData().addActivity(activityOnEndDay);
             this.activitiesList.add(activityOnEndDay);
 
             // Create Event for Project Activity
@@ -300,15 +309,16 @@ public class PresentationModel extends Observable {
             stop = now;
         }
 
-        final ProjectActivity activityOnStartDay = new ProjectActivity(start, stop, getSelectedProject());
-        activityOnStartDay.setDescription(this.description);
-        getData().getActivities().add(activityOnStartDay);
+        final ProjectActivity activityOnStartDay = new ProjectActivity(start, stop,
+                getSelectedProject(), this.description);
+        getData().addActivity(activityOnStartDay);
         this.activitiesList.add(activityOnStartDay);
 
         // Clear old activity
         description = StringUtils.EMPTY;
         UserSettings.instance().setLastDescription(StringUtils.EMPTY);
         setActive(false);
+        getData().stop();
         start = null;
 
         // Mark data as dirty
@@ -361,10 +371,9 @@ public class PresentationModel extends Observable {
             setStop(now);
 
             // 2. Track recorded project activity.
-            final ProjectActivity activity = new ProjectActivity(start, stop, previousProject);
-            activity.setDescription(description);
+            final ProjectActivity activity = new ProjectActivity(start, stop, previousProject, description);
 
-            getData().getActivities().add(activity);
+            getData().addActivity(activity);
             this.activitiesList.add(activity);
 
             // Clear description
@@ -411,7 +420,7 @@ public class PresentationModel extends Observable {
      * @param activity the activity to add
      */
     public final void addActivity(final ProjectActivity activity, final Object source) {
-        getData().getActivities().add(activity);
+        getData().addActivity(activity);
 
         // Add activity if there is no filter or the filter matches
         if (this.filter == null || this.filter.matchesCriteria(activity)) {
@@ -432,7 +441,7 @@ public class PresentationModel extends Observable {
      * @param activity the activity to remove
      */
     public final void removeActivity(final ProjectActivity activity, final Object source) {
-        getData().getActivities().remove(activity);
+        getData().removeActivity(activity);
         this.getActivitiesList().remove(activity);
 
         // Remove activity if there is no filter or the filter matches
@@ -447,6 +456,37 @@ public class PresentationModel extends Observable {
         final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_REMOVED, source);
         event.setData(activity);
         notify(event);
+    }
+
+    /**
+     * Remove an activity from the model.
+     * @param activity the activity to remove
+     */
+    public final void replaceActivity(final ProjectActivity oldActivity, final ProjectActivity newActivity,
+            final Object source) {
+        getData().replaceActivity(oldActivity, newActivity);
+
+        // Remove activity if there is no filter or the filter matches
+        if (this.filter == null || this.filter.matchesCriteria(oldActivity)) {
+            this.getActivitiesList().remove(oldActivity);
+        }
+        
+        // Add activity if there is no filter or the filter matches
+        if (this.filter == null || this.filter.matchesCriteria(newActivity)) {
+            this.getActivitiesList().add(newActivity);
+        }
+
+        // Mark data as dirty
+        this.dirty = true;
+
+        // Fire events
+        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_REMOVED, source);
+        event.setData(oldActivity);
+        notify(event);
+        
+        final BaralgaEvent event2 = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED, source);
+        event2.setData(oldActivity);
+        notify(event2);
     }
 
     /**
@@ -553,8 +593,6 @@ public class PresentationModel extends Observable {
      */
     public void setActive(final boolean active) {
         this.active = active;
-        // Propagate to data.
-        this.data.setActive(active);
     }
 
     /**

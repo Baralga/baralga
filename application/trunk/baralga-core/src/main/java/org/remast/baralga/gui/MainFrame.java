@@ -64,7 +64,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private static final Image ACTIVE_ICON = new ImageIcon(BaralgaMain.class.getResource("/icons/Baralga-Tray-Green.png")).getImage(); //$NON-NLS-1$
 
     /** The model. */
-    private PresentationModel model;
+    private final PresentationModel model;
 
     /** The tool bar. */
     private JToolBar toolBar = null;
@@ -432,14 +432,6 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             aboutMenuItem.setMnemonic(aboutAction.getMnemonic());
         }
         return aboutMenuItem;
-    }
-
-
-    /**
-     * @param model the model to set
-     */
-    public void setModel(final PresentationModel model) {
-        this.model = model;
     }
 
     public void update(final Observable source, final Object eventObject) {

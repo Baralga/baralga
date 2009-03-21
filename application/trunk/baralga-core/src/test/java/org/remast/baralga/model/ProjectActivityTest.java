@@ -34,22 +34,22 @@ public class ProjectActivityTest extends TestCase {
         assertEquals( 1, act.getEnd().getDayOfMonth() );
         
         // when end is at 0:00h it must be on the next day
-        act.setEndTime(0, 0);
+        act = act.withEndTime(0, 0);
         assertEquals( 2, act.getEnd().getDayOfMonth() );
         
         // otherwise it must be on the same day as start
-        act.setEndTime(12, 0);
+        act = act.withEndTime(12, 0);
         assertEquals(1, act.getEnd().getDayOfMonth());
         
         // test again: when end is at 0:00h it must be on the next day
-        act.setEndTime(0, 0);
+        act = act.withEndTime(0, 0);
         assertEquals( 2, act.getEnd().getDayOfMonth() );
         
         // start day must not change:
-        act.setStartTime(11, 55);
+        act = act.withStartTime(11, 55);
         assertEquals(1, act.getStart().getDayOfMonth());
         
-        act.setStartTime(0, 0);
+        act = act.withStartTime(0, 0);
         assertEquals(1, act.getStart().getDayOfMonth());
     }
 
@@ -69,7 +69,7 @@ public class ProjectActivityTest extends TestCase {
         try {
             ProjectActivity act = new ProjectActivity(new DateTime(2009, 1, 1, 11, 0, 0 ,0),
                     new DateTime(2009, 1, 1, 12, 0, 0, 0), null);
-            act.setEndTime(10, 0);
+            act = act.withEndTime(10, 0);
             fail("Expected IllegalArgumentException");
         } catch( IllegalArgumentException e) {
             // ok, expected
@@ -78,7 +78,7 @@ public class ProjectActivityTest extends TestCase {
         try {
             ProjectActivity act = new ProjectActivity(new DateTime(2009, 1, 1, 11, 0, 0 ,0),
                     new DateTime(2009, 1, 1, 12, 0, 0, 0), null);
-            act.setStartTime(13, 0);
+            act.withStartTime(13, 0);
             fail("Expected IllegalArgumentException");
         } catch( IllegalArgumentException e) {
             // ok, expected
@@ -97,7 +97,7 @@ public class ProjectActivityTest extends TestCase {
             assertEquals(1, day.getMonthOfYear());
             assertEquals(2009, day.getYear());
             
-            act.setDay(new DateTime(2020, 7, 13, 11, 0, 0 ,0));
+            act = act.withDay(new DateTime(2020, 7, 13, 11, 0, 0 ,0));
             day = act.getDay();
             assertEquals(13, day.getDayOfMonth());
             assertEquals(7, day.getMonthOfYear());
@@ -120,7 +120,7 @@ public class ProjectActivityTest extends TestCase {
             assertEquals(1, day.getMonthOfYear());
             assertEquals(2009, day.getYear());
             
-            act.setDay(new DateTime(2020, 7, 13, 11, 0, 0 ,0));
+            act = act.withDay(new DateTime(2020, 7, 13, 11, 0, 0 ,0));
             day = act.getDay();
             assertEquals(13, day.getDayOfMonth());
             assertEquals(7, day.getMonthOfYear());

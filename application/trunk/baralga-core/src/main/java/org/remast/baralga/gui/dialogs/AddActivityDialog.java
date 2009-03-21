@@ -206,8 +206,8 @@ public class AddActivityDialog extends EscapeDialog {
             addActivityButton.addActionListener(new ActionListener() {
                 public void actionPerformed(final ActionEvent event) {
                     if (AddActivityDialog.this.validateFields()) {
-                        final ProjectActivity activity = new ProjectActivity(start, end, project);
-                        activity.setDescription(descriptionEditor.getText());
+                        final ProjectActivity activity = new ProjectActivity(start, end, project,
+                                descriptionEditor.getText());
                         model.addActivity(activity, this);
                         AddActivityDialog.this.dispose();
                     }

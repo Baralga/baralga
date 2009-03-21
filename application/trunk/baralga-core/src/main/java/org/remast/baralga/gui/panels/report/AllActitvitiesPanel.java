@@ -157,13 +157,14 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         final BaralgaEvent event = (BaralgaEvent) eventObject;
 
         switch (event.getType()) {
-        case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
-            tableModel.fireTableDataChanged();
-            break;
-
-        case BaralgaEvent.PROJECT_CHANGED:
-            tableModel.fireTableDataChanged();
-            break;
+            case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
+            case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
+                tableModel.fireTableDataChanged();
+                break;
+    
+            case BaralgaEvent.PROJECT_CHANGED:
+                tableModel.fireTableDataChanged();
+                break;
         }
     }
 

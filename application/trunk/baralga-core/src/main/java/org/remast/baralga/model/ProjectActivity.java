@@ -10,8 +10,6 @@ import org.remast.baralga.FormatUtils;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-import edu.umd.cs.findbugs.annotations.SuppressWarnings;
-
 /**
  * An activity for a project.
  * 
@@ -23,8 +21,6 @@ import edu.umd.cs.findbugs.annotations.SuppressWarnings;
  * @author remast
  */
 @XStreamAlias("projectActivity")//$NON-NLS-1$
-@SuppressWarnings(value={"EI_EXPOSE_REP","EI_EXPOSE_REP2"},
-        justification="We trust callers that they won't change Dates we receive or hand out")
 public class ProjectActivity implements Serializable, Comparable<ProjectActivity> {
 
     /**
@@ -33,16 +29,16 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
     private static final long serialVersionUID = 1L;
 
     /** Start date of this activity. */
-    private Date start;
+    private final Date start;
 
     /** End date of this activity. */
-    private Date end;
+    private final Date end;
 
     /** The project associated with this activity. */
-    private Project project;
+    private final Project project;
 
     /** The description of this activity. */
-    private String description;
+    private final String description;
 
     public static final String PROPERTY_START = "org.remast.baralga.model.ProjectActivity.start";
 
@@ -56,19 +52,30 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
     public static final String PROPERTY_DESCRIPTION = "org.remast.baralga.model.ProjectActivity.description";
 
     /**
-     * Creates a new {@link ProjectActivity}.
+     * Creates a new {@link ProjectActivity} with an empty description.
      * 
      * @throws IllegalArgumentException if end time is before start time
      */
     public ProjectActivity(final DateTime start, final DateTime end, final Project project) {
+        this(start, end, project, null);
+    }
+
+    /**
+     * Creates a new {@link ProjectActivity}.
+     * 
+     * @throws IllegalArgumentException if end time is before start time
+     */
+    public ProjectActivity(final DateTime start, final DateTime end, final Project project,
+            final String description) {
         if(start.isAfter(end)) {
             throw new IllegalArgumentException("End time may not be before start time!");
         }
         this.start = start.toDate();
         this.end = end.toDate();
         this.project = project;
+        this.description = description;
     }
-
+    
     /**
      * @return the description
      */
@@ -80,8 +87,8 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
      * @param description
      *            the description to set
      */
-    public void setDescription(final String description) {
-        this.description = description;
+    public ProjectActivity withDescription(final String description) {
+        return new ProjectActivity(getStart(), getEnd(), getProject(), description);
     }
 
     /**
@@ -90,11 +97,11 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
      * @param day the new activity day.
      *   Hours, minutes, seconds and so on in the passed value are ignored.
      */
-    public void setDay(DateTime day) {
+    public ProjectActivity withDay(DateTime day) {
         DateTime start = getStart();
         start = start.withYear(day.getYear()).withMonthOfYear(day.getMonthOfYear())
             .withDayOfMonth(day.getDayOfMonth());
-        this.start = start.toDate();
+        
         
         DateTime end = getEnd();
         end = end.withYear(day.getYear()).withMonthOfYear(day.getMonthOfYear())
@@ -102,7 +109,8 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
         if(end.getHourOfDay() == 0 && end.getMinuteOfHour() == 0) {
             end = end.plusDays(1);
         }
-        this.end = end.toDate();
+        
+        return new ProjectActivity(start, end, getProject(), getDescription());
     }
     
     /**
@@ -129,10 +137,10 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
      * 
      * @throws IllegalArgumentException if end time is before start time
      */
-    public void setEndTime(final int hours, final int minutes) {
+    public ProjectActivity withEndTime(final int hours, final int minutes) {
         DateTime endDt = getEnd();
         if( hours == endDt.getHourOfDay() && minutes == endDt.getMinuteOfHour() ) {
-            return;
+            return this;
         }
         
         if(endDt.getHourOfDay() == 0 && endDt.getMinuteOfHour() == 0) { // adjust day if old end was on midnight
@@ -146,7 +154,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
         if( endDt.isBefore( getStart() ) ) {
             throw new IllegalArgumentException("End time may not be before start time!");
         }
-        this.end = endDt.toDate();
+        return new ProjectActivity(getStart(), endDt, getProject(), getDescription());
     }
 
     /**
@@ -160,8 +168,8 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
      * @param project
      *            the project to set
      */
-    public void setProject(final Project project) {
-        this.project = project;
+    public ProjectActivity withProject(final Project project) {
+        return new ProjectActivity(getStart(), getEnd(), project, getDescription());
     }
 
 
@@ -177,10 +185,10 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
      * 
      * @throws IllegalArgumentException if end time is before start time
      */
-    public void setStartTime(final int hours, final int minutes) {
+    public ProjectActivity withStartTime(final int hours, final int minutes) {
         DateTime startDt = getStart();
         if( hours == startDt.getHourOfDay() && minutes == startDt.getMinuteOfHour() ) {
-            return;
+            return this;
         }
         
         startDt = startDt.withHourOfDay(hours).withMinuteOfHour(minutes);
@@ -188,7 +196,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
         if( startDt.isAfter( getEnd() ) ) {
             throw new IllegalArgumentException("End time may not be before start time!");
         }
-        this.start = startDt.toDate();
+        return new ProjectActivity(startDt, getEnd(), getProject(), getDescription());
     }
     
     @Override

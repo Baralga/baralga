@@ -2,6 +2,7 @@ package org.remast.baralga.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class ProTrack implements Serializable {
 	 * Adds a new project.
 	 * @param project the project to add
 	 */
-	public void add(final Project project) {
+	public synchronized void add(final Project project) {
 		if (project == null) {
 			return;
 		}
@@ -61,7 +62,7 @@ public class ProTrack implements Serializable {
 	 * Removes a project.
 	 * @param project the project to remove
 	 */
-	public void remove(final Project project) {
+	public synchronized void remove(final Project project) {
 		if (project == null) {
 			return;
 		}
@@ -70,7 +71,7 @@ public class ProTrack implements Serializable {
 		this.projectsToBeDeleted.add(project);
 	}
 
-	public void cleanup() {
+	public synchronized void cleanup() {
 		if (this.projectsToBeDeleted == null) {
 			return;
 		}
@@ -109,53 +110,86 @@ public class ProTrack implements Serializable {
 	/**
 	 * @return the active
 	 */
-	public boolean isActive() {
+	public synchronized boolean isActive() {
 		return active;
 	}
 
 	/**
-	 * @param active the active to set
+	 * @param startTime the startTime to set
 	 */
-	public void setActive(final boolean active) {
-		this.active = active;
+	public synchronized void start(final DateTime startTime) {
+		this.active = true;
+		this.startTime = startTime.toDate();
 	}
+	
+	public synchronized void stop() {
+        this.active = false;
+    }
 
-	public DateTime getStart() {
+	public synchronized DateTime getStart() {
 	    return new DateTime(startTime);
 	}
-
-	/**
-     * @param startTime the startTime to set
-     */
-    public void setStartTime(final DateTime startTime) {
+	
+    public synchronized void setStartTime(DateTime startTime) {
         this.startTime = startTime.toDate();
     }
 
 	/**
 	 * @return the activeProject
 	 */
-	public Project getActiveProject() {
+	public synchronized Project getActiveProject() {
 		return activeProject;
 	}
 
 	/**
 	 * @param activeProject the activeProject to set
 	 */
-	public void setActiveProject(final Project activeProject) {
+	public synchronized void setActiveProject(final Project activeProject) {
 		this.activeProject = activeProject;
 	}
 
 	/**
-	 * @return the activities
+	 * @return read-only view of the activities
 	 */
-	public List<ProjectActivity> getActivities() {
-		return activities;
+	public synchronized List<ProjectActivity> getActivities() {
+		return Collections.unmodifiableList(activities);
+	}
+	
+	/**
+	 * Adds a new activity.
+	 */
+	public synchronized void addActivity(final ProjectActivity activity) {
+	    this.activities.add(activity);
+	}
+	
+	/**
+     * Removes an activity.
+     */
+    public synchronized boolean removeActivity(final ProjectActivity activity) {
+        return this.activities.remove(activity);
+    }
+
+	/**
+	 * @return read-only view of the projects
+	 */
+	public synchronized List<Project> getProjects() {
+		return Collections.unmodifiableList(activeProjects);
 	}
 
 	/**
-	 * @return the projects
+	 * Replaces an old activity with a new, updated activity.
 	 */
-	public List<Project> getProjects() {
-		return activeProjects;
-	}
+    public synchronized void replaceActivity(ProjectActivity oldActivity,
+            ProjectActivity newActivity) {
+        removeActivity(oldActivity);
+        addActivity(newActivity);
+    }
+
+    /**
+     * Replaces an old project with a new, updated project.
+     */
+    public synchronized void replaceProject(Project oldProject, Project newProject) {
+        remove(oldProject);
+        add(newProject);
+    }
 }

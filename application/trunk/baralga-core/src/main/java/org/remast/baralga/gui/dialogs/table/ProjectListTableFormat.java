@@ -1,7 +1,5 @@
 package org.remast.baralga.gui.dialogs.table;
 
-import java.beans.PropertyChangeEvent;
-
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
 
@@ -27,13 +25,9 @@ public class ProjectListTableFormat implements WritableTableFormat<Project> {
     public Project setColumnValue(final Project project, final Object value,
             final int column) {
         if (column == 0) {
-            final String oldTitle = project.getTitle();
-            final String newTitle = (String) value;
-            project.setTitle(newTitle);
+            Project newProject = project.withTitle((String) value);
 
-            // Fire event
-            final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(project, Project.PROPERTY_TITLE, oldTitle, newTitle);
-            model.fireProjectChangedEvent(project, propertyChangeEvent);
+            model.replaceProject(project, newProject, this);
         }
         
         return project;

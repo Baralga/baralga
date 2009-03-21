@@ -41,10 +41,6 @@ public class ObservingAccumulatedActivitiesReport extends AccumulatedActivitiesR
             this.accumulate();
             break;
 
-        case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
-            this.accumulate();
-            break;
-
         case BaralgaEvent.FILTER_CHANGED:
             final Filter newFilter = (Filter) event.getData();
             setFilter(newFilter);
