@@ -29,80 +29,23 @@ public class SmartTimeFormat extends TimeFormat {
             return super.parse(time, pos);
         }
         
-        time = StringUtils.replaceChars(time, ';', ',');
-        time = StringUtils.replaceChars(time, '.', ':');
-        
-        // Treat 11,25 as 11:15
-        if (time.contains(",25")) { //$NON-NLS-1$
-            time = time.replace(",25", ":15"); //$NON-NLS-1$ // $NON-NLS-2$
-        }
-
-        // Treat 11,75 as 11:45
-        if (time.contains(",75")) { //$NON-NLS-1$
-            time = time.replace(",75", ":45"); //$NON-NLS-1$ // $NON-NLS-2$
-        }
-        
-        // Treat 11,5 and 11,50 as 11:30
-        if (time.contains(",50")) { //$NON-NLS-1$
-            time = time.replace(",50", ":30"); //$NON-NLS-1$ // $NON-NLS-2$
-        }
-
-        if (time.contains(",5")) { //$NON-NLS-1$
-            time = time.replace(",5", ":30"); //$NON-NLS-1$ // $NON-NLS-2$
-        }
-
-        // Treat 11 as 11:30
-        if (!time.contains(":")) { //$NON-NLS-1$
-            time = time + ":00"; //$NON-NLS-1$
-        }
-        
-        // Treat 8:20 as 08:20
-        if (time.length() == (HHMM_FORMAT.length() - 1)) {
-            time = "0" + time; //$NON-NLS-1$
-        }
-        
+        time = normalize(time);
         return super.parse(time, pos);
     }
 
-    public static int[] parseToHourAndMinutes( String s ) throws ParseException {
-        // TODO: remove code duplication with parse()
+    public static int[] parseToHourAndMinutes(final String s) throws ParseException {
         String time = s;
         time = StringUtils.trimToEmpty(time);
         
         if (StringUtils.isBlank(time)) {
-            throw new ParseException( "String is empty", 1 );
+            throw new ParseException("String is empty", 1);
         }
         
-        time = StringUtils.replaceChars(time, ';', ',');
-        time = StringUtils.replaceChars(time, '.', ':');
-        
-        // Treat 11,25 as 11:15
-        if (time.contains(",25")) { //$NON-NLS-1$
-            time = time.replace(",25", ":15"); //$NON-NLS-1$ // $NON-NLS-2$
-        }
-
-        // Treat 11,75 as 11:45
-        if (time.contains(",75")) { //$NON-NLS-1$
-            time = time.replace(",75", ":45"); //$NON-NLS-1$ // $NON-NLS-2$
-        }
-        
-        // Treat 11,5 and 11,50 as 11:30
-        if (time.contains(",50")) { //$NON-NLS-1$
-            time = time.replace(",50", ":30"); //$NON-NLS-1$ // $NON-NLS-2$
-        }
-
-        if (time.contains(",5")) { //$NON-NLS-1$
-            time = time.replace(",5", ":30"); //$NON-NLS-1$ // $NON-NLS-2$
-        }
-
-        // Treat 11 as 11:30
-        if (!time.contains(":")) { //$NON-NLS-1$
-            time = time + ":00"; //$NON-NLS-1$
-        }
+        time = normalize(time);
         
         String[] splitted = time.split(":");
         if( splitted.length != 2 ) {
-            throw new ParseException( "String '" + s + "' has an unsupported format", 1 );
+            throw new ParseException("String '" + s + "' has an unsupported format", 1);
         } else {
             int[] result = new int[2];
             for( int i=0; i<2; i++ ) {
@@ -110,5 +53,41 @@ public class SmartTimeFormat extends TimeFormat {
             }
             return result;
         }
+    }
+    
+    /**
+     * Replaces ';' with ',', '.' with ':' and converts some fraction notations
+     * into hh:mm (e.g. 12,5 into 12:30).
+     * And some more.
+     */
+    private static String normalize(final String s) {
+        String time = s;
+        time = StringUtils.replaceChars(time, ';', ',');
+        time = StringUtils.replaceChars(time, '.', ':');
+        
+        // Treat 11,25 as 11:15
+        if (time.contains(",25")) { //$NON-NLS-1$
+            time = time.replace(",25", ":15"); //$NON-NLS-1$ // $NON-NLS-2$
+        }
+
+        // Treat 11,75 as 11:45
+        if (time.contains(",75")) { //$NON-NLS-1$
+            time = time.replace(",75", ":45"); //$NON-NLS-1$ // $NON-NLS-2$
+        }
+        
+        // Treat 11,5 and 11,50 as 11:30
+        if (time.contains(",50")) { //$NON-NLS-1$
+            time = time.replace(",50", ":30"); //$NON-NLS-1$ // $NON-NLS-2$
+        }
+
+        if (time.contains(",5")) { //$NON-NLS-1$
+            time = time.replace(",5", ":30"); //$NON-NLS-1$ // $NON-NLS-2$
+        }
+
+        // Treat 11 as 11:30
+        if (!time.contains(":")) { //$NON-NLS-1$
+            time = time + ":00"; //$NON-NLS-1$
+        }
+        return time;
     }
 }
