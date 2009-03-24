@@ -480,13 +480,15 @@ public class PresentationModel extends Observable {
         this.dirty = true;
 
         // Fire events
+        // TODO: because of the way the events are evaluated in the observers are evaluated
+        // order of the events is currently important: first ADDED then REMOVED
+        final BaralgaEvent event2 = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED, source);
+        event2.setData(newActivity);
+        notify(event2);
+        
         final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_REMOVED, source);
         event.setData(oldActivity);
         notify(event);
-        
-        final BaralgaEvent event2 = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED, source);
-        event2.setData(oldActivity);
-        notify(event2);
     }
 
     /**
