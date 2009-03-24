@@ -126,11 +126,13 @@ public abstract class AbstractExportAction extends AbstractBaralgaAction {
             OutputStream outputStream = null;
             try {
                 outputStream = new FileOutputStream(file);
-                exporter.export(
-                        model.getData(),
-                        model.getFilter(),
-                        outputStream
-                );
+                synchronized ( model.getData() ) {
+                    exporter.export(
+                            model.getData(),
+                            model.getFilter(),
+                            outputStream
+                    );
+                }
                 
                 // Make sure everything is written.
                 outputStream.flush();
