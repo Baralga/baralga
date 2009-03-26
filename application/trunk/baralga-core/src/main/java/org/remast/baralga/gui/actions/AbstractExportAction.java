@@ -15,7 +15,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.remast.baralga.gui.model.PresentationModel;
-import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.baralga.model.export.Exporter;
 import org.remast.util.TextResourceBundle;
 
@@ -101,7 +100,7 @@ public abstract class AbstractExportAction extends AbstractBaralgaAction {
      * Worker thread to perform the actual export in the background.
      * @author remast
      */
-    private static class ExportWorker extends SwingWorker<String, Object> {
+    private class ExportWorker extends SwingWorker<String, Object> {
         
         private PresentationModel model;
         
@@ -138,9 +137,7 @@ public abstract class AbstractExportAction extends AbstractBaralgaAction {
                 outputStream.flush();
 
                 // Store export location in settings
-                UserSettings.instance().setLastExcelExportLocation(
-                        file.getAbsolutePath()
-                );
+                setLastExportLocation(file.getAbsolutePath());
             } catch (Exception e) {
                 log.error(e, e);
                 JOptionPane.showMessageDialog(
