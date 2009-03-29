@@ -49,6 +49,7 @@ public class ProTrackReader {
     public void read(final InputStream in) throws IOException {
         final XStream xstream = new XStream(new DomDriver(IOConstants.FILE_ENCODING));
         xstream.setMode(XStream.ID_REFERENCES);
+        xstream.registerConverter(new DateTimeConverter());
         xstream.processAnnotations(
                 new Class[] {ProTrack.class, Project.class, ProjectActivity.class}
         );

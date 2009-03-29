@@ -3,7 +3,6 @@ package org.remast.baralga.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -38,7 +37,7 @@ public class ProTrack implements Serializable {
 
 	/** The start time of the current activity (if any). */
 	@XStreamAsAttribute
-	private Date startTime;
+	private DateTime startTime;
 
 	/** The currently active project (if any). */
 	private Project activeProject;
@@ -119,7 +118,7 @@ public class ProTrack implements Serializable {
 	 */
 	public synchronized void start(final DateTime startTime) {
 		this.active = true;
-		this.startTime = startTime.toDate();
+		this.startTime = startTime;
 	}
 	
 	public synchronized void stop() {
@@ -127,11 +126,11 @@ public class ProTrack implements Serializable {
     }
 
 	public synchronized DateTime getStart() {
-	    return new DateTime(startTime);
+	    return startTime;
 	}
 	
     public synchronized void setStartTime(DateTime startTime) {
-        this.startTime = startTime.toDate();
+        this.startTime = startTime;
     }
 
 	/**

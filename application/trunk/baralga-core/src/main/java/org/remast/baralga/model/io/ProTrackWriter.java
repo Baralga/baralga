@@ -64,6 +64,7 @@ public class ProTrackWriter {
         xstream.autodetectAnnotations(true);
 
         xstream.setMode(XStream.ID_REFERENCES);
+        xstream.registerConverter(new DateTimeConverter());
         xstream.toXML(data, outputStream);
     }
 }

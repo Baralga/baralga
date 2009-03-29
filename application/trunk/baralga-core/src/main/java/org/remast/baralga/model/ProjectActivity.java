@@ -1,7 +1,6 @@
 package org.remast.baralga.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -29,10 +28,10 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
     private static final long serialVersionUID = 1L;
 
     /** Start date of this activity. */
-    private final Date start;
+    private final DateTime start;
 
     /** End date of this activity. */
-    private final Date end;
+    private final DateTime end;
 
     /** The project associated with this activity. */
     private final Project project;
@@ -70,8 +69,8 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
         if(start.isAfter(end)) {
             throw new IllegalArgumentException("End time may not be before start time!");
         }
-        this.start = start.toDate();
-        this.end = end.toDate();
+        this.start = start;
+        this.end = end;
         this.project = project;
         this.description = description;
     }
@@ -126,7 +125,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
      * @return the end
      */
     public DateTime getEnd() {
-        return new DateTime( end );
+        return end;
     }
     
     /**
@@ -177,7 +176,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
      * @return the start
      */
     public DateTime getStart() {
-        return new DateTime( start );
+        return start;
     }
     
     /**
@@ -254,7 +253,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
      * @return decimal value of the duration (e.g. for 30 minutes, 0.5 and so on)
      */    
     public final double getDuration() {
-        final long timeMilliSec = end.getTime() - start.getTime();
+        final long timeMilliSec = end.getMillis() - start.getMillis();
         final long timeMin = timeMilliSec / 1000 / 60;
         final long hours = timeMin / 60;
 
