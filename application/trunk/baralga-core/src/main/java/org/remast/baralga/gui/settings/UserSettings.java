@@ -130,7 +130,7 @@ public final class UserSettings {
     //------------------------------------------------
 
     /** Key for the location of last Csv export. */
-    private static final String LAST_CSV_EXPORT_LOCATION = "export.data"; //$NON-NLS-1$
+    private static final String LAST_CSV_EXPORT_LOCATION = "export.csv"; //$NON-NLS-1$
 
     /**
      * Gets the location of the last Csv export.
