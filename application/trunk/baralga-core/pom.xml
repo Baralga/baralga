@@ -37,6 +37,24 @@
 		<name>Jan Stamer</name>
 	</organization>
 	<build>
+
+		<resources>
+		  <resource>
+		    <filtering>false</filtering>
+		    <directory>src/main/resources/</directory>
+		    <excludes>
+		      <exclude>org/remast/baralga/baralga.properties</exclude>
+		    </excludes>
+		  </resource>
+		  <resource>
+		    <filtering>true</filtering>
+		    <directory>src/main/resources/</directory>
+		    <includes>
+		      <include>org/remast/baralga/baralga.properties</include>
+		    </includes>
+		  </resource>
+		</resources>
+
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -156,7 +174,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
+			<version>3.8.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
