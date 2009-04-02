@@ -2,18 +2,12 @@ package org.remast.baralga.gui;
 
 import info.clearthought.layout.TableLayout;
 
-import java.awt.Dimension;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowListener;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -21,9 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
-import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXFrame;
-import org.jdesktop.swingx.JXTitledSeparator;
 import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.actions.AboutAction;
 import org.remast.baralga.gui.actions.AbstractBaralgaAction;
@@ -34,18 +26,11 @@ import org.remast.baralga.gui.actions.ExportDataAction;
 import org.remast.baralga.gui.actions.ExportExcelAction;
 import org.remast.baralga.gui.actions.ImportDataAction;
 import org.remast.baralga.gui.actions.ManageProjectsAction;
-import org.remast.baralga.gui.actions.StartAction;
-import org.remast.baralga.gui.actions.StopAction;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
+import org.remast.baralga.gui.panels.ActivityPanel;
 import org.remast.baralga.gui.panels.ReportPanel;
-import org.remast.baralga.gui.settings.UserSettings;
-import org.remast.baralga.model.Project;
-import org.remast.swing.text.TextEditor;
-import org.remast.swing.util.GuiConstants;
 import org.remast.util.TextResourceBundle;
-
-import ca.odell.glazedlists.swing.EventComboBoxModel;
 
 /**
  * The main frame of the application.
@@ -73,16 +58,6 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      * The panel with details about the current activity. Like the current project and description.
      */
     private JPanel currentActivityPanel = null;
-
-    /** Starts/stops the active project. */
-    private JButton startStopButton = null;
-
-    /** The list of projects. The selected project is the currently active project. */
-    private JComboBox projectSelector = null;
-
-    /** The description editor. */
-    private TextEditor descriptionEditor;
-
 
     // ------------------------------------------------
     // Other stuff
@@ -126,7 +101,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     private JMenuItem editProjectsMenuItem = null;
 
     private JMenuItem exportExcelItem = null;
-    
+
     private JMenuItem exportCsvItem = null;
 
     private JMenuItem exportDataItem = null;
@@ -157,40 +132,23 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         this.setJMenuBar(getMainMenuBar());
 
         this.addWindowListener(this);
-
+        
         // 1. Init start-/stop-Buttons
         if (this.model.isActive()) {
             this.setIconImage(ACTIVE_ICON);
             this.setTitle(
                     textBundle.textFor("Global.Title") + " - " + this.model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatUtils.formatTime(this.model.getStart()) //$NON-NLS-1$ //$NON-NLS-2$
             );
-            getStartStopButton().setAction(new StopAction(this.model));
         } else {
             this.setIconImage(NORMAL_ICON);
             this.setTitle(textBundle.textFor("Global.Title")); //$NON-NLS-1$
-
-            getStartStopButton().setAction(new StartAction(this, this.model));
-        }
-
-        // 2. Restore selected project if set.
-        if (this.model.getData().getActiveProject() != null) {
-            this.getProjectSelector().setSelectedItem(
-                    this.model.getData().getActiveProject()
-            );
-        } else {
-            // If not set initially select first project
-            if (!this.model.getProjectList().isEmpty()) {
-                getProjectSelector().setSelectedItem(
-                        this.model.getProjectList().get(0)
-                );
-            }
         }
 
         // 3. Set layout
         final double[][] size = { 
                 {TableLayout.FILL }, // Columns
-                {TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.FILL}
-        }; // Rows
+                {TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.FILL} // Rows
+        };
 
         TableLayout tableLayout = new TableLayout(size);
         this.setLayout(tableLayout);
@@ -229,7 +187,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             toolBar = new JToolBar();
             toolBar.setFloatable(false);
         }
-        
+
         toolBar.add(new ManageProjectsAction(this, this.model));
         toolBar.add(new ExportExcelAction(this, this.model));
         toolBar.add(new AddActivityAction(this, this.model));
@@ -246,83 +204,9 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      */
     private JPanel getCurrentActivityPanel() {
         if (currentActivityPanel == null) {
-            double border = 5;
-            double size[][] = {
-                    { border, TableLayout.FILL, border, TableLayout.FILL, border }, // Columns
-                    { border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED,
-                        border, TableLayout.PREFERRED, border } }; // Rows
-
-            TableLayout tableLayout = new TableLayout(size);
-
-            currentActivityPanel = new JPanel();
-            currentActivityPanel.setLayout(tableLayout);
-            currentActivityPanel.add(getStartStopButton(), "1, 1");
-            currentActivityPanel.add(getProjectSelector(), "3, 1");
-
-            descriptionEditor = new TextEditor(true);
-            descriptionEditor.setBorder(BorderFactory.createLineBorder(GuiConstants.VERY_LIGHT_GREY));
-            descriptionEditor.setPreferredSize(new Dimension(200, 100));
-            descriptionEditor.setCollapseEditToolbar(false);
-            descriptionEditor.addTextObserver(new TextEditor.TextChangeObserver() {
-
-                public void onTextChange() {
-                    final String description = descriptionEditor.getText();
-
-                    // Store in model
-                    model.setDescription(description);
-
-                    // Save description in settings.
-                    UserSettings.instance().setLastDescription(description);
-                }
-            });
-
-            descriptionEditor.setText(model.getDescription());
-            descriptionEditor.setEditable(model.isActive());
-
-            currentActivityPanel.add(new JXTitledSeparator(textBundle.textFor("MainFrame.DescriptionLabel")),
-            "1, 5, 3, 5");
-            currentActivityPanel.add(descriptionEditor, "1, 7, 3, 7");
+            currentActivityPanel = new ActivityPanel(model);
         }
         return currentActivityPanel;
-    }
-
-    /**
-     * This method initializes startStopButton.
-     * @return javax.swing.JButton
-     */
-    private JButton getStartStopButton() {
-        if (startStopButton == null) {
-            startStopButton = new JButton(new StartAction(this, this.model));
-        }
-        return startStopButton;
-    }
-
-    /**
-     * This method initializes projectSelector.
-     * @return javax.swing.JComboBox
-     */
-    private JComboBox getProjectSelector() {
-        if (projectSelector == null) {
-            projectSelector = new JComboBox();
-            projectSelector.setToolTipText(textBundle.textFor("ProjectSelector.ToolTipText"));
-
-            projectSelector.setModel(new EventComboBoxModel<Project>(this.model.getProjectList()));
-
-            /* Handling of selection events: */
-            projectSelector.addActionListener(new ActionListener() {
-                public void actionPerformed(final ActionEvent e) {
-                    // 1. Set current project to the just selected project.
-                    final Project selectedProject = (Project) projectSelector.getSelectedItem();
-                    MainFrame.this.model.changeProject(selectedProject);
-
-                    // 2. Clear the description.
-                    if (descriptionEditor != null) {
-                        descriptionEditor.setText(StringUtils.EMPTY);
-                    }
-                }
-            });
-        }
-        return projectSelector;
     }
 
     /**
@@ -356,7 +240,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         }
         return fileMenu;
     }
-    
+
     /**
      * This method initializes exitItem.
      * @return javax.swing.JMenuItem
@@ -388,9 +272,9 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             editMenu.add(getEditProjectsMenuItem());
             editMenu.add(getAddActivityMenuItem());
 
-//          INFO: Uncomment to enable settings menu.
-//          editMenu.addSeparator();
-//          editMenu.add(new JMenuItem(new SettingsAction(this, model)));
+            //          INFO: Uncomment to enable settings menu.
+            //          editMenu.addSeparator();
+            //          editMenu.add(new JMenuItem(new SettingsAction(this, model)));
         }
         return editMenu;
     }
@@ -469,7 +353,6 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             this
             .setTitle(textBundle.textFor("Global.Title") + " - " + this.model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatUtils.formatTime(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
         }
-        getProjectSelector().setSelectedItem((Project) event.getData());
     }
 
     /**
@@ -477,14 +360,8 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      */
     private void updateStart() {
         setIconImage(ACTIVE_ICON);
-        descriptionEditor.setText(StringUtils.EMPTY);
-        descriptionEditor.setEditable(true);
-
-        // Clear description in settings.
-        UserSettings.instance().setLastDescription(StringUtils.EMPTY);
 
         this.setTitle(textBundle.textFor("Global.Title") + " - " + this.model.getSelectedProject() + textBundle.textFor("MainFrame.11") + FormatUtils.formatTime(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
-        getStartStopButton().setAction(new StopAction(this.model));
     }
 
     /**
@@ -492,14 +369,8 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      */
     private void updateStop() {
         setIconImage(NORMAL_ICON);
-        descriptionEditor.setText(StringUtils.EMPTY);
-        descriptionEditor.setEditable(false);
-
-        // Clear description in settings.
-        UserSettings.instance().setLastDescription(StringUtils.EMPTY);
 
         this.setTitle(textBundle.textFor("Global.Title") + " " + textBundle.textFor("MainFrame.12") + FormatUtils.formatTime(this.model.getStop())); //$NON-NLS-1$
-        getStartStopButton().setAction(new StartAction(this, this.model));
     }
 
     /**
@@ -514,7 +385,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         }
         return exportExcelItem;
     }
-    
+
     /**
      * This method initializes exportCsvItem.
      * @return javax.swing.JMenuItem
@@ -527,7 +398,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         }
         return exportCsvItem;
     }
-    
+
     /**
      * This method initializes exportDataItem.
      * @return javax.swing.JMenuItem
@@ -551,14 +422,14 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             exportMenu.setIcon(new ImageIcon(MainFrame.class.getResource("/icons/export-menu.png")));
             exportMenu.setText(textBundle.textFor("MainFrame.ExportMenu.Title")); //$NON-NLS-1$
             exportMenu.setMnemonic(textBundle.textFor("MainFrame.ExportMenu.Title").charAt(0)); //$NON-NLS-1$
-            
+
             exportMenu.add(getExportExcelItem());
             exportMenu.add(getExportCsvItem());
             exportMenu.add(getExportDataItem());
         }
         return exportMenu;
     }
-    
+
     /**
      * This method initializes importMenu.
      * @return javax.swing.JMenu

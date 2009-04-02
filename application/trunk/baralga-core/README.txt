@@ -7,6 +7,15 @@
  * Support for portable version for removable devices.
 
 
+== Baralga Version 1.?.? ==
+Fixes
+ * Export locations remembered correctly.
+ * Removed possible problems in concurrent data manipulation.
+
+Functionality
+ * Display start time and running duration of activity.
+
+
 == Baralga Version 1.3.5 ==
 Fixes
  * Activity editing bugs (Issue #19 http://baralga.origo.ethz.ch/node/94)
@@ -28,6 +37,7 @@ Fixes
  * Projects in tray icon sorted alphabetically.
  * Hours by day report fixed.
  * Linux installation now installs an executable jar.
+
 
 == Baralga Version 1.3.2 ==
 Functionality
