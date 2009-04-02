@@ -7,7 +7,7 @@
  * Support for portable version for removable devices.
 
 
-== Baralga Version 1.?.? ==
+== Baralga Version 1.4 ==
 Fixes
  * Export locations remembered correctly.
  * Removed possible problems in concurrent data manipulation.
