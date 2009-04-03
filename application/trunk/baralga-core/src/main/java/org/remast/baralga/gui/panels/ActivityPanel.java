@@ -7,22 +7,30 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BorderFactory;
+import javax.swing.InputVerifier;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTitledSeparator;
+import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.MainFrame;
@@ -166,8 +174,8 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
 
         buttonPanel.setLayout(new TableLayout(buttonPanelSize));
 
-        buttonPanel.add(getStartStopButton(), "1, 1, 3, 1");
-        buttonPanel.add(getProjectSelector(), "1, 3, 3, 3");
+        buttonPanel.add(getStartStopButton(), "1, 1, 3, 1"); //$NON-NLS-1$
+        buttonPanel.add(getProjectSelector(), "1, 3, 3, 3"); //$NON-NLS-1$
 
         start = new JFormattedTextField(FormatUtils.createTimeFormat());
         start.setToolTipText(textBundle.textFor("ActivityPanel.Start.ToolTipText"));
@@ -177,8 +185,49 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
         start.setForeground(Color.BLUE);
         start.setEnabled(false);
 
-        // Do not enable edit for now
-        start.setEditable(false);
+        start.setEditable(true);
+        start.addFocusListener(new FocusListener() {
+
+            @Override
+            public void focusGained(FocusEvent e) {
+            }
+
+            @Override
+            public void focusLost(FocusEvent event) {
+                if (StringUtils.isEmpty(start.getText())) {
+                    return;
+                }
+
+                // If new start time is equal to current start time there's nothing to do
+                if (StringUtils.equals(start.getText(), FormatUtils.formatTime(model.getStart()))) {
+                    return;
+                }
+
+                // New start time must be before the current time.
+                try {
+                    final Date newStartTime = FormatUtils.parseTime(start.getText()).toDate();
+                    final DateTime newStart = DateUtils.adjustToSameDay(DateUtils.getNowAsDateTime(), new DateTime(newStartTime), false);
+
+                    final boolean correct = newStart.isBefore(DateUtils.getNowAsDateTime());
+                    if (correct) {
+                        model.setStart(newStart);
+                    } else {
+                        JOptionPane.showMessageDialog(
+                                ActivityPanel.this, 
+                                textBundle.textFor("ActivityPanel.StartTimeError.Message"),  //$NON-NLS-1$
+                                textBundle.textFor("ActivityPanel.StartTimeError.Title"),  //$NON-NLS-1$
+                                JOptionPane.ERROR_MESSAGE
+                        );
+
+                        start.setText(FormatUtils.formatTime(model.getStart()));
+                    }
+                } catch (ParseException e) {
+                    return;
+                }
+
+            }
+
+        });
 
         final int borderSmall = 3;
 
@@ -193,17 +242,17 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
         startLabel.setFont(FONT_BIG);
         startLabel.setToolTipText(textBundle.textFor("ActivityPanel.Start.ToolTipText"));
 
-        startPanel.add(startLabel, "0, 0");
-        startPanel.add(start, "2, 0");
+        startPanel.add(startLabel, "0, 0"); //$NON-NLS-1$
+        startPanel.add(start, "2, 0"); //$NON-NLS-1$
 
-        buttonPanel.add(startPanel, "1, 5");
+        buttonPanel.add(startPanel, "1, 5"); //$NON-NLS-1$
 
         duration = new JLabel(DURATION_INACTIVE);
         duration.setFont(FONT_BIG_BOLD);
         duration.setForeground(Color.BLUE);
         duration.setEnabled(false);
         duration.setToolTipText(textBundle.textFor("ActivityPanel.Duration.ToolTipText"));
-        
+
         final JXPanel timerPanel = new JXPanel();
         final double [][] doublePanelSize = new double [][] {
                 { TableLayout.PREFERRED, borderSmall, TableLayout.FILL }, // Columns
@@ -211,19 +260,19 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
         };
         timerPanel.setLayout(new TableLayout(doublePanelSize));
 
-        final JLabel durationLabel = new JLabel(textBundle.textFor("ActivityPanel.DurationLabel"));
+        final JLabel durationLabel = new JLabel(textBundle.textFor("ActivityPanel.DurationLabel")); //$NON-NLS-1$
         durationLabel.setFont(FONT_BIG);
         durationLabel.setForeground(Color.DARK_GRAY);
-        durationLabel.setToolTipText(textBundle.textFor("ActivityPanel.Duration.ToolTipText"));
+        durationLabel.setToolTipText(textBundle.textFor("ActivityPanel.Duration.ToolTipText")); //$NON-NLS-1$
 
-        timerPanel.add(durationLabel, "0, 0");
-        timerPanel.add(duration, "2, 0");
+        timerPanel.add(durationLabel, "0, 0"); //$NON-NLS-1$
+        timerPanel.add(duration, "2, 0"); //$NON-NLS-1$
 
-        buttonPanel.add(timerPanel, "3, 5");
+        buttonPanel.add(timerPanel, "3, 5"); //$NON-NLS-1$
 
-        this.add(new JXTitledSeparator(textBundle.textFor("ActivityPanel.ActivityLabel")), "1, 1, 3, 1");
-        this.add(buttonPanel, "1, 3");
-        this.add(descriptionEditor, "3, 3");
+        this.add(new JXTitledSeparator(textBundle.textFor("ActivityPanel.ActivityLabel")), "1, 1, 3, 1"); //$NON-NLS-1$ $NON-NLS-2$
+        this.add(buttonPanel, "1, 3"); //$NON-NLS-1$
+        this.add(descriptionEditor, "3, 3"); //$NON-NLS-1$
     }
 
     /**
@@ -244,7 +293,7 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
     private JComboBox getProjectSelector() {
         if (projectSelector == null) {
             projectSelector = new JComboBox();
-            projectSelector.setToolTipText(textBundle.textFor("ProjectSelector.ToolTipText"));
+            projectSelector.setToolTipText(textBundle.textFor("ProjectSelector.ToolTipText")); //$NON-NLS-1$
             projectSelector.setModel(new EventComboBoxModel<Project>(this.model.getProjectList()));
 
             /* Handling of selection events: */

@@ -134,8 +134,13 @@ public class BaralgaMain {
     private static void initLockFile() {
         log.debug("Initializing lock file ...");
         if (!tryLock()) {
-            JOptionPane.showMessageDialog(null, textBundle.textFor("BaralgaMain.ErrorAlreadyRunning"), "Error", JOptionPane.ERROR_MESSAGE);
-            log.info(textBundle.textFor("BaralgaMain.ErrorAlreadyRunning")); //$NON-NLS-1$
+            JOptionPane.showMessageDialog(
+                    null, 
+                    textBundle.textFor("BaralgaMain.ErrorAlreadyRunning.Message"),  //$NON-NLS-1$
+                    textBundle.textFor("BaralgaMain.ErrorAlreadyRunning.Title"),  //$NON-NLS-1$
+                    JOptionPane.ERROR_MESSAGE
+            );
+            log.info(textBundle.textFor("BaralgaMain.ErrorAlreadyRunning.Message")); //$NON-NLS-1$
             System.exit(0);
         }
     }

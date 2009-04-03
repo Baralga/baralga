@@ -38,7 +38,10 @@ public class BaralgaEvent {
 
     /** The data has changed. */
     public static final int DATA_CHANGED = 9;
-    
+
+    /** The start time has changed. */
+    public static final int START_CHANGED = 10;
+
     /** The type of the event. */
     private final int type;
 

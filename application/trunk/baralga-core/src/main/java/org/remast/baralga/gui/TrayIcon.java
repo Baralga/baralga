@@ -155,7 +155,7 @@ public class TrayIcon implements Observer {
                     break;
 
                 case BaralgaEvent.PROJECT_CHANGED:
-                    this.updateProjectChanged();
+                    this.updateToolTip();
                     this.buildMenu();
                     break;
 
@@ -166,16 +166,23 @@ public class TrayIcon implements Observer {
                 case BaralgaEvent.PROJECT_REMOVED:
                     this.buildMenu();
                     break;
+                    
+                case BaralgaEvent.START_CHANGED:
+                    this.updateToolTip();
+                    break;
+                    
             }
         }
     }
 
     /**
-     * Executed on project changed event.
+     * Executed on events that change the title.
      */    
-    private void updateProjectChanged() {
+    private void updateToolTip() {
         if (model.isActive()) {
             trayIcon.setToolTip(textBundle.textFor("Global.Title") + " - " + model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatUtils.formatTime(model.getStart()));
+        } else {
+            trayIcon.setToolTip(textBundle.textFor("Global.Title") + " - "+ textBundle.textFor("MainFrame.12") + FormatUtils.formatTime(model.getStop()));
         }
     }
 
@@ -184,7 +191,7 @@ public class TrayIcon implements Observer {
      */    
     private void updateStop() {
         this.trayIcon.setImage(NORMAL_ICON);
-        trayIcon.setToolTip(textBundle.textFor("Global.Title") + " - "+ textBundle.textFor("MainFrame.12") + FormatUtils.formatTime(model.getStop()));
+        updateToolTip();
         this.buildMenu();
     }
 
@@ -193,7 +200,7 @@ public class TrayIcon implements Observer {
      */    
     private void updateStart() {
         this.trayIcon.setImage(ACTIVE_ICON);
-        trayIcon.setToolTip(textBundle.textFor("Global.Title") + " - " + model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatUtils.formatTime(model.getStart())); //$NON-NLS-1$
+        updateToolTip();
         this.buildMenu();
     }
 

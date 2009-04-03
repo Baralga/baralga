@@ -333,7 +333,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
                 break;
 
             case BaralgaEvent.PROJECT_CHANGED:
-                this.updateProjectChanged(event);
+                this.updateTitle();
                 break;
 
             case BaralgaEvent.PROJECT_ADDED:
@@ -341,17 +341,22 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
             case BaralgaEvent.PROJECT_REMOVED:
                 break;
+
+            case BaralgaEvent.START_CHANGED:
+                this.updateTitle();
+                break;
             }
         }
     }
 
     /**
-     * Executed on project changed event.
+     * Executed on events that change the title.
      */
-    private void updateProjectChanged(final BaralgaEvent event) {
+    private void updateTitle() {
         if (this.model.isActive()) {
-            this
-            .setTitle(textBundle.textFor("Global.Title") + " - " + this.model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatUtils.formatTime(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
+            this.setTitle(textBundle.textFor("Global.Title") + " - " + this.model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatUtils.formatTime(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
+        } else {
+            this.setTitle(textBundle.textFor("Global.Title") + " " + textBundle.textFor("MainFrame.12") + FormatUtils.formatTime(this.model.getStop())); //$NON-NLS-1$
         }
     }
 
@@ -360,8 +365,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      */
     private void updateStart() {
         setIconImage(ACTIVE_ICON);
-
-        this.setTitle(textBundle.textFor("Global.Title") + " - " + this.model.getSelectedProject() + textBundle.textFor("MainFrame.11") + FormatUtils.formatTime(this.model.getStart())); //$NON-NLS-1$ //$NON-NLS-2$
+        updateTitle();
     }
 
     /**
@@ -369,8 +373,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
      */
     private void updateStop() {
         setIconImage(NORMAL_ICON);
-
-        this.setTitle(textBundle.textFor("Global.Title") + " " + textBundle.textFor("MainFrame.12") + FormatUtils.formatTime(this.model.getStop())); //$NON-NLS-1$
+        updateTitle();
     }
 
     /**

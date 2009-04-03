@@ -563,9 +563,15 @@ public class PresentationModel extends Observable {
      * Sets the start of a new activity.
      * @param start the start to set
      */
-    private void setStart(final DateTime start) {
+    public void setStart(final DateTime start) {
         this.start = start;
         this.data.setStartTime(start);
+        
+        // Fire event
+        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.START_CHANGED, this);
+        event.setData(start);
+        
+        notify(event);
     }
 
     /**
