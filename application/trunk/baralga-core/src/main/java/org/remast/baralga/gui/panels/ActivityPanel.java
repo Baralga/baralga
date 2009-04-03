@@ -58,6 +58,9 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
     /** Big font for labels. */
     private static final Font FONT_BIG = new Font("Sans Serif", Font.PLAIN, 14);
 
+    /** Color for highlighted time and duration. */
+    private static final Color HIGHLIGHT_COLOR = new Color(51, 0, 102);
+
     /** Big bold font for labels. */
     private static final Font FONT_BIG_BOLD = new Font("Sans Serif", Font.BOLD, 14);
 
@@ -180,7 +183,7 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
         start.setBorder(BorderFactory.createEmptyBorder());
         start.setText(START_INACTIVE);
         start.setFont(FONT_BIG_BOLD);
-        start.setForeground(Color.BLUE);
+        start.setForeground(HIGHLIGHT_COLOR);
         start.setEnabled(false);
 
         start.setEditable(true);
@@ -247,7 +250,7 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
 
         duration = new JLabel(DURATION_INACTIVE);
         duration.setFont(FONT_BIG_BOLD);
-        duration.setForeground(Color.BLUE);
+        duration.setForeground(HIGHLIGHT_COLOR);
         duration.setEnabled(false);
         duration.setToolTipText(textBundle.textFor("ActivityPanel.Duration.ToolTipText"));
 
