@@ -132,7 +132,7 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         this.setJMenuBar(getMainMenuBar());
 
         this.addWindowListener(this);
-        
+
         // 1. Init start-/stop-Buttons
         if (this.model.isActive()) {
             this.setIconImage(ACTIVE_ICON);
@@ -319,33 +319,35 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
     }
 
     public void update(final Observable source, final Object eventObject) {
-        if (eventObject != null && eventObject instanceof BaralgaEvent) {
-            final BaralgaEvent event = (BaralgaEvent) eventObject;
+        if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
+            return;
+        }
 
-            switch (event.getType()) {
+        final BaralgaEvent event = (BaralgaEvent) eventObject;
 
-            case BaralgaEvent.PROJECT_ACTIVITY_STARTED:
-                this.updateStart();
-                break;
+        switch (event.getType()) {
 
-            case BaralgaEvent.PROJECT_ACTIVITY_STOPPED:
-                this.updateStop();
-                break;
+        case BaralgaEvent.PROJECT_ACTIVITY_STARTED:
+            this.updateStart();
+            break;
 
-            case BaralgaEvent.PROJECT_CHANGED:
-                this.updateTitle();
-                break;
+        case BaralgaEvent.PROJECT_ACTIVITY_STOPPED:
+            this.updateStop();
+            break;
 
-            case BaralgaEvent.PROJECT_ADDED:
-                break;
+        case BaralgaEvent.PROJECT_CHANGED:
+            this.updateTitle();
+            break;
 
-            case BaralgaEvent.PROJECT_REMOVED:
-                break;
+        case BaralgaEvent.PROJECT_ADDED:
+            break;
 
-            case BaralgaEvent.START_CHANGED:
-                this.updateTitle();
-                break;
-            }
+        case BaralgaEvent.PROJECT_REMOVED:
+            break;
+
+        case BaralgaEvent.START_CHANGED:
+            this.updateTitle();
+            break;
         }
     }
 
