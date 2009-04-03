@@ -17,10 +17,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BorderFactory;
-import javax.swing.InputVerifier;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -314,29 +312,35 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
     }
 
     public void update(final Observable source, final Object eventObject) {
-        if (eventObject != null && eventObject instanceof BaralgaEvent) {
-            final BaralgaEvent event = (BaralgaEvent) eventObject;
+        if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
+            return;
+        }
 
-            switch (event.getType()) {
+        final BaralgaEvent event = (BaralgaEvent) eventObject;
 
-            case BaralgaEvent.PROJECT_ACTIVITY_STARTED:
-                this.updateStart();
-                break;
+        switch (event.getType()) {
 
-            case BaralgaEvent.PROJECT_ACTIVITY_STOPPED:
-                this.updateStop();
-                break;
+        case BaralgaEvent.PROJECT_ACTIVITY_STARTED:
+            this.updateStart();
+            break;
 
-            case BaralgaEvent.PROJECT_CHANGED:
-                this.updateProjectChanged(event);
-                break;
+        case BaralgaEvent.PROJECT_ACTIVITY_STOPPED:
+            this.updateStop();
+            break;
 
-            case BaralgaEvent.PROJECT_ADDED:
-                break;
+        case BaralgaEvent.PROJECT_CHANGED:
+            this.updateProjectChanged(event);
+            break;
 
-            case BaralgaEvent.PROJECT_REMOVED:
-                break;
-            }
+        case BaralgaEvent.PROJECT_ADDED:
+            break;
+
+        case BaralgaEvent.PROJECT_REMOVED:
+            break;
+
+        case BaralgaEvent.START_CHANGED:
+            updateDuration();
+            break;
         }
     }
 
@@ -402,6 +406,13 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
      */
     @Override
     public final void actionPerformed(final ActionEvent event) {
+        updateDuration();
+    }
+
+    /**
+     * Updates the GUI with the current duration.
+     */
+    private void updateDuration() {
         final Period period = new Period(
                 this.model.getStart(), 
                 DateUtils.getNowAsDateTime()
