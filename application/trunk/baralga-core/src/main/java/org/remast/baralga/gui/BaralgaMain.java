@@ -78,19 +78,12 @@ public class BaralgaMain {
 
     /**
      * Main method that starts the application.
-     * @param args the command line arguments
+     * @param arguments the command line arguments
      */
-    public static void main(final String[] args) {
+    public static void main(final String[] arguments) {
         try {
-            boolean minimized = false;
-            for(String arg : args) {
-                if(arg.startsWith("-m=") ) {
-                    minimized = Boolean.parseBoolean( arg.substring("-m=".length()) );
-                }
-            }
-
             final BaralgaMain mainInstance = new BaralgaMain();
-            mainInstance.minimized = minimized;
+            mainInstance.parseCommandLineArguments(arguments);
 
             initLogger();
 
@@ -112,6 +105,23 @@ public class BaralgaMain {
         } catch (Throwable t) {
             log.error(t, t);
         }
+    }
+
+    /**
+     * Parses the parameters from the given command line arguments.
+     * @param arguments the command line arguments to parse
+     */
+    private void parseCommandLineArguments(final String[] arguments) {
+        if (arguments == null || arguments.length == 0) {
+            return;
+        }
+        
+        for (String argument : arguments) {
+            if (argument.startsWith("-m=")) {
+                this.minimized = Boolean.parseBoolean(argument.substring("-m=".length()));
+            }
+        }
+        
     }
 
     /**
