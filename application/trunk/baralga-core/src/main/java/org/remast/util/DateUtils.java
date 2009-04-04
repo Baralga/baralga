@@ -7,6 +7,7 @@ import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.ReadableInstant;
 
 /**
  * Miscellaneous utility methods for dealing with dates.
@@ -217,4 +218,13 @@ public abstract class DateUtils {
         throw new ParseException("Could not parse time from " + time + ".", -1);
     }
 
+    /**
+     * Returns <code>true</code> iff the first time is before or equal to the second time.
+     *
+     * @param time1 the first time
+     * @param time2 the second time
+     */
+    public static boolean isBeforeOrEqual(final ReadableInstant time1, final ReadableInstant time2) {
+        return time1.compareTo(time2) <= 0;
+    }
 }

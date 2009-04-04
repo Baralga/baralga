@@ -209,7 +209,7 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
                     final Date newStartTime = FormatUtils.parseTime(start.getText()).toDate();
                     final DateTime newStart = DateUtils.adjustToSameDay(DateUtils.getNowAsDateTime(), new DateTime(newStartTime), false);
 
-                    final boolean correct = newStart.isBefore(DateUtils.getNowAsDateTime());
+                    final boolean correct = DateUtils.isBeforeOrEqual(newStart, DateUtils.getNowAsDateTime());
                     if (correct) {
                         model.setStart(newStart);
                     } else {
