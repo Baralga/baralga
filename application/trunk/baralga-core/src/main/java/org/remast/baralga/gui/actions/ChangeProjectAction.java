@@ -13,6 +13,7 @@ import org.apache.commons.lang.ObjectUtils;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.model.ProjectActivityStateException;
 import org.remast.baralga.model.Project;
+import org.remast.swing.util.AWTUtils;
 import org.remast.util.TextResourceBundle;
 
 /**
@@ -83,9 +84,9 @@ public class ChangeProjectAction extends AbstractBaralgaAction {
         final JDialog dialog = pane.createDialog(textBundle.textFor("StartActivityConfirmDialog.Title")); //$NON-NLS-1$
         dialog.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/Baralga-Tray.gif"))); //$NON-NLS-1$ 
         
-        final Dimension d = dialog.getPreferredSize();
-        // TODO: check that dialog stays within screen boundaries
-        dialog.setLocation(currentMousePosition.x - d.width, currentMousePosition.y - d.height);
+        Dimension d = dialog.getPreferredSize();
+        final Point preferredLeftTop = new Point(currentMousePosition.x - d.width/2, currentMousePosition.y - d.height/2);
+        AWTUtils.keepInScreenBounds(preferredLeftTop, dialog);
 
         dialog.setVisible(true);
         dialog.dispose();
