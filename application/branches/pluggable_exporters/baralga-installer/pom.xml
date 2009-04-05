@@ -13,7 +13,7 @@
 		<version>1.0</version>
 	</parent>
 	<properties>
-		<baralga.version>1.4-SNAPSHOT</baralga.version>
+		<baralga.version>1.4-pluggable-exporters-SNAPSHOT</baralga.version>
 	</properties>
 	<build>
 		<!--
