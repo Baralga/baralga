@@ -1,16 +1,16 @@
 == Known Bugs ==
- * Data export locations not remembered.
  * Only one activity can be deleted at a time.
 
 
 == Further Development ==
- * Support for portable version for removable devices.
+ * Support for pluggable exporters.
 
 
 == Baralga Version 1.4 ==
 Fixes
  * Export locations remembered correctly.
  * Removed possible problems in concurrent data manipulation.
+ * Smarter placement of the 'Start activity?' dialog - especially for those who have their taskbar on the left side of the screen.
 
 Functionality
  * Display start time and running duration of activity.
