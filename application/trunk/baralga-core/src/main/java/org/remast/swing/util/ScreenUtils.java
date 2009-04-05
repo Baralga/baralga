@@ -10,10 +10,64 @@ import java.util.List;
  * A helper class for screen related stuff.
  * 
  * A partial copy of the JIDE {@link com.jidesoft.utils.PortingUtils}
- * but this one fixes ensureOnScreen() to handle the taskbar on Windows correctly.
+ * but:
+ * - fixes ensureOnScreen() to handle the taskbar on Windows correctly
+ * - cleaned up initialization
+ * - threw out some methods we definitely don't need
  */
 public class ScreenUtils {
-    private static Rectangle SCREEN_BOUNDS = null;
+    private static final Area SCREEN_AREA;
+    
+    /**
+     * List all all screen bounds NOT considering any insets (e.g. taskbars)
+     */
+    private static final Rectangle[] SCREENS;
+    
+    /**
+     * List all all screen insets (e.g. taskbars)
+     */
+    private static Insets[] INSETS;
+
+    /**
+     * List all all screen bounds considering any insets (e.g. taskbars)
+     */
+    private static final Rectangle[] SCREENS_WITH_INSETS;
+
+    private static final Rectangle SCREEN_BOUNDS;
+    
+    /**
+     * Determines the bounds and the insets of all available screens.
+     */
+    static {
+        Area screenArea = new Area();
+        Rectangle screenBounds = new Rectangle();
+        GraphicsEnvironment environment = GraphicsEnvironment
+                .getLocalGraphicsEnvironment();
+        List<Rectangle> screensList = new ArrayList<Rectangle>();
+        List<Insets> insetsList = new ArrayList<Insets>();
+        List<Rectangle> screensWithInsets = new ArrayList<Rectangle>();
+        GraphicsDevice[] screenDevices = environment.getScreenDevices();
+        for (GraphicsDevice device : screenDevices) {
+            GraphicsConfiguration configuration = device
+                    .getDefaultConfiguration();
+            Rectangle deviceBounds = configuration.getBounds();
+            Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(
+                    configuration);
+            Rectangle screenBoundsWithInsets = new Rectangle(
+                    deviceBounds.x + insets.left, deviceBounds.y + insets.top,
+                    deviceBounds.width - insets.right, deviceBounds.height - insets.bottom );
+            screensList.add(deviceBounds);
+            insetsList.add(insets);
+            screensWithInsets.add(screenBoundsWithInsets);
+            screenArea.add(new Area(screenBoundsWithInsets));
+            screenBounds = screenBounds.union(deviceBounds);
+        }
+        SCREEN_AREA = screenArea;
+        SCREEN_BOUNDS = screenBounds;
+        SCREENS = screensList.toArray(new Rectangle[screensList.size()]);
+        INSETS = insetsList.toArray(new Insets[screensList.size()]);
+        SCREENS_WITH_INSETS = screensWithInsets.toArray(new Rectangle[screensWithInsets.size()]);
+    }
 
     private ScreenUtils() {
         // hide constructor
@@ -76,10 +130,8 @@ public class ScreenUtils {
      * @return the screen size.
      */
     public static Dimension getScreenSize(Component invoker) {
-        ensureScreenBounds();
-
         // to handle multi-display case
-        Dimension screenSize = SCREEN_BOUNDS.getSize();  // Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension screenSize = SCREEN_BOUNDS.getSize();
 
         // jdk1.4 only
         if (invoker != null && !(invoker instanceof JApplet) && invoker.getGraphicsConfiguration() != null) {
@@ -98,8 +150,6 @@ public class ScreenUtils {
      * @return the screen size.
      */
     public static Dimension getLocalScreenSize(Component invoker) {
-        ensureScreenBounds();
-
         // jdk1.4 only
         if (invoker != null && !(invoker instanceof JApplet) && invoker.getGraphicsConfiguration() != null) {
             // to handle multi-display case
@@ -122,8 +172,6 @@ public class ScreenUtils {
      * @return the screen bounds.
      */
     public static Rectangle getScreenBounds(Component invoker) {
-        ensureScreenBounds();
-
         // to handle multi-display case
         Rectangle bounds = (Rectangle) SCREEN_BOUNDS.clone();
 
@@ -146,108 +194,6 @@ public class ScreenUtils {
     public static Rectangle getLocalScreenBounds() {
         GraphicsEnvironment e = GraphicsEnvironment.getLocalGraphicsEnvironment();
         return e.getMaximumWindowBounds();
-    }
-
-    private static void ensureScreenBounds() {
-        if (SCREEN_BOUNDS == null) {
-            SCREEN_BOUNDS = new Rectangle();
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            GraphicsDevice[] gs = ge.getScreenDevices();
-            for (GraphicsDevice gd : gs) {
-                GraphicsConfiguration gc = gd.getDefaultConfiguration();
-                SCREEN_BOUNDS = SCREEN_BOUNDS.union(gc.getBounds());
-            }
-        }
-    }
-
-    private static Area SCREEN_AREA;
-    private static Rectangle[] SCREENS;
-    private static Insets[] INSETS;
-
-    private static Thread _initializationThread = null;
-
-    /**
-     * If you use methods such as {@link #ensureOnScreen(java.awt.Rectangle)}, {@link
-     * #getContainingScreenBounds(java.awt.Rectangle,boolean)} or {@link #getScreenArea()} for the first time, it will
-     * take up to a few seconds to run because it needs to get device information. To avoid any slowness, you can call
-     * {@link #initializeScreenArea()} method in the class where you will use those three methods. This method will
-     * spawn a thread to retrieve device information thus it will return immediately. Hopefully, when you use the three
-     * methods, the thread is done so user will not notice any slowness.
-     */
-    synchronized public static void initializeScreenArea() {
-        initializeScreenArea(Thread.NORM_PRIORITY);
-    }
-
-    /**
-     * If you use methods such as {@link #ensureOnScreen(java.awt.Rectangle)}, {@link
-     * #getContainingScreenBounds(java.awt.Rectangle,boolean)} or {@link #getScreenArea()} for the first time, it will
-     * take up to a couple of seconds to run because it needs to get device information. To avoid any slowness, you can
-     * call {@link #initializeScreenArea()} method in the class where you will use those three methods. This method will
-     * spawn a thread to retrieve device information thus it will return immediately. Hopefully, when you use the three
-     * methods, the thread is done so user will not notice any slowness.
-     *
-     * @param priority as we will use a thread to calculate the screen area, you can use this parameter to control the
-     *                 priority of the thread. If you are waiting for the result before the next step, you should use
-     *                 normal priority (which is 5). If you just want to calculate when app starts, you can use a lower
-     *                 priority (such as 3). For example, AbstractComboBox needs screen size so that the popup doesn't
-     *                 go beyond the screen. So when AbstractComboBox is used, we will kick off the thread at priority
-     *                 3. If user clicks on the drop down after the thread finished, there will be no time delay.
-     */
-    synchronized public static void initializeScreenArea(int priority) {
-        if (_initializationThread == null) {
-            _initializationThread = new Thread() {
-                @Override
-                public void run() {
-                    SCREEN_AREA = new Area();
-                    SCREEN_BOUNDS = new Rectangle();
-                    GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-                    List<Rectangle> screensList = new ArrayList<Rectangle>();
-                    List<Insets> insetsList = new ArrayList<Insets>();
-                    GraphicsDevice[] screenDevices = environment.getScreenDevices();
-                    for (GraphicsDevice device : screenDevices) {
-                        GraphicsConfiguration configuration = device.getDefaultConfiguration();
-                        Rectangle screenBounds = configuration.getBounds();
-                        Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(configuration);
-                        screensList.add(screenBounds);
-                        insetsList.add(insets);
-                        SCREEN_AREA.add(new Area(screenBounds));
-                        SCREEN_BOUNDS = SCREEN_BOUNDS.union(screenBounds);
-                    }
-                    SCREENS = screensList.toArray(new Rectangle[screensList.size()]);
-                    INSETS = insetsList.toArray(new Insets[screensList.size()]);
-                }
-            };
-            _initializationThread.setPriority(priority);
-            if (INITIALIZE_SCREEN_AREA_USING_THREAD) {
-                _initializationThread.start();
-            }
-            else {
-                _initializationThread.run();
-            }
-        }
-    }
-
-    public static boolean INITIALIZE_SCREEN_AREA_USING_THREAD = true;
-
-    public static boolean isInitializationThreadAlive() {
-        return _initializationThread != null && _initializationThread.isAlive();
-    }
-
-    public static boolean isInitalizationThreadStarted() {
-        return _initializationThread != null;
-    }
-
-    private static void waitForInitialization() {
-        initializeScreenArea();
-
-        while (_initializationThread.isAlive()) {
-            try {
-                Thread.sleep(100);
-            }
-            catch (InterruptedException e) {
-                // ignore
-            }
-        }
     }
 
     /**
@@ -284,19 +230,17 @@ public class ScreenUtils {
             return rect;
         }
 
-        waitForInitialization();
-
         // see if the top left is on any of the screens
         Rectangle containgScreen = null;
         Point rectPos = rect.getLocation();
-        for (Rectangle screenBounds : SCREENS) {
+        for (Rectangle screenBounds : SCREENS_WITH_INSETS) {
             if (screenBounds.contains(rectPos)) {
                 containgScreen = screenBounds;
                 break;
             }
         }
         // if not see if rect partial on any screen
-        for (Rectangle screenBounds : SCREENS) {
+        for (Rectangle screenBounds : SCREENS_WITH_INSETS) {
             if (screenBounds.intersects(rect)) {
                 containgScreen = screenBounds;
                 break;
@@ -305,21 +249,13 @@ public class ScreenUtils {
         // check if it was on any screen
         if (containgScreen == null) {
             // it was not on any of the screens so center it on the first screen
-            rect.x = (SCREENS[0].width - rect.width) / 2;
-            rect.y = (SCREENS[0].width - rect.width) / 2;
+            rect.x = (SCREENS_WITH_INSETS[0].width - rect.width) / 2;
+            rect.y = (SCREENS_WITH_INSETS[0].width - rect.width) / 2;
             return rect;
         }
         else {
             
             Rectangle screenToConsider = containgScreen;
-            
-            if( containgScreen.intersects(localScreenBounds)) {
-                // if (partial) containing screen intersects the local screen
-                // use the local screen (with taskbar being considered right!)
-                // for computation
-                screenToConsider = localScreenBounds;
-            }
-            containgScreen = null;
             
             // move rect so it is completely on a single screen
             // check X
@@ -349,7 +285,6 @@ public class ScreenUtils {
      * @return the screen bounds that contains the rect.
      */
     public static Rectangle getContainingScreenBounds(Rectangle rect, boolean considerInsets) {
-        waitForInitialization();
         // check if rect is total on screen
 //        if (SCREEN_AREA.contains(rect)) return SCREEN_AREA;
 
@@ -398,7 +333,6 @@ public class ScreenUtils {
      * @return Union of all screens
      */
     public static Area getScreenArea() {
-        waitForInitialization();
         return SCREEN_AREA;
     }
 }
