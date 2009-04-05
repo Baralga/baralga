@@ -84,9 +84,9 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance())));
         table.getColumn(1).setCellEditor(new DatePickerCellEditor());
 
-        table.getColumn(2).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.createTimeFormat())));
-        table.getColumn(3).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.createTimeFormat())));
-        table.getColumn(4).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.durationFormat)));
+        table.getColumn(2).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.getTimeFormat())));
+        table.getColumn(3).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.getTimeFormat())));
+        table.getColumn(4).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.getDurationFormat())));
 
         table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
@@ -102,7 +102,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
                     duration += model.getActivitiesList().get(i).getDuration();
                 }
 
-                table.setToolTipText(textBundle.textFor("AllActivitiesPanel.tooltipDuration", FormatUtils.durationFormat.format(duration))); //$NON-NLS-1$
+                table.setToolTipText(textBundle.textFor("AllActivitiesPanel.tooltipDuration", FormatUtils.getDurationFormat().format(duration))); //$NON-NLS-1$
             }
 
         });

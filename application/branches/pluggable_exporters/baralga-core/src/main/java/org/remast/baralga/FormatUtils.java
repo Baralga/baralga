@@ -21,7 +21,12 @@ public abstract class FormatUtils {
     // Date Formats
     // ------------------------------------------------
     
-    private static final DateFormat timeFormat = new SmartTimeFormat();
+    private static final ThreadLocal<DateFormat> timeFormat = new ThreadLocal<DateFormat>() {
+        @Override
+        protected DateFormat initialValue() {
+            return new SmartTimeFormat();
+        } 
+    };
     
     private static final DateTimeFormatter timeFormatter = DateTimeFormat.forPattern(TimeFormat.HHMM_FORMAT);
        
@@ -30,18 +35,27 @@ public abstract class FormatUtils {
     }
     
     public static DateTime parseTime(final String time) throws ParseException {
-        synchronized (timeFormat) {
-            return new DateTime( timeFormat.parse(time) );
-        }
+        return new DateTime( timeFormat.get().parse(time) );
     }
     
-    public static DateFormat createTimeFormat() {
-        return new SmartTimeFormat();
+    /**
+     * Returns a {@link DateFormat} instance which is safe to use in the current thread.
+     */
+    public static DateFormat getTimeFormat() {
+        return timeFormat.get();
     }
     
     // ------------------------------------------------
     // Number Formats
     // ------------------------------------------------
-    public static final NumberFormat durationFormat = new DecimalFormat("#0.00"); //$NON-NLS-1$
-    
+    public static NumberFormat getDurationFormat() {
+        return durationFormat.get();
+    }
+
+    private static final ThreadLocal<NumberFormat> durationFormat = new ThreadLocal<NumberFormat>() {
+        @Override
+        protected NumberFormat initialValue() {
+            return new DecimalFormat("#0.00"); //$NON-NLS-1$
+        }
+    };
 }

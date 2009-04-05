@@ -202,7 +202,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
     public String toString() {
         return FormatUtils.formatTime(getStart()) + " "
                 + FormatUtils.formatTime(getStart()) + " - " + FormatUtils.formatTime(getEnd()) + " ("
-                + FormatUtils.durationFormat.format(this.getDuration()) + "h) " + this.project;
+                + FormatUtils.getDurationFormat().format(this.getDuration()) + "h) " + this.project;
     }
 
     @Override

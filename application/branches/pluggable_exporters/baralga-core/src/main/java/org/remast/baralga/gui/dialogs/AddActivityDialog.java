@@ -232,7 +232,7 @@ public class AddActivityDialog extends EscapeDialog {
      */
     private JFormattedTextField getStartField() {
         if (startField == null) {
-            DateFormatter df = new DateFormatter(FormatUtils.createTimeFormat());
+            DateFormatter df = new DateFormatter(FormatUtils.getTimeFormat());
             startField = new JFormattedTextField(df);
             df.install(startField);
 
@@ -246,7 +246,7 @@ public class AddActivityDialog extends EscapeDialog {
      */
     private JFormattedTextField getEndField() {
         if (endField == null) {
-            final DateFormatter dateFormatter = new DateFormatter(FormatUtils.createTimeFormat());
+            final DateFormatter dateFormatter = new DateFormatter(FormatUtils.getTimeFormat());
             endField = new JFormattedTextField(dateFormatter);
             dateFormatter.install(endField);
         }

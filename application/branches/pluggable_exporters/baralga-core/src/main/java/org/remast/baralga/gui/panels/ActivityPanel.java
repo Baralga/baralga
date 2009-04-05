@@ -177,7 +177,7 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
         buttonPanel.add(getStartStopButton(), "1, 1, 3, 1"); //$NON-NLS-1$
         buttonPanel.add(getProjectSelector(), "1, 3, 3, 3"); //$NON-NLS-1$
 
-        start = new JFormattedTextField(FormatUtils.createTimeFormat());
+        start = new JFormattedTextField(FormatUtils.getTimeFormat());
         start.setToolTipText(textBundle.textFor("ActivityPanel.Start.ToolTipText"));
         start.setBorder(BorderFactory.createEmptyBorder());
         start.setFont(FONT_BIG_BOLD);
