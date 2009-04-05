@@ -140,6 +140,9 @@ public class TrayIcon implements Observer {
     	}
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void update(final Observable source, final Object eventObject) {
         if (eventObject != null && eventObject instanceof BaralgaEvent) {
             BaralgaEvent event = (BaralgaEvent) eventObject;

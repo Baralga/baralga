@@ -75,6 +75,9 @@ public class HoursByWeekReport extends Observable implements Observer  {
         return hoursByWeekList;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void update(final Observable source, final Object eventObject) {
         if (eventObject != null && eventObject instanceof BaralgaEvent) {
             final BaralgaEvent event = (BaralgaEvent) eventObject;

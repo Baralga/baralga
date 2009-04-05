@@ -16,6 +16,10 @@ import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.SortedList;
 
+/**
+ * The list containing all years available for the filter.
+ * @author remast
+ */
 public class YearFilterList implements Observer {
 
     /** The bundle for internationalized texts. */
@@ -44,8 +48,13 @@ public class YearFilterList implements Observer {
             textBundle.textFor("YearFilterList.CurrentYearsLabel", YEAR_FORMAT.print(DateUtils.getNowAsDateTime())) //$NON-NLS-1$
     );
 
+    /** The actual list containing all years. */
     private EventList<LabeledItem<Integer>> yearList;
 
+    /**
+     * Creates a new list for the given model.
+     * @param model the model to create list for
+     */
     public YearFilterList(final PresentationModel model) {
         this.model = model;
         this.yearList = new BasicEventList<LabeledItem<Integer>>();
@@ -54,6 +63,9 @@ public class YearFilterList implements Observer {
         initialize();
     }
 
+    /**
+     * Initializes the list with all years from model.
+     */
     private void initialize() {
         this.yearList.clear();
         this.yearList.add(ALL_YEARS_FILTER_ITEM);
@@ -68,6 +80,9 @@ public class YearFilterList implements Observer {
         return new SortedList<LabeledItem<Integer>>(this.yearList);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void update(final Observable source, final Object eventObject) {
         if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
             return;
@@ -88,7 +103,15 @@ public class YearFilterList implements Observer {
         }
     }
 
+    /**
+     * Adds the year of the given activity to the list.
+     * @param activity the activity whose year is to be added
+     */
     private void addYear(final ProjectActivity activity) {
+        if (activity == null) {
+            return;
+        }
+        
         final String year = YEAR_FORMAT.print(activity.getStart());
         final LabeledItem<Integer> yearItem = new LabeledItem<Integer>(Integer.parseInt(year), year);
         if (!this.yearList.contains(yearItem)) {

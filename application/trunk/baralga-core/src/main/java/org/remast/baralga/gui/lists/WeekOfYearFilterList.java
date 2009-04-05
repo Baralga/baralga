@@ -16,6 +16,10 @@ import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.SortedList;
 
+/**
+ * The list containing all weeks of year available for the filter.
+ * @author remast
+ */
 public class WeekOfYearFilterList implements Observer {
 
     /** The bundle for internationalized texts. */
@@ -44,8 +48,13 @@ public class WeekOfYearFilterList implements Observer {
             textBundle.textFor("WeekOfYearFilterList.CurrentWeekOfYearLabel", WEEK_OF_YEAR_FORMAT.print(DateUtils.getNowAsDateTime())) //$NON-NLS-1$
     );
 
+    /** The actual list containing all weeks of year. */
     private EventList<LabeledItem<Integer>> weekOfYearList;
 
+    /**
+     * Creates a new list for the given model.
+     * @param model the model to create list for
+     */
     public WeekOfYearFilterList(final PresentationModel model) {
         this.model = model;
         this.weekOfYearList = new BasicEventList<LabeledItem<Integer>>();
@@ -55,6 +64,9 @@ public class WeekOfYearFilterList implements Observer {
         initialize();
     }
 
+    /**
+     * Initializes the list with all weeks of year from model.
+     */
     private void initialize() {
         this.weekOfYearList.clear();
         this.weekOfYearList.add(ALL_WEEKS_OF_YEAR_FILTER_ITEM);
@@ -69,6 +81,9 @@ public class WeekOfYearFilterList implements Observer {
         return new SortedList<LabeledItem<Integer>>(this.weekOfYearList);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void update(final Observable source, final Object eventObject) {
         if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
             return;
@@ -88,7 +103,15 @@ public class WeekOfYearFilterList implements Observer {
         }
     }
 
+    /**
+     * Adds the week of year of the given activity to the list.
+     * @param activity the activity whose week of year is to be added
+     */
     private void addWeekOfYear(final ProjectActivity activity) {
+        if (activity == null) {
+            return;
+        }
+        
         final String weekOfYear = WEEK_OF_YEAR_FORMAT.print(activity.getStart());
         final LabeledItem<Integer> filterItem = new LabeledItem<Integer>(Integer.valueOf(weekOfYear), weekOfYear);
         if (!this.weekOfYearList.contains(filterItem))

@@ -24,6 +24,9 @@ public class ObservingAccumulatedActivitiesReport extends AccumulatedActivitiesR
         this.accumulate();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void update(final Observable source, final Object eventObject) {
         if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
             return;

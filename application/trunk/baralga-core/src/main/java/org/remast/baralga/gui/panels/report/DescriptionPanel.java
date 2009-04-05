@@ -84,14 +84,10 @@ public class DescriptionPanel extends JXPanel implements Observer {
     }
 
     /**
-     * Update the panel from observed event.
+     * {@inheritDoc}
      */
     public void update(final Observable source, final Object eventObject) {
-        if (eventObject == null) {
-            return;
-        }
-
-        if (!(eventObject instanceof BaralgaEvent)) {
+        if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
             return;
         }
 

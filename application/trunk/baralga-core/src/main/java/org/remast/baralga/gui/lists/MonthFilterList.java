@@ -16,6 +16,10 @@ import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.SortedList;
 
+/**
+ * The list containing all months available for the filter.
+ * @author remast
+ */
 public class MonthFilterList implements Observer {
 
     /** The bundle for internationalized texts. */
@@ -34,7 +38,7 @@ public class MonthFilterList implements Observer {
             ALL_MONTHS_DUMMY,
             textBundle.textFor("MonthFilterList.AllMonthsLabel") //$NON-NLS-1$
     );
-    
+
     /** Value for the current month dummy. */
     public static final int CURRENT_MONTH_DUMMY = -5;
 
@@ -44,8 +48,13 @@ public class MonthFilterList implements Observer {
             textBundle.textFor("MonthFilterList.CurrentMonthLabel", MONTH_FORMAT.print(DateUtils.getNowAsDateTime())) //$NON-NLS-1$
     );
 
+    /** The actual list containing all months. */
     private EventList<LabeledItem<Integer>> monthList;
 
+    /**
+     * Creates a new list for the given model.
+     * @param model the model to create list for
+     */
     public MonthFilterList(final PresentationModel model) {
         this.model = model;
         this.monthList = new BasicEventList<LabeledItem<Integer>>();
@@ -55,6 +64,9 @@ public class MonthFilterList implements Observer {
         initialize();
     }
 
+    /**
+     * Initializes the list with all months from model.
+     */
     private void initialize() {
         this.monthList.clear();
         this.monthList.add(ALL_MONTHS_FILTER_ITEM);
@@ -69,6 +81,9 @@ public class MonthFilterList implements Observer {
         return new SortedList<LabeledItem<Integer>>(this.monthList);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void update(final Observable source, final Object eventObject) {
         if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
             return;
@@ -88,10 +103,23 @@ public class MonthFilterList implements Observer {
         }
     }
 
+    /**
+     * Adds the month of the given activity to the list.
+     * @param activity the activity whose month is to be added
+     */
     private void addMonth(final ProjectActivity activity) {
+        if (activity == null) {
+            return;
+        }
+
         final String month = MONTH_FORMAT.print(activity.getStart());
-        final LabeledItem<Integer> monthItem = new LabeledItem<Integer>(Integer.valueOf(month), month);
-        if (!this.monthList.contains(monthItem))
+        final LabeledItem<Integer> monthItem = new LabeledItem<Integer>(
+                Integer.valueOf(month), 
+                month
+        );
+
+        if (!this.monthList.contains(monthItem)) {
             this.monthList.add(monthItem);
+        }
     }
 }

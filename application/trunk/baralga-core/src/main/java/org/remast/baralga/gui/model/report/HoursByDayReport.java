@@ -72,6 +72,9 @@ public class HoursByDayReport extends Observable implements Observer  {
         return hoursByDayList;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void update(final Observable source, final Object eventObject) {
         if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
             return;

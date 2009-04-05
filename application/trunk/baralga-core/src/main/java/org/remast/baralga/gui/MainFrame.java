@@ -318,6 +318,9 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         return aboutMenuItem;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void update(final Observable source, final Object eventObject) {
         if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
             return;

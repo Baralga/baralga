@@ -56,6 +56,9 @@ public class EditStack implements Observer {
 		updateActions();
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	public void update(final Observable source, final Object eventObject) {
 		if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
 			return;

@@ -148,7 +148,9 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
     }
 
 
-    @Override
+    /**
+     * {@inheritDoc}
+     */
     public void update(final Observable source, final Object eventObject) {
         if (source == null || !(eventObject instanceof BaralgaEvent)) {
             return;

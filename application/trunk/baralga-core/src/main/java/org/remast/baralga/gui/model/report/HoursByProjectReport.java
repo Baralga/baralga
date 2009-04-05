@@ -72,7 +72,9 @@ public class HoursByProjectReport extends Observable implements Observer  {
         return hoursByProjectList;
     }
 
-    @Override
+    /**
+     * {@inheritDoc}
+     */
     public void update(final Observable source, final Object eventObject) {
         if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
             return;
