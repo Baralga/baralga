@@ -56,6 +56,6 @@ public abstract class DateUtils {
      * @param time2 the second time
      */
     public static boolean isBeforeOrEqual(final ReadableInstant time1, final ReadableInstant time2) {
-        return time1.compareTo(time2) <= 0;
+        return time1.isBefore(time2) || time1.isEqual(time2);
     }
 }

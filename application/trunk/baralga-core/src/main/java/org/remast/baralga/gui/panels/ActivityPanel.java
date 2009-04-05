@@ -349,6 +349,7 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
 
     /**
      * Executed on project changed event.
+     * @param event the event of the project change
      */
     private void updateProjectChanged(final BaralgaEvent event) {
         getProjectSelector().setSelectedItem((Project) event.getData());
