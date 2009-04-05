@@ -13,6 +13,7 @@ import org.jdesktop.swingx.JXHyperlink;
 import org.jdesktop.swingx.JXImagePanel;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
+import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.settings.ApplicationSettings;
 import org.remast.swing.action.OpenBrowserAction;
 import org.remast.swing.dialog.EscapeDialog;
@@ -84,7 +85,8 @@ public class AboutDialog extends EscapeDialog {
         }
         
         final String versionInfo = "<html>" +
-        		"<font color=blue size=\"big\"><h2>" + textBundle.textFor("Global.Version") + " " + textBundle.textFor("Global.VersionNumber") + " " + storageMode + "</h2></font>" +
+        		"<font color=blue size=\"big\"><h2>" + textBundle.textFor("Global.Version") +
+        		" " + BaralgaMain.getVersionNumber() + " " + storageMode + "</h2></font>" +
         		"</html>";
         final JLabel versionLabel = new JXLabel(versionInfo, JLabel.CENTER);
         versionLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));

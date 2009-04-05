@@ -3,12 +3,14 @@ package org.remast.baralga.gui;
 import java.awt.SystemTray;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 import java.util.Timer;
 
 import javax.swing.JOptionPane;
@@ -73,6 +75,26 @@ public class BaralgaMain {
         return tray;
     }
 
+    private static final String versionNumber;
+    private static final String revisionNumber;
+    
+    static {
+        String version = "?";
+        String revision = "?";
+        try {
+            InputStream in = BaralgaMain.class.getResourceAsStream("/org/remast/baralga/baralga.properties");
+            if(in != null) {
+                Properties props = new Properties();
+                props.load(in);
+                version = props.getProperty("baralga.version", "?");
+                revision = props.getProperty("baralga.buildnumber", "?");
+            }
+        } catch (IOException e) {
+        }
+        versionNumber = version;
+        revisionNumber = revision;
+    }
+    
     /** Hide constructor. */
     private BaralgaMain() { }
 
@@ -409,5 +431,13 @@ public class BaralgaMain {
         if (!deleteSuccessfull) {
             log.warn("Could not delete lock file at " + lockFile.getAbsolutePath() + ". Please delete manually.");
         }
+    }
+
+    public static String getVersionNumber() {
+        return versionNumber;
+    }
+
+    public static String getRevisionNumber() {
+        return revisionNumber;
     }
 }
