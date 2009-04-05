@@ -70,9 +70,6 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
     /** Text for inactive duration. */
     private static final String DURATION_INACTIVE = "-:-- h";
 
-    /** Text for started duration. */
-    private static final String DURATION_START_TIME = "0:00 h";
-
     /** The model. */
     private final PresentationModel model;
 
@@ -181,51 +178,29 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
         start = new JFormattedTextField(FormatUtils.createTimeFormat());
         start.setToolTipText(textBundle.textFor("ActivityPanel.Start.ToolTipText"));
         start.setBorder(BorderFactory.createEmptyBorder());
-        start.setText(START_INACTIVE);
         start.setFont(FONT_BIG_BOLD);
         start.setForeground(HIGHLIGHT_COLOR);
-        start.setEnabled(false);
+        
+        // Restore current activity
+        if (model.isActive()) {
+            start.setEnabled(true);
+            start.setValue(this.model.getStart().toDate());
+        } else {
+            start.setText(START_INACTIVE);
+            start.setEnabled(false);
+        }
 
         start.setEditable(true);
+
         start.addFocusListener(new FocusListener() {
 
             @Override
-            public void focusGained(FocusEvent e) {
+            public void focusGained(final FocusEvent e) {
             }
 
             @Override
-            public void focusLost(FocusEvent event) {
-                if (StringUtils.isEmpty(start.getText())) {
-                    return;
-                }
-
-                // If new start time is equal to current start time there's nothing to do
-                if (StringUtils.equals(start.getText(), FormatUtils.formatTime(model.getStart()))) {
-                    return;
-                }
-
-                // New start time must be before the current time.
-                try {
-                    final Date newStartTime = FormatUtils.parseTime(start.getText()).toDate();
-                    final DateTime newStart = DateUtils.adjustToSameDay(DateUtils.getNowAsDateTime(), new DateTime(newStartTime), false);
-
-                    final boolean correct = DateUtils.isBeforeOrEqual(newStart, DateUtils.getNowAsDateTime());
-                    if (correct) {
-                        model.setStart(newStart);
-                    } else {
-                        JOptionPane.showMessageDialog(
-                                ActivityPanel.this, 
-                                textBundle.textFor("ActivityPanel.StartTimeError.Message"),  //$NON-NLS-1$
-                                textBundle.textFor("ActivityPanel.StartTimeError.Title"),  //$NON-NLS-1$
-                                JOptionPane.ERROR_MESSAGE
-                        );
-
-                        start.setText(FormatUtils.formatTime(model.getStart()));
-                    }
-                } catch (ParseException e) {
-                    return;
-                }
-
+            public void focusLost(final FocusEvent event) {
+                changeStartTime();
             }
 
         });
@@ -248,10 +223,18 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
 
         buttonPanel.add(startPanel, "1, 5"); //$NON-NLS-1$
 
-        duration = new JLabel(DURATION_INACTIVE);
+        duration = new JLabel();
         duration.setFont(FONT_BIG_BOLD);
         duration.setForeground(HIGHLIGHT_COLOR);
-        duration.setEnabled(false);
+
+        // Restore current activity
+        if (model.isActive()) {
+            duration.setEnabled(true);
+            updateDuration();
+        } else {
+            duration.setEnabled(false);
+            duration.setText(DURATION_INACTIVE);
+        }
         duration.setToolTipText(textBundle.textFor("ActivityPanel.Duration.ToolTipText"));
 
         final JXPanel timerPanel = new JXPanel();
@@ -314,7 +297,10 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
         return projectSelector;
     }
 
-    public void update(final Observable source, final Object eventObject) {
+    /**
+     * {@inheritDoc}
+     */
+    public final void update(final Observable source, final Object eventObject) {
         if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
             return;
         }
@@ -356,7 +342,7 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
 
         start.setValue(this.model.getStart().toDate());
 
-        duration.setText(DURATION_START_TIME);
+        updateDuration();
     }
 
     /**
@@ -377,7 +363,7 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
         start.setValue(this.model.getStart().toDate());
         start.setEnabled(true);
 
-        duration.setText(DURATION_START_TIME);
+        updateDuration();
         duration.setEnabled(true);
     }
 
@@ -407,6 +393,7 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
 
     /**
      * Timer event during running activity.
+     * @param event the timer event
      */
     @Override
     public final void actionPerformed(final ActionEvent event) {
@@ -425,6 +412,51 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
 
         // Display duration
         duration.setText(durationPrint);
+    }
+
+    /**
+     * Changes the start time to the time entered by the user manually.
+     * The start time is validated so that it is before the current time.
+     */
+    private void changeStartTime() {
+        if (StringUtils.isEmpty(start.getText())) {
+            return;
+        }
+
+        // If new start time is equal to current start time there's nothing to do
+        if (StringUtils.equals(start.getText(), FormatUtils.formatTime(model.getStart()))) {
+            return;
+        }
+
+        // New start time must be before the current time.
+        try {
+            final Date newStartTime = FormatUtils.parseTime(start.getText()).toDate();
+            final DateTime newStart = DateUtils.adjustToSameDay(
+                    DateUtils.getNowAsDateTime(), 
+                    new DateTime(newStartTime), 
+                    false
+            );
+
+            final boolean correct = DateUtils.isBeforeOrEqual(
+                    newStart, 
+                    DateUtils.getNowAsDateTime()
+            );
+
+            if (correct) {
+                model.setStart(newStart);
+            } else {
+                JOptionPane.showMessageDialog(
+                        ActivityPanel.this, 
+                        textBundle.textFor("ActivityPanel.StartTimeError.Message"),  //$NON-NLS-1$
+                        textBundle.textFor("ActivityPanel.StartTimeError.Title"),  //$NON-NLS-1$
+                        JOptionPane.ERROR_MESSAGE
+                );
+
+                start.setText(FormatUtils.formatTime(model.getStart()));
+            }
+        } catch (ParseException e) {
+            return;
+        }
     }
 
 }
