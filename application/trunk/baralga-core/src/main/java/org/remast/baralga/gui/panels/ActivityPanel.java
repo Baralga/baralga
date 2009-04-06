@@ -9,8 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -205,23 +203,6 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
                 changeStartTime();
             }
 
-        });
-
-        start.addKeyListener(new KeyListener() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if( e.getKeyCode() == KeyEvent.VK_ENTER ) {
-                    changeStartTime();
-                }
-            }
-
-            @Override
-            public void keyTyped(KeyEvent e) {
-            }
         });
 
         final int borderSmall = 3;
