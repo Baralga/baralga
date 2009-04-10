@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>com.remast.baralga</groupId>
+		<version>1.0</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.remast.baralga</groupId>
+	<artifactId>anuko-timetracker-exporter</artifactId>
+	<name>Baralga Exporter for Anuko Time Tracker</name>
+	<description>Baralga Exporter for the Anuko Time Tracker (http://wrconsulting.com/cms/wrtimetracker/index.htm)</description>
+	<version>1.0-SNAPSHOT</version>
+	<url>http://baralga.origo.ethz.ch</url>
+	<issueManagement>
+		<url>http://baralga.origo.ethz.ch/issues</url>
+	</issueManagement>
+	<developers>
+		<developer>
+			<name>Christoph Kutzinski</name>
+			<email>kutzi@gmx.de</email>
+			<roles>
+				<role>developer</role>
+			</roles>
+		</developer>
+	</developers>
+	<dependencies>
+		<dependency>
+			<groupId>com.remast.baralga</groupId>
+			<artifactId>baralga-core</artifactId>
+			<version>1.4-pluggable-exporters-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.5</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+		  <groupId>org.apache.httpcomponents</groupId>
+		  <artifactId>httpclient</artifactId>
+		  <version>4.0-beta2</version>
+		  <scope>compile</scope>
+		</dependency>
+		<dependency>
+		  <groupId>org.jdom</groupId>
+		  <artifactId>jdom</artifactId>
+		  <version>1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.3.1</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.4</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+</project>

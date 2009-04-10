@@ -1,0 +1,533 @@
+<style>
+body {
+	font-size:13px;
+	font-family:arial,sans,sans-serif;
+}
+.tt-menu-button-outer-box, .tt-menu-button-inner-box {
+	border-color:#cde2f9;
+	border-style:solid;
+	vertical-align:top;
+}
+.tt-menu-button-outer-box {
+	border-width:1px 1px;
+	padding:0pt;
+}
+.tt-menu-button-inner-box {
+	border-width:1px 1px;
+	margin:0pt -1px;
+	padding:2px 18px;
+	background-color:#cde2f9;
+}
+
+.tt-menu-button-caption {
+	padding:0pt 4px 0pt 0pt;
+	vertical-align:top;
+}
+.tt-menu-button {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:10px;
+	border:0pt none;
+	color:#295883;
+	cursor:pointer;
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin:0pt 2px;
+	outline-color:invert;
+	outline-style:none;
+	outline-width:medium;
+	padding:0pt;
+	text-decoration:none;
+	vertical-align:middle;
+	font-weight:bold;
+}
+.tt-inline-block {
+	display:-moz-inline-box;
+	position:relative;
+}
+.wgbody {
+	background-image:url(http://timetracker.wrconsulting.com/gadget/tt_gadget_bg.gif);
+	background-color:#a6ccf7;
+	background-repeat:repeat-x;
+	width: 268px;
+	height: 200px;
+	position:relative;
+}
+.tt-class-btcont {
+	text-align: center;
+}
+.tt-class-label {
+	font-size:11px;
+	font-weight:bold;
+	color:#bdbdbd;
+	margin-top: 4px;
+}
+.tt-class-control {
+	text-align: left;
+	align: left;
+}
+.tt-class-hour {
+	font-size:21px;
+	font-weight:bold;
+	color:#336699;
+	margin-right: 2px;
+}
+input, select {
+	border: 0px #eeeeee solid;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	padding-top: 1px;
+	padding-right: 0px;
+	padding-bottom: 1px;
+	padding-left: 2px;
+	height: 18px;
+	overflow: auto; width: auto;
+	width: 240px;
+	background-color:#eeeeee;
+	text-align: left;
+}
+#notes {
+	width: 158px;
+}
+#links a {
+	color:#ebfbff;
+	text-decoration: none;
+}
+.topbt {
+	color:#ffffff;
+	background-color:#ffa517;
+	padding: 1px;
+	border:0pt none;
+	float:right;
+}
+.topbt a {
+	color:#ffffff;
+	text-decoration: none;
+	font-size: 12px;
+	padding: 3px;
+}
+#helpbt {
+	margin-top: 20px;
+
+}
+#links a {
+	font-size:11px;
+}
+#baloon {
+	background-color:#FFFFA0;
+	border: 1px #FFAF00 solid;
+	padding: 4px;
+	font-size: 11px;
+	color: #333333;
+	width: 225px;
+	height: 45px;
+	top: 15px;
+	left: 10px;
+	margin: 6px;
+	position: absolute;
+	display: none;
+	z-index: 300;
+}
+#baloonclose {
+	font-weight: bold;
+	color: #FFAF00;
+	cursor:pointer;
+}
+#flaxbutton {
+	width:75px;
+}
+.tthead {
+	float: left;
+}
+.bp {
+	font-size: 25px;
+}
+</style>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js" type="text/javascript"></script>
+</head>
+<body>
+
+<div style="width:100%" align="center">
+<form id="tform">
+<div class="wgbody">
+	<div id="baloon" class="baloon">
+		<div id="baloonclose" style="float:right;">X</div>
+		<div id="baloontext" style="margin-right:12px;" align="left"></div>
+	</div>
+	<div id="header" style="height:52px;">
+		<div class="tthead" style="width:100px">
+			<a href="http://www.anuko.com" target="_blank"><div style="width:85px;height:47px;"></div></a>
+		</div>
+		<div class="tthead" align="center" style="width:89px;margin-top:10px">
+			<div id="todaydiv">
+				<div id="during_h" class="tt-class-hour">0<span class="bp">:</span>00</div>
+			</div>
+		</div>
+		<div class="tthead" align="right" style="width:70px">
+			<div id="helpbt" class="topbt"><a id="helplink" href="http://www.anuko.com/content/time_tracker/gadget/help.htm" target="_blank">__MSG_label_help__</a></div>
+		</div>
+	</div>
+	<div id="wbody" style="height:127px;width:268px;" align="center">
+		<div id="inputs" style="width:242px;align:left;position:relative;">
+			<table cellpadding="0" cellspacing="0" border="0">
+				<tr><td colspan="2"><div class="tt-class-label" align="left">__MSG_project__</div></td></tr>
+				<tr><td colspan="2"><div class="tt-class-control"><select id="project" name="project"></select></div></td></tr>
+				<tr><td colspan="2"><div class="tt-class-label" align="left">__MSG_activity__</div></td></tr>
+				<tr><td colspan="2"><div class="tt-class-control"><select id="activity" name="activity"></select></div></td></tr>
+				<tr><td colspan="2"><div class="tt-class-label" align="left">__MSG_notes__</div></td></tr>
+				<tr><td style="width:161px;"><div class="tt-class-control"><input id="notes" type="text" name="notes"></select></div></td>
+					<td><div class="tt-class-btcont">
+					<div id="flaxbutton" class="tt-menu-button">
+					<div id="btbg" align="center" class="tt-menu-button-inner-box">
+					<div id="btlabel" style="width:100%">Wait</div>
+					</div>
+					</div>
+				</div></td></tr>
+			</table>
+		</div>
+	</div>
+	<table id="links" cellpadding="0" cellspacing="0" border="0" style="height:20px;width:258px">
+	<tr>
+		<td><a href="http://www.anuko.com/content/time_tracker/gadget/more.htm" target="_blank">__MSG_footer_link1_name__</a></td>
+		<td align="right"><a href="http://timetracker.wrconsulting.com/" target="_blank">__MSG_footer_link2_name__</a></td>
+	</tr>
+	</table>
+</div>
+</form>
+</div>
+
+
+<script type="text/javascript">
+var prefs = new _IG_Prefs();
+var serviceURL = "http://timetracker.wrconsulting.com/wginfo.php";
+var status = 0; // 1-stoped, 0-waiting, 2-ran
+var ctActivity;
+var ctProject;
+var labelWait = "__MSG_btwait__";
+var labelStart = "__MSG_btstart__";
+var labelFinish = "__MSG_btstop__";
+var blink = false;
+var blinkCn = 1;
+var arrProject = [];
+var arrActivity = [];
+var arrErrors = [];
+var selectedValues = {project:0,activity:0,notes:''};
+var currHM = [0,0];
+var startPoint = new Date();
+
+function Blinking(timeOut) {
+	this.timeOut = timeOut;
+	this.counter = 0;
+	this.started = false;
+	
+	this.start = function() {
+		this.started = true;
+		this.handler();
+	}
+	this.stop=function() {
+		this.started = false;
+		var _this = this;
+		setTimeout(function(thisObj) {
+			_this.counter = 1;
+			_this.handler();
+			}, this.timeOut+500, this);
+	}
+	this.handler=function() {
+		this.action();
+		if (this.started) {
+			var _this = this;
+			setTimeout(function(thisObj) {
+				_this.handler();
+			}, this.timeOut, this);
+		}
+	}
+	this.action=function() {
+		alert("action");
+	}
+}
+function ftime(hm, dots) {
+	if (hm[1]>=60) {
+		hm[0] += (hm[1]-hm[1] % 60)/60;
+		hm[1] = hm[1] % 60;
+	}		
+	return hm[0] + (dots>0?'<span class="bp">:</span>':'<span class="bp" style="display:none;">:</span>') + (hm[1]<10?"0":"")+hm[1];
+}
+
+var blinkHelp = new Blinking(300);
+blinkHelp.action = function() {
+	if (this.counter==0) {
+		this.counter=1;
+		$("#helpbt").css("background-color", "#FF5507");
+	} else if (this.counter==1) {
+		this.counter=0;
+		$("#helpbt").css("background-color", "#FFA517");
+	}
+};
+var blinkDots = new Blinking(500);
+blinkDots.action = function() {
+	var today = new Date();
+	if (this.counter==0) {
+		this.counter=1;
+		$(".bp").css("color", "#A6CCF7");
+	} else if (this.counter==1) {
+		this.counter=0;
+		var diffh = Math.floor((today.getTime()-startPoint.getTime())/(1000*60*60));
+		var diffm = Math.floor((today.getTime()-startPoint.getTime())/(1000*60))-(diffh*60);
+		$("#during_h").html(ftime([currHM[0]+diffh,currHM[1]+diffm], 1));
+		$(".bp").css("color", "#336699");
+	}
+};
+
+$(document).ready(runWidget);
+	
+function runWidget() {
+	$("#flaxbutton").click(function() {
+		if (status>0) {
+			if (status==1) _doStart();
+			if (status==2) _doStop();
+		}
+	});
+	$("#baloonclose").click(function() {
+		$("#baloon").hide('slow');	
+	});
+	$("#project").change(function() {
+		selectedValues.project = $(this).val();
+		fillActivityControl();
+	});
+	$("#activity").change(function() {
+		selectedValues.activity = $(this).val();
+	});
+	$("#notes").blur(function() {
+		selectedValues.notes = $(this).val();
+	});
+	$("#helplink").attr("href", "http://www.anuko.com/content/time_tracker/gadget/help.htm?lang="+prefs.getLang());
+	ctActivity = $("#activity");
+	ctProject = $("#project");
+	ctNotes = $("#notes");
+	disableInputs();
+	disableButton();
+	_refreshData();
+}
+
+function _refreshData() {
+	if (prefs.getString("login")==null || prefs.getString("password")==null) {
+		blinkHelp.start();
+		showBaloon('__MSG_message1__');
+		return;
+	} else {
+		blinkHelp.stop();
+	}
+	var dd = new Date();
+	var url = serviceURL+
+		'?login='+encodeURI(prefs.getString("login"))+
+		'&password='+encodeURI(prefs.getString("password"))+
+		'&action=status'+
+		'&date='+(dd.getMonth()+1)+'/'+dd.getDate()+'/'+dd.getFullYear()+
+		'&lng='+prefs.getLang()+
+		'&ch='+new Date().getTime();
+	_IG_FetchXmlContent(url, _refreshResult);
+}
+
+function _doStop() {
+	disableButton();
+	$("#btlabel").html(labelWait);
+	
+	var dd = new Date();
+	var url = serviceURL+
+		'?login='+encodeURI(prefs.getString("login"))+
+		'&password='+encodeURI(prefs.getString("password"))+
+		'&finish='+t(dd)+
+		'&notes='+encodeURI(selectedValues.notes)+
+		'&action=stop'+
+		'&date='+(dd.getMonth()+1)+'/'+dd.getDate()+'/'+dd.getFullYear()+
+		'&lng='+prefs.getLang()+
+		'&ch='+dd.getTime();
+	_IG_FetchXmlContent(url, _refreshResult);
+}
+
+function _doStart() {
+	status=0;
+	disableButton();
+	disableInputs();
+
+	var dd = new Date();
+	var url = serviceURL+
+		'?login='+encodeURI(prefs.getString("login"))+
+		'&password='+encodeURI(prefs.getString("password"))+
+		'&project='+selectedValues.project+
+		'&activity='+selectedValues.activity+
+		'&notes='+encodeURI(selectedValues.notes)+
+		'&start='+t(dd)+
+		'&finish='+t(dd)+
+		'&action=start'+
+		'&date='+(dd.getMonth()+1)+'/'+dd.getDate()+'/'+dd.getFullYear()+
+		'&lng='+prefs.getLang()+
+		'&ch='+dd.getTime();
+	_IG_FetchXmlContent(url, _refreshResult);
+}
+
+function _refreshResult(response) {
+	if (response == null || typeof(response) != "object" || response.firstChild == null) {
+		status=0;
+		return;
+	}
+	
+	arrProject = [];
+	arrActivity = [];
+	arrErrors = [];
+	
+	try {
+		var itemList = response.getElementsByTagName("projects").item(0).childNodes;
+		for (var i=0; i<itemList.length; i++) {
+			var node = itemList.item(i);
+			if (node.nodeType==1) {
+				arrProject.push({
+					id:node.getAttribute("id"),
+					title:node.firstChild.nodeValue
+				});
+			}
+		}
+
+		itemList = response.getElementsByTagName("activities").item(0).childNodes;
+		for (var i=0; i<itemList.length; i++) {
+			var node = itemList.item(i);
+			if (node.nodeType==1) {
+				arrActivity.push({
+					id:node.getAttribute("id"), 
+					projects: (node.getAttribute("project") ? node.getAttribute("project").split(",") : new Array()), 
+					title:node.firstChild.nodeValue
+				});
+			}
+		}
+
+		var record = response.getElementsByTagName("compleate").item(0);
+		if (record) {
+			if (prefs.getString("total")=="today") {
+				currHM = record.getAttribute("daily_time").split(":");
+			} else if (prefs.getString("total")=="week") {
+				currHM = record.getAttribute("week_time").split(":");
+			}
+			currHM[0] = parseInt(currHM[0],10);
+			currHM[1] = parseInt(currHM[1],10);
+			$("#during_h").html(ftime(currHM, 1));
+		}
+
+		var irecord = response.getElementsByTagName("incompleate").item(0);
+		if (irecord) {
+			selectedValues.project = irecord.getAttribute("project");
+			selectedValues.activity = irecord.getAttribute("activity");
+			selectedValues.notes = irecord.firstChild.nodeValue;
+			status=2;
+			var dts = irecord.getAttribute("date").split("-");
+			var tts = irecord.getAttribute("start").split(":");
+			startPoint = new Date(
+				parseInt(dts[0]), parseInt(dts[1])-1, parseInt(dts[2]),
+				parseInt(tts[0]), parseInt(tts[1]), 0);
+		} else {
+			status=1;
+			startPoint = new Date();
+		}
+
+		// errors
+		itemList = response.getElementsByTagName("errors").item(0).childNodes;
+		for (var i=0; i<itemList.length; i++) {
+			var node = itemList.item(i);
+			if (node.nodeType==1) {
+				arrErrors.push({
+					id:node.getAttribute("id"), 
+					title:node.getAttribute("message")
+				});
+			}
+		}
+		
+	} catch(err) {
+		showBaloon('__MSG_message2__'+err.message);
+		status = 0;
+	}
+	if (arrErrors.length>0) {
+		// only first message
+		showBaloon(arrErrors[0].title);
+	}
+	updateForm();
+}
+
+function updateForm() {
+	fillProjectControl();
+	fillActivityControl();
+	$("#notes").val(selectedValues.notes);
+	if (status==1) {
+		enableInputs();
+		enableButton();
+		blinkDots.stop();
+	} else if (status==2) {
+		disableInputs();
+		enableButton();
+		blinkDots.start();
+	}
+}
+
+function fillProjectControl() {
+	var options = '<option value=""></option>';
+	for (var i=0; i<arrProject.length;i++) {
+		options += '<option value="' + arrProject[i].id + '" '+
+		(selectedValues.project==arrProject[i].id?" selected='true'":"") + '>' + 
+		arrProject[i].title + '</option>';
+	}
+    ctProject.html(options);
+}
+
+function fillActivityControl() {
+	var options = '<option value=""></option>';
+	for (var i=0; i<arrActivity.length;i++) {
+		if (in_array(selectedValues.project, arrActivity[i].projects)) {
+			options += '<option value="' + arrActivity[i].id + '" '+
+			(selectedValues.activity==arrActivity[i].id?" selected='true'":"") + '>' + 
+			arrActivity[i].title + '</option>';
+		}
+	}
+    ctActivity.html(options);
+}
+
+function enableButton() {
+	if (status==2) $("#btlabel").html(labelFinish);
+	if (status==1) $("#btlabel").html(labelStart);
+	$("#btbg").css("background", "#CDE2F9" );
+	$("#flaxbutton").css("color", "#295883" );
+}
+
+function disableButton() {
+	if (status==0) $("#btlabel").html(labelWait);
+	$("#btbg").css("background", "#fff" );
+	$("#flaxbutton").css("color", "#ccc" );
+}
+
+function disableInputs() {
+	ctActivity.attr('disabled', true);
+	ctProject.attr('disabled', true);
+	ctNotes.attr('disabled', true);
+}
+
+function enableInputs() {
+	ctActivity.attr('disabled', false);
+	ctProject.attr('disabled', false);
+	ctNotes.attr('disabled', false);
+}
+
+function in_array(id, arr) {
+	for (var i=0; i<arr.length;i++)
+		if (id==arr[i]) return true;
+	return false;
+}
+
+function t(dd) {
+	return (dd.getHours()<10?"0"+dd.getHours():dd.getHours())+":"+(dd.getMinutes()<10?"0"+dd.getMinutes():dd.getMinutes());
+}
+
+function showBaloon(message) {
+	$("#baloontext").html(message);
+	$("#baloon").show('slow');	
+}
+</script>
+
+
