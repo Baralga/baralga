@@ -3,8 +3,10 @@ package org.remast.baralga.gui.actions;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.io.ObjectInputStream.GetField;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -95,16 +97,32 @@ public abstract class AbstractExportAction extends AbstractBaralgaAction {
         }
 
     }
+    
+    private static OutputStream getFileOutputStream(File f, FileFilter fileFilter, Frame owner) {
+        try {
+            return new FileOutputStream(f);
+        } catch (FileNotFoundException e) {
+            log.error(e, e);
+            JOptionPane.showMessageDialog(
+                    owner, 
+                    textBundle.textFor("AbstractExportAction.IOException.Message", f.getAbsolutePath(), e.getLocalizedMessage()), //$NON-NLS-1$
+                    textBundle.textFor("AbstractExportAction.IOException.Heading", fileFilter.getDescription()), //$NON-NLS-1$
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return null;
+        }
+    }
 
     /**
      * Worker thread to perform the actual export in the background.
      * @author remast
      */
-    private class ExportWorker extends SwingWorker<String, Object> {
+    protected class ExportWorker extends SwingWorker<String, Object> {
         
         private PresentationModel model;
         
         private File file;
+        private OutputStream out;
         
         private Exporter exporter;
         
@@ -113,28 +131,31 @@ public abstract class AbstractExportAction extends AbstractBaralgaAction {
         private FileFilter fileFilter;
 
         public ExportWorker(final PresentationModel model, final Exporter exporter, final FileFilter fileFilter, final Frame owner, final File file) {
+            this( model, exporter, owner, getFileOutputStream(file, fileFilter, owner));
+            this.fileFilter = fileFilter;
+            this.file = file;
+        }
+        
+        public ExportWorker(final PresentationModel model, final Exporter exporter, final Frame owner, final OutputStream out) {
             this.model = model;
             this.exporter = exporter;
-            this.fileFilter = fileFilter;
             this.owner = owner;
-            this.file = file;
+            this.out = out;
         }
 
         @Override
         public String doInBackground() {
-            OutputStream outputStream = null;
             try {
-                outputStream = new FileOutputStream(file);
                 synchronized ( model.getData() ) {
                     exporter.export(
                             model.getData(),
                             model.getFilter(),
-                            outputStream
+                            out
                     );
                 }
                 
                 // Make sure everything is written.
-                outputStream.flush();
+                out.flush();
 
                 // Store export location in settings
                 setLastExportLocation(file.getAbsolutePath());
@@ -147,8 +168,8 @@ public abstract class AbstractExportAction extends AbstractBaralgaAction {
                         JOptionPane.ERROR_MESSAGE
                 );
             } finally {
-                if (outputStream != null) {
-                    IOUtils.closeQuietly(outputStream);
+                if (out != null) {
+                    IOUtils.closeQuietly(out);
                 }
             }
             return null;

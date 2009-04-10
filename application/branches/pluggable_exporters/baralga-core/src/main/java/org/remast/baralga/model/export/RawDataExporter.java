@@ -2,7 +2,7 @@ package org.remast.baralga.model.export;
 
 import java.io.OutputStream;
 
-import org.remast.baralga.model.ProTrack;
+import org.remast.baralga.model.ReadableBaralgaData;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.baralga.model.io.ProTrackWriter;
 
@@ -20,7 +20,7 @@ public class RawDataExporter implements Exporter {
      * @throws Exception exception during data export
      */
     @Override
-    public void export(ProTrack data, Filter filter, OutputStream outputStream) throws Exception {
+    public void export(ReadableBaralgaData data, Filter filter, OutputStream outputStream) throws Exception {
         final ProTrackWriter writer = new ProTrackWriter(data);
         writer.write(outputStream);
         outputStream.flush();

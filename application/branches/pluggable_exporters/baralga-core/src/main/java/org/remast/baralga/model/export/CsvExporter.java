@@ -9,8 +9,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.ProjectActivity;
+import org.remast.baralga.model.ReadableBaralgaData;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.util.TextResourceBundle;
 
@@ -55,7 +55,7 @@ public class CsvExporter implements Exporter {
      * @throws Exception exception during data export
      */
     @Override
-    public void export(final ProTrack data, final Filter filter, final OutputStream outputStream) throws Exception {
+    public void export(final ReadableBaralgaData data, final Filter filter, final OutputStream outputStream) throws Exception {
         List<ProjectActivity> activities = data.getActivities();
         if (filter != null) {
             activities = filter.applyFilters(data.getActivities());

@@ -20,8 +20,8 @@ import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 
 import org.apache.commons.lang.StringUtils;
-import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.ProjectActivity;
+import org.remast.baralga.model.ReadableBaralgaData;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.baralga.model.report.AccumulatedActivitiesReport;
 import org.remast.baralga.model.report.AccumulatedProjectActivity;
@@ -53,7 +53,7 @@ public class ExcelExporter implements Exporter {
      * @throws Exception exception during data export
      */
     @Override
-    public void export(final ProTrack data, final Filter filter, final OutputStream outputStream) throws Exception {
+    public void export(final ReadableBaralgaData data, final Filter filter, final OutputStream outputStream) throws Exception {
             init();
             
             final WritableWorkbook workbook = Workbook.createWorkbook(outputStream);
@@ -120,7 +120,7 @@ public class ExcelExporter implements Exporter {
         headingFormat.setBackground(Colour.GRAY_25);
     }
 
-    private void createFilteredReport(final WritableWorkbook workbook, final ProTrack data, final Filter filter) throws JXLException {
+    private void createFilteredReport(final WritableWorkbook workbook, final ReadableBaralgaData data, final Filter filter) throws JXLException {
         String year = "";
         if (filter != null && filter.getYear() != null) {
             year = YEAR_FORMAT.format(filter.getYear());

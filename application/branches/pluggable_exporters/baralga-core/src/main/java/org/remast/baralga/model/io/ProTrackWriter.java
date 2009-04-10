@@ -9,6 +9,7 @@ import org.apache.commons.io.IOUtils;
 import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
+import org.remast.baralga.model.ReadableBaralgaData;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -20,13 +21,13 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 public class ProTrackWriter {
 
     /** The data to write. */
-    private ProTrack data;
+    private ReadableBaralgaData data;
 
     /**
      * Create a write for given data.
      * @param data the data
      */
-    public ProTrackWriter(final ProTrack data) {
+    public ProTrackWriter(final ReadableBaralgaData data) {
         this.data = data;
     }
 

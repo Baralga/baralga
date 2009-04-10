@@ -15,7 +15,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @author remast
  */
 @XStreamAlias("proTrack") //$NON-NLS-1$
-public class ProTrack implements Serializable {
+public class ProTrack implements ReadableBaralgaData, Serializable {
 
 	/**
 	 * 

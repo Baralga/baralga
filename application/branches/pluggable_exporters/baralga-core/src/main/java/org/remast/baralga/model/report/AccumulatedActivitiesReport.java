@@ -5,6 +5,7 @@ import java.util.Observable;
 
 import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.ProjectActivity;
+import org.remast.baralga.model.ReadableBaralgaData;
 import org.remast.baralga.model.filter.Filter;
 
 import ca.odell.glazedlists.BasicEventList;
@@ -13,7 +14,7 @@ import ca.odell.glazedlists.EventList;
 public class AccumulatedActivitiesReport extends Observable {
 
     /** The data of the report. */
-    private ProTrack data;
+    private ReadableBaralgaData data;
 
     /** Accumulated activities of the report. */
     private EventList<AccumulatedProjectActivity> accumulatedActivitiesByDay;
@@ -24,7 +25,7 @@ public class AccumulatedActivitiesReport extends Observable {
     /**
      * Create report from data.
      */
-    public AccumulatedActivitiesReport(final ProTrack data) {
+    public AccumulatedActivitiesReport(final ReadableBaralgaData data) {
         this.data = data;
         this.accumulatedActivitiesByDay = new BasicEventList<AccumulatedProjectActivity>();
 
