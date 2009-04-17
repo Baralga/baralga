@@ -135,7 +135,7 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
 
         final double border = 5;
         final double size[][] = {
-                { border, 0.4, border, 0.6, border }, // Columns
+                { border, 0.45, border, 0.55, border }, // Columns
                 { border, TableLayout.PREFERRED, border, TableLayout.FILL, border }  // Rows
         };
 
@@ -338,8 +338,12 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
      * @param event the event of the project change
      */
     private void updateProjectChanged(final BaralgaEvent event) {
+        // If there is no active project leave everything as is
+        if (!model.isActive()) {
+            return;
+        }
+        
         getProjectSelector().setSelectedItem((Project) event.getData());
-
         start.setValue(this.model.getStart().toDate());
 
         updateDuration();

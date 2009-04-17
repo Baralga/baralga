@@ -384,11 +384,11 @@ public class PresentationModel extends Observable {
             final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED);
             event.setData(activity);
             notify(event);
+            
+            // Set start time to now.
+            // :INFO: No need to clone instance because DateTime is immutable 
+            setStart(now);
         }
-
-        // Set start time to now.
-        // :INFO: No need to clone instance because DateTime is immutable 
-        setStart(now);
 
         // Fire project changed event
         final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_CHANGED);
