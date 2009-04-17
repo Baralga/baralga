@@ -12,6 +12,7 @@ Fixes
  * Removed possible problems in concurrent data manipulation.
  * Smarter placement of the 'Start activity?' dialog - especially for those who have their taskbar on the left side of the screen.
  * Error dialog for fatal errors during application startup.
+ * Handle errors in settings import gracefully (Issue #22 http://baralga.origo.ethz.ch/node/102)
 
 Functionality
  * Display start time and running duration of activity.

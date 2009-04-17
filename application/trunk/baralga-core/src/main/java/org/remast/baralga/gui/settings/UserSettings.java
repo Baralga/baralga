@@ -91,7 +91,7 @@ public final class UserSettings {
      * @return the location of the last Excel export
      */
     public String getLastExcelExportLocation() {
-        return userConfig.getString(LAST_EXCEL_EXPORT_LOCATION, System.getProperty("user.home"));
+        return doGetString(LAST_EXCEL_EXPORT_LOCATION, System.getProperty("user.home"));
     }
 
     /**
@@ -101,7 +101,7 @@ public final class UserSettings {
     public void setLastExcelExportLocation(final String excelExportLocation) {
         userConfig.setProperty(LAST_EXCEL_EXPORT_LOCATION, excelExportLocation);
     }
-    
+
     //------------------------------------------------
     // Data Export Location
     //------------------------------------------------
@@ -114,7 +114,7 @@ public final class UserSettings {
      * @return the location of the last Data export
      */
     public String getLastDataExportLocation() {
-        return userConfig.getString(LAST_DATA_EXPORT_LOCATION, System.getProperty("user.home"));
+        return doGetString(LAST_DATA_EXPORT_LOCATION, System.getProperty("user.home"));
     }
 
     /**
@@ -124,7 +124,7 @@ public final class UserSettings {
     public void setLastDataExportLocation(final String dataExportLocation) {
         userConfig.setProperty(LAST_DATA_EXPORT_LOCATION, dataExportLocation);
     }
-    
+
     //------------------------------------------------
     // Csv Export Location
     //------------------------------------------------
@@ -137,7 +137,7 @@ public final class UserSettings {
      * @return the location of the last Csv export
      */
     public String getLastCsvExportLocation() {
-        return userConfig.getString(LAST_CSV_EXPORT_LOCATION, System.getProperty("user.home"));
+        return doGetString(LAST_CSV_EXPORT_LOCATION, System.getProperty("user.home"));
     }
 
     /**
@@ -156,7 +156,7 @@ public final class UserSettings {
     private static final String LAST_DESCRIPTION = "description"; //$NON-NLS-1$
 
     public String getLastDescription() {
-        return userConfig.getString(LAST_DESCRIPTION, StringUtils.EMPTY);
+        return doGetString(LAST_DESCRIPTION, StringUtils.EMPTY);
     }
 
     public void setLastDescription(final String lastDescription) {
@@ -173,13 +173,13 @@ public final class UserSettings {
     public Integer getFilterSelectedMonth() {
         // -- 
         // :INFO: Migrate from < 1.3 where * was used as dummy value
-        if (StringUtils.equals("*", userConfig.getString(SELECTED_MONTH, null))) {
+        if (StringUtils.equals("*", doGetString(SELECTED_MONTH, null))) {
             setFilterSelectedMonth(MonthFilterList.ALL_MONTHS_DUMMY);
         }
         // --
-        return userConfig.getInteger(SELECTED_MONTH, null);
+        return doGetInteger(SELECTED_MONTH, null);
     }
-
+    
     public void setFilterSelectedMonth(final Integer month) {
         userConfig.setProperty(SELECTED_MONTH, month);
     }
@@ -188,7 +188,7 @@ public final class UserSettings {
     private static final String SELECTED_WEEK_OF_YEAR = "filter.weekOfYear"; //$NON-NLS-1$
 
     public Integer getFilterSelectedWeekOfYear() {
-        return userConfig.getInteger(SELECTED_WEEK_OF_YEAR, null);
+        return doGetInteger(SELECTED_WEEK_OF_YEAR, null);
     }
 
     public void setFilterSelectedWeekOfYear(final Integer weekOfYear) {
@@ -201,11 +201,11 @@ public final class UserSettings {
     public Integer getFilterSelectedYear() {
         // -- 
         // :INFO: Migrate from < 1.3 where * was used as dummy value
-        if (StringUtils.equals("*", userConfig.getString(SELECTED_YEAR, null))) {
+        if (StringUtils.equals("*", doGetString(SELECTED_YEAR, null))) {
             setFilterSelectedYear(YearFilterList.ALL_YEARS_DUMMY);
         }
         // -- 
-        return userConfig.getInteger(SELECTED_YEAR, null);
+        return doGetInteger(SELECTED_YEAR, null);
     }
 
     public void setFilterSelectedYear(final Integer year) {
@@ -216,7 +216,7 @@ public final class UserSettings {
     private static final String SELECTED_PROJECT_ID = "filter.projectId"; //$NON-NLS-1$
 
     public Long getFilterSelectedProjectId() {
-        return userConfig.getLong(SELECTED_PROJECT_ID, null);
+        return doGetLong(SELECTED_PROJECT_ID, null);
     }
 
     public void setFilterSelectedProjectId(final long projectId) {
@@ -231,7 +231,7 @@ public final class UserSettings {
     public static final String SHOWN_CATEGORY = "shown.category"; //$NON-NLS-1$
 
     public String getShownCategory() {
-        return userConfig.getString(SHOWN_CATEGORY, "General");
+        return doGetString(SHOWN_CATEGORY, "General");
     }
 
     public void setShownCategory(final String shownCategory) {
@@ -332,6 +332,67 @@ public final class UserSettings {
             } catch (NumberFormatException e) {
                 log.error(e, e);
             }
+        }
+    }
+
+    //------------------------------------------------
+    // Helper methods
+    //------------------------------------------------
+
+    /**
+     * Getter that handle errors gracefully meaning errors are logged 
+     * but applications continues with the default value.
+     * @param key the key of the property to get
+     * @param defaultValue the default value of the property to get
+     * @return the property value if set and correct otherwise the default value
+     */
+    private String doGetString(final String key, final String defaultValue) {
+        try {
+            return userConfig.getString(key, defaultValue);
+        } catch (Exception e) {
+            log.error(e, e);
+            return defaultValue;
+        } catch (Throwable t) {
+            log.error(t, t);
+            return defaultValue;
+        }
+    }
+
+    /**
+     * Getter that handle errors gracefully meaning errors are logged 
+     * but applications continues with the default value.
+     * @param key the key of the property to get
+     * @param defaultValue the default value of the property to get
+     * @return the property value if set and correct otherwise the default value
+     */
+    private Long doGetLong(final String key, final Long defaultValue) {
+        try {
+            return userConfig.getLong(key, defaultValue);
+        } catch (Exception e) {
+            log.error(e, e);
+            return defaultValue;
+        } catch (Throwable t) {
+            log.error(t, t);
+            return defaultValue;
+        }
+    }
+
+    /**
+     * Getter that handle errors gracefully meaning errors are logged 
+     * but applications continues with the default value.
+     * @param key the key of the property to get
+     * @param defaultValue the default value of the property to get
+     * @return the property value if set and correct otherwise the default value
+     */
+    private Integer doGetInteger(final String key, final Integer defaultValue) {
+        try {
+            return userConfig.getInteger(key, defaultValue);
+        } catch (Exception e) {
+            log.error(e, e);
+            return defaultValue;
+        } catch (Throwable t) {
+            log.error(t, t);
+            return defaultValue;
         }
     }
 }
