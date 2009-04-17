@@ -102,8 +102,20 @@ public class BaralgaMain {
             initTrayIcon(mainInstance, model, mainFrame);
         } catch (Exception e) {
             log.error(e, e);
+            JOptionPane.showMessageDialog(
+                    null, 
+                    textBundle.textFor("BaralgaMain.FatalError.Message"),  //$NON-NLS-1$
+                    textBundle.textFor("BaralgaMain.FatalError.Title"),  //$NON-NLS-1$
+                    JOptionPane.ERROR_MESSAGE
+            );
         } catch (Throwable t) {
             log.error(t, t);
+            JOptionPane.showMessageDialog(
+                    null, 
+                    textBundle.textFor("BaralgaMain.FatalError.Message"),  //$NON-NLS-1$
+                    textBundle.textFor("BaralgaMain.FatalError.Title"),  //$NON-NLS-1$
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
     }
 
@@ -115,13 +127,13 @@ public class BaralgaMain {
         if (arguments == null || arguments.length == 0) {
             return;
         }
-        
+
         for (String argument : arguments) {
             if (argument.startsWith("-m=")) {
                 this.minimized = Boolean.parseBoolean(argument.substring("-m=".length()));
             }
         }
-        
+
     }
 
     /**

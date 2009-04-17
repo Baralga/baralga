@@ -11,6 +11,7 @@ Fixes
  * Export locations remembered correctly.
  * Removed possible problems in concurrent data manipulation.
  * Smarter placement of the 'Start activity?' dialog - especially for those who have their taskbar on the left side of the screen.
+ * Error dialog for fatal errors during application startup.
 
 Functionality
  * Display start time and running duration of activity.
