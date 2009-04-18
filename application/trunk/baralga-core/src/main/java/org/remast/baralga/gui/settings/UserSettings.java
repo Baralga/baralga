@@ -171,9 +171,12 @@ public final class UserSettings {
     private static final String SELECTED_MONTH = "filter.month"; //$NON-NLS-1$
 
     public Integer getFilterSelectedMonth() {
+        // Avoid ConversionException by checking the type of the property
+        final Object selectedMonthObject = userConfig.getProperty(SELECTED_MONTH);
+        
         // -- 
         // :INFO: Migrate from < 1.3 where * was used as dummy value
-        if (StringUtils.equals("*", doGetString(SELECTED_MONTH, null))) {
+        if ((selectedMonthObject instanceof String) && StringUtils.equals("*", (String) selectedMonthObject)) {
             setFilterSelectedMonth(MonthFilterList.ALL_MONTHS_DUMMY);
         }
         // --
@@ -199,9 +202,12 @@ public final class UserSettings {
     private static final String SELECTED_YEAR = "filter.year"; //$NON-NLS-1$
 
     public Integer getFilterSelectedYear() {
+        // Avoid ConversionException by checking the type of the property
+        final Object selectedYearObject = userConfig.getProperty(SELECTED_YEAR);
+        
         // -- 
         // :INFO: Migrate from < 1.3 where * was used as dummy value
-        if (StringUtils.equals("*", doGetString(SELECTED_YEAR, null))) {
+        if ((selectedYearObject instanceof String) && StringUtils.equals("*", (String) selectedYearObject)) {
             setFilterSelectedYear(YearFilterList.ALL_YEARS_DUMMY);
         }
         // -- 
