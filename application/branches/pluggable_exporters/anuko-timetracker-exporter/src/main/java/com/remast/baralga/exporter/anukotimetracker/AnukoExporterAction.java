@@ -3,11 +3,14 @@ package com.remast.baralga.exporter.anukotimetracker;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 
+import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
 
 import org.remast.baralga.gui.actions.AbstractExportAction;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.export.Exporter;
+
+import com.remast.baralga.exporter.anukotimetracker.gui.ExportDialog;
 
 @SuppressWarnings("serial")
 public class AnukoExporterAction extends AbstractExportAction {
@@ -44,7 +47,12 @@ public class AnukoExporterAction extends AbstractExportAction {
      */
     @Override
     public void actionPerformed(final ActionEvent event) {
-        // TODO
+        ExportDialog dialog = new ExportDialog(getOwner(), getLastExportLocation(),
+                getModel().getData(), getModel().getFilter() );
+        dialog.setLocationByPlatform(true);
+        dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        dialog.pack();
+        dialog.setVisible(true);
     }
 
 }

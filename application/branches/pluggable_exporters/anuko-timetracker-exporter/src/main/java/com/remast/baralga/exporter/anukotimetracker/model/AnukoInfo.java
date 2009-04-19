@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.joda.time.Duration;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
@@ -14,6 +15,8 @@ public class AnukoInfo {
     private List<AnukoProject> projects = new ArrayList<AnukoProject>();
     private List<AnukoActivity> activities = new ArrayList<AnukoActivity>();
     private List<Object> errors = new ArrayList<Object>();
+    
+    private Duration dailyWorked = new Duration(0);
 
     public List<AnukoProject> getProjects() {
         return projects;
@@ -48,5 +51,12 @@ public class AnukoInfo {
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }
+    public void addDailyTime(long millis) {
+        dailyWorked = dailyWorked.plus(millis);
+    }
+    
+    public Duration getDailyTime() {
+        return this.dailyWorked;
     }
 }

@@ -8,6 +8,11 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import com.remast.baralga.exporter.anukotimetracker.model.AnukoActivity;
 import com.remast.baralga.exporter.anukotimetracker.model.AnukoError;
@@ -18,10 +23,15 @@ public class AnukoInfoResponseHandler implements ResponseHandler<AnukoInfo> {
 
     private final JdomResponseHandler handler = new JdomResponseHandler();
     
+    private final DateTimeFormatter hoursFormat = DateTimeFormat.forPattern("HH:mm");
+    
     @Override
     public AnukoInfo handleResponse(HttpResponse response)
             throws ClientProtocolException, IOException {
         Document doc = handler.handleResponse(response);
+        
+        XMLOutputter output = new XMLOutputter(Format.getPrettyFormat());
+        output.output(doc, System.out);
         
         if( doc != null ) {
             return parse(doc);
@@ -60,6 +70,12 @@ public class AnukoInfoResponseHandler implements ResponseHandler<AnukoInfo> {
             }
             
             info.addActivity(anukoActivity);
+        }
+        
+        List<Element> completedTime = doc.getRootElement().getChild("records").getChildren("compleate");
+        for( Element complete : completedTime ) {
+            DateTime hourMinutes = hoursFormat.parseDateTime(complete.getAttributeValue("daily_time"));
+            info.addDailyTime( hourMinutes.getMillisOfDay() );
         }
         
         List<Element> errors = doc.getRootElement().getChild("errors").getChildren("error");
