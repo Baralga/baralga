@@ -7,9 +7,6 @@ import java.util.List;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-
-@XStreamAlias("activity")
 public class AnukoActivity implements Comparable<AnukoActivity> {
     private final long id;
     private final String name;
@@ -29,6 +26,10 @@ public class AnukoActivity implements Comparable<AnukoActivity> {
         return name;
     }
 
+    public AnukoProject getFirstProject() {
+        return this.projects.get(0);
+    }
+    
     public List<AnukoProject> getProjects() {
         return this.projects;
     }
@@ -46,5 +47,27 @@ public class AnukoActivity implements Comparable<AnukoActivity> {
     public int compareTo(AnukoActivity o) {
         Collator collator = Collator.getInstance();
         return collator.compare( this.name, o.name );
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (int) (id ^ (id >>> 32));
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AnukoActivity other = (AnukoActivity) obj;
+        if (id != other.id)
+            return false;
+        return true;
     }
 }

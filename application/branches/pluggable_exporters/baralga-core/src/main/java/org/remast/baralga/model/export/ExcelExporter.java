@@ -2,6 +2,7 @@ package org.remast.baralga.model.export;
 
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -74,7 +75,7 @@ public class ExcelExporter implements Exporter {
             col = 0;
             row++;
 
-            List<ProjectActivity> activities = data.getActivities();
+            Collection<ProjectActivity> activities = data.getActivities();
             if (filter != null)  {
                 activities = filter.applyFilters(data.getActivities());
             }

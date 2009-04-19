@@ -8,6 +8,9 @@ import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.text.DecimalFormat;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -20,6 +23,7 @@ import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.remast.baralga.model.Project;
+import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.ReadableBaralgaData;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.swing.dialog.EscapeDialog;
@@ -56,6 +60,10 @@ public class ExportDialog extends EscapeDialog {
     
     private JButton exportButton;
 
+    private DateTime startDate;
+
+    private DateTime endDate;
+
     /**
      * Create a new dialog.
      * @param owner
@@ -64,17 +72,34 @@ public class ExportDialog extends EscapeDialog {
     public ExportDialog(final Frame owner, final String url,
             final ReadableBaralgaData data, final Filter filter ) {
         super(owner);
+        if( filter == null ) {
+            throw new NullPointerException("filter must not be null!");
+        }
         this.anukoAccess = new AnukoAccess( url, "kutzi_user", "moin" );
         this.data = data;
         this.filter = filter;
 
         initialize();
     }
+    
+    private void initRelevantDates() {
+        List<ProjectActivity> activities = this.filter.applyFilters(this.data.getActivities());
+
+        if( ! activities.isEmpty() ) {
+            Collections.sort(activities);
+            // activities are now sorted in reverse order!
+            // I.e. the latest activity is the first element!
+
+            this.endDate = activities.get(0).getDay();
+            this.startDate = activities.get(activities.size() - 1).getDay();
+        }
+    }
 
     /**
      * Sets up GUI components.
      */
     private void initialize() {
+        initRelevantDates();
         getWarningLabel();
         updateInfo();
         
@@ -91,17 +116,23 @@ public class ExportDialog extends EscapeDialog {
     }
 
     private void updateInfo() {
-        try {
-            this.anukoInfo = this.anukoAccess.getAnukoInfo(new DateTime()); // TODO get date from filter
-            
-            if( anukoInfo.getDailyTime().isLongerThan(Duration.ZERO)) {
-                double hours = anukoInfo.getDailyTime().getStandardSeconds() / (60D * 60);
-                this.warningLabel.setText("<html><b>" +
-                		"You have already " + hours + "h recorded for that period!<br>" +
-                		"Exported activities will be added to the existing!</b></html>");
+        if( this.startDate != null ) {
+            try {
+                this.anukoInfo = this.anukoAccess.getMergedAnukoInfo(this.startDate, this.endDate);
+                
+                if( anukoInfo.getDailyTime().isLongerThan(Duration.ZERO)) {
+                    
+                    DecimalFormat df = new DecimalFormat("0.00");
+                    double hours = anukoInfo.getDailyTime().getStandardSeconds() / (60D * 60);
+                    this.warningLabel.setText("<html><b>" +
+                    		"You have already " + df.format(hours) + "h recorded for that period!<br>" +
+                    		"Exported activities will be added to the existing!</b></html>");
+                }
+            } catch (Exception e) {
+                log.error(e, e);
             }
-        } catch (Exception e) {
-            log.error(e, e);
+        } else {
+            this.anukoInfo = new AnukoInfo();
         }
     }
     
@@ -183,4 +214,7 @@ public class ExportDialog extends EscapeDialog {
         return exportButton;
     }
 
+    public String getLastUrl() {
+        return this.url.getText();
+    }
 }

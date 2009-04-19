@@ -5,6 +5,7 @@ import info.clearthought.layout.TableLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,8 +73,11 @@ public class ProjectMappingPanel extends JXPanel {
             rowLayout[row] = border;
             rowLayout[row+1] = TableLayout.PREFERRED;
         }
-        rowLayout[rowLayout.length-2] = TableLayout.FILL;
-        rowLayout[rowLayout.length-1] = border;
+        
+        if( rowLayout.length >= 2 ) {
+            rowLayout[rowLayout.length-2] = TableLayout.FILL;
+            rowLayout[rowLayout.length-1] = border;
+        }
         
         final double size[][] = {
                 { border, TableLayout.PREFERRED, borderBig, TableLayout.FILL}, // Columns
@@ -113,7 +117,7 @@ public class ProjectMappingPanel extends JXPanel {
     private static final LabeledItem<AnukoActivity> NO_SELECTION_ITEM = new LabeledItem<AnukoActivity>(NO_SELECTION, " "); //$NON-NLS-1$
     
     
-    private JComboBox getProjectSelector(final Project p, List<AnukoActivity> activities) {
+    private JComboBox getProjectSelector(final Project p, Collection<AnukoActivity> activities) {
         
         EventList<LabeledItem<AnukoActivity>> eventList =
             new BasicEventList<LabeledItem<AnukoActivity>>();

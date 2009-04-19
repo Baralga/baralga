@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
 
+import org.apache.commons.configuration.Configuration;
 import org.remast.baralga.gui.actions.AbstractExportAction;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.export.Exporter;
@@ -15,8 +16,14 @@ import com.remast.baralga.exporter.anukotimetracker.gui.ExportDialog;
 @SuppressWarnings("serial")
 public class AnukoExporterAction extends AbstractExportAction {
 
-    public AnukoExporterAction(Frame owner, PresentationModel model) {
+    private static final String LAST_URL = "LAST.URL";
+    
+    private final Configuration settings;
+    
+    public AnukoExporterAction(Frame owner, PresentationModel model,
+            Configuration settings) {
         super(owner, model);
+        this.settings = settings;
     }
 
     public Exporter createExporter() {
@@ -34,12 +41,11 @@ public class AnukoExporterAction extends AbstractExportAction {
     }
 
     protected String getLastExportLocation() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.settings.getString(LAST_URL);
     }
 
     protected void setLastExportLocation(String lastExportLocation) {
-        // TODO Auto-generated method stub
+        this.settings.setProperty(LAST_URL, lastExportLocation);
     }
     
     /**
@@ -53,6 +59,8 @@ public class AnukoExporterAction extends AbstractExportAction {
         dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         dialog.pack();
         dialog.setVisible(true);
+        
+        setLastExportLocation(dialog.getLastUrl());
     }
 
 }
