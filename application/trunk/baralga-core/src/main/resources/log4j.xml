@@ -3,6 +3,8 @@
 
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
+<!--  
+    INFO: Console appender is added programmatically to make log directory relative to application data directory.
 	<appender name="main" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="datePattern" value="'.'yyyy-MM-dd" />
 		<param name="file" value="log/baralga.log" />
@@ -11,6 +13,7 @@
 			<param name="ConversionPattern" value="%d{ISO8601} %-5p [%t] %c: %m%n" />
 		</layout>
 	</appender>
+-->
 
 	<appender name="console" class="org.apache.log4j.ConsoleAppender">
 		<layout class="org.apache.log4j.PatternLayout">
@@ -26,7 +29,10 @@
     <!-- General debugging level.  -->
 	<root>
 		<priority value="WARN" />
+		<!--  
+        INFO: Console appender is added programmatically to make log directory relative to application data directory.
 		<appender-ref ref="main" />
+        -->
 		<appender-ref ref="console" />
 	</root>
 

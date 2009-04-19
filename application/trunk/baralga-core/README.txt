@@ -13,6 +13,7 @@ Fixes
  * Smarter placement of the 'Start activity?' dialog - especially for those who have their taskbar on the left side of the screen.
  * Error dialog for fatal errors during application startup.
  * Handle errors in settings import gracefully (Issue #22 http://baralga.origo.ethz.ch/node/102)
+ * Log files are stored in user specific directory to ensure logging works in multiuser environments.
 
 Functionality
  * Display start time and running duration of activity.

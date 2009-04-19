@@ -17,6 +17,10 @@ import javax.swing.UIManager;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Appender;
+import org.apache.log4j.DailyRollingFileAppender;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.model.ProjectActivityStateException;
@@ -32,7 +36,7 @@ import org.remast.util.TextResourceBundle;
  * Controls the lifecycle of the application.
  * @author remast
  */
-public class BaralgaMain {
+public final class BaralgaMain {
 
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
@@ -63,6 +67,9 @@ public class BaralgaMain {
 
     /** The timer to periodically save to disk. */
     private static Timer timer;
+
+    /** The absolute path name of the log file. */
+    private static String logFileName;
 
     /**
      * Gets the tray icon. 
@@ -104,7 +111,7 @@ public class BaralgaMain {
             log.error(e, e);
             JOptionPane.showMessageDialog(
                     null, 
-                    textBundle.textFor("BaralgaMain.FatalError.Message"),  //$NON-NLS-1$
+                    textBundle.textFor("BaralgaMain.FatalError.Message", logFileName),  //$NON-NLS-1$
                     textBundle.textFor("BaralgaMain.FatalError.Title"),  //$NON-NLS-1$
                     JOptionPane.ERROR_MESSAGE
             );
@@ -112,7 +119,7 @@ public class BaralgaMain {
             log.error(t, t);
             JOptionPane.showMessageDialog(
                     null, 
-                    textBundle.textFor("BaralgaMain.FatalError.Message"),  //$NON-NLS-1$
+                    textBundle.textFor("BaralgaMain.FatalError.Message", logFileName),  //$NON-NLS-1$
                     textBundle.textFor("BaralgaMain.FatalError.Title"),  //$NON-NLS-1$
                     JOptionPane.ERROR_MESSAGE
             );
@@ -318,10 +325,17 @@ public class BaralgaMain {
 
     /**
      * Initialize the logger of the application.
+     * @throws IOException 
      */
-    private static void initLogger() {
+    private static void initLogger() throws IOException {
         log.debug("Initializing logger ...");
         DOMConfigurator.configure(BaralgaMain.class.getResource("/log4j.xml"));
+
+        logFileName = ApplicationSettings.instance().getApplicationDataDirectory().getAbsolutePath() + File.separator + "log" + File.separator + "baralga.log";
+        final Appender mainAppender = new DailyRollingFileAppender(new PatternLayout("%d{ISO8601} %-5p [%t] %c: %m%n"), logFileName, "'.'yyyy-MM-dd");
+
+        final Logger root = Logger.getRootLogger();
+        root.addAppender(mainAppender);
     }
 
     /**
