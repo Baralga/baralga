@@ -2,6 +2,7 @@
 	<includeBaseDirectory>false</includeBaseDirectory>
 	<formats>
 		<format>dir</format>
+        <format>zip</format>
 	</formats>
 	<fileSets>
 		<fileSet>
@@ -28,6 +29,13 @@
 				<include>Baralga-Tray.ico</include>
 			</includes>
 		</fileSet>
+        <fileSet>
+            <directory>src/normal</directory>
+            <outputDirectory>data</outputDirectory>
+            <includes>
+                <include>application.properties</include>
+            </includes>
+        </fileSet>
 	</fileSets>
 	<dependencySets>
 		<dependencySet>
