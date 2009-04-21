@@ -180,7 +180,7 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
         start.setBorder(BorderFactory.createEmptyBorder());
         start.setFont(FONT_BIG_BOLD);
         start.setForeground(HIGHLIGHT_COLOR);
-        
+
         // Restore current activity
         if (model.isActive()) {
             start.setEnabled(true);
@@ -338,15 +338,12 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
      * @param event the event of the project change
      */
     private void updateProjectChanged(final BaralgaEvent event) {
-        // If there is no active project leave everything as is
-        if (!model.isActive()) {
-            return;
-        }
-        
         getProjectSelector().setSelectedItem((Project) event.getData());
-        start.setValue(this.model.getStart().toDate());
 
-        updateDuration();
+        if (model.isActive()) {
+            start.setValue(this.model.getStart().toDate());
+            updateDuration();
+        }
     }
 
     /**

@@ -340,11 +340,9 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
         case BaralgaEvent.PROJECT_CHANGED:
             // If there is no active project leave everything as is
-            if (!model.isActive()) {
-                break;
+            if (model.isActive()) {
+                this.updateTitle();
             }
-            
-            this.updateTitle();
             break;
 
         case BaralgaEvent.PROJECT_ADDED:

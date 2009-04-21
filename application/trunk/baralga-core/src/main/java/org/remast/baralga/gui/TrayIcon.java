@@ -158,13 +158,12 @@ public class TrayIcon implements Observer {
                     break;
 
                 case BaralgaEvent.PROJECT_CHANGED:
-                    // If there is no active project leave everything as is
-                    if (!model.isActive()) {
-                        break;
+                    this.buildMenu();
+
+                    if (model.isActive()) {
+                        this.updateToolTip();
                     }
                     
-                    this.updateToolTip();
-                    this.buildMenu();
                     break;
 
                 case BaralgaEvent.PROJECT_ADDED:
