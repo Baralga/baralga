@@ -8,6 +8,7 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -18,11 +19,8 @@ import org.apache.commons.logging.LogFactory;
  * bundled with the class.
  * @author remast
  */
-public class TextResourceBundle {
-
-    /** The name of the properties file. */
-    private static final String PROPERTIES_FILE_NAME = "Texts";
-
+public final class TextResourceBundle {
+    
     /** The logger. */
     private static final Log log = LogFactory.getLog(TextResourceBundle.class);
 
@@ -32,16 +30,32 @@ public class TextResourceBundle {
     /** The class to resolve texts for. */
     private Class<?> clazz;
 
+    /**
+     * Creates a new bundle with text ressources for the given class.
+     * @param clazz the class to create bundle for - may not be null
+     * @throws IllegalArgumentException if class argument is null
+     */
     private TextResourceBundle(final Class<?> clazz) {
         if (clazz == null) {
             throw new IllegalArgumentException("Parameter clazz may not be null.");
         }
-        
+
         this.clazz = clazz;
 
         try {
-            resourceBundle = ResourceBundle.getBundle(clazz.getPackage().getName() + "." + PROPERTIES_FILE_NAME,
-                    Locale.getDefault(), clazz.getClassLoader());
+            final String [] superPackageNames = StringUtils.split(clazz.getPackage().getName(), '.');
+
+            // Get name of the current package
+            String currentPackageName = "";
+            if (superPackageNames.length > 0) {
+                currentPackageName = superPackageNames[superPackageNames.length - 1];
+            }
+
+            resourceBundle = ResourceBundle.getBundle(
+                    clazz.getPackage().getName() + "." + StringUtils.capitalize(currentPackageName) + "Texts",
+                    Locale.getDefault(),
+                    clazz.getClassLoader()
+            );
         } catch (MissingResourceException e) {
             log.error(e, e);
         }
