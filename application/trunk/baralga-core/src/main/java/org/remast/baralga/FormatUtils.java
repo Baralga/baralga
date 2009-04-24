@@ -24,9 +24,13 @@ public abstract class FormatUtils {
     private static final DateFormat timeFormat = new SmartTimeFormat();
     
     private static final DateTimeFormatter timeFormatter = DateTimeFormat.forPattern(TimeFormat.HHMM_FORMAT);
-       
+
     public static String formatTime(final DateTime date) {
         return timeFormatter.print(date);
+    }
+    
+    public static String formatDate(final DateTime date) {
+        return DateFormat.getDateInstance().format(date.toDate());
     }
     
     public static DateTime parseTime(final String time) throws ParseException {
