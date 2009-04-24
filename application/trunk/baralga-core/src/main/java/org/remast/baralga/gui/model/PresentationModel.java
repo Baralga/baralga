@@ -180,27 +180,6 @@ public class PresentationModel extends Observable {
 
         notify(event);
     }
-    
-    /**
-     * Replaces an old project with a new, updated project.
-     * @param source the source of the edit activity
-     */
-    public final void replaceProject(final Project oldProject, final Project newProject, final Object source) {
-        getData().replaceProject(oldProject, newProject);
-        this.projectList.remove(oldProject);
-        this.projectList.add(newProject);
-
-        // Mark data as dirty
-        this.dirty = true;
-
-        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_REMOVED, source);
-        event.setData(oldProject);
-        notify(event);
-        
-        final BaralgaEvent event2 = new BaralgaEvent(BaralgaEvent.PROJECT_ADDED, source);
-        event2.setData(newProject);
-        notify(event2);
-    }
 
     /**
      * Start a project activity at the given time.<br/>
@@ -213,7 +192,7 @@ public class PresentationModel extends Observable {
             throw new ProjectActivityStateException(textBundle.textFor("PresentationModel.NoActiveProjectSelectedError")); //$NON-NLS-1$
         }
         
-        if(isActive()) {
+        if (isActive()) {
             throw new ProjectActivityStateException("There is already an activity running"); // TODO L10N
         }
 
@@ -223,9 +202,14 @@ public class PresentationModel extends Observable {
         // Mark data as dirty
         this.dirty = true;
 
-        
         // Set start time to now if null
-        DateTime start = startTime != null ? startTime : DateUtils.getNowAsDateTime();
+        DateTime start;
+        if (startTime == null) {
+            start = DateUtils.getNowAsDateTime();
+        } else {
+            start = startTime;
+        }
+        
         setStart(start);
         getData().start(start);
 
