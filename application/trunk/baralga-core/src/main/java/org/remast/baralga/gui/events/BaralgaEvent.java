@@ -32,6 +32,9 @@ public class BaralgaEvent {
 
     /** A project activity has been removed. */
     public static final int PROJECT_ACTIVITY_REMOVED = 6;
+    
+    /** A project activity has been changed. */
+    public static final int PROJECT_ACTIVITY_CHANGED = 7;
 
     /** The filter has been changed. */
     public static final int FILTER_CHANGED = 8;

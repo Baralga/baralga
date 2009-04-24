@@ -235,9 +235,30 @@ public class PresentationModel extends Observable {
         notifyObservers(event);
     }
 
+    /**
+     * Fires an event that a projects property has changed.
+     * @param changedProject the project that's changed
+     * @param propertyChangeEvent the event to fire
+     */
     public void fireProjectChangedEvent(final Project changedProject, final PropertyChangeEvent propertyChangeEvent) {
         final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_CHANGED);
         event.setData(changedProject);
+        event.setPropertyChangeEvent(propertyChangeEvent);
+
+        // Mark data as dirty
+        this.dirty = true;
+
+        notify(event);
+    }
+    
+    /**
+     * Fires an event that a project activity's property has changed.
+     * @param changedActivity the project activity that's changed
+     * @param propertyChangeEvent the event to fire
+     */
+    public void fireProjectActivityChangedEvent(final ProjectActivity changedActivity, final PropertyChangeEvent propertyChangeEvent) {
+        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_CHANGED);
+        event.setData(changedActivity);
         event.setPropertyChangeEvent(propertyChangeEvent);
 
         // Mark data as dirty

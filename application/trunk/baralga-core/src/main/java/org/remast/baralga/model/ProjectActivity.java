@@ -2,6 +2,8 @@ package org.remast.baralga.model;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.remast.baralga.FormatUtils;
 
@@ -26,16 +28,16 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
     private static final long serialVersionUID = 1L;
 
     /** Start date of this activity. */
-    private final DateTime start;
+    private DateTime start;
 
     /** End date of this activity. */
-    private final DateTime end;
+    private DateTime end;
 
     /** The project associated with this activity. */
-    private final Project project;
+    private Project project;
 
     /** The description of this activity. */
-    private final String description;
+    private String description;
 
     public static final String PROPERTY_START = "org.remast.baralga.model.ProjectActivity.start";
 
@@ -64,7 +66,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
      */
     public ProjectActivity(final DateTime start, final DateTime end, final Project project,
             final String description) {
-        if(start.isAfter(end)) {
+        if (start.isAfter(end)) {
             throw new IllegalArgumentException("End time may not be before start time!");
         }
         this.start = start;
@@ -74,18 +76,23 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
     }
     
     /**
-     * @return the description
+     * Getter for the description.
+     * @return the description to get
      */
     public String getDescription() {
         return description;
     }
 
     /**
-     * @param description
-     *            the description to set
+     * Setter for the description.
+     * @param description the description to set
      */
-    public ProjectActivity withDescription(final String description) {
-        return new ProjectActivity(getStart(), getEnd(), getProject(), description);
+    public void setDescription(final String description) {
+        if (StringUtils.equals(this.description, description)) {
+            return;
+        }
+        
+        this.description = description;
     }
 
     /**
@@ -94,25 +101,25 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
      * @param day the new activity day.
      *   Hours, minutes, seconds and so on in the passed value are ignored.
      */
-    public ProjectActivity withDay(DateTime day) {
-        DateTime start = getStart();
-        start = start.withYear(day.getYear()).withMonthOfYear(day.getMonthOfYear())
+    public void setDay(final DateTime day) {
+        DateTime newStartDay = getStart();
+        this.start = newStartDay.withYear(day.getYear()).withMonthOfYear(day.getMonthOfYear())
             .withDayOfMonth(day.getDayOfMonth());
         
         
-        DateTime end = getEnd();
-        end = end.withYear(day.getYear()).withMonthOfYear(day.getMonthOfYear())
+        
+        DateTime newEndDay = getEnd();
+        newEndDay = newEndDay.withYear(day.getYear()).withMonthOfYear(day.getMonthOfYear())
             .withDayOfMonth(day.getDayOfMonth());
-        if(end.getHourOfDay() == 0 && end.getMinuteOfHour() == 0) {
-            end = end.plusDays(1);
+        if (newEndDay.getHourOfDay() == 0 && newEndDay.getMinuteOfHour() == 0) {
+            newEndDay = newEndDay.plusDays(1);
         }
         
-        return new ProjectActivity(start, end, getProject(), getDescription());
+        this.end = newEndDay;
     }
     
     /**
-     * Returns the day of the activity
-     * 
+     * Returns the day of the activity. 
      * Hours, minutes, seconds of the returned value are to be ignored.
      */
     public DateTime getDay() {
@@ -120,7 +127,8 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
     }
 
     /**
-     * @return the end
+     * Getter for the end.
+     * @return the end to get
      */
     public DateTime getEnd() {
         return end;
@@ -131,27 +139,27 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
      * 
      * Note: When setting the end date to 0:00h it is always supposed to mean
      * midnight i.e. 0:00h the next day!
-     * 
      * @throws IllegalArgumentException if end time is before start time
      */
-    public ProjectActivity withEndTime(final int hours, final int minutes) {
-        DateTime endDt = getEnd();
-        if( hours == endDt.getHourOfDay() && minutes == endDt.getMinuteOfHour() ) {
-            return this;
+    public void setEndTime(final int hours, final int minutes) {
+        DateTime endDate = getEnd();
+        if (hours == endDate.getHourOfDay() && minutes == endDate.getMinuteOfHour() ) {
+            return;
         }
         
-        if(endDt.getHourOfDay() == 0 && endDt.getMinuteOfHour() == 0) { // adjust day if old end was on midnight
-            endDt = endDt.minusDays( 1 );
-        } else if(hours == 0 && minutes == 0) { // adjust day if new end is on midnight
-            endDt = endDt.plusDays(1);
+        if (endDate.getHourOfDay() == 0 && endDate.getMinuteOfHour() == 0) { // adjust day if old end was on midnight
+            endDate = endDate.minusDays(1);
+        } else if (hours == 0 && minutes == 0) { // adjust day if new end is on midnight
+            endDate = endDate.plusDays(1);
         }
         
-        endDt = endDt.withHourOfDay(hours).withMinuteOfHour(minutes);
+        endDate = endDate.withHourOfDay(hours).withMinuteOfHour(minutes);
         
-        if( endDt.isBefore( getStart() ) ) {
+        if (endDate.isBefore(getStart())) {
             throw new IllegalArgumentException("End time may not be before start time!");
         }
-        return new ProjectActivity(getStart(), endDt, getProject(), getDescription());
+        
+        this.end = endDate;
     }
 
     /**
@@ -162,11 +170,15 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
     }
 
     /**
-     * @param project
-     *            the project to set
+     * Setter for the project.
+     * @param project the project to set
      */
-    public ProjectActivity withProject(final Project project) {
-        return new ProjectActivity(getStart(), getEnd(), project, getDescription());
+    public void setProject(final Project project) {
+        if (ObjectUtils.equals(this.project, project)) {
+            return;
+        }
+        
+        this.project = project;
     }
 
     /**
@@ -180,10 +192,10 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
      * Sets the start hours and minutes while respecting the class invariants.
      * @throws IllegalArgumentException if end time is before start time
      */
-    public ProjectActivity withStartTime(final int hours, final int minutes) {
+    public void setStartTime(final int hours, final int minutes) {
         DateTime startTime = getStart();
         if (hours == startTime.getHourOfDay() && minutes == startTime.getMinuteOfHour()) {
-            return this;
+            return;
         }
         
         startTime = startTime.withHourOfDay(hours).withMinuteOfHour(minutes);
@@ -191,7 +203,8 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
         if (startTime.isAfter(getEnd())) {
             throw new IllegalArgumentException("End time may not be before start time!");
         }
-        return new ProjectActivity(startTime, getEnd(), getProject(), getDescription());
+        
+        this.start = startTime;
     }
     
     @Override

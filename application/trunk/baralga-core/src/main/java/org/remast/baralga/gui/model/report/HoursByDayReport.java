@@ -92,6 +92,10 @@ public class HoursByDayReport extends Observable implements Observer  {
                 calculateHours();
                 break;
 
+            case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
+                calculateHours();
+                break;
+                
             case BaralgaEvent.FILTER_CHANGED:
                 final Filter newFilter = (Filter) event.getData();
                 setFilter(newFilter);

@@ -110,10 +110,17 @@ public class DescriptionPanel extends JXPanel implements Observer {
                 }
                 break;
 
+            case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
+                activity = (ProjectActivity) event.getData();
+                if (entriesByActivity.containsKey(activity)) {
+                    entriesByActivity.get(activity).update();
+                }
+                break;
+
             case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
                 activity = (ProjectActivity) event.getData();
                 if (entriesByActivity.containsKey(activity)) {
-                    DescriptionPanelEntry entryPanel = entriesByActivity.get(activity);
+                    final DescriptionPanelEntry entryPanel = entriesByActivity.get(activity);
                     this.container.remove(entryPanel);
                 }
                 break;

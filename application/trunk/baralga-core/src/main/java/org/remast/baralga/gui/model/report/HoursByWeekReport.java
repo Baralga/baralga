@@ -91,6 +91,10 @@ public class HoursByWeekReport extends Observable implements Observer  {
                 case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
                     calculateHours();
                     break;
+                    
+                case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
+                    calculateHours();
+                    break;
 
                 case BaralgaEvent.FILTER_CHANGED:
                     final Filter newFilter = (Filter) event.getData();
