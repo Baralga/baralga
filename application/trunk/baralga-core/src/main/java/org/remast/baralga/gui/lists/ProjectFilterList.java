@@ -16,6 +16,7 @@ import ca.odell.glazedlists.SortedList;
 /**
  * The list containing all projects available for the filter.
  * @author remast
+ * TODO: Enhance so that only projects occur in list that there are activities for.
  */
 public class ProjectFilterList implements Observer {
 

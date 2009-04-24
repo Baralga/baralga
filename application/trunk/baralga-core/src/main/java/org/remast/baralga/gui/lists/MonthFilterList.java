@@ -1,8 +1,10 @@
 package org.remast.baralga.gui.lists;
 
+import java.beans.PropertyChangeEvent;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.remast.baralga.gui.events.BaralgaEvent;
@@ -97,6 +99,13 @@ public class MonthFilterList implements Observer {
             this.addMonth((ProjectActivity) event.getData());
             break;
 
+        case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
+            final PropertyChangeEvent propertyChangeEvent = event.getPropertyChangeEvent();
+            if (StringUtils.equals(ProjectActivity.PROPERTY_DATE, propertyChangeEvent.getPropertyName())) {
+                this.initialize();
+            }
+            break;
+            
         case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
             this.initialize();
             break;
