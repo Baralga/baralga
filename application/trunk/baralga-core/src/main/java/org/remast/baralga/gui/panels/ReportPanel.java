@@ -266,9 +266,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 
         default:
             try {
-                final DateTime month = MonthFilterList.MONTH_FORMAT.parseDateTime(
-                        String.valueOf(selectedMonth)
-                );
+                final DateTime month = new DateTime().withMonthOfYear(selectedMonth);
                 filter.setMonth(month);
             } catch (IllegalArgumentException e) {
                 log.error(e, e);
@@ -291,9 +289,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 
         default:
             try {
-                final DateTime weekOfYear = WeekOfYearFilterList.WEEK_OF_YEAR_FORMAT.parseDateTime(
-                        String.valueOf(selectedWeekOfYear)
-                );
+                final DateTime weekOfYear = new DateTime().withWeekOfWeekyear(selectedWeekOfYear);
                 filter.setWeekOfYear(weekOfYear);
             } catch (IllegalArgumentException e) {
                 log.error(e, e);
@@ -317,9 +313,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 
         default:
             try {
-                final DateTime year = YearFilterList.YEAR_FORMAT.parseDateTime(
-                        String.valueOf(selectedYear)
-                );
+                final DateTime year = new DateTime().withYear(selectedYear);
                 filter.setYear(year);
             } catch (IllegalArgumentException e) {
                 log.error(e, e);

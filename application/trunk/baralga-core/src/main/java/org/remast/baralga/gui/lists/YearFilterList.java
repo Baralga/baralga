@@ -1,14 +1,15 @@
 package org.remast.baralga.gui.lists;
 
 import java.beans.PropertyChangeEvent;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Observable;
 import java.util.Observer;
 
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
+import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.swing.util.LabeledItem;
 import org.remast.util.DateUtils;
@@ -27,7 +28,7 @@ public class YearFilterList implements Observer {
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(YearFilterList.class);
 
-    public static final DateTimeFormatter YEAR_FORMAT = DateTimeFormat.forPattern("yyyy"); //$NON-NLS-1$
+    public static final NumberFormat YEAR_FORMAT = new DecimalFormat("##00"); //$NON-NLS-1$
 
     /** The model. */
     private final PresentationModel model;
@@ -40,14 +41,14 @@ public class YearFilterList implements Observer {
             ALL_YEARS_DUMMY,
             textBundle.textFor("YearFilterList.AllYearsLabel") //$NON-NLS-1$
     );
-    
+
     /** Value for the current year dummy. */
     public static final int CURRENT_YEAR_DUMMY = -5; //$NON-NLS-1$
 
     /** Filter item for the current year dummy. */
     public static final LabeledItem<Integer> CURRENT_YEAR_FILTER_ITEM = new LabeledItem<Integer>(
             CURRENT_YEAR_DUMMY,
-            textBundle.textFor("YearFilterList.CurrentYearsLabel", YEAR_FORMAT.print(DateUtils.getNowAsDateTime())) //$NON-NLS-1$
+            textBundle.textFor("YearFilterList.CurrentYearsLabel", YEAR_FORMAT.format(DateUtils.getNowAsDateTime().getYear())) //$NON-NLS-1$
     );
 
     /** The actual list containing all years. */
@@ -73,8 +74,21 @@ public class YearFilterList implements Observer {
         this.yearList.add(ALL_YEARS_FILTER_ITEM);
         this.yearList.add(CURRENT_YEAR_FILTER_ITEM);
         
+        // Get year from filter
+        final Integer filterYear = UserSettings.instance().getFilterSelectedYear();
+        boolean filterYearFound = false;
+
         for (ProjectActivity activity : this.model.getData().getActivities()) {
-            this.addYear(activity);
+            this.addYear(activity.getDay().getYear());
+            
+            if (filterYear != null && activity.getDay().getYear() == filterYear) {
+                filterYearFound = true;
+            }
+        }
+        
+        // Add year from filter if not already in list.
+        if (filterYear != null && filterYear > 0 && !filterYearFound) {
+            this.addYear(filterYear);
         }
     }
 
@@ -95,10 +109,10 @@ public class YearFilterList implements Observer {
         switch (event.getType()) {
 
         case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
-            ProjectActivity activity = (ProjectActivity) event.getData();
-            this.addYear(activity);
+            final ProjectActivity activity = (ProjectActivity) event.getData();
+            this.addYear(activity.getDay().getYear());
             break;
-            
+
         case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
             final PropertyChangeEvent propertyChangeEvent = event.getPropertyChangeEvent();
             if (StringUtils.equals(ProjectActivity.PROPERTY_DATE, propertyChangeEvent.getPropertyName())) {
@@ -114,15 +128,15 @@ public class YearFilterList implements Observer {
 
     /**
      * Adds the year of the given activity to the list.
-     * @param activity the activity whose year is to be added
+     * @param year the activity whose year is to be added
      */
-    private void addYear(final ProjectActivity activity) {
-        if (activity == null) {
-            return;
-        }
-        
-        final String year = YEAR_FORMAT.print(activity.getStart());
-        final LabeledItem<Integer> yearItem = new LabeledItem<Integer>(Integer.parseInt(year), year);
+    private void addYear(final int year) {
+        final String yearLabel = YEAR_FORMAT.format(year);
+        final LabeledItem<Integer> yearItem = new LabeledItem<Integer>(
+                year,
+                yearLabel
+        );
+
         if (!this.yearList.contains(yearItem)) {
             this.yearList.add(yearItem);
         }

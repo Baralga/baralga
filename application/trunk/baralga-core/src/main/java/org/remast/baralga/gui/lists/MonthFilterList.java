@@ -1,14 +1,15 @@
 package org.remast.baralga.gui.lists;
 
 import java.beans.PropertyChangeEvent;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Observable;
 import java.util.Observer;
 
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
+import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.swing.util.LabeledItem;
 import org.remast.util.DateUtils;
@@ -27,7 +28,7 @@ public class MonthFilterList implements Observer {
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(MonthFilterList.class);
 
-    public static final DateTimeFormatter MONTH_FORMAT = DateTimeFormat.forPattern("MM"); //$NON-NLS-1$
+    public static final NumberFormat MONTH_FORMAT = new DecimalFormat("##00"); //$NON-NLS-1$
 
     /** The model. */
     private final PresentationModel model;
@@ -47,7 +48,7 @@ public class MonthFilterList implements Observer {
     /** filter item for the current month dummy. */
     public static final LabeledItem<Integer> CURRENT_MONTH_FILTER_ITEM = new LabeledItem<Integer>(
             CURRENT_MONTH_DUMMY,
-            textBundle.textFor("MonthFilterList.CurrentMonthLabel", MONTH_FORMAT.print(DateUtils.getNowAsDateTime())) //$NON-NLS-1$
+            textBundle.textFor("MonthFilterList.CurrentMonthLabel", MONTH_FORMAT.format(DateUtils.getNowAsDateTime().getMonthOfYear())) //$NON-NLS-1$
     );
 
     /** The actual list containing all months. */
@@ -74,8 +75,21 @@ public class MonthFilterList implements Observer {
         this.monthList.add(ALL_MONTHS_FILTER_ITEM);
         this.monthList.add(CURRENT_MONTH_FILTER_ITEM);
 
+        // Get month from filter
+        final Integer filterMonth = UserSettings.instance().getFilterSelectedMonth();
+        boolean filterMonthFound = false;
+
         for (ProjectActivity activity : this.model.getData().getActivities()) {
-            this.addMonth(activity);
+            this.addMonth(activity.getDay().getMonthOfYear());
+            
+            if (filterMonth != null && activity.getDay().getMonthOfYear() == filterMonth) {
+                filterMonthFound = true;
+            }
+        }
+
+        // Add month from filter if not already in list.
+        if (filterMonth != null && filterMonth > 0 && !filterMonthFound) {
+            this.addMonth(filterMonth);
         }
     }
 
@@ -96,7 +110,8 @@ public class MonthFilterList implements Observer {
         switch (event.getType()) {
 
         case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
-            this.addMonth((ProjectActivity) event.getData());
+            final ProjectActivity projectActivity = (ProjectActivity) event.getData();
+            this.addMonth(projectActivity.getDay().getMonthOfYear());
             break;
 
         case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
@@ -114,17 +129,13 @@ public class MonthFilterList implements Observer {
 
     /**
      * Adds the month of the given activity to the list.
-     * @param activity the activity whose month is to be added
+     * @param month the activity whose month is to be added
      */
-    private void addMonth(final ProjectActivity activity) {
-        if (activity == null) {
-            return;
-        }
-
-        final String month = MONTH_FORMAT.print(activity.getStart());
+    private void addMonth(final int month) {
+        final String monthLabel = MONTH_FORMAT.format(month);
         final LabeledItem<Integer> monthItem = new LabeledItem<Integer>(
-                Integer.valueOf(month), 
-                month
+                month, 
+                monthLabel
         );
 
         if (!this.monthList.contains(monthItem)) {

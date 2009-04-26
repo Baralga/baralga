@@ -5,7 +5,9 @@ import java.util.Observer;
 
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
+import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.baralga.model.Project;
+import org.remast.baralga.model.ProjectActivity;
 import org.remast.swing.util.LabeledItem;
 import org.remast.util.TextResourceBundle;
 
@@ -54,8 +56,27 @@ public class ProjectFilterList implements Observer {
         this.projectList.clear();
         this.projectList.add(ALL_PROJECTS_FILTER_ITEM);
 
-        for (Project activity : this.model.getData().getProjects()) {
-            this.addProject(activity);
+        // Get project from filter
+        final Long filterProjectId = UserSettings.instance().getFilterSelectedProjectId();
+        boolean filterProjectFound = false;
+
+        for (ProjectActivity projectActivity : this.model.getData().getActivities()) {
+            final Project project = projectActivity.getProject();
+            
+            this.addProject(project);
+
+            if (filterProjectId != null && project.getId() == filterProjectId) {
+                filterProjectFound = true;
+            }
+        }
+
+        // Add project from filter if not already in list.
+        if (filterProjectId != null && filterProjectId > 0 && !filterProjectFound) {
+            final Project filterProject = this.model.getData().findProjectById(filterProjectId);
+
+            if (filterProject != null) {
+                this.addProject(filterProject);
+            }
         }
     }
 
@@ -72,12 +93,17 @@ public class ProjectFilterList implements Observer {
 
         switch (event.getType()) {
 
-        case BaralgaEvent.PROJECT_ADDED:
-            this.addProject((Project) event.getData());
+        case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
+            final ProjectActivity projectActivity = (ProjectActivity) event.getData();
+            this.addProject(projectActivity.getProject());
             break;
 
-        case BaralgaEvent.PROJECT_REMOVED:
-            this.removeProject((Project) event.getData());
+        case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
+            this.initialize();
+            break;
+
+        case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
+            this.initialize();
             break;
         }
     }

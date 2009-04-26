@@ -15,6 +15,7 @@ Fixes
  * Handle errors in settings import gracefully (Issue #22 http://baralga.origo.ethz.ch/node/102)
  * Log files are stored in user specific directory to ensure logging works in multiuser environments.
  * Corrected filter update after changing the day of an activity.
+ * Fixed filter list behaviour for outdated filter criteria.
 
 Functionality
  * Display start time and running duration of activity.
