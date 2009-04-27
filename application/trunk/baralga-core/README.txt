@@ -20,6 +20,7 @@ Fixes
 Functionality
  * Display start time and running duration of activity.
  * Start time of running activity editable (Issue #11 http://baralga.origo.ethz.ch/node/60).
+ * Estonian language support thanks to Kristjan K.
 
 
 == Baralga Version 1.3.5 ==
