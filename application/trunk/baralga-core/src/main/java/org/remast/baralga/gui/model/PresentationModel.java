@@ -191,7 +191,7 @@ public class PresentationModel extends Observable {
         if (getSelectedProject() == null) {
             throw new ProjectActivityStateException(textBundle.textFor("PresentationModel.NoActiveProjectSelectedError")); //$NON-NLS-1$
         }
-        
+
         if (isActive()) {
             throw new ProjectActivityStateException("There is already an activity running"); // TODO L10N
         }
@@ -209,7 +209,7 @@ public class PresentationModel extends Observable {
         } else {
             start = startTime;
         }
-        
+
         setStart(start);
         getData().start(start);
 
@@ -250,7 +250,7 @@ public class PresentationModel extends Observable {
 
         notify(event);
     }
-    
+
     /**
      * Fires an event that a project activity's property has changed.
      * @param changedActivity the project activity that's changed
@@ -361,12 +361,12 @@ public class PresentationModel extends Observable {
 
         // Set selected project to new project
         this.selectedProject = activeProject;
+        
+        // Set active project to new project
+        this.data.setActiveProject(activeProject);
 
         // Mark data as dirty
         this.dirty = true;
-
-        // Set active project to new project
-        this.data.setActiveProject(activeProject);
 
         final DateTime now = DateUtils.getNowAsDateTime();
 
@@ -389,7 +389,7 @@ public class PresentationModel extends Observable {
             final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED);
             event.setData(activity);
             notify(event);
-            
+
             // Set start time to now.
             // :INFO: No need to clone instance because DateTime is immutable 
             setStart(now);
@@ -475,7 +475,7 @@ public class PresentationModel extends Observable {
         if (this.filter == null || this.filter.matchesCriteria(oldActivity)) {
             this.getActivitiesList().remove(oldActivity);
         }
-        
+
         // Add activity if there is no filter or the filter matches
         if (this.filter == null || this.filter.matchesCriteria(newActivity)) {
             this.getActivitiesList().add(newActivity);
@@ -490,7 +490,7 @@ public class PresentationModel extends Observable {
         final BaralgaEvent event2 = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED, source);
         event2.setData(newActivity);
         notify(event2);
-        
+
         final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_REMOVED, source);
         event.setData(oldActivity);
         notify(event);
@@ -571,11 +571,11 @@ public class PresentationModel extends Observable {
     public void setStart(final DateTime start) {
         this.start = start;
         this.data.setStartTime(start);
-        
+
         // Fire event
         final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.START_CHANGED, this);
         event.setData(start);
-        
+
         notify(event);
     }
 
@@ -634,9 +634,15 @@ public class PresentationModel extends Observable {
 
         initialize();
 
-        // Fire event
-        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.DATA_CHANGED, this);
-        notify(event);
+        // Fire event for changed data
+        final BaralgaEvent eventDataChanged = new BaralgaEvent(BaralgaEvent.DATA_CHANGED, this);
+        notify(eventDataChanged);
+
+        // Fire event for changed project
+        final BaralgaEvent projectChangedEvent = new BaralgaEvent(BaralgaEvent.PROJECT_CHANGED, this);
+        final Project project = this.data.getActiveProject();
+        projectChangedEvent.setData(project);
+        notify(projectChangedEvent);    
     }
 
     /**
