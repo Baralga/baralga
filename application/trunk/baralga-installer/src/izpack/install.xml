@@ -21,7 +21,10 @@
 		<langpack iso3="eng" />
 		<langpack iso3="deu" />
 		<langpack iso3="fra" />
+		<!-- 
+		-> IzPack not available in Estonian.
         <langpack iso3="est" />
+		-->
 	</locale>
 
 	<!--
