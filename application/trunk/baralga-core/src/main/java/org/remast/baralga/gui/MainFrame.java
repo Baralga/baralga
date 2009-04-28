@@ -3,6 +3,8 @@ package org.remast.baralga.gui;
 import info.clearthought.layout.TableLayout;
 
 import java.awt.Image;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.WindowListener;
 import java.util.Observable;
 import java.util.Observer;
@@ -26,10 +28,12 @@ import org.remast.baralga.gui.actions.ExportDataAction;
 import org.remast.baralga.gui.actions.ExportExcelAction;
 import org.remast.baralga.gui.actions.ImportDataAction;
 import org.remast.baralga.gui.actions.ManageProjectsAction;
+import org.remast.baralga.gui.actions.SettingsAction;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.panels.ActivityPanel;
 import org.remast.baralga.gui.panels.ReportPanel;
+import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.util.TextResourceBundle;
 
 /**
@@ -122,18 +126,47 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
 
         initialize();
     }
-
+    
     /**
      * Set up GUI components.
      */
     private void initialize() {
-        this.setSize(530, 720);
         this.setResizable(true);
+        
+        if (UserSettings.instance().isRememberWindowSizeLocation()) {
+            this.setSize(UserSettings.instance().getWindowSize());
+            this.setLocation(UserSettings.instance().getWindowLocation());
+        } else {
+            this.setSize(530, 720);
+        }
+        
+        this.addComponentListener(new ComponentListener() {
+
+            @Override
+            public void componentHidden(ComponentEvent e) {
+            }
+
+            @Override
+            public void componentMoved(ComponentEvent e) {
+                UserSettings.instance().setWindowLocation(MainFrame.this.getLocation());
+            }
+
+            @Override
+            public void componentResized(ComponentEvent e) {
+                UserSettings.instance().setWindowSize(MainFrame.this.getSize());
+            }
+
+            @Override
+            public void componentShown(ComponentEvent e) {
+            }
+            
+        });
+        
         this.setJMenuBar(getMainMenuBar());
 
         this.addWindowListener(this);
 
-        // 1. Init start-/stop-Buttons
+        // 1. Init title and icon image
         if (this.model.isActive()) {
             this.setIconImage(ACTIVE_ICON);
             this.setTitle(
@@ -144,13 +177,13 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             this.setTitle(textBundle.textFor("Global.Title")); //$NON-NLS-1$
         }
 
-        // 3. Set layout
+        // 2. Set layout
         final double[][] size = { 
                 {TableLayout.FILL }, // Columns
                 {TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.FILL} // Rows
         };
 
-        TableLayout tableLayout = new TableLayout(size);
+        final TableLayout tableLayout = new TableLayout(size);
         this.setLayout(tableLayout);
         this.add(getToolBar(), "0, 0");
         this.add(getCurrentActivityPanel(), "0, 1");
@@ -272,9 +305,8 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             editMenu.add(getEditProjectsMenuItem());
             editMenu.add(getAddActivityMenuItem());
 
-            //          INFO: Uncomment to enable settings menu.
-            //          editMenu.addSeparator();
-            //          editMenu.add(new JMenuItem(new SettingsAction(this, model)));
+            editMenu.addSeparator();
+            editMenu.add(new JMenuItem(new SettingsAction(this, model)));
         }
         return editMenu;
     }

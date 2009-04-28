@@ -1,5 +1,7 @@
 package org.remast.baralga.gui.settings;
 
+import java.awt.Dimension;
+import java.awt.Point;
 import java.io.File;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -243,6 +245,61 @@ public final class UserSettings {
     public void setShownCategory(final String shownCategory) {
         userConfig.setProperty(SHOWN_CATEGORY, shownCategory);
     }
+    
+    //------------------------------------------------
+    // Remember window size and location
+    //------------------------------------------------
+
+    /** The key for remembering window size and location. */
+    public static final String REMEMBER_WINDOWSIZE_LOCATION = "settings.rememberWindowSizeLocation"; //$NON-NLS-1$
+
+    public Boolean isRememberWindowSizeLocation() {
+        return doGetBoolean(REMEMBER_WINDOWSIZE_LOCATION, false);
+    }
+
+    public void setRememberWindowSizeLocation(final boolean rememberWindowSizeLocation) {
+        userConfig.setProperty(REMEMBER_WINDOWSIZE_LOCATION, rememberWindowSizeLocation);
+    }
+    
+    //------------------------------------------------
+    // Window size
+    //------------------------------------------------
+
+    /** The key for the window size. */
+    public static final String WINDOW_SIZE= "settings.windowSize"; //$NON-NLS-1$
+
+    public Dimension getWindowSize() {
+        final String encodedSize = doGetString(WINDOW_SIZE, "530.0|720.0");
+        final String[] sizeValues = StringUtils.split(encodedSize, '|');
+        
+        final Dimension size = new Dimension(Double.valueOf(sizeValues[0]).intValue(), Double.valueOf(sizeValues[1]).intValue());
+        return size;
+    }
+
+    public void setWindowSize(final Dimension size) {
+        final String encodedSize = size.getWidth() + "|" + size.getHeight();
+        userConfig.setProperty(WINDOW_SIZE, encodedSize);
+    }
+    
+    //------------------------------------------------
+    // Window location
+    //------------------------------------------------
+
+    /** The key for the shown category. */
+    public static final String WINDOW_LOCATION = "settings.windowLocation"; //$NON-NLS-1$
+
+    public Point getWindowLocation() {
+        final String encodedLocation = doGetString(WINDOW_LOCATION, "0.0|0.0");
+        final String[] locationCoordinates = StringUtils.split(encodedLocation, '|');
+        
+        final Point location = new Point(Double.valueOf(locationCoordinates[0]).intValue(), Double.valueOf(locationCoordinates[1]).intValue());
+        return location;
+    }
+
+    public void setWindowLocation(final Point location) {
+        final String encodedLocation = location.getX() + "|" + location.getY();
+        userConfig.setProperty(WINDOW_LOCATION, encodedLocation);
+    }
 
     /**
      * Restore the current filter from the user settings.
@@ -340,6 +397,18 @@ public final class UserSettings {
             }
         }
     }
+    
+    /**
+     * Resets all settings to their default values.
+     */
+    public void reset() {
+        userConfig.clear();
+        try {
+            userConfig.save();
+        } catch (ConfigurationException e) {
+            log.error(e, e);
+        }
+    }
 
     //------------------------------------------------
     // Helper methods
@@ -393,6 +462,25 @@ public final class UserSettings {
     private Integer doGetInteger(final String key, final Integer defaultValue) {
         try {
             return userConfig.getInteger(key, defaultValue);
+        } catch (Exception e) {
+            log.error(e, e);
+            return defaultValue;
+        } catch (Throwable t) {
+            log.error(t, t);
+            return defaultValue;
+        }
+    }
+    
+    /**
+     * Getter that handle errors gracefully meaning errors are logged 
+     * but applications continues with the default value.
+     * @param key the key of the property to get
+     * @param defaultValue the default value of the property to get
+     * @return the property value if set and correct otherwise the default value
+     */
+    private Boolean doGetBoolean(final String key, final Boolean defaultValue) {
+        try {
+            return userConfig.getBoolean(key, defaultValue);
         } catch (Exception e) {
             log.error(e, e);
             return defaultValue;
