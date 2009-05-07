@@ -16,6 +16,7 @@ Fixes
  * Log files are stored in user specific directory to ensure logging works in multiuser environments.
  * Corrected filter update after changing the day of an activity.
  * Fixed filter list behaviour for outdated filter criteria.
+ * Right click on a record in all activities table gives an edit option (Issue #0 http://baralga.origo.ethz.ch/node/106).
 
 Functionality
  * Display start time and running duration of activity.

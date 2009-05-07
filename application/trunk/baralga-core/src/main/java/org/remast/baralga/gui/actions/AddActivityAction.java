@@ -7,7 +7,7 @@ import java.awt.event.InputEvent;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 
-import org.remast.baralga.gui.dialogs.AddActivityDialog;
+import org.remast.baralga.gui.dialogs.AddOrEditActivityDialog;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.util.TextResourceBundle;
 
@@ -35,7 +35,7 @@ public class AddActivityAction extends AbstractBaralgaAction {
     @Override
     public final void actionPerformed(final ActionEvent event) {
         // Display dialog to add activity
-        final AddActivityDialog addActivityDialog = new AddActivityDialog(getOwner(), getModel());
+        final AddOrEditActivityDialog addActivityDialog = new AddOrEditActivityDialog(getOwner(), getModel());
         addActivityDialog.setVisible(true);
     }
 

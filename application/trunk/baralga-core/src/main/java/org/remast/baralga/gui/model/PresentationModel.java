@@ -464,39 +464,6 @@ public class PresentationModel extends Observable {
     }
 
     /**
-     * Remove an activity from the model.
-     * @param activity the activity to remove
-     */
-    public final void replaceActivity(final ProjectActivity oldActivity, final ProjectActivity newActivity,
-            final Object source) {
-        getData().replaceActivity(oldActivity, newActivity);
-
-        // Remove activity if there is no filter or the filter matches
-        if (this.filter == null || this.filter.matchesCriteria(oldActivity)) {
-            this.getActivitiesList().remove(oldActivity);
-        }
-
-        // Add activity if there is no filter or the filter matches
-        if (this.filter == null || this.filter.matchesCriteria(newActivity)) {
-            this.getActivitiesList().add(newActivity);
-        }
-
-        // Mark data as dirty
-        this.dirty = true;
-
-        // Fire events
-        // TODO: because of the way the events are evaluated in the observers are evaluated
-        // order of the events is currently important: first ADDED then REMOVED
-        final BaralgaEvent event2 = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED, source);
-        event2.setData(newActivity);
-        notify(event2);
-
-        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_REMOVED, source);
-        event.setData(oldActivity);
-        notify(event);
-    }
-
-    /**
      * Getter for the list of projects.
      * @return the list with all projects
      */

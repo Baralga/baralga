@@ -96,45 +96,65 @@ public class DescriptionPanel extends JXPanel implements Observer {
 
         switch (event.getType()) {
 
-            case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
-                activity = (ProjectActivity) event.getData();
-                DescriptionPanelEntry newEntryPanel = new DescriptionPanelEntry(activity, this.model);
-                entriesByActivity.put(activity, newEntryPanel);
-                this.container.add(newEntryPanel);
+        case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
+        {
+            activity = (ProjectActivity) event.getData();
+            final boolean matchesFilter = model.getFilter().matchesCriteria(activity);
 
-                // Set color
-                if (Math.abs(entriesByActivity.size()) % 2 == 1) {
-                    newEntryPanel.setBackground(Color.WHITE);
-                } else {
-                    newEntryPanel.setBackground(GuiConstants.BEIGE);
-                }
-                break;
+            // If activity does not match the filter it is not displayed
+            if (!matchesFilter) {
+                return;
+            }
 
-            case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
-                activity = (ProjectActivity) event.getData();
-                if (entriesByActivity.containsKey(activity)) {
+            final DescriptionPanelEntry newEntryPanel = new DescriptionPanelEntry(activity, this.model);
+            entriesByActivity.put(activity, newEntryPanel);
+            this.container.add(newEntryPanel);
+
+            // Set color
+            if (Math.abs(entriesByActivity.size()) % 2 == 1) {
+                newEntryPanel.setBackground(Color.WHITE);
+            } else {
+                newEntryPanel.setBackground(GuiConstants.BEIGE);
+            }
+            break;
+        }
+
+        case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
+        {
+            activity = (ProjectActivity) event.getData();
+            final boolean matchesFilter = model.getFilter().matchesCriteria(activity);
+
+            if (entriesByActivity.containsKey(activity)) {
+                // If activity matches the current filter it is updated
+                // if not the activity is removed
+                if (matchesFilter) {
                     entriesByActivity.get(activity).update();
-                }
-                break;
-
-            case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
-                activity = (ProjectActivity) event.getData();
-                if (entriesByActivity.containsKey(activity)) {
+                } else {
                     final DescriptionPanelEntry entryPanel = entriesByActivity.get(activity);
                     this.container.remove(entryPanel);
                 }
-                break;
+            }
+            break;
+        }
 
-            case BaralgaEvent.PROJECT_CHANGED:
-                for (Entry<ProjectActivity, DescriptionPanelEntry> entry : entriesByActivity.entrySet()) {
-                    entry.getValue().update();
-                }
-                break;
+        case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
+            activity = (ProjectActivity) event.getData();
+            if (entriesByActivity.containsKey(activity)) {
+                final DescriptionPanelEntry entryPanel = entriesByActivity.get(activity);
+                this.container.remove(entryPanel);
+            }
+            break;
 
-            case BaralgaEvent.FILTER_CHANGED:
-                final Filter newFilter = (Filter) event.getData();
-                setFilter(newFilter);
-                break;
+        case BaralgaEvent.PROJECT_CHANGED:
+            for (Entry<ProjectActivity, DescriptionPanelEntry> entry : entriesByActivity.entrySet()) {
+                entry.getValue().update();
+            }
+            break;
+
+        case BaralgaEvent.FILTER_CHANGED:
+            final Filter newFilter = (Filter) event.getData();
+            setFilter(newFilter);
+            break;
         }
     }
 

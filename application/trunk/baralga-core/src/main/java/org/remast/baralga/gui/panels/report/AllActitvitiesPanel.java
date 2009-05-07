@@ -27,11 +27,13 @@ import org.jdesktop.swingx.renderer.FormatStringValue;
 import org.jdesktop.swingx.table.DatePickerCellEditor;
 import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.BaralgaMain;
+import org.remast.baralga.gui.dialogs.AddOrEditActivityDialog;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.panels.table.AllActivitiesTableFormat;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
+import org.remast.swing.util.AWTUtils;
 import org.remast.swing.util.GuiConstants;
 import org.remast.util.TextResourceBundle;
 
@@ -111,6 +113,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         menu.add(new AbstractAction(textBundle.textFor("AllActitvitiesPanel.Delete"), new ImageIcon(getClass().getResource("/icons/gtk-delete.png"))) { //$NON-NLS-1$
 
             public void actionPerformed(final ActionEvent event) {
+                
                 // 1. Get selected activities
                 int[] selectionIndices = table.getSelectedRows();
 
@@ -118,6 +121,23 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
                 for (int selectionIndex : selectionIndices) {
                     model.removeActivity(model.getActivitiesList().get(selectionIndex), this);
                 }
+            }
+
+        });
+        
+        menu.add(new AbstractAction(textBundle.textFor("AllActitvitiesPanel.Edit"), new ImageIcon(getClass().getResource("/icons/gtk-edit.png"))) { //$NON-NLS-1$
+
+            public void actionPerformed(final ActionEvent event) {
+                // 1. Get selected activities
+                int[] selectionIndices = table.getSelectedRows();
+
+                // 2. Remove all selected activities
+                if (selectionIndices.length == 0) {
+                    return;
+                }
+                
+                AddOrEditActivityDialog editActivityDialog = new AddOrEditActivityDialog(AWTUtils.getFrame(AllActitvitiesPanel.this), model, model.getActivitiesList().get(selectionIndices[0]));
+                editActivityDialog.setVisible(true);
             }
 
         });
@@ -146,7 +166,6 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         JScrollPane table_scroll_pane = new JScrollPane(table);
         this.add(table_scroll_pane);
     }
-
 
     /**
      * {@inheritDoc}
