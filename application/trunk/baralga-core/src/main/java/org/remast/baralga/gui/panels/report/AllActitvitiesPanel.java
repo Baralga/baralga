@@ -99,7 +99,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
                 }
 
                 double duration = 0;
-                
+
                 for (int i : table.getSelectedRows()) {
                     duration += model.getActivitiesList().get(i).getDuration();
                 }
@@ -109,11 +109,12 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
 
         });
 
-        final JPopupMenu menu = new JPopupMenu();
-        menu.add(new AbstractAction(textBundle.textFor("AllActitvitiesPanel.Delete"), new ImageIcon(getClass().getResource("/icons/gtk-delete.png"))) { //$NON-NLS-1$
+        final JPopupMenu contextMenu = new JPopupMenu();
+
+        contextMenu.add(new AbstractAction(textBundle.textFor("AllActitvitiesPanel.Delete"), new ImageIcon(getClass().getResource("/icons/gtk-delete.png"))) { //$NON-NLS-1$
 
             public void actionPerformed(final ActionEvent event) {
-                
+
                 // 1. Get selected activities
                 int[] selectionIndices = table.getSelectedRows();
 
@@ -124,8 +125,8 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
             }
 
         });
-        
-        menu.add(new AbstractAction(textBundle.textFor("AllActitvitiesPanel.Edit"), new ImageIcon(getClass().getResource("/icons/gtk-edit.png"))) { //$NON-NLS-1$
+
+        contextMenu.add(new AbstractAction(textBundle.textFor("AllActitvitiesPanel.Edit"), new ImageIcon(getClass().getResource("/icons/gtk-edit.png"))) { //$NON-NLS-1$
 
             public void actionPerformed(final ActionEvent event) {
                 // 1. Get selected activities
@@ -135,8 +136,12 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
                 if (selectionIndices.length == 0) {
                     return;
                 }
-                
-                AddOrEditActivityDialog editActivityDialog = new AddOrEditActivityDialog(AWTUtils.getFrame(AllActitvitiesPanel.this), model, model.getActivitiesList().get(selectionIndices[0]));
+
+                final AddOrEditActivityDialog editActivityDialog = new AddOrEditActivityDialog(
+                        AWTUtils.getFrame(AllActitvitiesPanel.this), 
+                        model, 
+                        model.getActivitiesList().get(selectionIndices[0])
+                );
                 editActivityDialog.setVisible(true);
             }
 
@@ -149,7 +154,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
                     int row = source.rowAtPoint(e.getPoint());
                     int column = source.columnAtPoint(e.getPoint());
                     source.changeSelection(row, column, false, false);
-                    menu.show(e.getComponent(), e.getX(), e.getY());
+                    contextMenu.show(e.getComponent(), e.getX(), e.getY());
                 }
             }
         });
@@ -176,12 +181,12 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         }
 
         final BaralgaEvent event = (BaralgaEvent) eventObject;
-
+        
         switch (event.getType()) {
             case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
                 tableModel.fireTableDataChanged();
                 break;
-            
+    
             case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
             case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
                 tableModel.fireTableDataChanged();

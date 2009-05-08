@@ -22,20 +22,32 @@ import org.remast.swing.util.GuiConstants;
 @SuppressWarnings("serial")
 public class DescriptionPanelEntry extends JXPanel {
 
+    /** The activity whose description is displayed. */
     private ProjectActivity activity;
 
+    /** The editor to edit the description of the activity. */
     private TextEditor editor;
 
+    /** The border containing the title of the activity. */
     private TitledBorder titledBorder;
-    
+
+    /** The model. */
     private PresentationModel model;
 
+    /**
+     * Creates a new panel to edit the description.
+     * @param activity the activity whose description is displayed
+     * @param model the model
+     */
     public DescriptionPanelEntry(final ProjectActivity activity, final PresentationModel model) {
         this.activity = activity;
         this.model = model;
         initialize();
     }
 
+    /**
+     * Set up GUI components.
+     */
     private void initialize() {
         this.setLayout(new BorderLayout());
         titledBorder = BorderFactory.createTitledBorder(String.valueOf(activity));
@@ -52,12 +64,17 @@ public class DescriptionPanelEntry extends JXPanel {
             public void onTextChange() {
                 final String oldDescription = activity.getDescription();
                 final String newDescription = editor.getText();
-                
+
                 activity.setDescription(newDescription);
 
-                final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(activity, ProjectActivity.PROPERTY_DESCRIPTION, oldDescription, newDescription);
+                final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(
+                        activity, 
+                        ProjectActivity.PROPERTY_DESCRIPTION, 
+                        oldDescription, 
+                        newDescription
+                );
                 model.fireProjectActivityChangedEvent(activity, propertyChangeEvent);
-              }
+            }
         });
     }
 
