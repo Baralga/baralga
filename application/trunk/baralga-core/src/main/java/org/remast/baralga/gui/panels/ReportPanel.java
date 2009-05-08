@@ -95,8 +95,8 @@ public class ReportPanel extends JXPanel implements ActionListener {
                         TableLayout.FILL, border } }; // Rows
         this.setLayout(new TableLayout(size));
 
-        JXTitledSeparator filterSep = new JXTitledSeparator(textBundle.textFor("ReportPanel.FiltersLabel")); //$NON-NLS-1$
-        this.add(filterSep, "1, 1, 15, 1"); //$NON-NLS-1$
+        final JXTitledSeparator filterSeparator = new JXTitledSeparator(textBundle.textFor("ReportPanel.FiltersLabel")); //$NON-NLS-1$
+        this.add(filterSeparator, "1, 1, 15, 1"); //$NON-NLS-1$
 
         this.add(new JXLabel(textBundle.textFor("ReportPanel.ProjectLabel")), "1, 3"); //$NON-NLS-1$ //$NON-NLS-2$
         this.add(getProjectFilterSelector(), "3, 3"); //$NON-NLS-1$
@@ -110,8 +110,8 @@ public class ReportPanel extends JXPanel implements ActionListener {
         this.add(new JXLabel(textBundle.textFor("ReportPanel.WeekLabel")), "13, 3"); //$NON-NLS-1$ //$NON-NLS-2$
         this.add(getWeekOfYearFilterSelector(), "15, 3"); //$NON-NLS-1$
 
-        JXTitledSeparator sep = new JXTitledSeparator(textBundle.textFor("ReportPanel.DataLabel")); //$NON-NLS-1$
-        this.add(sep, "1, 5, 15, 1"); //$NON-NLS-1$
+        final JXTitledSeparator dataSeparator = new JXTitledSeparator(textBundle.textFor("ReportPanel.DataLabel")); //$NON-NLS-1$
+        this.add(dataSeparator, "1, 5, 15, 1"); //$NON-NLS-1$
 
         this.add(filteredActivitiesPane, "1, 7, 15, 7"); //$NON-NLS-1$
     }
