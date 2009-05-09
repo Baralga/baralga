@@ -124,6 +124,10 @@ public class WeekOfYearFilterList implements Observer {
         case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
             this.initialize();
             break;
+
+        case BaralgaEvent.DATA_CHANGED:
+            this.initialize();
+            break;
         }
     }
 

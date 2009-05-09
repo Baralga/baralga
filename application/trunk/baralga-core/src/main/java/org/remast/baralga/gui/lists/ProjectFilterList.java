@@ -105,6 +105,10 @@ public class ProjectFilterList implements Observer {
         case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
             this.initialize();
             break;
+
+        case BaralgaEvent.DATA_CHANGED:
+            this.initialize();
+            break;
         }
     }
 
