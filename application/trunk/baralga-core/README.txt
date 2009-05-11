@@ -23,6 +23,7 @@ Functionality
  * Start time of running activity editable (Issue #11 http://baralga.origo.ethz.ch/node/60).
  * Estonian language support thanks to Kristjan K.
  * Size and location of main window can be remembered and restored (Issue #23 http://baralga.origo.ethz.ch/node/105).
+ * Report for hours by month.
 
 
 == Baralga Version 1.3.5 ==
