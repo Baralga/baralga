@@ -19,6 +19,7 @@ import org.remast.baralga.gui.panels.report.AccummulatedActitvitiesPanel;
 import org.remast.baralga.gui.panels.report.AllActitvitiesPanel;
 import org.remast.baralga.gui.panels.report.DescriptionPanel;
 import org.remast.baralga.gui.panels.report.HoursByDayPanel;
+import org.remast.baralga.gui.panels.report.HoursByMonthPanel;
 import org.remast.baralga.gui.panels.report.HoursByProjectChartPanel;
 import org.remast.baralga.gui.panels.report.HoursByProjectPanel;
 import org.remast.baralga.gui.panels.report.HoursByWeekPanel;
@@ -61,6 +62,9 @@ public class FilteredActivitiesPane extends JXPanel {
 
 	private HoursByDayPanel hoursByDayPanel;
 	private CategorizedTab hoursByDayTab;
+
+    private HoursByMonthPanel hoursByMonthPanel;
+    private CategorizedTab hoursByMonthTab;
 
 	private HoursByProjectPanel hoursByProjectPanel;
 	private CategorizedTab hoursByProjectTab;
@@ -198,6 +202,16 @@ public class FilteredActivitiesPane extends JXPanel {
 				textBundle.textFor("FilteredActivitiesPane.Tab.HoursByDay.Tooltip") //$NON-NLS-1$
 		);
 		categorizedTabs.add(hoursByDayTab);
+		
+		hoursByMonthTab = new CategorizedTab("Time");
+		hoursByMonthPanel = new HoursByMonthPanel(model.getHoursByMonthReport());
+		hoursByMonthTab.setComponent(
+		        textBundle.textFor("FilteredActivitiesPane.Tab.HoursByMonth"),  //$NON-NLS-1$
+		        null,
+		        hoursByMonthPanel, 
+		        textBundle.textFor("FilteredActivitiesPane.Tab.HoursByMonth.Tooltip") //$NON-NLS-1$
+		);
+		categorizedTabs.add(hoursByMonthTab);
 
 		hoursByProjectTab = new CategorizedTab("Project");
 		hoursByProjectPanel = new HoursByProjectPanel(model.getHoursByProjectReport());
