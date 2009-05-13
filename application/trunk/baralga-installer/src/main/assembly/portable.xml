@@ -31,6 +31,7 @@
 			<excludes>
 				<exclude>com.remast.baralga:baralga-core</exclude>
 				<exclude>com.remast.baralga:baralga-installer</exclude>
+                <exclude>junit:junit</exclude>
 			</excludes>
 		</dependencySet>
 		<dependencySet>
