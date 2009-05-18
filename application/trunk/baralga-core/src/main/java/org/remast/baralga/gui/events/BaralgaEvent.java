@@ -2,11 +2,17 @@ package org.remast.baralga.gui.events;
 
 import java.beans.PropertyChangeEvent;
 
+import org.remast.baralga.model.ProjectActivity;
+import org.remast.util.TextResourceBundle;
+
 /**
  * Events of Baralga.
  * @author remast
  */
 public class BaralgaEvent {
+
+    /** The bundle for internationalized texts. */
+    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaEvent.class);
 
     //------------------------------------------------
     // Constants for ProTrack Events
@@ -32,7 +38,7 @@ public class BaralgaEvent {
 
     /** A project activity has been removed. */
     public static final int PROJECT_ACTIVITY_REMOVED = 6;
-    
+
     /** A project activity has been changed. */
     public static final int PROJECT_ACTIVITY_CHANGED = 7;
 
@@ -83,6 +89,40 @@ public class BaralgaEvent {
         // INFO: For now only adding / removing activities can be undone.
         return this.type == PROJECT_ACTIVITY_REMOVED 
         || this.type == PROJECT_ACTIVITY_ADDED;
+    }
+
+    public String getUndoText() {
+        switch (this.type) {
+        case PROJECT_ACTIVITY_REMOVED:
+        {
+            final ProjectActivity projectActivity = (ProjectActivity) this.data;
+            return textBundle.textFor("BaralgaEvent.UndoRemoveActivityText", projectActivity.toString());
+        }
+        case PROJECT_ACTIVITY_ADDED:
+        {
+            final ProjectActivity projectActivity = (ProjectActivity) this.data;
+            return textBundle.textFor("BaralgaEvent.UndoAddActivityText", projectActivity.toString());
+        }
+        default:
+            return "-impossible-";
+        }
+    }
+    
+    public String getRedoText() {
+        switch (this.type) {
+        case PROJECT_ACTIVITY_REMOVED:
+        {
+            final ProjectActivity projectActivity = (ProjectActivity) this.data;
+            return textBundle.textFor("BaralgaEvent.RedoRemoveActivityText", projectActivity.toString());
+        }
+        case PROJECT_ACTIVITY_ADDED:
+        {
+            final ProjectActivity projectActivity = (ProjectActivity) this.data;
+            return textBundle.textFor("BaralgaEvent.RedoAddActivityText", projectActivity.toString());
+        }
+        default:
+            return "-impossible-";
+        }
     }
 
     /**

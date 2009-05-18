@@ -5,7 +5,8 @@ import info.clearthought.layout.TableLayout;
 import java.awt.Image;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.awt.event.WindowListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -41,7 +42,7 @@ import org.remast.util.TextResourceBundle;
  * @author remast
  */
 @SuppressWarnings("serial")//$NON-NLS-1$
-public class MainFrame extends JXFrame implements Observer, WindowListener {
+public class MainFrame extends JXFrame implements Observer {
 
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(MainFrame.class);
@@ -164,7 +165,18 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         
         this.setJMenuBar(getMainMenuBar());
 
-        this.addWindowListener(this);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowIconified(WindowEvent e) {
+                MainFrame.this.windowIconified(e);
+            }
+            
+            @Override
+            public void windowClosed(WindowEvent e) {
+                MainFrame.this.windowClosing(e);
+            }
+            
+        });
 
         // 1. Init title and icon image
         if (this.model.isActive()) {
@@ -495,9 +507,6 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
         }
     }
 
-    public void windowOpened(final java.awt.event.WindowEvent e) {
-    }
-
     public void windowClosing(final java.awt.event.WindowEvent e) {
         if (BaralgaMain.getTray() != null) {
             this.setVisible(false);
@@ -508,8 +517,8 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
             if (model.isActive()) {
                 final int dialogResult = JOptionPane.showConfirmDialog(
                         getOwner(), 
-                        textBundle.textFor("ExitConfirmDialog.Message"), 
-                        textBundle.textFor("ExitConfirmDialog.Title"), 
+                        textBundle.textFor("ExitConfirmDialog.Message"), //$NON-NLS-1$
+                        textBundle.textFor("ExitConfirmDialog.Title"), //$NON-NLS-1$
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.INFORMATION_MESSAGE
                 );
@@ -520,18 +529,6 @@ public class MainFrame extends JXFrame implements Observer, WindowListener {
                 System.exit(0);
             }
         }
-    }
-
-    public void windowClosed(final java.awt.event.WindowEvent e) {
-    }
-
-    public void windowDeiconified(final java.awt.event.WindowEvent e) {
-    }
-
-    public void windowActivated(final java.awt.event.WindowEvent e) {
-    }
-
-    public void windowDeactivated(final java.awt.event.WindowEvent e) {
     }
 
     /**

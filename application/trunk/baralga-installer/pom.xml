@@ -13,7 +13,7 @@
 		<version>1.0</version>
 	</parent>
 	<properties>
-		<baralga.version>1.4</baralga.version>
+		<baralga.version>1.4.1-SNAPSHOT</baralga.version>
 	</properties>
 	<build>
 		<!--

@@ -22,8 +22,7 @@ import org.remast.util.TextResourceBundle;
      public UndoAction(final EditStack editStack) {
          super(editStack);
 
-         putValue(NAME, textBundle.textFor("UndoAction.Name"));
-         putValue(SHORT_DESCRIPTION, textBundle.textFor("UndoAction.ShortDescription")); //$NON-NLS-1$
+         resetText();
          putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/gtk-undo-ltr.png"))); //$NON-NLS-1$
          putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke('Z', InputEvent.CTRL_MASK));
      }
@@ -35,5 +34,14 @@ import org.remast.util.TextResourceBundle;
      public final void actionPerformed(final ActionEvent e) {
          undo();
      }
-
+     
+     public void setText(final String name) {
+         putValue(NAME, name);
+         putValue(SHORT_DESCRIPTION, name);
+     }
+     
+     public void resetText() {
+         putValue(NAME, textBundle.textFor("UndoAction.Name")); //$NON-NLS-1$
+         putValue(SHORT_DESCRIPTION, textBundle.textFor("UndoAction.ShortDescription")); //$NON-NLS-1$
+     }
  }

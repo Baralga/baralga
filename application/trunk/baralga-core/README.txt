@@ -6,6 +6,12 @@
  * Support for pluggable exporters.
 
 
+== Baralga Version 1.4.1 ==
+Functionality
+ * Improved displayed texts for undo and redo actions.
+ * Improved french translation.
+
+
 == Baralga Version 1.4 ==
 Fixes
  * Export locations remembered correctly.
