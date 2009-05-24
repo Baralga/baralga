@@ -7,6 +7,10 @@
 
 
 == Baralga Version 1.4.1 ==
+Fixes
+ * Editing activities after deleting all projects (Issue #30 http://baralga.origo.ethz.ch/node/118)
+ * Exit JVM on errors during startup.
+ 
 Functionality
  * Improved displayed texts for undo and redo actions.
  * Improved french translation.
