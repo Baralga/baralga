@@ -84,6 +84,11 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
     public ProjectActivity setColumnValue(final ProjectActivity activity, final Object editedValue, final int column) {
         // Project
         if (column == 0) {
+            // Ignore null project
+            if (editedValue == null) {
+                return activity;
+            }
+            
             final Project oldProject = activity.getProject();
             activity.setProject((Project) editedValue);
 
