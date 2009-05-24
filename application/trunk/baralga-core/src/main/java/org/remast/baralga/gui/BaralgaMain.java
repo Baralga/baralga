@@ -115,6 +115,7 @@ public final class BaralgaMain {
                     textBundle.textFor("BaralgaMain.FatalError.Title"),  //$NON-NLS-1$
                     JOptionPane.ERROR_MESSAGE
             );
+            System.exit(1);
         } catch (Throwable t) {
             log.error(t, t);
             JOptionPane.showMessageDialog(
@@ -123,6 +124,7 @@ public final class BaralgaMain {
                     textBundle.textFor("BaralgaMain.FatalError.Title"),  //$NON-NLS-1$
                     JOptionPane.ERROR_MESSAGE
             );
+            System.exit(1);
         }
     }
 
