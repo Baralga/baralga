@@ -1,4 +1,4 @@
-<proTrack id="1" active="false" startTime="2009-01-28 19:24:00.0 CET">
+<proTrack id="1" active="false" startTime="2009-05-13 14:00:00.0 CEST">
   <activeProjects id="2">
     <project id="3">
       <id>8407415082569172992</id>
@@ -6,53 +6,27 @@
       <description>Development</description>
     </project>
     <project id="4">
-      <id>16827493404884992</id>
-      <title>Testing</title>
-      <description>Testing</description>
-    </project>
-    <project id="5">
       <id>6823667323474578432</id>
       <title>Bugfixing</title>
       <description>Bugfixing</description>
     </project>
+    <project id="5">
+      <id>16827493404884992</id>
+      <title>Testing</title>
+      <description>Testing</description>
+    </project>
+    <project id="6">
+      <id>2255000265625027584</id>
+      <title>Misc</title>
+      <description>Misc</description>
+    </project>
   </activeProjects>
-  <projectsToBeDeleted id="6">
-    <project id="7">
-      <id>3998056515203860480</id>
-      <title>2</title>
-      <description>2</description>
-    </project>
-    <project id="8">
-      <id>8699647950529173504</id>
-      <title>6</title>
-      <description>6</description>
-    </project>
-    <project id="9">
-      <id>8742016910185280512</id>
-      <title>5</title>
-      <description>5</description>
-    </project>
-    <project id="10">
-      <id>3120897936375786496</id>
-      <title>4</title>
-      <description>4</description>
-    </project>
-    <project id="11">
-      <id>6641273911046759424</id>
-      <title>3</title>
-      <description>3</description>
-    </project>
-    <project id="12">
-      <id>7091238231983162368</id>
-      <title>1</title>
-      <description>1</description>
-    </project>
-  </projectsToBeDeleted>
-  <activities id="13">
-    <projectActivity id="14">
-      <start id="15">2009-01-28 18:00:00.0 CET</start>
-      <end id="16">2009-01-28 19:00:00.0 CET</end>
-      <project reference="4"/>
+  <projectsToBeDeleted id="7"/>
+  <activities id="8">
+    <projectActivity id="9">
+      <start id="10">2009-01-28 18:00:00.0 CET</start>
+      <end id="11">2009-01-28 19:00:00.0 CET</end>
+      <project reference="5"/>
       <description>&lt;html&gt;&#xd;
   &lt;head&gt;&#xd;
     &#xd;
@@ -65,25 +39,9 @@
 &lt;/html&gt;&#xd;
 </description>
     </projectActivity>
-    <projectActivity id="17">
-      <start id="18">2009-01-28 15:00:00.0 CET</start>
-      <end id="19">2009-01-28 17:30:00.0 CET</end>
-      <project reference="3"/>
-      <description>&lt;html&gt;&#xd;
-  &lt;head&gt;&#xd;
-&#xd;
-  &lt;/head&gt;&#xd;
-  &lt;body&gt;&#xd;
-    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
-      version 1.3.1&#xd;
-    &lt;/p&gt;&#xd;
-  &lt;/body&gt;&#xd;
-&lt;/html&gt;&#xd;
-</description>
-    </projectActivity>
-    <projectActivity id="20">
-      <start id="21">2008-12-28 12:00:00.0 CET</start>
-      <end id="22">2008-12-28 16:00:00.0 CET</end>
+    <projectActivity id="12">
+      <start id="13">2008-12-28 12:00:00.0 CET</start>
+      <end id="14">2008-12-28 16:00:00.0 CET</end>
       <project reference="3"/>
       <description>&lt;html&gt;&#xd;
   &lt;head&gt;&#xd;
@@ -97,10 +55,10 @@
 &lt;/html&gt;&#xd;
 </description>
     </projectActivity>
-    <projectActivity id="23">
-      <start id="24">2008-11-29 15:00:00.0 CET</start>
-      <end id="25">2008-11-29 15:15:00.0 CET</end>
-      <project reference="5"/>
+    <projectActivity id="15">
+      <start id="16">2008-11-29 15:00:00.0 CET</start>
+      <end id="17">2008-11-29 15:15:00.0 CET</end>
+      <project reference="4"/>
       <description>&lt;html&gt;&#xd;
   &lt;head&gt;&#xd;
 &#xd;
@@ -113,9 +71,9 @@
 &lt;/html&gt;&#xd;
 </description>
     </projectActivity>
-    <projectActivity id="26">
-      <start id="27">2008-11-11 09:00:00.0 CET</start>
-      <end id="28">2008-11-11 11:00:00.0 CET</end>
+    <projectActivity id="18">
+      <start id="19">2008-11-11 09:00:00.0 CET</start>
+      <end id="20">2008-11-11 11:00:00.0 CET</end>
       <project reference="3"/>
       <description>&lt;html&gt;&#xd;
   &lt;head&gt;&#xd;
@@ -129,13 +87,13 @@
 &lt;/html&gt;&#xd;
 </description>
     </projectActivity>
-    <projectActivity id="29">
-      <start id="30">2008-10-31 11:30:00.0 CET</start>
-      <end id="31">2008-10-31 12:00:00.0 CET</end>
-      <project reference="5"/>
+    <projectActivity id="21">
+      <start id="22">2008-10-31 11:30:00.0 CET</start>
+      <end id="23">2008-10-31 12:00:00.0 CET</end>
+      <project reference="4"/>
       <description>&lt;html&gt;&#xd;
   &lt;head&gt;&#xd;
-&#xd;
+    &#xd;
   &lt;/head&gt;&#xd;
   &lt;body&gt;&#xd;
     &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
@@ -145,6 +103,202 @@
 &lt;/html&gt;&#xd;
 </description>
     </projectActivity>
+    <projectActivity id="24">
+      <start id="25">2009-04-28 13:00:00.0 CEST</start>
+      <end id="26">2009-04-28 14:00:00.0 CEST</end>
+      <project reference="3"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+    &#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Size and location of main window can be remembered and restored (Issue &#xd;
+      #23).&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="27">
+      <start id="28">2009-04-27 16:00:00.0 CEST</start>
+      <end id="29">2009-04-27 16:30:00.0 CEST</end>
+      <project reference="3"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Estonian language support thanks to Kristjan K.&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="30">
+      <start id="31">2009-04-28 14:30:00.0 CEST</start>
+      <end id="32">2009-04-28 14:45:00.0 CEST</end>
+      <project reference="5"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Testing of version 1.4&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="33">
+      <start id="34">2009-04-28 14:30:00.0 CEST</start>
+      <end id="35">2009-04-28 14:52:00.0 CEST</end>
+      <project reference="5"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Further tests&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="36">
+      <start id="37">2009-01-28 15:00:00.0 CET</start>
+      <end id="38">2009-01-28 17:30:00.0 CET</end>
+      <project reference="3"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      version 1.3.1&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="39">
+      <start id="40">2009-05-10 16:00:00.0 CEST</start>
+      <end id="41">2009-05-10 16:16:00.0 CEST</end>
+      <project reference="5"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Testing version 1.4&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="42">
+      <start id="43">2009-05-13 14:00:00.0 CEST</start>
+      <end id="44">2009-05-13 14:28:00.0 CEST</end>
+      <project reference="5"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Testing version 1.4&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="45">
+      <start id="46">2009-05-14 20:00:00.0 CEST</start>
+      <end id="47">2009-05-14 21:00:00.0 CEST</end>
+      <project reference="6"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Publish version 1.4&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="48">
+      <start id="49">2009-05-13 19:30:00.0 CEST</start>
+      <end id="50">2009-05-13 20:30:00.0 CEST</end>
+      <project reference="6"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Improved wiki pages&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="51">
+      <start id="52">2009-05-15 09:00:00.0 CEST</start>
+      <end id="53">2009-05-15 09:30:00.0 CEST</end>
+      <project reference="3"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Improved undo and redo texts.&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="54">
+      <start id="55">2009-05-31 22:30:00.0 CEST</start>
+      <end id="56">2009-05-31 23:00:00.0 CEST</end>
+      <project reference="3"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+    &#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Fixed sort order in all activities table.&#xd;
+    &lt;/p&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Fixed order of description entries.&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="57">
+      <start id="58">2009-05-31 23:00:00.0 CEST</start>
+      <end id="59">2009-05-31 23:20:00.0 CEST</end>
+      <project reference="5"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Testing version 1.4.1&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
   </activities>
-  <activeProject reference="4"/>
+  <activeProject reference="5"/>
 </proTrack>
