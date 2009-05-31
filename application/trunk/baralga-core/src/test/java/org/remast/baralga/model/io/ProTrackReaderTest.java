@@ -3,56 +3,15 @@ package org.remast.baralga.model.io;
 import java.io.IOException;
 import java.io.InputStream;
 
+import junit.framework.TestCase;
+
 import org.joda.time.DateTime;
 import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.ProjectActivity;
 
-import junit.framework.TestCase;
-
 public class ProTrackReaderTest extends TestCase {
     
-    /**
-     * Tests that a predefined data file can be read in correctly.
-     * 
-     * I.e. a regression test against involuntarily changing the data format.
-     */
-    public void testProTrackReading() throws IOException {
-        InputStream in = ProTrackReaderTest.class.getResourceAsStream("/Development.ptd.xml");
-        assertNotNull(in);
-        
-        ProTrackReader reader = new ProTrackReader();
-        reader.read(in);
-        assertNotNull(reader.getData());
-        
-        ProTrack data = reader.getData();
-        System.out.println(data);
-        assertEquals(3, data.getProjects().size());
-        assertEquals("Testing", data.getActiveProject().getTitle());
-        assertFalse(data.isActive());
-        DateTime startTime = new DateTime(2009, 1, 28, 19, 24, 0, 0);
-        assertEquals(startTime, data.getStart());
-        
-        assertEquals(6, data.getActivities().size());
-        ProjectActivity activity = data.getActivities().get(3);
-        assertEquals("Bugfixing", activity.getProject().getTitle());
-        DateTime activityStartTime = new DateTime(2008, 11, 29, 15, 0, 0, 0);
-        DateTime activityEndTime = new DateTime(2008, 11, 29, 15, 15, 0, 0);
-        assertEquals(activityStartTime, activity.getStart());
-        assertEquals(activityEndTime, activity.getEnd());
-        
-        String description = "<html>\r\n" + 
-        		"  <head>\r\n" + 
-        		"\r\n" + 
-        		"  </head>\r\n" + 
-        		"  <body>\r\n" + 
-        		"    <p style=\"margin-top: 0\">\r\n" + 
-        		"      Added title to about dialog.\r\n" + 
-        		"    </p>\r\n" + 
-        		"  </body>\r\n" + 
-        		"</html>";
-        assertEquals(description, activity.getDescription().trim());
-    }
-    
+   
     /**
      * Tests that a 'legacy' data file can be read in correctly. I.e. a file with:
      * 
