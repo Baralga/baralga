@@ -97,27 +97,7 @@ public class DescriptionPanel extends JXPanel implements Observer {
         switch (event.getType()) {
 
         case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
-        {
-            activity = (ProjectActivity) event.getData();
-            final boolean matchesFilter = model.getFilter().matchesCriteria(activity);
-
-            // If activity does not match the filter it is not displayed
-            if (!matchesFilter) {
-                return;
-            }
-
-            final DescriptionPanelEntry newEntryPanel = new DescriptionPanelEntry(activity, this.model);
-            entriesByActivity.put(activity, newEntryPanel);
-            this.container.add(newEntryPanel);
-
-            // Set color
-            if (Math.abs(entriesByActivity.size()) % 2 == 1) {
-                newEntryPanel.setBackground(Color.WHITE);
-            } else {
-                newEntryPanel.setBackground(GuiConstants.BEIGE);
-            }
-            break;
-        }
+            applyFilter();
 
         case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
         {

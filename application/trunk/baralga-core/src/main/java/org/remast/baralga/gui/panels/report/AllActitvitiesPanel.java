@@ -80,8 +80,11 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
                 new AllActivitiesTableFormat(model));
         final JXTable table = new JXTable(tableModel);
 
-        // Fix sorting
-        EventListJXTableSorting.install(table, model.getActivitiesList());
+        // :INFO: Not sortable as this does corrupt the index and thus cause problems
+        // trying to delete entries by context menu.
+        table.setSortable(false);
+//      Fix sorting
+//      EventListJXTableSorting.install(table, model.getActivitiesList());
 
         table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance())));
         table.getColumn(1).setCellEditor(new DatePickerCellEditor());

@@ -10,6 +10,7 @@ import org.remast.baralga.model.report.AccumulatedProjectActivity;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
+import ca.odell.glazedlists.SortedList;
 
 /**
  * Report for the accumulated working hours.
@@ -21,7 +22,7 @@ public class AccumulatedActivitiesReport extends Observable {
     private ProTrack data;
 
     /** Accumulated activities of the report. */
-    private EventList<AccumulatedProjectActivity> accumulatedActivitiesByDay;
+    private SortedList<AccumulatedProjectActivity> accumulatedActivitiesByDay;
 
     /** The filter by which the tracked data is filtered. */
     protected Filter filter;
@@ -31,7 +32,7 @@ public class AccumulatedActivitiesReport extends Observable {
      */
     public AccumulatedActivitiesReport(final ProTrack data) {
         this.data = data;
-        accumulatedActivitiesByDay = new BasicEventList<AccumulatedProjectActivity>();
+        accumulatedActivitiesByDay = new SortedList<AccumulatedProjectActivity>(new BasicEventList<AccumulatedProjectActivity>());
 
         accumulate();
     }

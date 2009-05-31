@@ -6,7 +6,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.joda.time.DateTime;
 import org.remast.baralga.model.Project;
 
-public class AccumulatedProjectActivity {
+public class AccumulatedProjectActivity implements Comparable<AccumulatedProjectActivity> {
 
     private final DateTime day;
 
@@ -73,5 +73,16 @@ public class AccumulatedProjectActivity {
     public int hashCode() {
         // Unique for each project so use hash code of project
         return this.getProject().hashCode();
+    }
+    
+    @Override
+    public int compareTo(final AccumulatedProjectActivity activity) {
+        if (activity == null) {
+            return 0;
+        }
+
+        // Sort by start date but the other way round. That way the latest
+        // activity is always on top.
+        return this.getDay().compareTo(activity.getDay()) * -1;
     }
 }

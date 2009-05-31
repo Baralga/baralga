@@ -2,6 +2,9 @@ package org.remast.baralga.gui.model;
 
 import java.beans.PropertyChangeEvent;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Observable;
 
 import org.apache.commons.lang.ObjectUtils;
@@ -144,6 +147,17 @@ public class PresentationModel extends Observable {
         } else {
             this.activitiesList.addAll(this.filter.applyFilters(this.data.getActivities()));
         }
+        
+        int i = 1;
+        Collections.sort(this.activitiesList);
+
+        List<ProjectActivity> pl = new ArrayList<ProjectActivity>();
+        pl.addAll(this.activitiesList);
+        Collections.sort(pl);
+        
+        
+        
+        int k =2;
     }
 
     /**

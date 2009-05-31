@@ -222,7 +222,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
 
         // Sort by start date but the other way round. That way the latest
         // activity is always on top.
-        return this.getStart().compareTo(activity.getStart()) * -1;
+        return this.getDay().compareTo(activity.getDay()) * -1;
     }
     
     /**

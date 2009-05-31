@@ -10,6 +10,7 @@
 Fixes
  * Editing activities after deleting all projects (Issue #30 http://baralga.origo.ethz.ch/node/118)
  * Exit JVM on errors during startup.
+ * Default sort order is preserved (Issue #0 http://baralga.origo.ethz.ch/node/120).
  
 Functionality
  * Improved displayed texts for undo and redo actions.
