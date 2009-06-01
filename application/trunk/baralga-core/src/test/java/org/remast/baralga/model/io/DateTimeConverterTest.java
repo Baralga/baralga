@@ -14,8 +14,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 /**
- * Tests the {@link DateTimeConverter}
- * 
+ * Tests the {@link DateTimeConverter}.
  * @author kutzi
  */
 public class DateTimeConverterTest extends TestCase {

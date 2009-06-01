@@ -189,7 +189,7 @@ public class TrayIcon implements Observer {
         if (model.isActive()) {
             trayIcon.setToolTip(textBundle.textFor("Global.Title") + " - " + model.getSelectedProject() + textBundle.textFor("MainFrame.9") + FormatUtils.formatTime(model.getStart()));
         } else {
-            trayIcon.setToolTip(textBundle.textFor("Global.Title") + " - "+ textBundle.textFor("MainFrame.12") + FormatUtils.formatTime(model.getStop()));
+            trayIcon.setToolTip(textBundle.textFor("Global.Title") + " - " + textBundle.textFor("MainFrame.12") + FormatUtils.formatTime(model.getStop()));
         }
     }
 

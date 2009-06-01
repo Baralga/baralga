@@ -276,7 +276,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 
         // Filter for week of year
         filterItem = (LabeledItem<Integer>) getWeekOfYearFilterSelector().getSelectedItem();
-        final int selectedWeekOfYear= filterItem.getItem();
+        final int selectedWeekOfYear = filterItem.getItem();
 
         switch (selectedWeekOfYear) {
         case WeekOfYearFilterList.CURRENT_WEEK_OF_YEAR_DUMMY:

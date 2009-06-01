@@ -266,7 +266,7 @@ public final class UserSettings {
     //------------------------------------------------
 
     /** The key for the window size. */
-    public static final String WINDOW_SIZE= "settings.windowSize"; //$NON-NLS-1$
+    public static final String WINDOW_SIZE = "settings.windowSize"; //$NON-NLS-1$
 
     public Dimension getWindowSize() {
         final String encodedSize = doGetString(WINDOW_SIZE, "530.0|720.0");

@@ -8,7 +8,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 @XStreamAlias("project") //$NON-NLS-1$
-public class Project implements Serializable, Comparable<Project>{
+public class Project implements Serializable, Comparable<Project> {
     
     /**
      * 

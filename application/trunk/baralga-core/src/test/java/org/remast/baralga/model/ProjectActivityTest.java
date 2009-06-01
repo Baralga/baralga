@@ -3,7 +3,6 @@ package org.remast.baralga.model;
 import junit.framework.TestCase;
 
 import org.joda.time.DateTime;
-import org.remast.baralga.model.ProjectActivity;
 import org.remast.util.DateUtils;
 
 public class ProjectActivityTest extends TestCase {
@@ -62,7 +61,7 @@ public class ProjectActivityTest extends TestCase {
             new ProjectActivity(new DateTime(2009, 1, 1, 13, 0, 0 ,0),
                     new DateTime(2009, 1, 1, 12, 0, 0, 0), null);
             fail("Expected IllegalArgumentException");
-        } catch( IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             // ok, expected
         }
 
@@ -71,7 +70,7 @@ public class ProjectActivityTest extends TestCase {
                     new DateTime(2009, 1, 1, 12, 0, 0, 0), null);
             act.setEndTime(10, 0);
             fail("Expected IllegalArgumentException");
-        } catch( IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             // ok, expected
         }
 
@@ -79,7 +78,7 @@ public class ProjectActivityTest extends TestCase {
             ProjectActivity act = new ProjectActivity(new DateTime(2009, 1, 1, 11, 0, 0 ,0),
                     new DateTime(2009, 1, 1, 12, 0, 0, 0), null);
             act.setEndTime(13, 0);
-        } catch( IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             fail("Unexpected IllegalArgumentException");
         }
     }

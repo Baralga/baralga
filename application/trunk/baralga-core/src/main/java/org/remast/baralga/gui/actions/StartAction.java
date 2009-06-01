@@ -20,6 +20,11 @@ public class StartAction extends AbstractBaralgaAction {
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(StartAction.class);
 
+    /**
+     * Creates a new {@link StartAction}.
+     * @param owner the owning frame
+     * @param model the model
+     */
     public StartAction(final Frame owner, final PresentationModel model) {
         super(owner, model);
 

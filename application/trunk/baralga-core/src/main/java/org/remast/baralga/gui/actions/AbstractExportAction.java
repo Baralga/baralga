@@ -31,7 +31,11 @@ public abstract class AbstractExportAction extends AbstractBaralgaAction {
     /** The logger. */
     private static final Log log = LogFactory.getLog(AbstractExportAction.class);
 
-
+    /**
+     * Creates a new export action.
+     * @param owner the owning frame
+     * @param model the model to be exported
+     */
     public AbstractExportAction(final Frame owner, final PresentationModel model) {
         super(owner, model);
     }
@@ -49,7 +53,7 @@ public abstract class AbstractExportAction extends AbstractBaralgaAction {
     protected abstract String getLastExportLocation();
 
     /**
-     * Setter for the last export location
+     * Setter for the last export location.
      * @param lastExportLocation the last export location to set
      */
     protected abstract void setLastExportLocation(final String lastExportLocation);
@@ -102,14 +106,19 @@ public abstract class AbstractExportAction extends AbstractBaralgaAction {
      */
     private class ExportWorker extends SwingWorker<String, Object> {
         
+        /** The model to be exported. */
         private PresentationModel model;
         
+        /** The file to export to. */
         private File file;
         
+        /** The actual exporter. */
         private Exporter exporter;
         
+        /** The owning frame. */
         private Frame owner;
         
+        /** The filter for the export file. */
         private FileFilter fileFilter;
 
         public ExportWorker(final PresentationModel model, final Exporter exporter, final FileFilter fileFilter, final Frame owner, final File file) {

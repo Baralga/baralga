@@ -7,7 +7,7 @@ package org.remast.swing.util;
  * @author remast
  * @param <E> the type of the item object
  */
-public class LabeledItem<E extends Comparable<E>> implements Comparable<LabeledItem<E>>{
+public class LabeledItem<E extends Comparable<E>> implements Comparable<LabeledItem<E>> {
 
     /** The item. */
     private final E item;

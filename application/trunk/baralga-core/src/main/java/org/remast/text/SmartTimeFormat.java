@@ -20,8 +20,10 @@ import org.apache.commons.lang.StringUtils;
 @SuppressWarnings("serial")
 public class SmartTimeFormat extends TimeFormat {
 
-    @Override
-    public Date parse(final String source, final ParsePosition pos) {
+    /**
+     * {@inheritDoc}
+     */
+    public final Date parse(final String source, final ParsePosition pos) {
         String time = source;
         time = StringUtils.trimToEmpty(time);
         
@@ -33,8 +35,14 @@ public class SmartTimeFormat extends TimeFormat {
         return super.parse(time, pos);
     }
 
-    public static int[] parseToHourAndMinutes(final String s) throws ParseException {
-        String time = s;
+    /**
+     * Parses hours and minutes from the given time as String.
+     * @param timeString the time to be parsed
+     * @return the parsed time as array with hours and minutes
+     * @throws ParseException on parse errors
+     */
+    public static int[] parseToHourAndMinutes(final String timeString) throws ParseException {
+        String time = timeString;
         time = StringUtils.trimToEmpty(time);
         
         if (StringUtils.isBlank(time)) {
@@ -45,7 +53,7 @@ public class SmartTimeFormat extends TimeFormat {
         
         String[] splitted = time.split(":");
         if (splitted.length != 2) {
-            throw new ParseException("String '" + s + "' has an unsupported format", 1);
+            throw new ParseException("String '" + timeString + "' has an unsupported format", 1);
         } else {
             int[] result = new int[2];
             for (int i = 0; i < 2; i++) {
@@ -59,9 +67,11 @@ public class SmartTimeFormat extends TimeFormat {
      * Replaces ';' with ',', '.' with ':' and converts some fraction notations
      * into hh:mm (e.g. 12,5 into 12:30).
      * And some more.
+     * @param timeString the String to normalize
+     * @return the normalized String
      */
-    private static String normalize(final String s) {
-        String time = s;
+    private static String normalize(final String timeString) {
+        String time = timeString;
         time = StringUtils.replaceChars(time, ';', ',');
         time = StringUtils.replaceChars(time, '.', ':');
         

@@ -38,7 +38,6 @@ import org.remast.swing.util.GuiConstants;
 import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
-import ca.odell.glazedlists.swing.EventListJXTableSorting;
 import ca.odell.glazedlists.swing.EventTableModel;
 
 /**

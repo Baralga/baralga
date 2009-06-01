@@ -28,6 +28,7 @@ public class YearFilterList implements Observer {
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(YearFilterList.class);
 
+    /** Format for the year. */
     public static final NumberFormat YEAR_FORMAT = new DecimalFormat("##00"); //$NON-NLS-1$
 
     /** The model. */

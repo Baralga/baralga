@@ -26,6 +26,10 @@ public class StopAction extends AbstractBaralgaAction {
     /** The logger. */
     private static final Log log = LogFactory.getLog(StopAction.class);
     
+    /**
+     * Creates a new {@link StopAction}.
+     * @param model the model
+     */
     public StopAction(final PresentationModel model) {
         super(model);
         

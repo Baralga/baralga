@@ -20,6 +20,6 @@ public interface Exporter {
      * @param outputStream the stream to write to
      * @throws Exception exception during data export
      */
-    public void export(final ProTrack data, final Filter filter, final OutputStream outputStream) throws Exception;
+    void export(final ProTrack data, final Filter filter, final OutputStream outputStream) throws Exception;
 
 }

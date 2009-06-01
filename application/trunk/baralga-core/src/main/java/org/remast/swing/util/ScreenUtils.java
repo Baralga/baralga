@@ -168,8 +168,7 @@ public class ScreenUtils {
             bounds.width -= insets.left + insets.right;
             bounds.height -= insets.top + insets.bottom;
             return bounds.getSize();
-        }
-        else {
+        } else {
             return getScreenSize(invoker);
         }
     }
@@ -261,8 +260,7 @@ public class ScreenUtils {
             rect.x = (SCREENS_WITH_INSETS[0].width - rect.width) / 2;
             rect.y = (SCREENS_WITH_INSETS[0].width - rect.width) / 2;
             return rect;
-        }
-        else {
+        } else {
             
             Rectangle screenToConsider = containgScreen;
             

@@ -72,7 +72,7 @@ public class ProTrackReaderTest extends TestCase {
             DateTime activityEndTime = new DateTime(2008, 11, 29, 15, 15, 0, 0);
             assertEquals(activityStartTime, activity.getStart());
             assertEquals(activityEndTime, activity.getEnd());
-            assertEquals(4*24 + 15.25, activity.getDuration());
+            assertEquals(4 * 24 + 15.25, activity.getDuration());
             
             String description = "Activity which ends several days later";
             assertEquals(description, activity.getDescription().trim());

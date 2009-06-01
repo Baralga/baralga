@@ -2,9 +2,6 @@ package org.remast.baralga.gui.model;
 
 import java.beans.PropertyChangeEvent;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Observable;
 
 import org.apache.commons.lang.ObjectUtils;
@@ -365,7 +362,7 @@ public class PresentationModel extends Observable {
 
         // Set selected project to new project
         this.selectedProject = activeProject;
-        
+
         // Set active project to new project
         this.data.setActiveProject(activeProject);
 
@@ -462,7 +459,10 @@ public class PresentationModel extends Observable {
         this.dirty = true;
 
         // Fire event
-        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_REMOVED, source);
+        final BaralgaEvent event = new BaralgaEvent(
+                BaralgaEvent.PROJECT_ACTIVITY_REMOVED,
+                source
+        );
         event.setData(activity);
         notify(event);
     }
@@ -471,7 +471,7 @@ public class PresentationModel extends Observable {
      * Getter for the list of projects.
      * @return the list with all projects
      */
-    public SortedList<Project> getProjectList() {
+    public final SortedList<Project> getProjectList() {
         return projectList;
     }
 
@@ -479,11 +479,11 @@ public class PresentationModel extends Observable {
      * Getter for the list of project activities.
      * @return the list with all project activities
      */
-    public SortedList<ProjectActivity> getActivitiesList() {
+    public final SortedList<ProjectActivity> getActivitiesList() {
         return activitiesList;
     }
 
-    public ProjectFilterList getProjectFilterList() {
+    public final ProjectFilterList getProjectFilterList() {
         return new ProjectFilterList(this);
     }
 
@@ -491,7 +491,7 @@ public class PresentationModel extends Observable {
      * Get all years in which there are project activities.
      * @return List of years with activities as String.
      */
-    public YearFilterList getYearFilterList() {
+    public final YearFilterList getYearFilterList() {
         return new YearFilterList(this);
     }
 
@@ -499,7 +499,7 @@ public class PresentationModel extends Observable {
      * Get all months in which there are project activities.
      * @return List of months with activities as String.
      */
-    public MonthFilterList getMonthFilterList() {
+    public final MonthFilterList getMonthFilterList() {
         return new MonthFilterList(this);
     }
 
@@ -507,28 +507,47 @@ public class PresentationModel extends Observable {
      * Get all weeks in which there are project activities.
      * @return List of weeks with activities as String.
      */
-    public WeekOfYearFilterList getWeekFilterList() {
+    public final WeekOfYearFilterList getWeekFilterList() {
         return new WeekOfYearFilterList(this);
     }
 
-    public ObservingAccumulatedActivitiesReport getFilteredReport() {
+    /**
+     * Getter for the ObservingAccumulatedActivitiesReport.
+     * @return the ObservingAccumulatedActivitiesReport to get
+     */
+    public final ObservingAccumulatedActivitiesReport getFilteredReport() {
         return new ObservingAccumulatedActivitiesReport(this);
     }
 
-    public HoursByWeekReport getHoursByWeekReport() {
+    /**
+     * Getter for the HoursByWeekReport.
+     * @return the HoursByWeekReport to get
+     */
+    public final HoursByWeekReport getHoursByWeekReport() {
         return new HoursByWeekReport(this);
     }
-    
-    public HoursByMonthReport getHoursByMonthReport() {
+
+    /**
+     * Getter for the HoursByMonthReport.
+     * @return the HoursByMonthReport to get
+     */
+    public final HoursByMonthReport getHoursByMonthReport() {
         return new HoursByMonthReport(this);
     }
-    
 
-    public HoursByDayReport getHoursByDayReport() {
+    /**
+     * Getter for the HoursByDayReport.
+     * @return the HoursByDayReport to get
+     */
+    public final HoursByDayReport getHoursByDayReport() {
         return new HoursByDayReport(this);
     }
 
-    public HoursByProjectReport getHoursByProjectReport() {
+    /**
+     * Getter for the HoursByProjectReport.
+     * @return the HoursByProjectReport to get
+     */
+    public final HoursByProjectReport getHoursByProjectReport() {
         return new HoursByProjectReport(this);
     }
 
@@ -536,7 +555,7 @@ public class PresentationModel extends Observable {
      * Gets the start of the current activity.
      * @return the start
      */
-    public DateTime getStart() {
+    public final DateTime getStart() {
         return start;
     }
 
@@ -544,7 +563,7 @@ public class PresentationModel extends Observable {
      * Sets the start of a new activity.
      * @param start the start to set
      */
-    public void setStart(final DateTime start) {
+    public final void setStart(final DateTime start) {
         this.start = start;
         this.data.setStartTime(start);
 
@@ -556,13 +575,15 @@ public class PresentationModel extends Observable {
     }
 
     /**
+     * Getter for the stop time.
      * @return the stop
      */
-    public DateTime getStop() {
+    public final DateTime getStop() {
         return stop;
     }
 
     /**
+     * Setter for the stop time.
      * @param stop the stop to set
      */
     private void setStop(final DateTime stop) {
@@ -648,18 +669,26 @@ public class PresentationModel extends Observable {
         notify(event);
     }
 
-    public String getDescription() {
+    /**
+     * Getter for the description.
+     * @return the description to get
+     */
+    public final String getDescription() {
         return description;
     }
 
-    public void setDescription(final String description) {
+    /**
+     * Setter for the description.
+     * @param description the description to set
+     */
+    public final void setDescription(final String description) {
         this.description = description;
     }
 
     /**
      * @return the editStack
      */
-    public EditStack getEditStack() {
+    public final EditStack getEditStack() {
         return editStack;
     }
 
