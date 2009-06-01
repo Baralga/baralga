@@ -56,7 +56,7 @@ public class HoursByProject implements Comparable<HoursByProject> {
     }
 
     @Override
-    public int compareTo(HoursByProject hoursByProject) {
+    public int compareTo(final HoursByProject hoursByProject) {
         if (hoursByProject == null) {
             return 0;
         }

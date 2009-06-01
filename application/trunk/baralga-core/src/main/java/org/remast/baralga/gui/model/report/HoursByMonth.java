@@ -58,7 +58,7 @@ public class HoursByMonth implements Comparable<HoursByMonth> {
     }
 
     @Override
-    public int compareTo(HoursByMonth that) {
+    public int compareTo(final HoursByMonth that) {
         if (that == null) {
             return 0;
         }

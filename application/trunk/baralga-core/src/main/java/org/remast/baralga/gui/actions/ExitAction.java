@@ -32,7 +32,7 @@ public class ExitAction extends AbstractBaralgaAction {
      * {@inheritDoc}
      */
     @Override
-    @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="DM_EXIT", justification="That's what this action is good for")
+    @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = "DM_EXIT", justification = "That's what this action is good for")
     public final void actionPerformed(final ActionEvent event) {
         boolean quit = true;
 

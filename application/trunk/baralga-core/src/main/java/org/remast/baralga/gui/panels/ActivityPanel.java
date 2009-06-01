@@ -134,7 +134,7 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
         }
 
         final double border = 5;
-        final double size[][] = {
+        final double[][] size = {
                 { border, 0.45, border, 0.55, border }, // Columns
                 { border, TableLayout.PREFERRED, border, TableLayout.FILL, border }  // Rows
         };
@@ -165,7 +165,7 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
 
         final JXPanel buttonPanel = new JXPanel();
 
-        final double buttonPanelSize [][] = {
+        final double[][] buttonPanelSize = {
                 { border, TableLayout.FILL, border, TableLayout.FILL, border }, // Columns
                 { 0, TableLayout.FILL, border, TableLayout.FILL, border, TableLayout.FILL, border * 2 } // Rows
         };
@@ -208,7 +208,7 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
         final int borderSmall = 3;
 
         final JXPanel startPanel = new JXPanel();
-        final double startPanelSize [][] = new double [][] {
+        final double[][] startPanelSize = new double [][] {
                 { TableLayout.PREFERRED, borderSmall, TableLayout.FILL }, // Columns
                 { TableLayout.FILL } // Rows
         };

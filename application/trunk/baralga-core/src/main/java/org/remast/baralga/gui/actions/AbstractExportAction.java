@@ -32,7 +32,7 @@ public abstract class AbstractExportAction extends AbstractBaralgaAction {
     private static final Log log = LogFactory.getLog(AbstractExportAction.class);
 
 
-    public AbstractExportAction(Frame owner, PresentationModel model) {
+    public AbstractExportAction(final Frame owner, final PresentationModel model) {
         super(owner, model);
     }
 
@@ -125,7 +125,7 @@ public abstract class AbstractExportAction extends AbstractBaralgaAction {
             OutputStream outputStream = null;
             try {
                 outputStream = new FileOutputStream(file);
-                synchronized ( model.getData() ) {
+                synchronized (model.getData()) {
                     exporter.export(
                             model.getData(),
                             model.getFilter(),

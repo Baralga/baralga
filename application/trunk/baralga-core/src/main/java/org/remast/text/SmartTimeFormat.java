@@ -44,11 +44,11 @@ public class SmartTimeFormat extends TimeFormat {
         time = normalize(time);
         
         String[] splitted = time.split(":");
-        if( splitted.length != 2 ) {
+        if (splitted.length != 2) {
             throw new ParseException("String '" + s + "' has an unsupported format", 1);
         } else {
             int[] result = new int[2];
-            for( int i=0; i<2; i++ ) {
+            for (int i = 0; i < 2; i++) {
                 result[i] = Integer.parseInt(splitted[i]);
             }
             return result;

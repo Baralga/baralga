@@ -58,7 +58,7 @@ public class HoursByWeek implements Comparable<HoursByWeek> {
     }
 
     @Override
-    public int compareTo(HoursByWeek that) {
+    public int compareTo(final HoursByWeek that) {
         if (that == null) {
             return 0;
         }

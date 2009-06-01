@@ -119,9 +119,9 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
                 final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(activity, ProjectActivity.PROPERTY_START,
                         oldStart, activity.getStart().toDate());
                 model.fireProjectActivityChangedEvent(activity, propertyChangeEvent);
-            } catch( IllegalArgumentException e ) {
+            } catch (IllegalArgumentException e) {
                 // Ignore and don't save changes to model.
-            } catch( ParseException e ) {
+            } catch (ParseException e) {
                 // Ignore and don't save changes to model.
             }
         }
@@ -137,7 +137,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
                 final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(activity, ProjectActivity.PROPERTY_END,
                         oldEnd, activity.getEnd().toDate());
                 model.fireProjectActivityChangedEvent(activity, propertyChangeEvent);
-            } catch( IllegalArgumentException e ) {
+            } catch (IllegalArgumentException e) {
                 // Ignore and don't save changes to model.
             } catch (ParseException e) {
                 // Ignore and don't save changes to model.

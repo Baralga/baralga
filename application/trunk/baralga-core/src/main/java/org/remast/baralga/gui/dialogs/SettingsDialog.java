@@ -55,7 +55,7 @@ public class SettingsDialog extends EscapeDialog implements ActionListener {
         setLocationRelativeTo(getOwner());
 
         final double border = 5;
-        final double size[][] = {
+        final double[][] size = {
                 { border, TableLayout.FILL, border, TableLayout.PREFERRED, border }, // Columns
                 { border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border}  // Rows
         };
@@ -79,7 +79,7 @@ public class SettingsDialog extends EscapeDialog implements ActionListener {
         resetButton.addActionListener(new ActionListener() {
 
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 resetSettings();
             }
             
@@ -114,7 +114,7 @@ public class SettingsDialog extends EscapeDialog implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent arg0) {
+    public void actionPerformed(final ActionEvent arg0) {
         writeToModel();
     }
 

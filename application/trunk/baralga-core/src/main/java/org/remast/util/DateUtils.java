@@ -41,9 +41,9 @@ public abstract class DateUtils {
      *   Otherwise 0:00h is treated as being the start of the current day.
      */
     public static DateTime adjustToSameDay(final DateTime day, final DateTime timeToAdjust,
-            boolean midnightOnNextDay) {
+            final boolean midnightOnNextDay) {
         DateTime result = timeToAdjust.withYear(day.getYear()).withDayOfYear(day.getDayOfYear());
-        if( midnightOnNextDay && result.getHourOfDay() == 0 && result.getMinuteOfHour() == 0 ) {
+        if (midnightOnNextDay && result.getHourOfDay() == 0 && result.getMinuteOfHour() == 0) {
             result = result.plusDays(1);
         }
         return result;

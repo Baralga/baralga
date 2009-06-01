@@ -20,7 +20,7 @@ public class RawDataExporter implements Exporter {
      * @throws Exception exception during data export
      */
     @Override
-    public void export(ProTrack data, Filter filter, OutputStream outputStream) throws Exception {
+    public void export(final ProTrack data, final Filter filter, final OutputStream outputStream) throws Exception {
         final ProTrackWriter writer = new ProTrackWriter(data);
         writer.write(outputStream);
         outputStream.flush();

@@ -15,7 +15,7 @@ import javax.swing.Action;
 public abstract class AWTUtils {
 
     /** Hide constructor. */
-    private AWTUtils() {}
+    private AWTUtils() { }
 
     /**
      * Create AWT MenuItem from Swing Action.

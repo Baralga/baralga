@@ -24,7 +24,7 @@ public abstract class GuiConstants {
 
     public static final Color DARK_BLUE = new Color(64, 64, 128);
 
-    @SuppressWarnings(value="MS_MUTABLE_ARRAY", justification="We trust all callers")
+    @SuppressWarnings(value = "MS_MUTABLE_ARRAY", justification = "We trust all callers")
     public static final Highlighter[] HIGHLIGHTERS = new Highlighter[] { 
         HighlighterFactory.createSimpleStriping(BEIGE),
         new ColorHighlighter(HighlightPredicate.ROLLOVER_ROW, Color.DARK_GRAY, Color.WHITE)

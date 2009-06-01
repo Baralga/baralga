@@ -3,6 +3,7 @@ package org.remast.baralga.gui;
 import info.clearthought.layout.TableLayout;
 
 import java.awt.Image;
+import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.WindowAdapter;
@@ -141,24 +142,16 @@ public class MainFrame extends JXFrame implements Observer {
             this.setSize(530, 720);
         }
         
-        this.addComponentListener(new ComponentListener() {
+        this.addComponentListener(new ComponentAdapter() {
 
             @Override
-            public void componentHidden(ComponentEvent e) {
-            }
-
-            @Override
-            public void componentMoved(ComponentEvent e) {
+            public void componentMoved(final ComponentEvent e) {
                 UserSettings.instance().setWindowLocation(MainFrame.this.getLocation());
             }
 
             @Override
-            public void componentResized(ComponentEvent e) {
+            public void componentResized(final ComponentEvent e) {
                 UserSettings.instance().setWindowSize(MainFrame.this.getSize());
-            }
-
-            @Override
-            public void componentShown(ComponentEvent e) {
             }
             
         });
@@ -166,13 +159,14 @@ public class MainFrame extends JXFrame implements Observer {
         this.setJMenuBar(getMainMenuBar());
 
         this.addWindowListener(new WindowAdapter() {
+            
             @Override
-            public void windowIconified(WindowEvent e) {
+            public void windowIconified(final WindowEvent e) {
                 MainFrame.this.windowIconified(e);
             }
             
             @Override
-            public void windowClosed(WindowEvent e) {
+            public void windowClosed(final WindowEvent e) {
                 MainFrame.this.windowClosing(e);
             }
             

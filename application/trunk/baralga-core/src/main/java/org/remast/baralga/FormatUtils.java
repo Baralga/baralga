@@ -35,7 +35,7 @@ public abstract class FormatUtils {
     
     public static DateTime parseTime(final String time) throws ParseException {
         synchronized (timeFormat) {
-            return new DateTime( timeFormat.parse(time) );
+            return new DateTime(timeFormat.parse(time));
         }
     }
     

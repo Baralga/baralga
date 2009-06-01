@@ -377,7 +377,7 @@ public final class BaralgaMain {
      *   the lock is held by another program
      * @throws RuntimeException if an I/O error occurred
      */
-    @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE", justification="Its irrelevant if lock file already existed or not.")
+    @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE", justification = "Its irrelevant if lock file already existed or not.")
     private static boolean tryLock() {
         checkOrCreateBaralgaDir();
         final File lockFile = new File(UserSettings.getLockFileLocation());

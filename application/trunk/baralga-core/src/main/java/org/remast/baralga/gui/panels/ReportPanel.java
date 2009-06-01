@@ -88,7 +88,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 
         final double borderBig = 8;
         final double border = 3;
-        final double size[][] = {
+        final double[][] size = {
                 { border, TableLayout.PREFERRED, border, TableLayout.FILL, borderBig, TableLayout.PREFERRED, border,
                     TableLayout.FILL, borderBig, TableLayout.PREFERRED, border, TableLayout.FILL, borderBig, TableLayout.PREFERRED, border, TableLayout.FILL, border}, // Columns
                     { border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, borderBig, TableLayout.PREFERRED, 0,

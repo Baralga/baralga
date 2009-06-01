@@ -85,7 +85,7 @@ public class ChangeProjectAction extends AbstractBaralgaAction {
         dialog.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/Baralga-Tray.gif"))); //$NON-NLS-1$ 
         
         Dimension d = dialog.getPreferredSize();
-        final Point preferredLeftTop = new Point(currentMousePosition.x - d.width/2, currentMousePosition.y - d.height/2);
+        final Point preferredLeftTop = new Point(currentMousePosition.x - d.width / 2, currentMousePosition.y - d.height / 2);
         AWTUtils.keepInScreenBounds(preferredLeftTop, dialog);
 
         dialog.setVisible(true);

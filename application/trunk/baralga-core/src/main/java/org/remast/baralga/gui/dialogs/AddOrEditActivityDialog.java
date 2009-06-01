@@ -198,7 +198,7 @@ public class AddOrEditActivityDialog extends EscapeDialog {
      */
     private void initializeLayout() {
         final double border = 5;
-        final double size[][] = {
+        final double[][] size = {
                 { border, TableLayout.PREFERRED, border, TableLayout.FILL, border }, // Columns
                 { border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED,
                     border, TableLayout.PREFERRED, border, TableLayout.FILL, border, TableLayout.PREFERRED, border} }; // Rows

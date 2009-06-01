@@ -1,10 +1,19 @@
 package org.remast.swing.util;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JApplet;
 
 /**
  * A helper class for screen related stuff.
@@ -55,7 +64,7 @@ public class ScreenUtils {
                     configuration);
             Rectangle screenBoundsWithInsets = new Rectangle(
                     deviceBounds.x + insets.left, deviceBounds.y + insets.top,
-                    deviceBounds.width - insets.right, deviceBounds.height - insets.bottom );
+                    deviceBounds.width - insets.right, deviceBounds.height - insets.bottom);
             screensList.add(deviceBounds);
             insetsList.add(insets);
             screensWithInsets.add(screenBoundsWithInsets);
@@ -80,7 +89,7 @@ public class ScreenUtils {
      * @param rect
      * @return the rectangle that is in the screen bounds.
      */
-    public static Rectangle containsInScreenBounds(Component invoker, Rectangle rect) {
+    public static Rectangle containsInScreenBounds(final Component invoker, final Rectangle rect) {
         Rectangle screenBounds = getScreenBounds(invoker);
         Point p = rect.getLocation();
         if (p.x + rect.width > screenBounds.x + screenBounds.width) {
@@ -105,7 +114,7 @@ public class ScreenUtils {
      * @param rect
      * @return the rectangle that has overlap with the screen bounds.
      */
-    public static Rectangle overlapWithScreenBounds(Component invoker, Rectangle rect) {
+    public static Rectangle overlapWithScreenBounds(final Component invoker, final Rectangle rect) {
         Rectangle screenBounds = getScreenBounds(invoker);
         Point p = rect.getLocation();
         if (p.x > screenBounds.x + screenBounds.width) {
@@ -129,7 +138,7 @@ public class ScreenUtils {
      * @param invoker
      * @return the screen size.
      */
-    public static Dimension getScreenSize(Component invoker) {
+    public static Dimension getScreenSize(final Component invoker) {
         // to handle multi-display case
         Dimension screenSize = SCREEN_BOUNDS.getSize();
 
@@ -149,7 +158,7 @@ public class ScreenUtils {
      * @param invoker
      * @return the screen size.
      */
-    public static Dimension getLocalScreenSize(Component invoker) {
+    public static Dimension getLocalScreenSize(final Component invoker) {
         // jdk1.4 only
         if (invoker != null && !(invoker instanceof JApplet) && invoker.getGraphicsConfiguration() != null) {
             // to handle multi-display case
@@ -171,7 +180,7 @@ public class ScreenUtils {
      * @param invoker
      * @return the screen bounds.
      */
-    public static Rectangle getScreenBounds(Component invoker) {
+    public static Rectangle getScreenBounds(final Component invoker) {
         // to handle multi-display case
         Rectangle bounds = (Rectangle) SCREEN_BOUNDS.clone();
 
@@ -203,7 +212,7 @@ public class ScreenUtils {
      * @param bounds  the input bounds
      * @return the modified bounds.
      */
-    public static Rectangle ensureVisible(Component invoker, Rectangle bounds) {
+    public static Rectangle ensureVisible(final Component invoker, final Rectangle bounds) {
         Rectangle mainScreenBounds = ScreenUtils.getLocalScreenBounds(); // this is fast. Only if it is outside this bounds, we try the more expensive one.
         if (!mainScreenBounds.contains(bounds.getLocation())) {
             Rectangle screenBounds = ScreenUtils.getScreenBounds(invoker);
@@ -223,7 +232,7 @@ public class ScreenUtils {
      * @param rect The rectangle to move onto a single screen
      * @return rect after its position has been modified
      */
-    public static Rectangle ensureOnScreen(Rectangle rect) {
+    public static Rectangle ensureOnScreen(final Rectangle rect) {
         // optimize it so that it is faster for most cases
         Rectangle localScreenBounds = getLocalScreenBounds();
         if (localScreenBounds.contains(rect)) {
@@ -284,7 +293,7 @@ public class ScreenUtils {
      * @param considerInsets if consider the insets. The insets is for thing like Windows Task Bar.
      * @return the screen bounds that contains the rect.
      */
-    public static Rectangle getContainingScreenBounds(Rectangle rect, boolean considerInsets) {
+    public static Rectangle getContainingScreenBounds(final Rectangle rect, final boolean considerInsets) {
         // check if rect is total on screen
 //        if (SCREEN_AREA.contains(rect)) return SCREEN_AREA;
 

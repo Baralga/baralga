@@ -28,14 +28,14 @@ public class ProjectActivityTest extends TestCase {
      */
     public void testStartAndEndOnSameDay() {
         ProjectActivity act = new ProjectActivity(new DateTime(2009, 1, 1, 0, 0, 0, 0),
-                new DateTime(2009, 1, 1, 23, 0, 0 ,0 ), null);
+                new DateTime(2009, 1, 1, 23, 0, 0 ,0), null);
 
-        assertEquals( 1, act.getStart().getDayOfMonth() );
-        assertEquals( 1, act.getEnd().getDayOfMonth() );
+        assertEquals(1, act.getStart().getDayOfMonth());
+        assertEquals(1, act.getEnd().getDayOfMonth());
 
         // when end is at 0:00h it must be on the next day
         act.setEndTime(0, 0);
-        assertEquals( 2, act.getEnd().getDayOfMonth() );
+        assertEquals(2, act.getEnd().getDayOfMonth());
 
         // otherwise it must be on the same day as start
         act.setEndTime(12, 0);
@@ -43,7 +43,7 @@ public class ProjectActivityTest extends TestCase {
 
         // test again: when end is at 0:00h it must be on the next day
         act.setEndTime(0, 0);
-        assertEquals( 2, act.getEnd().getDayOfMonth() );
+        assertEquals(2, act.getEnd().getDayOfMonth());
 
         // start day must not change:
         act.setEndTime(11, 55);

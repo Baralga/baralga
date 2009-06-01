@@ -12,8 +12,7 @@
 	<version>1.4.1</version>
 	<url>http://baralga.origo.ethz.ch</url>
 	<issueManagement>
-		<url>http://baralga.origo.ethz.ch/issues
-		</url>
+		<url>http://baralga.origo.ethz.ch/issues</url>
 	</issueManagement>
 	<developers>
 		<developer>
@@ -28,8 +27,7 @@
 	<licenses>
 		<license>
 			<name>GNU Lesser General Public License</name>
-			<url>http://www.gnu.org/licenses/lgpl.html
-			</url>
+			<url>http://www.gnu.org/licenses/lgpl.html</url>
 			<distribution>manual</distribution>
 		</license>
 	</licenses>
@@ -37,15 +35,7 @@
 		<name>Jan Stamer</name>
 	</organization>
 	<build>
-
 		<resources>
-		  <resource>
-		    <filtering>false</filtering>
-		    <directory>src/main/resources/</directory>
-		    <excludes>
-		      <exclude>org/remast/baralga/baralga.properties</exclude>
-		    </excludes>
-		  </resource>
 		  <resource>
 		    <filtering>true</filtering>
 		    <directory>src/main/resources/</directory>
@@ -54,7 +44,6 @@
 		    </includes>
 		  </resource>
 		</resources>
-
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -95,10 +84,8 @@
 							<addExtensions />
 						</manifest>
 						<manifestEntries>
-							<Implementation-Build>${buildNumber}
-							</Implementation-Build>
-							<SplashScreen-Image>icons/Baralga-Splash.png
-							</SplashScreen-Image>
+							<Implementation-Build>${buildNumber}</Implementation-Build>
+							<SplashScreen-Image>icons/Baralga-Splash.png</SplashScreen-Image>
 						</manifestEntries>
 					</archive>
 				</configuration>

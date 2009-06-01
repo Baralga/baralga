@@ -35,7 +35,7 @@ public class ProTrackReader {
         final InputStream fis = new FileInputStream(file);
         try {
             read(fis);
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new IOException("The file " + (file != null ? file.getName() : "<null>") + " does not contain valid Baralga data.", e);
         } finally {
             IOUtils.closeQuietly(fis);

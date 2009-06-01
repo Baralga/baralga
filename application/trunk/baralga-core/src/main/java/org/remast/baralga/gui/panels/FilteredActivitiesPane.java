@@ -131,13 +131,13 @@ public class FilteredActivitiesPane extends JXPanel {
 	 * Set up GUI components.
 	 */
 	private void initialize() {
-		double size[][] = {
+		final double[][] size = {
 				{ TableLayout.FILL}, // Columns
 				{ TableLayout.PREFERRED, TableLayout.FILL } }; // Rows
 		this.setLayout(new TableLayout(size));
 
 		int border = 5;
-		categoryButtonPanel.setLayout(new TableLayout(new double [][] {{0, TableLayout.FILL, border, TableLayout.FILL, border, TableLayout.FILL},{border, TableLayout.PREFERRED, border-3}}));
+		categoryButtonPanel.setLayout(new TableLayout(new double [][] {{0, TableLayout.FILL, border, TableLayout.FILL, border, TableLayout.FILL}, {border, TableLayout.PREFERRED, border - 3}}));
 		categoryButtonPanel.add(generalButton, "1, 1"); //$NON-NLS-1$
 		categoryButtonPanel.add(timeButton, "3, 1"); //$NON-NLS-1$
 		categoryButtonPanel.add(projectButton, "5, 1"); //$NON-NLS-1$

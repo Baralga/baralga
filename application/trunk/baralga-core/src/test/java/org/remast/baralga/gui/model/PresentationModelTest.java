@@ -108,8 +108,8 @@ public class PresentationModelTest extends TestCase {
         
         try {
             model.start();
-            fail( "ProjectActivityStateException expected" );
-        } catch( ProjectActivityStateException e ) {
+            fail("ProjectActivityStateException expected");
+        } catch(ProjectActivityStateException e) {
             // ok, expected
         }
     }

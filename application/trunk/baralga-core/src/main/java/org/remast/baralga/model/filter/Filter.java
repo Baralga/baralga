@@ -63,8 +63,9 @@ public class Filter {
         ArrayList<ProjectActivity> filteredElements = new ArrayList<ProjectActivity>(elements);
         for (Predicate predicate : predicates) {
             for (ProjectActivity activity : new ArrayList<ProjectActivity>(filteredElements)) {
-                if (!predicate.evaluate(activity))
+                if (!predicate.evaluate(activity)) {
                     filteredElements.remove(activity);
+                }
             }
         }
 

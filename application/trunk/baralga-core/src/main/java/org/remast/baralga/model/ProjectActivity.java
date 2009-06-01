@@ -143,7 +143,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
      */
     public void setEndTime(final int hours, final int minutes) {
         DateTime endDate = getEnd();
-        if (hours == endDate.getHourOfDay() && minutes == endDate.getMinuteOfHour() ) {
+        if (hours == endDate.getHourOfDay() && minutes == endDate.getMinuteOfHour()) {
             return;
         }
         

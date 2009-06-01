@@ -57,7 +57,7 @@ public class HoursByDay implements Comparable<HoursByDay> {
     }
 
     @Override
-    public int compareTo(HoursByDay that) {
+    public int compareTo(final HoursByDay that) {
         if (that == null) {
             return 0;
         }

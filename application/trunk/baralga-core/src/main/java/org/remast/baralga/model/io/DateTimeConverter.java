@@ -28,18 +28,18 @@ public class DateTimeConverter implements SingleValueConverter {
     
     @Override
     @SuppressWarnings("unchecked")
-    public boolean canConvert(Class type) {
+    public boolean canConvert(final Class type) {
         return type.equals(DateTime.class);
     }
 
     @Override
-    public Object fromString(String str) {
+    public Object fromString(final String str) {
         Date date = (Date) this.delegate.fromString(str);
         return new DateTime(date);
     }
 
     @Override
-    public String toString(Object obj) {
+    public String toString(final Object obj) {
         return this.delegate.toString(((DateTime) obj).toDate());
     }
 }

@@ -135,7 +135,7 @@ public class ProTrack implements Serializable {
         return startTime;
     }
 
-    public synchronized void setStartTime(DateTime startTime) {
+    public synchronized void setStartTime(final DateTime startTime) {
         this.startTime = startTime;
     }
 
@@ -184,8 +184,8 @@ public class ProTrack implements Serializable {
     /**
      * Replaces an old activity with a new, updated activity.
      */
-    public synchronized void replaceActivity(ProjectActivity oldActivity,
-            ProjectActivity newActivity) {
+    public synchronized void replaceActivity(final ProjectActivity oldActivity,
+            final ProjectActivity newActivity) {
         removeActivity(oldActivity);
         addActivity(newActivity);
     }
@@ -193,7 +193,7 @@ public class ProTrack implements Serializable {
     /**
      * Replaces an old project with a new, updated project.
      */
-    public synchronized void replaceProject(Project oldProject, Project newProject) {
+    public synchronized void replaceProject(final Project oldProject, final Project newProject) {
         remove(oldProject);
         add(newProject);
     }

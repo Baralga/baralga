@@ -147,17 +147,6 @@ public class PresentationModel extends Observable {
         } else {
             this.activitiesList.addAll(this.filter.applyFilters(this.data.getActivities()));
         }
-        
-        int i = 1;
-        Collections.sort(this.activitiesList);
-
-        List<ProjectActivity> pl = new ArrayList<ProjectActivity>();
-        pl.addAll(this.activitiesList);
-        Collections.sort(pl);
-        
-        
-        
-        int k =2;
     }
 
     /**

@@ -19,16 +19,29 @@
 
 package org.jdesktop.swinghelper.tray;
 
-import javax.swing.*;
-import javax.swing.event.PopupMenuListener;
-import javax.swing.event.PopupMenuEvent;
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.image.BufferedImage;
+import java.awt.AWTException;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.SystemTray;
+import java.awt.TrayIcon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
+
+import javax.swing.JDialog;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 
 public class JXTrayIcon extends TrayIcon {
     private JPopupMenu menu;
@@ -131,7 +144,7 @@ public class JXTrayIcon extends TrayIcon {
         
         JMenuItem exitItem = new JMenuItem("Exit");
         exitItem.addActionListener(new ActionListener() {
-            @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="DM_EXIT", justification="That's what this action is good for")
+            @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = "DM_EXIT", justification = "That's what this action is good for")
             public void actionPerformed(final ActionEvent e) {
                 System.exit(0);
             }

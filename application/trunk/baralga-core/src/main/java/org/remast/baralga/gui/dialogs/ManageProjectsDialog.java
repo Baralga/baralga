@@ -223,7 +223,7 @@ public class ManageProjectsDialog extends EscapeDialog implements Observer {
     }
 
     @Override
-    public void update(Observable source, Object eventObject) {
+    public void update(final Observable source, final Object eventObject) {
         if (source == null || !(eventObject instanceof BaralgaEvent)) {
             return;
         }
