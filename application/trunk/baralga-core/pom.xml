@@ -43,7 +43,6 @@
               <exclude>org/remast/baralga/baralga.properties</exclude>
             </excludes>
           </resource>
-          <resource>
 		  <resource>
 		    <filtering>true</filtering>
 		    <directory>src/main/resources/</directory>
