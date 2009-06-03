@@ -36,6 +36,14 @@
 	</organization>
 	<build>
 		<resources>
+          <resource>
+            <filtering>false</filtering>
+            <directory>src/main/resources/</directory>
+            <excludes>
+              <exclude>org/remast/baralga/baralga.properties</exclude>
+            </excludes>
+          </resource>
+          <resource>
 		  <resource>
 		    <filtering>true</filtering>
 		    <directory>src/main/resources/</directory>
