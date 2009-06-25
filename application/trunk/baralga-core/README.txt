@@ -6,6 +6,11 @@
  * Support for pluggable exporters.
 
 
+== Baralga Version 1.4.2 ==
+Fixes
+ * Accumulated activities report fixed.
+
+
 == Baralga Version 1.4.1 ==
 Fixes
  * Editing activities after deleting all projects (Issue #30 http://baralga.origo.ethz.ch/node/118)

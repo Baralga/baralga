@@ -15,9 +15,8 @@ public class ObservingAccumulatedActivitiesReport extends AccumulatedActivitiesR
     private final PresentationModel model;
 
     public ObservingAccumulatedActivitiesReport(final PresentationModel model) {
-        super(model.getData());
+        super(model.getData(), model.getFilter());
 
-        this.filter = model.getFilter();
         this.model = model;
         this.model.addObserver(this);
 

@@ -23,9 +23,11 @@ public class AccumulatedActivitiesReport extends Observable {
 
     /**
      * Create report from data.
+     * @param filter 
      */
-    public AccumulatedActivitiesReport(final ProTrack data) {
+    public AccumulatedActivitiesReport(final ProTrack data, Filter filter) {
         this.data = data;
+        this.filter = filter;
         this.accumulatedActivitiesByDay = new SortedList<AccumulatedProjectActivity>(new BasicEventList<AccumulatedProjectActivity>());
 
         accumulate();
