@@ -13,6 +13,7 @@
 		<version>1.0</version>
 	</parent>
 	<properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<baralga.version>1.4.2</baralga.version>
 	</properties>
 	<build>
