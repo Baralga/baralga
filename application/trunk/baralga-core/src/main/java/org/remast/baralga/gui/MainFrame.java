@@ -11,6 +11,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -169,6 +170,11 @@ public class MainFrame extends JXFrame implements Observer {
                 MainFrame.this.windowClosing(e);
             }
             
+            @Override
+            public void windowClosing(WindowEvent e) {
+                MainFrame.this.windowClosing(e);
+            }
+            
         });
 
         // 1. Init title and icon image
@@ -193,6 +199,8 @@ public class MainFrame extends JXFrame implements Observer {
         this.add(getToolBar(), "0, 0");
         this.add(getCurrentActivityPanel(), "0, 1");
         this.add(getReportPanel(), "0, 2");
+        
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     private ReportPanel getReportPanel() {

@@ -4,6 +4,11 @@
 
 == Further Development ==
  * Support for pluggable exporters.
+ 
+ 
+== Baralga Version 1.4.3 ==
+Fixes
+ * Closing Window under Vista and restarting (Issue #27 http://baralga.origo.ethz.ch/node/112)
 
 
 == Baralga Version 1.4.2 ==
