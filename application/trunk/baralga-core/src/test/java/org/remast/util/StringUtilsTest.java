@@ -1,17 +1,21 @@
 package org.remast.util;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+
+import org.junit.Test;
 
 /**
  * Tests the class {@link StringUtils}.
  * @author remast
  * @see StringUtils
  */
-public class StringUtilsTest extends TestCase {
+public class StringUtilsTest {
 	
     /**
      * Test for {@link StringUtils#stripXmlTags(String)}.
      */
+    @Test
 	public void testStripXmlTags() {
         assertEquals(null, org.remast.util.StringUtils.stripXmlTags(null));
         assertNotSame("", org.remast.util.StringUtils.stripXmlTags(null));

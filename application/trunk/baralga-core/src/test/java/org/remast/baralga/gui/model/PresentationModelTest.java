@@ -1,11 +1,15 @@
 package org.remast.baralga.gui.model;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.util.Calendar;
 import java.util.Date;
 
-import junit.framework.TestCase;
-
 import org.joda.time.DateTime;
+import org.junit.Before;
+import org.junit.Test;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.util.DateUtils;
@@ -15,7 +19,7 @@ import org.remast.util.DateUtils;
  * @author remast
  * @see PresentationModel
  */
-public class PresentationModelTest extends TestCase {
+public class PresentationModelTest {
 
     /** The model under test. */
     private PresentationModel model = new PresentationModel();
@@ -26,8 +30,8 @@ public class PresentationModelTest extends TestCase {
     /** Second test project. */
     private Project project2 = new Project(2, "Project2", "Project 2");
 
-    @Override
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         model.addProject(project1, this);
         model.addProject(project2, this);
     }
@@ -37,6 +41,7 @@ public class PresentationModelTest extends TestCase {
      * @throws ProjectActivityStateException should never be thrown if test is ok
      * @see Issue <a href="http://baralga.origo.ethz.ch/node/87">#17</a>
      */
+    @Test
     public void testAcitivityOverMidnight() throws ProjectActivityStateException {
         final Date nowTmp = DateUtils.getNow();
 
@@ -84,6 +89,7 @@ public class PresentationModelTest extends TestCase {
      * Test for changing the active project.
      * @see PresentationModel#changeProject(Project)
      */
+    @Test
     public void testChangeProject() {
         model.setDirty(false);
         
@@ -98,6 +104,7 @@ public class PresentationModelTest extends TestCase {
         assertEquals(null, model.getSelectedProject());
     }
 
+    @Test
     public void testExceptionOnDoubleStart() throws ProjectActivityStateException {
         model.setDirty(false);
         model.changeProject(project1);

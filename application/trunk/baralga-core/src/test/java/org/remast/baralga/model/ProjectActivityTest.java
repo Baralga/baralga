@@ -1,30 +1,34 @@
 package org.remast.baralga.model;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import org.joda.time.DateTime;
+import org.junit.Test;
 import org.remast.util.DateUtils;
 
-public class ProjectActivityTest extends TestCase {
+public class ProjectActivityTest {
 
+    @Test
     public void testCalculateDuration() {
         ProjectActivity act = new ProjectActivity(new DateTime(0L), new DateTime(1000L * 60 * 60 * 30), null);
         DateTime startTime = new DateTime(DateUtils.getNow());
 
         act = new ProjectActivity(startTime, startTime.plusMinutes(45), null);
-        assertEquals(0.75, act.getDuration());
+        assertEquals(0.75, act.getDuration(), 0);
 
         act = new ProjectActivity(startTime, startTime.plusMinutes(30), null);
-        assertEquals(0.5, act.getDuration());
+        assertEquals(0.5, act.getDuration(), 0);
 
         act = new ProjectActivity(startTime, startTime.plusHours(1).plusMinutes(30), null);
-        assertEquals(1.5, act.getDuration());
+        assertEquals(1.5, act.getDuration(), 0);
     }
 
     /**
      * Tests that start and end times are on the same day,
      * unless end time is at 0:00h in which case end date is on the next day.
      */
+    @Test
     public void testStartAndEndOnSameDay() {
         ProjectActivity act = new ProjectActivity(new DateTime(2009, 1, 1, 0, 0, 0, 0),
                 new DateTime(2009, 1, 1, 23, 0, 0 ,0), null);
@@ -56,6 +60,7 @@ public class ProjectActivityTest extends TestCase {
      * Tests that an exception is thrown when someone tries to set
      * end < start.
      */
+    @Test
     public void testStartNotAfterEnd() {
         try {
             new ProjectActivity(new DateTime(2009, 1, 1, 13, 0, 0 ,0),
@@ -86,6 +91,7 @@ public class ProjectActivityTest extends TestCase {
     /**
      * Tests the setDay method.
      */
+    @Test
     public void testSetDay() {
         {
             ProjectActivity act = new ProjectActivity(

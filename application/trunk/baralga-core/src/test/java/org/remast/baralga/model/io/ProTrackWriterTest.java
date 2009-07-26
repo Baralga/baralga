@@ -1,16 +1,17 @@
 package org.remast.baralga.model.io;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import org.joda.time.DateTime;
+import org.junit.Test;
 import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 
-import junit.framework.TestCase;
-
-public class ProTrackWriterTest extends TestCase {
+public class ProTrackWriterTest {
     
     /**
      * Tests that a predefined ProTrack data always results in the same output format.
@@ -19,6 +20,7 @@ public class ProTrackWriterTest extends TestCase {
      * 
      * Adapt this test, when you make deliberate changes to the data model!
      */
+    @Test
     public void testProTrackWriting() throws IOException {
         ProTrack data = new ProTrack();
         Project a = new Project(4711, "foobar", "foo!");

@@ -1,13 +1,14 @@
 package org.remast.baralga.model.io;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Date;
 
-import junit.framework.TestCase;
-
 import org.joda.time.DateTime;
+import org.junit.Test;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -17,12 +18,13 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
  * Tests the {@link DateTimeConverter}.
  * @author kutzi
  */
-public class DateTimeConverterTest extends TestCase {
+public class DateTimeConverterTest {
 
     /**
      * Tests that a {@link Date} written by XStream can be read by the {@link DateTimeConverter}.
      * @throws IOException
      */
+    @Test
     public void testDateToDateTime() throws IOException {
         DateTime timeToTest = new DateTime(2009, 3, 15, 12, 0, 0, 0);
         
@@ -58,6 +60,7 @@ public class DateTimeConverterTest extends TestCase {
      * be read as a {@link Date} with XStream.
      * @throws IOException
      */
+    @Test
     public void testDateTimeToDate() throws IOException {
         DateTime timeToTest = new DateTime(2009, 3, 15, 12, 0, 0, 0);
         

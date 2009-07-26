@@ -25,9 +25,9 @@
   </classpathentry>
   <classpathentry kind="var" path="M2_REPO/jfree/jcommon/1.0.14/jcommon-1.0.14.jar" sourcepath="M2_REPO/jfree/jcommon/1.0.14/jcommon-1.0.14-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/jfree/jfreechart/1.0.11/jfreechart-1.0.11.jar" sourcepath="M2_REPO/jfree/jfreechart/1.0.11/jfreechart-1.0.11-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/com/jidesoft/jide-oss/2.5.5/jide-oss-2.5.5.jar" sourcepath="M2_REPO/com/jidesoft/jide-oss/2.5.5/jide-oss-2.5.5-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/jidesoft/jide-oss/2.7.0/jide-oss-2.7.0.jar"/>
   <classpathentry kind="var" path="M2_REPO/joda-time/joda-time/1.6/joda-time-1.6.jar" sourcepath="M2_REPO/joda-time/joda-time/1.6/joda-time-1.6-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/junit/junit/3.8.2/junit-3.8.2.jar" sourcepath="M2_REPO/junit/junit/3.8.2/junit-3.8.2-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/junit/junit/4.6/junit-4.6.jar"/>
   <classpathentry kind="var" path="M2_REPO/net/sourceforge/jexcelapi/jxl/2.6.8/jxl-2.6.8.jar"/>
   <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.15/log4j-1.2.15.jar" sourcepath="M2_REPO/log4j/log4j/1.2.15/log4j-1.2.15-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/jgoodies/looks/2.2.2/looks-2.2.2.jar"/>
