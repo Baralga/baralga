@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.JXPanel;
 import org.remast.baralga.gui.events.BaralgaEvent;
@@ -57,30 +58,42 @@ public class DescriptionPanel extends JXPanel implements Observer {
         applyFilter();
     }
 
+    /**
+     * Applies the filter to all activities so that only descriptions
+     * of activities which match the filter are shown.
+     */
     private void applyFilter() {
-        // clear filtered activities
-        entriesByActivity.clear();
+        final Runnable applyFilterRunnable = new Runnable() {
 
-        // Remove old description panels.
-        container.removeAll();
+            @Override
+            public void run() {
+                // clear filtered activities
+                entriesByActivity.clear();
 
-        for (final ProjectActivity activity : this.model.getActivitiesList()) {
-            final DescriptionPanelEntry descriptionPanelEntry = new DescriptionPanelEntry(activity, this.model);
+                // Remove old description panels.
+                container.removeAll();
 
-            // Alternate background color
-            if (this.model.getActivitiesList().indexOf(activity) % 2 == 0) {
-                descriptionPanelEntry.setBackground(Color.WHITE);
-            } else {
-                descriptionPanelEntry.setBackground(GuiConstants.BEIGE);
+                for (final ProjectActivity activity : DescriptionPanel.this.model.getActivitiesList()) {
+                    final DescriptionPanelEntry descriptionPanelEntry = new DescriptionPanelEntry(activity, DescriptionPanel.this.model);
+
+                    // Alternate background color
+                    if (DescriptionPanel.this.model.getActivitiesList().indexOf(activity) % 2 == 0) {
+                        descriptionPanelEntry.setBackground(Color.WHITE);
+                    } else {
+                        descriptionPanelEntry.setBackground(GuiConstants.BEIGE);
+                    }
+
+                    // Save entry
+                    entriesByActivity.put(activity, descriptionPanelEntry);
+
+                    // Display entry
+                    container.add(descriptionPanelEntry);
+
+                }
             }
+        };
 
-            // Save entry
-            entriesByActivity.put(activity, descriptionPanelEntry);
-
-            // Display entry
-            container.add(descriptionPanelEntry);
-
-        }
+        SwingUtilities.invokeLater(applyFilterRunnable);
     }
 
     /**
@@ -114,6 +127,7 @@ public class DescriptionPanel extends JXPanel implements Observer {
                     this.container.remove(entryPanel);
                 }
             }
+            
             break;
         }
 
