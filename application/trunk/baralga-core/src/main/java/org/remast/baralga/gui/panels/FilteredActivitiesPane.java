@@ -17,7 +17,6 @@ import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.panels.report.AccummulatedActitvitiesPanel;
 import org.remast.baralga.gui.panels.report.AllActitvitiesPanel;
-import org.remast.baralga.gui.panels.report.DescriptionPanel;
 import org.remast.baralga.gui.panels.report.HoursByDayPanel;
 import org.remast.baralga.gui.panels.report.HoursByMonthPanel;
 import org.remast.baralga.gui.panels.report.HoursByProjectChartPanel;
