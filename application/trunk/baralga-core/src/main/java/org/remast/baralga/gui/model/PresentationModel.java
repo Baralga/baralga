@@ -4,8 +4,12 @@ import java.beans.PropertyChangeEvent;
 import java.io.File;
 import java.util.Observable;
 
+import javax.swing.SwingUtilities;
+
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.events.BaralgaEvent;
@@ -39,6 +43,10 @@ import ca.odell.glazedlists.SortedList;
  * @author remast
  */
 public class PresentationModel extends Observable {
+    
+    /** The logger. */
+    @SuppressWarnings("unused")
+    private static final Log log = LogFactory.getLog(PresentationModel.class);
 
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
@@ -233,7 +241,15 @@ public class PresentationModel extends Observable {
      */
     private void notify(final BaralgaEvent event) {
         setChanged();
-        notifyObservers(event);
+        
+        final Runnable notifyRunner = new Runnable() {
+            
+            @Override
+            public void run() {
+                notifyObservers(event);
+            }
+        };
+        SwingUtilities.invokeLater(notifyRunner);
     }
 
     /**
@@ -657,6 +673,7 @@ public class PresentationModel extends Observable {
         if (ObjectUtils.equals(this.filter, filter)) {
             return;
         }
+        
         // Store filter
         this.filter = filter;
 

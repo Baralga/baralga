@@ -5,6 +5,12 @@
 == Further Development ==
  * Support for pluggable exporters.
  
+
+== Baralga Version 1.4.4 ==
+Misc
+ * Apply filter only if the filter has actually changed.
+ * Improved performance for filtering.
+
  
 == Baralga Version 1.4.3 ==
 Fixes

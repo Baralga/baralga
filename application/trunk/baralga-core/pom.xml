@@ -9,7 +9,7 @@
 	<groupId>com.remast.baralga</groupId>
 	<artifactId>baralga-core</artifactId>
 	<name>Baralga Application</name>
-	<version>1.4.3</version>
+	<version>1.4.4-SNAPSHOT</version>
 	<properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>

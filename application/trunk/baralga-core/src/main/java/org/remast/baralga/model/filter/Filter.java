@@ -1,10 +1,10 @@
 package org.remast.baralga.model.filter;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.Predicate;
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.joda.time.DateTime;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
@@ -92,8 +92,8 @@ public class Filter {
      * Getter for the week of year.
      * @return the week of year
      */
-    public Date getWeekOfYear() {
-        return this.weekOfYear != null ? this.weekOfYear.toDate() : null;
+    public Integer getWeekOfYear() {
+        return this.weekOfYear != null ? this.weekOfYear.getWeekOfWeekyear() : null;
     }
 
     /**
@@ -121,8 +121,8 @@ public class Filter {
      * Getter for the month.
      * @return the month
      */
-    public Date getMonth() {
-        return this.month != null ? this.month.toDate() : null;
+    public Integer getMonth() {
+        return this.month != null ? this.month.getMonthOfYear() : null;
     }
 
     /**
@@ -150,8 +150,8 @@ public class Filter {
      * Getter for the year.
      * @return the year
      */
-    public Date getYear() {
-        return this.year != null ? this.year.toDate() : null;
+    public Integer getYear() {
+        return this.year != null ? this.year.getYear() : null;
     }
 
     /**
@@ -176,6 +176,10 @@ public class Filter {
         this.yearPredicate = newYearPredicate;
         this.predicates.add(newYearPredicate);
     }
+    
+    public Project getProject() {
+        return this.project;
+    }
 
     /**
      * Sets the project to filter by.
@@ -197,6 +201,28 @@ public class Filter {
         final Predicate newProjectPredicate = new ProjectPredicate(project);
         this.projectPredicate = newProjectPredicate;
         this.predicates.add(newProjectPredicate);
+    }
+    
+    @Override
+    public boolean equals(final Object that) {
+        if (this == that) {
+            return true;
+        }
+        
+        if (that == null || !(that instanceof Filter)) {
+            return false;
+        }
+        
+        final Filter filter = (Filter) that;
+        
+        final EqualsBuilder eqBuilder = new EqualsBuilder();
+        eqBuilder.append(this.getProject(), filter.getProject());
+        eqBuilder.append(this.getWeekOfYear(), filter.getWeekOfYear());
+        eqBuilder.append(this.getMonth(), filter.getMonth());
+        eqBuilder.append(this.getYear(), filter.getYear());
+        
+        return eqBuilder.isEquals();
+        
     }
 
 }
