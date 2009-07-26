@@ -1,5 +1,6 @@
 == Known Bugs ==
  * Only one activity can be deleted at a time.
+ * Activities in all activities table are sorted by date but not by time.
 
 
 == Further Development ==

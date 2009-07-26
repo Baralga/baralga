@@ -299,6 +299,150 @@
 &lt;/html&gt;&#xd;
 </description>
     </projectActivity>
+    <projectActivity id="60">
+      <start id="61">2009-06-25 17:00:00.0 CEST</start>
+      <end id="62">2009-06-25 17:45:00.0 CEST</end>
+      <project reference="5"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      &#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="63">
+      <start id="64">2009-06-25 17:45:00.0 CEST</start>
+      <end id="65">2009-06-25 18:00:00.0 CEST</end>
+      <project reference="5"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      &#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="66">
+      <start id="67">2009-07-22 15:00:00.0 CEST</start>
+      <end id="68">2009-07-22 15:00:00.0 CEST</end>
+      <project reference="5"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Testing filter performance.&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="69">
+      <start id="70">2009-07-22 14:00:00.0 CEST</start>
+      <end id="71">2009-07-22 15:00:00.0 CEST</end>
+      <project reference="5"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Creating test entries.&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="72">
+      <start id="73">2009-07-22 14:00:00.0 CEST</start>
+      <end id="74">2009-07-22 15:30:00.0 CEST</end>
+      <project reference="6"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Forum activities.&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="75">
+      <start id="76">2009-07-22 09:00:00.0 CEST</start>
+      <end id="77">2009-07-22 09:30:00.0 CEST</end>
+      <project reference="6"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Checking marketing.&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="78">
+      <start id="79">2009-07-26 13:00:00.0 CEST</start>
+      <end id="80">2009-07-26 14:15:00.0 CEST</end>
+      <project reference="3"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Updated libraries.&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="81">
+      <start id="82">2009-07-26 14:15:00.0 CEST</start>
+      <end id="83">2009-07-26 15:00:00.0 CEST</end>
+      <project reference="3"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Migrated test from JUnit 3.8 to JUnit 4.6.&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="84">
+      <start id="85">2009-07-26 15:00:00.0 CEST</start>
+      <end id="86">2009-07-26 15:30:00.0 CEST</end>
+      <project reference="5"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Tested app with updated libraries.&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
   </activities>
-  <activeProject reference="5"/>
+  <activeProject reference="6"/>
 </proTrack>
