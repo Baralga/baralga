@@ -23,8 +23,8 @@
       <attribute value="jar:file:/C:/Dokumente%20und%20Einstellungen/Jan/.m2/repository/net/java/dev/glazedlists/glazedlists_java15/1.8.0/glazedlists_java15-1.8.0-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
-  <classpathentry kind="var" path="M2_REPO/jfree/jcommon/1.0.14/jcommon-1.0.14.jar" sourcepath="M2_REPO/jfree/jcommon/1.0.14/jcommon-1.0.14-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/jfree/jfreechart/1.0.11/jfreechart-1.0.11.jar" sourcepath="M2_REPO/jfree/jfreechart/1.0.11/jfreechart-1.0.11-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/jfree/jcommon/1.0.15/jcommon-1.0.15.jar"/>
+  <classpathentry kind="var" path="M2_REPO/jfree/jfreechart/1.0.12/jfreechart-1.0.12.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/jidesoft/jide-oss/2.7.0/jide-oss-2.7.0.jar"/>
   <classpathentry kind="var" path="M2_REPO/joda-time/joda-time/1.6/joda-time-1.6.jar" sourcepath="M2_REPO/joda-time/joda-time/1.6/joda-time-1.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/junit/junit/4.6/junit-4.6.jar"/>
