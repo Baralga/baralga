@@ -19,6 +19,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jdesktop.swingx.JXFrame;
 import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.actions.AboutAction;
@@ -44,6 +46,10 @@ import org.remast.util.TextResourceBundle;
  */
 @SuppressWarnings("serial")//$NON-NLS-1$
 public class MainFrame extends JXFrame implements Observer {
+    
+    /** The logger. */
+    @SuppressWarnings("unused")
+    private static final Log log = LogFactory.getLog(MainFrame.class);
 
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(MainFrame.class);
@@ -372,7 +378,7 @@ public class MainFrame extends JXFrame implements Observer {
         }
 
         final BaralgaEvent event = (BaralgaEvent) eventObject;
-
+        
         switch (event.getType()) {
 
         case BaralgaEvent.PROJECT_ACTIVITY_STARTED:
