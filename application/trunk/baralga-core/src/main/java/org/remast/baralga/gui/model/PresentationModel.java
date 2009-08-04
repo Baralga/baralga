@@ -240,12 +240,12 @@ public class PresentationModel extends Observable {
      * @param event the event to forward to the observers
      */
     private void notify(final BaralgaEvent event) {
-        setChanged();
         
         final Runnable notifyRunner = new Runnable() {
             
             @Override
             public void run() {
+                setChanged();
                 notifyObservers(event);
             }
         };
