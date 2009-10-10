@@ -13,6 +13,7 @@ import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.events.BaralgaEvent;
+import org.remast.baralga.gui.lists.DayFilterList;
 import org.remast.baralga.gui.lists.MonthFilterList;
 import org.remast.baralga.gui.lists.ProjectFilterList;
 import org.remast.baralga.gui.lists.WeekOfYearFilterList;
@@ -517,6 +518,14 @@ public class PresentationModel extends Observable {
      */
     public final MonthFilterList getMonthFilterList() {
         return new MonthFilterList(this);
+    }
+    
+    /**
+     * Get all days of the current week.
+     * @return List of days.
+     */
+    public final DayFilterList getDayFilterList() {
+        return new DayFilterList(this);
     }
 
     /**

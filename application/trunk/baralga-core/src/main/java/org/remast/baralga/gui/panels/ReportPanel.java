@@ -16,6 +16,7 @@ import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTitledSeparator;
 import org.joda.time.DateTime;
 import org.remast.baralga.gui.BaralgaMain;
+import org.remast.baralga.gui.lists.DayFilterList;
 import org.remast.baralga.gui.lists.MonthFilterList;
 import org.remast.baralga.gui.lists.ProjectFilterList;
 import org.remast.baralga.gui.lists.WeekOfYearFilterList;
@@ -54,6 +55,9 @@ public class ReportPanel extends JXPanel implements ActionListener {
 
     /** Filter by selected month. */
     private JComboBox monthFilterSelector;
+    
+    /** Filter by selected day. */
+    private JComboBox dayFilterSelector;
 
     /** Filter by selected week. */
     private JComboBox weekFilterSelector;
@@ -64,6 +68,9 @@ public class ReportPanel extends JXPanel implements ActionListener {
     /** List of months by which can be filtered. */
     private MonthFilterList monthFilterList;
 
+    /** List of days by which can be filtered. */
+    private DayFilterList dayFilterList;
+    
     /** List of months by which can be filtered. */
     private WeekOfYearFilterList weekOfYearFilterList;
 
@@ -90,13 +97,13 @@ public class ReportPanel extends JXPanel implements ActionListener {
         final double border = 3;
         final double[][] size = {
                 { border, TableLayout.PREFERRED, border, TableLayout.FILL, borderBig, TableLayout.PREFERRED, border,
-                    TableLayout.FILL, borderBig, TableLayout.PREFERRED, border, TableLayout.FILL, borderBig, TableLayout.PREFERRED, border, TableLayout.FILL, border}, // Columns
+                    TableLayout.FILL, borderBig, TableLayout.PREFERRED, border, TableLayout.FILL, borderBig, TableLayout.PREFERRED, border, TableLayout.FILL, borderBig, TableLayout.PREFERRED, border, TableLayout.FILL, border}, // Columns
                     { border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, borderBig, TableLayout.PREFERRED, 0,
                         TableLayout.FILL, border } }; // Rows
         this.setLayout(new TableLayout(size));
 
         final JXTitledSeparator filterSeparator = new JXTitledSeparator(textBundle.textFor("ReportPanel.FiltersLabel")); //$NON-NLS-1$
-        this.add(filterSeparator, "1, 1, 15, 1"); //$NON-NLS-1$
+        this.add(filterSeparator, "1, 1, 19, 1"); //$NON-NLS-1$
 
         this.add(new JXLabel(textBundle.textFor("ReportPanel.ProjectLabel")), "1, 3"); //$NON-NLS-1$ //$NON-NLS-2$
         this.add(getProjectFilterSelector(), "3, 3"); //$NON-NLS-1$
@@ -110,10 +117,13 @@ public class ReportPanel extends JXPanel implements ActionListener {
         this.add(new JXLabel(textBundle.textFor("ReportPanel.WeekLabel")), "13, 3"); //$NON-NLS-1$ //$NON-NLS-2$
         this.add(getWeekOfYearFilterSelector(), "15, 3"); //$NON-NLS-1$
 
-        final JXTitledSeparator dataSeparator = new JXTitledSeparator(textBundle.textFor("ReportPanel.DataLabel")); //$NON-NLS-1$
-        this.add(dataSeparator, "1, 5, 15, 1"); //$NON-NLS-1$
+        this.add(new JXLabel(textBundle.textFor("ReportPanel.DayLabel")), "17, 3"); //$NON-NLS-1$ //$NON-NLS-2$
+        this.add(getDayFilterSelector(), "19, 3"); //$NON-NLS-1$
 
-        this.add(filteredActivitiesPane, "1, 7, 15, 7"); //$NON-NLS-1$
+        final JXTitledSeparator dataSeparator = new JXTitledSeparator(textBundle.textFor("ReportPanel.DataLabel")); //$NON-NLS-1$
+        this.add(dataSeparator, "1, 5, 19, 1"); //$NON-NLS-1$
+
+        this.add(filteredActivitiesPane, "1, 7, 19, 7"); //$NON-NLS-1$
     }
 
     /**
@@ -146,6 +156,38 @@ public class ReportPanel extends JXPanel implements ActionListener {
             monthFilterSelector.addActionListener(this);
         }
         return monthFilterSelector;
+    }
+    
+    /**
+     * @return the dayFilterSelector
+     */
+    private JComboBox getDayFilterSelector() {
+        if (dayFilterSelector == null) {
+            dayFilterList = model.getDayFilterList();
+            dayFilterSelector = new JComboBox(
+                    new EventComboBoxModel<LabeledItem<Integer>>(dayFilterList.getDayList())
+            );
+            dayFilterSelector.setToolTipText(textBundle.textFor("DayFilterSelector.ToolTipText")); //$NON-NLS-1$
+
+            // Select first entry
+            if (!dayFilterList.getDayList().isEmpty()) {
+                dayFilterSelector.setSelectedIndex(0);
+            }
+
+            // Read from Settings.
+            final Integer selectedDay = UserSettings.instance().getFilterSelectedDay();
+            if (selectedDay != null) {
+                for (LabeledItem<Integer> item : dayFilterList.getDayList()) {
+                    if (item.getItem().equals(selectedDay)) {
+                        dayFilterSelector.setSelectedItem(item);
+                        break;
+                    }
+                }
+            }
+
+            dayFilterSelector.addActionListener(this);
+        }
+        return dayFilterSelector;
     }
 
     /**
@@ -320,6 +362,29 @@ public class ReportPanel extends JXPanel implements ActionListener {
             }
             break;
         }
+        
+        // Filter for day
+        filterItem = (LabeledItem<Integer>) getDayFilterSelector().getSelectedItem();
+        final int selectedDay = filterItem.getItem();
+
+        switch (selectedDay) {
+        case DayFilterList.CURRENT_DAY_DUMMY:
+            filter.setDay(DateUtils.getNowAsDateTime());
+            break;
+
+        case DayFilterList.ALL_DAYS_DUMMY:
+            // No filtering by day
+            break;
+
+        default:
+            try {
+                final DateTime day = new DateTime().withDayOfYear(selectedDay);
+                filter.setDay(day);
+            } catch (IllegalArgumentException e) {
+                log.error(e, e);
+            }
+            break;
+        }
 
         // Filter for project
         final LabeledItem<Project> projectFilterItem = (LabeledItem<Project>) getProjectFilterSelector().getSelectedItem();
@@ -344,6 +409,11 @@ public class ReportPanel extends JXPanel implements ActionListener {
         filterItem = (LabeledItem<Integer>) getYearFilterSelector().getSelectedItem();
         final int selectedYear = filterItem.getItem();
         UserSettings.instance().setFilterSelectedYear(selectedYear);
+        
+        // Store filter by day
+        filterItem = (LabeledItem<Integer>) getDayFilterSelector().getSelectedItem();
+        final int selectedDay = filterItem.getItem();
+        UserSettings.instance().setFilterSelectedDay(selectedDay);
 
         // Store filter by week of year
         filterItem = (LabeledItem<Integer>) getWeekOfYearFilterSelector().getSelectedItem();

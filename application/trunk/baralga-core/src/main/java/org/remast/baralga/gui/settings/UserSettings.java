@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
+import org.remast.baralga.gui.lists.DayFilterList;
 import org.remast.baralga.gui.lists.MonthFilterList;
 import org.remast.baralga.gui.lists.WeekOfYearFilterList;
 import org.remast.baralga.gui.lists.YearFilterList;
@@ -188,6 +189,17 @@ public final class UserSettings {
     public void setFilterSelectedMonth(final Integer month) {
         userConfig.setProperty(SELECTED_MONTH, month);
     }
+    
+    /** The key for the selected day of filter. */
+    private static final String SELECTED_DAY = "filter.day"; //$NON-NLS-1$
+
+    public Integer getFilterSelectedDay() {
+        return doGetInteger(SELECTED_DAY, null);
+    }
+    
+    public void setFilterSelectedDay(final Integer day) {
+        userConfig.setProperty(SELECTED_DAY, day);
+    }
 
     /** The key for the selected week of filter. */
     private static final String SELECTED_WEEK_OF_YEAR = "filter.weekOfYear"; //$NON-NLS-1$
@@ -314,6 +326,9 @@ public final class UserSettings {
         // Restore the month
         restoreMonthFilter(filter);
 
+        // Restore the day
+        restoreDayFilter(filter);
+
         // Restore the year
         restoreYearFilter(filter);
 
@@ -366,6 +381,32 @@ public final class UserSettings {
             try {
                 DateTime month = new DateTime().withMonthOfYear(selectedMonth);
                 filter.setMonth(month);
+            } catch (NumberFormatException e) {
+                log.error(e, e);
+            }
+        }
+    }
+    
+    /**
+     * Restores the filter for the day.
+     * @param filter the restored filter
+     */
+    private void restoreDayFilter(final Filter filter) {
+        final Integer selectedDay = getFilterSelectedDay();
+
+        if (selectedDay == null) {
+            return;
+        }
+
+        if (selectedDay == DayFilterList.CURRENT_DAY_DUMMY) {
+            filter.setDay(DateUtils.getNowAsDateTime());
+            return;
+        } 
+
+        if (selectedDay != DayFilterList.ALL_DAYS_DUMMY) {
+            try {
+                DateTime day = new DateTime().withDayOfYear(selectedDay);
+                filter.setDay(day);
             } catch (NumberFormatException e) {
                 log.error(e, e);
             }

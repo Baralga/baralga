@@ -29,10 +29,16 @@ public class Filter {
     
     /** The month to filter by. */
     private DateTime month;
-
+    
     /** The predicate to filter by month. */
     private Predicate monthPredicate;
     
+    /** The day to filter by. */
+    private DateTime day;
+    
+    /** The predicate to filter by day. */
+    private Predicate dayPredicate;
+
     /** The year to filter by. */
     private DateTime year;
 
@@ -145,6 +151,35 @@ public class Filter {
         this.monthPredicate = newMonthPredicate;
         this.predicates.add(newMonthPredicate);
     }
+    
+    /**
+     * Getter for the day.
+     * @return the day
+     */
+    public Integer getDay() {
+        return this.day != null ? this.day.getDayOfYear() : null;
+    }
+
+    /**
+     * Sets the day to filter by.
+     * @param day the day to set
+     */
+    public void setDay(final DateTime day) {
+        this.day = day;
+
+        if (this.dayPredicate != null) {
+            this.predicates.remove(this.dayPredicate);
+        }
+
+        // If day is null set day predicate also to null.
+        if (this.day == null) {
+            this.dayPredicate = null;
+        }
+
+        final Predicate newDayPredicate = new DayPredicate(day);
+        this.dayPredicate = newDayPredicate;
+        this.predicates.add(newDayPredicate);
+    }
 
     /**
      * Getter for the year.
@@ -220,6 +255,7 @@ public class Filter {
         eqBuilder.append(this.getWeekOfYear(), filter.getWeekOfYear());
         eqBuilder.append(this.getMonth(), filter.getMonth());
         eqBuilder.append(this.getYear(), filter.getYear());
+        eqBuilder.append(this.getDay(), filter.getDay());
         
         return eqBuilder.isEquals();
         

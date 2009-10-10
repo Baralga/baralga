@@ -8,9 +8,13 @@
  
 
 == Baralga Version 1.4.4 ==
+Functionality
+ * Filter for activities by das (Issue #45 http://baralga.origo.ethz.ch/node/138).
+ 
 Misc
  * Apply filter only if the filter has actually changed.
  * Improved performance for filtering.
+ * Updated several libraries.
 
  
 == Baralga Version 1.4.3 ==
