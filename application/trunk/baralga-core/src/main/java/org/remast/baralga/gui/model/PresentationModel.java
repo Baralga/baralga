@@ -350,7 +350,9 @@ public class PresentationModel extends Observable {
 
             // Create Event for Project Activity
             eventOnEndDay  = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED);
-            eventOnEndDay.setData(activityOnEndDay);
+            final Collection<ProjectActivity> activitiesOnEndDay = new ArrayList<ProjectActivity>(1);
+            activitiesOnEndDay.add(activityOnEndDay);            
+            eventOnEndDay.setData(activitiesOnEndDay);
         } else {
             stop = now;
         }
@@ -373,7 +375,9 @@ public class PresentationModel extends Observable {
         if (notifyObservers) {
             // Create Event for Project Activity
             BaralgaEvent event  = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED);
-            event.setData(activityOnStartDay);
+            final Collection<ProjectActivity> activitiesOnStartDay = new ArrayList<ProjectActivity>(1);
+            activitiesOnStartDay.add(activityOnStartDay);   
+            event.setData(activitiesOnStartDay);
             notify(event);
 
             if (eventOnEndDay != null)  {
@@ -428,7 +432,10 @@ public class PresentationModel extends Observable {
 
             // 3. Broadcast project activity event.
             final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED);
-            event.setData(activity);
+            final Collection<ProjectActivity> activities = new ArrayList<ProjectActivity>(1);
+            activities.add(activity);
+            event.setData(activities);
+            
             notify(event);
 
             // Set start time to now.
