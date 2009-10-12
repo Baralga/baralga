@@ -46,12 +46,14 @@ public class ProTrackWriterTest {
         		"      <id>4711</id>\n" + 
         		"      <title>foobar</title>\n" + 
         		"      <description>foo!</description>\n" + 
+                "      <active>false</active>\n" + // New in version 1.4.4
         		"    </project>\n" + 
         		"    <project id=\"4\">\n" + 
         		"      <id>42</id>\n" + 
         		"      <title>The Answer</title>\n" + 
         		"      <description>To the question</description>\n" + 
-        		"    </project>\n" + 
+                "      <active>false</active>\n" + // New in version 1.4.4
+                "    </project>\n" + 
         		"  </activeProjects>\n" + 
         		"  <projectsToBeDeleted id=\"5\"/>\n" + 
         		"  <activities id=\"6\">\n" + 
