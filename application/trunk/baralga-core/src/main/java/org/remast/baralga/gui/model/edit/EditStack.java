@@ -3,6 +3,7 @@
  */
 package org.remast.baralga.gui.model.edit;
 
+import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Stack;
@@ -89,7 +90,7 @@ public class EditStack implements Observer {
             undoAction.setEnabled(false);
             undoAction.resetText();
         }
-        
+
         if (CollectionUtils.isNotEmpty(redoStack)) {
             redoAction.setEnabled(true);
             redoAction.setText(redoStack.peek().getRedoText());
@@ -149,11 +150,18 @@ public class EditStack implements Observer {
      * Undoes the given event.
      * @param event the event to undo
      */
+    @SuppressWarnings("unchecked")
     private void executeUndo(final BaralgaEvent event) {
         if (BaralgaEvent.PROJECT_ACTIVITY_REMOVED == event.getType()) {
-            model.addActivity((ProjectActivity) event.getData(), this);
+            model.addActivities(
+                    (Collection<ProjectActivity>) event.getData(),
+                    this
+            );
         } else if (BaralgaEvent.PROJECT_ACTIVITY_ADDED == event.getType()) {
-            model.removeActivity((ProjectActivity) event.getData(), this);
+            model.removeActivities(
+                    (Collection<ProjectActivity>) event.getData(),
+                    this
+            );
         }
     }
 
@@ -161,11 +169,18 @@ public class EditStack implements Observer {
      * Redoes the given event.
      * @param event the event to redo
      */
+    @SuppressWarnings("unchecked")
     private void executeRedo(final BaralgaEvent event) {
         if (BaralgaEvent.PROJECT_ACTIVITY_REMOVED == event.getType()) {
-            model.removeActivity((ProjectActivity) event.getData(), this);
+            model.removeActivities(
+                    (Collection<ProjectActivity>) event.getData(), 
+                    this
+            );
         } else if (BaralgaEvent.PROJECT_ACTIVITY_ADDED == event.getType()) {
-            model.addActivity((ProjectActivity) event.getData(), this);
+            model.addActivities(
+                    (Collection<ProjectActivity>) event.getData(), 
+                    this
+            );
         }
     }
 

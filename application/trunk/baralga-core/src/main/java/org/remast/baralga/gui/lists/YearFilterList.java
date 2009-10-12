@@ -3,6 +3,7 @@ package org.remast.baralga.gui.lists;
 import java.beans.PropertyChangeEvent;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -110,8 +111,10 @@ public class YearFilterList implements Observer {
         switch (event.getType()) {
 
         case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
-            final ProjectActivity activity = (ProjectActivity) event.getData();
-            this.addYear(activity.getDay().getYear());
+            final Collection<ProjectActivity> projectActivities = (Collection<ProjectActivity>) event.getData();
+            for (ProjectActivity projectActivity : projectActivities) {
+                this.addYear(projectActivity.getDay().getYear());
+            }
             break;
 
         case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:

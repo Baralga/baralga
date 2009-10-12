@@ -1,6 +1,7 @@
 package org.remast.baralga.model.filter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.collections.Predicate;
@@ -65,7 +66,7 @@ public class Filter {
      *            the elements to apply filter to
      * @return a list of elements satisfying the filter
      */
-    public List<ProjectActivity> applyFilters(final List<ProjectActivity> elements) {
+    public List<ProjectActivity> applyFilters(final Collection<ProjectActivity> elements) {
         ArrayList<ProjectActivity> filteredElements = new ArrayList<ProjectActivity>(elements);
         for (Predicate predicate : predicates) {
             for (ProjectActivity activity : new ArrayList<ProjectActivity>(filteredElements)) {

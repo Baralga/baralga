@@ -2,6 +2,7 @@ package org.remast.baralga.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -166,12 +167,26 @@ public class ProTrack implements Serializable {
     public synchronized void addActivity(final ProjectActivity activity) {
         this.activities.add(activity);
     }
+    
+    /**
+     * Adds a bunch of activities.
+     */
+    public synchronized boolean addActivities(final Collection<ProjectActivity> activities) {
+        return this.activities.addAll(activities);
+    }
 
     /**
      * Removes an activity.
      */
     public synchronized boolean removeActivity(final ProjectActivity activity) {
         return this.activities.remove(activity);
+    }
+    
+    /**
+     * Removes a bunch of activities.
+     */
+    public synchronized boolean removeActivities(final Collection<ProjectActivity> activities) {
+        return this.activities.removeAll(activities);
     }
 
     /**

@@ -2,6 +2,7 @@ package org.remast.baralga.gui.panels;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
@@ -99,6 +100,7 @@ public class DescriptionPanel extends JXPanel implements Observer {
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("unchecked")
     public void update(final Observable source, final Object eventObject) {
         if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
             return;
@@ -111,6 +113,7 @@ public class DescriptionPanel extends JXPanel implements Observer {
 
         case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
             applyFilter();
+            break;
 
         case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
         {
@@ -132,10 +135,12 @@ public class DescriptionPanel extends JXPanel implements Observer {
         }
 
         case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
-            activity = (ProjectActivity) event.getData();
-            if (entriesByActivity.containsKey(activity)) {
-                final DescriptionPanelEntry entryPanel = entriesByActivity.get(activity);
-                this.container.remove(entryPanel);
+            final Collection<ProjectActivity> projectActivities = (Collection<ProjectActivity>) event.getData();
+            for (ProjectActivity projectActivity : projectActivities) {
+                if (entriesByActivity.containsKey(projectActivity)) {
+                    final DescriptionPanelEntry entryPanel = entriesByActivity.get(projectActivity);
+                    this.container.remove(entryPanel);
+                }
             }
             break;
 

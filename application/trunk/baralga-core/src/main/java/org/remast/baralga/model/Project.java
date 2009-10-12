@@ -20,11 +20,14 @@ public class Project implements Serializable, Comparable<Project> {
     
     /** The title of the project. */
     private String title;
+    public static final String PROPERTY_TITLE = "org.remast.baralga.model.title";
     
     /** A description of the project. */
     private String description;
-    
-    public static final String PROPERTY_TITLE = "org.remast.baralga.model.title";
+
+    /** Flag that shows whether the project is active or not. */
+    private boolean active;
+    public static final String PROPERTY_ACTIVE = "org.remast.baralga.model.active";    
 
     /**
      * Creates a new project.
@@ -69,6 +72,22 @@ public class Project implements Serializable, Comparable<Project> {
         
         // Use title also as description for the moment.
         this.description = title;
+    }
+
+    /**
+     * Getter for the active flage.
+     * @return the active
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Setter for the active flage
+     * @param active the active to set
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     @Override

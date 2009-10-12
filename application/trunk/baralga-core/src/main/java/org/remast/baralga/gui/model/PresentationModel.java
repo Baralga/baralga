@@ -2,6 +2,8 @@ package org.remast.baralga.gui.model;
 
 import java.beans.PropertyChangeEvent;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Observable;
 
 import javax.swing.SwingUtilities;
@@ -44,7 +46,7 @@ import ca.odell.glazedlists.SortedList;
  * @author remast
  */
 public class PresentationModel extends Observable {
-    
+
     /** The logger. */
     @SuppressWarnings("unused")
     private static final Log log = LogFactory.getLog(PresentationModel.class);
@@ -52,8 +54,11 @@ public class PresentationModel extends Observable {
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
 
-    /** The list of projects. */
+    /** The list of active projects. */
     private final SortedList<Project> projectList;
+
+    /** The list of all projects (both active and inactive). */
+    private final SortedList<Project> allProjectsList;
 
     /** The list of project activities. */
     private final SortedList<ProjectActivity> activitiesList;
@@ -95,6 +100,7 @@ public class PresentationModel extends Observable {
     public PresentationModel() {
         this.data = new ProTrack();
         this.projectList = new SortedList<Project>(new BasicEventList<Project>());
+        this.allProjectsList = new SortedList<Project>(new BasicEventList<Project>());
         this.activitiesList = new SortedList<ProjectActivity>(new BasicEventList<ProjectActivity>());
 
         initialize();
@@ -109,7 +115,14 @@ public class PresentationModel extends Observable {
         this.selectedProject = this.data.getActiveProject();
 
         this.projectList.clear();
-        this.projectList.addAll(this.data.getProjects());        
+        for (Project project : this.data.getProjects()) {
+            if (project.isActive()) {
+                this.projectList.add(project);        
+            }
+        }
+
+        this.allProjectsList.clear();
+        this.allProjectsList.addAll(this.data.getProjects());
 
         this.activitiesList.clear();
 
@@ -163,6 +176,7 @@ public class PresentationModel extends Observable {
     public final void addProject(final Project project, final Object source) {
         getData().add(project);
         this.projectList.add(project);
+        this.allProjectsList.add(project);
 
         // Mark data as dirty
         this.dirty = true;
@@ -181,6 +195,7 @@ public class PresentationModel extends Observable {
     public final void removeProject(final Project project, final Object source) {
         getData().remove(project);
         this.projectList.remove(project);
+        this.allProjectsList.remove(project);
 
         // Mark data as dirty
         this.dirty = true;
@@ -241,9 +256,9 @@ public class PresentationModel extends Observable {
      * @param event the event to forward to the observers
      */
     private void notify(final BaralgaEvent event) {
-        
+
         final Runnable notifyRunner = new Runnable() {
-            
+
             @Override
             public void run() {
                 setChanged();
@@ -267,6 +282,14 @@ public class PresentationModel extends Observable {
         this.dirty = true;
 
         notify(event);
+
+        if (propertyChangeEvent.getPropertyName().equals(Project.PROPERTY_ACTIVE)) {
+            if (changedProject.isActive()) {
+                this.projectList.add(changedProject);
+            } else {
+                this.projectList.remove(changedProject);
+            }
+        }
     }
 
     /**
@@ -443,53 +466,74 @@ public class PresentationModel extends Observable {
      * @param activity the activity to add
      */
     public final void addActivity(final ProjectActivity activity, final Object source) {
-        getData().addActivity(activity);
+        final Collection<ProjectActivity> activities = new ArrayList<ProjectActivity>(1);
+        activities.add(activity);
 
-        // Add activity if there is no filter or the filter matches
-        if (this.filter == null || this.filter.matchesCriteria(activity)) {
-            this.getActivitiesList().add(activity);
+        this.addActivities(activities, source);
+    }
+    
+    public final void addActivities(final Collection<ProjectActivity> activities, final Object source) {
+        getData().addActivities(activities);
+
+        if (this.filter == null) {
+            this.getActivitiesList().addAll(activities);
+        } else {
+            this.getActivitiesList().addAll(
+                    this.filter.applyFilters(activities)
+            );
         }
-
+        
         // Mark data as dirty
         this.dirty = true;
 
         // Fire event
         final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED, source);
-        event.setData(activity);
+        event.setData(activities);
         notify(event);
-    }
+    }    
 
     /**
      * Remove an activity from the model.
      * @param activity the activity to remove
      */
     public final void removeActivity(final ProjectActivity activity, final Object source) {
-        getData().removeActivity(activity);
-        this.getActivitiesList().remove(activity);
+        final Collection<ProjectActivity> activities = new ArrayList<ProjectActivity>(1);
+        activities.add(activity);
 
-        // Remove activity if there is no filter or the filter matches
-        if (this.filter == null || this.filter.matchesCriteria(activity)) {
-            this.getActivitiesList().remove(activity);
-        }
+        this.removeActivities(activities, source);
+    }
+
+    public final void removeActivities(final Collection<ProjectActivity> activities, final Object source) {
+        getData().removeActivities(activities);
+        this.getActivitiesList().removeAll(activities);
 
         // Mark data as dirty
         this.dirty = true;
 
         // Fire event
         final BaralgaEvent event = new BaralgaEvent(
-                BaralgaEvent.PROJECT_ACTIVITY_REMOVED,
+                BaralgaEvent.PROJECT_ACTIVITY_REMOVED, 
                 source
         );
-        event.setData(activity);
+        
+        event.setData(activities);
         notify(event);
+    }
+
+    /**
+     * Getter for the list of active projects.
+     * @return the list with all active projects
+     */
+    public final SortedList<Project> getProjectList() {
+        return projectList;
     }
 
     /**
      * Getter for the list of projects.
      * @return the list with all projects
      */
-    public final SortedList<Project> getProjectList() {
-        return projectList;
+    public final SortedList<Project> getAllProjectsList() {
+        return allProjectsList;
     }
 
     /**
@@ -519,7 +563,7 @@ public class PresentationModel extends Observable {
     public final MonthFilterList getMonthFilterList() {
         return new MonthFilterList(this);
     }
-    
+
     /**
      * Get all days of the current week.
      * @return List of days.
@@ -682,7 +726,7 @@ public class PresentationModel extends Observable {
         if (ObjectUtils.equals(this.filter, filter)) {
             return;
         }
-        
+
         // Store filter
         this.filter = filter;
 

@@ -1,5 +1,6 @@
 package org.remast.baralga.gui.model.report;
 
+import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -84,8 +85,10 @@ public class HoursByMonthReport extends Observable implements Observer  {
             switch (event.getType()) {
 
                 case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
-                    final ProjectActivity activity = (ProjectActivity) event.getData();
-                    addHours(activity);
+                    final Collection<ProjectActivity> projectActivities = (Collection<ProjectActivity>) event.getData();
+                    for (ProjectActivity projectActivity : projectActivities) {
+                        addHours(projectActivity);
+                    }
                     break;
 
                 case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:

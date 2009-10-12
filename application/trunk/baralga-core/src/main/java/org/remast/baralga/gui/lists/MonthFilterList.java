@@ -3,6 +3,7 @@ package org.remast.baralga.gui.lists;
 import java.beans.PropertyChangeEvent;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -100,6 +101,7 @@ public class MonthFilterList implements Observer {
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("unchecked")
     public void update(final Observable source, final Object eventObject) {
         if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
             return;
@@ -110,8 +112,10 @@ public class MonthFilterList implements Observer {
         switch (event.getType()) {
 
         case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
-            final ProjectActivity projectActivity = (ProjectActivity) event.getData();
-            this.addMonth(projectActivity.getDay().getMonthOfYear());
+            final Collection<ProjectActivity> projectActivities = (Collection<ProjectActivity>) event.getData();
+            for (ProjectActivity projectActivity : projectActivities) {
+                this.addMonth(projectActivity.getDay().getMonthOfYear());
+            }
             break;
 
         case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:

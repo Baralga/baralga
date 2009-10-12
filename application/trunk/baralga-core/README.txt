@@ -9,7 +9,11 @@
 
 == Baralga Version 1.4.4 ==
 Functionality
- * Filter for activities by das (Issue #45 http://baralga.origo.ethz.ch/node/138).
+ * Filter for activities by day (Issue #45 http://baralga.origo.ethz.ch/node/138).
+ * Projects can be deactivated to hide them (Issue #42 http://baralga.origo.ethz.ch/node/132).
+
+Fixes
+ * Sorting in all activities table by date and time fixed.
  
 Misc
  * Apply filter only if the filter has actually changed.

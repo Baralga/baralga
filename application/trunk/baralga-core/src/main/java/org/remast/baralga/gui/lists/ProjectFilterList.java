@@ -1,5 +1,6 @@
 package org.remast.baralga.gui.lists;
 
+import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -94,8 +95,10 @@ public class ProjectFilterList implements Observer {
         switch (event.getType()) {
 
         case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
-            final ProjectActivity projectActivity = (ProjectActivity) event.getData();
-            this.addProject(projectActivity.getProject());
+            final Collection<ProjectActivity> projectActivities = (Collection<ProjectActivity>) event.getData();
+            for (ProjectActivity projectActivity : projectActivities) {
+                this.addProject(projectActivity.getProject());
+            }
             break;
 
         case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:

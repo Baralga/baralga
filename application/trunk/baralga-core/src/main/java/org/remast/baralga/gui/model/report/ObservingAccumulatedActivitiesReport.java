@@ -1,5 +1,6 @@
 package org.remast.baralga.gui.model.report;
 
+import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -26,6 +27,7 @@ public class ObservingAccumulatedActivitiesReport extends AccumulatedActivitiesR
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("unchecked")
     public void update(final Observable source, final Object eventObject) {
         if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
             return;
@@ -35,8 +37,10 @@ public class ObservingAccumulatedActivitiesReport extends AccumulatedActivitiesR
         switch (event.getType()) {
 
         case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
-            ProjectActivity activity = (ProjectActivity) event.getData();
-            this.acummulateActivity(activity);
+            final Collection<ProjectActivity> projectActivities = (Collection<ProjectActivity>) event.getData();
+            for (ProjectActivity projectActivity : projectActivities) {
+                this.acummulateActivity(projectActivity);
+            }
             break;
 
         case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:

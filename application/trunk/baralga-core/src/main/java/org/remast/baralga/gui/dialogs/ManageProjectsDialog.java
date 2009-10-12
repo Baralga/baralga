@@ -24,8 +24,12 @@ import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
 import org.remast.swing.dialog.EscapeDialog;
+import org.remast.swing.table.BooleanCellRenderer;
 import org.remast.util.TextResourceBundle;
 
+import ca.odell.glazedlists.BasicEventList;
+import ca.odell.glazedlists.SortedList;
+import ca.odell.glazedlists.swing.EventListJXTableSorting;
 import ca.odell.glazedlists.swing.EventTableModel;
 
 /**
@@ -41,7 +45,7 @@ public class ManageProjectsDialog extends EscapeDialog implements Observer {
 
     private JPanel jContentPane = null;
 
-    private JXTable projectList = null;
+    private JXTable projectTable = null;
 
     private JTextField newProjectTextField = null;
 
@@ -57,7 +61,7 @@ public class ManageProjectsDialog extends EscapeDialog implements Observer {
 
     private final PresentationModel model;
 
-    private EventTableModel<Project> projectListTableModel;
+    private EventTableModel<Project> projectTableModel;
 
     /**
      * @param owner
@@ -99,7 +103,7 @@ public class ManageProjectsDialog extends EscapeDialog implements Observer {
             jContentPane.add(getNewProjectNamePanel(), BorderLayout.NORTH);
             jContentPane.add(getProjectsPanel(), BorderLayout.EAST);
 
-            JScrollPane projectListScrollPane = new JScrollPane(getProjectList());
+            JScrollPane projectListScrollPane = new JScrollPane(getProjectTable());
             jContentPane.add(projectListScrollPane, BorderLayout.CENTER);
         }
         return jContentPane;
@@ -109,17 +113,23 @@ public class ManageProjectsDialog extends EscapeDialog implements Observer {
      * This method initializes projectList.
      * @return javax.swing.JList	
      */
-    private JXTable getProjectList() {
-        if (projectList == null) {
-            projectList = new JXTable();
-            projectList.setSortable(false);
-            projectList.getTableHeader().setVisible(false);
+    private JXTable getProjectTable() {
+        if (projectTable == null) {
+            projectTable = new JXTable();
 
-            projectListTableModel = new EventTableModel<Project>(model.getProjectList(), new ProjectListTableFormat(model));
-            projectList.setModel(projectListTableModel);
-            projectList.setToolTipText(textBundle.textFor("ManageProjectsDialog.ProjectList.ToolTipText")); //$NON-NLS-1$
+            // Fix sorting
+            // :INFO: This corrupts the initial sorting. Would be nice though...
+            // EventListJXTableSorting.install(projectList, model.getAllProjectsList());
+            projectTable.setSortable(false);
+            
+            projectTableModel = new EventTableModel<Project>(model.getAllProjectsList(), new ProjectListTableFormat(model));
+            projectTable.setModel(projectTableModel);
+            projectTable.setToolTipText(textBundle.textFor("ManageProjectsDialog.ProjectList.ToolTipText")); //$NON-NLS-1$
+            
+            projectTable.getColumn(1).setCellRenderer(new BooleanCellRenderer());
+            projectTable.getColumn(1).setCellEditor(new JXTable.BooleanEditor());
         }
-        return projectList;
+        return projectTable;
     }
 
     /**
@@ -187,9 +197,9 @@ public class ManageProjectsDialog extends EscapeDialog implements Observer {
             removeProjectButton.setToolTipText(textBundle.textFor("ManageProjectsDialog.RemoveProjectButton.ToolTipText")); //$NON-NLS-1$
             removeProjectButton.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(final java.awt.event.ActionEvent e) {
-                    for (int index : getProjectList().getSelectedRows()) {
+                    for (int index : getProjectTable().getSelectedRows()) {
                         model.removeProject(
-                                model.getProjectList().get(index), 
+                                model.getAllProjectsList().get(index), 
                                 ManageProjectsDialog.this
                         );
                     }
@@ -232,7 +242,7 @@ public class ManageProjectsDialog extends EscapeDialog implements Observer {
 
         switch (event.getType()) {
         case BaralgaEvent.PROJECT_CHANGED:
-            projectListTableModel.fireTableDataChanged();
+            projectTableModel.fireTableDataChanged();
             break;
         }
     }

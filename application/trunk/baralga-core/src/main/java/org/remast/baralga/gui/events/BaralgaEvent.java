@@ -1,7 +1,9 @@
 package org.remast.baralga.gui.events;
 
 import java.beans.PropertyChangeEvent;
+import java.util.Collection;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.util.TextResourceBundle;
 
@@ -91,34 +93,55 @@ public class BaralgaEvent {
         || this.type == PROJECT_ACTIVITY_ADDED;
     }
 
+    @SuppressWarnings("unchecked")
     public String getUndoText() {
         switch (this.type) {
         case PROJECT_ACTIVITY_REMOVED:
         {
-            final ProjectActivity projectActivity = (ProjectActivity) this.data;
-            return textBundle.textFor("BaralgaEvent.UndoRemoveActivityText", projectActivity.toString());
+            final Collection<ProjectActivity> projectActivities = (Collection<ProjectActivity>) this.data;
+            if (projectActivities.size() == 1) {
+                final ProjectActivity projectActivity = (ProjectActivity) CollectionUtils.get(projectActivities, 0);
+                return textBundle.textFor("BaralgaEvent.UndoRemoveActivityText", projectActivity.toString());
+            } else {
+                return textBundle.textFor("BaralgaEvent.UndoRemoveActivitiesText", projectActivities.size());
+            }
         }
         case PROJECT_ACTIVITY_ADDED:
         {
-            final ProjectActivity projectActivity = (ProjectActivity) this.data;
-            return textBundle.textFor("BaralgaEvent.UndoAddActivityText", projectActivity.toString());
+            final Collection<ProjectActivity> projectActivities = (Collection<ProjectActivity>) this.data;
+            if (projectActivities.size() == 1) {
+                final ProjectActivity projectActivity = (ProjectActivity) CollectionUtils.get(projectActivities, 0);
+                return textBundle.textFor("BaralgaEvent.UndoAddActivityText", projectActivity.toString());
+            } else {
+                return textBundle.textFor("BaralgaEvent.UndoAddActivitiesText", projectActivities.size());
+            }
         }
         default:
             return "-impossible-";
         }
     }
-    
+
     public String getRedoText() {
         switch (this.type) {
         case PROJECT_ACTIVITY_REMOVED:
         {
-            final ProjectActivity projectActivity = (ProjectActivity) this.data;
-            return textBundle.textFor("BaralgaEvent.RedoRemoveActivityText", projectActivity.toString());
+            final Collection<ProjectActivity> projectActivities = (Collection<ProjectActivity>) this.data;
+            if (projectActivities.size() == 1) {
+                final ProjectActivity projectActivity = (ProjectActivity) CollectionUtils.get(projectActivities, 0);
+                return textBundle.textFor("BaralgaEvent.RedoRemoveActivityText", projectActivity.toString());
+            } else {
+                return textBundle.textFor("BaralgaEvent.RedoRemoveActivitiesText", projectActivities.size());
+            }
         }
         case PROJECT_ACTIVITY_ADDED:
         {
-            final ProjectActivity projectActivity = (ProjectActivity) this.data;
-            return textBundle.textFor("BaralgaEvent.RedoAddActivityText", projectActivity.toString());
+            final Collection<ProjectActivity> projectActivities = (Collection<ProjectActivity>) this.data;
+            if (projectActivities.size() == 1) {
+                final ProjectActivity projectActivity = (ProjectActivity) CollectionUtils.get(projectActivities, 0);
+                return textBundle.textFor("BaralgaEvent.RedoAddActivityText", projectActivity.toString());
+            } else {
+                return textBundle.textFor("BaralgaEvent.RedoAddActivitiesText", projectActivities.size());
+            }
         }
         default:
             return "-impossible-";

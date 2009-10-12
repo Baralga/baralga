@@ -5,10 +5,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JPopupMenu;
@@ -38,6 +41,7 @@ import org.remast.swing.util.GuiConstants;
 import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
+import ca.odell.glazedlists.swing.EventListJXTableSorting;
 import ca.odell.glazedlists.swing.EventTableModel;
 
 /**
@@ -53,7 +57,6 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
     private final PresentationModel model;
 
     private EventTableModel<ProjectActivity> tableModel;
-
 
     /**
      * Create a panel showing all activities of the given model.
@@ -75,22 +78,32 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
      * Set up GUI components.
      */
     private void initialize() {
-        tableModel = new EventTableModel<ProjectActivity>(model.getActivitiesList(),
-                new AllActivitiesTableFormat(model));
+        tableModel = new EventTableModel<ProjectActivity>(
+                model.getActivitiesList(),
+                new AllActivitiesTableFormat(model)
+        );
         final JXTable table = new JXTable(tableModel);
 
-        // :INFO: Not sortable as this does corrupt the index and thus cause problems
-        // trying to delete entries by context menu.
+        // :INFO: This corrupts the initial sorting. Would be nice though...
+        // EventListJXTableSorting.install(table, model.getActivitiesList());
         table.setSortable(false);
-//      Fix sorting
-//      EventListJXTableSorting.install(table, model.getActivitiesList());
 
-        table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance())));
-        table.getColumn(1).setCellEditor(new DatePickerCellEditor());
+        table.getColumn(1).setCellRenderer(
+                new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance()))
+        );
+        table.getColumn(1).setCellEditor(
+                new DatePickerCellEditor()
+        );
 
-        table.getColumn(2).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.createTimeFormat())));
-        table.getColumn(3).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.createTimeFormat())));
-        table.getColumn(4).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.durationFormat)));
+        table.getColumn(2).setCellRenderer(
+                new DefaultTableRenderer(new FormatStringValue(FormatUtils.createTimeFormat()))
+        );
+        table.getColumn(3).setCellRenderer(
+                new DefaultTableRenderer(new FormatStringValue(FormatUtils.createTimeFormat()))
+        );
+        table.getColumn(4).setCellRenderer(
+                new DefaultTableRenderer(new FormatStringValue(FormatUtils.durationFormat))
+        );
 
         table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
@@ -103,6 +116,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
                 double duration = 0;
 
                 for (int i : table.getSelectedRows()) {
+                    //                    int modelIndex = table.convertRowIndexToModel(i);
                     duration += model.getActivitiesList().get(i).getDuration();
                 }
 
@@ -112,23 +126,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         });
 
         final JPopupMenu contextMenu = new JPopupMenu();
-
-        contextMenu.add(new AbstractAction(textBundle.textFor("AllActitvitiesPanel.Delete"), new ImageIcon(getClass().getResource("/icons/gtk-delete.png"))) { //$NON-NLS-1$
-
-            public void actionPerformed(final ActionEvent event) {
-
-                // 1. Get selected activities
-                int[] selectionIndices = table.getSelectedRows();
-
-                // 2. Remove all selected activities
-                for (int selectionIndex : selectionIndices) {
-                    model.removeActivity(model.getActivitiesList().get(selectionIndex), this);
-                }
-            }
-
-        });
-
-        contextMenu.add(new AbstractAction(textBundle.textFor("AllActitvitiesPanel.Edit"), new ImageIcon(getClass().getResource("/icons/gtk-edit.png"))) { //$NON-NLS-1$
+        final Action editAction = new AbstractAction(textBundle.textFor("AllActitvitiesPanel.Edit"), new ImageIcon(getClass().getResource("/icons/gtk-edit.png"))) { //$NON-NLS-1$
 
             public void actionPerformed(final ActionEvent event) {
                 // 1. Get selected activities
@@ -147,31 +145,83 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
                 editActivityDialog.setVisible(true);
             }
 
+        };
+        editAction.setEnabled(false);
+
+        contextMenu.add(new AbstractAction(textBundle.textFor("AllActitvitiesPanel.Delete"), new ImageIcon(getClass().getResource("/icons/gtk-delete.png"))) { //$NON-NLS-1$
+
+            public void actionPerformed(final ActionEvent event) {
+
+                // 1. Get selected activities
+                final int[] selectionIndices = table.getSelectedRows();
+
+                // 2. Remove all selected activities
+                final List<ProjectActivity> selectedActivities = new ArrayList<ProjectActivity>(selectionIndices.length);
+                for (int selectionIndex : selectionIndices) {
+                    selectedActivities.add(
+                            model.getActivitiesList().get(selectionIndex)
+                    );
+                }
+                model.removeActivities(selectedActivities, this);
+            }
+
         });
 
+        contextMenu.add(editAction);
+
         table.addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseReleased(final MouseEvent e) {
+                checkForPopup(e);
+            }
+
+            @Override
+            public void mouseClicked(final MouseEvent e) {
+                checkForPopup(e);
+            }
+
+            @Override
+            public void mousePressed(final MouseEvent e) {
+                checkForPopup(e);
+            }
+
+            private void checkForPopup(final MouseEvent e) {
                 if (e.isPopupTrigger()) {
-                    JTable source = (JTable) e.getSource();
-                    int row = source.rowAtPoint(e.getPoint());
-                    int column = source.columnAtPoint(e.getPoint());
-                    source.changeSelection(row, column, false, false);
+                    JTable table = (JTable) e.getSource();
+                    int[] selectionIndices = table.getSelectedRows();
+                    if (selectionIndices.length == 0) {
+                        // select cell under mouse
+                        int row = table.rowAtPoint(e.getPoint());
+                        int column = table.columnAtPoint(e.getPoint());
+                        table.changeSelection(row, column, false, false);
+                    }
+
+                    if (selectionIndices.length > 1) {
+                        // edit action works only on a single cell
+                        editAction.setEnabled(false);
+                    } else {
+                        editAction.setEnabled(true);
+                    }
                     contextMenu.show(e.getComponent(), e.getX(), e.getY());
                 }
             }
         });
+
         table.setPreferredScrollableViewportSize(table.getPreferredSize());
 
         table.setHighlighters(GuiConstants.HIGHLIGHTERS);
         table.setCellEditor(new JXTable.GenericEditor());
 
         final TableColumn projectColumn = table.getColumn(0);
-        final TableCellEditor cellEditor = new ComboBoxCellEditor(new JComboBox(new EventComboBoxModel<Project>(model
-                .getProjectList())));
+        final TableCellEditor cellEditor = new ComboBoxCellEditor(
+                new JComboBox(
+                        new EventComboBoxModel<Project>(model.getProjectList())
+                )
+        );
         projectColumn.setCellEditor(cellEditor);
 
-        JScrollPane table_scroll_pane = new JScrollPane(table);
-        this.add(table_scroll_pane);
+        final JScrollPane tableScrollPane = new JScrollPane(table);
+        this.add(tableScrollPane);
     }
 
     /**
@@ -183,20 +233,20 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         }
 
         final BaralgaEvent event = (BaralgaEvent) eventObject;
-        
+
         switch (event.getType()) {
-            case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
-                tableModel.fireTableDataChanged();
-                break;
-    
-            case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
-            case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
-                tableModel.fireTableDataChanged();
-                break;
-    
-            case BaralgaEvent.PROJECT_CHANGED:
-                tableModel.fireTableDataChanged();
-                break;
+        case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
+            tableModel.fireTableDataChanged();
+            break;
+
+        case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
+        case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
+            tableModel.fireTableDataChanged();
+            break;
+
+        case BaralgaEvent.PROJECT_CHANGED:
+            tableModel.fireTableDataChanged();
+            break;
         }
     }
 
