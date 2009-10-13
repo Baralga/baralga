@@ -11,6 +11,7 @@
 Functionality
  * Filter for activities by day (Issue #45 http://baralga.origo.ethz.ch/node/138).
  * Projects can be deactivated to hide them (Issue #42 http://baralga.origo.ethz.ch/node/132).
+ * Delete works for many activities.
 
 Fixes
  * Sorting in all activities table by date and time fixed.
