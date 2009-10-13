@@ -3,6 +3,7 @@ package org.remast.baralga.model.io;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,6 +48,7 @@ public class ProTrackReaderTest {
         {
             ProjectActivity activity = data.getActivities().get(0);
             assertEquals("Testing", activity.getProject().getTitle());
+            assertTrue(activity.getProject().isActive());
             DateTime activityStartTime = new DateTime(2009, 1, 28, 20, 0, 0, 0);
             DateTime activityEndTime = new DateTime(2009, 1, 28, 19, 0, 0, 0);
             assertEquals(activityStartTime, activity.getStart());
