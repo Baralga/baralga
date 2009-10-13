@@ -6,7 +6,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Frame;
 
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
 import org.jdesktop.swingx.JXHyperlink;
@@ -53,15 +52,15 @@ public class AboutDialog extends EscapeDialog {
         setLocationRelativeTo(getOwner());
         this.setLayout(new BorderLayout());
 
-        final JXImagePanel image = new JXImagePanel(getClass().getResource("/icons/Baralga-About.png")); //$NON-NLS-1$
+        final JXImagePanel image = new JXImagePanel(getClass().getResource("/images/baralga/Baralga-About.png")); //$NON-NLS-1$
         image.setBackground(GuiConstants.BEIGE);
 
         final JXPanel aboutInfo = new JXPanel();
         aboutInfo.setBackground(GuiConstants.BEIGE);
         final double border = 5;
         final double[][] size = { 
-                {border, TableLayout.PREFERRED, border, TableLayout.FILL, border }, // Columns
-                {border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border * 2} // Rows
+                {border*3, TableLayout.PREFERRED, border, TableLayout.FILL, border }, // Columns
+                {border * 5, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border * 2} // Rows
         };
 
         final TableLayout tableLayout = new TableLayout(size);
@@ -75,8 +74,11 @@ public class AboutDialog extends EscapeDialog {
         final JXHyperlink hyperlinkBug = new JXHyperlink(new OpenBrowserAction(textBundle.textFor("AboutDialog.BugUrl"))); //$NON-NLS-1$
         aboutInfo.add(hyperlinkBug, "3, 3"); //$NON-NLS-1$
 
-        this.add(aboutInfo, BorderLayout.CENTER);
+        aboutInfo.add(new JLabel(textBundle.textFor("Global.Version") + ":"), "1, 5"); //$NON-NLS-1$ //$NON-NLS-2$
+        final JXLabel version = new JXLabel(textBundle.textFor("Global.VersionNumber")); //$NON-NLS-1$
+        aboutInfo.add(version, "3, 5"); //$NON-NLS-1$
 
+        aboutInfo.add(new JLabel(textBundle.textFor("AboutDialog.ModeLabel")), "1, 7"); //$NON-NLS-1$ //$NON-NLS-2$
         // Get storage mode from ApplicationSettings
         String storageMode = null;
         if (ApplicationSettings.instance().isStoreDataInApplicationDirectory()) {
@@ -84,18 +86,15 @@ public class AboutDialog extends EscapeDialog {
         } else {
             storageMode = textBundle.textFor("Settings.DataStorage.NormalLabel");
         }
+        final JXLabel mode = new JXLabel(storageMode); //$NON-NLS-1$
+        aboutInfo.add(mode, "3, 7"); //$NON-NLS-1$
 
-        final String versionInfo = "<html>" +
-        "<font color=blue size=\"big\"><h2>" + textBundle.textFor("Global.Version") + " " + textBundle.textFor("Global.VersionNumber") + " " + storageMode + "</h2></font>" +
-        "</html>";
-        final JLabel versionLabel = new JXLabel(versionInfo, JLabel.CENTER);
-        versionLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+        this.add(aboutInfo, BorderLayout.CENTER);
 
-        this.add(versionLabel, BorderLayout.SOUTH);
         this.getContentPane().setBackground(GuiConstants.BEIGE);
         this.add(image, BorderLayout.NORTH);
 
-        this.setSize(280, 290);
+        this.setSize(340, 300);   
     }
 
 }
