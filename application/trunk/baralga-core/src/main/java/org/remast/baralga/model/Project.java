@@ -26,7 +26,7 @@ public class Project implements Serializable, Comparable<Project> {
     private String description;
 
     /** Flag that shows whether the project is active or not. */
-    private boolean active;
+    private boolean active = true;
     public static final String PROPERTY_ACTIVE = "org.remast.baralga.model.active";    
 
     /**
