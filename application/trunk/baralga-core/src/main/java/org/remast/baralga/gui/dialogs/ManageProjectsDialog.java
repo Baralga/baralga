@@ -1,11 +1,11 @@
 package org.remast.baralga.gui.dialogs;
 
-import java.awt.BorderLayout;
+import info.clearthought.layout.TableLayout;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
-import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -32,7 +32,6 @@ import ca.odell.glazedlists.swing.EventTableModel;
 /**
  * The dialog to manage the available projects.
  * @author remast
- * :TODO: Rework the dialog to use table layout.
  */
 @SuppressWarnings("serial")
 public class ManageProjectsDialog extends EscapeDialog implements Observer {
@@ -83,27 +82,31 @@ public class ManageProjectsDialog extends EscapeDialog implements Observer {
         this.setModal(true);
         this.setPreferredSize(new Dimension(350, 120));
         this.setTitle(textBundle.textFor("ManageProjectsDialog.Title")); //$NON-NLS-1$
-        this.setContentPane(getJContentPane());
+//        this.setContentPane(getJContentPane());
+        
+        final double border = 5;
+        final double[][] size = { 
+                {border, TableLayout.PREFERRED, border, border, TableLayout.FILL, border, TableLayout.PREFERRED, border }, // Columns
+                {border, TableLayout.PREFERRED, border * 2, TableLayout.FILL, border, TableLayout.FILL, border} // Rows
+        };
+
+        final TableLayout tableLayout = new TableLayout(size);
+        this.setLayout(tableLayout);
+        
+        lableProjectTitle = new JLabel();
+        lableProjectTitle.setText(textBundle.textFor("ManageProjectsDialog.ProjectSelector.Title")); //$NON-NLS-1$
+        lableProjectTitle.setBackground(Color.lightGray);
+        
+        this.add(lableProjectTitle, "1, 1");
+        this.add(getNewProjectTextField(), "3, 1, 6, 1");
+        
+        this.add(new JScrollPane(getProjectTable()), "1, 3, 4, 5");
+
+        this.add(getAddProjectButton(), "6, 3");
+        this.add(getRemoveProjectButton(), "6, 5");
 
         // Set default Button to AddProjectsButton.
         this.getRootPane().setDefaultButton(addProjectButton);
-    }
-
-    /**
-     * This method initializes jContentPane.
-     * @return javax.swing.JPanel
-     */
-    private JPanel getJContentPane() {
-        if (jContentPane == null) {
-            jContentPane = new JPanel();
-            jContentPane.setLayout(new BorderLayout());
-            jContentPane.add(getNewProjectNamePanel(), BorderLayout.NORTH);
-            jContentPane.add(getProjectsPanel(), BorderLayout.EAST);
-
-            JScrollPane projectListScrollPane = new JScrollPane(getProjectTable());
-            jContentPane.add(projectListScrollPane, BorderLayout.CENTER);
-        }
-        return jContentPane;
     }
 
     /**
@@ -142,23 +145,6 @@ public class ManageProjectsDialog extends EscapeDialog implements Observer {
             newProjectTextField.setPreferredSize(new Dimension(224, 19));
         }
         return newProjectTextField;
-    }
-
-    /**
-     * This method initializes projectsPanel.
-     * @return javax.swing.JPanel	
-     */
-    private JPanel getProjectsPanel() {
-        if (projectsPanel == null) {
-            final GridLayout gridLayout = new GridLayout();
-            gridLayout.setRows(2);
-            projectsPanel = new JPanel();
-            projectsPanel.setLayout(gridLayout);
-            projectsPanel.add(getAddProjectButton(), null);
-            projectsPanel.add(getRemoveProjectButton(), null);
-        }
-
-        return projectsPanel;
     }
 
     /**
