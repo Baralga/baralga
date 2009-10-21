@@ -154,6 +154,10 @@ public class DescriptionPanel extends JXPanel implements Observer {
             final Filter newFilter = (Filter) event.getData();
             setFilter(newFilter);
             break;
+            
+        case BaralgaEvent.DATA_CHANGED:
+            applyFilter();
+            break;
         }
     }
 
