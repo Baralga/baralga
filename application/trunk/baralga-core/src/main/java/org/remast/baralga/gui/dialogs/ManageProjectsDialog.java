@@ -27,9 +27,6 @@ import org.remast.swing.dialog.EscapeDialog;
 import org.remast.swing.table.BooleanCellRenderer;
 import org.remast.util.TextResourceBundle;
 
-import ca.odell.glazedlists.BasicEventList;
-import ca.odell.glazedlists.SortedList;
-import ca.odell.glazedlists.swing.EventListJXTableSorting;
 import ca.odell.glazedlists.swing.EventTableModel;
 
 /**
@@ -192,7 +189,7 @@ public class ManageProjectsDialog extends EscapeDialog implements Observer {
      */
     private JButton getRemoveProjectButton() {
         if (removeProjectButton == null) {
-            removeProjectButton = new JButton(new ImageIcon(getClass().getResource("/icons/gtk-stop.png")));
+            removeProjectButton = new JButton(new ImageIcon(getClass().getResource("/icons/gtk-delete.png")));
             removeProjectButton.setText(textBundle.textFor("ManageProjectsDialog.RemoveProjectButton.Title")); //$NON-NLS-1$
             removeProjectButton.setToolTipText(textBundle.textFor("ManageProjectsDialog.RemoveProjectButton.ToolTipText")); //$NON-NLS-1$
             removeProjectButton.addActionListener(new java.awt.event.ActionListener() {
