@@ -59,8 +59,8 @@ public class AboutDialog extends EscapeDialog {
         aboutInfo.setBackground(GuiConstants.BEIGE);
         final double border = 5;
         final double[][] size = { 
-                {border*3, TableLayout.PREFERRED, border, TableLayout.FILL, border }, // Columns
-                {border * 5, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border * 2} // Rows
+                {border * 3, TableLayout.PREFERRED, border, TableLayout.FILL, border }, // Columns
+                {border * 5, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border * 2} // Rows
         };
 
         final TableLayout tableLayout = new TableLayout(size);
@@ -88,6 +88,11 @@ public class AboutDialog extends EscapeDialog {
         }
         final JXLabel mode = new JXLabel(storageMode); //$NON-NLS-1$
         aboutInfo.add(mode, "3, 7"); //$NON-NLS-1$
+        
+        aboutInfo.add(new JLabel(textBundle.textFor("AboutDialog.LicenceLabel")), "1, 9"); //$NON-NLS-1$ //$NON-NLS-2$
+        final JXLabel licence = new JXLabel("GNU Lesser General Public License (LGPL)"); //$NON-NLS-1$
+        aboutInfo.add(licence, "3, 9"); //$NON-NLS-1$
+        
 
         this.add(aboutInfo, BorderLayout.CENTER);
 
