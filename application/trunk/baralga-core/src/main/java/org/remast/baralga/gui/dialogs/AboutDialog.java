@@ -99,7 +99,7 @@ public class AboutDialog extends EscapeDialog {
         this.getContentPane().setBackground(GuiConstants.BEIGE);
         this.add(image, BorderLayout.NORTH);
 
-        this.setSize(340, 300);   
+        this.setSize(340, 320);   
     }
 
 }
