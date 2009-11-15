@@ -26,7 +26,7 @@
   </classpathentry>
   <classpathentry kind="var" path="M2_REPO/jfree/jcommon/1.0.15/jcommon-1.0.15.jar"/>
   <classpathentry kind="var" path="M2_REPO/jfree/jfreechart/1.0.12/jfreechart-1.0.12.jar"/>
-  <classpathentry kind="var" path="M2_REPO/com/jidesoft/jide-oss/2.7.3/jide-oss-2.7.3.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/jidesoft/jide-oss/2.8.0/jide-oss-2.8.0.jar"/>
   <classpathentry kind="var" path="M2_REPO/joda-time/joda-time/1.6/joda-time-1.6.jar" sourcepath="M2_REPO/joda-time/joda-time/1.6/joda-time-1.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/junit/junit/4.6/junit-4.6.jar"/>
   <classpathentry kind="var" path="M2_REPO/net/sourceforge/jexcelapi/jxl/2.6.10/jxl-2.6.10.jar"/>
@@ -34,7 +34,7 @@
   <classpathentry kind="var" path="M2_REPO/com/jgoodies/looks/2.2.2/looks-2.2.2.jar"/>
   <classpathentry kind="var" path="M2_REPO/net/sf/opencsv/opencsv/2.0.1/opencsv-2.0.1.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/swinglabs/swing-worker/1.1/swing-worker-1.1.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/swinglabs/swingx/1.0/swingx-1.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/swinglabs/swingx/1.6/swingx-1.6.jar"/>
   <classpathentry kind="var" path="M2_REPO/tablelayout/TableLayout/20050920/TableLayout-20050920.jar" sourcepath="M2_REPO/tablelayout/TableLayout/20050920/TableLayout-20050920-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/xpp3/xpp3_min/1.1.4c/xpp3_min-1.1.4c.jar" sourcepath="M2_REPO/xpp3/xpp3_min/1.1.4c/xpp3_min-1.1.4c-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/thoughtworks/xstream/xstream/1.3.1/xstream-1.3.1.jar" sourcepath="M2_REPO/com/thoughtworks/xstream/xstream/1.3.1/xstream-1.3.1-sources.jar"/>
