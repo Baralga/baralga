@@ -302,6 +302,20 @@ public class PresentationModel extends Observable {
         event.setData(changedActivity);
         event.setPropertyChangeEvent(propertyChangeEvent);
 
+        // Check whether the activity has been filtered before and whether it is filtered now (after the change).
+        final boolean matchesFilter = filter != null && filter.matchesCriteria(changedActivity);
+        if (activitiesList.contains(changedActivity)) {
+            // Did match before but doesn't now.
+            if (!matchesFilter) {
+                activitiesList.remove(changedActivity);
+            }
+        } else {
+            // Didn't match before but does now.
+            if (matchesFilter) {
+                activitiesList.add(changedActivity);
+            }            
+        }
+
         // Mark data as dirty
         this.dirty = true;
 
