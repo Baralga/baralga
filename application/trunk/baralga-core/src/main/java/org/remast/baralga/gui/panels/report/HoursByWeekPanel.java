@@ -5,8 +5,6 @@ import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JScrollPane;
-
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
@@ -18,6 +16,8 @@ import org.remast.baralga.gui.panels.table.HoursByWeekTableFormat;
 import org.remast.swing.util.GuiConstants;
 
 import ca.odell.glazedlists.swing.EventTableModel;
+
+import com.jidesoft.swing.JideScrollPane;
 
 /**
  * Panel for displaying the report of working hours by week.
@@ -63,7 +63,7 @@ public class HoursByWeekPanel extends JXPanel implements Observer {
         table.getColumn(0).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(new DecimalFormat("##00"))));
         table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.durationFormat)));
         
-        JScrollPane table_scroll_pane = new JScrollPane(table);
+        JideScrollPane table_scroll_pane = new JideScrollPane(table);
 
         this.add(table_scroll_pane, BorderLayout.CENTER);
     }

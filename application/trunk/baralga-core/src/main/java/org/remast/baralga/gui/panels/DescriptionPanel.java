@@ -11,7 +11,6 @@ import java.util.Map.Entry;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.JXPanel;
@@ -20,6 +19,8 @@ import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.swing.util.GuiConstants;
+
+import com.jidesoft.swing.JideScrollPane;
 
 /**
  * Display and edit the descriptions of all project activities.
@@ -54,7 +55,7 @@ public class DescriptionPanel extends JXPanel implements Observer {
         container = new JPanel();
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 
-        this.add(new JScrollPane(container), BorderLayout.CENTER);
+        this.add(new JideScrollPane(container), BorderLayout.CENTER);
 
         applyFilter();
     }

@@ -15,7 +15,6 @@ import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -41,8 +40,9 @@ import org.remast.swing.util.GuiConstants;
 import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
-import ca.odell.glazedlists.swing.EventListJXTableSorting;
 import ca.odell.glazedlists.swing.EventTableModel;
+
+import com.jidesoft.swing.JideScrollPane;
 
 /**
  * @author remast
@@ -220,7 +220,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         );
         projectColumn.setCellEditor(cellEditor);
 
-        final JScrollPane tableScrollPane = new JScrollPane(table);
+        final JideScrollPane tableScrollPane = new JideScrollPane(table);
         this.add(tableScrollPane);
     }
 

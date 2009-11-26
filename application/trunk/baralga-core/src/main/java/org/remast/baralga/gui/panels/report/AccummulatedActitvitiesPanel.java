@@ -6,8 +6,6 @@ import java.text.DateFormat;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JScrollPane;
-
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
@@ -20,6 +18,8 @@ import org.remast.baralga.model.report.AccumulatedProjectActivity;
 import org.remast.swing.util.GuiConstants;
 
 import ca.odell.glazedlists.swing.EventTableModel;
+
+import com.jidesoft.swing.JideScrollPane;
 
 /**
  * Panel containing the accumulated hours spent on each project on one day.
@@ -55,7 +55,7 @@ public class AccummulatedActitvitiesPanel extends JXPanel implements Observer {
         table.getColumn(2).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.durationFormat)));
 
         table.setAutoResizeMode(JXTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
-        JScrollPane table_scroll_pane = new JScrollPane(table);
+        JideScrollPane table_scroll_pane = new JideScrollPane(table);
 
         this.add(table_scroll_pane, BorderLayout.CENTER);
     }
