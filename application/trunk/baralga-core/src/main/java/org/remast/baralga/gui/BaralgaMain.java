@@ -138,8 +138,8 @@ public final class BaralgaMain {
         }
 
         for (String argument : arguments) {
-            if (argument.startsWith("-m=")) {
-                this.minimized = Boolean.parseBoolean(argument.substring("-m=".length()));
+            if (argument.startsWith("-m=")) { //$NON-NLS-1$
+                this.minimized = Boolean.parseBoolean(argument.substring("-m=".length())); //$NON-NLS-1$
             }
         }
 
@@ -153,7 +153,7 @@ public final class BaralgaMain {
      */
     private static MainFrame initMainFrame(final PresentationModel model,
             final BaralgaMain mainInstance) {
-        log.debug("Initializing main frame ...");
+        log.debug("Initializing main frame ..."); //$NON-NLS-1$
         final MainFrame mainFrame = new MainFrame(model);
         mainFrame.setVisible(!mainInstance.minimized);
         return mainFrame;
@@ -163,7 +163,7 @@ public final class BaralgaMain {
      * Initializes the lock file.
      */
     private static void initLockFile() {
-        log.debug("Initializing lock file ...");
+        log.debug("Initializing lock file ..."); //$NON-NLS-1$
         if (!tryLock()) {
             JOptionPane.showMessageDialog(
                     null, 
@@ -184,7 +184,7 @@ public final class BaralgaMain {
      */
     private static void initTrayIcon(final BaralgaMain mainInstance,
             final PresentationModel model, final MainFrame mainFrame) {
-        log.debug("Initializing tray icon ...");
+        log.debug("Initializing tray icon ..."); //$NON-NLS-1$
 
         // Create try icon.
         try {
@@ -208,10 +208,10 @@ public final class BaralgaMain {
      * @param model
      */
     private static void initShutdownHook(final PresentationModel model) {
-        log.debug("Initializing shutdown hook ...");
+        log.debug("Initializing shutdown hook ..."); //$NON-NLS-1$
 
         Runtime.getRuntime().addShutdownHook(
-                new Thread("Baralga shutdown ...") {
+                new Thread("Baralga shutdown ...") { //$NON-NLS-1$
 
                     @Override
                     public void run() {
@@ -246,7 +246,7 @@ public final class BaralgaMain {
      * @return the model
      */
     private static PresentationModel initModel() {
-        log.debug("Initializing model...");
+        log.debug("Initializing model..."); //$NON-NLS-1$
 
         // Initialize with new site
         final PresentationModel model = new PresentationModel();
@@ -330,8 +330,8 @@ public final class BaralgaMain {
      * @throws IOException 
      */
     private static void initLogger() throws IOException {
-        log.debug("Initializing logger ...");
-        DOMConfigurator.configure(BaralgaMain.class.getResource("/log4j.xml"));
+        log.debug("Initializing logger ..."); //$NON-NLS-1$
+        DOMConfigurator.configure(BaralgaMain.class.getResource("/log4j.xml")); //$NON-NLS-1$
 
         logFileName = ApplicationSettings.instance().getApplicationDataDirectory().getAbsolutePath() + File.separator + "log" + File.separator + "baralga.log";
         final Appender mainAppender = new DailyRollingFileAppender(new PatternLayout("%d{ISO8601} %-5p [%t] %c: %m%n"), logFileName, "'.'yyyy-MM-dd");
@@ -344,7 +344,7 @@ public final class BaralgaMain {
      * Initialize the look & feel of the application.
      */
     private static void initLookAndFeel() {
-        log.debug("Initializing look and feel ...");
+        log.debug("Initializing look and feel ..."); //$NON-NLS-1$
         try {
             // a) Try windows
             UIManager.setLookAndFeel("com.jgoodies.looks.windows.WindowsLookAndFeel"); //$NON-NLS-1$
@@ -367,7 +367,7 @@ public final class BaralgaMain {
      */
     private static void initTimer(final PresentationModel model) {
         log.debug("Initializing timer ...");
-        timer = new Timer();
+        timer = new Timer("Baralga save timer.");
         timer.scheduleAtFixedRate(new SaveTimer(model), 1000 * 60 * SAVE_TIMER_INTERVAL, 1000 * 60 * SAVE_TIMER_INTERVAL);
     }
 
@@ -405,7 +405,7 @@ public final class BaralgaMain {
         if (!baralgaDir.exists()) {
             final boolean baralgaDirCreated = baralgaDir.mkdir();
             if (!baralgaDirCreated) {
-                throw new RuntimeException("Could not create directory at " + baralgaDir.getAbsolutePath() + ".");
+                throw new RuntimeException("Could not create directory at " + (baralgaDir == null ? "<null>" : baralgaDir.getAbsolutePath()) + ".");
             }
         }
     }

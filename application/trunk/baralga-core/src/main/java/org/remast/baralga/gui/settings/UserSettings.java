@@ -251,7 +251,7 @@ public final class UserSettings {
     public static final String SHOWN_CATEGORY = "shown.category"; //$NON-NLS-1$
 
     public String getShownCategory() {
-        return doGetString(SHOWN_CATEGORY, "General");
+        return doGetString(SHOWN_CATEGORY, "General"); //$NON-NLS-1$
     }
 
     public void setShownCategory(final String shownCategory) {
@@ -281,7 +281,7 @@ public final class UserSettings {
     public static final String WINDOW_SIZE = "settings.windowSize"; //$NON-NLS-1$
 
     public Dimension getWindowSize() {
-        final String encodedSize = doGetString(WINDOW_SIZE, "530.0|720.0");
+        final String encodedSize = doGetString(WINDOW_SIZE, "530.0|720.0"); //$NON-NLS-1$
         final String[] sizeValues = StringUtils.split(encodedSize, '|');
         
         final Dimension size = new Dimension(Double.valueOf(sizeValues[0]).intValue(), Double.valueOf(sizeValues[1]).intValue());
@@ -289,7 +289,7 @@ public final class UserSettings {
     }
 
     public void setWindowSize(final Dimension size) {
-        final String encodedSize = size.getWidth() + "|" + size.getHeight();
+        final String encodedSize = size.getWidth() + "|" + size.getHeight(); //$NON-NLS-1$
         userConfig.setProperty(WINDOW_SIZE, encodedSize);
     }
     
@@ -301,7 +301,7 @@ public final class UserSettings {
     public static final String WINDOW_LOCATION = "settings.windowLocation"; //$NON-NLS-1$
 
     public Point getWindowLocation() {
-        final String encodedLocation = doGetString(WINDOW_LOCATION, "0.0|0.0");
+        final String encodedLocation = doGetString(WINDOW_LOCATION, "0.0|0.0"); //$NON-NLS-1$
         final String[] locationCoordinates = StringUtils.split(encodedLocation, '|');
         
         final Point location = new Point(Double.valueOf(locationCoordinates[0]).intValue(), Double.valueOf(locationCoordinates[1]).intValue());
@@ -309,7 +309,7 @@ public final class UserSettings {
     }
 
     public void setWindowLocation(final Point location) {
-        final String encodedLocation = location.getX() + "|" + location.getY();
+        final String encodedLocation = location.getX() + "|" + location.getY(); //$NON-NLS-1$
         userConfig.setProperty(WINDOW_LOCATION, encodedLocation);
     }
 
