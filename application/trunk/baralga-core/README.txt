@@ -18,6 +18,7 @@ Fixes
  * Layout of manage projects dialog fixed (Issue #28 http://baralga.origo.ethz.ch/node/113).
  * Descriptions updated correctly after data import.
  * Time reports updated correctly after data import.
+ * Sort order in Excel and CSV reports (Issue #53 http://baralga.origo.ethz.ch/node/149).
  
 Misc
  * Apply filter only if the filter has actually changed.
