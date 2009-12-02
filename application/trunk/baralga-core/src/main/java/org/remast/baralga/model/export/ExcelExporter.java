@@ -2,6 +2,8 @@ package org.remast.baralga.model.export;
 
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -74,10 +76,14 @@ public class ExcelExporter implements Exporter {
             col = 0;
             row++;
 
-            List<ProjectActivity> activities = data.getActivities();
+            List<ProjectActivity> activities = new ArrayList<ProjectActivity>(data.getActivities());
+            
             if (filter != null)  {
-                activities = filter.applyFilters(data.getActivities());
+                activities = new ArrayList<ProjectActivity>(filter.applyFilters(data.getActivities()));
             }
+            
+            // Sort activities by default sort order (date) before export
+            Collections.sort(activities);
             
             for (ProjectActivity actitivity : activities) {
                 sheet.addCell(new Label(col++, row, actitivity.getProject().getTitle()));
@@ -154,6 +160,10 @@ public class ExcelExporter implements Exporter {
         col = 0;
 
         final List<AccumulatedProjectActivity> accumulatedActivitiesByDay = report.getAccumulatedActivitiesByDay();
+        
+        // Sort activities by default sort order (date) before export
+        Collections.sort(accumulatedActivitiesByDay);
+
         for (AccumulatedProjectActivity activity : accumulatedActivitiesByDay) {
             sheet.addCell(makeDateCell(col++, row, activity.getDay()));
             sheet.addCell(new Label(col++, row, activity.getProject().getTitle()));

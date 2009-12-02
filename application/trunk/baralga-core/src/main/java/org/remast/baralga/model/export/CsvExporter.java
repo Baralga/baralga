@@ -4,6 +4,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -56,10 +58,13 @@ public class CsvExporter implements Exporter {
      */
     @Override
     public void export(final ProTrack data, final Filter filter, final OutputStream outputStream) throws Exception {
-        List<ProjectActivity> activities = data.getActivities();
+        List<ProjectActivity> activities = new ArrayList<ProjectActivity>(data.getActivities());
         if (filter != null) {
-            activities = filter.applyFilters(data.getActivities());
+            activities = new ArrayList<ProjectActivity>(filter.applyFilters(data.getActivities()));
         }
+        
+        // Sort activities by default sort order (date) before export
+        Collections.sort(activities);
 
         final CSVWriter writer = new CSVWriter(
                 new OutputStreamWriter(outputStream),
