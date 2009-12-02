@@ -92,10 +92,8 @@ public class HoursByWeekReport extends Observable implements Observer  {
                     }
                     break;
 
+                case BaralgaEvent.DATA_CHANGED:
                 case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
-                    calculateHours();
-                    break;
-                    
                 case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
                     calculateHours();
                     break;
