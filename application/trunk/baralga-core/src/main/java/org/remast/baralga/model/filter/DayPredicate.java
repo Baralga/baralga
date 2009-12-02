@@ -17,7 +17,9 @@ public class DayPredicate implements Predicate {
 
     /**
      * Creates a new predicate that holds for the given day.
-     * @param dateInDay the day the predicate holds for
+     * 
+     * @param dateInDay
+     *            the day the predicate holds for
      */
     public DayPredicate(final DateTime dateInDay) {
         this.dateInDay = dateInDay;
@@ -25,9 +27,11 @@ public class DayPredicate implements Predicate {
 
     /**
      * Checks if this predicate holds for the given object.
-     * @param object the object to check
-     * @return <code>true</code> if the given object is a project activity
-     * of that day else <code>false</code>
+     * 
+     * @param object
+     *            the object to check
+     * @return <code>true</code> if the given object is a project activity of
+     *         that day else <code>false</code>
      */
     public boolean evaluate(final Object object) {
         if (object == null) {
@@ -39,7 +43,8 @@ public class DayPredicate implements Predicate {
         }
 
         final ProjectActivity activity = (ProjectActivity) object;
-        return this.dateInDay.getDayOfYear() == activity.getStart().getDayOfYear();
+        return this.dateInDay.getDayOfYear() == activity.getStart().getDayOfYear()
+                && this.dateInDay.getYear() == activity.getStart().getYear();
     }
 
 }
