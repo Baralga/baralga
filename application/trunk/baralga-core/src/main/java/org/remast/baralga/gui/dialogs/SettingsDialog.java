@@ -25,6 +25,7 @@ import org.remast.util.TextResourceBundle;
 public class SettingsDialog extends EscapeDialog implements ActionListener {
 
     /** The logger. */
+    @SuppressWarnings("unused")
     private static final Log log = LogFactory.getLog(SettingsDialog.class);
 
     /** The bundle for internationalized texts. */
@@ -34,7 +35,8 @@ public class SettingsDialog extends EscapeDialog implements ActionListener {
     private JCheckBox rememberWindowSizeLocation;
 
     /** The model. */
-    private final PresentationModel model;
+    @SuppressWarnings("unused")
+	private final PresentationModel model;
 
     /**
      * Creates a new settings dialog.

@@ -130,18 +130,4 @@ public class ProjectFilterList implements Observer {
         }
     }
 
-    /**
-     * Removes the given project from the list.
-     * @param project the project to be removed
-     */
-    private void removeProject(final Project project) {
-        if (project == null) {
-            return;
-        }
-
-        final LabeledItem<Project> filterItem = new LabeledItem<Project>(project);
-        if (this.projectList.contains(filterItem)) {
-            this.projectList.remove(filterItem);
-        }
-    }
 }

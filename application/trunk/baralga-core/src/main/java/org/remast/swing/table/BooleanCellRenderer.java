@@ -17,6 +17,7 @@ import javax.swing.table.TableCellRenderer;
  *
  * @author Aleksandr
  */
+@SuppressWarnings("serial")
 public class BooleanCellRenderer extends DefaultTableCellRenderer {
 
     /**
@@ -56,7 +57,8 @@ public class BooleanCellRenderer extends DefaultTableCellRenderer {
     /**
      * True Boolean renderer
      */
-    private static class BooleanRenderer extends JCheckBox implements
+    @SuppressWarnings("serial")
+	private static class BooleanRenderer extends JCheckBox implements
             TableCellRenderer
     {
         private static final Border noFocusBorder = new EmptyBorder(1, 1, 1, 1);

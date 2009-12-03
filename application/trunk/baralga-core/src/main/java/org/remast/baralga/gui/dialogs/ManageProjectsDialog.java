@@ -4,16 +4,13 @@ import info.clearthought.layout.TableLayout;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.apache.commons.lang.math.RandomUtils;
@@ -40,19 +37,13 @@ public class ManageProjectsDialog extends EscapeDialog implements Observer {
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(ManageProjectsDialog.class);
 
-    private JPanel jContentPane = null;
-
     private JXTable projectTable = null;
 
     private JTextField newProjectTextField = null;
 
-    private JPanel projectsPanel = null;
-
     private JButton addProjectButton = null;
 
     private JButton removeProjectButton = null;
-
-    private JPanel newProjectNamePanel = null;
 
     private JLabel lableProjectTitle = null;
 
@@ -191,29 +182,6 @@ public class ManageProjectsDialog extends EscapeDialog implements Observer {
             });
         }
         return removeProjectButton;
-    }
-
-    /**
-     * This method initializes the Panel with the name of the new 
-     * project.
-     * @return javax.swing.JPanel	
-     */
-    private JPanel getNewProjectNamePanel() {
-        if (newProjectNamePanel == null) {
-            final FlowLayout flowLayout = new FlowLayout();
-            flowLayout.setAlignment(java.awt.FlowLayout.LEFT);
-            flowLayout.setVgap(3);
-            flowLayout.setHgap(3);
-            lableProjectTitle = new JLabel();
-            lableProjectTitle.setText(textBundle.textFor("ManageProjectsDialog.ProjectSelector.Title")); //$NON-NLS-1$
-            lableProjectTitle.setBackground(Color.lightGray);
-            newProjectNamePanel = new JPanel();
-            newProjectNamePanel.setLayout(flowLayout);
-            newProjectNamePanel.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, Color.gray));
-            newProjectNamePanel.add(lableProjectTitle, null);
-            newProjectNamePanel.add(getNewProjectTextField(), null);
-        }
-        return newProjectNamePanel;
     }
 
     @Override

@@ -22,6 +22,7 @@ import org.remast.util.TextResourceBundle;
 public class ExportDataAction extends AbstractExportAction {
     
     /** The logger. */
+    @SuppressWarnings("unused")
     private static final Log log = LogFactory.getLog(ExportDataAction.class);
 
     /** The bundle for internationalized texts. */

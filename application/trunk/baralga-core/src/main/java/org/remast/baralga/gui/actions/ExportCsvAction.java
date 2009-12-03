@@ -26,7 +26,8 @@ public final class ExportCsvAction extends AbstractExportAction {
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(ExportCsvAction.class);
 
     /** The logger. */
-    private static final Log log = LogFactory.getLog(ExportCsvAction.class);
+    @SuppressWarnings("unused")
+	private static final Log log = LogFactory.getLog(ExportCsvAction.class);
     
     /** File extension of CSV files. */
     private static final String CSV_FILE_EXTENSION = ".csv";

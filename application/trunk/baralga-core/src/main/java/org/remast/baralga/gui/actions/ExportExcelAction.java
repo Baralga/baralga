@@ -26,6 +26,7 @@ public final class ExportExcelAction extends AbstractExportAction {
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(ExportExcelAction.class);
 
     /** The logger. */
+    @SuppressWarnings("unused")
     private static final Log log = LogFactory.getLog(ExportExcelAction.class);
     
     /** File extension of MS Excel files. */

@@ -35,9 +35,6 @@ public class DescriptionPanel extends JXPanel implements Observer {
     /** Cache for all entries by activity. */
     private final Map<ProjectActivity, DescriptionPanelEntry> entriesByActivity;
 
-    /** The applied filter. */
-    private Filter filter;
-
     private JPanel container;
 
     public DescriptionPanel(final PresentationModel model) {
@@ -46,7 +43,6 @@ public class DescriptionPanel extends JXPanel implements Observer {
         this.model = model;
         this.entriesByActivity = new HashMap<ProjectActivity, DescriptionPanelEntry>();
         this.model.addObserver(this);
-        this.filter = model.getFilter();
 
         initialize();
     }
@@ -163,7 +159,6 @@ public class DescriptionPanel extends JXPanel implements Observer {
     }
 
     private void setFilter(final Filter filter) {
-        this.filter = filter;
         applyFilter();
     }
 }
