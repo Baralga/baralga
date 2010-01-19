@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
+import org.joda.time.IllegalFieldValueException;
 import org.remast.baralga.gui.lists.DayFilterList;
 import org.remast.baralga.gui.lists.MonthFilterList;
 import org.remast.baralga.gui.lists.WeekOfYearFilterList;
@@ -431,10 +432,12 @@ public final class UserSettings {
 
         if (selectedWeekOfYear != WeekOfYearFilterList.ALL_WEEKS_OF_YEAR_DUMMY) {
             try {
-                DateTime weekOfYear = new DateTime().withWeekOfWeekyear(selectedWeekOfYear);
+                final DateTime weekOfYear = new DateTime().withWeekOfWeekyear(selectedWeekOfYear);
                 filter.setWeekOfYear(weekOfYear);
             } catch (NumberFormatException e) {
-                log.error(e, e);
+            	log.error(e, e);
+            } catch (IllegalFieldValueException e2) {
+            	log.error(e2, e2);
             }
         }
     }

@@ -81,7 +81,17 @@ public class WeekOfYearFilterList implements Observer {
         boolean filterWeekOfYearFound = false;
 
         for (ProjectActivity activity : this.model.getData().getActivities()) {
-            this.addWeekOfYear(activity.getDay().getWeekOfWeekyear());
+        	final int weekOfYear = activity.getDay().getWeekOfWeekyear();
+        	
+        	/**
+        	 * In Joda time weeks go from 1 - 53 (see http://joda-time.sourceforge.net/field.html). 
+        	 * We only allow weeks up to 52 because week 53 results in an exception.
+        	 */
+        	if (weekOfYear > 52) {
+        		this.addWeekOfYear(1);
+        	} else {
+        		this.addWeekOfYear(weekOfYear);
+        	}
 
             if (filterWeekOfYear != null && activity.getDay().getWeekOfWeekyear() == filterWeekOfYear) {
                 filterWeekOfYearFound = true;
