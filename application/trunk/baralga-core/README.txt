@@ -19,6 +19,7 @@ Fixes
  * Descriptions updated correctly after data import.
  * Time reports updated correctly after data import.
  * Sort order in Excel and CSV reports (Issue #53 http://baralga.origo.ethz.ch/node/149).
+ * Week 53 in the Filters list (1.4.3) causes fatal error (Issue #55 http://baralga.origo.ethz.ch/node/151)
  
 Misc
  * Apply filter only if the filter has actually changed.
