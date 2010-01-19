@@ -108,7 +108,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
             @Override
-            public void valueChanged(final ListSelectionEvent e) {
+            public void valueChanged(final ListSelectionEvent event) {
                 if (table.getSelectedRows() == null) {
                     table.setToolTipText(null);
                 }
@@ -117,7 +117,12 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
 
                 for (int i : table.getSelectedRows()) {
                     //                    int modelIndex = table.convertRowIndexToModel(i);
-                    duration += model.getActivitiesList().get(i).getDuration();
+                	try {
+                		duration += model.getActivitiesList().get(i).getDuration();
+					} catch (IndexOutOfBoundsException e) {
+						// Exception occurs when user has selected entries and then the filter changes.
+						// Therefore we can safely ignore the exception and keep going.
+					}
                 }
 
                 table.setToolTipText(textBundle.textFor("AllActivitiesPanel.tooltipDuration", FormatUtils.durationFormat.format(duration))); //$NON-NLS-1$
