@@ -402,7 +402,7 @@ public final class BaralgaMain {
      */
     private static void checkOrCreateBaralgaDir() {
         final File baralgaDir = ApplicationSettings.instance().getApplicationDataDirectory();
-        if (!baralgaDir.exists()) {
+        if (baralgaDir == null || !baralgaDir.exists()) {
             final boolean baralgaDirCreated = baralgaDir.mkdir();
             if (!baralgaDirCreated) {
                 throw new RuntimeException("Could not create directory at " + (baralgaDir == null ? "<null>" : baralgaDir.getAbsolutePath()) + ".");
