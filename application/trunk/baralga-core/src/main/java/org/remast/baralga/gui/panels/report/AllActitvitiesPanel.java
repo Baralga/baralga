@@ -40,6 +40,7 @@ import org.remast.swing.util.GuiConstants;
 import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
+import ca.odell.glazedlists.swing.EventListJXTableSorting;
 import ca.odell.glazedlists.swing.EventTableModel;
 
 import com.jidesoft.swing.JideScrollPane;
@@ -85,7 +86,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         final JXTable table = new JXTable(tableModel);
 
         // :INFO: This corrupts the initial sorting. Would be nice though...
-        // EventListJXTableSorting.install(table, model.getActivitiesList());
+        EventListJXTableSorting.install(table, model.getActivitiesList());
         table.setSortable(false);
 
         table.getColumn(1).setCellRenderer(
