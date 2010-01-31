@@ -404,7 +404,7 @@ public final class BaralgaMain {
 		}
 
 		if (!baralgaDirCreated) {
-			throw new RuntimeException("Could not create directory at " + (baralgaDir == null ? "<null>" : baralgaDir.getAbsolutePath()) + ".");
+			throw new RuntimeException("Could not create directory at " + baralgaDir.getAbsolutePath() + ".");
 		}
 	}
 
