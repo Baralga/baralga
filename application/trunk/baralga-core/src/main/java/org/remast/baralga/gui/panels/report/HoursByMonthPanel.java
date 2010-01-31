@@ -1,7 +1,7 @@
 package org.remast.baralga.gui.panels.report;
 
 import java.awt.BorderLayout;
-import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -60,7 +60,7 @@ public class HoursByMonthPanel extends JXPanel implements Observer {
         table.setHighlighters(GuiConstants.HIGHLIGHTERS);
         table.setAutoResizeMode(JXTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         
-        table.getColumn(0).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(new DecimalFormat("##00"))));
+        table.getColumn(0).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(new SimpleDateFormat("MM MMMMMMMMMM"))));
         table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.durationFormat)));
         
         JideScrollPane table_scroll_pane = new JideScrollPane(table);
