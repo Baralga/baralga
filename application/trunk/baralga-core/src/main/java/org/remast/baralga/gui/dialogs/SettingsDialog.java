@@ -59,7 +59,7 @@ public class SettingsDialog extends EscapeDialog implements ActionListener {
         final double border = 5;
         final double[][] size = {
                 { border, TableLayout.FILL, border, TableLayout.PREFERRED, border }, // Columns
-                { border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border}  // Rows
+                { border, TableLayout.PREFERRED, border, TableLayout.FILL, border, TableLayout.PREFERRED, border}  // Rows
         };
 
         final TableLayout tableLayout = new TableLayout(size);

@@ -7,11 +7,10 @@ import java.awt.Color;
 import java.awt.Frame;
 
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import org.jdesktop.swingx.JXHyperlink;
 import org.jdesktop.swingx.JXImagePanel;
-import org.jdesktop.swingx.JXLabel;
-import org.jdesktop.swingx.JXPanel;
 import org.remast.baralga.gui.settings.ApplicationSettings;
 import org.remast.swing.action.OpenBrowserAction;
 import org.remast.swing.dialog.EscapeDialog;
@@ -55,7 +54,7 @@ public class AboutDialog extends EscapeDialog {
         final JXImagePanel image = new JXImagePanel(getClass().getResource("/images/baralga/Baralga-About.png")); //$NON-NLS-1$
         image.setBackground(GuiConstants.BEIGE);
 
-        final JXPanel aboutInfo = new JXPanel();
+        final JPanel aboutInfo = new JPanel();
         aboutInfo.setBackground(GuiConstants.BEIGE);
         final double border = 5;
         final double[][] size = { 
@@ -75,7 +74,7 @@ public class AboutDialog extends EscapeDialog {
         aboutInfo.add(hyperlinkBug, "3, 3"); //$NON-NLS-1$
 
         aboutInfo.add(new JLabel(textBundle.textFor("Global.Version") + ":"), "1, 5"); //$NON-NLS-1$ //$NON-NLS-2$
-        final JXLabel version = new JXLabel(textBundle.textFor("Global.VersionNumber")); //$NON-NLS-1$
+        final JLabel version = new JLabel(textBundle.textFor("Global.VersionNumber")); //$NON-NLS-1$
         aboutInfo.add(version, "3, 5"); //$NON-NLS-1$
 
         aboutInfo.add(new JLabel(textBundle.textFor("AboutDialog.ModeLabel")), "1, 7"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -86,13 +85,12 @@ public class AboutDialog extends EscapeDialog {
         } else {
             storageMode = textBundle.textFor("Settings.DataStorage.NormalLabel");
         }
-        final JXLabel mode = new JXLabel(storageMode); //$NON-NLS-1$
+        final JLabel mode = new JLabel(storageMode); //$NON-NLS-1$
         aboutInfo.add(mode, "3, 7"); //$NON-NLS-1$
         
         aboutInfo.add(new JLabel(textBundle.textFor("AboutDialog.LicenceLabel")), "1, 9"); //$NON-NLS-1$ //$NON-NLS-2$
-        final JXLabel licence = new JXLabel("GNU Lesser General Public License (LGPL)"); //$NON-NLS-1$
+        final JLabel licence = new JLabel("GNU Lesser General Public License (LGPL)"); //$NON-NLS-1$
         aboutInfo.add(licence, "3, 9"); //$NON-NLS-1$
-        
 
         this.add(aboutInfo, BorderLayout.CENTER);
 

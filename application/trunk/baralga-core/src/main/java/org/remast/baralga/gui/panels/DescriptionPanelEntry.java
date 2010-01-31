@@ -7,9 +7,9 @@ import java.awt.BorderLayout;
 import java.beans.PropertyChangeEvent;
 
 import javax.swing.BorderFactory;
+import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import org.jdesktop.swingx.JXPanel;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.swing.text.TextEditor;
@@ -20,7 +20,7 @@ import org.remast.swing.util.GuiConstants;
  * @author remast
  */
 @SuppressWarnings("serial")
-public class DescriptionPanelEntry extends JXPanel {
+public class DescriptionPanelEntry extends JPanel {
 
     /** The activity whose description is displayed. */
     private ProjectActivity activity;

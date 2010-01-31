@@ -21,7 +21,6 @@ import javax.swing.JToolBar;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jdesktop.swingx.JXFrame;
 import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.actions.AboutAction;
 import org.remast.baralga.gui.actions.AbstractBaralgaAction;
@@ -45,7 +44,7 @@ import org.remast.util.TextResourceBundle;
  * @author remast
  */
 @SuppressWarnings("serial")//$NON-NLS-1$
-public class MainFrame extends JXFrame implements Observer {
+public class MainFrame extends JFrame implements Observer {
     
     /** The logger. */
     @SuppressWarnings("unused")

@@ -10,9 +10,9 @@ import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 import org.apache.commons.lang.StringUtils;
-import org.jdesktop.swingx.JXPanel;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.panels.report.AccummulatedActitvitiesPanel;
@@ -32,7 +32,7 @@ import com.jidesoft.swing.JideToggleButton;
  * @author remast
  */
 @SuppressWarnings("serial")//$NON-NLS-1$
-public class FilteredActivitiesPane extends JXPanel {
+public class FilteredActivitiesPane extends JPanel {
 
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
@@ -81,7 +81,7 @@ public class FilteredActivitiesPane extends JXPanel {
 	// Toggle buttons for tab categories
 	//------------------------------------------------
 
-	private JXPanel categoryButtonPanel = new JXPanel();
+	private JPanel categoryButtonPanel = new JPanel();
 
 	private JideToggleButton generalButton = new JideToggleButton(new AbstractAction(textBundle.textFor("Category.General"), new ImageIcon(getClass().getResource("/icons/gtk-dnd-multiple.png"))) {
 
@@ -146,6 +146,17 @@ public class FilteredActivitiesPane extends JXPanel {
 		tabs.setTabColorProvider(JideTabbedPane.ONENOTE_COLOR_PROVIDER);
 
 		shownCategory = UserSettings.instance().getShownCategory();
+		
+		filteredActitvitiesTab = new CategorizedTab("General");
+		filteredActitvitiesPanel = new AllActitvitiesPanel(model);
+		filteredActitvitiesTab.setComponent(
+				textBundle.textFor("FilteredActivitiesPane.Tab.AllActivities"),  //$NON-NLS-1$
+				null,
+//				new ImageIcon(getClass().getResource("/icons/gtk-dnd-multiple.png")),  //$NON-NLS-1$
+				filteredActitvitiesPanel, 
+				textBundle.textFor("FilteredActivitiesPane.Tab.AllActivities.Tooltip") //$NON-NLS-1$
+		);
+		categorizedTabs.add(filteredActitvitiesTab);
 
 		accummulatedActitvitiesTab = new CategorizedTab("General"); //$NON-NLS-1$
 		accummulatedActitvitiesPanel = new AccummulatedActitvitiesPanel(model.getFilteredReport());
@@ -157,17 +168,6 @@ public class FilteredActivitiesPane extends JXPanel {
 				textBundle.textFor("FilteredActivitiesPane.Tab.AccumulatedActivities.Tooltip") //$NON-NLS-1$
 		);
 		categorizedTabs.add(accummulatedActitvitiesTab);
-
-		filteredActitvitiesTab = new CategorizedTab("General");
-		filteredActitvitiesPanel = new AllActitvitiesPanel(model);
-		filteredActitvitiesTab.setComponent(
-				textBundle.textFor("FilteredActivitiesPane.Tab.AllActivities"),  //$NON-NLS-1$
-				null,
-//				new ImageIcon(getClass().getResource("/icons/gtk-dnd-multiple.png")),  //$NON-NLS-1$
-				filteredActitvitiesPanel, 
-				textBundle.textFor("FilteredActivitiesPane.Tab.AllActivities.Tooltip") //$NON-NLS-1$
-		);
-		categorizedTabs.add(filteredActitvitiesTab);
 
 		descriptionTab = new CategorizedTab("General");
 		descriptionPanel = new DescriptionPanel(model);

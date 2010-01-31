@@ -6,13 +6,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jdesktop.swingx.JXLabel;
-import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTitledSeparator;
 import org.joda.time.DateTime;
 import org.remast.baralga.gui.BaralgaMain;
@@ -29,6 +29,8 @@ import org.remast.swing.util.LabeledItem;
 import org.remast.util.DateUtils;
 import org.remast.util.TextResourceBundle;
 
+import com.jidesoft.swing.TitledSeparator;
+
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 
 /**
@@ -36,7 +38,7 @@ import ca.odell.glazedlists.swing.EventComboBoxModel;
  * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
-public class ReportPanel extends JXPanel implements ActionListener {
+public class ReportPanel extends JPanel implements ActionListener {
 
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
@@ -102,22 +104,22 @@ public class ReportPanel extends JXPanel implements ActionListener {
                         TableLayout.FILL, border } }; // Rows
         this.setLayout(new TableLayout(size));
 
-        final JXTitledSeparator filterSeparator = new JXTitledSeparator(textBundle.textFor("ReportPanel.FiltersLabel")); //$NON-NLS-1$
+        final TitledSeparator filterSeparator = new TitledSeparator(textBundle.textFor("ReportPanel.FiltersLabel")); //$NON-NLS-1$
         this.add(filterSeparator, "1, 1, 19, 1"); //$NON-NLS-1$
 
-        this.add(new JXLabel(textBundle.textFor("ReportPanel.ProjectLabel")), "1, 3"); //$NON-NLS-1$ //$NON-NLS-2$
+        this.add(new JLabel(textBundle.textFor("ReportPanel.ProjectLabel")), "1, 3"); //$NON-NLS-1$ //$NON-NLS-2$
         this.add(getProjectFilterSelector(), "3, 3"); //$NON-NLS-1$
 
-        this.add(new JXLabel(textBundle.textFor("ReportPanel.YearLabel")), "5, 3"); //$NON-NLS-1$ //$NON-NLS-2$
+        this.add(new JLabel(textBundle.textFor("ReportPanel.YearLabel")), "5, 3"); //$NON-NLS-1$ //$NON-NLS-2$
         this.add(getYearFilterSelector(), "7, 3"); //$NON-NLS-1$
 
-        this.add(new JXLabel(textBundle.textFor("ReportPanel.MonthLabel")), "9, 3"); //$NON-NLS-1$ //$NON-NLS-2$
+        this.add(new JLabel(textBundle.textFor("ReportPanel.MonthLabel")), "9, 3"); //$NON-NLS-1$ //$NON-NLS-2$
         this.add(getMonthFilterSelector(), "11, 3"); //$NON-NLS-1$
 
-        this.add(new JXLabel(textBundle.textFor("ReportPanel.WeekLabel")), "13, 3"); //$NON-NLS-1$ //$NON-NLS-2$
+        this.add(new JLabel(textBundle.textFor("ReportPanel.WeekLabel")), "13, 3"); //$NON-NLS-1$ //$NON-NLS-2$
         this.add(getWeekOfYearFilterSelector(), "15, 3"); //$NON-NLS-1$
 
-        this.add(new JXLabel(textBundle.textFor("ReportPanel.DayLabel")), "17, 3"); //$NON-NLS-1$ //$NON-NLS-2$
+        this.add(new JLabel(textBundle.textFor("ReportPanel.DayLabel")), "17, 3"); //$NON-NLS-1$ //$NON-NLS-2$
         this.add(getDayFilterSelector(), "19, 3"); //$NON-NLS-1$
 
         final JXTitledSeparator dataSeparator = new JXTitledSeparator(textBundle.textFor("ReportPanel.DataLabel")); //$NON-NLS-1$
