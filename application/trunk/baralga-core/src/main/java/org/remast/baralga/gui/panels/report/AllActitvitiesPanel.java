@@ -14,6 +14,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
@@ -21,7 +22,6 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 
-import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
@@ -49,7 +49,7 @@ import com.jidesoft.swing.JideScrollPane;
  * @author remast
  */
 @SuppressWarnings("serial")//$NON-NLS-1$
-public class AllActitvitiesPanel extends JXPanel implements Observer {
+public class AllActitvitiesPanel extends JPanel implements Observer {
 
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
@@ -86,7 +86,7 @@ public class AllActitvitiesPanel extends JXPanel implements Observer {
         final JXTable table = new JXTable(tableModel);
 
         // :INFO: This corrupts the initial sorting. Would be nice though...
-        EventListJXTableSorting.install(table, model.getActivitiesList());
+//        EventListJXTableSorting.install(table, model.getActivitiesList());
         table.setSortable(false);
 
         table.getColumn(1).setCellRenderer(

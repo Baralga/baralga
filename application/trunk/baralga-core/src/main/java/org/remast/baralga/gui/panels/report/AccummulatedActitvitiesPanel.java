@@ -1,12 +1,12 @@
 package org.remast.baralga.gui.panels.report;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.text.DateFormat;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.jdesktop.swingx.JXPanel;
+import javax.swing.JPanel;
+
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.FormatStringValue;
@@ -26,7 +26,7 @@ import com.jidesoft.swing.JideScrollPane;
  * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
-public class AccummulatedActitvitiesPanel extends JXPanel implements Observer {
+public class AccummulatedActitvitiesPanel extends JPanel implements Observer {
 
     private AccumulatedActivitiesReport report;
     
@@ -45,8 +45,6 @@ public class AccummulatedActitvitiesPanel extends JXPanel implements Observer {
      * Set up GUI components.
      */
     private void initialize() {
-        this.setBackground(Color.RED);
-
         tableModel = new EventTableModel<AccumulatedProjectActivity>(this.report.getAccumulatedActivitiesByDay(), new AccumulatedActivitiesTableFormat());
         final JXTable table = new JXTable(tableModel);
         table.setHighlighters(GuiConstants.HIGHLIGHTERS);

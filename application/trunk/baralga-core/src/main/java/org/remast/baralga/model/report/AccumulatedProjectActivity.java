@@ -2,7 +2,6 @@ package org.remast.baralga.model.report;
 
 import java.util.Date;
 
-import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.joda.time.DateTime;
 import org.remast.baralga.model.Project;
@@ -84,12 +83,8 @@ public class AccumulatedProjectActivity implements Comparable<AccumulatedProject
             return 0;
         }
         
-        final CompareToBuilder compareBuilder = new CompareToBuilder();
-        compareBuilder.append(this.getProject(), activity.getProject());
-        compareBuilder.append(this.day.getDayOfYear(), activity.day.getDayOfYear());
-        compareBuilder.append(this.day.getYear(), activity.day.getYear());
-
-        // The latest activity is always on top.
-        return compareBuilder.toComparison();
+        // Sort by start date but the other way round. That way the latest
+        // activity is always on top.
+        return getDay().compareTo(activity.getDay()) * -1;
     }
 }
