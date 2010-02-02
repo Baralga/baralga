@@ -1,6 +1,9 @@
 package org.remast.baralga.gui.panels.report;
 
 import java.awt.BorderLayout;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -43,6 +46,7 @@ import ca.odell.glazedlists.swing.EventComboBoxModel;
 import ca.odell.glazedlists.swing.EventTableModel;
 
 import com.jidesoft.swing.JideScrollPane;
+import com.jidesoft.utils.BasicTransferable;
 
 /**
  * @author remast
@@ -152,6 +156,7 @@ public class AllActitvitiesPanel extends JPanel implements Observer {
 
         };
         editAction.setEnabled(false);
+        contextMenu.add(editAction);
 
         contextMenu.add(new AbstractAction(textBundle.textFor("AllActitvitiesPanel.Delete"), new ImageIcon(getClass().getResource("/icons/gtk-delete.png"))) { //$NON-NLS-1$
 
@@ -172,8 +177,28 @@ public class AllActitvitiesPanel extends JPanel implements Observer {
 
         });
 
-        contextMenu.add(editAction);
+        final Action copyDescriptionAction = new AbstractAction(textBundle.textFor("AllActitvitiesPanel.CopyDescription"), new ImageIcon(getClass().getResource("/icons/gtk-copy.png"))) { //$NON-NLS-1$
 
+            public void actionPerformed(final ActionEvent event) {
+            	// 1. Get selected activities
+            	final int[] selectionIndices = table.getSelectedRows();
+
+            	if (selectionIndices.length == 0) {
+            		return;
+            	}
+
+            	final ProjectActivity activity = model.getActivitiesList().get(selectionIndices[0]);
+
+            	// Copy description to clipboard.
+            	final Transferable transferable  = new BasicTransferable(org.remast.util.StringUtils.stripXmlTags(activity.getDescription()), activity.getDescription());
+            	final Clipboard  clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            	clipboard.setContents(transferable, null);
+            }
+
+        };
+        contextMenu.add(copyDescriptionAction);
+        copyDescriptionAction.setEnabled(false);
+        
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(final MouseEvent e) {
@@ -204,8 +229,10 @@ public class AllActitvitiesPanel extends JPanel implements Observer {
                     if (selectionIndices.length > 1) {
                         // edit action works only on a single cell
                         editAction.setEnabled(false);
+                        copyDescriptionAction.setEnabled(false);
                     } else {
                         editAction.setEnabled(true);
+                        copyDescriptionAction.setEnabled(true);
                     }
                     contextMenu.show(e.getComponent(), e.getX(), e.getY());
                 }
