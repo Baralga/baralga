@@ -63,7 +63,8 @@ public class LabeledItem<E extends Comparable<E>> implements Comparable<LabeledI
         return String.valueOf(this.item);
     }
 
-    @Override
+	@Override
+	@SuppressWarnings("unchecked")
     public boolean equals(final Object obj) {
         if (obj == null || !(obj instanceof LabeledItem)) {
             return false;

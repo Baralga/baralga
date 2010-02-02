@@ -79,7 +79,8 @@ public class HoursByMonthReport extends Observable implements Observer  {
     /**
      * {@inheritDoc}
      */
-    public void update(final Observable source, final Object eventObject) {
+    @SuppressWarnings("unchecked")
+	public void update(final Observable source, final Object eventObject) {
         if (eventObject != null && eventObject instanceof BaralgaEvent) {
             final BaralgaEvent event = (BaralgaEvent) eventObject;
             switch (event.getType()) {

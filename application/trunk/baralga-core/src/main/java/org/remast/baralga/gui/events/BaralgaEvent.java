@@ -121,7 +121,8 @@ public class BaralgaEvent {
         }
     }
 
-    public String getRedoText() {
+    @SuppressWarnings("unchecked")
+	public String getRedoText() {
         switch (this.type) {
         case PROJECT_ACTIVITY_REMOVED:
         {

@@ -85,7 +85,8 @@ public class ProjectFilterList implements Observer {
         return new SortedList<LabeledItem<Project>>(this.projectList);
     }
 
-    public void update(final Observable source, final Object eventObject) {
+    @SuppressWarnings("unchecked")
+	public void update(final Observable source, final Object eventObject) {
         if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
             return;
         }
