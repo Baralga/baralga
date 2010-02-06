@@ -1,6 +1,5 @@
 == Known Bugs ==
- * Only one activity can be deleted at a time.
- * Activities in all activities table are sorted by date but not by time.
+ * Hours by week should show week of year for each year (not as a sum of all years).
 
 
 == Further Development ==
@@ -20,6 +19,8 @@ Fixes
  * Time reports updated correctly after data import.
  * Sort order in Excel and CSV reports (Issue #53 http://baralga.origo.ethz.ch/node/149).
  * Week 53 in the Filters list (1.4.3) causes fatal error (Issue #55 http://baralga.origo.ethz.ch/node/151)
+ * Activities in all activities table are sorted by date but not by time.
+ * Hours by month shows months for each year (not as a sum of all years).
  
 Misc
  * Apply filter only if the filter has actually changed.
