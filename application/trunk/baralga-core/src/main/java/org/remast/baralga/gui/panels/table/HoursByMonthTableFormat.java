@@ -1,6 +1,5 @@
 package org.remast.baralga.gui.panels.table;
 
-import org.joda.time.DateTime;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.model.report.HoursByMonth;
 import org.remast.util.TextResourceBundle;
@@ -40,7 +39,7 @@ public class HoursByMonthTableFormat implements TableFormat<HoursByMonth> {
     public Object getColumnValue(final HoursByMonth baseObject, final int column) {
         switch (column) {
         case 0:
-            return new DateTime().withMonthOfYear(baseObject.getMonth()).toDate();
+            return baseObject.getMonth();
         case 1:
             return baseObject.getHours();
         default:

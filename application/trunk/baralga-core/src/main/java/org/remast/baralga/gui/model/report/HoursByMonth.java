@@ -1,6 +1,11 @@
 package org.remast.baralga.gui.model.report;
 
+import java.util.Date;
+
+import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.joda.time.DateTime;
 
 /**
  * Item of the hours by month report.
@@ -9,12 +14,12 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 public class HoursByMonth implements Comparable<HoursByMonth> {
     
     /** The month of the year. */
-    private int month;
+    private DateTime month;
     
     /** The amount of hours worked that month. */
     private double hours;
     
-    public HoursByMonth(final int month, final double hours) {
+    public HoursByMonth(final DateTime month, final double hours) {
         this.month = month;
         this.hours = hours;
     }
@@ -22,8 +27,8 @@ public class HoursByMonth implements Comparable<HoursByMonth> {
     /**
      * @return the month
      */
-    public int getMonth() {
-        return month;
+    public Date getMonth() {
+        return month.toDate();
     }
 
     /**
@@ -45,7 +50,9 @@ public class HoursByMonth implements Comparable<HoursByMonth> {
         final HoursByMonth accAct = (HoursByMonth) that;
         
         final EqualsBuilder eqBuilder = new EqualsBuilder();
-        eqBuilder.append(this.getMonth(), accAct.getMonth());
+        eqBuilder.append(this.month.getYear(), accAct.month.getYear());
+        eqBuilder.append(this.month.getMonthOfYear(), accAct.month.getMonthOfYear());
+        
         return eqBuilder.isEquals();
     }
 
@@ -67,12 +74,22 @@ public class HoursByMonth implements Comparable<HoursByMonth> {
             return 0;
         }
         
-        return Integer.valueOf(this.month).compareTo(that.getMonth());
+        final CompareToBuilder compareBuilder = new CompareToBuilder();
+        
+        compareBuilder.append(month.getYear(), that.month.getYear());
+        compareBuilder.append(month.getMonthOfYear(), that.month.getMonthOfYear());
+        
+        return compareBuilder.toComparison();
     }
     
     @Override
     public int hashCode() {
-        return this.getMonth();
+    	final HashCodeBuilder hashCodeBuilder = new HashCodeBuilder();
+    	
+    	hashCodeBuilder.append(month.getYear());
+    	hashCodeBuilder.append(month.getMonthOfYear());
+    	
+        return hashCodeBuilder.toHashCode();
     }
 
 }

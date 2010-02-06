@@ -61,7 +61,7 @@ public class HoursByMonthReport extends Observable implements Observer  {
 
         final DateTime dateTime = activity.getStart();
 
-        final HoursByMonth newHoursByMonth = new HoursByMonth(dateTime.getMonthOfYear(), activity.getDuration());
+        final HoursByMonth newHoursByMonth = new HoursByMonth(dateTime, activity.getDuration());
 
         if (this.hoursByMonthList.contains(newHoursByMonth)) {
             HoursByMonth hoursByMonth = this.hoursByMonthList.get(hoursByMonthList.indexOf(newHoursByMonth));

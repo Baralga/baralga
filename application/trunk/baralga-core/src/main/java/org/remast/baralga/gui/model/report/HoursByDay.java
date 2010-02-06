@@ -2,6 +2,9 @@ package org.remast.baralga.gui.model.report;
 
 import java.util.Date;
 
+import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
 
 /**
@@ -45,7 +48,13 @@ public class HoursByDay implements Comparable<HoursByDay> {
         }
 
         final HoursByDay accAct = (HoursByDay) that;
-        return this.day.getDayOfYear() == accAct.day.getDayOfYear();
+        
+        final EqualsBuilder equalsBuilder = new EqualsBuilder();
+        
+        equalsBuilder.append(day.getYear(), accAct.day.getYear());
+        equalsBuilder.append(day.getDayOfYear(), accAct.day.getDayOfYear());
+
+        return equalsBuilder.isEquals();
     }
 
     /**
@@ -66,14 +75,24 @@ public class HoursByDay implements Comparable<HoursByDay> {
             return 0;
         }
         
+        final CompareToBuilder compareBuilder = new CompareToBuilder();
+        
+        compareBuilder.append(day.getYear(), that.day.getYear());
+        compareBuilder.append(day.getDayOfYear(), that.day.getDayOfYear());
+        
         // Sort by start date but the other way round. That way the latest
         // activity is always on top.
-        return this.getDay().compareTo(that.getDay()) * -1;
+        return compareBuilder.toComparison() * -1;
     }
     
     @Override
     public int hashCode() {
-        return this.getDay().hashCode();
+    	final HashCodeBuilder hashCodeBuilder = new HashCodeBuilder();
+    	
+    	hashCodeBuilder.append(day.getYear());
+    	hashCodeBuilder.append(day.getDayOfYear());
+    	
+        return hashCodeBuilder.toHashCode();
     }
 
 }
