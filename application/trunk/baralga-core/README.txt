@@ -1,5 +1,4 @@
 == Known Bugs ==
- * Hours by week should show week of year for each year (not as a sum of all years).
 
 
 == Further Development ==
@@ -21,6 +20,7 @@ Fixes
  * Week 53 in the Filters list (1.4.3) causes fatal error (Issue #55 http://baralga.origo.ethz.ch/node/151)
  * Activities in all activities table are sorted by date but not by time.
  * Hours by month shows months for each year (not as a sum of all years).
+ * Hours by week shows week of year for each year (not as a sum of all years).
  
 Misc
  * Apply filter only if the filter has actually changed.
