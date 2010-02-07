@@ -60,8 +60,9 @@ public class HoursByMonthPanel extends JXPanel implements Observer {
         table.setHighlighters(GuiConstants.HIGHLIGHTERS);
         table.setAutoResizeMode(JXTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         
-        table.getColumn(0).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(new SimpleDateFormat("MM MMMMMMMMMM yyyy"))));
-        table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.durationFormat)));
+        table.getColumn(0).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(new SimpleDateFormat("MM MMMMMMMMMM"))));
+        table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(new SimpleDateFormat("yyyy"))));
+        table.getColumn(2).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.durationFormat)));
         
         JideScrollPane table_scroll_pane = new JideScrollPane(table);
 

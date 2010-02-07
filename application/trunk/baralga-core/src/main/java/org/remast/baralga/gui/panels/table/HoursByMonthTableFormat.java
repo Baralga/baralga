@@ -18,7 +18,7 @@ public class HoursByMonthTableFormat implements TableFormat<HoursByMonth> {
      * Gets the number of columns for the table.
      */
     public int getColumnCount() {
-        return 2;
+        return 3;
     }
 
     /**
@@ -30,7 +30,9 @@ public class HoursByMonthTableFormat implements TableFormat<HoursByMonth> {
         case 0:
             return textBundle.textFor("HoursByMonthTableFormat.MonthHeading"); //$NON-NLS-1$
         case 1:
-            return textBundle.textFor("HoursByMonthTableFormat.HoursHeading"); //$NON-NLS-1$
+            return textBundle.textFor("HoursByMonthTableFormat.YearHeading"); //$NON-NLS-1$
+        case 2:
+        	return textBundle.textFor("HoursByMonthTableFormat.HoursHeading"); //$NON-NLS-1$
         default:
             return null;
         }
@@ -41,6 +43,8 @@ public class HoursByMonthTableFormat implements TableFormat<HoursByMonth> {
         case 0:
             return baseObject.getMonth();
         case 1:
+        	return baseObject.getMonth();
+        case 2:
             return baseObject.getHours();
         default:
             return null;
