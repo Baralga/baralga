@@ -61,7 +61,7 @@ public class HoursByWeekReport extends Observable implements Observer  {
 
         final DateTime dateTime = activity.getStart();
 
-        final HoursByWeek newHoursByWeek = new HoursByWeek(dateTime.getWeekOfWeekyear(), activity.getDuration());
+        final HoursByWeek newHoursByWeek = new HoursByWeek(dateTime, activity.getDuration());
 
         if (this.hoursByWeekList.contains(newHoursByWeek)) {
             HoursByWeek hoursByWeek = this.hoursByWeekList.get(hoursByWeekList.indexOf(newHoursByWeek));

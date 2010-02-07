@@ -18,7 +18,7 @@ public class HoursByWeekTableFormat implements TableFormat<HoursByWeek> {
      * Gets the number of columns for the table.
      */
     public int getColumnCount() {
-        return 2;
+        return 3;
     }
 
     /**
@@ -30,6 +30,8 @@ public class HoursByWeekTableFormat implements TableFormat<HoursByWeek> {
         case 0:
             return textBundle.textFor("HoursByWeekTableFormat.WeekHeading"); //$NON-NLS-1$
         case 1:
+        	return textBundle.textFor("HoursByWeekTableFormat.YearHeading"); //$NON-NLS-1$
+        case 2:
             return textBundle.textFor("HoursByWeekTableFormat.HoursHeading"); //$NON-NLS-1$
         default:
             return null;
@@ -41,6 +43,8 @@ public class HoursByWeekTableFormat implements TableFormat<HoursByWeek> {
         case 0:
             return baseObject.getWeek();
         case 1:
+        	return baseObject.getWeek();
+        case 2:
             return baseObject.getHours();
         default:
             return null;
