@@ -2,7 +2,9 @@ package org.remast.baralga.model.report;
 
 import java.util.Date;
 
+import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
 import org.remast.baralga.model.Project;
 
@@ -64,6 +66,7 @@ public class AccumulatedProjectActivity implements Comparable<AccumulatedProject
         final AccumulatedProjectActivity accAct = (AccumulatedProjectActivity) that;
         
         final EqualsBuilder eqBuilder = new EqualsBuilder();
+
         eqBuilder.append(this.getProject(), accAct.getProject());
         eqBuilder.append(this.day.getDayOfYear(), accAct.day.getDayOfYear());
         eqBuilder.append(this.day.getYear(), accAct.day.getYear());
@@ -73,8 +76,13 @@ public class AccumulatedProjectActivity implements Comparable<AccumulatedProject
     
     @Override
     public int hashCode() {
-        // Unique for each project so use hash code of project
-        return this.getProject().hashCode();
+        final HashCodeBuilder hashBuilder = new HashCodeBuilder();
+
+        hashBuilder.append(this.getProject());
+        hashBuilder.append(this.day.getDayOfYear());
+        hashBuilder.append(this.day.getYear());
+        
+        return hashBuilder.toHashCode();
     }
     
     @Override
@@ -83,8 +91,15 @@ public class AccumulatedProjectActivity implements Comparable<AccumulatedProject
             return 0;
         }
         
+        final CompareToBuilder compareBuilder = new CompareToBuilder();
+
+        compareBuilder.append(this.getProject(), activity.getProject());
+        compareBuilder.append(this.day.getDayOfYear(), activity.day.getDayOfYear());
+        compareBuilder.append(this.day.getYear(), activity.day.getYear());
+        
         // Sort by start date but the other way round. That way the latest
         // activity is always on top.
-        return getDay().compareTo(activity.getDay()) * -1;
+        return compareBuilder.toComparison();
+//        return getDay().compareTo(activity.getDay()) * -1;
     }
 }
