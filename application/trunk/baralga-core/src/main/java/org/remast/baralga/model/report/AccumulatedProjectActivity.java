@@ -93,13 +93,10 @@ public class AccumulatedProjectActivity implements Comparable<AccumulatedProject
         
         final CompareToBuilder compareBuilder = new CompareToBuilder();
 
-        compareBuilder.append(this.getProject(), activity.getProject());
-        compareBuilder.append(this.day.getDayOfYear(), activity.day.getDayOfYear());
-        compareBuilder.append(this.day.getYear(), activity.day.getYear());
+        compareBuilder.append(this.day, activity.day);
         
         // Sort by start date but the other way round. That way the latest
         // activity is always on top.
-        return compareBuilder.toComparison();
-//        return getDay().compareTo(activity.getDay()) * -1;
+        return compareBuilder.toComparison() * -1;
     }
 }
