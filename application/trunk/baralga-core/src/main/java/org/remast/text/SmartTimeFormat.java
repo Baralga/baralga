@@ -72,6 +72,8 @@ public class SmartTimeFormat extends TimeFormat {
      */
     private static String normalize(final String timeString) {
         String time = timeString;
+        time = StringUtils.replace(time, ",,", ":");
+        time = StringUtils.replaceChars(time, '/', ':');
         time = StringUtils.replaceChars(time, ';', ',');
         time = StringUtils.replaceChars(time, '.', ':');
         
