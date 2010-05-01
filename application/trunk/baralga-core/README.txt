@@ -7,6 +7,7 @@
 
 == Baralga Version 1.4.4 ==
 Functionality
+ * Easy add times mit Num Block ',' -> ':' (Issue #60 http://baralga.origo.ethz.ch/node/156)
  * Filter for activities by day (Issue #45 http://baralga.origo.ethz.ch/node/138).
  * Projects can be deactivated to hide them (Issue #42 http://baralga.origo.ethz.ch/node/132).
  * Delete works for many activities.
