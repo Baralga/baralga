@@ -80,8 +80,9 @@ public class HoursByWeek implements Comparable<HoursByWeek> {
         compareBuilder.append(this.week.getYear(), that.week.getYear());
         compareBuilder.append(this.week.getWeekOfWeekyear(), that.week.getWeekOfWeekyear());
 
-        
-        return compareBuilder.toComparison();
+        // Sort by start date but the other way round. That way the latest
+        // activity is always on top.
+        return compareBuilder.toComparison() * -1;
     }
     
     @Override

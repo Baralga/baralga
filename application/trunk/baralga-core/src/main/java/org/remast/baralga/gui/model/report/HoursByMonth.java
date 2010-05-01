@@ -79,7 +79,9 @@ public class HoursByMonth implements Comparable<HoursByMonth> {
         compareBuilder.append(month.getYear(), that.month.getYear());
         compareBuilder.append(month.getMonthOfYear(), that.month.getMonthOfYear());
         
-        return compareBuilder.toComparison();
+        // Sort by start date but the other way round. That way the latest
+        // activity is always on top.
+        return compareBuilder.toComparison() * -1;
     }
     
     @Override

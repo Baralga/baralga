@@ -12,6 +12,7 @@ Functionality
  * Delete works for many activities.
 
 Fixes
+ * Fixed sort order in hours by month and hours by week.
  * Sorting in all activities table by date and time fixed.
  * Layout of manage projects dialog fixed (Issue #28 http://baralga.origo.ethz.ch/node/113).
  * Descriptions updated correctly after data import.
