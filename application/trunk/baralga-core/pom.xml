@@ -9,7 +9,7 @@
 	<groupId>com.remast.baralga</groupId>
 	<artifactId>baralga-core</artifactId>
 	<name>Baralga Application</name>
-	<version>1.4.4-SNAPSHOT</version>
+	<version>1.4.4</version>
 	<properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -206,7 +206,7 @@
 		<dependency>
 			<groupId>com.jidesoft</groupId>
 			<artifactId>jide-oss</artifactId>
-			<version>2.8.2</version>
+			<version>2.8.4</version>
 		</dependency>
 		<dependency>
 			<groupId>joda-time</groupId>
