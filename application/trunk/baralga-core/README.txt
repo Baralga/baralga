@@ -3,6 +3,11 @@
 
 == Further Development ==
  * Support for pluggable exporters.
+
+
+== Baralga Version 1.4.5 ==
+Fixes
+ * Bug in "Accumulated activities"  (Issue #72 http://baralga.origo.ethz.ch/issues/72).
  
 
 == Baralga Version 1.4.4 ==
