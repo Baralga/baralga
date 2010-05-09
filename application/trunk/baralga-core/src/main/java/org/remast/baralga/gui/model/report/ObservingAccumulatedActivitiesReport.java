@@ -16,7 +16,7 @@ public class ObservingAccumulatedActivitiesReport extends AccumulatedActivitiesR
     private final PresentationModel model;
 
     public ObservingAccumulatedActivitiesReport(final PresentationModel model) {
-        super(model.getData(), model.getFilter());
+        super(model.getActivitiesList(), model.getFilter());
 
         this.model = model;
         this.model.addObserver(this);
@@ -57,7 +57,7 @@ public class ObservingAccumulatedActivitiesReport extends AccumulatedActivitiesR
             break;
 
         case BaralgaEvent.DATA_CHANGED:
-            setData(model.getData());
+            setData(model.getActivitiesList());
             break;
         }
         

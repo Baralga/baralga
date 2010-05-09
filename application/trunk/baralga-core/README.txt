@@ -5,6 +5,11 @@
  * Support for pluggable exporters.
 
 
+== Baralga Version 1.5 ==
+Enhancements
+ * Store data in database instead of xml files (Issue #54 http://baralga.origo.ethz.ch/node/150).
+
+
 == Baralga Version 1.4.5 ==
 Fixes
  * Bug in "Accumulated activities"  (Issue #72 http://baralga.origo.ethz.ch/issues/72).

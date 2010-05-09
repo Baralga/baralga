@@ -16,7 +16,7 @@ public class Project implements Serializable, Comparable<Project> {
     private static final long serialVersionUID = 1L;
 
     /** The unique identifier of the project. */
-    private final long id;
+    private long id;
     
     /** The title of the project. */
     private String title;
@@ -53,6 +53,10 @@ public class Project implements Serializable, Comparable<Project> {
      */
     public long getId() {
         return id;
+    }
+    
+    public void setId(long id) {
+    	this.id = id;
     }
 
     /**

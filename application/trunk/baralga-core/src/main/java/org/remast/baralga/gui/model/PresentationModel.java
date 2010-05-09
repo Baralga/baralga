@@ -94,11 +94,14 @@ public class PresentationModel extends Observable {
     /** The stack of edit actions (for undo and redo). */
     private EditStack editStack;
 
+	private BaralgaDAO baralgaDAO;
+
     /**
      * Creates a new model.
      */
     public PresentationModel() {
         this.data = new ProTrack();
+        this.baralgaDAO = new BaralgaDAO();
         this.projectList = new SortedList<Project>(new BasicEventList<Project>());
         this.allProjectsList = new SortedList<Project>(new BasicEventList<Project>());
         this.activitiesList = new SortedList<ProjectActivity>(new BasicEventList<ProjectActivity>());
@@ -115,14 +118,14 @@ public class PresentationModel extends Observable {
         this.selectedProject = this.data.getActiveProject();
 
         this.projectList.clear();
-        for (Project project : this.data.getProjects()) {
+        for (Project project : this.baralgaDAO.getActiveProjects()) {
             if (project.isActive()) {
                 this.projectList.add(project);        
             }
         }
 
         this.allProjectsList.clear();
-        this.allProjectsList.addAll(this.data.getProjects());
+        this.allProjectsList.addAll(this.baralgaDAO.getAllProjects());
 
         this.activitiesList.clear();
 
@@ -162,9 +165,9 @@ public class PresentationModel extends Observable {
         this.activitiesList.clear();
 
         if (this.filter == null) {
-            this.activitiesList.addAll(this.data.getActivities());
+            this.activitiesList.addAll(this.baralgaDAO.getActivities());
         } else {
-            this.activitiesList.addAll(this.filter.applyFilters(this.data.getActivities()));
+            this.activitiesList.addAll(this.filter.applyFilters(this.baralgaDAO.getActivities()));
         }
     }
 
@@ -174,7 +177,9 @@ public class PresentationModel extends Observable {
      * @param source the source of the edit activity
      */
     public final void addProject(final Project project, final Object source) {
-        getData().add(project);
+//        getData().add(project);
+        this.baralgaDAO.addProject(project);
+        
         this.projectList.add(project);
         this.allProjectsList.add(project);
 
@@ -193,7 +198,9 @@ public class PresentationModel extends Observable {
      * @param source the source of the edit activity
      */
     public final void removeProject(final Project project, final Object source) {
-        getData().remove(project);
+//        getData().remove(project);
+        this.baralgaDAO.remove(project);
+        
         this.projectList.remove(project);
         this.allProjectsList.remove(project);
 
@@ -236,7 +243,8 @@ public class PresentationModel extends Observable {
         }
 
         setStart(start);
-        getData().start(start);
+//        getData().start(start);
+        this.baralgaDAO.start(start);
 
         // Fire start event
         final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_STARTED);
@@ -277,6 +285,8 @@ public class PresentationModel extends Observable {
         final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_CHANGED);
         event.setData(changedProject);
         event.setPropertyChangeEvent(propertyChangeEvent);
+        
+        this.baralgaDAO.updateProject(changedProject);
 
         // Mark data as dirty
         this.dirty = true;
@@ -301,6 +311,8 @@ public class PresentationModel extends Observable {
         final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_CHANGED);
         event.setData(changedActivity);
         event.setPropertyChangeEvent(propertyChangeEvent);
+
+        this.baralgaDAO.updateActivity(changedActivity);
 
         // Check whether the activity has been filtered before and whether it is filtered now (after the change).
         final boolean matchesFilter = filter != null && filter.matchesCriteria(changedActivity);
@@ -359,7 +371,8 @@ public class PresentationModel extends Observable {
 
             final ProjectActivity activityOnEndDay = new ProjectActivity(start2, stop2,
                     getSelectedProject(), this.description);
-            getData().addActivity(activityOnEndDay);
+//            getData().addActivity(activityOnEndDay);
+            this.baralgaDAO.addActivity(activityOnEndDay);
             this.activitiesList.add(activityOnEndDay);
 
             // Create Event for Project Activity
@@ -373,14 +386,16 @@ public class PresentationModel extends Observable {
 
         final ProjectActivity activityOnStartDay = new ProjectActivity(start, stop,
                 getSelectedProject(), this.description);
-        getData().addActivity(activityOnStartDay);
+//        getData().addActivity(activityOnStartDay);
+        this.baralgaDAO.addActivity(activityOnStartDay);
         this.activitiesList.add(activityOnStartDay);
 
         // Clear old activity
         description = StringUtils.EMPTY;
         UserSettings.instance().setLastDescription(StringUtils.EMPTY);
         setActive(false);
-        getData().stop();
+//        getData().stop();
+        this.baralgaDAO.stop();
         start = null;
 
         // Mark data as dirty
@@ -437,7 +452,8 @@ public class PresentationModel extends Observable {
             // 2. Track recorded project activity.
             final ProjectActivity activity = new ProjectActivity(start, stop, previousProject, description);
 
-            getData().addActivity(activity);
+//            getData().addActivity(activity);
+            this.baralgaDAO.addActivity(activity);
             this.activitiesList.add(activity);
 
             // Clear description
@@ -494,7 +510,8 @@ public class PresentationModel extends Observable {
     }
     
     public final void addActivities(final Collection<ProjectActivity> activities, final Object source) {
-        getData().addActivities(activities);
+//        getData().addActivities(activities);
+        this.baralgaDAO.addActivities(activities);
 
         if (this.filter == null) {
             this.getActivitiesList().addAll(activities);
@@ -525,7 +542,8 @@ public class PresentationModel extends Observable {
     }
 
     public final void removeActivities(final Collection<ProjectActivity> activities, final Object source) {
-        getData().removeActivities(activities);
+//        getData().removeActivities(activities);
+        this.baralgaDAO.removeActivities(activities);
         this.getActivitiesList().removeAll(activities);
 
         // Mark data as dirty
@@ -713,23 +731,23 @@ public class PresentationModel extends Observable {
      * @param data the data to set
      */
     public void setData(final ProTrack data) {
-        if (ObjectUtils.equals(this.data, data)) {
-            return;
-        }
-
-        this.data = data;
-
-        initialize();
-
-        // Fire event for changed data
-        final BaralgaEvent eventDataChanged = new BaralgaEvent(BaralgaEvent.DATA_CHANGED, this);
-        notify(eventDataChanged);
-
-        // Fire event for changed project
-        final BaralgaEvent projectChangedEvent = new BaralgaEvent(BaralgaEvent.PROJECT_CHANGED, this);
-        final Project project = this.data.getActiveProject();
-        projectChangedEvent.setData(project);
-        notify(projectChangedEvent);    
+//        if (ObjectUtils.equals(this.data, data)) {
+//            return;
+//        }
+//
+//        this.data = data;
+//
+//        initialize();
+//
+//        // Fire event for changed data
+//        final BaralgaEvent eventDataChanged = new BaralgaEvent(BaralgaEvent.DATA_CHANGED, this);
+//        notify(eventDataChanged);
+//
+//        // Fire event for changed project
+//        final BaralgaEvent projectChangedEvent = new BaralgaEvent(BaralgaEvent.PROJECT_CHANGED, this);
+//        final Project project = this.data.getActiveProject();
+//        projectChangedEvent.setData(project);
+//        notify(projectChangedEvent);    
     }
 
     /**

@@ -147,7 +147,7 @@ public class ExcelExporter implements Exporter {
         
         final WritableSheet sheet = workbook.createSheet(reportName, 0);
 
-        final AccumulatedActivitiesReport report = new AccumulatedActivitiesReport(data, filter);
+        final AccumulatedActivitiesReport report = new AccumulatedActivitiesReport(data.getActivities(), filter);
 
         int row = 0;
         int col = 0;

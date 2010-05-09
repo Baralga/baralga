@@ -3,7 +3,6 @@ package org.remast.baralga.model.report;
 import java.util.List;
 import java.util.Observable;
 
-import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 
@@ -13,7 +12,7 @@ import ca.odell.glazedlists.SortedList;
 public class AccumulatedActivitiesReport extends Observable {
 
     /** The data of the report. */
-    private ProTrack data;
+    private List<ProjectActivity> data;
 
     /** Accumulated activities of the report. */
     private SortedList<AccumulatedProjectActivity> accumulatedActivitiesByDay;
@@ -25,7 +24,7 @@ public class AccumulatedActivitiesReport extends Observable {
      * Create report from data.
      * @param filter 
      */
-    public AccumulatedActivitiesReport(final ProTrack data, Filter filter) {
+    public AccumulatedActivitiesReport(final  List<ProjectActivity> data, Filter filter) {
         this.data = data;
         this.filter = filter;
         this.accumulatedActivitiesByDay = new SortedList<AccumulatedProjectActivity>(new BasicEventList<AccumulatedProjectActivity>());
@@ -81,9 +80,9 @@ public class AccumulatedActivitiesReport extends Observable {
      */
     private List<ProjectActivity> getFilteredActivities() {
         if (filter != null) {
-            return filter.applyFilters(this.data.getActivities());
+            return filter.applyFilters(this.data);
         } else {
-            return this.data.getActivities();
+            return this.data;
         }
     }
 
@@ -114,7 +113,7 @@ public class AccumulatedActivitiesReport extends Observable {
      * @param data
      *            the data to set
      */
-    public void setData(final ProTrack data) {
+    public void setData(final List<ProjectActivity> data) {
         this.data = data;
         accumulate();
     }
