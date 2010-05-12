@@ -75,11 +75,7 @@ public class ExcelExporter implements Exporter {
             col = 0;
             row++;
 
-            List<ProjectActivity> activities = new ArrayList<ProjectActivity>(data);
-            
-            if (filter != null)  {
-                activities = new ArrayList<ProjectActivity>(filter.applyFilters(data));
-            }
+            final List<ProjectActivity> activities = new ArrayList<ProjectActivity>(data);
             
             // Sort activities by default sort order (date) before export
             Collections.sort(activities);

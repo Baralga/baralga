@@ -91,11 +91,8 @@ public class PresentationModelTest {
      */
     @Test
     public void testChangeProject() {
-        model.setDirty(false);
-        
         model.changeProject(project1);
         assertEquals(project1, model.getSelectedProject());
-        assertEquals(true, model.isDirty());
 
         model.changeProject(project2);
         assertEquals(project2, model.getSelectedProject());
@@ -106,12 +103,10 @@ public class PresentationModelTest {
 
     @Test
     public void testExceptionOnDoubleStart() throws ProjectActivityStateException {
-        model.setDirty(false);
         model.changeProject(project1);
         model.start();
         
         assertTrue(model.isActive());
-        assertTrue(model.isDirty());
         
         try {
             model.start();

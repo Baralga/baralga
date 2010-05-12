@@ -69,20 +69,8 @@ public class AccumulatedActivitiesReport extends Observable {
     protected void accumulate() {
         this.accumulatedActivitiesByDay.clear();
 
-        for (ProjectActivity activity : getFilteredActivities()) {
+        for (ProjectActivity activity : this.data) {
             this.acummulateActivity(activity);
-        }
-    }
-
-    /**
-     * Get all filtered activities.
-     * @return all activities after applying the filter.
-     */
-    private List<ProjectActivity> getFilteredActivities() {
-        if (filter != null) {
-            return filter.applyFilters(this.data);
-        } else {
-            return this.data;
         }
     }
 

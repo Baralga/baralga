@@ -1,9 +1,5 @@
 package org.remast.baralga.gui.model;
 
-import java.awt.Dimension;
-import java.awt.MouseInfo;
-import java.awt.Point;
-import java.awt.Toolkit;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +32,6 @@ import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
-import org.remast.swing.util.AWTUtils;
 import org.remast.util.DateUtils;
 import org.remast.util.TextResourceBundle;
 
@@ -75,13 +70,6 @@ public class PresentationModel extends Observable {
 
     /** Flag indicating whether selected project is active or not. */
     private boolean active;
-
-    /** Flag indicating whether data has been saved after last change.
-     * 
-     * Also - because it's volatile - acts as a memory barrier, so
-     * different threads can see the changes.
-     */
-    private volatile boolean dirty = false;
 
     /** Start date of activity. */
     private DateTime start;
@@ -185,9 +173,6 @@ public class PresentationModel extends Observable {
         this.projectList.add(project);
         this.allProjectsList.add(project);
 
-        // Mark data as dirty
-        this.dirty = true;
-
         final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ADDED, source);
         event.setData(project);
 
@@ -208,9 +193,6 @@ public class PresentationModel extends Observable {
         
         this.projectList.remove(project);
         this.allProjectsList.remove(project);
-
-        // Mark data as dirty
-        this.dirty = true;
 
         final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_REMOVED, source);
         event.setData(project);
@@ -256,9 +238,6 @@ public class PresentationModel extends Observable {
 
         // Mark as active
         setActive(true);
-
-        // Mark data as dirty
-        this.dirty = true;
 
         // Set start time to now if null
         DateTime start;
@@ -314,9 +293,6 @@ public class PresentationModel extends Observable {
         
         this.baralgaDAO.updateProject(changedProject);
 
-        // Mark data as dirty
-        this.dirty = true;
-
         notify(event);
 
         if (propertyChangeEvent.getPropertyName().equals(Project.PROPERTY_ACTIVE)) {
@@ -353,9 +329,6 @@ public class PresentationModel extends Observable {
                 activitiesList.add(changedActivity);
             }            
         }
-
-        // Mark data as dirty
-        this.dirty = true;
 
         notify(event);
     }
@@ -424,9 +397,6 @@ public class PresentationModel extends Observable {
         this.baralgaDAO.stop();
         start = null;
 
-        // Mark data as dirty
-        this.dirty = true;
-
         if (notifyObservers) {
             // Create Event for Project Activity
             BaralgaEvent event  = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED);
@@ -464,9 +434,6 @@ public class PresentationModel extends Observable {
 
 //        // Set active project to new project
 //        this.data.setActiveProject(activeProject);
-
-        // Mark data as dirty
-        this.dirty = true;
 
         final DateTime now = DateUtils.getNowAsDateTime();
 
@@ -539,16 +506,7 @@ public class PresentationModel extends Observable {
 //        getData().addActivities(activities);
         this.baralgaDAO.addActivities(activities);
 
-        if (this.filter == null) {
-            this.getActivitiesList().addAll(activities);
-        } else {
-            this.getActivitiesList().addAll(
-                    this.filter.applyFilters(activities)
-            );
-        }
-        
-        // Mark data as dirty
-        this.dirty = true;
+        applyFilter();
 
         // Fire event
         final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED, source);
@@ -571,9 +529,6 @@ public class PresentationModel extends Observable {
 //        getData().removeActivities(activities);
         this.baralgaDAO.removeActivities(activities);
         this.getActivitiesList().removeAll(activities);
-
-        // Mark data as dirty
-        this.dirty = true;
 
         // Fire event
         final BaralgaEvent event = new BaralgaEvent(
@@ -831,20 +786,6 @@ public class PresentationModel extends Observable {
      */
     public final EditStack getEditStack() {
         return editStack;
-    }
-
-    /**
-     * @return the dirty
-     */
-    public final boolean isDirty() {
-        return dirty;
-    }
-
-    /**
-     * @param dirty the dirty to set
-     */
-    public final void setDirty(final boolean dirty) {
-        this.dirty = dirty;
     }
 
 }

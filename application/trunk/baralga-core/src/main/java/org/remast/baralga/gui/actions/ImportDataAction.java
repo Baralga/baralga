@@ -65,7 +65,6 @@ public class ImportDataAction extends AbstractBaralgaAction {
 
                 if (doImport) {
                     getModel().setData(data);
-                    getModel().setDirty(true);
                 }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, textBundle.textFor("ImportDataAction.IOException.Message", file.getAbsolutePath()), textBundle.textFor("ImportDataAction.IOException.Heading"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$

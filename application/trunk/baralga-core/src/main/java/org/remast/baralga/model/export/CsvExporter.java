@@ -57,10 +57,7 @@ public class CsvExporter implements Exporter {
      */
     @Override
     public void export(final List<ProjectActivity> data, final Filter filter, final OutputStream outputStream) throws Exception {
-        List<ProjectActivity> activities = new ArrayList<ProjectActivity>(data);
-        if (filter != null) {
-            activities = new ArrayList<ProjectActivity>(filter.applyFilters(data));
-        }
+        final List<ProjectActivity> activities = new ArrayList<ProjectActivity>(data);
         
         // Sort activities by default sort order (date) before export
         Collections.sort(activities);
