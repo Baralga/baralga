@@ -1,10 +1,10 @@
 package org.remast.baralga.model.export;
 
 import java.io.OutputStream;
+import java.util.List;
 
-import org.remast.baralga.model.ProTrack;
+import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
-import org.remast.baralga.model.io.ProTrackWriter;
 
 /**
  * Exports the raw data of the application.
@@ -20,10 +20,10 @@ public class RawDataExporter implements Exporter {
      * @throws Exception exception during data export
      */
     @Override
-    public void export(final ProTrack data, final Filter filter, final OutputStream outputStream) throws Exception {
-        final ProTrackWriter writer = new ProTrackWriter(data);
-        writer.write(outputStream);
-        outputStream.flush();
+    public void export(final List<ProjectActivity> data, final Filter filter, final OutputStream outputStream) throws Exception {
+//        final ProTrackWriter writer = new ProTrackWriter(data);
+//        writer.write(outputStream);
+//        outputStream.flush();
     }
 
 }

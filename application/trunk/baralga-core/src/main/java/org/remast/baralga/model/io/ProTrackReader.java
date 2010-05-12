@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.remast.baralga.model.ProTrack;
@@ -38,7 +37,7 @@ public class ProTrackReader {
         } catch (IOException e) {
             throw new IOException("The file " + (file != null ? file.getName() : "<null>") + " does not contain valid Baralga data.", e);
         } finally {
-            IOUtils.closeQuietly(fis);
+        	fis.close();
         }
     }
 

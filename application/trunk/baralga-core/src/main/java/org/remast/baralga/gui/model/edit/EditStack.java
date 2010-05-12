@@ -3,7 +3,7 @@
  */
 package org.remast.baralga.gui.model.edit;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Stack;
@@ -154,12 +154,12 @@ public class EditStack implements Observer {
     private void executeUndo(final BaralgaEvent event) {
         if (BaralgaEvent.PROJECT_ACTIVITY_REMOVED == event.getType()) {
             model.addActivities(
-                    (Collection<ProjectActivity>) event.getData(),
+                    (List<ProjectActivity>) event.getData(),
                     this
             );
         } else if (BaralgaEvent.PROJECT_ACTIVITY_ADDED == event.getType()) {
             model.removeActivities(
-                    (Collection<ProjectActivity>) event.getData(),
+                    (List<ProjectActivity>) event.getData(),
                     this
             );
         }
@@ -173,12 +173,12 @@ public class EditStack implements Observer {
     private void executeRedo(final BaralgaEvent event) {
         if (BaralgaEvent.PROJECT_ACTIVITY_REMOVED == event.getType()) {
             model.removeActivities(
-                    (Collection<ProjectActivity>) event.getData(), 
+                    (List<ProjectActivity>) event.getData(), 
                     this
             );
         } else if (BaralgaEvent.PROJECT_ACTIVITY_ADDED == event.getType()) {
             model.addActivities(
-                    (Collection<ProjectActivity>) event.getData(), 
+                    (List<ProjectActivity>) event.getData(), 
                     this
             );
         }

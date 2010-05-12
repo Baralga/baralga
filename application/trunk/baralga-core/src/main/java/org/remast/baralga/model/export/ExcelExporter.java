@@ -22,7 +22,6 @@ import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 
 import org.apache.commons.lang.StringUtils;
-import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.baralga.model.report.AccumulatedActivitiesReport;
@@ -55,7 +54,7 @@ public class ExcelExporter implements Exporter {
      * @throws Exception exception during data export
      */
     @Override
-    public void export(final ProTrack data, final Filter filter, final OutputStream outputStream) throws Exception {
+    public void export(final List<ProjectActivity> data, final Filter filter, final OutputStream outputStream) throws Exception {
             init();
             
             final WritableWorkbook workbook = Workbook.createWorkbook(outputStream);
@@ -76,10 +75,10 @@ public class ExcelExporter implements Exporter {
             col = 0;
             row++;
 
-            List<ProjectActivity> activities = new ArrayList<ProjectActivity>(data.getActivities());
+            List<ProjectActivity> activities = new ArrayList<ProjectActivity>(data);
             
             if (filter != null)  {
-                activities = new ArrayList<ProjectActivity>(filter.applyFilters(data.getActivities()));
+                activities = new ArrayList<ProjectActivity>(filter.applyFilters(data));
             }
             
             // Sort activities by default sort order (date) before export
@@ -126,7 +125,7 @@ public class ExcelExporter implements Exporter {
         headingFormat.setBackground(Colour.GRAY_25);
     }
 
-    private void createFilteredReport(final WritableWorkbook workbook, final ProTrack data, final Filter filter) throws JXLException {
+    private void createFilteredReport(final WritableWorkbook workbook, final List<ProjectActivity> data, final Filter filter) throws JXLException {
         String year = "";
         if (filter != null && filter.getYear() != null) {
             year = YEAR_FORMAT.format(filter.getYear());
@@ -147,7 +146,7 @@ public class ExcelExporter implements Exporter {
         
         final WritableSheet sheet = workbook.createSheet(reportName, 0);
 
-        final AccumulatedActivitiesReport report = new AccumulatedActivitiesReport(data.getActivities(), filter);
+        final AccumulatedActivitiesReport report = new AccumulatedActivitiesReport(data, filter);
 
         int row = 0;
         int col = 0;

@@ -11,7 +11,6 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.util.TextResourceBundle;
@@ -57,10 +56,10 @@ public class CsvExporter implements Exporter {
      * @throws Exception exception during data export
      */
     @Override
-    public void export(final ProTrack data, final Filter filter, final OutputStream outputStream) throws Exception {
-        List<ProjectActivity> activities = new ArrayList<ProjectActivity>(data.getActivities());
+    public void export(final List<ProjectActivity> data, final Filter filter, final OutputStream outputStream) throws Exception {
+        List<ProjectActivity> activities = new ArrayList<ProjectActivity>(data);
         if (filter != null) {
-            activities = new ArrayList<ProjectActivity>(filter.applyFilters(data.getActivities()));
+            activities = new ArrayList<ProjectActivity>(filter.applyFilters(data));
         }
         
         // Sort activities by default sort order (date) before export

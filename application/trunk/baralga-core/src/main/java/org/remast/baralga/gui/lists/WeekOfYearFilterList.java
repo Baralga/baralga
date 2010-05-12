@@ -80,7 +80,7 @@ public class WeekOfYearFilterList implements Observer {
         final Integer filterWeekOfYear = UserSettings.instance().getFilterSelectedWeekOfYear();
         boolean filterWeekOfYearFound = false;
 
-        for (ProjectActivity activity : this.model.getData().getActivities()) {
+        for (ProjectActivity activity : this.model.getDAO().getActivities()) {
         	final int weekOfYear = activity.getDay().getWeekOfWeekyear();
         	
         	/**

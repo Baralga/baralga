@@ -29,7 +29,6 @@ import org.remast.baralga.gui.actions.ExitAction;
 import org.remast.baralga.gui.actions.ExportCsvAction;
 import org.remast.baralga.gui.actions.ExportDataAction;
 import org.remast.baralga.gui.actions.ExportExcelAction;
-import org.remast.baralga.gui.actions.ImportDataAction;
 import org.remast.baralga.gui.actions.ManageProjectsAction;
 import org.remast.baralga.gui.actions.SettingsAction;
 import org.remast.baralga.gui.events.BaralgaEvent;
@@ -94,8 +93,8 @@ public class MainFrame extends JFrame implements Observer {
     /** The export menu. */
     private JMenu exportMenu = null;
 
-    /** The import menu. */
-    private JMenu importMenu = null;
+//    /** The import menu. */
+//    private JMenu importMenu = null;
 
     /** The edit menu. */
     private JMenu editMenu = null;
@@ -119,7 +118,7 @@ public class MainFrame extends JFrame implements Observer {
 
     private JMenuItem exitItem = null;
 
-    private JMenuItem importItem = null;
+//    private JMenuItem importItem = null;
 
     /**
      * This is the default constructor.
@@ -284,7 +283,7 @@ public class MainFrame extends JFrame implements Observer {
             fileMenu.setMnemonic(textBundle.textFor("MainFrame.FileMenu.Title").charAt(0)); //$NON-NLS-1$
 
             fileMenu.add(getExportMenu());
-            fileMenu.add(getImportMenu());
+//            fileMenu.add(getImportMenu());
             fileMenu.addSeparator();
 
             fileMenu.add(getExitItem());
@@ -292,18 +291,18 @@ public class MainFrame extends JFrame implements Observer {
         return fileMenu;
     }
 
-    /**
-     * This method initializes exitItem.
-     * @return javax.swing.JMenuItem
-     */
-    private JMenuItem getImportItem() {
-        if (importItem == null) {
-            final AbstractBaralgaAction exitAction = new ImportDataAction(this, this.model);
-            importItem = new JMenuItem(exitAction);
-            importItem.setMnemonic(exitAction.getMnemonic());
-        }
-        return importItem;
-    }
+//    /**
+//     * This method initializes exitItem.
+//     * @return javax.swing.JMenuItem
+//     */
+//    private JMenuItem getImportItem() {
+//        if (importItem == null) {
+//            final AbstractBaralgaAction exitAction = new ImportDataAction(this, this.model);
+//            importItem = new JMenuItem(exitAction);
+//            importItem.setMnemonic(exitAction.getMnemonic());
+//        }
+//        return importItem;
+//    }
 
     /**
      * This method initializes editMenu.
@@ -491,20 +490,20 @@ public class MainFrame extends JFrame implements Observer {
         return exportMenu;
     }
 
-    /**
-     * This method initializes importMenu.
-     * @return javax.swing.JMenu
-     */
-    private JMenu getImportMenu() {
-        if (importMenu == null) {
-            importMenu = new JMenu();
-            importMenu.setIcon(new ImageIcon(MainFrame.class.getResource("/icons/import-menu.png")));
-            importMenu.setText(textBundle.textFor("MainFrame.ImportMenu.Title")); //$NON-NLS-1$
-            importMenu.setMnemonic(textBundle.textFor("MainFrame.ImportMenu.Title").charAt(0)); //$NON-NLS-1$
-            importMenu.add(getImportItem());
-        }
-        return importMenu;
-    }
+//    /**
+//     * This method initializes importMenu.
+//     * @return javax.swing.JMenu
+//     */
+//    private JMenu getImportMenu() {
+//        if (importMenu == null) {
+//            importMenu = new JMenu();
+//            importMenu.setIcon(new ImageIcon(MainFrame.class.getResource("/icons/import-menu.png")));
+//            importMenu.setText(textBundle.textFor("MainFrame.ImportMenu.Title")); //$NON-NLS-1$
+//            importMenu.setMnemonic(textBundle.textFor("MainFrame.ImportMenu.Title").charAt(0)); //$NON-NLS-1$
+////            importMenu.add(getImportItem());
+//        }
+//        return importMenu;
+//    }
 
     public void windowIconified(final java.awt.event.WindowEvent e) {
         if (BaralgaMain.getTray() != null) {

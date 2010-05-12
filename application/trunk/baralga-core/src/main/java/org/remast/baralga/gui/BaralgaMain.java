@@ -1,20 +1,18 @@
 package org.remast.baralga.gui;
 
 import java.awt.SystemTray;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Timer;
+import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Appender;
@@ -22,14 +20,12 @@ import org.apache.log4j.DailyRollingFileAppender;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.xml.DOMConfigurator;
+import org.remast.baralga.gui.model.BaralgaDAO;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.model.ProjectActivityStateException;
-import org.remast.baralga.gui.model.io.DataBackup;
-import org.remast.baralga.gui.model.io.SaveTimer;
 import org.remast.baralga.gui.settings.ApplicationSettings;
 import org.remast.baralga.gui.settings.UserSettings;
-import org.remast.baralga.model.ProTrack;
-import org.remast.baralga.model.io.ProTrackReader;
+import org.remast.swing.util.ExceptionUtils;
 import org.remast.util.TextResourceBundle;
 
 /**
@@ -51,9 +47,6 @@ public final class BaralgaMain {
 	/** Property for command line option minimized (-m). */
 	private boolean minimized = false;
 
-	/** The interval in minutes in which the data is saved to the disk. */
-	private static final int SAVE_TIMER_INTERVAL = 3;
-
 
 	//------------------------------------------------
 	// Application resources
@@ -65,11 +58,12 @@ public final class BaralgaMain {
 	/** The lock file to avoid multiple instances of the application. */
 	private static FileLock lock;
 
-	/** The timer to periodically save to disk. */
-	private static Timer timer;
-
 	/** The absolute path name of the log file. */
 	private static String logFileName;
+	
+	public static String getLogFileName() {
+		return logFileName;
+	}
 
 	/**
 	 * Gets the tray icon. 
@@ -82,13 +76,16 @@ public final class BaralgaMain {
 
 	/** Hide constructor. */
 	private BaralgaMain() { }
-
+	
 	/**
 	 * Main method that starts the application.
 	 * @param arguments the command line arguments
 	 */
 	public static void main(final String[] arguments) {
 		try {
+			// Register general Exception Handler
+			Thread.setDefaultUncaughtExceptionHandler(new ExceptionUtils.ExceptionHandler());
+			
 			final BaralgaMain mainInstance = new BaralgaMain();
 			mainInstance.parseCommandLineArguments(arguments);
 
@@ -100,30 +97,21 @@ public final class BaralgaMain {
 
 			final PresentationModel model = initModel();
 
-			initTimer(model);
-
 			initShutdownHook(model);
 
+			// Register Exception Handler for EventDispatchThread
+			Toolkit.getDefaultToolkit().getSystemEventQueue().push(new ExceptionUtils.ExceptionHandlingEventProcessor());
+			
 			final MainFrame mainFrame = initMainFrame(model, mainInstance);
 
 			initTrayIcon(mainInstance, model, mainFrame);
 		} catch (Exception e) {
 			log.error(e, e);
-			JOptionPane.showMessageDialog(
-					null, 
-					textBundle.textFor("BaralgaMain.FatalError.Message", logFileName),  //$NON-NLS-1$
-					textBundle.textFor("BaralgaMain.FatalError.Title"),  //$NON-NLS-1$
-					JOptionPane.ERROR_MESSAGE
-			);
+			ExceptionUtils.showErrorDialog(e);
 			System.exit(1);
-		} catch (Throwable t) {
-			log.error(t, t);
-			JOptionPane.showMessageDialog(
-					null, 
-					textBundle.textFor("BaralgaMain.FatalError.Message", logFileName),  //$NON-NLS-1$
-					textBundle.textFor("BaralgaMain.FatalError.Title"),  //$NON-NLS-1$
-					JOptionPane.ERROR_MESSAGE
-			);
+		} catch (Error e) {
+			log.error(e, e);
+			ExceptionUtils.showErrorDialog(e);
 			System.exit(1);
 		}
 	}
@@ -155,7 +143,15 @@ public final class BaralgaMain {
 			final BaralgaMain mainInstance) {
 		log.debug("Initializing main frame ..."); //$NON-NLS-1$
 		final MainFrame mainFrame = new MainFrame(model);
-		mainFrame.setVisible(!mainInstance.minimized);
+		
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				mainFrame.setVisible(!mainInstance.minimized);
+			}
+		});
+		
 		return mainFrame;
 	}
 
@@ -226,11 +222,11 @@ public final class BaralgaMain {
 
 						// 2. Save model
 						try {
-							model.save();
+							model.getDAO().close();
 						} catch (Exception e) {
 							log.error(e, e);
-						} catch (Throwable t) {
-							log.error(t, t);
+						} catch (Error e) {
+							log.error(e, e);
 						} finally {
 							// 3. Release lock
 							releaseLock();
@@ -251,78 +247,18 @@ public final class BaralgaMain {
 		// Initialize with new site
 		final PresentationModel model = new PresentationModel();
 
-		final String dataFileLocation = UserSettings.instance().getDataFileLocation();
-		final File file = new File(dataFileLocation);
-
 		try {
-			if (file.exists()) {
-				final ProTrack data = readData(file);
+			final BaralgaDAO dao = new BaralgaDAO();
+			dao.init();
 
-				// Reading data file was successful.
-				model.setData(data);
-			}
-		} catch (IOException dataFileIOException) {
-			// Make a backup copy of the corrupt file
-			DataBackup.saveCorruptDataFile();
-
-			// Reading data file was not successful so we try the backup files. 
-			final List<File> backupFiles = DataBackup.getBackupFiles();
-
-			if (CollectionUtils.isNotEmpty(backupFiles)) {
-				for (File backupFile : backupFiles) {
-					try {
-						final ProTrack data = readData(backupFile);
-						model.setData(data);
-
-						final Date backupDate = DataBackup.getDateOfBackup(backupFile);
-						String backupDateString = backupFile.getName();
-						if (backupDate != null)  {
-							backupDateString = DateFormat.getDateTimeInstance().format(backupDate);
-						}
-
-						JOptionPane.showMessageDialog(null, 
-								textBundle.textFor("BaralgaMain.DataLoading.ErrorText", backupDateString), //$NON-NLS-1$
-								textBundle.textFor("BaralgaMain.DataLoading.ErrorTitle"), //$NON-NLS-1$
-								JOptionPane.INFORMATION_MESSAGE
-						);
-
-						break;
-					} catch (IOException backupFileIOException) {
-						log.error(backupFileIOException, backupFileIOException);
-					}
-				}
-			} else {
-				// Data corrupt and no backup file found
-				JOptionPane.showMessageDialog(null, 
-						textBundle.textFor("BaralgaMain.DataLoading.ErrorTextNoBackup"), //$NON-NLS-1$
-						textBundle.textFor("BaralgaMain.DataLoading.ErrorTitle"), //$NON-NLS-1$
-						JOptionPane.ERROR_MESSAGE
-				);
-			}
-
+			model.setDAO(dao);
+			
+	        model.initialize();
+		} catch (SQLException e) {
+			log.error(e, e);
+			ExceptionUtils.showErrorDialog(e);
 		}
 		return model;
-	}
-
-	/**
-	 * Read ProTrack data from the given file.
-	 * @param file the file to be read
-	 * @return the data read from file or null if the file is null or doesn't exist
-	 * @throws IOException on error reading file
-	 */
-	private static ProTrack readData(final File file) throws IOException {
-		// Check for saved data
-		if (file != null && file.exists()) {
-			ProTrackReader reader;
-			try {
-				reader = new ProTrackReader();
-				reader.read(file);
-				return reader.getData();
-			} catch (Exception e) {
-				throw new IOException(e);
-			}
-		}
-		return null;
 	}
 
 	/**
@@ -353,17 +289,6 @@ public final class BaralgaMain {
 		} catch (Exception ex) {
 			log.error(ex, ex);
 		}
-	}
-
-	/**
-	 * Initialize the timer to automatically save the model.
-	 * @see #SAVE_TIMER_INTERVAL
-	 * @param model the model to be saved
-	 */
-	private static void initTimer(final PresentationModel model) {
-		log.debug("Initializing timer ...");
-		timer = new Timer("Baralga save timer.");
-		timer.scheduleAtFixedRate(new SaveTimer(model), 1000 * 60 * SAVE_TIMER_INTERVAL, 1000 * 60 * SAVE_TIMER_INTERVAL);
 	}
 
 	/**
@@ -407,7 +332,6 @@ public final class BaralgaMain {
 			throw new RuntimeException("Could not create directory at " + baralgaDir.getAbsolutePath() + ".");
 		}
 	}
-
 
 	/**
 	 * Releases the lock file created with {@link #createLock()}.

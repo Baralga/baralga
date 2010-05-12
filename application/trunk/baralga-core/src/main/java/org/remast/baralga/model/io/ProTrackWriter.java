@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.apache.commons.io.IOUtils;
 import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
@@ -46,7 +45,7 @@ public class ProTrackWriter {
                 write(fileOut);
                 fileOut.flush();
             } finally {
-                IOUtils.closeQuietly(fileOut);
+            	fileOut.close();
             }
         }
     }

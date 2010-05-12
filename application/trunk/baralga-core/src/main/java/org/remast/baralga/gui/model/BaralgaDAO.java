@@ -22,15 +22,25 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
+import org.remast.baralga.gui.BaralgaMain;
+import org.remast.baralga.gui.settings.ApplicationSettings;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
+import org.remast.util.TextResourceBundle;
 
+/**
+ * Reads and writes all objects to the database and maintains the database connection.
+ * @author remast
+ */
 public class BaralgaDAO {
+
+	/** The bundle for internationalized texts. */
+	private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
 
 	/** The logger. */
 	private static final Log log = LogFactory.getLog(BaralgaDAO.class);
 
-	private Connection conn;
+	private Connection connection;
 
 	static final String versionTableCreate =  
 		"create table db_version (" +
@@ -64,11 +74,11 @@ public class BaralgaDAO {
 	 * @param args
 	 */
 	public BaralgaDAO() {
-		try {
-			conn = DriverManager.getConnection("jdbc:h2:~/.ProTrack/data/baralga", "baralga-user", "");
-		} catch (SQLException e) {
-			log.error(e, e);
-		}
+	}
+
+	public void init() throws SQLException {
+		final String dataDirName = ApplicationSettings.instance().getApplicationDataDirectory().getAbsolutePath();
+		connection = DriverManager.getConnection("jdbc:h2:" + dataDirName + "/baralga", "baralga-user", "");
 
 		updateDatabase();
 	}
@@ -83,13 +93,18 @@ public class BaralgaDAO {
 		}
 
 		try {
-			PreparedStatement pst = conn.prepareStatement("delete from project where id = ?");
+			// Remove activities associated with the project
+			final PreparedStatement activityDelete = connection.prepareStatement("delete from activity where project_id = ?");
+			activityDelete.setLong(1, project.getId());
+			activityDelete.execute();
 
-			pst.setLong(1, project.getId());
-
-			pst.execute();
+			// Remove the project
+			final PreparedStatement projectDelete = connection.prepareStatement("delete from project where id = ?");
+			projectDelete.setLong(1, project.getId());
+			projectDelete.execute();
 		} catch (SQLException e) {
 			log.error(e, e);
+			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
 		}
 	}
 
@@ -106,9 +121,9 @@ public class BaralgaDAO {
 		// TODO: Check if exists
 		Statement st;
 		try {
-			st = conn.createStatement();
+			st = connection.createStatement();
 
-			PreparedStatement pst = conn.prepareStatement("insert into project (title, description, active) values (?, ?, ?)");
+			PreparedStatement pst = connection.prepareStatement("insert into project (title, description, active) values (?, ?, ?)");
 
 			pst.setString(1, project.getTitle());
 			pst.setString(2, project.getDescription());
@@ -116,13 +131,14 @@ public class BaralgaDAO {
 
 			pst.execute();
 
-			ResultSet  rs = st.executeQuery("select max(id) as id from project");
+			ResultSet rs = st.executeQuery("select max(id) as id from project");
 			rs.next();
 			long id = rs.getLong("id");
 
 			project.setId(id);
 		} catch (SQLException e) {
 			log.error(e, e);
+			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
 		}
 	}
 
@@ -132,11 +148,10 @@ public class BaralgaDAO {
 	public synchronized List<Project> getActiveProjects() {
 		final List<Project> activeProjects = new ArrayList<Project>();
 
-		Statement st;
 		try {
-			st = conn.createStatement();
+			final Statement st = connection.createStatement();
 
-			ResultSet rs = st.executeQuery("select * from project where active = True");
+			final ResultSet rs = st.executeQuery("select * from project where active = True");
 			while (rs.next()) {
 				Project project = new Project(rs.getLong("id"), rs.getString("title"), rs.getString("description"));
 				project.setActive(true);
@@ -145,6 +160,7 @@ public class BaralgaDAO {
 
 		} catch (SQLException e) {
 			log.error(e, e);
+			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
 		}
 
 		return activeProjects;
@@ -153,11 +169,10 @@ public class BaralgaDAO {
 	public synchronized List<Project> getAllProjects() {
 		final List<Project> activeProjects = new ArrayList<Project>();
 
-		Statement st;
 		try {
-			st = conn.createStatement();
+			final Statement st = connection.createStatement();
 
-			ResultSet rs = st.executeQuery("select * from project");
+			final ResultSet rs = st.executeQuery("select * from project");
 			while (rs.next()) {
 				Project project = new Project(rs.getLong("id"), rs.getString("title"), rs.getString("description"));
 				project.setActive(rs.getBoolean("active"));
@@ -166,43 +181,38 @@ public class BaralgaDAO {
 
 		} catch (SQLException e) {
 			log.error(e, e);
+			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
 		}
 
 		return activeProjects;
 	}
 
-	private void updateDatabase() {
+	private void updateDatabase() throws SQLException {
 		boolean databaseExists = false;
 
-		Statement st;
-		try {
-			st = conn.createStatement();
-
-			ResultSet rs = st.executeQuery("SHOW TABLES");
-			while (rs.next()) {
-				if ("db_version".equalsIgnoreCase(rs.getString("TABLE_NAME"))) {
-					databaseExists = true;
-					break;
-				}
+		final Statement st = connection.createStatement();
+		ResultSet rs = st.executeQuery("SHOW TABLES");
+		while (rs.next()) {
+			if ("db_version".equalsIgnoreCase(rs.getString("TABLE_NAME"))) {
+				databaseExists = true;
+				break;
 			}
-
-			if (!databaseExists) {
-				st.execute(versionTableCreate);
-				st.execute(projectTableCreate);
-				st.execute(activityTableCreate);
-				st.execute(versionTableInsert);
-			}
-			conn.commit();
-
-			rs = st.executeQuery("select max(version) as version, description from db_version");
-			rs.next();
-			int version = rs.getInt("version");
-			String description = rs.getString("description");
-
-			System.out.println("Using Baralga DB Version: " + version + ", description: " + description);
-		} catch (SQLException e) {
-			log.error(e, e);
 		}
+
+		if (!databaseExists) {
+			st.execute(versionTableCreate);
+			st.execute(projectTableCreate);
+			st.execute(activityTableCreate);
+			st.execute(versionTableInsert);
+		}
+		connection.commit();
+
+		rs = st.executeQuery("select max(version) as version, description from db_version");
+		rs.next();
+		int version = rs.getInt("version");
+		String description = rs.getString("description");
+
+		System.out.println("Using Baralga DB Version: " + version + ", description: " + description);
 	}
 
 	/**
@@ -211,23 +221,22 @@ public class BaralgaDAO {
 	public List<ProjectActivity> getActivities() {
 		final List<ProjectActivity> activities = new ArrayList<ProjectActivity>();
 
-		Statement st;
 		try {
-			st = conn.createStatement();
+			final Statement st = connection.createStatement();
 
-			ResultSet rs = st.executeQuery("select * from activity, project where activity.project_id = project.id");
+			final ResultSet rs = st.executeQuery("select * from activity, project where activity.project_id = project.id");
 			while (rs.next()) {
-				Project project = new Project(rs.getLong("project.id"), rs.getString("title"), rs.getString("description"));
+				final Project project = new Project(rs.getLong("project.id"), rs.getString("title"), rs.getString("description"));
 				project.setActive(rs.getBoolean("active"));
-				
-				ProjectActivity activity = new ProjectActivity(new DateTime(rs.getTimestamp("start")), new DateTime(rs.getTimestamp("end")), project);
+
+				final ProjectActivity activity = new ProjectActivity(new DateTime(rs.getTimestamp("start")), new DateTime(rs.getTimestamp("end")), project);
 				activity.setId(rs.getLong("activity.id"));
 				
 				activities.add(activity);
 			}
-
 		} catch (SQLException e) {
 			log.error(e, e);
+			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
 		}
 
 		return activities;
@@ -242,11 +251,10 @@ public class BaralgaDAO {
 		}
 
 		// TODO: Check if exists
-		Statement st;
 		try {
-			st = conn.createStatement();
+			final Statement st = connection.createStatement();
 
-			PreparedStatement pst = conn.prepareStatement("insert into activity (description, start, end, project_id) values (?, ?, ?, ?)");
+			final PreparedStatement pst = connection.prepareStatement("insert into activity (description, start, end, project_id) values (?, ?, ?, ?)");
 
 			pst.setString(1, activity.getDescription());
 
@@ -255,18 +263,20 @@ public class BaralgaDAO {
 
 			final Timestamp endDate = new Timestamp( activity.getEnd().getMillis());
 			pst.setTimestamp(3, endDate);
-
+			
 			pst.setLong(4, activity.getProject().getId());
-
+			
 			pst.execute();
 
-			ResultSet  rs = st.executeQuery("select max(id) as id from activity");
+			final ResultSet  rs = st.executeQuery("select max(id) as id from activity");
 			rs.next();
+			
 			long id = rs.getLong("id");
 
 			activity.setId(id);
 		} catch (SQLException e) {
 			log.error(e, e);
+			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
 		}
 	}
 
@@ -279,13 +289,14 @@ public class BaralgaDAO {
 		}
 
 		try {
-			PreparedStatement pst = conn.prepareStatement("delete from activity where id = ?");
+			final PreparedStatement pst = connection.prepareStatement("delete from activity where id = ?");
 
 			pst.setLong(1, activity.getId());
 
 			pst.execute();
 		} catch (SQLException e) {
 			log.error(e, e);
+			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
 		}
 	}
 
@@ -309,12 +320,12 @@ public class BaralgaDAO {
 
 	public void start(DateTime start) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void stop() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void updateProject(Project project) {
@@ -324,8 +335,7 @@ public class BaralgaDAO {
 
 		// TODO: Check if exists
 		try {
-			PreparedStatement pst = conn.prepareStatement("update project set title = ?, description = ?, active = ? where id = ?");
-
+			final PreparedStatement pst = connection.prepareStatement("update project set title = ?, description = ?, active = ? where id = ?");
 			pst.setString(1, project.getTitle());
 			pst.setString(2, project.getDescription());
 			pst.setBoolean(3, project.isActive());
@@ -334,6 +344,7 @@ public class BaralgaDAO {
 			pst.execute();
 		} catch (SQLException e) {
 			log.error(e, e);
+			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
 		}
 	}
 
@@ -344,7 +355,7 @@ public class BaralgaDAO {
 
 		// TODO: Check if exists
 		try {
-			PreparedStatement pst = conn.prepareStatement("update activity set description = ?, start = ?, end = ?, project_id = ? where id = ?");
+			final PreparedStatement pst = connection.prepareStatement("update activity set description = ?, start = ?, end = ?, project_id = ? where id = ?");
 
 			pst.setString(1, activity.getDescription());
 
@@ -361,8 +372,41 @@ public class BaralgaDAO {
 
 		} catch (SQLException e) {
 			log.error(e, e);
+			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
 		}
-		
+	}
+
+	public Project findProjectById(Long projectId) {
+		if (projectId == null) {
+			return null;
+		}
+
+		try {
+			final PreparedStatement pst = connection.prepareStatement("select * from project where id = ?");
+			pst.setLong(1, projectId);
+
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+				final Project project = new Project(rs.getLong("id"), rs.getString("title"), rs.getString("description"));
+				project.setActive(rs.getBoolean("active"));
+				return project;
+			}
+		} catch (SQLException e) {
+			log.error(e, e);
+			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
+		}
+
+		return null;
+	}
+
+	public void close() {
+		try {
+			if (connection != null && connection.isClosed()) {
+				connection.close();
+			}
+		} catch (SQLException e) {
+			log.error(e, e);
+		}
 	}
 
 }

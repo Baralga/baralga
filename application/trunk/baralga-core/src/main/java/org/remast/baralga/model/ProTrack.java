@@ -14,8 +14,10 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 /**
  * Data model of Baralga. This consists mainly of project and activities for these projects.
  * @author remast
+ * @deprecated no longer necessary as data is stored in database
  */
 @XStreamAlias("proTrack") //$NON-NLS-1$
+@Deprecated
 public class ProTrack implements Serializable {
 
     /**

@@ -120,18 +120,18 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
         }
 
         // 2. Restore selected project if set.
-        if (this.model.getData().getActiveProject() != null) {
-            this.getProjectSelector().setSelectedItem(
-                    this.model.getData().getActiveProject()
-            );
-        } else {
+//        if (this.model.getData().getActiveProject() != null) {
+//            this.getProjectSelector().setSelectedItem(
+//                    this.model.getData().getActiveProject()
+//            );
+//        } else {
             // If not set initially select first project
             if (!this.model.getProjectList().isEmpty()) {
                 getProjectSelector().setSelectedItem(
                         this.model.getProjectList().get(0)
                 );
             }
-        }
+//        }
 
         final double border = 5;
         final double[][] size = {

@@ -1,9 +1,8 @@
 package org.remast.baralga.gui.events;
 
 import java.beans.PropertyChangeEvent;
-import java.util.Collection;
+import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.util.TextResourceBundle;
 
@@ -98,9 +97,9 @@ public class BaralgaEvent {
         switch (this.type) {
         case PROJECT_ACTIVITY_REMOVED:
         {
-            final Collection<ProjectActivity> projectActivities = (Collection<ProjectActivity>) this.data;
+            final List<ProjectActivity> projectActivities = (List<ProjectActivity>) this.data;
             if (projectActivities.size() == 1) {
-                final ProjectActivity projectActivity = (ProjectActivity) CollectionUtils.get(projectActivities, 0);
+                final ProjectActivity projectActivity = projectActivities.get(0);
                 return textBundle.textFor("BaralgaEvent.UndoRemoveActivityText", projectActivity.toString());
             } else {
                 return textBundle.textFor("BaralgaEvent.UndoRemoveActivitiesText", projectActivities.size());
@@ -108,9 +107,9 @@ public class BaralgaEvent {
         }
         case PROJECT_ACTIVITY_ADDED:
         {
-            final Collection<ProjectActivity> projectActivities = (Collection<ProjectActivity>) this.data;
+            final List<ProjectActivity> projectActivities = (List<ProjectActivity>) this.data;
             if (projectActivities.size() == 1) {
-                final ProjectActivity projectActivity = (ProjectActivity) CollectionUtils.get(projectActivities, 0);
+                final ProjectActivity projectActivity = projectActivities.get(0);
                 return textBundle.textFor("BaralgaEvent.UndoAddActivityText", projectActivity.toString());
             } else {
                 return textBundle.textFor("BaralgaEvent.UndoAddActivitiesText", projectActivities.size());
@@ -126,9 +125,9 @@ public class BaralgaEvent {
         switch (this.type) {
         case PROJECT_ACTIVITY_REMOVED:
         {
-            final Collection<ProjectActivity> projectActivities = (Collection<ProjectActivity>) this.data;
+            final List<ProjectActivity> projectActivities = (List<ProjectActivity>) this.data;
             if (projectActivities.size() == 1) {
-                final ProjectActivity projectActivity = (ProjectActivity) CollectionUtils.get(projectActivities, 0);
+                final ProjectActivity projectActivity =  projectActivities.get(0);
                 return textBundle.textFor("BaralgaEvent.RedoRemoveActivityText", projectActivity.toString());
             } else {
                 return textBundle.textFor("BaralgaEvent.RedoRemoveActivitiesText", projectActivities.size());
@@ -136,9 +135,9 @@ public class BaralgaEvent {
         }
         case PROJECT_ACTIVITY_ADDED:
         {
-            final Collection<ProjectActivity> projectActivities = (Collection<ProjectActivity>) this.data;
+            final List<ProjectActivity> projectActivities = (List<ProjectActivity>) this.data;
             if (projectActivities.size() == 1) {
-                final ProjectActivity projectActivity = (ProjectActivity) CollectionUtils.get(projectActivities, 0);
+                final ProjectActivity projectActivity = projectActivities.get(0);
                 return textBundle.textFor("BaralgaEvent.RedoAddActivityText", projectActivity.toString());
             } else {
                 return textBundle.textFor("BaralgaEvent.RedoAddActivitiesText", projectActivities.size());

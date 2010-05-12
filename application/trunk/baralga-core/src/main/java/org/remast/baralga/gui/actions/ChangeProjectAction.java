@@ -79,7 +79,7 @@ public class ChangeProjectAction extends AbstractBaralgaAction {
                 textBundle.textFor("StartActivityConfirmDialog.Message"), //$NON-NLS-1$
                 JOptionPane.QUESTION_MESSAGE, 
                 JOptionPane.YES_NO_OPTION
-                );
+        );
 
         final JDialog dialog = pane.createDialog(textBundle.textFor("StartActivityConfirmDialog.Title")); //$NON-NLS-1$
         dialog.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/Baralga-Tray.gif"))); //$NON-NLS-1$ 

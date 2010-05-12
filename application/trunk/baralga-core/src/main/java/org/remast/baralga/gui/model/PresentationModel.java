@@ -1,11 +1,16 @@
 package org.remast.baralga.gui.model;
 
+import java.awt.Dimension;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.beans.PropertyChangeEvent;
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Observable;
 
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import org.apache.commons.lang.ObjectUtils;
@@ -21,7 +26,6 @@ import org.remast.baralga.gui.lists.ProjectFilterList;
 import org.remast.baralga.gui.lists.WeekOfYearFilterList;
 import org.remast.baralga.gui.lists.YearFilterList;
 import org.remast.baralga.gui.model.edit.EditStack;
-import org.remast.baralga.gui.model.io.DataBackup;
 import org.remast.baralga.gui.model.report.HoursByDayReport;
 import org.remast.baralga.gui.model.report.HoursByMonthReport;
 import org.remast.baralga.gui.model.report.HoursByProjectReport;
@@ -32,7 +36,7 @@ import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
-import org.remast.baralga.model.io.ProTrackWriter;
+import org.remast.swing.util.AWTUtils;
 import org.remast.util.DateUtils;
 import org.remast.util.TextResourceBundle;
 
@@ -101,18 +105,16 @@ public class PresentationModel extends Observable {
      */
     public PresentationModel() {
         this.data = new ProTrack();
-        this.baralgaDAO = new BaralgaDAO();
+//        this.baralgaDAO = new BaralgaDAO();
         this.projectList = new SortedList<Project>(new BasicEventList<Project>());
         this.allProjectsList = new SortedList<Project>(new BasicEventList<Project>());
         this.activitiesList = new SortedList<ProjectActivity>(new BasicEventList<ProjectActivity>());
-
-        initialize();
     }
 
     /**
      * Initializes the model.
      */
-    private void initialize() {
+    public void initialize() {
         this.active = this.data.isActive();
         this.start = this.data.getStart();
         this.selectedProject = this.data.getActiveProject();
@@ -136,7 +138,7 @@ public class PresentationModel extends Observable {
         final Long selectedProjectId = UserSettings.instance().getFilterSelectedProjectId();
         if (selectedProjectId != null) {
             filter.setProject(
-                    this.data.findProjectById(selectedProjectId.longValue())
+                    this.baralgaDAO.findProjectById(selectedProjectId.longValue())
             );
         }
         applyFilter();
@@ -198,7 +200,10 @@ public class PresentationModel extends Observable {
      * @param source the source of the edit activity
      */
     public final void removeProject(final Project project, final Object source) {
-//        getData().remove(project);
+    	if (!isProjectDeletionConfirmed(project)) {
+    		return;
+    	}
+    	
         this.baralgaDAO.remove(project);
         
         this.projectList.remove(project);
@@ -211,6 +216,27 @@ public class PresentationModel extends Observable {
         event.setData(project);
 
         notify(event);
+    }
+    
+    /**
+     * Checks with user whether the given project and all associated activities should be deleted or not.
+     * @return <code>true</code> if project shall be deleted else <code>false</code>
+     */
+    private boolean isProjectDeletionConfirmed(final Project project) {
+        final JOptionPane pane = new JOptionPane(
+                textBundle.textFor("ProjectDeleteConfirmDialog.Message", project.getTitle()), //$NON-NLS-1$
+                JOptionPane.QUESTION_MESSAGE, 
+                JOptionPane.YES_NO_OPTION
+        );
+
+        final JDialog dialog = pane.createDialog(textBundle.textFor("ProjectDeleteConfirmDialog.Title")); //$NON-NLS-1$
+        dialog.setVisible(true);
+        dialog.dispose();
+
+        final Object selectedValue = pane.getValue();
+
+        return (selectedValue instanceof Integer)
+        && (((Integer) selectedValue).intValue() == JOptionPane.YES_OPTION);
     }
 
     /**
@@ -377,7 +403,7 @@ public class PresentationModel extends Observable {
 
             // Create Event for Project Activity
             eventOnEndDay  = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED);
-            final Collection<ProjectActivity> activitiesOnEndDay = new ArrayList<ProjectActivity>(1);
+            final List<ProjectActivity> activitiesOnEndDay = new ArrayList<ProjectActivity>(1);
             activitiesOnEndDay.add(activityOnEndDay);            
             eventOnEndDay.setData(activitiesOnEndDay);
         } else {
@@ -404,7 +430,7 @@ public class PresentationModel extends Observable {
         if (notifyObservers) {
             // Create Event for Project Activity
             BaralgaEvent event  = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED);
-            final Collection<ProjectActivity> activitiesOnStartDay = new ArrayList<ProjectActivity>(1);
+            final List<ProjectActivity> activitiesOnStartDay = new ArrayList<ProjectActivity>(1);
             activitiesOnStartDay.add(activityOnStartDay);   
             event.setData(activitiesOnStartDay);
             notify(event);
@@ -436,8 +462,8 @@ public class PresentationModel extends Observable {
         // Set selected project to new project
         this.selectedProject = activeProject;
 
-        // Set active project to new project
-        this.data.setActiveProject(activeProject);
+//        // Set active project to new project
+//        this.data.setActiveProject(activeProject);
 
         // Mark data as dirty
         this.dirty = true;
@@ -462,7 +488,7 @@ public class PresentationModel extends Observable {
 
             // 3. Broadcast project activity event.
             final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED);
-            final Collection<ProjectActivity> activities = new ArrayList<ProjectActivity>(1);
+            final List<ProjectActivity> activities = new ArrayList<ProjectActivity>(1);
             activities.add(activity);
             event.setData(activities);
             
@@ -479,37 +505,37 @@ public class PresentationModel extends Observable {
         notify(event);
     }
 
-    /**
-     * Save the model.
-     * @throws Exception on error during saving
-     */
-    public final void save() throws Exception {
-        // If there are no changes there's nothing to do.
-        if (!dirty)  {
-            return;
-        }
-
-        // Save data to disk.
-        final ProTrackWriter writer = new ProTrackWriter(data);
-
-        final File proTrackFile = new File(UserSettings.instance().getDataFileLocation());
-        DataBackup.createBackup(proTrackFile);
-
-        writer.write(proTrackFile);        
-    }
+//    /**
+//     * Save the model.
+//     * @throws Exception on error during saving
+//     */
+//    public final void save() throws Exception {
+//        // If there are no changes there's nothing to do.
+//        if (!dirty)  {
+//            return;
+//        }
+//
+//        // Save data to disk.
+//        final ProTrackWriter writer = new ProTrackWriter(data);
+//
+//        final File proTrackFile = new File(UserSettings.instance().getDataFileLocation());
+//        DataBackup.createBackup(proTrackFile);
+//
+//        writer.write(proTrackFile);        
+//    }
 
     /**
      * Add a new activity to the model.
      * @param activity the activity to add
      */
     public final void addActivity(final ProjectActivity activity, final Object source) {
-        final Collection<ProjectActivity> activities = new ArrayList<ProjectActivity>(1);
+        final List<ProjectActivity> activities = new ArrayList<ProjectActivity>(1);
         activities.add(activity);
 
         this.addActivities(activities, source);
     }
     
-    public final void addActivities(final Collection<ProjectActivity> activities, final Object source) {
+    public final void addActivities(final List<ProjectActivity> activities, final Object source) {
 //        getData().addActivities(activities);
         this.baralgaDAO.addActivities(activities);
 
@@ -535,13 +561,13 @@ public class PresentationModel extends Observable {
      * @param activity the activity to remove
      */
     public final void removeActivity(final ProjectActivity activity, final Object source) {
-        final Collection<ProjectActivity> activities = new ArrayList<ProjectActivity>(1);
+        final List<ProjectActivity> activities = new ArrayList<ProjectActivity>(1);
         activities.add(activity);
 
         this.removeActivities(activities, source);
     }
 
-    public final void removeActivities(final Collection<ProjectActivity> activities, final Object source) {
+    public final void removeActivities(final List<ProjectActivity> activities, final Object source) {
 //        getData().removeActivities(activities);
         this.baralgaDAO.removeActivities(activities);
         this.getActivitiesList().removeAll(activities);
@@ -720,12 +746,18 @@ public class PresentationModel extends Observable {
         return selectedProject;
     }
 
-    /**
-     * @return the data
-     */
-    public ProTrack getData() {
-        return data;
-    }
+//    /**
+//     * @return the data
+//     */
+//    public ProTrack getData() {
+//        return data;
+//    }
+  public  BaralgaDAO getDAO() {
+  return baralgaDAO;
+}
+  public  void setDAO(BaralgaDAO baralgaDAO) {
+	  this.baralgaDAO = baralgaDAO;
+  }
 
     /**
      * @param data the data to set

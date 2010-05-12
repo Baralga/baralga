@@ -80,7 +80,7 @@ public class YearFilterList implements Observer {
         final Integer filterYear = UserSettings.instance().getFilterSelectedYear();
         boolean filterYearFound = false;
 
-        for (ProjectActivity activity : this.model.getData().getActivities()) {
+        for (ProjectActivity activity : this.model.getDAO().getActivities()) {
             this.addYear(activity.getDay().getYear());
             
             if (filterYear != null && activity.getDay().getYear() == filterYear) {

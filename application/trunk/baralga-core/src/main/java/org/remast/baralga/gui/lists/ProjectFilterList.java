@@ -61,7 +61,7 @@ public class ProjectFilterList implements Observer {
         final Long filterProjectId = UserSettings.instance().getFilterSelectedProjectId();
         boolean filterProjectFound = false;
 
-        for (ProjectActivity projectActivity : this.model.getData().getActivities()) {
+        for (ProjectActivity projectActivity : this.model.getDAO().getActivities()) {
             final Project project = projectActivity.getProject();
             
             this.addProject(project);
@@ -73,7 +73,7 @@ public class ProjectFilterList implements Observer {
 
         // Add project from filter if not already in list.
         if (filterProjectId != null && filterProjectId > 0 && !filterProjectFound) {
-            final Project filterProject = this.model.getData().findProjectById(filterProjectId);
+            final Project filterProject = this.model.getDAO().findProjectById(filterProjectId);
 
             if (filterProject != null) {
                 this.addProject(filterProject);

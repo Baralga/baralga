@@ -80,7 +80,7 @@ public class MonthFilterList implements Observer {
         final Integer filterMonth = UserSettings.instance().getFilterSelectedMonth();
         boolean filterMonthFound = false;
 
-        for (ProjectActivity activity : this.model.getData().getActivities()) {
+        for (ProjectActivity activity : this.model.getDAO().getActivities()) {
             this.addMonth(activity.getDay().getMonthOfYear());
             
             if (filterMonth != null && activity.getDay().getMonthOfYear() == filterMonth) {

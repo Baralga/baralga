@@ -1,8 +1,9 @@
 package org.remast.baralga.model.export;
 
 import java.io.OutputStream;
+import java.util.List;
 
-import org.remast.baralga.model.ProTrack;
+import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 
 /**
@@ -20,6 +21,6 @@ public interface Exporter {
      * @param outputStream the stream to write to
      * @throws Exception exception during data export
      */
-    void export(final ProTrack data, final Filter filter, final OutputStream outputStream) throws Exception;
+    void export(final List<ProjectActivity> data, final Filter filter, final OutputStream outputStream) throws Exception;
 
 }
