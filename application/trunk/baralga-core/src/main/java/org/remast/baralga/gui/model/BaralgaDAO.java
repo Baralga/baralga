@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
@@ -26,6 +27,7 @@ import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.settings.ApplicationSettings;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
+import org.remast.baralga.model.filter.Filter;
 import org.remast.util.TextResourceBundle;
 
 /**
@@ -215,16 +217,22 @@ public class BaralgaDAO {
 		System.out.println("Using Baralga DB Version: " + version + ", description: " + description);
 	}
 
-	/**
+	public List<ProjectActivity> getActivities() {
+		return getActivities(StringUtils.EMPTY);
+	}
+
+		/**
 	 * @return read-only view of the activities
 	 */
-	public List<ProjectActivity> getActivities() {
+	public List<ProjectActivity> getActivities(final String condition) {
 		final List<ProjectActivity> activities = new ArrayList<ProjectActivity>();
 
 		try {
 			final Statement st = connection.createStatement();
+			
+			final String filterCondition = StringUtils.defaultString(condition);
 
-			final ResultSet rs = st.executeQuery("select * from activity, project where activity.project_id = project.id");
+			final ResultSet rs = st.executeQuery("select * from activity, project where activity.project_id = project.id " + filterCondition + " order by start asc");
 			while (rs.next()) {
 				final Project project = new Project(rs.getLong("project.id"), rs.getString("title"), rs.getString("description"));
 				project.setActive(rs.getBoolean("active"));
@@ -407,6 +415,36 @@ public class BaralgaDAO {
 		} catch (SQLException e) {
 			log.error(e, e);
 		}
+	}
+
+	public List<ProjectActivity> loadActivities(final Filter filter) {
+		if (filter == null) {
+			return getActivities();
+		}
+		
+		final StringBuilder sqlCondition = new StringBuilder("");
+		
+		if (filter.getProject() != null && filter.getProject().getId() > 0) {
+			sqlCondition.append(" and activity.project_id = '" + filter.getProject().getId() + "' ");
+		}
+		
+		if (filter.getDay() != null) {
+			sqlCondition.append(" and day_of_year(activity.start) = " + filter.getDay() + " ");
+		}
+		
+		if (filter.getWeekOfYear() != null) {
+			sqlCondition.append(" and week(activity.start) = " + filter.getWeekOfYear() + " ");
+		}
+		
+		if (filter.getMonth() != null) {
+			sqlCondition.append(" and month(activity.start) = " + filter.getMonth() + " ");
+		}
+		
+		if (filter.getYear() != null) {
+			sqlCondition.append(" and year(activity.start) = " + filter.getYear() + " ");
+		}
+		
+		return getActivities(sqlCondition.toString());
 	}
 
 }

@@ -154,11 +154,15 @@ public class PresentationModel extends Observable {
     private void applyFilter() {
         this.activitiesList.clear();
 
-        if (this.filter == null) {
-            this.activitiesList.addAll(this.baralgaDAO.getActivities());
-        } else {
-            this.activitiesList.addAll(this.filter.applyFilters(this.baralgaDAO.getActivities()));
-        }
+        List<ProjectActivity> sqlResult = this.baralgaDAO.loadActivities(this.filter);
+        this.activitiesList.addAll(sqlResult);
+//        if (this.filter == null) {
+//            this.activitiesList.addAll(this.baralgaDAO.getActivities());
+//        } else {
+//            this.activitiesList.addAll(this.filter.applyFilters(this.baralgaDAO.getActivities()));
+//        }
+        
+        log.info("x");
     }
 
     /**
@@ -248,7 +252,6 @@ public class PresentationModel extends Observable {
         }
 
         setStart(start);
-//        getData().start(start);
         this.baralgaDAO.start(start);
 
         // Fire start event
@@ -370,7 +373,6 @@ public class PresentationModel extends Observable {
 
             final ProjectActivity activityOnEndDay = new ProjectActivity(start2, stop2,
                     getSelectedProject(), this.description);
-//            getData().addActivity(activityOnEndDay);
             this.baralgaDAO.addActivity(activityOnEndDay);
             this.activitiesList.add(activityOnEndDay);
 
@@ -385,7 +387,6 @@ public class PresentationModel extends Observable {
 
         final ProjectActivity activityOnStartDay = new ProjectActivity(start, stop,
                 getSelectedProject(), this.description);
-//        getData().addActivity(activityOnStartDay);
         this.baralgaDAO.addActivity(activityOnStartDay);
         this.activitiesList.add(activityOnStartDay);
 
@@ -393,7 +394,6 @@ public class PresentationModel extends Observable {
         description = StringUtils.EMPTY;
         UserSettings.instance().setLastDescription(StringUtils.EMPTY);
         setActive(false);
-//        getData().stop();
         this.baralgaDAO.stop();
         start = null;
 
@@ -445,7 +445,6 @@ public class PresentationModel extends Observable {
             // 2. Track recorded project activity.
             final ProjectActivity activity = new ProjectActivity(start, stop, previousProject, description);
 
-//            getData().addActivity(activity);
             this.baralgaDAO.addActivity(activity);
             this.activitiesList.add(activity);
 
@@ -503,7 +502,6 @@ public class PresentationModel extends Observable {
     }
     
     public final void addActivities(final List<ProjectActivity> activities, final Object source) {
-//        getData().addActivities(activities);
         this.baralgaDAO.addActivities(activities);
 
         applyFilter();
@@ -526,7 +524,6 @@ public class PresentationModel extends Observable {
     }
 
     public final void removeActivities(final List<ProjectActivity> activities, final Object source) {
-//        getData().removeActivities(activities);
         this.baralgaDAO.removeActivities(activities);
         this.getActivitiesList().removeAll(activities);
 
@@ -654,7 +651,7 @@ public class PresentationModel extends Observable {
      */
     public final void setStart(final DateTime start) {
         this.start = start;
-        this.data.setStartTime(start);
+//        this.data.setStartTime(start);
 
         // Fire event
         final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.START_CHANGED, this);
@@ -707,12 +704,12 @@ public class PresentationModel extends Observable {
 //    public ProTrack getData() {
 //        return data;
 //    }
-  public  BaralgaDAO getDAO() {
-  return baralgaDAO;
-}
-  public  void setDAO(BaralgaDAO baralgaDAO) {
-	  this.baralgaDAO = baralgaDAO;
-  }
+    public  BaralgaDAO getDAO() {
+    	return baralgaDAO;
+    }
+    public  void setDAO(BaralgaDAO baralgaDAO) {
+    	this.baralgaDAO = baralgaDAO;
+    }
 
     /**
      * @param data the data to set

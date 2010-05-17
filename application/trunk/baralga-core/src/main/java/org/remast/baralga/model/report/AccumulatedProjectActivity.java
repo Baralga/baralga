@@ -93,7 +93,8 @@ public class AccumulatedProjectActivity implements Comparable<AccumulatedProject
         
         final CompareToBuilder compareBuilder = new CompareToBuilder();
 
-        compareBuilder.append(this.getProject(), activity.getProject());
+        // :INFO: Don't use project for comparison as this corrupts ordering by day.
+        // compareBuilder.append(this.getProject(), activity.getProject());
         compareBuilder.append(this.day.getDayOfYear(), activity.day.getDayOfYear());
         compareBuilder.append(this.day.getYear(), activity.day.getYear());
         
