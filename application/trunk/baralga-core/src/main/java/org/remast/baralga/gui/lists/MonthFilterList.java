@@ -10,7 +10,6 @@ import java.util.Observer;
 import org.apache.commons.lang.StringUtils;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
-import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.swing.util.LabeledItem;
 import org.remast.util.DateUtils;
@@ -76,21 +75,8 @@ public class MonthFilterList implements Observer {
         this.monthList.add(ALL_MONTHS_FILTER_ITEM);
         this.monthList.add(CURRENT_MONTH_FILTER_ITEM);
 
-        // Get month from filter
-        final Integer filterMonth = UserSettings.instance().getFilterSelectedMonth();
-        boolean filterMonthFound = false;
-
-        for (ProjectActivity activity : this.model.getDAO().getActivities()) {
-            this.addMonth(activity.getDay().getMonthOfYear());
-            
-            if (filterMonth != null && activity.getDay().getMonthOfYear() == filterMonth) {
-                filterMonthFound = true;
-            }
-        }
-
-        // Add month from filter if not already in list.
-        if (filterMonth != null && filterMonth > 0 && !filterMonthFound) {
-            this.addMonth(filterMonth);
+        for (Integer month : this.model.getDAO().getMonthList()) {
+            this.addMonth(month);
         }
     }
 

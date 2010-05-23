@@ -1,5 +1,5 @@
 == Known Bugs ==
-
+* DayFilters in severel languages
 
 == Further Development ==
  * Support for pluggable exporters.

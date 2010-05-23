@@ -218,10 +218,11 @@ public class BaralgaDAO {
 	}
 
 	public List<ProjectActivity> getActivities() {
-		return getActivities(StringUtils.EMPTY);
+		final String filterCondition = StringUtils.EMPTY;
+		return getActivities(filterCondition);
 	}
 
-		/**
+	/**
 	 * @return read-only view of the activities
 	 */
 	public List<ProjectActivity> getActivities(final String condition) {
@@ -234,11 +235,12 @@ public class BaralgaDAO {
 
 			final ResultSet rs = st.executeQuery("select * from activity, project where activity.project_id = project.id " + filterCondition + " order by start asc");
 			while (rs.next()) {
-				final Project project = new Project(rs.getLong("project.id"), rs.getString("title"), rs.getString("description"));
+				final Project project = new Project(rs.getLong("project.id"), rs.getString("title"), rs.getString("project.description"));
 				project.setActive(rs.getBoolean("active"));
 
 				final ProjectActivity activity = new ProjectActivity(new DateTime(rs.getTimestamp("start")), new DateTime(rs.getTimestamp("end")), project);
 				activity.setId(rs.getLong("activity.id"));
+				activity.setDescription(rs.getString("activity.description"));
 				
 				activities.add(activity);
 			}
@@ -416,6 +418,57 @@ public class BaralgaDAO {
 			log.error(e, e);
 		}
 	}
+	
+	public List<Integer> getMonthList() {
+		final List<Integer> monthList = new ArrayList<Integer>();
+		
+		try {
+			final Statement st = connection.createStatement();
+			final ResultSet rs = st.executeQuery("select distinct month(activity.start) as month from activity order by month asc");
+			while (rs.next()) {
+				monthList.add(rs.getInt("month"));
+			}
+		} catch (SQLException e) {
+			log.error(e, e);
+			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
+		}
+		
+		return monthList;
+	}
+	
+	public List<Integer> getYearList() {
+		final List<Integer> yearList = new ArrayList<Integer>();
+		
+		try {
+			final Statement st = connection.createStatement();
+			final ResultSet rs = st.executeQuery("select distinct year(activity.start) as year from activity order by year asc");
+			while (rs.next()) {
+				yearList.add(rs.getInt("year"));
+			}
+		} catch (SQLException e) {
+			log.error(e, e);
+			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
+		}
+		
+		return yearList;
+	}
+	
+	public List<Integer> getWeekOfYearList() {
+		final List<Integer> weekOfYearList = new ArrayList<Integer>();
+		
+		try {
+			final Statement st = connection.createStatement();
+			final ResultSet rs = st.executeQuery("select distinct week(activity.start) as week from activity order by week asc");
+			while (rs.next()) {
+				weekOfYearList.add(rs.getInt("week"));
+			}
+		} catch (SQLException e) {
+			log.error(e, e);
+			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
+		}
+		
+		return weekOfYearList;
+	}
 
 	public List<ProjectActivity> loadActivities(final Filter filter) {
 		if (filter == null) {
@@ -429,7 +482,7 @@ public class BaralgaDAO {
 		}
 		
 		if (filter.getDay() != null) {
-			sqlCondition.append(" and day_of_year(activity.start) = " + filter.getDay() + " ");
+			sqlCondition.append(" and day_of_week(activity.start) = " + filter.getDay() + " ");
 		}
 		
 		if (filter.getWeekOfYear() != null) {

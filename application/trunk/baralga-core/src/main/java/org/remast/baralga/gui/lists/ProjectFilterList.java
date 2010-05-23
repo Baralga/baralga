@@ -6,7 +6,6 @@ import java.util.Observer;
 
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
-import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.swing.util.LabeledItem;
@@ -57,27 +56,8 @@ public class ProjectFilterList implements Observer {
         this.projectList.clear();
         this.projectList.add(ALL_PROJECTS_FILTER_ITEM);
 
-        // Get project from filter
-        final Long filterProjectId = UserSettings.instance().getFilterSelectedProjectId();
-        boolean filterProjectFound = false;
-
-        for (ProjectActivity projectActivity : this.model.getDAO().getActivities()) {
-            final Project project = projectActivity.getProject();
-            
+        for (Project project : this.model.getDAO().getAllProjects()) {
             this.addProject(project);
-
-            if (filterProjectId != null && project.getId() == filterProjectId) {
-                filterProjectFound = true;
-            }
-        }
-
-        // Add project from filter if not already in list.
-        if (filterProjectId != null && filterProjectId > 0 && !filterProjectFound) {
-            final Project filterProject = this.model.getDAO().findProjectById(filterProjectId);
-
-            if (filterProject != null) {
-                this.addProject(filterProject);
-            }
         }
     }
 

@@ -10,7 +10,6 @@ import java.util.Observer;
 import org.apache.commons.lang.StringUtils;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
-import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.swing.util.LabeledItem;
 import org.remast.util.DateUtils;
@@ -76,31 +75,8 @@ public class WeekOfYearFilterList implements Observer {
         this.weekOfYearList.add(ALL_WEEKS_OF_YEAR_FILTER_ITEM);
         this.weekOfYearList.add(CURRENT_WEEK_OF_YEAR_FILTER_ITEM);
 
-        // Get week of year from filter
-        final Integer filterWeekOfYear = UserSettings.instance().getFilterSelectedWeekOfYear();
-        boolean filterWeekOfYearFound = false;
-
-        for (ProjectActivity activity : this.model.getDAO().getActivities()) {
-        	final int weekOfYear = activity.getDay().getWeekOfWeekyear();
-        	
-        	/**
-        	 * In Joda time weeks go from 1 - 53 (see http://joda-time.sourceforge.net/field.html). 
-        	 * We only allow weeks up to 52 because week 53 results in an exception.
-        	 */
-        	if (weekOfYear > 52) {
-        		this.addWeekOfYear(1);
-        	} else {
-        		this.addWeekOfYear(weekOfYear);
-        	}
-
-            if (filterWeekOfYear != null && activity.getDay().getWeekOfWeekyear() == filterWeekOfYear) {
-                filterWeekOfYearFound = true;
-            }
-        }
-
-        // Add week of year from filter if not already in list.
-        if (filterWeekOfYear != null && filterWeekOfYear > 0 && !filterWeekOfYearFound) {
-            this.addWeekOfYear(filterWeekOfYear);
+        for (Integer weekOfYear : this.model.getDAO().getWeekOfYearList()) {
+        	this.addWeekOfYear(weekOfYear);
         }
     }
 

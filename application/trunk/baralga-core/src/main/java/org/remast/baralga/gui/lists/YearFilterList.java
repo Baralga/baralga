@@ -10,7 +10,6 @@ import java.util.Observer;
 import org.apache.commons.lang.StringUtils;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
-import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.swing.util.LabeledItem;
 import org.remast.util.DateUtils;
@@ -76,21 +75,8 @@ public class YearFilterList implements Observer {
         this.yearList.add(ALL_YEARS_FILTER_ITEM);
         this.yearList.add(CURRENT_YEAR_FILTER_ITEM);
         
-        // Get year from filter
-        final Integer filterYear = UserSettings.instance().getFilterSelectedYear();
-        boolean filterYearFound = false;
-
-        for (ProjectActivity activity : this.model.getDAO().getActivities()) {
-            this.addYear(activity.getDay().getYear());
-            
-            if (filterYear != null && activity.getDay().getYear() == filterYear) {
-                filterYearFound = true;
-            }
-        }
-        
-        // Add year from filter if not already in list.
-        if (filterYear != null && filterYear > 0 && !filterYearFound) {
-            this.addYear(filterYear);
+        for (Integer year : this.model.getDAO().getYearList()) {
+            this.addYear(year);
         }
     }
 
