@@ -243,7 +243,6 @@ public class PresentationModel extends Observable {
         }
 
         setStart(start);
-        this.baralgaDAO.start(start);
 
         // Fire start event
         final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_STARTED);
@@ -385,7 +384,6 @@ public class PresentationModel extends Observable {
         description = StringUtils.EMPTY;
         UserSettings.instance().setLastDescription(StringUtils.EMPTY);
         setActive(false);
-        this.baralgaDAO.stop();
         start = null;
 
         if (notifyObservers) {
