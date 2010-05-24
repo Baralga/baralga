@@ -150,7 +150,7 @@ public class PresentationModel extends Observable {
 
     private void applyFilter() {
         this.activitiesList.clear();
-        this.activitiesList.addAll(this.baralgaDAO.loadActivities(this.filter));
+        this.activitiesList.addAll(this.baralgaDAO.getActivities(this.filter));
     }
 
     /**
