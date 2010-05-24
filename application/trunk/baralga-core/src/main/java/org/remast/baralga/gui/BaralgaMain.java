@@ -25,6 +25,9 @@ import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.model.ProjectActivityStateException;
 import org.remast.baralga.gui.settings.ApplicationSettings;
 import org.remast.baralga.gui.settings.UserSettings;
+import org.remast.baralga.model.ProTrack;
+import org.remast.baralga.model.Project;
+import org.remast.baralga.model.io.ProTrackReader;
 import org.remast.swing.util.ExceptionUtils;
 import org.remast.util.TextResourceBundle;
 
@@ -60,7 +63,7 @@ public final class BaralgaMain {
 
 	/** The absolute path name of the log file. */
 	private static String logFileName;
-	
+
 	public static String getLogFileName() {
 		return logFileName;
 	}
@@ -76,7 +79,7 @@ public final class BaralgaMain {
 
 	/** Hide constructor. */
 	private BaralgaMain() { }
-	
+
 	/**
 	 * Main method that starts the application.
 	 * @param arguments the command line arguments
@@ -85,9 +88,11 @@ public final class BaralgaMain {
 		try {
 			// Register general Exception Handler
 			Thread.setDefaultUncaughtExceptionHandler(new ExceptionUtils.ExceptionHandler());
-			
+
 			final BaralgaMain mainInstance = new BaralgaMain();
 			mainInstance.parseCommandLineArguments(arguments);
+
+			migrateApplicationDirectory();
 
 			initLogger();
 
@@ -97,11 +102,13 @@ public final class BaralgaMain {
 
 			final PresentationModel model = initModel();
 
+			migrateModel(model, mainInstance);
+
 			initShutdownHook(model);
 
 			// Register Exception Handler for EventDispatchThread
 			Toolkit.getDefaultToolkit().getSystemEventQueue().push(new ExceptionUtils.ExceptionHandlingEventProcessor());
-			
+
 			final MainFrame mainFrame = initMainFrame(model, mainInstance);
 
 			initTrayIcon(mainInstance, model, mainFrame);
@@ -143,15 +150,15 @@ public final class BaralgaMain {
 			final BaralgaMain mainInstance) {
 		log.debug("Initializing main frame ..."); //$NON-NLS-1$
 		final MainFrame mainFrame = new MainFrame(model);
-		
+
 		SwingUtilities.invokeLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				mainFrame.setVisible(!mainInstance.minimized);
 			}
 		});
-		
+
 		return mainFrame;
 	}
 
@@ -211,17 +218,23 @@ public final class BaralgaMain {
 
 					@Override
 					public void run() {
-						// 1. Stop current activity (if any)
-						if (model.isActive()) {
-							try {
-								model.stop(false);
-							} catch (ProjectActivityStateException e) {
-								// ignore
-							}
-						}
-
-						// 2. Save model
 						try {
+							// 1. Stop current activity (if any)
+							if (model.isActive()) {
+								try {
+									model.stop(false);
+								} catch (ProjectActivityStateException e) {
+									// ignore
+								}
+							}
+						} catch (Exception e) {
+							log.error(e, e);
+						} catch (Error e) {
+							log.error(e, e);
+						}
+						
+						try {
+							// 2. Save model
 							model.getDAO().close();
 						} catch (Exception e) {
 							log.error(e, e);
@@ -240,25 +253,100 @@ public final class BaralgaMain {
 	/**
 	 * Initializes the model from the stored data file or creates a new one.
 	 * @return the model
+	 * @throws SQLException 
 	 */
-	private static PresentationModel initModel() {
+	private static PresentationModel initModel() throws SQLException {
 		log.debug("Initializing model..."); //$NON-NLS-1$
 
 		// Initialize with new site
 		final PresentationModel model = new PresentationModel();
 
-		try {
-			final BaralgaDAO dao = new BaralgaDAO();
-			dao.init();
+		final BaralgaDAO dao = new BaralgaDAO();
+		dao.init();
 
-			model.setDAO(dao);
-			
-	        model.initialize();
-		} catch (SQLException e) {
-			log.error(e, e);
-			ExceptionUtils.showErrorDialog(e);
-		}
+		model.setDAO(dao);
+
+		model.initialize();
 		return model;
+	}
+
+	private static void migrateModel(final PresentationModel model, BaralgaMain mainInstance) {
+		final File dataFile = new File(UserSettings.instance().getDataFileLocation());
+		if (dataFile.exists() && dataFile.canRead()) {
+			ProTrackReader reader = new ProTrackReader();
+			try {
+				reader.read(dataFile);
+				
+				final ProTrack data = reader.getData();
+				
+				// 1. Add projects
+				// -- Add normal projects
+				for (Project project : data.getProjects()) {
+					model.addProject(project, mainInstance);
+				}
+				
+				// -- Add deleted projects
+				for (Project project : data.getDeletedProjects()) {
+					model.addProject(project, mainInstance);
+				}
+				
+				// 2. Add activities
+				model.addActivities(data.getActivities(), mainInstance);
+				
+				// 3. Remove deleted projects including all associated activities
+				for (Project project : data.getDeletedProjects()) {
+					model.removeProject(project, mainInstance);
+				}
+
+				// 4. Rename data file as backup
+				final File dataFileBackup = new File(UserSettings.instance().getDataFileLocation() + ".pre15Backup");
+				final boolean renameSuccessfull = dataFile.renameTo(dataFileBackup);
+				if (!renameSuccessfull) {
+					throw new RuntimeException("Could not rename data file " + 
+							dataFile.getAbsolutePath() + " to " + 
+							dataFileBackup.getAbsolutePath() + "." +
+							"Please rename manually."
+					);
+				} else {
+					log.info("Successfully renamed data file from " +
+							dataFile.getAbsolutePath() + " to " + 
+							dataFileBackup.getAbsolutePath() + "."
+					);
+				}
+				
+				log.info("Successfully migrated the model to version 1.5 and following.");
+			} catch (IOException e) {
+				log.error(e, e);
+			}
+		}
+	}
+
+	/**
+	 * Migrates the application data directory. Up to version 1.5 the data directory used to
+	 * be <code>${user.home}/.ProTrack</code>. From version 1.5 on the data directory is located
+	 * at <code>${user.home}/.Baralga</code>.
+	 */
+	private static void migrateApplicationDirectory() {
+		final File oldDefaultDataDirectory = new File(System.getProperty("user.home") + File.separator + ".ProTrack");
+		final File defaultDataDirectory = new File(System.getProperty("user.home") + File.separator + ".Baralga");
+
+		if (oldDefaultDataDirectory.exists() && oldDefaultDataDirectory.isDirectory() && !defaultDataDirectory.exists()) {
+			final boolean renameSuccessfull = oldDefaultDataDirectory.renameTo(defaultDataDirectory);
+
+			if (!renameSuccessfull) {
+				throw new RuntimeException("Could not rename application directory " + 
+						oldDefaultDataDirectory.getAbsolutePath() + " to " + 
+						defaultDataDirectory.getAbsolutePath() + "." +
+						"Please rename manually."
+				);
+			} else {
+				log.info("Successfully renamed application directory from " +
+						oldDefaultDataDirectory.getAbsolutePath() + " to " + 
+						defaultDataDirectory.getAbsolutePath() + "."
+				);
+			}
+		}
+
 	}
 
 	/**

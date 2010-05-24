@@ -197,6 +197,13 @@ public class ProTrack implements Serializable {
     public synchronized List<Project> getProjects() {
         return Collections.unmodifiableList(activeProjects);
     }
+    
+    /**
+     * @return read-only view of the projects
+     */
+    public synchronized List<Project> getDeletedProjects() {
+    	return Collections.unmodifiableList(projectsToBeDeleted);
+    }
 
     /**
      * Replaces an old activity with a new, updated activity.

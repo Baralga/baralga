@@ -34,7 +34,7 @@ public final class ApplicationSettings {
     //------------------------------------------------
 
     /** Default data directory. */
-    public static final File dataDirectoryDefault = new File(System.getProperty("user.home") + File.separator + ".ProTrack"); //$NON-NLS-1$ //$NON-NLS-2$
+    public static final File dataDirectoryDefault = new File(System.getProperty("user.home") + File.separator + ".Baralga"); //$NON-NLS-1$ //$NON-NLS-2$
 
     /** Data directory relative to application installation. */
     public File dataDirectoryApplicationRelative = null;

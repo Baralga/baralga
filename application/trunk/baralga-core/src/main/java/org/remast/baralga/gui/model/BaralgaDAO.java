@@ -1,11 +1,3 @@
-//---------------------------------------------------------
-// $Id$ 
-// 
-// (c) 2010 Cellent Finance Solutions AG 
-//          Calwer Strasse 33 
-//          70173 Stuttgart 
-//          www.cellent-fs.de 
-//--------------------------------------------------------- 
 package org.remast.baralga.gui.model;
 
 import java.sql.Connection;
@@ -80,7 +72,7 @@ public class BaralgaDAO {
 
 	public void init() throws SQLException {
 		final String dataDirName = ApplicationSettings.instance().getApplicationDataDirectory().getAbsolutePath();
-		connection = DriverManager.getConnection("jdbc:h2:" + dataDirName + "/baralga", "baralga-user", "");
+		connection = DriverManager.getConnection("jdbc:h2:" + dataDirName + "/baralga;DB_CLOSE_ON_EXIT=FALSE", "baralga-user", "");
 
 		updateDatabase();
 	}
@@ -424,7 +416,7 @@ public class BaralgaDAO {
 		
 		try {
 			final Statement st = connection.createStatement();
-			final ResultSet rs = st.executeQuery("select distinct month(activity.start) as month from activity order by month asc");
+			final ResultSet rs = st.executeQuery("select distinct month(activity.start) as month from activity order by month desc");
 			while (rs.next()) {
 				monthList.add(rs.getInt("month"));
 			}
@@ -441,7 +433,7 @@ public class BaralgaDAO {
 		
 		try {
 			final Statement st = connection.createStatement();
-			final ResultSet rs = st.executeQuery("select distinct year(activity.start) as year from activity order by year asc");
+			final ResultSet rs = st.executeQuery("select distinct year(activity.start) as year from activity order by year desc");
 			while (rs.next()) {
 				yearList.add(rs.getInt("year"));
 			}
@@ -458,7 +450,7 @@ public class BaralgaDAO {
 		
 		try {
 			final Statement st = connection.createStatement();
-			final ResultSet rs = st.executeQuery("select distinct week(activity.start) as week from activity order by week asc");
+			final ResultSet rs = st.executeQuery("select distinct week(activity.start) as week from activity order by week desc");
 			while (rs.next()) {
 				weekOfYearList.add(rs.getInt("week"));
 			}

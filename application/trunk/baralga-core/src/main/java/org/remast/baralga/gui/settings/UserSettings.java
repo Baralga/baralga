@@ -166,7 +166,56 @@ public final class UserSettings {
     public void setLastDescription(final String lastDescription) {
         userConfig.setProperty(LAST_DESCRIPTION, lastDescription);
     }
-
+    
+    //------------------------------------------------
+    // Active Flag
+    //------------------------------------------------
+    
+    /** Active Flag. */
+    private static final String ACTIVE = "active"; //$NON-NLS-1$
+    
+    public boolean isActive() {
+    	return doGetBoolean(ACTIVE, false);
+    }
+    
+    public void setActive(final boolean active) {
+    	userConfig.setProperty(ACTIVE, active);
+    }
+    
+    //------------------------------------------------
+    // Id of active (selected) project
+    //------------------------------------------------
+    
+    /** Active Flag. */
+    private static final String ACTIVE_PROJECT_ID = "activeProjectId"; //$NON-NLS-1$
+    
+    public Long getActiveProjectId() {
+    	return doGetLong(ACTIVE_PROJECT_ID, null);
+    }
+    
+    public void setActiveProjectId(final Long activeProjectId) {
+    	userConfig.setProperty(ACTIVE_PROJECT_ID, activeProjectId);
+    }
+    
+    //------------------------------------------------
+    // Start time
+    //------------------------------------------------
+    
+    /** Active Flag. */
+    private static final String START = "start"; //$NON-NLS-1$
+    
+    public DateTime getStart() {
+    	return doGetDate(START, null);
+    }
+    
+    public void setStart(final DateTime start) {
+    	if (start == null) {
+    		userConfig.setProperty(START, null);
+    	} else {
+    		userConfig.setProperty(START, start.getMillis());
+    	}
+    }
+    
     //------------------------------------------------
     // Filter Settings
     //------------------------------------------------
@@ -532,5 +581,34 @@ public final class UserSettings {
             log.error(t, t);
             return defaultValue;
         }
+    }
+    
+    /**
+     * Getter that handle errors gracefully meaning errors are logged 
+     * but applications continues with the default value.
+     * @param key the key of the property to get
+     * @param defaultValue the default value of the property to get
+     * @return the property value if set and correct otherwise the default value
+     */
+    private DateTime doGetDate(final String key, final DateTime defaultValue) {
+    	try {
+    		Long defaultMillis = null;
+    		if (defaultValue != null) {
+    			defaultMillis = defaultValue.getMillis();	
+    		}
+    		
+    		final Long dateMilliseconds = userConfig.getLong(key, defaultMillis);
+    		if (dateMilliseconds == null) {
+    			return null;
+    		}
+    		
+    		return new DateTime(dateMilliseconds);
+    	} catch (Exception e) {
+    		log.error(e, e);
+    		return defaultValue;
+    	} catch (Throwable t) {
+    		log.error(t, t);
+    		return defaultValue;
+    	}
     }
 }

@@ -28,7 +28,6 @@ import org.remast.baralga.gui.model.report.HoursByProjectReport;
 import org.remast.baralga.gui.model.report.HoursByWeekReport;
 import org.remast.baralga.gui.model.report.ObservingAccumulatedActivitiesReport;
 import org.remast.baralga.gui.settings.UserSettings;
-import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
@@ -76,10 +75,7 @@ public class PresentationModel extends Observable {
 
     /** Stop date of activity. */
     private DateTime stop;
-
-    /** The data file that is presented by this model. */
-    private ProTrack data;
-
+    
     /** Current activity filter. */
     private Filter filter;
 
@@ -92,8 +88,6 @@ public class PresentationModel extends Observable {
      * Creates a new model.
      */
     public PresentationModel() {
-        this.data = new ProTrack();
-//        this.baralgaDAO = new BaralgaDAO();
         this.projectList = new SortedList<Project>(new BasicEventList<Project>());
         this.allProjectsList = new SortedList<Project>(new BasicEventList<Project>());
         this.activitiesList = new SortedList<ProjectActivity>(new BasicEventList<ProjectActivity>());
@@ -103,9 +97,12 @@ public class PresentationModel extends Observable {
      * Initializes the model.
      */
     public void initialize() {
-        this.active = this.data.isActive();
-        this.start = this.data.getStart();
-        this.selectedProject = this.data.getActiveProject();
+        this.active = UserSettings.instance().isActive();
+        this.start = UserSettings.instance().getStart();
+        final Long activeProjectId = UserSettings.instance().getActiveProjectId();
+        if (activeProjectId != null) {
+        	this.selectedProject = this.baralgaDAO.findProjectById(activeProjectId);
+        }
 
         this.projectList.clear();
         for (Project project : this.baralgaDAO.getActiveProjects()) {
@@ -153,16 +150,7 @@ public class PresentationModel extends Observable {
 
     private void applyFilter() {
         this.activitiesList.clear();
-
-        List<ProjectActivity> sqlResult = this.baralgaDAO.loadActivities(this.filter);
-        this.activitiesList.addAll(sqlResult);
-//        if (this.filter == null) {
-//            this.activitiesList.addAll(this.baralgaDAO.getActivities());
-//        } else {
-//            this.activitiesList.addAll(this.filter.applyFilters(this.baralgaDAO.getActivities()));
-//        }
-        
-        log.info("x");
+        this.activitiesList.addAll(this.baralgaDAO.loadActivities(this.filter));
     }
 
     /**
@@ -171,7 +159,6 @@ public class PresentationModel extends Observable {
      * @param source the source of the edit activity
      */
     public final void addProject(final Project project, final Object source) {
-//        getData().add(project);
         this.baralgaDAO.addProject(project);
         
         this.projectList.add(project);
@@ -189,8 +176,12 @@ public class PresentationModel extends Observable {
      * @param source the source of the edit activity
      */
     public final void removeProject(final Project project, final Object source) {
-    	if (!isProjectDeletionConfirmed(project)) {
-    		return;
+    	if (source.getClass().equals(BaralgaMain.class)) {
+    		// Don't confirm deletion during model migration.
+    	} else {
+        	if (!isProjectDeletionConfirmed(project)) {
+        		return;
+        	}
     	}
     	
         this.baralgaDAO.remove(project);
@@ -432,8 +423,12 @@ public class PresentationModel extends Observable {
         // Set selected project to new project
         this.selectedProject = activeProject;
 
-//        // Set active project to new project
-//        this.data.setActiveProject(activeProject);
+        // Set active project to new project
+        if (activeProject == null) {
+            UserSettings.instance().setActiveProjectId(null);
+        } else {
+            UserSettings.instance().setActiveProjectId(activeProject.getId());
+        }
 
         final DateTime now = DateUtils.getNowAsDateTime();
 
@@ -470,25 +465,6 @@ public class PresentationModel extends Observable {
         event.setData(activeProject);
         notify(event);
     }
-
-//    /**
-//     * Save the model.
-//     * @throws Exception on error during saving
-//     */
-//    public final void save() throws Exception {
-//        // If there are no changes there's nothing to do.
-//        if (!dirty)  {
-//            return;
-//        }
-//
-//        // Save data to disk.
-//        final ProTrackWriter writer = new ProTrackWriter(data);
-//
-//        final File proTrackFile = new File(UserSettings.instance().getDataFileLocation());
-//        DataBackup.createBackup(proTrackFile);
-//
-//        writer.write(proTrackFile);        
-//    }
 
     /**
      * Add a new activity to the model.
@@ -651,7 +627,7 @@ public class PresentationModel extends Observable {
      */
     public final void setStart(final DateTime start) {
         this.start = start;
-//        this.data.setStartTime(start);
+        UserSettings.instance().setStart(start);
 
         // Fire event
         final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.START_CHANGED, this);
@@ -689,6 +665,7 @@ public class PresentationModel extends Observable {
      */
     public void setActive(final boolean active) {
         this.active = active;
+        UserSettings.instance().setActive(active);
     }
 
     /**
@@ -698,40 +675,11 @@ public class PresentationModel extends Observable {
         return selectedProject;
     }
 
-//    /**
-//     * @return the data
-//     */
-//    public ProTrack getData() {
-//        return data;
-//    }
     public  BaralgaDAO getDAO() {
     	return baralgaDAO;
     }
     public  void setDAO(BaralgaDAO baralgaDAO) {
     	this.baralgaDAO = baralgaDAO;
-    }
-
-    /**
-     * @param data the data to set
-     */
-    public void setData(final ProTrack data) {
-//        if (ObjectUtils.equals(this.data, data)) {
-//            return;
-//        }
-//
-//        this.data = data;
-//
-//        initialize();
-//
-//        // Fire event for changed data
-//        final BaralgaEvent eventDataChanged = new BaralgaEvent(BaralgaEvent.DATA_CHANGED, this);
-//        notify(eventDataChanged);
-//
-//        // Fire event for changed project
-//        final BaralgaEvent projectChangedEvent = new BaralgaEvent(BaralgaEvent.PROJECT_CHANGED, this);
-//        final Project project = this.data.getActiveProject();
-//        projectChangedEvent.setData(project);
-//        notify(projectChangedEvent);    
     }
 
     /**
