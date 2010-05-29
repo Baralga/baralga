@@ -1,13 +1,14 @@
 == Known Bugs ==
-* DayFilters in severel languages
+* DayFilters in several languages
 
 == Further Development ==
- * Support for pluggable exporters.
 
 
 == Baralga Version 1.5 ==
 Enhancements
  * Store data in database instead of xml files (Issue #54 http://baralga.origo.ethz.ch/node/150).
+ * Filter by week day instead of specific date (Issue #73 http://baralga.origo.ethz.ch/issues/73)
+ * Deleting Projects don't delete Projects-Data (Issue #67 http://baralga.origo.ethz.ch/issues/67)
 
 
 == Baralga Version 1.4.5 ==

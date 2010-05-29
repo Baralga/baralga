@@ -8,8 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -30,6 +32,7 @@ import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.FormatStringValue;
 import org.jdesktop.swingx.table.DatePickerCellEditor;
+import org.joda.time.format.DateTimeFormat;
 import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.dialogs.AddOrEditActivityDialog;
@@ -56,6 +59,9 @@ public class AllActitvitiesPanel extends JPanel implements Observer {
 
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
+    
+	/** Format for one day in report. */
+	private static DateFormat DAY_FORMAT = new SimpleDateFormat(DateTimeFormat.patternForStyle("S-", Locale.getDefault()) + " EE");
 
     /** The model. */
     private final PresentationModel model;
@@ -93,7 +99,7 @@ public class AllActitvitiesPanel extends JPanel implements Observer {
         table.setSortable(false);
 
         table.getColumn(1).setCellRenderer(
-                new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance()))
+                new DefaultTableRenderer(new FormatStringValue(DAY_FORMAT))
         );
         table.getColumn(1).setCellEditor(
                 new DatePickerCellEditor()

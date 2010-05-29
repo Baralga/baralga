@@ -1,10 +1,14 @@
 package org.remast.baralga.model;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.remast.baralga.FormatUtils;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -26,6 +30,9 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
      * 
      */
     private static final long serialVersionUID = 1L;
+
+    /** Format for one in report. */
+	private static DateFormat DAY_FORMAT = new SimpleDateFormat(DateTimeFormat.patternForStyle("S-", Locale.getDefault()) + " EE");
 
     /** The unique identifier of the project. */
     private long id;
@@ -224,7 +231,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
     
     @Override
     public String toString() {
-        return FormatUtils.formatDate(getStart()) + " "
+        return DAY_FORMAT.format(getStart().toDate()) + "   "
                 + FormatUtils.formatTime(getStart()) + " - " + FormatUtils.formatTime(getEnd()) + " ("
                 + FormatUtils.durationFormat.format(this.getDuration()) + " h) " + this.project;
     }

@@ -30,8 +30,8 @@ import com.jidesoft.swing.JideScrollPane;
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class HoursByDayPanel extends JXPanel implements Observer {
 	
-	/** Format for on day in report. */
-	private static DateFormat DAY_FORMAT = new SimpleDateFormat(DateTimeFormat.patternForStyle("S-", Locale.getDefault()) + " EE");
+	/** Format for one day in report. */
+	private static DateFormat DAY_FORMAT = new SimpleDateFormat(DateTimeFormat.patternForStyle("S-", Locale.getDefault()) + " EEEEEEEEE");
 
     /**
      * The report displayed by this panel.
