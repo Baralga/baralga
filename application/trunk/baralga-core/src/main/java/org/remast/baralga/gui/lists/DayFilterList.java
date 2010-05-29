@@ -42,25 +42,25 @@ public class DayFilterList {
     	final int currentDay = Integer.valueOf(DAY_FORMAT.print(DateUtils.getNowAsDateTime()));
     	switch (currentDay) {
 		case 1:
-			currentDayLabel = textBundle.textFor("DayFilterList.SundayLabel"); //$NON-NLS-1$
-			break;
-		case 2:
 			currentDayLabel = textBundle.textFor("DayFilterList.MondayLabel"); //$NON-NLS-1$
 			break;
-		case 3:
+		case 2:
 			currentDayLabel = textBundle.textFor("DayFilterList.TuesdayLabel"); //$NON-NLS-1$
 			break;
-		case 4:
+		case 3:
 			currentDayLabel = textBundle.textFor("DayFilterList.WednesdayLabel"); //$NON-NLS-1$
 			break;
-		case 5:
+		case 4:
 			currentDayLabel = textBundle.textFor("DayFilterList.ThursdayLabel"); //$NON-NLS-1$
 			break;
-		case 6:
+		case 5:
 			currentDayLabel = textBundle.textFor("DayFilterList.FridayLabel"); //$NON-NLS-1$
 			break;
-		case 7:
+		case 6:
 			currentDayLabel = textBundle.textFor("DayFilterList.SaturdayLabel"); //$NON-NLS-1$
+			break;
+		case 7:
+			currentDayLabel = textBundle.textFor("DayFilterList.SundayLabel"); //$NON-NLS-1$
 			break;
 		}
     }
