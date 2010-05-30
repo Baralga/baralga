@@ -43,8 +43,7 @@ public class DayPredicate implements Predicate {
         }
 
         final ProjectActivity activity = (ProjectActivity) object;
-        return this.dateInDay.getDayOfYear() == activity.getStart().getDayOfYear()
-                && this.dateInDay.getYear() == activity.getStart().getYear();
+        return this.dateInDay.getDayOfWeek() == activity.getStart().getDayOfWeek();
     }
 
 }

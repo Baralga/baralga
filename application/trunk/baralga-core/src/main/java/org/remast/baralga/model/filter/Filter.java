@@ -159,7 +159,7 @@ public class Filter {
      * @return the day
      */
     public Integer getDay() {
-        return this.day != null ? this.day.getDayOfYear() : null;
+        return this.day != null ? this.day.getDayOfWeek() : null;
     }
 
     /**

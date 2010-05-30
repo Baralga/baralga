@@ -53,6 +53,7 @@ public class ObservingAccumulatedActivitiesReport extends AccumulatedActivitiesR
             
         case BaralgaEvent.FILTER_CHANGED:
             final Filter newFilter = (Filter) event.getData();
+            setData(model.getActivitiesList());
             setFilter(newFilter);
             break;
 

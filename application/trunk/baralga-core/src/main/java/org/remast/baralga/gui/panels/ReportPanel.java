@@ -15,6 +15,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jdesktop.swingx.JXTitledSeparator;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.lists.DayFilterList;
 import org.remast.baralga.gui.lists.MonthFilterList;
@@ -371,6 +373,12 @@ public class ReportPanel extends JPanel implements ActionListener {
 
         switch (selectedDay) {
         case DayFilterList.CURRENT_DAY_DUMMY:
+        {
+        	final DateTime da = DateUtils.getNowAsDateTime();
+        	int i = Integer.valueOf(DAY_FORMAT.print(da));
+        	System.out.println("1i: " + i);
+        	System.out.println("1: " + da.getDayOfWeek());
+        }
             filter.setDay(DateUtils.getNowAsDateTime());
             break;
 
@@ -380,8 +388,13 @@ public class ReportPanel extends JPanel implements ActionListener {
 
         default:
             try {
-                final DateTime day = new DateTime().withDayOfYear(selectedDay);
-                filter.setDay(day);
+                {
+                    final DateTime day = new DateTime().withDayOfWeek(selectedDay);
+                	int i = Integer.valueOf(DAY_FORMAT.print(day));
+                	System.out.println("2i: " + i);
+                	System.out.println("2: " + day.getDayOfWeek());
+                    filter.setDay(day);
+                }
             } catch (IllegalArgumentException e) {
                 log.error(e, e);
             }
@@ -396,6 +409,8 @@ public class ReportPanel extends JPanel implements ActionListener {
         }
         return filter;
     }
+    private static final DateTimeFormatter DAY_FORMAT = DateTimeFormat.forPattern("e"); //$NON-NLS-1$
+
 
     /**
      * Stores the filter in the user settings.

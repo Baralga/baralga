@@ -1,5 +1,6 @@
 package org.remast.baralga.gui.lists;
 
+import org.joda.time.DateTimeConstants;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.remast.baralga.gui.model.PresentationModel;
@@ -41,25 +42,25 @@ public class DayFilterList {
     static {
     	final int currentDay = Integer.valueOf(DAY_FORMAT.print(DateUtils.getNowAsDateTime()));
     	switch (currentDay) {
-		case 1:
+		case DateTimeConstants.MONDAY:
 			currentDayLabel = textBundle.textFor("DayFilterList.MondayLabel"); //$NON-NLS-1$
 			break;
-		case 2:
+		case DateTimeConstants.TUESDAY:
 			currentDayLabel = textBundle.textFor("DayFilterList.TuesdayLabel"); //$NON-NLS-1$
 			break;
-		case 3:
+		case DateTimeConstants.WEDNESDAY:
 			currentDayLabel = textBundle.textFor("DayFilterList.WednesdayLabel"); //$NON-NLS-1$
 			break;
-		case 4:
+		case DateTimeConstants.THURSDAY:
 			currentDayLabel = textBundle.textFor("DayFilterList.ThursdayLabel"); //$NON-NLS-1$
 			break;
-		case 5:
+		case DateTimeConstants.FRIDAY:
 			currentDayLabel = textBundle.textFor("DayFilterList.FridayLabel"); //$NON-NLS-1$
 			break;
-		case 6:
+		case DateTimeConstants.SATURDAY:
 			currentDayLabel = textBundle.textFor("DayFilterList.SaturdayLabel"); //$NON-NLS-1$
 			break;
-		case 7:
+		case DateTimeConstants.SUNDAY:
 			currentDayLabel = textBundle.textFor("DayFilterList.SundayLabel"); //$NON-NLS-1$
 			break;
 		}
@@ -73,43 +74,43 @@ public class DayFilterList {
     
     /** Filter item for mondays. */
     public static final LabeledItem<Integer> MONDAY_FILTER_ITEM = new LabeledItem<Integer>(
-    		2,
+    		DateTimeConstants.MONDAY,
     		textBundle.textFor("DayFilterList.MondayLabel") //$NON-NLS-1$
     );
     
     /** Filter item for tuesdays. */
     public static final LabeledItem<Integer> TUESDAY_FILTER_ITEM = new LabeledItem<Integer>(
-    		3,
+    		DateTimeConstants.TUESDAY,
     		textBundle.textFor("DayFilterList.TuesdayLabel") //$NON-NLS-1$
     );
     
     /** Filter item for wednesdays. */
     public static final LabeledItem<Integer> WEDNESDAY_FILTER_ITEM = new LabeledItem<Integer>(
-    		4,
+    		DateTimeConstants.WEDNESDAY,
     		textBundle.textFor("DayFilterList.WednesdayLabel") //$NON-NLS-1$
     );
     
     /** Filter item for thursdays. */
     public static final LabeledItem<Integer> THURSDAY_FILTER_ITEM = new LabeledItem<Integer>(
-    		5,
+    		DateTimeConstants.THURSDAY,
     		textBundle.textFor("DayFilterList.ThursdayLabel") //$NON-NLS-1$
     );
     
     /** Filter item for fridays. */
     public static final LabeledItem<Integer> FRIDAY_FILTER_ITEM = new LabeledItem<Integer>(
-    		6,
+    		DateTimeConstants.FRIDAY,
     		textBundle.textFor("DayFilterList.FridayLabel") //$NON-NLS-1$
     );
     
     /** Filter item for saturdays. */
     public static final LabeledItem<Integer> SATURDAY_FILTER_ITEM = new LabeledItem<Integer>(
-    		7,
+    		DateTimeConstants.SATURDAY,
     		textBundle.textFor("DayFilterList.SaturdayLabel") //$NON-NLS-1$
     );
     
     /** Filter item for sundays. */
     public static final LabeledItem<Integer> SUNDAY_FILTER_ITEM = new LabeledItem<Integer>(
-    		1,
+    		DateTimeConstants.SUNDAY,
     		textBundle.textFor("DayFilterList.SundayLabel") //$NON-NLS-1$
     );
 

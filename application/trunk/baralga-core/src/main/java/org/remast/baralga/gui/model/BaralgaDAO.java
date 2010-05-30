@@ -520,7 +520,10 @@ public class BaralgaDAO {
 		
 		// Condition for day of week
 		if (filter.getDay() != null) {
-			sqlCondition.append(" and day_of_week(activity.start) = " + filter.getDay() + " "); //$NON-NLS-1$ //$NON-NLS-2$
+			// :TRICKY: Day of the week in joda time and h2 database differ by one. Therfore
+			// we have to add one and make sure that it never succeeds 7.
+			final int dayOfWeek = (filter.getDay() + 1) % 7;
+			sqlCondition.append(" and day_of_week(activity.start) = " + dayOfWeek + " "); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		
 		// Condition for week of year
