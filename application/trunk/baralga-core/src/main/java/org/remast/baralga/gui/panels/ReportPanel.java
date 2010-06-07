@@ -15,8 +15,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jdesktop.swingx.JXTitledSeparator;
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.lists.DayFilterList;
 import org.remast.baralga.gui.lists.MonthFilterList;
@@ -31,9 +29,9 @@ import org.remast.swing.util.LabeledItem;
 import org.remast.util.DateUtils;
 import org.remast.util.TextResourceBundle;
 
-import com.jidesoft.swing.TitledSeparator;
-
 import ca.odell.glazedlists.swing.EventComboBoxModel;
+
+import com.jidesoft.swing.TitledSeparator;
 
 /**
  * Displays the reports generated from the project activities.
@@ -373,12 +371,6 @@ public class ReportPanel extends JPanel implements ActionListener {
 
         switch (selectedDay) {
         case DayFilterList.CURRENT_DAY_DUMMY:
-        {
-        	final DateTime da = DateUtils.getNowAsDateTime();
-        	int i = Integer.valueOf(DAY_FORMAT.print(da));
-        	System.out.println("1i: " + i);
-        	System.out.println("1: " + da.getDayOfWeek());
-        }
             filter.setDay(DateUtils.getNowAsDateTime());
             break;
 
@@ -387,17 +379,8 @@ public class ReportPanel extends JPanel implements ActionListener {
             break;
 
         default:
-            try {
-                {
-                    final DateTime day = new DateTime().withDayOfWeek(selectedDay);
-                	int i = Integer.valueOf(DAY_FORMAT.print(day));
-                	System.out.println("2i: " + i);
-                	System.out.println("2: " + day.getDayOfWeek());
-                    filter.setDay(day);
-                }
-            } catch (IllegalArgumentException e) {
-                log.error(e, e);
-            }
+        	final DateTime day = new DateTime().withDayOfWeek(selectedDay);
+        	filter.setDay(day);
             break;
         }
 
@@ -409,8 +392,6 @@ public class ReportPanel extends JPanel implements ActionListener {
         }
         return filter;
     }
-    private static final DateTimeFormatter DAY_FORMAT = DateTimeFormat.forPattern("e"); //$NON-NLS-1$
-
 
     /**
      * Stores the filter in the user settings.

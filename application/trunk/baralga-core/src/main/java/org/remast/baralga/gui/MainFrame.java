@@ -27,7 +27,6 @@ import org.remast.baralga.gui.actions.AbstractBaralgaAction;
 import org.remast.baralga.gui.actions.AddActivityAction;
 import org.remast.baralga.gui.actions.ExitAction;
 import org.remast.baralga.gui.actions.ExportCsvAction;
-import org.remast.baralga.gui.actions.ExportDataAction;
 import org.remast.baralga.gui.actions.ExportExcelAction;
 import org.remast.baralga.gui.actions.ManageProjectsAction;
 import org.remast.baralga.gui.actions.SettingsAction;
@@ -93,9 +92,6 @@ public class MainFrame extends JFrame implements Observer {
     /** The export menu. */
     private JMenu exportMenu = null;
 
-//    /** The import menu. */
-//    private JMenu importMenu = null;
-
     /** The edit menu. */
     private JMenu editMenu = null;
 
@@ -114,11 +110,7 @@ public class MainFrame extends JFrame implements Observer {
 
     private JMenuItem exportCsvItem = null;
 
-    private JMenuItem exportDataItem = null;
-
     private JMenuItem exitItem = null;
-
-//    private JMenuItem importItem = null;
 
     /**
      * This is the default constructor.
@@ -460,19 +452,6 @@ public class MainFrame extends JFrame implements Observer {
     }
 
     /**
-     * This method initializes exportDataItem.
-     * @return javax.swing.JMenuItem
-     */
-    private JMenuItem getExportDataItem() {
-        if (exportDataItem == null) {
-            final AbstractBaralgaAction exportDataAction = new ExportDataAction(this, this.model);
-            exportDataItem = new JMenuItem(exportDataAction);
-            exportDataItem.setMnemonic(exportDataAction.getMnemonic());
-        }
-        return exportDataItem;
-    }
-
-    /**
      * This method initializes exportMenu.
      * @return javax.swing.JMenu
      */
@@ -485,7 +464,6 @@ public class MainFrame extends JFrame implements Observer {
 
             exportMenu.add(getExportExcelItem());
             exportMenu.add(getExportCsvItem());
-            exportMenu.add(getExportDataItem());
         }
         return exportMenu;
     }
