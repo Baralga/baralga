@@ -499,7 +499,8 @@ public class PresentationModel extends Observable {
 
     public final void removeActivities(final List<ProjectActivity> activities, final Object source) {
         this.baralgaDAO.removeActivities(activities);
-        this.getActivitiesList().removeAll(activities);
+        
+        applyFilter();
 
         // Fire event
         final BaralgaEvent event = new BaralgaEvent(
