@@ -87,6 +87,11 @@
 		</plugins>
 	</build>
 	<dependencies>
+        <dependency>
+            <groupId>org.codehaus.izpack</groupId>
+            <artifactId>izpack-standalone-compiler</artifactId>
+            <version>4.3.2</version>
+        </dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>baralga-core</artifactId>
