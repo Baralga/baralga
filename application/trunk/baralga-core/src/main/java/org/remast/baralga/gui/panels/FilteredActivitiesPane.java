@@ -95,7 +95,7 @@ public class FilteredActivitiesPane extends JPanel {
 		generalButton.setToolTipText(textBundle.textFor("Category.General.ToolTipText"));
 	}
 
-	private JideToggleButton timeButton = new JideToggleButton(new AbstractAction(textBundle.textFor("Category.Time"), new ImageIcon(getClass().getResource("/icons/stock_calendar-view-day.png"))) {
+	private JideToggleButton timeButton = new JideToggleButton(new AbstractAction(textBundle.textFor("Category.Time"), new ImageIcon(getClass().getResource("/icons/clock.png"))) {
 
 		@Override
 		public void actionPerformed(final ActionEvent e) {
