@@ -10,12 +10,16 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
+import org.joda.time.format.PeriodFormat;
+import org.joda.time.format.PeriodFormatter;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.settings.ApplicationSettings;
 import org.remast.baralga.model.Project;
@@ -38,6 +42,7 @@ public class BaralgaDAO {
 	/** The connection to the database. */
 	private Connection connection;
 
+	/** Statement to create table for the database version. */
 	private static final String versionTableCreate =  
 		"create table db_version (" + //$NON-NLS-1$
 		"     id           identity," + //$NON-NLS-1$
@@ -45,8 +50,11 @@ public class BaralgaDAO {
 		"     created_at   timestamp," + //$NON-NLS-1$
 		"     description  varchar2(255)" + //$NON-NLS-1$
 		"    )"; //$NON-NLS-1$
+	
+	/** Statement to insert the current database version. */
 	private static final String versionTableInsert = "insert into db_version (version, description) values (1, 'Initial database setup.')"; //$NON-NLS-1$
 
+	/** Statement to create table for the projects. */
 	private static final String projectTableCreate =  
 		"create table project (" + //$NON-NLS-1$
 		"     id           identity," + //$NON-NLS-1$
@@ -55,6 +63,7 @@ public class BaralgaDAO {
 		"     active       boolean" + //$NON-NLS-1$
 		"    )"; //$NON-NLS-1$
 
+	/** Statement to create table for the activities. */
 	private static final String activityTableCreate =  
 		"create table activity (" + //$NON-NLS-1$
 		"     id           identity," + //$NON-NLS-1$
@@ -64,6 +73,9 @@ public class BaralgaDAO {
 		"     project_id   number," + //$NON-NLS-1$
 		"     FOREIGN key (project_id) REFERENCES project(id)" + //$NON-NLS-1$
 		"    )"; //$NON-NLS-1$
+
+	/** The current version number of the database. */
+	private int databaseVersion;
 
 	/**
 	 * Initializes the database and the connection to the database.
@@ -98,6 +110,7 @@ public class BaralgaDAO {
 	private void updateDatabase() throws SQLException {
 		boolean databaseExists = false;
 
+		// Look for table db_version if that is present the database has already been set up
 		final Statement statement = connection.createStatement();
 		ResultSet resultSet = statement.executeQuery("SHOW TABLES"); //$NON-NLS-1$
 		while (resultSet.next()) {
@@ -112,20 +125,23 @@ public class BaralgaDAO {
 			statement.execute(versionTableCreate);
 			statement.execute(projectTableCreate);
 			statement.execute(activityTableCreate);
+			
+			log.info("Inserting reference data."); //$NON-NLS-1$
 			statement.execute(versionTableInsert);
+			
 			log.info("Baralga DB successfully created."); //$NON-NLS-1$
 		}
 		connection.commit();
 
 		resultSet = statement.executeQuery("select max(version) as version, description from db_version"); //$NON-NLS-1$
-		int version = -1;
-		String description = "-";
+		databaseVersion = -1;
+		String description = "-"; //$NON-NLS-1$
 		if (resultSet.next()) {
-			version = resultSet.getInt("version"); //$NON-NLS-1$
+			databaseVersion = resultSet.getInt("version"); //$NON-NLS-1$
 			description = resultSet.getString("description"); //$NON-NLS-1$
 		}
 
-		log.info("Using Baralga DB Version: " + version + ", description: " + description); //$NON-NLS-1$ //$NON-NLS-2$
+		log.info("Using Baralga DB Version: " + databaseVersion + ", description: " + description); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 	/**
@@ -164,7 +180,7 @@ public class BaralgaDAO {
 
 		// TODO: Check if exists
 		try {
-			PreparedStatement pst = connection.prepareStatement("insert into project (title, description, active) values (?, ?, ?)"); //$NON-NLS-1$
+			final PreparedStatement pst = connection.prepareStatement("insert into project (title, description, active) values (?, ?, ?)"); //$NON-NLS-1$
 			pst.setString(1, project.getTitle());
 			pst.setString(2, project.getDescription());
 			pst.setBoolean(3, project.isActive());
@@ -542,6 +558,47 @@ public class BaralgaDAO {
 		}
 		
 		return getActivities(sqlCondition.toString());
+	}
+	
+	/**
+	 * Gathers some statistics about the tracked activities.
+	 */
+	public void gatherStatistics() {
+		try {
+			final Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery("select count(*) as rowcount from activity"); //$NON-NLS-1$
+			if (resultSet.next()) {
+				log.error("#activities: " + resultSet.getInt("rowcount")); //$NON-NLS-1$
+			}
+			
+			resultSet = statement.executeQuery("select count(*) as rowcount from project"); //$NON-NLS-1$
+			if (resultSet.next()) {
+				log.error("#projects: " + resultSet.getInt("rowcount")); //$NON-NLS-1$
+			}
+
+			Date earliestDate = null;
+			resultSet = statement.executeQuery("select min(start) as startDate from activity"); //$NON-NLS-1$
+			if (resultSet.next()) {
+				earliestDate = resultSet.getDate("startDate");
+				log.error("earliest activity: " + earliestDate); //$NON-NLS-1$
+			}
+			
+			Date latestDate = null;
+			resultSet = statement.executeQuery("select max(start) as startDate from activity"); //$NON-NLS-1$
+			if (resultSet.next()) {
+				latestDate = resultSet.getDate("startDate");
+				log.error("latest activity: " + latestDate); //$NON-NLS-1$
+			}
+			
+			if (earliestDate != null && latestDate != null) {
+				Duration dur = new Duration(earliestDate.getTime(), latestDate.getTime());
+				log.error("using for " + PeriodFormat.getDefault().print(dur.toPeriod())); //$NON-NLS-1$
+				
+			}
+		} catch (SQLException e) {
+			log.error(e, e);
+			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
+		}
 	}
 
 }
