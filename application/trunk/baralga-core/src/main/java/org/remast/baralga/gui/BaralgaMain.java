@@ -148,7 +148,10 @@ public final class BaralgaMain {
 	 */
 	private static MainFrame initMainFrame(final PresentationModel model,
 			final BaralgaMain mainInstance) {
-		log.debug("Initializing main frame ..."); //$NON-NLS-1$
+		if (log.isDebugEnabled()) {
+			log.debug("Initializing main frame ..."); //$NON-NLS-1$
+		}
+
 		final MainFrame mainFrame = new MainFrame(model);
 
 		SwingUtilities.invokeLater(new Runnable() {
@@ -166,7 +169,10 @@ public final class BaralgaMain {
 	 * Initializes the lock file.
 	 */
 	private static void initLockFile() {
-		log.debug("Initializing lock file ..."); //$NON-NLS-1$
+		if (log.isDebugEnabled()) {
+			log.debug("Initializing lock file ..."); //$NON-NLS-1$
+		}
+
 		if (!tryLock()) {
 			JOptionPane.showMessageDialog(
 					null, 
@@ -187,7 +193,9 @@ public final class BaralgaMain {
 	 */
 	private static void initTrayIcon(final BaralgaMain mainInstance,
 			final PresentationModel model, final MainFrame mainFrame) {
-		log.debug("Initializing tray icon ..."); //$NON-NLS-1$
+		if (log.isDebugEnabled()) {
+			log.debug("Initializing tray icon ..."); //$NON-NLS-1$
+		}
 
 		// Create try icon.
 		try {
@@ -211,13 +219,19 @@ public final class BaralgaMain {
 	 * @param model
 	 */
 	private static void initShutdownHook(final PresentationModel model) {
-		log.debug("Initializing shutdown hook ..."); //$NON-NLS-1$
+		if (log.isDebugEnabled()) {
+			log.debug("Initializing shutdown hook ..."); //$NON-NLS-1$
+		}
 
 		Runtime.getRuntime().addShutdownHook(
 				new Thread("Baralga shutdown ...") { //$NON-NLS-1$
 
 					@Override
 					public void run() {
+						if (log.isDebugEnabled()) {
+							log.debug("Shutdown started."); //$NON-NLS-1$
+						}
+
 						try {
 							// 1. Stop current activity (if any)
 							if (model.isActive()) {
@@ -232,7 +246,7 @@ public final class BaralgaMain {
 						} catch (Error e) {
 							log.error(e, e);
 						}
-						
+
 						try {
 							// 2. Save model
 							model.getDAO().close();
@@ -243,6 +257,10 @@ public final class BaralgaMain {
 						} finally {
 							// 3. Release lock
 							releaseLock();
+						}
+
+						if (log.isDebugEnabled()) {
+							log.debug("Shutdown finished."); //$NON-NLS-1$
 						}
 					}
 
@@ -276,23 +294,23 @@ public final class BaralgaMain {
 			ProTrackReader reader = new ProTrackReader();
 			try {
 				reader.read(dataFile);
-				
+
 				final ProTrack data = reader.getData();
-				
+
 				// 1. Add projects
 				// -- Add normal projects
 				for (Project project : data.getProjects()) {
 					model.addProject(project, mainInstance);
 				}
-				
+
 				// -- Add deleted projects
 				for (Project project : data.getDeletedProjects()) {
 					model.addProject(project, mainInstance);
 				}
-				
+
 				// 2. Add activities
 				model.addActivities(data.getActivities(), mainInstance);
-				
+
 				// 3. Remove deleted projects including all associated activities
 				for (Project project : data.getDeletedProjects()) {
 					model.removeProject(project, mainInstance);
@@ -313,7 +331,7 @@ public final class BaralgaMain {
 							dataFileBackup.getAbsolutePath() + "."
 					);
 				}
-				
+
 				log.info("Successfully migrated the model to version 1.5 and following.");
 			} catch (IOException e) {
 				log.error(e, e);

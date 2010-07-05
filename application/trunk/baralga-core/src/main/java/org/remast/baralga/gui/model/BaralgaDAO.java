@@ -19,7 +19,6 @@ import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.format.PeriodFormat;
-import org.joda.time.format.PeriodFormatter;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.settings.ApplicationSettings;
 import org.remast.baralga.model.Project;

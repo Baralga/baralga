@@ -97,6 +97,10 @@ public class PresentationModel extends Observable {
      * Initializes the model.
      */
     public void initialize() {
+		if (log.isDebugEnabled()) {
+			log.debug("Initializing the presentation model.");
+		}
+
         this.active = UserSettings.instance().isActive();
         this.start = UserSettings.instance().getStart();
         final Long activeProjectId = UserSettings.instance().getActiveProjectId();
@@ -148,7 +152,13 @@ public class PresentationModel extends Observable {
 
     }
 
+    /**
+     * Applies the current filter to the activities.
+     */
     private void applyFilter() {
+		if (log.isDebugEnabled()) {
+			log.debug("Applying filter to activities.");
+		}
         this.activitiesList.clear();
         this.activitiesList.addAll(this.baralgaDAO.getActivities(this.filter));
     }
@@ -159,6 +169,10 @@ public class PresentationModel extends Observable {
      * @param source the source of the edit activity
      */
     public final void addProject(final Project project, final Object source) {
+		if (log.isDebugEnabled()) {
+			log.debug("Adding project " + String.valueOf(project) + ".");
+		}
+		
         this.baralgaDAO.addProject(project);
         
         this.projectList.add(project);
@@ -176,6 +190,10 @@ public class PresentationModel extends Observable {
      * @param source the source of the edit activity
      */
     public final void removeProject(final Project project, final Object source) {
+		if (log.isDebugEnabled()) {
+			log.debug("Removing project " + String.valueOf(project) + ".");
+		}
+    	
     	if (source.getClass().equals(BaralgaMain.class)) {
     		// Don't confirm deletion during model migration.
     	} else {
@@ -223,7 +241,11 @@ public class PresentationModel extends Observable {
      *   or if no project is selected, currently
      */
     public final void start(final DateTime startTime) throws ProjectActivityStateException {
-        if (getSelectedProject() == null) {
+		if (log.isDebugEnabled()) {
+			log.debug("Starting activity at " + String.valueOf(startTime) + ".");
+		}
+		
+		if (getSelectedProject() == null) {
             throw new ProjectActivityStateException(textBundle.textFor("PresentationModel.NoActiveProjectSelectedError")); //$NON-NLS-1$
         }
 
@@ -262,7 +284,10 @@ public class PresentationModel extends Observable {
      * @param event the event to forward to the observers
      */
     private void notify(final BaralgaEvent event) {
-
+		if (log.isDebugEnabled()) {
+			log.debug("Sending event notification for " + String.valueOf(event) + ".");
+		}
+		
         final Runnable notifyRunner = new Runnable() {
 
             @Override
@@ -341,7 +366,11 @@ public class PresentationModel extends Observable {
      * @throws ProjectActivityStateException if there is no running project
      */
     public final void stop(final boolean notifyObservers) throws ProjectActivityStateException {
-        if (!isActive()) {
+		if (log.isDebugEnabled()) {
+			log.debug("Stopping activity.");
+		}
+
+		if (!isActive()) {
             throw new ProjectActivityStateException(textBundle.textFor("PresentationModel.NoActiveProjectError")); //$NON-NLS-1$
         }
 
@@ -410,7 +439,11 @@ public class PresentationModel extends Observable {
      * @param activeProject the new active project
      */
     public final void changeProject(final Project activeProject) {
-        // If there's no change we're done.
+		if (log.isDebugEnabled()) {
+			log.debug("Changing project to " + String.valueOf(activeProject) + ".");
+		}
+
+		// If there's no change we're done.
         if (ObjectUtils.equals(getSelectedProject(), activeProject)) {
             return;
         }
@@ -469,7 +502,11 @@ public class PresentationModel extends Observable {
      * @param activity the activity to add
      */
     public final void addActivity(final ProjectActivity activity, final Object source) {
-        final List<ProjectActivity> activities = new ArrayList<ProjectActivity>(1);
+		if (log.isDebugEnabled()) {
+			log.debug("Adding activity " + String.valueOf(activity) + ".");
+		}
+
+		final List<ProjectActivity> activities = new ArrayList<ProjectActivity>(1);
         activities.add(activity);
 
         this.addActivities(activities, source);
@@ -491,7 +528,11 @@ public class PresentationModel extends Observable {
      * @param activity the activity to remove
      */
     public final void removeActivity(final ProjectActivity activity, final Object source) {
-        final List<ProjectActivity> activities = new ArrayList<ProjectActivity>(1);
+		if (log.isDebugEnabled()) {
+			log.debug("Removing activity " + String.valueOf(activity) + ".");
+		}
+
+		final List<ProjectActivity> activities = new ArrayList<ProjectActivity>(1);
         activities.add(activity);
 
         this.removeActivities(activities, source);

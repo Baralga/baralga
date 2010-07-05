@@ -147,6 +147,11 @@ public class BaralgaEvent {
             return "-impossible-";
         }
     }
+    
+    @Override
+    public String toString() {
+    	return "BaralgaEvent{"+ "data: " + String.valueOf(data) + ", type: " + String.valueOf(type) + "}";
+    }
 
     /**
      * Getter for the data.
