@@ -79,7 +79,7 @@
 						<configuration>
 							<izpackBasedir>target/Baralga-Portable-${baralga.version}.dir</izpackBasedir>
 							<descriptorEncoding>UTF-8</descriptorEncoding>
-							<installerFile>Baralga-Installer-${baralga.version}.jar</installerFile>
+							<installerFile>${project.build.directory}/Baralga-Installer-${baralga.version}.jar</installerFile>
 						</configuration>
 					</execution>
 				</executions>
