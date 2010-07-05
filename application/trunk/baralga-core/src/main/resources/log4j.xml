@@ -23,7 +23,7 @@
 
     <!-- Application specific classes to enable debugging.  -->
     <logger name="org.remast">
-        <level value="WARN" />
+        <level value="DEBUG" />
     </logger>
 
     <!-- General debugging level.  -->
