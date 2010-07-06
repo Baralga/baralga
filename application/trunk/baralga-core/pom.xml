@@ -149,8 +149,7 @@
 		<repository>
 			<id>repository.jboss.org</id>
 			<name>JBoss Repository for Maven</name>
-			<url>http://repository.jboss.org/maven2
-			</url>
+			<url>http://repository.jboss.org/maven2</url>
 		</repository>
 	</repositories>
 	<pluginRepositories>
