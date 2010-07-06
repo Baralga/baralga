@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -40,6 +42,9 @@ public class BaralgaDAO {
 
 	/** The connection to the database. */
 	private Connection connection;
+	
+	/** Cache for the prepared statements. */
+    private Map<String, PreparedStatement> preparedStatementCache = Collections.synchronizedMap(new HashMap<String, PreparedStatement>());
 
 	/** Statement to create table for the database version. */
 	private static final String versionTableCreate =  
@@ -142,6 +147,21 @@ public class BaralgaDAO {
 
 		log.info("Using Baralga DB Version: " + databaseVersion + ", description: " + description); //$NON-NLS-1$ //$NON-NLS-2$
 	}
+
+	/**
+	 * Prepares a statement with the given sql string.
+	 * @param sql the sql of the statement
+	 * @return the prepared statement
+	 * @throws SQLException on errors during statement creation
+	 */
+	private PreparedStatement prepare(final String sql) throws SQLException {
+		PreparedStatement preparedStatement = preparedStatementCache.get(sql);
+		if (preparedStatement == null) {
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatementCache.put(sql, preparedStatement);
+		}
+		return preparedStatement;
+	}
 	
 	/**
 	 * Removes a project.
@@ -154,12 +174,12 @@ public class BaralgaDAO {
 
 		try {
 			// Remove activities associated with the project
-			final PreparedStatement activityDelete = connection.prepareStatement("delete from activity where project_id = ?"); //$NON-NLS-1$
+			final PreparedStatement activityDelete = prepare("delete from activity where project_id = ?"); //$NON-NLS-1$
 			activityDelete.setLong(1, project.getId());
 			activityDelete.execute();
 
 			// Remove the project
-			final PreparedStatement projectDelete = connection.prepareStatement("delete from project where id = ?"); //$NON-NLS-1$
+			final PreparedStatement projectDelete = prepare("delete from project where id = ?"); //$NON-NLS-1$
 			projectDelete.setLong(1, project.getId());
 			projectDelete.execute();
 		} catch (SQLException e) {
@@ -179,7 +199,7 @@ public class BaralgaDAO {
 
 		// TODO: Check if exists
 		try {
-			final PreparedStatement pst = connection.prepareStatement("insert into project (title, description, active) values (?, ?, ?)"); //$NON-NLS-1$
+			final PreparedStatement pst = prepare("insert into project (title, description, active) values (?, ?, ?)"); //$NON-NLS-1$
 			pst.setString(1, project.getTitle());
 			pst.setString(2, project.getDescription());
 			pst.setBoolean(3, project.isActive());
@@ -298,7 +318,7 @@ public class BaralgaDAO {
 
 		// TODO: Check if exists
 		try {
-			final PreparedStatement preparedStatement = connection.prepareStatement("insert into activity (description, start, end, project_id) values (?, ?, ?, ?)"); //$NON-NLS-1$
+			final PreparedStatement preparedStatement = prepare("insert into activity (description, start, end, project_id) values (?, ?, ?, ?)"); //$NON-NLS-1$
 			
 			preparedStatement.setString(1, activity.getDescription());
 
@@ -334,7 +354,7 @@ public class BaralgaDAO {
 		}
 
 		try {
-			final PreparedStatement preparedStatement = connection.prepareStatement("delete from activity where id = ?"); //$NON-NLS-1$
+			final PreparedStatement preparedStatement = prepare("delete from activity where id = ?"); //$NON-NLS-1$
 			preparedStatement.setLong(1, activity.getId());
 
 			preparedStatement.execute();
@@ -383,7 +403,7 @@ public class BaralgaDAO {
 
 		// TODO: Check if exists
 		try {
-			final PreparedStatement preparedStatement = connection.prepareStatement("update project set title = ?, description = ?, active = ? where id = ?"); //$NON-NLS-1$
+			final PreparedStatement preparedStatement = prepare("update project set title = ?, description = ?, active = ? where id = ?"); //$NON-NLS-1$
 			preparedStatement.setString(1, project.getTitle());
 			preparedStatement.setString(2, project.getDescription());
 			preparedStatement.setBoolean(3, project.isActive());
@@ -407,7 +427,7 @@ public class BaralgaDAO {
 
 		// TODO: Check if exists
 		try {
-			final PreparedStatement preparedStatement = connection.prepareStatement("update activity set description = ?, start = ?, end = ?, project_id = ? where id = ?"); //$NON-NLS-1$
+			final PreparedStatement preparedStatement = prepare("update activity set description = ?, start = ?, end = ?, project_id = ? where id = ?"); //$NON-NLS-1$
 
 			preparedStatement.setString(1, activity.getDescription());
 
@@ -439,7 +459,7 @@ public class BaralgaDAO {
 		}
 
 		try {
-			final PreparedStatement preparedStatement = connection.prepareStatement("select * from project where id = ?"); //$NON-NLS-1$
+			final PreparedStatement preparedStatement = prepare("select * from project where id = ?"); //$NON-NLS-1$
 			preparedStatement.setLong(1, projectId);
 
 			ResultSet rs = preparedStatement.executeQuery();
