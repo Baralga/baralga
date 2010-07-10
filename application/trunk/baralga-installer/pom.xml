@@ -21,6 +21,12 @@
 			Use version number of baralga-core instead of installer version.
 		-->
 		<finalName>Baralga-Portable-${baralga.version}</finalName>
+      <resources>
+         <resource>
+           <directory>src/izpack</directory>
+           <filtering>true</filtering>
+         </resource>
+       </resources>
 		<plugins>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -77,7 +83,8 @@
 							<goal>izpack</goal>
 						</goals>
 						<configuration>
-							<izpackBasedir>target/Baralga-Portable-${baralga.version}.dir</izpackBasedir>
+							<izpackBasedir>${project.build.directory}/Baralga-Portable-${baralga.version}.dir</izpackBasedir>
+                            <descriptor>${project.build.directory}/classes/install.xml</descriptor>
 							<descriptorEncoding>UTF-8</descriptorEncoding>
 							<installerFile>${project.build.directory}/Baralga-Installer-${baralga.version}.jar</installerFile>
 						</configuration>
