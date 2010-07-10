@@ -22,6 +22,9 @@ public class ProjectActivityTest {
 
         act = new ProjectActivity(startTime, startTime.plusHours(1).plusMinutes(30), null);
         assertEquals(1.5, act.getDuration(), 0);
+        
+        act = new ProjectActivity(startTime, startTime.plusMinutes(20), null);
+        assertEquals(1.0/3, act.getDuration(), 0);
     }
 
     /**

@@ -256,12 +256,8 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
      */    
     public final double getDuration() {
         final long timeMilliSec = end.getMillis() - start.getMillis();
-        final long timeMin = timeMilliSec / 1000 / 60;
-        final long hours = timeMin / 60;
-
-        final long mins = timeMin % 60;
-        final double minsD = Math.round(mins * (1 + 2.0 / 3.0)) / 100.0;
-
-        return hours + minsD;
+        final double timeMin = timeMilliSec / 1000.0 / 60.0;
+        final double hours = timeMin / 60.0;
+        return hours;
     }
 }
