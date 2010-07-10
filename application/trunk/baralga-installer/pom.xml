@@ -23,7 +23,7 @@
 		<finalName>Baralga-Portable-${baralga.version}</finalName>
       <resources>
          <resource>
-           <directory>src/izpack</directory>
+           <directory>src/izpack-installer</directory>
            <filtering>true</filtering>
          </resource>
        </resources>
@@ -83,9 +83,9 @@
 							<goal>izpack</goal>
 						</goals>
 						<configuration>
-							<izpackBasedir>${project.build.directory}/Baralga-Portable-${baralga.version}.dir</izpackBasedir>
                             <descriptor>${project.build.directory}/classes/install.xml</descriptor>
-							<descriptorEncoding>UTF-8</descriptorEncoding>
+                            <descriptorEncoding>UTF-8</descriptorEncoding>
+							<izpackBasedir>${project.build.directory}/Baralga-Portable-${baralga.version}.dir</izpackBasedir>
 							<installerFile>${project.build.directory}/Baralga-Installer-${baralga.version}.jar</installerFile>
 						</configuration>
 					</execution>
