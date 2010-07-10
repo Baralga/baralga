@@ -26,7 +26,7 @@ public class CsvExporter implements Exporter {
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(CsvExporter.class);
 
-    private static final DateTimeFormatter timeFormat = DateTimeFormat.forPattern("hh:mm"); //$NON-NLS-1$
+    private static final DateTimeFormatter timeFormat = DateTimeFormat.forPattern("HH:mm"); //$NON-NLS-1$
 
     private static final DateTimeFormatter dateFormat = DateTimeFormat.forPattern("dd.MM.yyyy"); //$NON-NLS-1$
 
