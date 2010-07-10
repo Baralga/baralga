@@ -455,7 +455,7 @@ public final class UserSettings {
 
         if (selectedDay != DayFilterList.ALL_DAYS_DUMMY) {
             try {
-                DateTime day = new DateTime().withDayOfYear(selectedDay);
+                DateTime day = new DateTime().withDayOfWeek(selectedDay);
                 filter.setDay(day);
             } catch (NumberFormatException e) {
                 log.error(e, e);
