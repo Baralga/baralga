@@ -12,7 +12,7 @@
 			</includes>
 		</fileSet>
 		<fileSet>
-			<directory>src/izpack</directory>
+			<directory>${project.build.directory}/classes</directory>
 			<outputDirectory>.</outputDirectory>
 			<includes>
 				<include>Info.txt</include>
