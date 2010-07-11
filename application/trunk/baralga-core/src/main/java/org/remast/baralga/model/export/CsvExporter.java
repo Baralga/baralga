@@ -2,7 +2,6 @@ package org.remast.baralga.model.export;
 
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,8 +28,6 @@ public class CsvExporter implements Exporter {
     private static final DateTimeFormatter timeFormat = DateTimeFormat.forPattern("HH:mm"); //$NON-NLS-1$
 
     private static final DateTimeFormatter dateFormat = DateTimeFormat.forPattern("dd.MM.yyyy"); //$NON-NLS-1$
-
-    public static final NumberFormat durationFormat = new DecimalFormat("#0.00"); //$NON-NLS-1$
 
     private static final char SEPARATOR_CHARACTER = ';';
 
@@ -92,7 +89,7 @@ public class CsvExporter implements Exporter {
         csvLine[1] = dateFormat.print(activity.getStart());
         csvLine[2] = timeFormat.print(activity.getStart());
         csvLine[3] = timeFormat.print(activity.getEnd());
-        csvLine[4] = durationFormat.format(activity.getDuration());
+        csvLine[4] = NumberFormat.getNumberInstance().format(activity.getDuration());
 
         // Description
         String description = org.remast.util.StringUtils.stripXmlTags(activity.getDescription());
