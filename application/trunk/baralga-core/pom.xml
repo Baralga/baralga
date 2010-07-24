@@ -9,7 +9,7 @@
 	<groupId>com.remast.baralga</groupId>
 	<artifactId>baralga-core</artifactId>
 	<name>Baralga Application</name>
-	<version>1.5</version>
+	<version>1.5.1-SNAPSHOT</version>
 	<properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -259,7 +259,7 @@
         <dependency>
           <groupId>com.h2database</groupId>
           <artifactId>h2</artifactId>
-          <version>1.2.138</version>
+          <version>1.2.139</version>
         </dependency>
 	</dependencies>
 </project>
