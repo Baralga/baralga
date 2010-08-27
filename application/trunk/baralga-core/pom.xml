@@ -250,6 +250,11 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+        <dependency>
+            <groupId>jfree</groupId>
+            <artifactId>jcommon</artifactId>
+            <version>1.0.15</version>
+        </dependency>
 		<dependency>
 		  <groupId>findbugs</groupId>
 		  <artifactId>annotations</artifactId>
@@ -259,7 +264,7 @@
         <dependency>
           <groupId>com.h2database</groupId>
           <artifactId>h2</artifactId>
-          <version>1.2.139</version>
+          <version>1.2.141</version>
         </dependency>
 	</dependencies>
 </project>
