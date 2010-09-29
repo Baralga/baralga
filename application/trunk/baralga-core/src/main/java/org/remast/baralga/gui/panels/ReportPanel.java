@@ -104,7 +104,7 @@ public class ReportPanel extends JPanel implements ActionListener {
                         TableLayout.FILL, border } }; // Rows
         this.setLayout(new TableLayout(size));
 
-        final TitledSeparator filterSeparator = new TitledSeparator(textBundle.textFor("ReportPanel.FiltersLabel")); //$NON-NLS-1$
+        final JXTitledSeparator filterSeparator = new JXTitledSeparator(textBundle.textFor("ReportPanel.FiltersLabel")); //$NON-NLS-1$
         this.add(filterSeparator, "1, 1, 19, 1"); //$NON-NLS-1$
 
         this.add(new JLabel(textBundle.textFor("ReportPanel.ProjectLabel")), "1, 3"); //$NON-NLS-1$ //$NON-NLS-2$

@@ -1,12 +1,12 @@
 package org.remast.baralga.model.filter;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.joda.time.DateTime;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
@@ -20,7 +20,6 @@ public class Filter {
 
     /** The predicates of the filter. */
     private final List<Predicate> predicates = new ArrayList<Predicate>();
-    
     
     /** The week of the year to filter by. */
     private DateTime weekOfYear;
@@ -43,7 +42,6 @@ public class Filter {
 
     /** The year to filter by. */
     private DateTime year;
-
     
     /** The predicate to filter by year. */
     private Predicate yearPredicate;
@@ -61,33 +59,16 @@ public class Filter {
     }
 
     /**
-     * Apply this filter to given elements.
-     * 
-     * @param elements
-     *            the elements to apply filter to
-     * @return a list of elements satisfying the filter
-     */
-    public List<ProjectActivity> applyFilters(final Collection<ProjectActivity> elements) {
-        ArrayList<ProjectActivity> filteredElements = new ArrayList<ProjectActivity>(elements);
-        for (Predicate predicate : predicates) {
-            for (ProjectActivity activity : new ArrayList<ProjectActivity>(filteredElements)) {
-                if (!predicate.evaluate(activity)) {
-                    filteredElements.remove(activity);
-                }
-            }
-        }
-
-        filteredElements.trimToSize();
-        return filteredElements;
-    }
-
-    /**
      * Checks whether the given activity matches the filter criteria.
      * @param activity the project activity to check
      * @return <code>true</code> if activity matches the filter
      * otherwise <code>false</code>
      */
     public final boolean matchesCriteria(final ProjectActivity activity) {
+    	if (activity == null) {
+    		return false;
+    	}
+    	
         for (Predicate predicate : predicates) {
             if (!predicate.evaluate(activity)) {
                 return false;
@@ -214,6 +195,10 @@ public class Filter {
         this.predicates.add(newYearPredicate);
     }
     
+    /**
+     * Getter for the project.
+     * @return the project
+     */
     public Project getProject() {
         return this.project;
     }
@@ -273,6 +258,19 @@ public class Filter {
         hashBuilder.append(this.getDay());
         
         return hashBuilder.toHashCode();
-}
+    }
+    
+    @Override
+    public String toString() {
+    	final ToStringBuilder toStringBuilder = new ToStringBuilder(this);
+    	
+    	toStringBuilder.append(this.getProject());
+    	toStringBuilder.append(this.getWeekOfYear());
+    	toStringBuilder.append(this.getMonth());
+    	toStringBuilder.append(this.getYear());
+    	toStringBuilder.append(this.getDay());
+    	
+    	return toStringBuilder.toString();
+    }
 
 }

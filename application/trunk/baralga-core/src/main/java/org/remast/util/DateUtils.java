@@ -7,7 +7,6 @@ import org.joda.time.ReadableInstant;
 
 /**
  * Miscellaneous utility methods for dealing with dates.
- * 
  * @author remast
  */
 public abstract class DateUtils {
@@ -18,7 +17,7 @@ public abstract class DateUtils {
 
     /**
      * Get current time rounded to minutes.
-     * @return
+     * @return  the current time rounded to minutes
      */
     public static Date getNow() {
         return getNowAsDateTime().toDate();
@@ -29,20 +28,20 @@ public abstract class DateUtils {
      * @return
      */
     public static DateTime getNowAsDateTime() {
-        DateTime now = new DateTime();
-        DateTime nowRounded = now.minuteOfDay().roundHalfCeilingCopy();
+        final DateTime now = new DateTime();
+        final DateTime nowRounded = now.minuteOfDay().roundHalfCeilingCopy();
         return nowRounded;
     }
 
     /**
      * Sets <code>timeToAdjust</code> to the same year and week-of-year as <code>day</code>.
-     * 
+     * @param day the day to adjust to
+     * @param timeToAdjust the time to be adjusted
      * @param midnightOnNextDay if <code>true</code> treats midnight (0:00h) as belonging to the next day.
      *   Otherwise 0:00h is treated as being the start of the current day.
      */
-    public static DateTime adjustToSameDay(final DateTime day, final DateTime timeToAdjust,
-            final boolean midnightOnNextDay) {
-        DateTime result = timeToAdjust.withYear(day.getYear()).withDayOfYear(day.getDayOfYear());
+    public static DateTime adjustToSameDay(final DateTime day, final DateTime timeToAdjust, final boolean midnightOnNextDay) {
+    	DateTime result = timeToAdjust.withYear(day.getYear()).withDayOfYear(day.getDayOfYear());
         if (midnightOnNextDay && result.getHourOfDay() == 0 && result.getMinuteOfHour() == 0) {
             result = result.plusDays(1);
         }
@@ -51,11 +50,10 @@ public abstract class DateUtils {
 
     /**
      * Returns <code>true</code> iff the first time is before or equal to the second time.
-     *
      * @param time1 the first time
      * @param time2 the second time
      */
     public static boolean isBeforeOrEqual(final ReadableInstant time1, final ReadableInstant time2) {
-        return time1.isBefore(time2) || time1.isEqual(time2);
+    	return time1.isBefore(time2) || time1.isEqual(time2);
     }
 }

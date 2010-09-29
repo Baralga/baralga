@@ -2,10 +2,17 @@ package org.remast.text;
 
 import java.text.DateFormat;
 import java.text.FieldPosition;
+import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.joda.time.DateTime;
+
+/**
+ * Custom format for time in format HH:mm e.g. 12:00.
+ * @author remast
+ */
 @SuppressWarnings("serial")
 public class TimeFormat extends DateFormat {
 
@@ -15,6 +22,12 @@ public class TimeFormat extends DateFormat {
     public static final String HHMM_FORMAT = "HH:mm"; //$NON-NLS-1$
 
     private static final DateFormat timeFormat = new SimpleDateFormat(HHMM_FORMAT);
+
+    public static DateTime parseTime(final String time) throws ParseException {
+        synchronized (timeFormat) {
+            return new DateTime(timeFormat.parse(time));
+        }
+    }
 
     /**
      * @param date
@@ -40,7 +53,5 @@ public class TimeFormat extends DateFormat {
             return timeFormat.parse(source, pos);
         }
     }
-
-
 
 }

@@ -29,6 +29,8 @@ import org.remast.baralga.model.ProjectActivity;
 import org.remast.swing.dialog.EscapeDialog;
 import org.remast.swing.text.TextEditor;
 import org.remast.swing.util.GuiConstants;
+import org.remast.text.SmartTimeFormat;
+import org.remast.text.TimeFormat;
 import org.remast.util.DateUtils;
 import org.remast.util.TextResourceBundle;
 
@@ -299,7 +301,7 @@ public class AddOrEditActivityDialog extends EscapeDialog {
      */
     private JFormattedTextField getStartField() {
         if (startField == null) {
-            final DateFormatter dateFormatter = new DateFormatter(FormatUtils.createTimeFormat());
+            final DateFormatter dateFormatter = new DateFormatter(new SmartTimeFormat());
             startField = new JFormattedTextField(dateFormatter);
             dateFormatter.install(startField);
 
@@ -313,7 +315,7 @@ public class AddOrEditActivityDialog extends EscapeDialog {
      */
     private JFormattedTextField getEndField() {
         if (endField == null) {
-            final DateFormatter dateFormatter = new DateFormatter(FormatUtils.createTimeFormat());
+            final DateFormatter dateFormatter = new DateFormatter(new SmartTimeFormat());
             endField = new JFormattedTextField(dateFormatter);
             dateFormatter.install(endField);
         }
@@ -340,8 +342,8 @@ public class AddOrEditActivityDialog extends EscapeDialog {
         try {
             day = new DateTime(getDatePicker().getDate());
 
-            start = FormatUtils.parseTime(getStartField().getText());
-            end = FormatUtils.parseTime(getEndField().getText());
+            start = TimeFormat.parseTime(getStartField().getText());
+            end = TimeFormat.parseTime(getEndField().getText());
 
             correctDates();
         } catch (ParseException e) {

@@ -28,6 +28,7 @@ import org.remast.baralga.gui.model.report.HoursByProjectReport;
 import org.remast.baralga.gui.model.report.HoursByWeekReport;
 import org.remast.baralga.gui.model.report.ObservingAccumulatedActivitiesReport;
 import org.remast.baralga.gui.settings.UserSettings;
+import org.remast.baralga.model.BaralgaDAO;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
@@ -575,6 +576,15 @@ public class PresentationModel extends Observable {
      */
     public final SortedList<ProjectActivity> getActivitiesList() {
         return activitiesList;
+    }
+    
+    public final List<ProjectActivity> findActivitiesByDay(final DateTime day) {
+    	final Filter filter = new Filter();
+    	filter.setDay(day);
+    	filter.setWeekOfYear(day);
+    	filter.setMonth(day);
+    	filter.setYear(day);
+    	return baralgaDAO.getActivities(filter);
     }
 
     public final ProjectFilterList getProjectFilterList() {

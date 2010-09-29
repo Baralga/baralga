@@ -212,6 +212,8 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
     
     /**
      * Sets the start hours and minutes while respecting the class invariants.
+     * @param hours the hours
+     * @param minutes the minutes
      * @throws IllegalArgumentException if end time is before start time
      */
     public void setStartTime(final int hours, final int minutes) {
@@ -260,4 +262,5 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
         final double hours = timeMin / 60.0;
         return hours;
     }
+    
 }

@@ -82,7 +82,7 @@ public class HoursByDay implements Comparable<HoursByDay> {
         
         // Sort by start date but the other way round. That way the latest
         // activity is always on top.
-        return compareBuilder.toComparison() * -1;
+        return compareBuilder.toComparison();
     }
     
     @Override

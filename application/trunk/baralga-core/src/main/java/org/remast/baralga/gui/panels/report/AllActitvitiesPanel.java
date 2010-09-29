@@ -43,6 +43,7 @@ import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.swing.util.AWTUtils;
 import org.remast.swing.util.GuiConstants;
+import org.remast.text.SmartTimeFormat;
 import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
@@ -106,10 +107,10 @@ public class AllActitvitiesPanel extends JPanel implements Observer {
         );
 
         table.getColumn(2).setCellRenderer(
-                new DefaultTableRenderer(new FormatStringValue(FormatUtils.createTimeFormat()))
+                new DefaultTableRenderer(new FormatStringValue(new SmartTimeFormat()))
         );
         table.getColumn(3).setCellRenderer(
-                new DefaultTableRenderer(new FormatStringValue(FormatUtils.createTimeFormat()))
+                new DefaultTableRenderer(new FormatStringValue(new SmartTimeFormat()))
         );
         table.getColumn(4).setCellRenderer(
                 new DefaultTableRenderer(new FormatStringValue(FormatUtils.durationFormat))

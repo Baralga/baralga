@@ -20,11 +20,11 @@ import org.apache.log4j.DailyRollingFileAppender;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.xml.DOMConfigurator;
-import org.remast.baralga.gui.model.BaralgaDAO;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.model.ProjectActivityStateException;
 import org.remast.baralga.gui.settings.ApplicationSettings;
 import org.remast.baralga.gui.settings.UserSettings;
+import org.remast.baralga.model.BaralgaDAO;
 import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.io.ProTrackReader;
@@ -283,8 +283,8 @@ public final class BaralgaMain {
 		dao.init();
 
 		model.setDAO(dao);
-
 		model.initialize();
+		
 		return model;
 	}
 

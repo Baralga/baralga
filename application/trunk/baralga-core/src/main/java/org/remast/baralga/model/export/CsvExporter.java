@@ -8,8 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+import org.remast.baralga.FormatUtils;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.util.TextResourceBundle;
@@ -24,10 +23,6 @@ public class CsvExporter implements Exporter {
 
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(CsvExporter.class);
-
-    private static final DateTimeFormatter timeFormat = DateTimeFormat.forPattern("HH:mm"); //$NON-NLS-1$
-
-    private static final DateTimeFormatter dateFormat = DateTimeFormat.forPattern("dd.MM.yyyy"); //$NON-NLS-1$
 
     private static final char SEPARATOR_CHARACTER = ';';
 
@@ -86,9 +81,9 @@ public class CsvExporter implements Exporter {
         final String[] csvLine = new String[6];
 
         csvLine[0] = activity.getProject().getTitle();
-        csvLine[1] = dateFormat.print(activity.getStart());
-        csvLine[2] = timeFormat.print(activity.getStart());
-        csvLine[3] = timeFormat.print(activity.getEnd());
+        csvLine[1] = FormatUtils.formatDate(activity.getStart());
+        csvLine[2] = FormatUtils.formatTime(activity.getStart());
+        csvLine[3] = FormatUtils.formatTime(activity.getEnd());
         csvLine[4] = NumberFormat.getNumberInstance().format(activity.getDuration());
 
         // Description

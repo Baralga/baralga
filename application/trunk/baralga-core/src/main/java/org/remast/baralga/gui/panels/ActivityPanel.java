@@ -40,6 +40,8 @@ import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.baralga.model.Project;
 import org.remast.swing.text.TextEditor;
 import org.remast.swing.util.GuiConstants;
+import org.remast.text.SmartTimeFormat;
+import org.remast.text.TimeFormat;
 import org.remast.util.DateUtils;
 import org.remast.util.TextResourceBundle;
 
@@ -175,7 +177,7 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
         buttonPanel.add(getStartStopButton(), "1, 1, 3, 1"); //$NON-NLS-1$
         buttonPanel.add(getProjectSelector(), "1, 3, 3, 3"); //$NON-NLS-1$
 
-        start = new JFormattedTextField(FormatUtils.createTimeFormat());
+        start = new JFormattedTextField(new SmartTimeFormat());
         start.setToolTipText(textBundle.textFor("ActivityPanel.Start.ToolTipText"));
         start.setBorder(BorderFactory.createEmptyBorder());
         start.setFont(FONT_BIG_BOLD);
@@ -431,7 +433,7 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
 
         // New start time must be before the current time.
         try {
-            final Date newStartTime = FormatUtils.parseTime(start.getText()).toDate();
+            final Date newStartTime = TimeFormat.parseTime(start.getText()).toDate();
             final DateTime newStart = DateUtils.adjustToSameDay(
                     DateUtils.getNowAsDateTime(), 
                     new DateTime(newStartTime), 
