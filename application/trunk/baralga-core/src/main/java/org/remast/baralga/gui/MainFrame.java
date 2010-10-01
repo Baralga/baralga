@@ -30,7 +30,6 @@ import org.remast.baralga.gui.actions.ExportCsvAction;
 import org.remast.baralga.gui.actions.ExportExcelAction;
 import org.remast.baralga.gui.actions.ManageProjectsAction;
 import org.remast.baralga.gui.actions.SettingsAction;
-import org.remast.baralga.gui.actions.ShowTodaysActivitiesAction;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.panels.ActivityPanel;
@@ -237,8 +236,6 @@ public class MainFrame extends JFrame implements Observer {
         toolBar.add(new JToolBar.Separator());
         toolBar.add(this.model.getEditStack().getUndoAction());
         toolBar.add(this.model.getEditStack().getRedoAction());
-        toolBar.add(new JToolBar.Separator());
-        toolBar.add(new ShowTodaysActivitiesAction(this, this.model));
 
         return toolBar;
     }
