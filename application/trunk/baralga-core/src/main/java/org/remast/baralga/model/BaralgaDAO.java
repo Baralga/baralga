@@ -1,5 +1,8 @@
 package org.remast.baralga.model;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -18,6 +21,7 @@ import java.util.WeakHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.h2.tools.RunScript;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.format.PeriodFormat;
@@ -97,7 +101,7 @@ public class BaralgaDAO {
 
 		if (!databaseExists) {
 			log.info("Creating Baralga DB."); //$NON-NLS-1$
-			// :TODO: Execute setup_database.sql
+			executeScript("setup_database.sql");
 			log.info("Baralga DB successfully created."); //$NON-NLS-1$
 		}
 		connection.commit();
@@ -114,12 +118,24 @@ public class BaralgaDAO {
 		for (int i = 0; i < versionDifference; i++) {
 			final int versionUpdate = databaseVersion + versionDifference;
 			log.info("Updating database to version " + versionUpdate + "."); //$NON-NLS-1$
-			final String updateSkript = "db_version_" + StringUtils.leftPad(String.valueOf(versionUpdate), 3, "0") + ".sql";
-			// :TODO: Execute db_version_i.sql
+			final String updateScript = "db_version_" + StringUtils.leftPad(String.valueOf(versionUpdate), 3, "0") + ".sql";
+			executeScript(updateScript);
 		}
 
 
 		log.info("Using Baralga DB Version: " + databaseVersion + ", description: " + description); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	private void executeScript(final String scriptName) throws SQLException {
+		log.info("Executing sql script " +  scriptName + ".");
+		
+		if (StringUtils.isBlank(scriptName)) {
+			return;
+		}
+		
+		InputStream is = BaralgaDAO.class.getResourceAsStream("sql/h2/" + scriptName);
+		Reader reader = new InputStreamReader(is);
+		RunScript.execute(connection, reader);
 	}
 
 	/**
