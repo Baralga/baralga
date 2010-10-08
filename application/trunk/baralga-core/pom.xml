@@ -190,6 +190,10 @@
 			<groupId>commons-configuration</groupId>
 			<artifactId>commons-configuration</artifactId>
 			<version>1.6</version>
+            <!-- 
+            We don't need the following since only PropertiesConfiguration from core is used.
+            See http://commons.apache.org/configuration/dependencies.html. 
+            -->
             <exclusions>
                 <exclusion>
                     <artifactId>commons-digester</artifactId>
