@@ -126,6 +126,11 @@ public class BaralgaDAO {
 		log.info("Using Baralga DB Version: " + databaseVersion + ", description: " + description); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
+	/**
+	 * Executes an sql script.
+	 * @param scriptName the name of the script to be executed
+	 * @throws SQLException on errors during execution
+	 */
 	private void executeScript(final String scriptName) throws SQLException {
 		log.info("Executing sql script " +  scriptName + ".");
 		
