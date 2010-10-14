@@ -48,6 +48,7 @@ import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 import ca.odell.glazedlists.swing.EventTableModel;
+import ca.odell.glazedlists.swing.TableComparatorChooser;
 
 import com.jidesoft.swing.JideScrollPane;
 import com.jidesoft.utils.BasicTransferable;
@@ -95,9 +96,10 @@ public class AllActitvitiesPanel extends JPanel implements Observer {
         );
         final JXTable table = new JXTable(tableModel);
 
-        // :INFO: This corrupts the initial sorting. Would be nice though...
+        // :TRICKY: The following is a workaround to enable sorting (Issue #88).
 //        EventListJXTableSorting.install(table, model.getActivitiesList());
         table.setSortable(false);
+        new TableComparatorChooser(table, model.getActivitiesList(), false);
 
         table.getColumn(1).setCellRenderer(
                 new DefaultTableRenderer(new FormatStringValue(DAY_FORMAT))
