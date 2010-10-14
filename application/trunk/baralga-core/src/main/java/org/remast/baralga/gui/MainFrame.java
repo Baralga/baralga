@@ -486,14 +486,12 @@ public class MainFrame extends JFrame implements Observer {
     public void windowIconified(final java.awt.event.WindowEvent e) {
         if (BaralgaMain.getTray() != null) {
             this.setVisible(false);
-            BaralgaMain.getTray().show();
         }
     }
 
     public void windowClosing(final java.awt.event.WindowEvent e) {
         if (BaralgaMain.getTray() != null) {
             this.setVisible(false);
-            BaralgaMain.getTray().show();
         } else {
             boolean quit = true;
 

@@ -68,13 +68,13 @@ public class TrayIcon implements Observer {
         trayIcon.addActionListener(new ActionListener() {
 
             public void actionPerformed(final ActionEvent event) {
-                mainFrame.setVisible(!mainFrame.isVisible());
+            	// Show main frame if it is not already shown
+            	if (!mainFrame.isVisible()) {
+            		mainFrame.setVisible(true);
+            	}
+            	
                 mainFrame.setState(JFrame.NORMAL);
                 mainFrame.requestFocus();
-                
-                if (BaralgaMain.getTray() != null) {                    
-                    BaralgaMain.getTray().hide();
-                }
             }
 
         });

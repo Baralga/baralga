@@ -4,9 +4,15 @@
 == Further Development ==
 
 
+== Baralga Version 1.5.1 ==
+Fixes
+ * all activities not sorted (Issue #88 http://baralga.origo.ethz.ch/issues/88)
+ * tray icon disappears upon 2 fast sequential double clicks (Issue #61 http://baralga.origo.ethz.ch/issues/61)
+
+
 == Baralga Version 1.5 ==
 Enhancements
- * Store data in database instead of xml files (Issue #54 http://baralga.origo.ethz.ch/node/150).
+ * Store data in database instead of xml files (Issue #54 http://baralga.origo.ethz.ch/node/150)
  * Filter by week day instead of specific date (Issue #73 http://baralga.origo.ethz.ch/issues/73)
  * Deleting Projects don't delete Projects-Data (Issue #67 http://baralga.origo.ethz.ch/issues/67)
 

@@ -209,7 +209,7 @@ public final class BaralgaMain {
 			tray = null;
 		}
 
-		if (tray != null && mainInstance.minimized) {
+		if (tray != null) {
 			tray.show();
 		}
 	}
