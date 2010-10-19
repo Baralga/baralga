@@ -31,8 +31,6 @@ import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 
-import com.jidesoft.swing.TitledSeparator;
-
 /**
  * Displays the reports generated from the project activities.
  * @author remast
