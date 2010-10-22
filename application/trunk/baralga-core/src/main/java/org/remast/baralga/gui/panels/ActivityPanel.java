@@ -248,7 +248,6 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
 
         final JLabel durationLabel = new JLabel(textBundle.textFor("ActivityPanel.DurationLabel")); //$NON-NLS-1$
         durationLabel.setFont(FONT_BIG);
-        durationLabel.setForeground(Color.DARK_GRAY);
         durationLabel.setToolTipText(textBundle.textFor("ActivityPanel.Duration.ToolTipText")); //$NON-NLS-1$
 
         timerPanel.add(durationLabel, "0, 0"); //$NON-NLS-1$
