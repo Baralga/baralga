@@ -4,17 +4,23 @@ import info.clearthought.layout.TableLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jdesktop.swingx.JXTitledSeparator;
+import org.jdesktop.swingx.JXPanel;
 import org.joda.time.DateTime;
+import org.joda.time.Interval;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.lists.DayFilterList;
 import org.remast.baralga.gui.lists.MonthFilterList;
@@ -29,6 +35,8 @@ import org.remast.swing.util.LabeledItem;
 import org.remast.util.DateUtils;
 import org.remast.util.TextResourceBundle;
 
+import com.jidesoft.swing.JideLabel;
+
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 
 /**
@@ -36,16 +44,21 @@ import ca.odell.glazedlists.swing.EventComboBoxModel;
  * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
-public class ReportPanel extends JPanel implements ActionListener {
+public class ReportPanel extends JXPanel implements ActionListener {
 
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
 
     /** The logger. */
-    private static final Log log = LogFactory.getLog(ReportPanel.class);
+    @SuppressWarnings("unused")
+	private static final Log log = LogFactory.getLog(ReportPanel.class);
 
     /** The model. */
     private PresentationModel model;
+    
+    private Interval timeInterval;
+    
+    private SpanType spanType = SpanType.Day;
 
     /** Filter by selected project. */
     private JComboBox projectFilterSelector;
@@ -84,6 +97,28 @@ public class ReportPanel extends JPanel implements ActionListener {
         this.model = model;
 
         initialize();
+        
+        setTimeInterval(new Interval(org.remast.util.DateUtils.getNowAsDateTime(), org.remast.util.DateUtils.getNowAsDateTime().plusDays(1)));
+    }
+    
+    private static final Vector<LabeledItem<SpanType>> spanSelectorItems = new Vector<LabeledItem<SpanType>>();
+
+	private JComboBox spanSelector;
+
+	private JTextField dateField;
+
+	private JButton nextButton;
+
+	private JButton previousButton;
+    static {
+    	spanSelectorItems.add(new LabeledItem<SpanType>(SpanType.Day, textBundle.textFor("ReportPanel.DayLabel")));
+    	spanSelectorItems.add(new LabeledItem<SpanType>(SpanType.Week, textBundle.textFor("ReportPanel.WeekLabel")));
+    	spanSelectorItems.add(new LabeledItem<SpanType>(SpanType.Month, textBundle.textFor("ReportPanel.MonthLabel")));
+    	spanSelectorItems.add(new LabeledItem<SpanType>(SpanType.Year, textBundle.textFor("ReportPanel.YearLabel")));
+    }
+    
+    private static enum SpanType {
+    	Day, Week, Month, Year
     }
 
     /**
@@ -96,34 +131,102 @@ public class ReportPanel extends JPanel implements ActionListener {
         final double borderBig = 8;
         final double border = 3;
         final double[][] size = {
-                { border, TableLayout.PREFERRED, border, TableLayout.FILL, borderBig, TableLayout.PREFERRED, border,
-                    TableLayout.FILL, borderBig, TableLayout.PREFERRED, border, TableLayout.FILL, borderBig, TableLayout.PREFERRED, border, TableLayout.FILL, borderBig, TableLayout.PREFERRED, border, TableLayout.FILL, border}, // Columns
-                    { border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, borderBig, TableLayout.PREFERRED, 0,
-                        TableLayout.FILL, border } }; // Rows
+                { border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, 20, TableLayout.PREFERRED, border, TableLayout.FILL, border}, // Columns
+                { border, TableLayout.PREFERRED, borderBig, TableLayout.PREFERRED, borderBig, TableLayout.PREFERRED, border, TableLayout.FILL, border }  // Rows
+        };
         this.setLayout(new TableLayout(size));
+        
+        spanSelector = new JComboBox(spanSelectorItems);
+        spanSelector.addActionListener(new ActionListener() {
+			
+			@SuppressWarnings("unchecked")
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				final LabeledItem<SpanType> seletedItem = (LabeledItem<SpanType>) spanSelector.getSelectedItem();
+				setSpanType(seletedItem.getItem());
+			}
 
-        final JXTitledSeparator filterSeparator = new JXTitledSeparator(textBundle.textFor("ReportPanel.FiltersLabel")); //$NON-NLS-1$
-        this.add(filterSeparator, "1, 1, 19, 1"); //$NON-NLS-1$
+		});
+        
+        nextButton = new JButton(">");
+        nextButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Interval newTimeInterval = null;
+				switch (ReportPanel.this.spanType) {
+				case Day:
+					newTimeInterval = new Interval(timeInterval.getStart().plusDays(1), timeInterval.getEnd().plusDays(1));
+					break;
+				case Week:
+					newTimeInterval = new Interval(timeInterval.getStart().plusWeeks(1), timeInterval.getEnd().plusWeeks(1));
+					break;
+				case Month:
+					newTimeInterval = new Interval(timeInterval.getStart().plusMonths(1), timeInterval.getEnd().plusMonths(1));
+					break;
+				case Year:
+					newTimeInterval = new Interval(timeInterval.getStart().plusYears(1), timeInterval.getEnd().plusYears(1));
+					break;
+				}
+				
+				if (newTimeInterval != null) {
+					setTimeInterval(newTimeInterval);
+				}
+			}
+		});
+        
+        previousButton = new JButton("<");
+        previousButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Interval newTimeInterval = null;
+				switch (ReportPanel.this.spanType) {
+				case Day:
+					newTimeInterval = new Interval(timeInterval.getStart().minusDays(1), timeInterval.getEnd().minusDays(1));
+					break;
+				case Week:
+					newTimeInterval = new Interval(timeInterval.getStart().minusWeeks(1), timeInterval.getEnd().minusWeeks(1));
+					break;
+				case Month:
+					newTimeInterval = new Interval(timeInterval.getStart().minusMonths(1), timeInterval.getEnd().minusMonths(1));
+					break;
+				case Year:
+					newTimeInterval = new Interval(timeInterval.getStart().minusYears(1), timeInterval.getEnd().minusYears(1));
+					break;
+				}
+				
+				if (newTimeInterval != null) {
+					setTimeInterval(newTimeInterval);
+				}
+			}
+		});
+        JButton homeButton = new JButton("Heute");
+        homeButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setSpanType(SpanType.Day);
+				spanSelector.setSelectedIndex(0);
+			}
+		});
+        
+        dateField = new JTextField();
+        dateField.setEditable(false);
+        
+        this.add(spanSelector, "1, 3"); //$NON-NLS-1$
+        
+        this.add(previousButton, "3, 3"); //$NON-NLS-1$
 
-        this.add(new JLabel(textBundle.textFor("ReportPanel.ProjectLabel")), "1, 3"); //$NON-NLS-1$ //$NON-NLS-2$
-        this.add(getProjectFilterSelector(), "3, 3"); //$NON-NLS-1$
+        this.add(homeButton, "5, 3"); //$NON-NLS-1$
+        
+        this.add(nextButton, "7, 3"); //$NON-NLS-1$
 
-        this.add(new JLabel(textBundle.textFor("ReportPanel.YearLabel")), "5, 3"); //$NON-NLS-1$ //$NON-NLS-2$
-        this.add(getYearFilterSelector(), "7, 3"); //$NON-NLS-1$
+        this.add(new JLabel("Datum:"), "9, 3"); //$NON-NLS-1$
 
-        this.add(new JLabel(textBundle.textFor("ReportPanel.MonthLabel")), "9, 3"); //$NON-NLS-1$ //$NON-NLS-2$
-        this.add(getMonthFilterSelector(), "11, 3"); //$NON-NLS-1$
-
-        this.add(new JLabel(textBundle.textFor("ReportPanel.WeekLabel")), "13, 3"); //$NON-NLS-1$ //$NON-NLS-2$
-        this.add(getWeekOfYearFilterSelector(), "15, 3"); //$NON-NLS-1$
-
-        this.add(new JLabel(textBundle.textFor("ReportPanel.DayLabel")), "17, 3"); //$NON-NLS-1$ //$NON-NLS-2$
-        this.add(getDayFilterSelector(), "19, 3"); //$NON-NLS-1$
-
-        final JXTitledSeparator dataSeparator = new JXTitledSeparator(textBundle.textFor("ReportPanel.DataLabel")); //$NON-NLS-1$
-        this.add(dataSeparator, "1, 5, 19, 1"); //$NON-NLS-1$
-
-        this.add(filteredActivitiesPane, "1, 7, 19, 7"); //$NON-NLS-1$
+        this.add(dateField, "11 3"); //$NON-NLS-1$
+        
+        this.add(filteredActivitiesPane, "1, 7, 11, 7"); //$NON-NLS-1$
     }
 
     /**
@@ -292,95 +395,7 @@ public class ReportPanel extends JPanel implements ActionListener {
     @SuppressWarnings("unchecked")
     public Filter createFilter() {
         final Filter filter = new Filter();
-
-        // Filter for month
-        LabeledItem<Integer> filterItem = (LabeledItem<Integer>) getMonthFilterSelector().getSelectedItem();
-        final int selectedMonth = filterItem.getItem();
-
-        switch (selectedMonth) {
-        case MonthFilterList.CURRENT_MONTH_DUMMY:
-            filter.setMonth(DateUtils.getNowAsDateTime());
-            break;
-
-        case MonthFilterList.ALL_MONTHS_DUMMY:
-            // No filtering by month
-            break;
-
-        default:
-            try {
-                final DateTime month = new DateTime().withMonthOfYear(selectedMonth);
-                filter.setMonth(month);
-            } catch (IllegalArgumentException e) {
-                log.error(e, e);
-            }
-            break;
-        }
-
-        // Filter for week of year
-        filterItem = (LabeledItem<Integer>) getWeekOfYearFilterSelector().getSelectedItem();
-        final int selectedWeekOfYear = filterItem.getItem();
-
-        switch (selectedWeekOfYear) {
-        case WeekOfYearFilterList.CURRENT_WEEK_OF_YEAR_DUMMY:
-            filter.setWeekOfYear(DateUtils.getNowAsDateTime());
-            break;
-
-        case WeekOfYearFilterList.ALL_WEEKS_OF_YEAR_DUMMY:
-            // No filtering by week of year
-            break;
-
-        default:
-            try {
-                final DateTime weekOfYear = new DateTime().withWeekOfWeekyear(selectedWeekOfYear);
-                filter.setWeekOfYear(weekOfYear);
-            } catch (IllegalArgumentException e) {
-                log.error(e, e);
-            }
-            break;
-        }
-
-        // Filter for year
-        filterItem = (LabeledItem<Integer>) getYearFilterSelector().getSelectedItem();
-        final int selectedYear = filterItem.getItem();
-
-
-        switch (selectedYear) {
-        case YearFilterList.CURRENT_YEAR_DUMMY:
-            filter.setYear(DateUtils.getNowAsDateTime());
-            break;
-
-        case YearFilterList.ALL_YEARS_DUMMY:
-            // No filtering by year
-            break;
-
-        default:
-            try {
-                final DateTime year = new DateTime().withYear(selectedYear);
-                filter.setYear(year);
-            } catch (IllegalArgumentException e) {
-                log.error(e, e);
-            }
-            break;
-        }
-        
-        // Filter for day
-        filterItem = (LabeledItem<Integer>) getDayFilterSelector().getSelectedItem();
-        final int selectedDay = filterItem.getItem();
-
-        switch (selectedDay) {
-        case DayFilterList.CURRENT_DAY_DUMMY:
-            filter.setDay(DateUtils.getNowAsDateTime());
-            break;
-
-        case DayFilterList.ALL_DAYS_DUMMY:
-            // No filtering by day
-            break;
-
-        default:
-        	final DateTime day = new DateTime().withDayOfWeek(selectedDay);
-        	filter.setDay(day);
-            break;
-        }
+        filter.setTimeInterval(timeInterval);
 
         // Filter for project
         final LabeledItem<Project> projectFilterItem = (LabeledItem<Project>) getProjectFilterSelector().getSelectedItem();
@@ -438,8 +453,62 @@ public class ReportPanel extends JPanel implements ActionListener {
 
         // 2. Save selection to settings.
         storeFilterInSettings();
-
+        
         // 3. Save to model
         model.setFilter(filter, this);
     }
+    
+	private void setSpanType(final SpanType spanType) {
+		this.spanType = spanType;
+
+		DateTime now = DateUtils.getNowAsDateTime();
+
+		switch (spanType) {
+		case Day:
+			setTimeInterval(new Interval(now, now.plusDays(1)));
+			break;
+		case Week:
+			now = now.withDayOfWeek(1);
+			setTimeInterval(new Interval(now, now.plusWeeks(1)));
+			break;
+		case Month:
+			now = now.withDayOfMonth(1);
+			setTimeInterval(new Interval(now, now.plusMonths(1)));
+			break;
+		case Year:
+			now = now.withDayOfYear(1);
+			setTimeInterval(new Interval(now, now.plusYears(1)));
+			break;
+		}
+	}
+	
+	private static final DateTimeFormatter weekOfYearFormatter = DateTimeFormat.forPattern("ww");
+    private static final DateTimeFormatter monthFormatter = DateTimeFormat.forPattern("MM/yyyy");
+    private static final DateTimeFormatter yearFormatter = DateTimeFormat.forPattern("yyyy");
+
+
+	private void setTimeInterval(Interval interval) {
+		this.timeInterval = interval;
+		
+		String intervalString = this.timeInterval.toString();
+		switch (spanType) {
+		case Day:
+			intervalString = FormatUtils.formatDate(timeInterval.getStart());
+			break;
+		case Week:
+			intervalString = "(KW " + weekOfYearFormatter.print(timeInterval.getStart()) + ") " + FormatUtils.formatDate(timeInterval.getStart()) + " - " + FormatUtils.formatDate(timeInterval.getEnd().minusDays(1));
+			break;
+		case Month:
+			intervalString = monthFormatter.print(timeInterval.getStart());
+			break;
+		case Year:
+			intervalString = yearFormatter.print(timeInterval.getStart());
+			break;
+		}
+		this.dateField.setText(intervalString);
+
+		
+		this.actionPerformed(null);
+	}
+
 }

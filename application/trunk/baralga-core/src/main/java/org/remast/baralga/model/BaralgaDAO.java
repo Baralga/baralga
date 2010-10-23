@@ -267,38 +267,7 @@ public class BaralgaDAO {
 	 * @return read-only view of the activities
 	 */
 	public List<ProjectActivity> getActivities() {
-		final String filterCondition = StringUtils.EMPTY;
-		return getActivities(filterCondition);
-	}
-
-	/**
-	 * Provides all activities satisfying the given filter conditions.
-	 * @param condition SQL condition for filtering
-	 * @return read-only view of the activities
-	 */
-	public List<ProjectActivity> getActivities(final String condition) {
-		final List<ProjectActivity> activities = new ArrayList<ProjectActivity>();
-
-		try {
-			final Statement statement = connection.createStatement();
-			final String filterCondition = StringUtils.defaultString(condition);
-			final ResultSet resultSet = statement.executeQuery("select * from activity, project where activity.project_id = project.id " + filterCondition + " order by start asc"); //$NON-NLS-1$ //$NON-NLS-2$
-			while (resultSet.next()) {
-				final Project project = new Project(resultSet.getLong("project.id"), resultSet.getString("title"), resultSet.getString("project.description")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				project.setActive(resultSet.getBoolean("active")); //$NON-NLS-1$
-
-				final ProjectActivity activity = new ProjectActivity(new DateTime(resultSet.getTimestamp("start")), new DateTime(resultSet.getTimestamp("end")), project); //$NON-NLS-1$ //$NON-NLS-2$
-				activity.setId(resultSet.getLong("activity.id")); //$NON-NLS-1$
-				activity.setDescription(resultSet.getString("activity.description")); //$NON-NLS-1$
-				
-				activities.add(activity);
-			}
-		} catch (SQLException e) {
-			log.error(e, e);
-			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
-		}
-
-		return activities;
+		return getActivities(null);
 	}
 
 	/**
@@ -540,37 +509,63 @@ public class BaralgaDAO {
 			return getActivities();
 		}
 		
-		final StringBuilder sqlCondition = new StringBuilder(""); //$NON-NLS-1$
+		String sqlCondition = ""; //$NON-NLS-1$
 		
 		// Condition for project
 		if (filter.getProject() != null && filter.getProject().getId() > 0) {
-			sqlCondition.append(" and activity.project_id = '" + filter.getProject().getId() + "' "); //$NON-NLS-1$ //$NON-NLS-2$
+			sqlCondition += " and activity.project_id = '" + filter.getProject().getId() + "' "; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		
-		// Condition for day of week
-		if (filter.getDay() != null) {
-			// :TRICKY: Day of the week in joda time and h2 database differ by one. Therfore
-			// we have to add one and make sure that it never succeeds 7.
-			final int dayOfWeek = (filter.getDay() % 7) + 1;
-			sqlCondition.append(" and day_of_week(activity.start) = " + dayOfWeek + " "); //$NON-NLS-1$ //$NON-NLS-2$
+		if (filter.getTimeInterval() != null) {
+			final boolean isSameYear = filter.getTimeInterval().getStart().getYear() == filter.getTimeInterval().getEnd().getYear();
+			
+			if (isSameYear) {
+				sqlCondition += " and ? <= DAY_OF_YEAR(activity.start) and ? <= YEAR(activity.start) "; //$NON-NLS-1$
+				sqlCondition += " and DAY_OF_YEAR(activity.start) < ? and YEAR(activity.start) <= ?"; //$NON-NLS-1$
+			} else {
+				sqlCondition += " and ? <= YEAR(activity.start) "; //$NON-NLS-1$
+				sqlCondition += " and YEAR(activity.start) < ?"; //$NON-NLS-1$
+			}
 		}
 		
-		// Condition for week of year
-		if (filter.getWeekOfYear() != null) {
-			sqlCondition.append(" and week(activity.start) = " + filter.getWeekOfYear() + " "); //$NON-NLS-1$ //$NON-NLS-2$
+		final List<ProjectActivity> activities = new ArrayList<ProjectActivity>();
+
+		try {
+			final String filterCondition = StringUtils.defaultString(sqlCondition);
+			final PreparedStatement preparedStatement = prepare("select * from activity, project where activity.project_id = project.id " + filterCondition + " order by start asc"); //$NON-NLS-1$ //$NON-NLS-2$
+			
+			if (filter.getTimeInterval() != null) {
+				final boolean isSameYear = filter.getTimeInterval().getStart().getYear() == filter.getTimeInterval().getEnd().getYear();
+
+				if (isSameYear) {
+					preparedStatement.setInt(1, filter.getTimeInterval().getStart().getDayOfYear());
+					preparedStatement.setInt(2, filter.getTimeInterval().getStart().getYear());
+
+					preparedStatement.setInt(3, filter.getTimeInterval().getEnd().getDayOfYear());
+					preparedStatement.setInt(4, filter.getTimeInterval().getEnd().getYear());
+				} else {
+					preparedStatement.setInt(1, filter.getTimeInterval().getStart().getYear());
+					preparedStatement.setInt(2, filter.getTimeInterval().getEnd().getYear());
+				}
+			}
+			
+			final ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				final Project project = new Project(resultSet.getLong("project.id"), resultSet.getString("title"), resultSet.getString("project.description")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				project.setActive(resultSet.getBoolean("active")); //$NON-NLS-1$
+
+				final ProjectActivity activity = new ProjectActivity(new DateTime(resultSet.getTimestamp("start")), new DateTime(resultSet.getTimestamp("end")), project); //$NON-NLS-1$ //$NON-NLS-2$
+				activity.setId(resultSet.getLong("activity.id")); //$NON-NLS-1$
+				activity.setDescription(resultSet.getString("activity.description")); //$NON-NLS-1$
+				
+				activities.add(activity);
+			}
+		} catch (SQLException e) {
+			log.error(e, e);
+			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
 		}
-		
-		// Condition for month
-		if (filter.getMonth() != null) {
-			sqlCondition.append(" and month(activity.start) = " + filter.getMonth() + " "); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-		
-		// Condition for year
-		if (filter.getYear() != null) {
-			sqlCondition.append(" and year(activity.start) = " + filter.getYear() + " "); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-		
-		return getActivities(sqlCondition.toString());
+
+		return activities;
 	}
 	
 	/**

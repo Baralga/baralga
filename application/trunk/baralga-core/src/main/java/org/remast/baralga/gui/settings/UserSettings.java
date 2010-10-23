@@ -397,14 +397,14 @@ public final class UserSettings {
         }
 
         if (selectedYear == YearFilterList.CURRENT_YEAR_DUMMY) {
-            filter.setYear(DateUtils.getNowAsDateTime());
+//            filter.setYear(DateUtils.getNowAsDateTime());
             return;
         } 
 
         if (selectedYear != YearFilterList.ALL_YEARS_DUMMY) {
             try {
                 DateTime year = new DateTime().withYear(selectedYear);
-                filter.setYear(year);
+//                filter.setYear(year);
             } catch (NumberFormatException e) {
                 log.error(e, e);
             }
@@ -423,14 +423,14 @@ public final class UserSettings {
         }
 
         if (selectedMonth == MonthFilterList.CURRENT_MONTH_DUMMY) {
-            filter.setMonth(DateUtils.getNowAsDateTime());
+//            filter.setMonth(DateUtils.getNowAsDateTime());
             return;
         } 
 
         if (selectedMonth != MonthFilterList.ALL_MONTHS_DUMMY) {
             try {
                 DateTime month = new DateTime().withMonthOfYear(selectedMonth);
-                filter.setMonth(month);
+//                filter.setMonth(month);
             } catch (NumberFormatException e) {
                 log.error(e, e);
             }
@@ -449,14 +449,14 @@ public final class UserSettings {
         }
 
         if (selectedDay == DayFilterList.CURRENT_DAY_DUMMY) {
-            filter.setDay(DateUtils.getNowAsDateTime());
+//            filter.setDay(DateUtils.getNowAsDateTime());
             return;
         } 
 
         if (selectedDay != DayFilterList.ALL_DAYS_DUMMY) {
             try {
                 DateTime day = new DateTime().withDayOfWeek(selectedDay);
-                filter.setDay(day);
+//                filter.setDay(day);
             } catch (NumberFormatException e) {
                 log.error(e, e);
             }
@@ -475,14 +475,14 @@ public final class UserSettings {
         }
 
         if (selectedWeekOfYear == WeekOfYearFilterList.CURRENT_WEEK_OF_YEAR_DUMMY) {
-            filter.setWeekOfYear(DateUtils.getNowAsDateTime());
+//            filter.setWeekOfYear(DateUtils.getNowAsDateTime());
             return;
         } 
 
         if (selectedWeekOfYear != WeekOfYearFilterList.ALL_WEEKS_OF_YEAR_DUMMY) {
             try {
                 final DateTime weekOfYear = new DateTime().withWeekOfWeekyear(selectedWeekOfYear);
-                filter.setWeekOfYear(weekOfYear);
+//                filter.setWeekOfYear(weekOfYear);
             } catch (NumberFormatException e) {
             	log.error(e, e);
             } catch (IllegalFieldValueException e2) {

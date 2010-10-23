@@ -7,7 +7,7 @@ import org.apache.commons.collections.Predicate;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.joda.time.DateTime;
+import org.joda.time.Interval;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 
@@ -21,30 +21,7 @@ public class Filter {
     /** The predicates of the filter. */
     private final List<Predicate> predicates = new ArrayList<Predicate>();
     
-    /** The week of the year to filter by. */
-    private DateTime weekOfYear;
-
-    /** The predicate to filter by week of year. */
-    private Predicate weekOfYearPredicate;
-    
-    
-    /** The month to filter by. */
-    private DateTime month;
-    
-    /** The predicate to filter by month. */
-    private Predicate monthPredicate;
-    
-    /** The day to filter by. */
-    private DateTime day;
-    
-    /** The predicate to filter by day. */
-    private Predicate dayPredicate;
-
-    /** The year to filter by. */
-    private DateTime year;
-    
-    /** The predicate to filter by year. */
-    private Predicate yearPredicate;
+    private Interval timeInterval;
 
     /** The project to filter by. */
     private Project project;
@@ -76,123 +53,25 @@ public class Filter {
         }
         return true;
     }
+    
+    public Interval getTimeInterval() {
+    	return this.timeInterval;
+    }
  
     /**
-     * Getter for the week of year.
-     * @return the week of year
+     * Sets the timeInterval to filter by.
+     * @param timeInterval the timeInterval to set
      */
-    public Integer getWeekOfYear() {
-        return this.weekOfYear != null ? this.weekOfYear.getWeekOfWeekyear() : null;
-    }
+    public void setTimeInterval(final Interval timeInterval) {
+        this.timeInterval = timeInterval;
 
-    /**
-     * Sets the weekOfYear to filter by.
-     * @param weekOfYear the weekOfYear to set
-     */
-    public void setWeekOfYear(final DateTime weekOfYear) {
-        this.weekOfYear = weekOfYear;
-
-        if (this.weekOfYearPredicate != null) {
-            this.predicates.remove(this.weekOfYearPredicate);
-        }
-
-        // If week is null set week predicate also to null.
-        if (this.weekOfYear == null) {
-            this.weekOfYearPredicate = null;
-        }
-
-        final Predicate newWeekOfYearPredicate = new WeekOfYearPredicate(weekOfYear);
-        this.weekOfYearPredicate = newWeekOfYearPredicate;
-        this.predicates.add(newWeekOfYearPredicate);
-    }
-    
-    /**
-     * Getter for the month.
-     * @return the month
-     */
-    public Integer getMonth() {
-        return this.month != null ? this.month.getMonthOfYear() : null;
-    }
-
-    /**
-     * Sets the month to filter by.
-     * @param month the month to set
-     */
-    public void setMonth(final DateTime month) {
-        this.month = month;
-
-        if (this.monthPredicate != null) {
-            this.predicates.remove(this.monthPredicate);
-        }
-
-        // If month is null set month predicate also to null.
-        if (this.month == null) {
-            this.monthPredicate = null;
-        }
-
-        final Predicate newMonthPredicate = new MonthPredicate(month);
-        this.monthPredicate = newMonthPredicate;
-        this.predicates.add(newMonthPredicate);
-    }
-    
-    /**
-     * Getter for the day.
-     * @return the day
-     */
-    public Integer getDay() {
-        return this.day != null ? this.day.getDayOfWeek() : null;
-    }
-
-    /**
-     * Sets the day to filter by.
-     * @param day the day to set
-     */
-    public void setDay(final DateTime day) {
-        this.day = day;
-
-        if (this.dayPredicate != null) {
-            this.predicates.remove(this.dayPredicate);
-        }
-
-        // If day is null set day predicate also to null.
-        if (this.day == null) {
-            this.dayPredicate = null;
-        }
-
-        final Predicate newDayPredicate = new DayPredicate(day);
-        this.dayPredicate = newDayPredicate;
-        this.predicates.add(newDayPredicate);
-    }
-
-    /**
-     * Getter for the year.
-     * @return the year
-     */
-    public Integer getYear() {
-        return this.year != null ? this.year.getYear() : null;
-    }
-
-    /**
-     * Sets the year to filter by.
-     * @param year the year to set
-     */
-    public void setYear(final DateTime year) {
-        this.year = year;
-
-        if (this.yearPredicate != null) {
-            this.predicates.remove(this.yearPredicate);
-            return;
-        }
-
-        // If year is null set year predicate also to null.
-        if (this.year == null) {
-            this.yearPredicate = null;
-            return;
-        }
-
-        final Predicate newYearPredicate = new YearPredicate(year);
-        this.yearPredicate = newYearPredicate;
-        this.predicates.add(newYearPredicate);
+//        if (this.timeIntervalPredicate != null) {
+//            this.predicates.remove(this.timeIntervalPredicate);
+//        }
+//
+//        final Predicate newTimeIntervalPredicate = new WeekOfYearPredicate(timeInterval);
+//        this.timeIntervalPredicate = newTimeIntervalPredicate;
+//        this.predicates.add(newTimeIntervalPredicate);
     }
     
     /**
@@ -239,10 +118,7 @@ public class Filter {
         
         final EqualsBuilder eqBuilder = new EqualsBuilder();
         eqBuilder.append(this.getProject(), filter.getProject());
-        eqBuilder.append(this.getWeekOfYear(), filter.getWeekOfYear());
-        eqBuilder.append(this.getMonth(), filter.getMonth());
-        eqBuilder.append(this.getYear(), filter.getYear());
-        eqBuilder.append(this.getDay(), filter.getDay());
+        eqBuilder.append(this.getTimeInterval(), filter.getTimeInterval());
         
         return eqBuilder.isEquals();
     }
@@ -252,10 +128,7 @@ public class Filter {
     	final HashCodeBuilder hashBuilder = new HashCodeBuilder();
 
     	hashBuilder.append(this.getProject());
-    	hashBuilder.append(this.getWeekOfYear());
-    	hashBuilder.append(this.getMonth());
-        hashBuilder.append(this.getYear());
-        hashBuilder.append(this.getDay());
+    	hashBuilder.append(this.getTimeInterval());
         
         return hashBuilder.toHashCode();
     }
@@ -264,13 +137,11 @@ public class Filter {
     public String toString() {
     	final ToStringBuilder toStringBuilder = new ToStringBuilder(this);
     	
-    	toStringBuilder.append(this.getProject());
-    	toStringBuilder.append(this.getWeekOfYear());
-    	toStringBuilder.append(this.getMonth());
-    	toStringBuilder.append(this.getYear());
-    	toStringBuilder.append(this.getDay());
+    	toStringBuilder.append(this.getProject()); 
+    	toStringBuilder.append(this.getTimeInterval()); 
     	
     	return toStringBuilder.toString();
     }
+
 
 }

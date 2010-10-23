@@ -123,14 +123,14 @@ public class ExcelExporter implements Exporter {
 
     private void createFilteredReport(final WritableWorkbook workbook, final List<ProjectActivity> data, final Filter filter) throws JXLException {
         String year = "";
-        if (filter != null && filter.getYear() != null) {
-            year = YEAR_FORMAT.format(filter.getYear());
-        }
+//        if (filter != null && filter.getYear() != null) {
+//            year = YEAR_FORMAT.format(filter.getYear());
+//        }
         
         String month = "";
-        if (filter != null && filter.getMonth() != null) {
-            month = MONTH_FORMAT.format(filter.getMonth());
-        }
+//        if (filter != null && filter.getMonth() != null) {
+//            month = MONTH_FORMAT.format(filter.getMonth());
+//        }
         
         String reportName = textBundle.textFor("ExcelExporter.SheetTitleStart"); //$NON-NLS-1$
         if (StringUtils.isNotBlank(year)) {

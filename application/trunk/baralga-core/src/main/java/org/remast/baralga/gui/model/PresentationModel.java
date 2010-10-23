@@ -577,15 +577,6 @@ public class PresentationModel extends Observable {
     public final SortedList<ProjectActivity> getActivitiesList() {
         return activitiesList;
     }
-    
-    public final List<ProjectActivity> findActivitiesByDay(final DateTime day) {
-    	final Filter filter = new Filter();
-    	filter.setDay(day);
-    	filter.setWeekOfYear(day);
-    	filter.setMonth(day);
-    	filter.setYear(day);
-    	return baralgaDAO.getActivities(filter);
-    }
 
     public final ProjectFilterList getProjectFilterList() {
         return new ProjectFilterList(this);
