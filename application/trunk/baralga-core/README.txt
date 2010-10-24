@@ -9,6 +9,15 @@ Fixes
  * all activities not sorted (Issue #88 http://baralga.origo.ethz.ch/issues/88)
  * tray icon disappears upon 2 fast sequential double clicks (Issue #61 http://baralga.origo.ethz.ch/issues/61)
 
+Functionality
+ * new ui design of filters
+   TODOs:
+   - remember filter
+   - Excel export
+   - CSV export?
+   - Tooltips
+   - dynamic filters
+   - keyboard shortcuts
 
 == Baralga Version 1.5 ==
 Enhancements

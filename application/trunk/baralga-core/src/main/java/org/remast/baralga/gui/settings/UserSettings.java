@@ -10,13 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
-import org.joda.time.IllegalFieldValueException;
-import org.remast.baralga.gui.lists.DayFilterList;
-import org.remast.baralga.gui.lists.MonthFilterList;
-import org.remast.baralga.gui.lists.WeekOfYearFilterList;
-import org.remast.baralga.gui.lists.YearFilterList;
 import org.remast.baralga.model.filter.Filter;
-import org.remast.util.DateUtils;
 
 /**
  * Stores and reads all settings specific to one user.
@@ -223,19 +217,6 @@ public final class UserSettings {
     /** The key for the selected month of filter. */
     private static final String SELECTED_MONTH = "filter.month"; //$NON-NLS-1$
 
-    public Integer getFilterSelectedMonth() {
-        // Avoid ConversionException by checking the type of the property
-        final Object selectedMonthObject = userConfig.getProperty(SELECTED_MONTH);
-        
-        // -- 
-        // :INFO: Migrate from < 1.3 where * was used as dummy value
-        if ((selectedMonthObject instanceof String) && StringUtils.equals("*", (String) selectedMonthObject)) {
-            setFilterSelectedMonth(MonthFilterList.ALL_MONTHS_DUMMY);
-        }
-        // --
-        return doGetInteger(SELECTED_MONTH, null);
-    }
-    
     public void setFilterSelectedMonth(final Integer month) {
         userConfig.setProperty(SELECTED_MONTH, month);
     }
@@ -249,37 +230,6 @@ public final class UserSettings {
     
     public void setFilterSelectedDay(final Integer day) {
         userConfig.setProperty(SELECTED_DAY, day);
-    }
-
-    /** The key for the selected week of filter. */
-    private static final String SELECTED_WEEK_OF_YEAR = "filter.weekOfYear"; //$NON-NLS-1$
-
-    public Integer getFilterSelectedWeekOfYear() {
-        return doGetInteger(SELECTED_WEEK_OF_YEAR, null);
-    }
-
-    public void setFilterSelectedWeekOfYear(final Integer weekOfYear) {
-        userConfig.setProperty(SELECTED_WEEK_OF_YEAR, weekOfYear);
-    }
-
-    /** The key for the selected year of filter. */
-    private static final String SELECTED_YEAR = "filter.year"; //$NON-NLS-1$
-
-    public Integer getFilterSelectedYear() {
-        // Avoid ConversionException by checking the type of the property
-        final Object selectedYearObject = userConfig.getProperty(SELECTED_YEAR);
-        
-        // -- 
-        // :INFO: Migrate from < 1.3 where * was used as dummy value
-        if ((selectedYearObject instanceof String) && StringUtils.equals("*", (String) selectedYearObject)) {
-            setFilterSelectedYear(YearFilterList.ALL_YEARS_DUMMY);
-        }
-        // -- 
-        return doGetInteger(SELECTED_YEAR, null);
-    }
-
-    public void setFilterSelectedYear(final Integer year) {
-        userConfig.setProperty(SELECTED_YEAR, year);
     }
 
     /** The key for the selected project id of filter. */
@@ -369,126 +319,10 @@ public final class UserSettings {
      */
     public Filter restoreFromSettings() {
         final Filter filter = new Filter();
-
-        // Restore the week of the year
-        restoreWeekOfYearFilter(filter);
-
-        // Restore the month
-        restoreMonthFilter(filter);
-
-        // Restore the day
-        restoreDayFilter(filter);
-
-        // Restore the year
-        restoreYearFilter(filter);
+        
+        // TODO
 
         return filter;
-    }
-
-    /**
-     * Restores the filter for the year.
-     * @param filter the restored filter
-     */
-    private void restoreYearFilter(final Filter filter) {
-        final Integer selectedYear = UserSettings.instance().getFilterSelectedYear();
-
-        if (selectedYear == null) {
-            return;
-        }
-
-        if (selectedYear == YearFilterList.CURRENT_YEAR_DUMMY) {
-//            filter.setYear(DateUtils.getNowAsDateTime());
-            return;
-        } 
-
-        if (selectedYear != YearFilterList.ALL_YEARS_DUMMY) {
-            try {
-                DateTime year = new DateTime().withYear(selectedYear);
-//                filter.setYear(year);
-            } catch (NumberFormatException e) {
-                log.error(e, e);
-            }
-        }
-    }
-
-    /**
-     * Restores the filter for the month.
-     * @param filter the restored filter
-     */
-    private void restoreMonthFilter(final Filter filter) {
-        final Integer selectedMonth = getFilterSelectedMonth();
-
-        if (selectedMonth == null) {
-            return;
-        }
-
-        if (selectedMonth == MonthFilterList.CURRENT_MONTH_DUMMY) {
-//            filter.setMonth(DateUtils.getNowAsDateTime());
-            return;
-        } 
-
-        if (selectedMonth != MonthFilterList.ALL_MONTHS_DUMMY) {
-            try {
-                DateTime month = new DateTime().withMonthOfYear(selectedMonth);
-//                filter.setMonth(month);
-            } catch (NumberFormatException e) {
-                log.error(e, e);
-            }
-        }
-    }
-    
-    /**
-     * Restores the filter for the day.
-     * @param filter the restored filter
-     */
-    private void restoreDayFilter(final Filter filter) {
-        final Integer selectedDay = getFilterSelectedDay();
-
-        if (selectedDay == null) {
-            return;
-        }
-
-        if (selectedDay == DayFilterList.CURRENT_DAY_DUMMY) {
-//            filter.setDay(DateUtils.getNowAsDateTime());
-            return;
-        } 
-
-        if (selectedDay != DayFilterList.ALL_DAYS_DUMMY) {
-            try {
-                DateTime day = new DateTime().withDayOfWeek(selectedDay);
-//                filter.setDay(day);
-            } catch (NumberFormatException e) {
-                log.error(e, e);
-            }
-        }
-    }
-
-    /**
-     * Restores the filter for the week of year.
-     * @param filter the restored filter
-     */
-    private void restoreWeekOfYearFilter(final Filter filter) {
-        final Integer selectedWeekOfYear = getFilterSelectedWeekOfYear();
-
-        if (selectedWeekOfYear == null) {
-            return;
-        }
-
-        if (selectedWeekOfYear == WeekOfYearFilterList.CURRENT_WEEK_OF_YEAR_DUMMY) {
-//            filter.setWeekOfYear(DateUtils.getNowAsDateTime());
-            return;
-        } 
-
-        if (selectedWeekOfYear != WeekOfYearFilterList.ALL_WEEKS_OF_YEAR_DUMMY) {
-            try {
-                final DateTime weekOfYear = new DateTime().withWeekOfWeekyear(selectedWeekOfYear);
-//                filter.setWeekOfYear(weekOfYear);
-            } catch (NumberFormatException e) {
-            	log.error(e, e);
-            } catch (IllegalFieldValueException e2) {
-            	log.error(e2, e2);
-            }
-        }
     }
     
     /**

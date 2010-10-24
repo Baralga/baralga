@@ -16,11 +16,7 @@ import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.events.BaralgaEvent;
-import org.remast.baralga.gui.lists.DayFilterList;
-import org.remast.baralga.gui.lists.MonthFilterList;
 import org.remast.baralga.gui.lists.ProjectFilterList;
-import org.remast.baralga.gui.lists.WeekOfYearFilterList;
-import org.remast.baralga.gui.lists.YearFilterList;
 import org.remast.baralga.gui.model.edit.EditStack;
 import org.remast.baralga.gui.model.report.HoursByDayReport;
 import org.remast.baralga.gui.model.report.HoursByMonthReport;
@@ -581,39 +577,7 @@ public class PresentationModel extends Observable {
     public final ProjectFilterList getProjectFilterList() {
         return new ProjectFilterList(this);
     }
-
-    /**
-     * Get all years in which there are project activities.
-     * @return List of years with activities as String.
-     */
-    public final YearFilterList getYearFilterList() {
-        return new YearFilterList(this);
-    }
-
-    /**
-     * Get all months in which there are project activities.
-     * @return List of months with activities as String.
-     */
-    public final MonthFilterList getMonthFilterList() {
-        return new MonthFilterList(this);
-    }
-
-    /**
-     * Get all days of the current week.
-     * @return List of days.
-     */
-    public final DayFilterList getDayFilterList() {
-        return new DayFilterList(this);
-    }
-
-    /**
-     * Get all weeks in which there are project activities.
-     * @return List of weeks with activities as String.
-     */
-    public final WeekOfYearFilterList getWeekFilterList() {
-        return new WeekOfYearFilterList(this);
-    }
-
+    
     /**
      * Getter for the ObservingAccumulatedActivitiesReport.
      * @return the ObservingAccumulatedActivitiesReport to get
