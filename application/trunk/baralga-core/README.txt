@@ -18,6 +18,7 @@ Functionality
    - Tooltips
    - dynamic filters
    - keyboard shortcuts
+   - Next/previous buttons should skip weekends (depending on settings)
 
 == Baralga Version 1.5 ==
 Enhancements
