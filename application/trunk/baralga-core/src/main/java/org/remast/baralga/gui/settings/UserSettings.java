@@ -11,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
 import org.remast.baralga.model.filter.Filter;
+import org.remast.baralga.model.filter.SpanType;
 
 /**
  * Stores and reads all settings specific to one user.
@@ -62,6 +63,7 @@ public final class UserSettings {
         }
     }
 
+    
     //------------------------------------------------
     // Lock file Location
     //------------------------------------------------
@@ -77,6 +79,7 @@ public final class UserSettings {
         return ApplicationSettings.instance().getApplicationDataDirectory() + File.separator + LOCK_FILE_NAME;
     }
 
+    
     //------------------------------------------------
     // Excel Export Location
     //------------------------------------------------
@@ -99,6 +102,7 @@ public final class UserSettings {
     public void setLastExcelExportLocation(final String excelExportLocation) {
         userConfig.setProperty(LAST_EXCEL_EXPORT_LOCATION, excelExportLocation);
     }
+    
 
     //------------------------------------------------
     // Data Export Location
@@ -123,6 +127,7 @@ public final class UserSettings {
         userConfig.setProperty(LAST_DATA_EXPORT_LOCATION, dataExportLocation);
     }
 
+    
     //------------------------------------------------
     // Csv Export Location
     //------------------------------------------------
@@ -145,6 +150,7 @@ public final class UserSettings {
     public void setLastCsvExportLocation(final String csvExportLocation) {
         userConfig.setProperty(LAST_CSV_EXPORT_LOCATION, csvExportLocation);
     }
+    
 
     //------------------------------------------------
     // Description
@@ -161,6 +167,7 @@ public final class UserSettings {
         userConfig.setProperty(LAST_DESCRIPTION, lastDescription);
     }
     
+    
     //------------------------------------------------
     // Active Flag
     //------------------------------------------------
@@ -176,6 +183,7 @@ public final class UserSettings {
     	userConfig.setProperty(ACTIVE, active);
     }
     
+    
     //------------------------------------------------
     // Id of active (selected) project
     //------------------------------------------------
@@ -190,6 +198,7 @@ public final class UserSettings {
     public void setActiveProjectId(final Long activeProjectId) {
     	userConfig.setProperty(ACTIVE_PROJECT_ID, activeProjectId);
     }
+    
     
     //------------------------------------------------
     // Start time
@@ -210,28 +219,27 @@ public final class UserSettings {
     	}
     }
     
+    
     //------------------------------------------------
     // Filter Settings
     //------------------------------------------------
 
     /** The key for the selected month of filter. */
-    private static final String SELECTED_MONTH = "filter.month"; //$NON-NLS-1$
+    private static final String SELECTED_SPAN_TYPE = "filter.spanType"; //$NON-NLS-1$
 
-    public void setFilterSelectedMonth(final Integer month) {
-        userConfig.setProperty(SELECTED_MONTH, month);
+    public void setFilterSelectedSpanType(final SpanType spanType) {
+        userConfig.setProperty(SELECTED_SPAN_TYPE, spanType.name());
+    }
+
+    public SpanType getFilterSelectedSpanType() {
+    	final String spanTypeName = userConfig.getString(SELECTED_SPAN_TYPE);
+    	if (spanTypeName == null) {
+    		return null;
+    	}
+    	
+    	return SpanType.valueOf(spanTypeName);
     }
     
-    /** The key for the selected day of filter. */
-    private static final String SELECTED_DAY = "filter.day"; //$NON-NLS-1$
-
-    public Integer getFilterSelectedDay() {
-        return doGetInteger(SELECTED_DAY, null);
-    }
-    
-    public void setFilterSelectedDay(final Integer day) {
-        userConfig.setProperty(SELECTED_DAY, day);
-    }
-
     /** The key for the selected project id of filter. */
     private static final String SELECTED_PROJECT_ID = "filter.projectId"; //$NON-NLS-1$
 
@@ -242,6 +250,24 @@ public final class UserSettings {
     public void setFilterSelectedProjectId(final long projectId) {
         userConfig.setProperty(SELECTED_PROJECT_ID, Long.valueOf(projectId));
     }
+
+    /**
+     * Restore the current filter from the user settings.
+     * @return the restored filter
+     */
+    public Filter restoreFromSettings() {
+        final Filter filter = new Filter();
+        
+        // Restore span type
+        final SpanType spanType = getFilterSelectedSpanType();
+        if (spanType != null) {
+        	filter.setSpanType(spanType);
+        	filter.initTimeInterval();
+        }
+
+        return filter;
+    }
+    
 
     //------------------------------------------------
     // Shown category
@@ -258,6 +284,7 @@ public final class UserSettings {
         userConfig.setProperty(SHOWN_CATEGORY, shownCategory);
     }
     
+    
     //------------------------------------------------
     // Remember window size and location
     //------------------------------------------------
@@ -272,6 +299,7 @@ public final class UserSettings {
     public void setRememberWindowSizeLocation(final boolean rememberWindowSizeLocation) {
         userConfig.setProperty(REMEMBER_WINDOWSIZE_LOCATION, rememberWindowSizeLocation);
     }
+    
     
     //------------------------------------------------
     // Window size
@@ -293,6 +321,7 @@ public final class UserSettings {
         userConfig.setProperty(WINDOW_SIZE, encodedSize);
     }
     
+    
     //------------------------------------------------
     // Window location
     //------------------------------------------------
@@ -313,33 +342,22 @@ public final class UserSettings {
         userConfig.setProperty(WINDOW_LOCATION, encodedLocation);
     }
 
-    /**
-     * Restore the current filter from the user settings.
-     * @return the restored filter
-     */
-    public Filter restoreFromSettings() {
-        final Filter filter = new Filter();
-        
-        // TODO
 
-        return filter;
-    }
+    //------------------------------------------------
+    // Helper methods
+    //------------------------------------------------
     
     /**
      * Resets all settings to their default values.
      */
     public void reset() {
-        userConfig.clear();
-        try {
-            userConfig.save();
-        } catch (ConfigurationException e) {
-            log.error(e, e);
-        }
+    	userConfig.clear();
+    	try {
+    		userConfig.save();
+    	} catch (ConfigurationException e) {
+    		log.error(e, e);
+    	}
     }
-
-    //------------------------------------------------
-    // Helper methods
-    //------------------------------------------------
 
     /**
      * Getter that handle errors gracefully meaning errors are logged 

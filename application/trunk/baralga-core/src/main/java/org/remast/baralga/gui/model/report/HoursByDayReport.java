@@ -7,7 +7,6 @@ import java.util.Observer;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
-import org.remast.baralga.model.filter.Filter;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
@@ -24,21 +23,8 @@ public class HoursByDayReport extends Observable implements Observer  {
 
     private EventList<HoursByDay> hoursByDayList;
 
-    private Filter filter;
-
-    /**
-     * @param filter
-     *            the filter to set
-     */
-    private void setFilter(final Filter filter) {
-        this.filter = filter;
-
-        calculateHours();
-    }
-
     public HoursByDayReport(final PresentationModel model) {
         this.model = model;
-        this.filter = model.getFilter();
         this.model.addObserver(this);
         this.hoursByDayList = new SortedList<HoursByDay>(new BasicEventList<HoursByDay>());
 
@@ -54,10 +40,6 @@ public class HoursByDayReport extends Observable implements Observer  {
     }
 
     public void addHours(final ProjectActivity activity) {
-        if (filter != null && !filter.matchesCriteria(activity)) {
-            return;
-        }
-
         final HoursByDay newHoursByDay = new HoursByDay(activity.getStart(), activity.getDuration());
 
         if (this.hoursByDayList.contains(newHoursByDay)) {
@@ -95,12 +77,8 @@ public class HoursByDayReport extends Observable implements Observer  {
             case BaralgaEvent.DATA_CHANGED:
             case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
             case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
-                calculateHours();
-                break;
-                
             case BaralgaEvent.FILTER_CHANGED:
-                final Filter newFilter = (Filter) event.getData();
-                setFilter(newFilter);
+               calculateHours();
                 break;
         }
 

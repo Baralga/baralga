@@ -7,9 +7,11 @@ import org.apache.commons.collections.Predicate;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
+import org.remast.util.DateUtils;
 
 /**
  * Filter for selecting only those project activities which satisfy 
@@ -21,8 +23,18 @@ public class Filter {
     /** The predicates of the filter. */
     private final List<Predicate> predicates = new ArrayList<Predicate>();
     
-    private Interval timeInterval;
+    /** The time interval to filter by. */
+    private Interval timeInterval = new Interval(org.remast.util.DateUtils.getNowAsDateTime(), org.remast.util.DateUtils.getNowAsDateTime().plusDays(1));
 
+    /** 
+     * The type of span the time interval belongs to.
+     * @see SpanType
+     */
+	private SpanType spanType = SpanType.Day;
+
+	/** The predicate to filter by time interval. */
+    private Predicate timeIntervalPredicate;
+    
     /** The project to filter by. */
     private Project project;
 
@@ -53,7 +65,27 @@ public class Filter {
         }
         return true;
     }
+
+    /**
+     * Sets the span type to filter by.
+     * @param spanType the span type to set
+     */
+	public void setSpanType(final SpanType spanType) {
+		this.spanType = spanType;
+	}
+	
+    /**
+     * Getter for the span type.
+     * @return the span type
+     */
+	public SpanType getSpanType() {
+		return this.spanType;
+	}
     
+    /**
+     * Getter for the timeInterval.
+     * @return the timeInterval
+     */
     public Interval getTimeInterval() {
     	return this.timeInterval;
     }
@@ -65,13 +97,13 @@ public class Filter {
     public void setTimeInterval(final Interval timeInterval) {
         this.timeInterval = timeInterval;
 
-//        if (this.timeIntervalPredicate != null) {
-//            this.predicates.remove(this.timeIntervalPredicate);
-//        }
-//
-//        final Predicate newTimeIntervalPredicate = new WeekOfYearPredicate(timeInterval);
-//        this.timeIntervalPredicate = newTimeIntervalPredicate;
-//        this.predicates.add(newTimeIntervalPredicate);
+        if (this.timeIntervalPredicate != null) {
+            this.predicates.remove(this.timeIntervalPredicate);
+        }
+
+        final Predicate newTimeIntervalPredicate = new TimeIntervalPredicate(timeInterval);
+        this.timeIntervalPredicate = newTimeIntervalPredicate;
+        this.predicates.add(newTimeIntervalPredicate);
     }
     
     /**
@@ -104,6 +136,29 @@ public class Filter {
         this.predicates.add(newProjectPredicate);
     }
     
+	/** Initializes the time interval for the span type of the filter. */
+	public void initTimeInterval() {
+		DateTime now = DateUtils.getNowAsDateTime();
+
+		switch (spanType) {
+		case Day:
+			setTimeInterval(new Interval(now, now.plusDays(1)));
+			break;
+		case Week:
+			now = now.withDayOfWeek(1);
+			setTimeInterval(new Interval(now, now.plusWeeks(1)));
+			break;
+		case Month:
+			now = now.withDayOfMonth(1);
+			setTimeInterval(new Interval(now, now.plusMonths(1)));
+			break;
+		case Year:
+			now = now.withDayOfYear(1);
+			setTimeInterval(new Interval(now, now.plusYears(1)));
+			break;
+		}
+	}
+    
     @Override
     public boolean equals(final Object that) {
         if (this == that) {
@@ -118,6 +173,7 @@ public class Filter {
         
         final EqualsBuilder eqBuilder = new EqualsBuilder();
         eqBuilder.append(this.getProject(), filter.getProject());
+        eqBuilder.append(this.getSpanType(), filter.getSpanType());
         eqBuilder.append(this.getTimeInterval(), filter.getTimeInterval());
         
         return eqBuilder.isEquals();
@@ -128,6 +184,7 @@ public class Filter {
     	final HashCodeBuilder hashBuilder = new HashCodeBuilder();
 
     	hashBuilder.append(this.getProject());
+    	hashBuilder.append(this.getSpanType());
     	hashBuilder.append(this.getTimeInterval());
         
         return hashBuilder.toHashCode();
@@ -138,10 +195,10 @@ public class Filter {
     	final ToStringBuilder toStringBuilder = new ToStringBuilder(this);
     	
     	toStringBuilder.append(this.getProject()); 
+    	toStringBuilder.append(this.getSpanType());
     	toStringBuilder.append(this.getTimeInterval()); 
     	
     	return toStringBuilder.toString();
     }
-
 
 }

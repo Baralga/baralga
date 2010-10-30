@@ -12,11 +12,7 @@ Fixes
 Functionality
  * new ui design of filters
    TODOs:
-   - remember filter
-   - Excel export
-   - CSV export?
-   - Tooltips
-   - dynamic filters
+   - Tooltips for filter buttons
    - keyboard shortcuts
    - Next/previous buttons should skip weekends (depending on settings)
 

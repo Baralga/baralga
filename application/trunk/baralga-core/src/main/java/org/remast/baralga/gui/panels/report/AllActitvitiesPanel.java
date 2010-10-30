@@ -99,7 +99,7 @@ public class AllActitvitiesPanel extends JPanel implements Observer {
         // :TRICKY: The following is a workaround to enable sorting (Issue #88).
 //        EventListJXTableSorting.install(table, model.getActivitiesList());
         table.setSortable(false);
-        new TableComparatorChooser(table, model.getActivitiesList(), false);
+//        new TableComparatorChooser(table, model.getActivitiesList(), false);
 
         table.getColumn(1).setCellRenderer(
                 new DefaultTableRenderer(new FormatStringValue(DAY_FORMAT))

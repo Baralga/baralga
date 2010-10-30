@@ -2,6 +2,7 @@ package org.remast.baralga.gui.model;
 
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 
@@ -333,6 +334,16 @@ public class PresentationModel extends Observable {
 
         // Check whether the activity has been filtered before and whether it is filtered now (after the change).
         final boolean matchesFilter = filter != null && filter.matchesCriteria(changedActivity);
+        
+        // activitiesList.contains(changedActivity)
+//        boolean contains = false;
+//        for (ProjectActivity activity : activitiesList) {
+//			if (activity.getId() == changedActivity.getId()) {
+//				contains = true;
+//				break;
+//			}
+//		}
+        
         if (activitiesList.contains(changedActivity)) {
             // Did match before but doesn't now.
             if (!matchesFilter) {

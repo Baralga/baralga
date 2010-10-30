@@ -24,6 +24,7 @@ import jxl.write.WritableWorkbook;
 import org.apache.commons.lang.StringUtils;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
+import org.remast.baralga.model.filter.FilterUtils;
 import org.remast.baralga.model.report.AccumulatedActivitiesReport;
 import org.remast.baralga.model.report.AccumulatedProjectActivity;
 import org.remast.util.TextResourceBundle;
@@ -121,23 +122,10 @@ public class ExcelExporter implements Exporter {
         headingFormat.setBackground(Colour.GRAY_25);
     }
 
-    private void createFilteredReport(final WritableWorkbook workbook, final List<ProjectActivity> data, final Filter filter) throws JXLException {
-        String year = "";
-//        if (filter != null && filter.getYear() != null) {
-//            year = YEAR_FORMAT.format(filter.getYear());
-//        }
-        
-        String month = "";
-//        if (filter != null && filter.getMonth() != null) {
-//            month = MONTH_FORMAT.format(filter.getMonth());
-//        }
-        
+    private void createFilteredReport(final WritableWorkbook workbook, final List<ProjectActivity> data, final Filter filter) throws JXLException {      
         String reportName = textBundle.textFor("ExcelExporter.SheetTitleStart"); //$NON-NLS-1$
-        if (StringUtils.isNotBlank(year)) {
-            reportName += year;
-        }
-        if (StringUtils.isNotBlank(month)) {
-            reportName += "-" + month;
+        if (filter != null) {
+            reportName += FilterUtils.makeIntervalString(filter);
         }
         
         final WritableSheet sheet = workbook.createSheet(reportName, 0);
