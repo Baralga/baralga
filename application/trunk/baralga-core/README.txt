@@ -12,7 +12,6 @@ Fixes
 Functionality
  * new ui design of filters
    TODOs:
-   - Tooltips for filter buttons
    - keyboard shortcuts
    - Next/previous buttons should skip weekends (depending on settings)
 

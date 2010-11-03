@@ -124,7 +124,8 @@ public class ReportPanel extends JXPanel implements ActionListener {
 
 		});
 
-		JButton homeButton = new JButton(textBundle.textFor("ReportPanel.TodayLabel"));
+		JButton homeButton = new JButton(textBundle.textFor("ReportPanel.TodayButton"));
+		homeButton.setToolTipText(textBundle.textFor("ReportPanel.TodayButton.ToolTipText"));
 		homeButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -138,7 +139,6 @@ public class ReportPanel extends JXPanel implements ActionListener {
 
 		dateField = new JTextField();
 		dateField.setEditable(false);
-		this.dateField.setText(FilterUtils.makeIntervalString(model.getFilter()));
 
 		final JXTitledSeparator dataSeparator = new JXTitledSeparator(textBundle.textFor("ReportPanel.DataLabel")); //$NON-NLS-1$
 		this.add(dataSeparator, "1, 3, 11, 0"); //$NON-NLS-1$
@@ -156,6 +156,9 @@ public class ReportPanel extends JXPanel implements ActionListener {
 		this.add(dateField, "11, 5"); //$NON-NLS-1$
 
 		this.add(filteredActivitiesPane, "1, 7, 11, 7"); //$NON-NLS-1$
+		
+		
+		updateLabelsAndTooltips();
 	}
 
 	/**
@@ -164,7 +167,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 	private JComboBox getSpanTypeSelector() {
 		if (spanTypeSelector == null) {
 			spanTypeSelector = new JComboBox(spanSelectorItems);
-			spanTypeSelector.setToolTipText(textBundle.textFor("ProjectFilterSelector.ToolTipText")); //$NON-NLS-1$
+			spanTypeSelector.setToolTipText(textBundle.textFor("SpanTypeSelector.ToolTipText")); //$NON-NLS-1$
 
 			// Read from Filter
 			for (LabeledItem<SpanType> item : spanSelectorItems) {
@@ -279,16 +282,42 @@ public class ReportPanel extends JXPanel implements ActionListener {
 	 * @param filterInterval the new filter interval
 	 */
 	public final void actionPerformed(final ActionEvent event, final FilterInterval filterInterval) {
-		// 1. Create filter from selection.
+		// Create filter from selection.
 		final Filter filter = this.createFilter(filterInterval);
 
-		// 2. Save selection to settings.
+		// Save selection to settings.
 		storeFilterInSettings();
 
-		// 3. Save to model
+		// Save to model
 		model.setFilter(filter, this);
 
-		ReportPanel.this.dateField.setText(FilterUtils.makeIntervalString(model.getFilter()));
+		updateLabelsAndTooltips();
+	}
+
+	/** Updates all labels and tooltips depending on filter information. */
+	private void updateLabelsAndTooltips() {
+		// Date Field
+		this.dateField.setText(FilterUtils.makeIntervalString(model.getFilter()));
+
+		// Tooltips of next and previous interval buttons
+		String spanTypeLabel = null;
+		switch (model.getFilter().getSpanType()) {
+		case Day:
+			spanTypeLabel = textBundle.textFor("ReportPanel.DayLabel");
+			break;
+		case Week:
+			spanTypeLabel = textBundle.textFor("ReportPanel.WeekLabel");
+			break;
+		case Month:
+			spanTypeLabel = textBundle.textFor("ReportPanel.MonthLabel");
+			break;
+		case Year:
+			spanTypeLabel = textBundle.textFor("ReportPanel.YearLabel");
+			break;
+		}
+		
+		nextIntervalButton.setToolTipText(textBundle.textFor("ReportPanel.NextIntervalButton.ToolTipText", spanTypeLabel));
+		previousIntervalButton.setToolTipText(textBundle.textFor("ReportPanel.PreviousIntervalButton.ToolTipText", spanTypeLabel));
 	}
 
 	/**
