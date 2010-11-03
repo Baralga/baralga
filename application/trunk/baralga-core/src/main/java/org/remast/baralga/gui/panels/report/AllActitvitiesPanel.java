@@ -48,7 +48,6 @@ import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 import ca.odell.glazedlists.swing.EventTableModel;
-import ca.odell.glazedlists.swing.TableComparatorChooser;
 
 import com.jidesoft.swing.JideScrollPane;
 import com.jidesoft.utils.BasicTransferable;

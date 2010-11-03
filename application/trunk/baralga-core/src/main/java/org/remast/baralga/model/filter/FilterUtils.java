@@ -1,12 +1,6 @@
-//---------------------------------------------------------
-// $Id$ 
-// 
-// (c) 2010 Cellent Finance Solutions AG 
-//          Calwer Strasse 33 
-//          70173 Stuttgart 
-//          www.cellent-fs.de 
-//--------------------------------------------------------- 
 package org.remast.baralga.model.filter;
+
+import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.Interval;
@@ -25,8 +19,9 @@ public abstract class FilterUtils {
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
 
+    private static final DateTimeFormatter dayFormatter = DateTimeFormat.forPattern(DateTimeFormat.patternForStyle("S-", Locale.getDefault()) + " EEEEEEEEE");
 	private static final DateTimeFormatter weekOfYearFormatter = DateTimeFormat.forPattern("ww");
-    private static final DateTimeFormatter monthFormatter = DateTimeFormat.forPattern("MM/yyyy");
+    private static final DateTimeFormatter monthFormatter = DateTimeFormat.forPattern("MMMMMMMMMM yyyy");
     private static final DateTimeFormatter yearFormatter = DateTimeFormat.forPattern("yyyy");
 
     /**
@@ -42,7 +37,7 @@ public abstract class FilterUtils {
 		String intervalString = filter.getTimeInterval().toString();
 		switch (filter.getSpanType()) {
 		case Day:
-			intervalString = FormatUtils.formatDate(filter.getTimeInterval().getStart());
+			intervalString = dayFormatter.print(filter.getTimeInterval().getStart());
 			break;
 		case Week:
 			intervalString = "(" + textBundle.textFor("ReportPanel.CWLabel") + " " + weekOfYearFormatter.print(filter.getTimeInterval().getStart()) + ") ";

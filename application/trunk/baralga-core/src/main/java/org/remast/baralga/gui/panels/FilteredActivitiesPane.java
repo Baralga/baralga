@@ -6,6 +6,8 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.AbstractAction;
 import javax.swing.Icon;
@@ -14,6 +16,7 @@ import javax.swing.JPanel;
 
 import org.apache.commons.lang.StringUtils;
 import org.remast.baralga.gui.BaralgaMain;
+import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.panels.report.AccummulatedActitvitiesPanel;
 import org.remast.baralga.gui.panels.report.AllActitvitiesPanel;
@@ -32,10 +35,10 @@ import com.jidesoft.swing.JideToggleButton;
  * @author remast
  */
 @SuppressWarnings("serial")//$NON-NLS-1$
-public class FilteredActivitiesPane extends JPanel {
+public class FilteredActivitiesPane extends JPanel implements Observer {
 
-    /** The bundle for internationalized texts. */
-    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
+	/** The bundle for internationalized texts. */
+	private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
 
 	/** The model. */
 	private PresentationModel model;
@@ -62,8 +65,8 @@ public class FilteredActivitiesPane extends JPanel {
 	private HoursByDayPanel hoursByDayPanel;
 	private CategorizedTab hoursByDayTab;
 
-    private HoursByMonthPanel hoursByMonthPanel;
-    private CategorizedTab hoursByMonthTab;
+	private HoursByMonthPanel hoursByMonthPanel;
+	private CategorizedTab hoursByMonthTab;
 
 	private HoursByProjectPanel hoursByProjectPanel;
 	private CategorizedTab hoursByProjectTab;
@@ -122,6 +125,7 @@ public class FilteredActivitiesPane extends JPanel {
 	public FilteredActivitiesPane(final PresentationModel model) {
 		super();
 		this.model = model;
+		this.model.addObserver(this);
 
 		initialize();
 	}
@@ -146,13 +150,13 @@ public class FilteredActivitiesPane extends JPanel {
 		tabs.setTabColorProvider(JideTabbedPane.ONENOTE_COLOR_PROVIDER);
 
 		shownCategory = UserSettings.instance().getShownCategory();
-		
+
 		filteredActitvitiesTab = new CategorizedTab("General");
 		filteredActitvitiesPanel = new AllActitvitiesPanel(model);
 		filteredActitvitiesTab.setComponent(
 				textBundle.textFor("FilteredActivitiesPane.Tab.AllActivities"),  //$NON-NLS-1$
 				null,
-//				new ImageIcon(getClass().getResource("/icons/gtk-dnd-multiple.png")),  //$NON-NLS-1$
+				//				new ImageIcon(getClass().getResource("/icons/gtk-dnd-multiple.png")),  //$NON-NLS-1$
 				filteredActitvitiesPanel, 
 				textBundle.textFor("FilteredActivitiesPane.Tab.AllActivities.Tooltip") //$NON-NLS-1$
 		);
@@ -163,7 +167,7 @@ public class FilteredActivitiesPane extends JPanel {
 		accummulatedActitvitiesTab.setComponent(
 				textBundle.textFor("FilteredActivitiesPane.Tab.AccumulatedActivities"),  //$NON-NLS-1$
 				null,
-//				new ImageIcon(getClass().getResource("/icons/gnome-calculator.png")),  //$NON-NLS-1$
+				//				new ImageIcon(getClass().getResource("/icons/gnome-calculator.png")),  //$NON-NLS-1$
 				accummulatedActitvitiesPanel, 
 				textBundle.textFor("FilteredActivitiesPane.Tab.AccumulatedActivities.Tooltip") //$NON-NLS-1$
 		);
@@ -174,7 +178,7 @@ public class FilteredActivitiesPane extends JPanel {
 		descriptionTab.setComponent(
 				textBundle.textFor("FilteredActivitiesPane.Tab.Descriptions"),  //$NON-NLS-1$
 				null,
-//				new ImageIcon(getClass().getResource("/icons/gnome-mime-text-x-readme.png")), 
+				//				new ImageIcon(getClass().getResource("/icons/gnome-mime-text-x-readme.png")), 
 				descriptionPanel, 
 				textBundle.textFor("FilteredActivitiesPane.Tab.Descriptions.Tooltip") //$NON-NLS-1$
 		);
@@ -185,7 +189,7 @@ public class FilteredActivitiesPane extends JPanel {
 		hoursByWeekTab.setComponent(
 				textBundle.textFor("FilteredActivitiesPane.Tab.HoursByWeek"),  //$NON-NLS-1$
 				null,
-//				new ImageIcon(getClass().getResource("/icons/stock_calendar-view-work-week.png")),  //$NON-NLS-1$
+				//				new ImageIcon(getClass().getResource("/icons/stock_calendar-view-work-week.png")),  //$NON-NLS-1$
 				hoursByWeekPanel, 
 				textBundle.textFor("FilteredActivitiesPane.Tab.HoursByWeek.Tooltip") //$NON-NLS-1$
 		);
@@ -196,19 +200,19 @@ public class FilteredActivitiesPane extends JPanel {
 		hoursByDayTab.setComponent(
 				textBundle.textFor("FilteredActivitiesPane.Tab.HoursByDay"),  //$NON-NLS-1$
 				null,
-//				new ImageIcon(getClass().getResource("/icons/stock_calendar-view-day.png")),  //$NON-NLS-1$
+				//				new ImageIcon(getClass().getResource("/icons/stock_calendar-view-day.png")),  //$NON-NLS-1$
 				hoursByDayPanel, 
 				textBundle.textFor("FilteredActivitiesPane.Tab.HoursByDay.Tooltip") //$NON-NLS-1$
 		);
 		categorizedTabs.add(hoursByDayTab);
-		
+
 		hoursByMonthTab = new CategorizedTab("Time");
 		hoursByMonthPanel = new HoursByMonthPanel(model.getHoursByMonthReport());
 		hoursByMonthTab.setComponent(
-		        textBundle.textFor("FilteredActivitiesPane.Tab.HoursByMonth"),  //$NON-NLS-1$
-		        null,
-		        hoursByMonthPanel, 
-		        textBundle.textFor("FilteredActivitiesPane.Tab.HoursByMonth.Tooltip") //$NON-NLS-1$
+				textBundle.textFor("FilteredActivitiesPane.Tab.HoursByMonth"),  //$NON-NLS-1$
+				null,
+				hoursByMonthPanel, 
+				textBundle.textFor("FilteredActivitiesPane.Tab.HoursByMonth.Tooltip") //$NON-NLS-1$
 		);
 		categorizedTabs.add(hoursByMonthTab);
 
@@ -217,7 +221,7 @@ public class FilteredActivitiesPane extends JPanel {
 		hoursByProjectTab.setComponent(
 				textBundle.textFor("FilteredActivitiesPane.Tab.HoursByProject"),  //$NON-NLS-1$
 				null,
-//				new ImageIcon(getClass().getResource("/icons/stock_calendar-view-day.png")),  //$NON-NLS-1$
+				//				new ImageIcon(getClass().getResource("/icons/stock_calendar-view-day.png")),  //$NON-NLS-1$
 				hoursByProjectPanel, 
 				textBundle.textFor("FilteredActivitiesPane.Tab.HoursByProject.Tooltip") //$NON-NLS-1$
 		);
@@ -228,7 +232,7 @@ public class FilteredActivitiesPane extends JPanel {
 		hoursByProjectChartTab.setComponent(
 				textBundle.textFor("FilteredActivitiesPane.Tab.HoursByProjectChart"),  //$NON-NLS-1$
 				null,
-//				new ImageIcon(getClass().getResource("/icons/stock_calendar-view-day.png")),  //$NON-NLS-1$
+				//				new ImageIcon(getClass().getResource("/icons/stock_calendar-view-day.png")),  //$NON-NLS-1$
 				hoursByProjectChartPanel, 
 				textBundle.textFor("FilteredActivitiesPane.Tab.HoursByProjectChart.Tooltip") //$NON-NLS-1$
 		);
@@ -272,6 +276,8 @@ public class FilteredActivitiesPane extends JPanel {
 			}
 		}
 
+		// Update visibility depending on filter
+		updateTabVisibility();
 	}
 
 	/**
@@ -304,6 +310,57 @@ public class FilteredActivitiesPane extends JPanel {
 		}
 
 		tabs.addTab(tab.getTitle(), tab.getIcon(), tab.getComponent(), tab.getTooltip());   
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@SuppressWarnings("unchecked")
+	public void update(final Observable source, final Object eventObject) {
+		if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
+			return;
+		}
+
+		final BaralgaEvent event = (BaralgaEvent) eventObject;
+
+		switch (event.getType()) {
+
+		case BaralgaEvent.FILTER_CHANGED:
+			updateTabVisibility();
+			break;
+
+		}
+	}
+
+	/**
+	 * Updates the visibility of tabs. E.g. if there is a filter for 
+	 * a day it does not make sense to display the hours by month.
+	 */
+	private void updateTabVisibility() {
+		if (!StringUtils.equals(shownCategory, "Time")) {
+			return;
+		}
+
+		// First remove hours by week and month.
+		tabs.remove(hoursByWeekTab.getComponent());
+		tabs.remove(hoursByMonthTab.getComponent());
+
+		switch (model.getFilter().getSpanType()) {
+		case Day:
+			// Don't display hours by week or month.
+			break;
+			
+		case Week:
+			// Don't display hours by month.
+			addCategorizedTab(hoursByWeekTab);
+			break;
+			
+		case Month:
+		case Year:
+			addCategorizedTab(hoursByWeekTab);
+			addCategorizedTab(hoursByMonthTab);
+			break;
+		}
 	}
 
 	/**
@@ -340,37 +397,37 @@ public class FilteredActivitiesPane extends JPanel {
 		/**
 		 * @return the category
 		 */
-		 private String getCategory() {
-			 return category;
-		 }
+		private String getCategory() {
+			return category;
+		}
 
-		 /**
-		  * @return the title
-		  */
-		 private String getTitle() {
-			 return title;
-		 }
+		/**
+		 * @return the title
+		 */
+		private String getTitle() {
+			return title;
+		}
 
-		 /**
-		  * @return the icon
-		  */
-		 private Icon getIcon() {
-			 return icon;
-		 }
+		/**
+		 * @return the icon
+		 */
+		private Icon getIcon() {
+			return icon;
+		}
 
-		 /**
-		  * @return the component
-		  */
-		 private Component getComponent() {
-			 return component;
-		 }
+		/**
+		 * @return the component
+		 */
+		private Component getComponent() {
+			return component;
+		}
 
-		 /**
-		  * @return the tip
-		  */
-		 private String getTooltip() {
-			 return tooltip;
-		 }
+		/**
+		 * @return the tip
+		 */
+		private String getTooltip() {
+			return tooltip;
+		}
 	}
 
 }
