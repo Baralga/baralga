@@ -8,7 +8,6 @@ import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import org.apache.commons.lang.ObjectUtils;
@@ -151,9 +150,9 @@ public class ReportPanel extends JXPanel implements ActionListener {
 
 		this.add(nextIntervalButton, "7, 5"); //$NON-NLS-1$
 
-		this.add(new JLabel(textBundle.textFor("ReportPanel.DateLabel")), "9, 5"); //$NON-NLS-1$
+//		this.add(new JLabel(textBundle.textFor("ReportPanel.DateLabel")), "9, 5"); //$NON-NLS-1$
 
-		this.add(dateField, "11, 5"); //$NON-NLS-1$
+		this.add(dateField, "9, 5, 12, 5"); //$NON-NLS-1$
 
 		this.add(filteredActivitiesPane, "1, 7, 11, 7"); //$NON-NLS-1$
 		
