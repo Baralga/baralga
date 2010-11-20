@@ -78,22 +78,37 @@ public class SmartTimeFormat extends TimeFormat {
         time = StringUtils.replaceChars(time, '.', ':');
         
         // Treat 11,25 as 11:15
-        if (time.contains(",25")) { //$NON-NLS-1$
-            time = time.replace(",25", ":15"); //$NON-NLS-1$ // $NON-NLS-2$
-        }
-
         // Treat 11,75 as 11:45
-        if (time.contains(",75")) { //$NON-NLS-1$
-            time = time.replace(",75", ":45"); //$NON-NLS-1$ // $NON-NLS-2$
-        }
-        
         // Treat 11,5 and 11,50 as 11:30
-        if (time.contains(",50")) { //$NON-NLS-1$
-            time = time.replace(",50", ":30"); //$NON-NLS-1$ // $NON-NLS-2$
-        }
+        final String [] splittedTime = time.split(",");
+        if (time.contains(",")&& splittedTime.length >= 2) {
+        	final String hh = splittedTime[0];
+        	String mm = splittedTime[1];
+    		if (mm.length() < 2) {
+    			mm = mm + "0"; 
+    		}
 
-        if (time.contains(",5")) { //$NON-NLS-1$
-            time = time.replace(",5", ":30"); //$NON-NLS-1$ // $NON-NLS-2$
+        	try {
+        		// Convert to integer value
+        		int m = Integer.valueOf(mm);
+
+        		// Convert to float for calculation
+        		float fm = m;          
+
+        		// Convert from base100 to base60
+        		fm *= 0.6;                     
+
+        		// Round to int
+        		m = java.lang.Math.round(fm);  
+
+        		mm = String.valueOf(m);
+        		if (mm.length() < 2) {
+        			mm = "0" + mm; 
+        		}
+        		time = hh + ":" + mm;
+        	} catch (NumberFormatException e) {
+        		// Conversion to int failed so smart format does not apply.
+        	}
         }
 
         // Treat 11 as 11:30
