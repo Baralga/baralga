@@ -1,12 +1,10 @@
 package org.remast.baralga.gui.model.report;
 
-import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
 
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
-import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.baralga.model.report.AccumulatedActivitiesReport;
 
@@ -37,16 +35,7 @@ public class ObservingAccumulatedActivitiesReport extends AccumulatedActivitiesR
         switch (event.getType()) {
 
         case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
-            final Collection<ProjectActivity> projectActivities = (Collection<ProjectActivity>) event.getData();
-            for (ProjectActivity projectActivity : projectActivities) {
-                this.acummulateActivity(projectActivity);
-            }
-            break;
-
         case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
-            this.accumulate();
-            break;
-
         case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
             this.accumulate();
             break;
