@@ -517,15 +517,7 @@ public class BaralgaDAO {
 		}
 		
 		if (filter.getTimeInterval() != null) {
-			final boolean isSameYear = filter.getTimeInterval().getStart().getYear() == filter.getTimeInterval().getEnd().getYear();
-			
-			if (isSameYear) {
-				sqlCondition += " and ? <= DAY_OF_YEAR(activity.start) and ? <= YEAR(activity.start) "; //$NON-NLS-1$
-				sqlCondition += " and DAY_OF_YEAR(activity.start) < ? and YEAR(activity.start) <= ?"; //$NON-NLS-1$
-			} else {
-				sqlCondition += " and ? <= YEAR(activity.start) "; //$NON-NLS-1$
-				sqlCondition += " and YEAR(activity.start) < ?"; //$NON-NLS-1$
-			}
+			sqlCondition += " and ? <= activity.start and activity.start < ?"; //$NON-NLS-1$
 		}
 		
 		final List<ProjectActivity> activities = new ArrayList<ProjectActivity>();
@@ -535,18 +527,8 @@ public class BaralgaDAO {
 			final PreparedStatement preparedStatement = prepare("select * from activity, project where activity.project_id = project.id " + filterCondition + " order by start asc"); //$NON-NLS-1$ //$NON-NLS-2$
 			
 			if (filter.getTimeInterval() != null) {
-				final boolean isSameYear = filter.getTimeInterval().getStart().getYear() == filter.getTimeInterval().getEnd().getYear();
-
-				if (isSameYear) {
-					preparedStatement.setInt(1, filter.getTimeInterval().getStart().getDayOfYear());
-					preparedStatement.setInt(2, filter.getTimeInterval().getStart().getYear());
-
-					preparedStatement.setInt(3, filter.getTimeInterval().getEnd().getDayOfYear());
-					preparedStatement.setInt(4, filter.getTimeInterval().getEnd().getYear());
-				} else {
-					preparedStatement.setInt(1, filter.getTimeInterval().getStart().getYear());
-					preparedStatement.setInt(2, filter.getTimeInterval().getEnd().getYear());
-				}
+				preparedStatement.setDate(1, new java.sql.Date(filter.getTimeInterval().getStart().toDate().getTime()));
+				preparedStatement.setDate(2, new java.sql.Date(filter.getTimeInterval().getEnd().toDate().getTime()));
 			}
 			
 			final ResultSet resultSet = preparedStatement.executeQuery();
