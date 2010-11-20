@@ -1,6 +1,7 @@
 package org.remast.baralga.model.filter;
 
 import org.apache.commons.collections.Predicate;
+import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.remast.baralga.model.ProjectActivity;
 
@@ -40,17 +41,15 @@ public class TimeIntervalPredicate implements Predicate {
         }
 
         final ProjectActivity activity = (ProjectActivity) object;
-  
-        // TODO: This does not work in all case, especially not when the new interval overlaps a year
-		final boolean isSameYear = timeInterval.getStart().getYear() == timeInterval.getEnd().getYear();
-		if (isSameYear) {
-	        final boolean dayMatches = timeInterval.getStart().getDayOfYear() <= activity.getDay().getDayOfYear() && activity.getDay().getDayOfYear() < timeInterval.getEnd().getDayOfYear();
-	        return dayMatches;
-		} else {
-	        final boolean yearMatches = timeInterval.getStart().getYear() <= activity.getDay().getYear() && activity.getDay().getYear() < timeInterval.getEnd().getYear();
-	        final boolean dayMatches = timeInterval.getStart().getDayOfYear() <= activity.getDay().getDayOfYear() && activity.getDay().getDayOfYear() < timeInterval.getEnd().getDayOfYear();
-	        return yearMatches && dayMatches;
-		}
+        
+        // Set hours, minutes, seconds and milliseconds of interval ends 
+        // to zero so that every activity of a day is contained within the 
+        // interval.
+        final DateTime startAdjusted = timeInterval.getStart().withMillisOfDay(0);
+        final DateTime endAdjusted = timeInterval.getEnd().withMillisOfDay(0);
+        final Interval intervalAdjusted = new Interval(startAdjusted, endAdjusted);
+        
+        return intervalAdjusted.contains(activity.getStart().getMillis());
     }
 
 }
