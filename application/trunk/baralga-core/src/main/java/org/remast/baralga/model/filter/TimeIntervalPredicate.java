@@ -41,6 +41,7 @@ public class TimeIntervalPredicate implements Predicate {
 
         final ProjectActivity activity = (ProjectActivity) object;
   
+        // TODO: This does not work in all case, especially not when the new interval overlaps a year
 		final boolean isSameYear = timeInterval.getStart().getYear() == timeInterval.getEnd().getYear();
 		if (isSameYear) {
 	        final boolean dayMatches = timeInterval.getStart().getDayOfYear() <= activity.getDay().getDayOfYear() && activity.getDay().getDayOfYear() < timeInterval.getEnd().getDayOfYear();

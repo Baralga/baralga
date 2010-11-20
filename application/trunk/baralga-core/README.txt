@@ -12,6 +12,7 @@ Fixes
 Functionality
  * new ui design of filters
    TODOs:
+   - fix dynamic filtering!!
    - keyboard shortcuts
    - Next/previous buttons should skip weekends (depending on settings)
 
