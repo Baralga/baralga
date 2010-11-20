@@ -96,6 +96,9 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
     /** Format for minutes. */
     private static NumberFormat MINUTE_FORMAT = new DecimalFormat("##00");
 
+    /** Format for start time. */
+	private TimeFormat timeFormat = new SmartTimeFormat();
+
     /**
      * Create a new panel for the given model.
      * @param model the model
@@ -432,7 +435,7 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
 
         // New start time must be before the current time.
         try {
-            final Date newStartTime = TimeFormat.parseTime(start.getText()).toDate();
+            final Date newStartTime = timeFormat.parse(start.getText());
             final DateTime newStart = DateUtils.adjustToSameDay(
                     DateUtils.getNowAsDateTime(), 
                     new DateTime(newStartTime), 

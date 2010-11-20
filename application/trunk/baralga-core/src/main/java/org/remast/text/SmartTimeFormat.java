@@ -115,6 +115,10 @@ public class SmartTimeFormat extends TimeFormat {
         if (!time.contains(":")) { //$NON-NLS-1$
             time = time + ":00"; //$NON-NLS-1$
         }
+        
+		if (time.length() < 5) {
+			time = "0" + time; 
+		}
         return time;
     }
 }
