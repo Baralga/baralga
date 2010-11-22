@@ -24,7 +24,10 @@ public class Filter {
     private final List<Predicate> predicates = new ArrayList<Predicate>();
     
     /** The time interval to filter by. */
-    private Interval timeInterval = new Interval(org.remast.util.DateUtils.getNowAsDateTime(), org.remast.util.DateUtils.getNowAsDateTime().plusDays(1));
+    private Interval timeInterval = new Interval(
+    		org.remast.util.DateUtils.getNowAsDateTime().withMillisOfDay(0), 
+    		org.remast.util.DateUtils.getNowAsDateTime().plusDays(1).withMillisOfDay(0)
+    );
 
     /** 
      * The type of span the time interval belongs to.
@@ -138,7 +141,7 @@ public class Filter {
     
 	/** Initializes the time interval for the span type of the filter. */
 	public void initTimeInterval() {
-		DateTime now = DateUtils.getNowAsDateTime();
+		DateTime now = DateUtils.getNowAsDateTime().withMillisOfDay(0);
 
 		switch (spanType) {
 		case Day:
