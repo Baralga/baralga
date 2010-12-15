@@ -4,7 +4,7 @@
 == Further Development ==
 
 
-== Baralga Version 1.5.1 ==
+== Baralga Version 1.6 ==
 Fixes
  * all activities not sorted (Issue #88 http://baralga.origo.ethz.ch/issues/88)
  * tray icon disappears upon 2 fast sequential double clicks (Issue #61 http://baralga.origo.ethz.ch/issues/61)
