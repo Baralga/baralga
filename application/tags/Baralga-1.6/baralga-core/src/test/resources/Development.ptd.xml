@@ -1,0 +1,617 @@
+<proTrack id="1" active="false" startTime="2009-11-21 13:36:00.0 CET">
+  <activeProjects id="2">
+    <project id="3">
+      <id>8407415082569172992</id>
+      <title>Development</title>
+      <description>Development</description>
+      <active>true</active>
+    </project>
+    <project id="4">
+      <id>6823667323474578432</id>
+      <title>Bugfixing</title>
+      <description>Bugfixing</description>
+      <active>true</active>
+    </project>
+    <project id="5">
+      <id>16827493404884992</id>
+      <title>Testing</title>
+      <description>Testing</description>
+      <active>true</active>
+    </project>
+    <project id="6">
+      <id>2255000265625027584</id>
+      <title>Misc</title>
+      <description>Misc</description>
+      <active>true</active>
+    </project>
+  </activeProjects>
+  <projectsToBeDeleted id="7">
+    <project id="8">
+      <id>5581957400530429952</id>
+      <title>Test</title>
+      <description>Test</description>
+      <active>false</active>
+    </project>
+    <project id="9">
+      <id>576299044458218496</id>
+      <title>aac</title>
+      <description>aac</description>
+      <active>false</active>
+    </project>
+    <project id="10">
+      <id>5866543276904058880</id>
+      <title>aaa</title>
+      <description>aaa</description>
+      <active>false</active>
+    </project>
+    <project id="11">
+      <id>3024672125299065856</id>
+      <title>aab</title>
+      <description>aab</description>
+      <active>false</active>
+    </project>
+  </projectsToBeDeleted>
+  <activities id="12">
+    <projectActivity id="13">
+      <start id="14">2009-01-28 18:00:00.0 CET</start>
+      <end id="15">2009-01-28 19:00:00.0 CET</end>
+      <project reference="5"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+    &#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      features for version 1.3.1&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="16">
+      <start id="17">2008-12-28 12:00:00.0 CET</start>
+      <end id="18">2008-12-28 16:00:00.0 CET</end>
+      <project reference="3"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      izPack installer&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="19">
+      <start id="20">2008-11-29 15:00:00.0 CET</start>
+      <end id="21">2008-11-29 15:15:00.0 CET</end>
+      <project reference="4"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Added title to about dialog.&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="22">
+      <start id="23">2008-11-11 09:00:00.0 CET</start>
+      <end id="24">2008-11-11 11:00:00.0 CET</end>
+      <project reference="3"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Adding or removing project does not affect the filter by projects.&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="25">
+      <start id="26">2008-10-31 11:30:00.0 CET</start>
+      <end id="27">2008-10-31 12:00:00.0 CET</end>
+      <project reference="4"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+    &#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Enabled editing of year in activity.&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="28">
+      <start id="29">2009-04-28 13:00:00.0 CEST</start>
+      <end id="30">2009-04-28 14:00:00.0 CEST</end>
+      <project reference="3"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+    &#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Size and location of main window can be remembered and restored (Issue &#xd;
+      #23).&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="31">
+      <start id="32">2009-04-27 16:00:00.0 CEST</start>
+      <end id="33">2009-04-27 16:30:00.0 CEST</end>
+      <project reference="3"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Estonian language support thanks to Kristjan K.&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="34">
+      <start id="35">2009-04-28 14:30:00.0 CEST</start>
+      <end id="36">2009-04-28 14:45:00.0 CEST</end>
+      <project reference="5"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Testing of version 1.4&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="37">
+      <start id="38">2009-04-28 14:30:00.0 CEST</start>
+      <end id="39">2009-04-28 14:52:00.0 CEST</end>
+      <project reference="5"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Further tests&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="40">
+      <start id="41">2009-01-28 15:00:00.0 CET</start>
+      <end id="42">2009-01-28 17:30:00.0 CET</end>
+      <project reference="3"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      version 1.3.1&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="43">
+      <start id="44">2009-05-10 16:00:00.0 CEST</start>
+      <end id="45">2009-05-10 16:16:00.0 CEST</end>
+      <project reference="5"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Testing version 1.4&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="46">
+      <start id="47">2009-05-13 14:00:00.0 CEST</start>
+      <end id="48">2009-05-13 14:28:00.0 CEST</end>
+      <project reference="5"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Testing version 1.4&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="49">
+      <start id="50">2009-05-14 20:00:00.0 CEST</start>
+      <end id="51">2009-05-14 21:00:00.0 CEST</end>
+      <project reference="6"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Publish version 1.4&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="52">
+      <start id="53">2009-05-13 19:30:00.0 CEST</start>
+      <end id="54">2009-05-13 20:30:00.0 CEST</end>
+      <project reference="6"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Improved wiki pages&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="55">
+      <start id="56">2009-05-15 09:00:00.0 CEST</start>
+      <end id="57">2009-05-15 09:30:00.0 CEST</end>
+      <project reference="3"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Improved undo and redo texts.&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="58">
+      <start id="59">2009-05-31 22:30:00.0 CEST</start>
+      <end id="60">2009-05-31 23:00:00.0 CEST</end>
+      <project reference="3"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+    &#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Fixed sort order in all activities table.&#xd;
+    &lt;/p&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Fixed order of description entries.&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="61">
+      <start id="62">2009-05-31 23:00:00.0 CEST</start>
+      <end id="63">2009-05-31 23:20:00.0 CEST</end>
+      <project reference="5"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Testing version 1.4.1&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="64">
+      <start id="65">2009-06-25 17:00:00.0 CEST</start>
+      <end id="66">2009-06-25 17:45:00.0 CEST</end>
+      <project reference="5"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      &#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="67">
+      <start id="68">2009-06-25 17:45:00.0 CEST</start>
+      <end id="69">2009-06-25 18:00:00.0 CEST</end>
+      <project reference="5"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      &#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="70">
+      <start id="71">2009-07-22 15:00:00.0 CEST</start>
+      <end id="72">2009-07-22 15:00:00.0 CEST</end>
+      <project reference="5"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Testing filter performance.&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="73">
+      <start id="74">2009-07-22 14:00:00.0 CEST</start>
+      <end id="75">2009-07-22 15:00:00.0 CEST</end>
+      <project reference="5"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Creating test entries.&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="76">
+      <start id="77">2009-07-22 14:00:00.0 CEST</start>
+      <end id="78">2009-07-22 15:30:00.0 CEST</end>
+      <project reference="6"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Forum activities.&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="79">
+      <start id="80">2009-07-22 09:00:00.0 CEST</start>
+      <end id="81">2009-07-22 09:30:00.0 CEST</end>
+      <project reference="6"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Checking marketing.&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="82">
+      <start id="83">2009-07-26 13:00:00.0 CEST</start>
+      <end id="84">2009-07-26 14:15:00.0 CEST</end>
+      <project reference="3"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+    &#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Updated libraries. and all sorts of other stuff!!&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="85">
+      <start id="86">2009-07-26 14:15:00.0 CEST</start>
+      <end id="87">2009-07-26 15:00:00.0 CEST</end>
+      <project reference="3"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Migrated test from JUnit 3.8 to JUnit 4.6.&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="88">
+      <start id="89">2009-07-26 20:00:00.0 CEST</start>
+      <end id="90">2009-07-26 20:15:00.0 CEST</end>
+      <project reference="5"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Testing performance&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="91">
+      <start id="92">2009-10-10 12:00:00.0 CEST</start>
+      <end id="93">2009-10-10 13:00:00.0 CEST</end>
+      <project reference="3"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Day Filter added.&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="94">
+      <start id="95">2009-07-26 15:00:00.0 CEST</start>
+      <end id="96">2009-07-26 15:30:00.0 CEST</end>
+      <project reference="5"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Tested app with updated libraries.&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="97">
+      <start id="98">2009-10-12 10:00:00.0 CEST</start>
+      <end id="99">2009-10-12 11:00:00.0 CEST</end>
+      <project reference="3"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      &#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="100">
+      <start id="101">2009-10-12 11:00:00.0 CEST</start>
+      <end id="102">2009-10-12 12:00:00.0 CEST</end>
+      <project reference="3"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      &#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="103">
+      <start id="104">2009-10-12 13:11:00.0 CEST</start>
+      <end id="105">2009-10-12 14:00:00.0 CEST</end>
+      <project reference="3"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      sadf&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="106">
+      <start id="107">2009-10-12 13:00:00.0 CEST</start>
+      <end id="108">2009-10-12 14:00:00.0 CEST</end>
+      <project reference="3"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      s&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="109">
+      <start id="110">2009-10-14 12:00:00.0 CEST</start>
+      <end id="111">2009-10-14 13:00:00.0 CEST</end>
+      <project reference="5"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+&#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Profiling.&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="112">
+      <start id="113">2009-11-13 16:00:00.0 CET</start>
+      <end id="114">2009-11-13 16:15:00.0 CET</end>
+      <project reference="5"/>
+      <description>&lt;html&gt;&#xd;
+  &lt;head&gt;&#xd;
+    &#xd;
+  &lt;/head&gt;&#xd;
+  &lt;body&gt;&#xd;
+    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;
+      Testing Bug on editing activities.&#xd;
+    &lt;/p&gt;&#xd;
+  &lt;/body&gt;&#xd;
+&lt;/html&gt;&#xd;
+</description>
+    </projectActivity>
+    <projectActivity id="115">
+      <start id="116">2009-11-20 22:04:00.0 CET</start>
+      <end id="117">2009-11-20 22:04:00.0 CET</end>
+      <project reference="4"/>
+      <description></description>
+    </projectActivity>
+    <projectActivity id="118">
+      <start id="119">2009-11-21 13:36:00.0 CET</start>
+      <end id="120">2009-11-21 13:36:00.0 CET</end>
+      <project reference="4"/>
+      <description></description>
+    </projectActivity>
+  </activities>
+  <activeProject reference="3"/>
+</proTrack>
