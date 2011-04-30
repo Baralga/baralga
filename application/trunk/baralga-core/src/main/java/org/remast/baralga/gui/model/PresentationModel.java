@@ -2,6 +2,7 @@ package org.remast.baralga.gui.model;
 
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Observable;
 
@@ -79,6 +80,7 @@ public class PresentationModel extends Observable {
     /** The stack of edit actions (for undo and redo). */
     private EditStack editStack;
 
+    /** The Data Access Object for all persistent entities. */
 	private BaralgaDAO baralgaDAO;
 
     /**
@@ -755,5 +757,12 @@ public class PresentationModel extends Observable {
     public final EditStack getEditStack() {
         return editStack;
     }
+
+	public void importData(Collection<Project> projectsForImport, Collection<ProjectActivity> activitiesForImport) {
+		this.baralgaDAO.clearData();
+		
+		this.baralgaDAO.addProjects(projectsForImport);
+		this.baralgaDAO.addActivities(activitiesForImport);
+	}
 
 }

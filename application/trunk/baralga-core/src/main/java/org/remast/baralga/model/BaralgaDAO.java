@@ -326,6 +326,20 @@ public class BaralgaDAO {
 			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
 		}
 	}
+	
+	/**
+	 * Adds a bunch of projects.
+	 * @param projects the projects to add
+	 */
+	public void addProjects(final Collection<Project> projects) {
+		if (projects == null || projects.size() == 0) {
+			return;
+		}
+		
+		for (Project project : projects) {
+			addProject(project);
+		}
+	}
 
 	/**
 	 * Adds a bunch of activities.
@@ -581,6 +595,24 @@ public class BaralgaDAO {
 				log.error("using for " + PeriodFormat.getDefault().print(dur.toPeriod())); //$NON-NLS-1$
 				
 			}
+		} catch (SQLException e) {
+			log.error(e, e);
+			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
+		}
+	}
+
+	/**
+	 * Removes all projects and activities from the database.
+	 */
+	public void clearData() {
+		try {
+			// Remove activities
+			final PreparedStatement activitiesDelete = prepare("delete from activity"); //$NON-NLS-1$
+			activitiesDelete.execute();
+
+			// Remove the projects
+			final PreparedStatement projectsDelete = prepare("delete from project"); //$NON-NLS-1$
+			projectsDelete.execute();
 		} catch (SQLException e) {
 			log.error(e, e);
 			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
