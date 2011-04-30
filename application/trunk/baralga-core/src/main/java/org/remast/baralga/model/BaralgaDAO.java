@@ -45,7 +45,7 @@ public class BaralgaDAO {
 	 * The latest version of the database. If the database is not up to date yet it is being
 	 * updated to that version.
 	 */
-	private static final int LATEST_DATABASE_VERSION = 1;
+	public static final int LATEST_DATABASE_VERSION = 1;
 
 	/** The connection to the database. */
 	private Connection connection;
@@ -505,18 +505,14 @@ public class BaralgaDAO {
 	 * @return read-only view of the activities
 	 */
 	public List<ProjectActivity> getActivities(final Filter filter) {
-		if (filter == null) {
-			return getActivities();
-		}
-		
 		String sqlCondition = ""; //$NON-NLS-1$
 		
 		// Condition for project
-		if (filter.getProject() != null && filter.getProject().getId() > 0) {
+		if (filter != null && filter.getProject() != null && filter.getProject().getId() > 0) {
 			sqlCondition += " and activity.project_id = '" + filter.getProject().getId() + "' "; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		
-		if (filter.getTimeInterval() != null) {
+		if (filter != null && filter.getTimeInterval() != null) {
 			sqlCondition += " and ? <= activity.start and activity.start < ?"; //$NON-NLS-1$
 		}
 		
@@ -526,7 +522,7 @@ public class BaralgaDAO {
 			final String filterCondition = StringUtils.defaultString(sqlCondition);
 			final PreparedStatement preparedStatement = prepare("select * from activity, project where activity.project_id = project.id " + filterCondition + " order by start asc"); //$NON-NLS-1$ //$NON-NLS-2$
 			
-			if (filter.getTimeInterval() != null) {
+			if (filter != null && filter.getTimeInterval() != null) {
 				preparedStatement.setDate(1, new java.sql.Date(filter.getTimeInterval().getStart().toDate().getTime()));
 				preparedStatement.setDate(2, new java.sql.Date(filter.getTimeInterval().getEnd().toDate().getTime()));
 			}

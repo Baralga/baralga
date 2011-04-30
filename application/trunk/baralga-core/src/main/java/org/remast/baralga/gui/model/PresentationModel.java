@@ -2,7 +2,6 @@ package org.remast.baralga.gui.model;
 
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 
@@ -579,11 +578,19 @@ public class PresentationModel extends Observable {
 
     /**
      * Getter for the list of project activities.
-     * @return the list with all project activities
+     * @return the list with all filtered project activities
      */
     public final SortedList<ProjectActivity> getActivitiesList() {
         return activitiesList;
     }
+    
+    /**
+     * Getter for the list of all project activities.
+     * @return the list with all project activities
+     */
+	public List<ProjectActivity> getAllActivitiesList() {
+		return baralgaDAO.getActivities();
+	}
 
     public final ProjectFilterList getProjectFilterList() {
         return new ProjectFilterList(this);

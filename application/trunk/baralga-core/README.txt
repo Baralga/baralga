@@ -4,6 +4,11 @@
 == Further Development ==
 
 
+== Baralga Version 1.6.1 ==
+Functionality
+ * Added data export to xml.
+
+
 == Baralga Version 1.6 ==
 Fixes
  * all activities not sorted (Issue #88 http://baralga.origo.ethz.ch/issues/88)
@@ -14,6 +19,7 @@ Functionality
    TODOs:
    - keyboard shortcuts
    - Next/previous buttons should skip weekends (depending on settings)
+
 
 == Baralga Version 1.5 ==
 Enhancements

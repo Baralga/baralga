@@ -1,5 +1,6 @@
 package org.remast.baralga.model.report;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Observable;
 
@@ -12,7 +13,7 @@ import ca.odell.glazedlists.SortedList;
 public class AccumulatedActivitiesReport extends Observable {
 
     /** The data of the report. */
-    private List<ProjectActivity> data;
+    private Collection<ProjectActivity> data;
 
     /** Accumulated activities of the report. */
     private SortedList<AccumulatedProjectActivity> accumulatedActivitiesByDay;
@@ -24,7 +25,7 @@ public class AccumulatedActivitiesReport extends Observable {
      * Create report from data.
      * @param filter 
      */
-    public AccumulatedActivitiesReport(final  List<ProjectActivity> data, Filter filter) {
+    public AccumulatedActivitiesReport(final Collection<ProjectActivity> data, Filter filter) {
         this.data = data;
         this.filter = filter;
         this.accumulatedActivitiesByDay = new SortedList<AccumulatedProjectActivity>(new BasicEventList<AccumulatedProjectActivity>());

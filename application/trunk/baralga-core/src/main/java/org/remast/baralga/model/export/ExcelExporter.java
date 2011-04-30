@@ -3,6 +3,7 @@ package org.remast.baralga.model.export;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -55,7 +56,7 @@ public class ExcelExporter implements Exporter {
      * @throws Exception exception during data export
      */
     @Override
-    public void export(final List<ProjectActivity> data, final Filter filter, final OutputStream outputStream) throws Exception {
+    public void export(final Collection<ProjectActivity> data, final Filter filter, final OutputStream outputStream) throws Exception {
             init();
             
             final WritableWorkbook workbook = Workbook.createWorkbook(outputStream);
@@ -122,7 +123,7 @@ public class ExcelExporter implements Exporter {
         headingFormat.setBackground(Colour.GRAY_25);
     }
 
-    private void createFilteredReport(final WritableWorkbook workbook, final List<ProjectActivity> data, final Filter filter) throws JXLException {      
+    private void createFilteredReport(final WritableWorkbook workbook, final Collection<ProjectActivity> data, final Filter filter) throws JXLException {      
         String reportName = textBundle.textFor("ExcelExporter.SheetTitleStart"); //$NON-NLS-1$
         if (filter != null) {
             reportName += FilterUtils.makeIntervalString(filter);
@@ -182,5 +183,9 @@ public class ExcelExporter implements Exporter {
         final WritableCellFormat dateFormat = new WritableCellFormat(customDateFormat);
         return new DateTime(i, j, date, dateFormat); 
     }
-
+    
+	@Override
+	public boolean isFullExport() {
+		return false;
+	}
 }

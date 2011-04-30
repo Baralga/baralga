@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Collection;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -15,6 +16,7 @@ import javax.swing.filechooser.FileFilter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.remast.baralga.gui.model.PresentationModel;
+import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.export.Exporter;
 import org.remast.util.TextResourceBundle;
 
@@ -134,9 +136,18 @@ public abstract class AbstractExportAction extends AbstractBaralgaAction {
             OutputStream outputStream = null;
             try {
                 outputStream = new FileOutputStream(file);
-                synchronized (model.getActivitiesList()) {
+                
+                // Get activities for export
+                Collection<ProjectActivity> activitiesForExport = null;
+                if (exporter.isFullExport()) {
+                	activitiesForExport = model.getAllActivitiesList();
+                } else {
+                	activitiesForExport = model.getActivitiesList();
+                }
+                
+                synchronized (activitiesForExport) {
                     exporter.export(
-                            model.getActivitiesList(),
+                    		activitiesForExport,
                             model.getFilter(),
                             outputStream
                     );

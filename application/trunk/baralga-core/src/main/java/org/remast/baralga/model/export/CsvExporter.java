@@ -4,6 +4,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class CsvExporter implements Exporter {
      * @throws Exception exception during data export
      */
     @Override
-    public void export(final List<ProjectActivity> data, final Filter filter, final OutputStream outputStream) throws Exception {
+    public void export(final Collection<ProjectActivity> data, final Filter filter, final OutputStream outputStream) throws Exception {
         final List<ProjectActivity> activities = new ArrayList<ProjectActivity>(data);
         
         // Sort activities by default sort order (date) before export
@@ -93,4 +94,10 @@ public class CsvExporter implements Exporter {
 
         return csvLine;
     }
+
+	@Override
+	public boolean isFullExport() {
+		return false;
+	}
+	
 }
