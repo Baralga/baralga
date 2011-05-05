@@ -24,6 +24,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.joda.time.DateTime;
+import org.joda.time.format.ISODateTimeFormat;
 import org.remast.baralga.model.BaralgaDAO;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
@@ -83,15 +84,11 @@ public class XmlExporter implements Exporter {
         
         for (ProjectActivity activity : data) {
         	Element activityElement = document.createElement("activity");
-        	activityElement.setAttribute("id", String.valueOf( activity.getId()));
+         	activityElement.setAttribute("id", String.valueOf(activity.getId()));
+         	activityElement.setAttribute("projectReference", String.valueOf(activity.getProject().getId()));
 
-        	Element startElement = document.createElement("start");
-        	startElement.appendChild(document.createTextNode(activity.getStart().toString()));
-        	activityElement.appendChild(startElement);
-
-        	Element endElement = document.createElement("end");
-        	endElement.appendChild(document.createTextNode(activity.getEnd().toString()));
-        	activityElement.appendChild(endElement);
+        	activityElement.setAttribute("start", ISODateTimeFormat.dateHourMinute().print(activity.getStart()));
+        	activityElement.setAttribute("end", ISODateTimeFormat.dateHourMinute().print(activity.getEnd()));
 
         	Element descriptionElement = document.createElement("description");
         	descriptionElement.appendChild(document.createTextNode(StringEscapeUtils.escapeXml(activity.getDescription())));
