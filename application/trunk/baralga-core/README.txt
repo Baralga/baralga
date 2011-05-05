@@ -1,4 +1,5 @@
 == Known Bugs ==
+* Active missing in import
 * DayFilters in several languages
 
 == Further Development ==

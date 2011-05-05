@@ -759,10 +759,17 @@ public class PresentationModel extends Observable {
     }
 
 	public void importData(Collection<Project> projectsForImport, Collection<ProjectActivity> activitiesForImport) {
+		final Filter filter = getFilter();
+		
 		this.baralgaDAO.clearData();
+		setFilter(null, this);
 		
 		this.baralgaDAO.addProjects(projectsForImport);
 		this.baralgaDAO.addActivities(activitiesForImport);
+		
+		setFilter(filter, this);
+		this.projectList.clear();
+		this.projectList.addAll(this.baralgaDAO.getAllProjects());
 	}
 
 }
