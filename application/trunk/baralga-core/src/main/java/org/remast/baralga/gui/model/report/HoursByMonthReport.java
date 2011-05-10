@@ -9,7 +9,6 @@ import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
 
 import ca.odell.glazedlists.BasicEventList;
-import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.SortedList;
 
 /**
@@ -21,7 +20,7 @@ public class HoursByMonthReport extends Observable implements Observer  {
     /** The model. */
     private final PresentationModel model;
 
-    private final EventList<HoursByMonth> hoursByMonthList;
+    private final SortedList<HoursByMonth> hoursByMonthList;
 
     public HoursByMonthReport(final PresentationModel model) {
         this.model = model;
@@ -53,7 +52,7 @@ public class HoursByMonthReport extends Observable implements Observer  {
 
     }
 
-    public EventList<HoursByMonth> getHoursByMonth() {
+    public SortedList<HoursByMonth> getHoursByMonth() {
         return hoursByMonthList;
     }
 

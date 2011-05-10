@@ -43,7 +43,7 @@ public class HoursByProjectTableFormat implements TableFormat<HoursByProject> {
         case 0:
             return baseObject.getProject();
         case 1:
-            return baseObject.getHours();
+            return (Double) baseObject.getHours();
         default:
             return null;
         }

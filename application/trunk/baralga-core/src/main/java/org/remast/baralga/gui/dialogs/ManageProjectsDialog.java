@@ -11,6 +11,7 @@ import java.util.Observer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import org.apache.commons.lang.math.RandomUtils;
@@ -21,9 +22,11 @@ import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
 import org.remast.swing.dialog.EscapeDialog;
 import org.remast.swing.table.BooleanCellRenderer;
+import org.remast.swing.table.JHighligthedTable;
 import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.swing.EventTableModel;
+import ca.odell.glazedlists.swing.TableComparatorChooser;
 
 import com.jidesoft.swing.JideScrollPane;
 
@@ -37,7 +40,7 @@ public class ManageProjectsDialog extends EscapeDialog implements Observer {
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(ManageProjectsDialog.class);
 
-    private JXTable projectTable = null;
+    private JTable projectTable = null;
 
     private JTextField newProjectTextField = null;
 
@@ -105,21 +108,21 @@ public class ManageProjectsDialog extends EscapeDialog implements Observer {
      * This method initializes projectList.
      * @return javax.swing.JList	
      */
-    private JXTable getProjectTable() {
+    private JTable getProjectTable() {
         if (projectTable == null) {
-            projectTable = new JXTable();
-
-            // Fix sorting
-            // :INFO: This corrupts the initial sorting. Would be nice though...
-            // EventListJXTableSorting.install(projectList, model.getAllProjectsList());
-            projectTable.setSortable(false);
-            
             projectTableModel = new EventTableModel<Project>(model.getAllProjectsList(), new ProjectListTableFormat(model));
-            projectTable.setModel(projectTableModel);
+
+            projectTable = new JHighligthedTable(projectTableModel);
+    		TableComparatorChooser.install(
+    				projectTable, 
+    				model.getAllProjectsList(), 
+    				TableComparatorChooser.MULTIPLE_COLUMN_MOUSE
+    		);
+            
             projectTable.setToolTipText(textBundle.textFor("ManageProjectsDialog.ProjectList.ToolTipText")); //$NON-NLS-1$
             
-            projectTable.getColumn(1).setCellRenderer(new BooleanCellRenderer());
-            projectTable.getColumn(1).setCellEditor(new JXTable.BooleanEditor());
+            projectTable.getColumn(projectTable.getColumnName(1)).setCellRenderer(new BooleanCellRenderer());
+            projectTable.getColumn(projectTable.getColumnName(1)).setCellEditor(new JXTable.BooleanEditor());
         }
         return projectTable;
     }

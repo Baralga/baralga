@@ -5,17 +5,19 @@ import java.text.SimpleDateFormat;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.JTable;
+
 import org.jdesktop.swingx.JXPanel;
-import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.FormatStringValue;
 import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.model.report.HoursByMonth;
 import org.remast.baralga.gui.model.report.HoursByMonthReport;
 import org.remast.baralga.gui.panels.table.HoursByMonthTableFormat;
-import org.remast.swing.util.GuiConstants;
+import org.remast.swing.table.JHighligthedTable;
 
 import ca.odell.glazedlists.swing.EventTableModel;
+import ca.odell.glazedlists.swing.TableComparatorChooser;
 
 import com.jidesoft.swing.JideScrollPane;
 
@@ -56,13 +58,16 @@ public class HoursByMonthPanel extends JXPanel implements Observer {
     private void initialize() {
         tableModel = new EventTableModel<HoursByMonth>(this.report.getHoursByMonth(), new HoursByMonthTableFormat());
 
-        final JXTable table = new JXTable(tableModel);
-        table.setHighlighters(GuiConstants.HIGHLIGHTERS);
-        table.setAutoResizeMode(JXTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        final JTable table = new JHighligthedTable(tableModel);
+		TableComparatorChooser.install(
+				table, 
+				this.report.getHoursByMonth(), 
+				TableComparatorChooser.MULTIPLE_COLUMN_MOUSE
+		);
         
-        table.getColumn(0).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(new SimpleDateFormat("MM MMMMMMMMMM"))));
-        table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(new SimpleDateFormat("yyyy"))));
-        table.getColumn(2).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.durationFormat)));
+        table.getColumn(table.getColumnName(0)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(new SimpleDateFormat("MM MMMMMMMMMM"))));
+        table.getColumn(table.getColumnName(1)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(new SimpleDateFormat("yyyy"))));
+        table.getColumn(table.getColumnName(2)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.durationFormat)));
         
         JideScrollPane table_scroll_pane = new JideScrollPane(table);
 

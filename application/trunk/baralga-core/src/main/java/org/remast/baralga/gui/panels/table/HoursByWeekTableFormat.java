@@ -45,7 +45,7 @@ public class HoursByWeekTableFormat implements TableFormat<HoursByWeek> {
         case 1:
         	return baseObject.getWeek();
         case 2:
-            return baseObject.getHours();
+            return (Double) baseObject.getHours();
         default:
             return null;
         }

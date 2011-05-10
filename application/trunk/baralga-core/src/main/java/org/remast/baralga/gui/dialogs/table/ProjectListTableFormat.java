@@ -87,7 +87,7 @@ public class ProjectListTableFormat implements WritableTableFormat<Project> {
             return project.getTitle();
 
         case 1:
-            return project.isActive();
+            return (Boolean) project.isActive();
 
         default:
             return null;

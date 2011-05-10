@@ -7,8 +7,9 @@ import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.JTable;
+
 import org.jdesktop.swingx.JXPanel;
-import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.FormatStringValue;
 import org.joda.time.format.DateTimeFormat;
@@ -16,9 +17,10 @@ import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.model.report.HoursByDay;
 import org.remast.baralga.gui.model.report.HoursByDayReport;
 import org.remast.baralga.gui.panels.table.HoursByDayTableFormat;
-import org.remast.swing.util.GuiConstants;
+import org.remast.swing.table.JHighligthedTable;
 
 import ca.odell.glazedlists.swing.EventTableModel;
+import ca.odell.glazedlists.swing.TableComparatorChooser;
 
 import com.jidesoft.swing.JideScrollPane;
 
@@ -62,12 +64,15 @@ public class HoursByDayPanel extends JXPanel implements Observer {
     private void initialize() {
         tableModel = new EventTableModel<HoursByDay>(this.report.getHoursByDay(), new HoursByDayTableFormat());
 
-        final JXTable table = new JXTable(tableModel);
-        table.setHighlighters(GuiConstants.HIGHLIGHTERS);
-        table.setAutoResizeMode(JXTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        final JTable table = new JHighligthedTable(tableModel);
+		TableComparatorChooser.install(
+				table, 
+				this.report.getHoursByDay(), 
+				TableComparatorChooser.MULTIPLE_COLUMN_MOUSE
+		);
         
-        table.getColumn(0).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DAY_FORMAT)));
-        table.getColumn(1).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.durationFormat)));
+        table.getColumn(table.getColumnName(0)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DAY_FORMAT)));
+        table.getColumn(table.getColumnName(1)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.durationFormat)));
         
         JideScrollPane table_scroll_pane = new JideScrollPane(table);
 

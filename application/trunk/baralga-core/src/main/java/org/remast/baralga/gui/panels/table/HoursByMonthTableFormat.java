@@ -45,7 +45,7 @@ public class HoursByMonthTableFormat implements TableFormat<HoursByMonth> {
         case 1:
         	return baseObject.getMonth();
         case 2:
-            return baseObject.getHours();
+            return (Double) baseObject.getHours();
         default:
             return null;
         }
