@@ -38,4 +38,9 @@ jar {
     }
 }
 
+task zip(type: Zip) {
+    into('lib') {
+        from configurations.compile
+    }
+}
 
