@@ -32,15 +32,19 @@ jar {
     manifest {
         attributes 'Implementation-Title': 'Baralga', 
 		   'Implementation-Version': version,
-		   'mainClass': 'org.remast.baralga.gui.BaralgaMain',
-	           'SplashScreen-Image': 'images/baralga/Baralga-Splash.png',
+		   'MainClass': 'org.remast.baralga.gui.BaralgaMain',
+	       'SplashScreen-Image': 'images/baralga/Baralga-Splash.png',
 		   'Class-Path': configurations.compile.files.collect{ it.name }.join(' lib/')
     }
 }
 
-task zip(type: Zip) {
-    into('lib') {
-        from configurations.compile
-    }
+task zip(type: Zip, dependsOn: jar) {
+    archiveName = "${baseName}-${version}.${extension}"
+    into ("${baseName}-${version}") {
+        from jar.archivePath
+        into('lib') {
+            from configurations.compile
+        }
+    }    
 }
 
