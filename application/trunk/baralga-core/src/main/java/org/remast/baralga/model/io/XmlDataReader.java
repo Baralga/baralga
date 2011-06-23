@@ -19,7 +19,6 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.remast.baralga.model.Project;
@@ -28,19 +27,28 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+/**
+ * Reads data from an xml file.
+ * @author remast
+ */
 public class XmlDataReader extends DefaultHandler {
 
+	/** The imported projects. */
 	private Collection<Project> projects = new ArrayList<Project>();
 
+	/** The imported activites. */
 	private Collection<ProjectActivity> activities = new ArrayList<ProjectActivity>();
 	
+	/** Temporary string buffer. */
 	private String currentBuffer;
 
 	@SuppressWarnings("unused")
 	private int version = -1;
 
+	/** Temporary project. */
 	private Project currentProject;
 	
+	/** Temporary activity. */
 	private ProjectActivity currentActivity;
 
 	@Override
@@ -127,10 +135,16 @@ public class XmlDataReader extends DefaultHandler {
 		}
 	}
 
+	/**
+	 * Getter for the projects of the data file.
+	 */
 	public Collection<Project> getProjects() {
 		return projects;
 	}
 
+	/**
+	 * Getter for the activities of the data file.
+	 */
 	public Collection<ProjectActivity> getActivities() {
 		return activities;
 	}
