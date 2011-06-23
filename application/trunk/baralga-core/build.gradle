@@ -29,7 +29,7 @@ dependencies {
 	[group: 'jfree', name: 'jfreechart', version: '1.0.13'],
 	[group: 'jfree', name: 'jcommon', version: '1.0.15'],
 	[group: 'findbugs', name: 'annotations', version: '1.0.0'],
-	[group: 'com.h2database', name: 'h2', version: '1.3.154']
+	[group: 'com.h2database', name: 'h2', version: '1.3.156']
     )
     testCompile group: 'junit', name: 'junit', version: '4.+'
 
@@ -41,7 +41,7 @@ jar {
     manifest {
         attributes 'Implementation-Title': 'Baralga', 
 		   'Implementation-Version': version,
-		   'MainClass': 'org.remast.baralga.gui.BaralgaMain',
+		   'Main-Class': 'org.remast.baralga.gui.BaralgaMain',
 	       'SplashScreen-Image': 'images/baralga/Baralga-Splash.png',
 		   'Class-Path': configurations.compile.files.collect{ it.name }.join(' lib/')
     }
@@ -56,25 +56,24 @@ task zip(type: Zip, dependsOn: jar) {
         }
     }    
 }
-// Configure the filtering of resources with properties from the Gradle's project scope (2)
-processResources {
-    expand (project.properties)
-}
 
 task prepareInstaller(type: Copy, dependsOn: jar) {
     into "$buildDir/installer" 
-    from "src/main/izpack" 
-        include "*.*"
-        // get nur für xml
+    from('src/main/izpack') {
+        // works only for text files
         expand(jarName: '$jar.archivePath.name', version: '2.3.1', INSTALL_PATH: '\$INSTALL_PATH', APP_NAME: '\$APP_NAME')
+    }
+    from('src/main/izpack-resources')
     from jar.archivePath 
     into('lib') {
         from configurations.compile
     }
-    
-    
  }
 
+task installer(dependsOn: prepareInstaller) {
+       ant.taskdef(name: 'izpack', classname: 'com.izforge.izpack.ant.IzPackTask', classpath: configurations.izpack.asPath)
+       ant.izpack(input: "$buildDir/installer/install.xml", output:  "${jar.baseName}-${jar.version}-Installer.jar", basedir: "${buildDir}/installer")
+}
 
 
 
