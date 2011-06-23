@@ -18,6 +18,8 @@ import java.util.Collection;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.remast.baralga.model.Project;
@@ -77,7 +79,7 @@ public class XmlDataReader extends DefaultHandler {
 			}
 		} else if ("description".equals(qName)) {
 			if (currentActivity != null) {
-				currentActivity.setDescription(currentBuffer);
+				currentActivity.setDescription(StringEscapeUtils.unescapeHtml(currentBuffer));
 			}
 		} else if ("activity".equals(qName)) {
 			activities.add(currentActivity);
@@ -88,7 +90,12 @@ public class XmlDataReader extends DefaultHandler {
 
 	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException {
-		currentBuffer = new String(ch, start, length);
+		final String currentCharacters = new String(ch, start, length);
+		if (currentBuffer == null) {
+			currentBuffer = currentCharacters;
+		} else {
+			currentBuffer += currentCharacters;
+		}
 	}
 
 	/**
