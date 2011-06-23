@@ -41,7 +41,7 @@ public class ProTrackReaderTest {
         assertEquals("Testing", data.getActiveProject().getTitle());
         assertFalse(data.isActive());
         DateTime startTime = new DateTime(2009, 1, 28, 19, 24, 0, 0);
-        assertEquals(startTime, data.getStart());
+        assertEquals(startTime.getMillis(), data.getStart().getMillis());
         
         assertEquals(5, data.getActivities().size());
         
@@ -112,7 +112,7 @@ public class ProTrackReaderTest {
         assertEquals("Testing", data.getActiveProject().getTitle());
         assertFalse(data.isActive());
         DateTime startTime = new DateTime(2009, 1, 28, 19, 24, 0, 0);
-        assertEquals(startTime, data.getStart());
+        assertEquals(startTime.getMillis(), data.getStart().getMillis());
         
         assertEquals(5, data.getActivities().size());
         
