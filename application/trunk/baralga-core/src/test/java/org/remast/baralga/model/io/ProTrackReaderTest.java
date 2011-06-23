@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.Test;
 import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.ProjectActivity;
@@ -41,7 +42,8 @@ public class ProTrackReaderTest {
         assertEquals("Testing", data.getActiveProject().getTitle());
         assertFalse(data.isActive());
         DateTime startTime = new DateTime(2009, 1, 28, 19, 24, 0, 0);
-        assertEquals(startTime.getMillis(), data.getStart().getMillis());
+        startTime = startTime.withZone(data.getStart().getZone());
+        assertEquals(startTime, data.getStart());
         
         assertEquals(5, data.getActivities().size());
         
@@ -112,7 +114,8 @@ public class ProTrackReaderTest {
         assertEquals("Testing", data.getActiveProject().getTitle());
         assertFalse(data.isActive());
         DateTime startTime = new DateTime(2009, 1, 28, 19, 24, 0, 0);
-        assertEquals(startTime.getMillis(), data.getStart().getMillis());
+        startTime = startTime.withZone(data.getStart().getZone());
+        assertEquals(startTime, data.getStart());
         
         assertEquals(5, data.getActivities().size());
         
