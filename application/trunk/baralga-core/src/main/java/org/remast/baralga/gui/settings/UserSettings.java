@@ -23,7 +23,7 @@ public final class UserSettings {
     private static final Log log = LogFactory.getLog(UserSettings.class);
 
     /** Default name of the ProTrack data file. */
-    public static final String DEFAULT_FILE_NAME = "ProTrack.ptd"; //$NON-NLS-1$
+    public static final String DEFAULT_FILE_NAME = "Data.baralga.xml"; //$NON-NLS-1$
 
     /**
      * Get the location of the data file.

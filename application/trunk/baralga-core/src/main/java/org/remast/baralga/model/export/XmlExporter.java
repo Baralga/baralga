@@ -9,7 +9,6 @@
 package org.remast.baralga.model.export;
 
 import java.io.OutputStream;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -87,11 +86,11 @@ public class XmlExporter implements Exporter {
          	activityElement.setAttribute("id", String.valueOf(activity.getId()));
          	activityElement.setAttribute("projectReference", String.valueOf(activity.getProject().getId()));
 
-        	activityElement.setAttribute("start", ISODateTimeFormat.dateHourMinute().print(activity.getStart()));
-        	activityElement.setAttribute("end", ISODateTimeFormat.dateHourMinute().print(activity.getEnd()));
+        	activityElement.setAttribute("start", StringEscapeUtils.escapeXml(ISODateTimeFormat.dateHourMinute().print(activity.getStart())));
+        	activityElement.setAttribute("end", StringEscapeUtils.escapeXml(ISODateTimeFormat.dateHourMinute().print(activity.getEnd())));
 
         	Element descriptionElement = document.createElement("description");
-        	descriptionElement.appendChild(document.createTextNode(StringEscapeUtils.escapeXml(activity.getDescription())));
+        	descriptionElement.appendChild(document.createTextNode(StringEscapeUtils.escapeXml(org.apache.commons.lang.StringUtils.defaultString(activity.getDescription()))));
         	activityElement.appendChild(descriptionElement);
 
         	activitiesElement.appendChild(activityElement);

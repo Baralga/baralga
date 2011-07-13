@@ -8,6 +8,7 @@ import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.sql.SQLException;
+import java.util.Timer;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -28,6 +29,7 @@ import org.remast.baralga.model.BaralgaDAO;
 import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.io.ProTrackReader;
+import org.remast.baralga.model.io.SaveTimer;
 import org.remast.swing.util.ExceptionUtils;
 import org.remast.util.TextResourceBundle;
 
@@ -61,9 +63,15 @@ public final class BaralgaMain {
 	/** The lock file to avoid multiple instances of the application. */
 	private static FileLock lock;
 
+	/** The timer to periodically save to disk. */
+	private static Timer timer;
+	
 	/** The absolute path name of the log file. */
 	private static String logFileName;
 
+	/** The interval in minutes in which the data is saved to the disk. */
+	private static final int SAVE_TIMER_INTERVAL = 3;
+	
 	public static String getLogFileName() {
 		return logFileName;
 	}
@@ -105,6 +113,8 @@ public final class BaralgaMain {
 			migrateModel(model, mainInstance);
 
 			initShutdownHook(model);
+
+			initTimer(model);
 
 			// Register Exception Handler for EventDispatchThread
 			Toolkit.getDefaultToolkit().getSystemEventQueue().push(new ExceptionUtils.ExceptionHandlingEventProcessor());
@@ -266,6 +276,17 @@ public final class BaralgaMain {
 
 				}
 		);
+	}
+
+	/**
+	 * Initialize the timer to automatically save the model.
+	 * @see #SAVE_TIMER_INTERVAL
+	 * @param model the model to be saved
+	 */
+	private static void initTimer(final PresentationModel model) {
+		log.debug("Initializing timer ...");
+		timer = new Timer("Baralga save timer.");
+		timer.scheduleAtFixedRate(new SaveTimer(model), 1000 * 60 * SAVE_TIMER_INTERVAL, 1000 * 60 * SAVE_TIMER_INTERVAL);
 	}
 
 	/**

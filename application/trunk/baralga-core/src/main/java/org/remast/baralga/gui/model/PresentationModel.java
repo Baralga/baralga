@@ -29,6 +29,7 @@ import org.remast.baralga.model.BaralgaDAO;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
+import org.remast.baralga.model.io.DataBackup;
 import org.remast.util.DateUtils;
 import org.remast.util.TextResourceBundle;
 
@@ -771,5 +772,13 @@ public class PresentationModel extends Observable {
 		this.projectList.clear();
 		this.projectList.addAll(this.baralgaDAO.getAllProjects());
 	}
+	
+    /**
+     * Save the model.
+     * @throws Exception on error during saving
+     */
+    public final void save() throws Exception {
+        DataBackup.createBackup(this);
+    }
 
 }

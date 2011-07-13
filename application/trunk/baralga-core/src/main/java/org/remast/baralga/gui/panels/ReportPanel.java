@@ -2,19 +2,26 @@ package org.remast.baralga.gui.panels;
 
 import info.clearthought.layout.TableLayout;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Vector;
 
-import javax.swing.JButton;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
-import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jdesktop.swingx.JXButton;
+import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTitledSeparator;
+import org.jdesktop.swingx.painter.GlossPainter;
+import org.jdesktop.swingx.painter.MattePainter;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.lists.ProjectFilterList;
 import org.remast.baralga.gui.model.PresentationModel;
@@ -58,16 +65,18 @@ public class ReportPanel extends JXPanel implements ActionListener {
 	private JComboBox spanTypeSelector;
 	
 	/** Displays the interval of the current filter. */
-	private JTextField dateField;
+	private JXLabel dateField;
 
 	/** Jump to next interval of the filter. */
-	private JButton nextIntervalButton;
+	private JXButton nextIntervalButton;
 	
 	/** Jump to the previous interval of the filter. */
-	private JButton previousIntervalButton;
+	private JXButton previousIntervalButton;
 	
 	/** All available options for the time span. */
 	private static final Vector<LabeledItem<SpanType>> spanSelectorItems = new Vector<LabeledItem<SpanType>>();
+
+	private JXButton homeButton;
 	static {
 		spanSelectorItems.add(new LabeledItem<SpanType>(SpanType.Day, textBundle.textFor("ReportPanel.DayLabel")));
 		spanSelectorItems.add(new LabeledItem<SpanType>(SpanType.Week, textBundle.textFor("ReportPanel.WeekLabel")));
@@ -103,7 +112,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 
 		spanTypeSelector = getSpanTypeSelector();
 
-		nextIntervalButton = new JButton(">");
+		nextIntervalButton = new JXButton("");
 		nextIntervalButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -112,8 +121,21 @@ public class ReportPanel extends JXPanel implements ActionListener {
 			}
 
 		});
-
-		previousIntervalButton = new JButton("<");
+		nextIntervalButton.setContentAreaFilled(false);
+		nextIntervalButton.setIcon(new ImageIcon(BaralgaMain.class.getResource("/icons/Play-1-Disabled-icon.png")));
+		nextIntervalButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				nextIntervalButton.setIcon(new ImageIcon(BaralgaMain.class.getResource("/icons/Play-icon.png")));
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				nextIntervalButton.setIcon(new ImageIcon(BaralgaMain.class.getResource("/icons/Play-1-Disabled-icon.png")));
+			}
+		});
+		
+		previousIntervalButton = new JXButton("");
 		previousIntervalButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -122,8 +144,35 @@ public class ReportPanel extends JXPanel implements ActionListener {
 			}
 
 		});
+		previousIntervalButton.setContentAreaFilled(false);
+		previousIntervalButton.setIcon(new ImageIcon(BaralgaMain.class.getResource("/icons/Play-1-Disabled-icon-left.png")));
+		previousIntervalButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				previousIntervalButton.setIcon(new ImageIcon(BaralgaMain.class.getResource("/icons/Play-icon-left.png")));
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				previousIntervalButton.setIcon(new ImageIcon(BaralgaMain.class.getResource("/icons/Play-1-Disabled-icon-left.png")));
+			}
+		});
 
-		JButton homeButton = new JButton(textBundle.textFor("ReportPanel.TodayButton"));
+		homeButton = new JXButton();
+		homeButton.setIcon(new ImageIcon(BaralgaMain.class.getResource("/icons/user-home.png")));
+		homeButton.setContentAreaFilled(false);
+		homeButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				homeButton.setBackgroundPainter(new org.jdesktop.swingx.painter.CompoundPainter<JXButton>(new MattePainter((Color) UIManager.getLookAndFeelDefaults().get("Button.light")), new GlossPainter()));
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				homeButton.setBackgroundPainter(null);
+			}
+		});
+
 		homeButton.setToolTipText(textBundle.textFor("ReportPanel.TodayButton.ToolTipText"));
 		homeButton.addActionListener(new ActionListener() {
 
@@ -136,9 +185,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 			}
 		});
 
-		dateField = new JTextField();
-		dateField.setEditable(false);
-
+		dateField = new JXLabel();
 		final JXTitledSeparator dataSeparator = new JXTitledSeparator(textBundle.textFor("ReportPanel.DataLabel")); //$NON-NLS-1$
 		this.add(dataSeparator, "1, 3, 11, 0"); //$NON-NLS-1$
 
@@ -149,8 +196,6 @@ public class ReportPanel extends JXPanel implements ActionListener {
 		this.add(homeButton, "5, 5"); //$NON-NLS-1$
 
 		this.add(nextIntervalButton, "7, 5"); //$NON-NLS-1$
-
-//		this.add(new JLabel(textBundle.textFor("ReportPanel.DateLabel")), "9, 5"); //$NON-NLS-1$
 
 		this.add(dateField, "9, 5, 12, 5"); //$NON-NLS-1$
 

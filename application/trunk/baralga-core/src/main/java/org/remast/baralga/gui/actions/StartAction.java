@@ -3,7 +3,6 @@ package org.remast.baralga.gui.actions;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import org.remast.baralga.gui.model.PresentationModel;
@@ -28,9 +27,9 @@ public class StartAction extends AbstractBaralgaAction {
     public StartAction(final Frame owner, final PresentationModel model) {
         super(owner, model);
 
-        putValue(NAME, textBundle.textFor("StartAction.Name")); //$NON-NLS-1$
+//        putValue(NAME, textBundle.textFor("StartAction.Name")); //$NON-NLS-1$
         putValue(SHORT_DESCRIPTION, textBundle.textFor("StartAction.ShortDescription")); //$NON-NLS-1$
-        putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/gtk-ok.png"))); //$NON-NLS-1$
+//        putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/gtk-ok.png"))); //$NON-NLS-1$
     }
 
     /**
