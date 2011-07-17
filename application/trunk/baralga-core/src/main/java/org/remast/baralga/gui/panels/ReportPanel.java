@@ -122,18 +122,9 @@ public class ReportPanel extends JXPanel implements ActionListener {
 
 		});
 		nextIntervalButton.setContentAreaFilled(false);
+		nextIntervalButton.setRolloverEnabled(true);
 		nextIntervalButton.setIcon(new ImageIcon(BaralgaMain.class.getResource("/icons/Play-1-Disabled-icon.png")));
-		nextIntervalButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				nextIntervalButton.setIcon(new ImageIcon(BaralgaMain.class.getResource("/icons/Play-icon.png")));
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				nextIntervalButton.setIcon(new ImageIcon(BaralgaMain.class.getResource("/icons/Play-1-Disabled-icon.png")));
-			}
-		});
+		nextIntervalButton.setRolloverIcon(new ImageIcon(BaralgaMain.class.getResource("/icons/Play-icon.png")));
 		
 		previousIntervalButton = new JXButton("");
 		previousIntervalButton.addActionListener(new ActionListener() {
@@ -145,18 +136,9 @@ public class ReportPanel extends JXPanel implements ActionListener {
 
 		});
 		previousIntervalButton.setContentAreaFilled(false);
+		nextIntervalButton.setRolloverEnabled(true);
 		previousIntervalButton.setIcon(new ImageIcon(BaralgaMain.class.getResource("/icons/Play-1-Disabled-icon-left.png")));
-		previousIntervalButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				previousIntervalButton.setIcon(new ImageIcon(BaralgaMain.class.getResource("/icons/Play-icon-left.png")));
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				previousIntervalButton.setIcon(new ImageIcon(BaralgaMain.class.getResource("/icons/Play-1-Disabled-icon-left.png")));
-			}
-		});
+		previousIntervalButton.setRolloverIcon(new ImageIcon(BaralgaMain.class.getResource("/icons/Play-icon-left.png")));
 
 		homeButton = new JXButton();
 		homeButton.setIcon(new ImageIcon(BaralgaMain.class.getResource("/icons/user-home.png")));

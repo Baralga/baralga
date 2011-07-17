@@ -5,14 +5,10 @@ import info.clearthought.layout.TableLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.MouseInfo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -90,37 +86,9 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
     
     private static final Icon ICON_START_DISABLED = new ImageIcon(BaralgaMain.class.getResource("/icons/Play-Disabled-icon.png"));
     
-    private MouseListener startMouseListener = new MouseAdapter() {
-    	
-		@Override
-		public void mouseEntered(MouseEvent e) {
-			startStopButton.setIcon(ICON_START_ENABLED);
-		}
-		
-		@Override
-		public void mouseExited(MouseEvent e) {
-			startStopButton.setIcon(ICON_START_DISABLED);
-		}
-		
-	};
-    
     private static final Icon ICON_STOP_ENABLED = new ImageIcon(BaralgaMain.class.getResource("/icons/Stop-Normal-Blue-icon.png"));
     
     private static final Icon ICON_STOP_DISABLED = new ImageIcon(BaralgaMain.class.getResource("/icons/Stop-Disabled-icon.png"));
-    
-    private MouseListener stopMouseListener = new MouseAdapter() {
-    	
-		@Override
-		public void mouseEntered(MouseEvent e) {
-			startStopButton.setIcon(ICON_STOP_ENABLED);
-		}
-		
-		@Override
-		public void mouseExited(MouseEvent e) {
-			startStopButton.setIcon(ICON_STOP_DISABLED);
-		}
-		
-	};
 	
 	/** The list of projects. The selected project is the currently active project. */
     private JComboBox projectSelector = null;
@@ -163,23 +131,14 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
     private void initialize() {
         // 1. Init start-/stop-Buttons
         if (this.model.isActive()) {
-            getStartStopButton().setAction(new StopAction(this.model));
-            getStartStopButton().addMouseListener(stopMouseListener);
-            
-            if (MouseInfo.getPointerInfo().getLocation() != null && getStartStopButton().contains(MouseInfo.getPointerInfo().getLocation())) {
-            	getStartStopButton().setIcon(ICON_STOP_ENABLED);
-            } else {
-            	getStartStopButton().setIcon(ICON_STOP_DISABLED);
-            }
+        	getStartStopButton().setAction(new StopAction(this.model));
         } else {
-            getStartStopButton().setAction(new StartAction(null, this.model));
-            getStartStopButton().addMouseListener(startMouseListener);
-            if (MouseInfo.getPointerInfo().getLocation() != null && getStartStopButton().contains(MouseInfo.getPointerInfo().getLocation())) {
-            	getStartStopButton().setIcon(ICON_START_ENABLED);
-            } else {
-            	getStartStopButton().setIcon(ICON_START_DISABLED);
-            }
+        	getStartStopButton().setAction(new StartAction(null, this.model));
         }
+        getStartStopButton().setText("");
+        getStartStopButton().setRolloverEnabled(true);
+        getStartStopButton().setIcon(ICON_START_DISABLED);
+        getStartStopButton().setRolloverIcon(ICON_START_ENABLED);
 
         // 2. Restore selected project if set.
 //        if (this.model.getData().getActiveProject() != null) {
@@ -424,9 +383,9 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
 
         // Change button from start to stop
         getStartStopButton().setAction(new StopAction(this.model));
-        getStartStopButton().removeMouseListener(startMouseListener);
-        getStartStopButton().addMouseListener(stopMouseListener);
-        getStartStopButton().setIcon(ICON_STOP_ENABLED);
+        getStartStopButton().setText("");
+        getStartStopButton().setIcon(ICON_STOP_DISABLED);
+        getStartStopButton().setRolloverIcon(ICON_STOP_ENABLED);
 
         start.setValue(this.model.getStart().toDate());
         start.setEnabled(true);
@@ -448,9 +407,9 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
         UserSettings.instance().setLastDescription(StringUtils.EMPTY);
 
         getStartStopButton().setAction(new StartAction(null, this.model));
-        getStartStopButton().addMouseListener(startMouseListener);
-        getStartStopButton().removeMouseListener(stopMouseListener);
-        getStartStopButton().setIcon(ICON_START_ENABLED);
+        getStartStopButton().setText("");
+        getStartStopButton().setIcon(ICON_START_DISABLED);
+        getStartStopButton().setRolloverIcon(ICON_START_ENABLED);
 
         // Reset start time
         start.setValue(null);

@@ -5,6 +5,8 @@ package org.remast.baralga.gui.actions;
 
 import java.awt.event.ActionEvent;
 
+import javax.swing.ImageIcon;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.remast.baralga.gui.model.PresentationModel;
@@ -31,9 +33,9 @@ public class StopAction extends AbstractBaralgaAction {
     public StopAction(final PresentationModel model) {
         super(model);
         
-//        putValue(NAME, textBundle.textFor("StopAction.Name")); //$NON-NLS-1$
+        putValue(NAME, textBundle.textFor("StopAction.Name")); //$NON-NLS-1$
         putValue(SHORT_DESCRIPTION, textBundle.textFor("StopAction.ShortDescription")); //$NON-NLS-1$
-//        putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/gtk-stop.png"))); //$NON-NLS-1$
+        putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/gtk-stop.png"))); //$NON-NLS-1$
     }
 
     /**
