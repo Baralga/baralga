@@ -163,8 +163,8 @@ public class DataBackup {
     public static Date getDateOfBackup(final File backupFile) {
         try {
             return BACKUP_DATE_FORMAT.parse(backupFile.getName().substring(UserSettings.DEFAULT_FILE_NAME.length() + 1));
-        } catch (Exception e) {
-            log.error(e, e);
+        } catch (Exception exception) {
+            log.error(exception, exception);
             return null;
         }
     }

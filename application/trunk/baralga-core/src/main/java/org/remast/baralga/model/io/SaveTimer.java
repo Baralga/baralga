@@ -30,8 +30,8 @@ public class SaveTimer extends TimerTask {
     public void run() {
         try {
             this.model.save();
-        } catch (Exception e) {
-            log.error(e, e);
+        } catch (Exception exception) {
+            log.error(exception, exception);
         }
     }
 
