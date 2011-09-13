@@ -1,4 +1,4 @@
-﻿package org.remast.baralga.model.io;
+package org.remast.baralga.model.io;
 
 import java.util.TimerTask;
 
