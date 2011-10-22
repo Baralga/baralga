@@ -35,7 +35,6 @@ public final class ExportXmlAction extends AbstractExportAction {
     /** File filter for MS Excel files. */
     private static final FileFilter DATA_FILE_FILTER = new FileFilters.DataFileFilter();
 
-
     public ExportXmlAction(final Frame owner, final PresentationModel model) {
         super(owner, model);
 

@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.filechooser.FileFilter;
 
 import org.remast.baralga.gui.model.PresentationModel;
+import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.baralga.model.export.Exporter;
 import org.remast.baralga.model.export.ICalExporter;
 import org.remast.swing.util.FileFilters;
@@ -28,13 +29,19 @@ public class ICalExportAction extends AbstractExportAction {
 	
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(ICalExportAction.class);
+    
+    /** File extension of iCal calendar files. */
+    private static final String ICAL_FILE_EXTENSION = ".ics";
+    
+    /** File filter for iCal calendar files. */
+    private static final FileFilter ICAL_FILE_FILTER = new FileFilters.ICalFileFilter();
 
 	public ICalExportAction(Frame owner, PresentationModel model) {
 		super(owner, model);
 		
         putValue(NAME, textBundle.textFor("ExportICalAction.Name")); //$NON-NLS-1$
         putValue(SHORT_DESCRIPTION, textBundle.textFor("ExportICalAction.ShortDescription")); //$NON-NLS-1$
-        putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/gnome-mime-application-vnd.ms-excel.png"))); //$NON-NLS-1$
+        putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/stock_calendar-view-week.png"))); //$NON-NLS-1$
 	}
 
     /**
@@ -45,38 +52,36 @@ public class ICalExportAction extends AbstractExportAction {
 		return new ICalExporter();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.remast.baralga.gui.actions.AbstractExportAction#getLastExportLocation()
-	 */
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	protected String getLastExportLocation() {
-		// TODO Auto-generated method stub
-		return null;
+        return UserSettings.instance().getLastICalExportLocation();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.remast.baralga.gui.actions.AbstractExportAction#setLastExportLocation(java.lang.String)
-	 */
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	protected void setLastExportLocation(String lastExportLocation) {
-		// TODO Auto-generated method stub
-
+        UserSettings.instance().setLastICalExportLocation(lastExportLocation);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.remast.baralga.gui.actions.AbstractExportAction#getFileFilter()
-	 */
-	@Override
-	protected FileFilter getFileFilter() {
-		return new FileFilters.ICalFileFilter();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected FileFilter getFileFilter() {
+		return ICAL_FILE_FILTER;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.remast.baralga.gui.actions.AbstractExportAction#getFileExtension()
-	 */
-	@Override
+    /**
+     * {@inheritDoc}
+     */
+    @Override
 	protected String getFileExtension() {
-		return ".ics";
+		return ICAL_FILE_EXTENSION;
 	}
 
 }

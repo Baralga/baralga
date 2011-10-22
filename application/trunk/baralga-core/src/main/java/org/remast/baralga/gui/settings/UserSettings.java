@@ -153,6 +153,30 @@ public final class UserSettings {
     
 
     //------------------------------------------------
+    // iCal Export Location
+    //------------------------------------------------
+
+    /** Key for the location of last iCal export. */
+    private static final String LAST_ICAL_EXPORT_LOCATION = "export.iCal"; //$NON-NLS-1$
+
+    /**
+     * Gets the location of the last iCal export.
+     * @return the location of the last iCal export
+     */
+    public String getLastICalExportLocation() {
+        return doGetString(LAST_ICAL_EXPORT_LOCATION, System.getProperty("user.home"));
+    }
+
+    /**
+     * Sets the location of the last iCal export.
+     * @param iCalExportLocation the location of the last iCal export to set
+     */
+    public void setLastICalExportLocation(final String iCalExportLocation) {
+        userConfig.setProperty(LAST_ICAL_EXPORT_LOCATION, iCalExportLocation);
+    }
+    
+    
+    //------------------------------------------------
     // Description
     //------------------------------------------------
 
