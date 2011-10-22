@@ -30,7 +30,7 @@ public class StartAction extends AbstractBaralgaAction {
 
         putValue(NAME, textBundle.textFor("StartAction.Name")); //$NON-NLS-1$
         putValue(SHORT_DESCRIPTION, textBundle.textFor("StartAction.ShortDescription")); //$NON-NLS-1$
-        putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/gtk-ok.png"))); //$NON-NLS-1$
+        putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/Play-Hot-icon_small.png"))); //$NON-NLS-1$
     }
 
     /**
