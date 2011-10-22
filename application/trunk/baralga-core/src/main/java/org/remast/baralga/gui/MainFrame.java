@@ -496,12 +496,12 @@ public class MainFrame extends JFrame implements Observer {
     private JMenu getExportMenu() {
         if (exportMenu == null) {
             exportMenu = new JMenu();
-            exportMenu.setIcon(new ImageIcon(MainFrame.class.getResource("/icons/export-menu.png")));
+            exportMenu.setIcon(new ImageIcon(MainFrame.class.getResource("/icons/export-menu.png"))); //$NON-NLS-1$
             exportMenu.setText(textBundle.textFor("MainFrame.ExportMenu.Title")); //$NON-NLS-1$
             exportMenu.setMnemonic(textBundle.textFor("MainFrame.ExportMenu.Title").charAt(0)); //$NON-NLS-1$
 
-            exportMenu.add(getExportiCalItem());
             exportMenu.add(getExportExcelItem());
+            exportMenu.add(getExportiCalItem());
             exportMenu.add(getExportCsvItem());
             exportMenu.add(getExportDataItem());
         }
@@ -515,7 +515,7 @@ public class MainFrame extends JFrame implements Observer {
     private JMenu getImportMenu() {
         if (importMenu == null) {
             importMenu = new JMenu();
-            importMenu.setIcon(new ImageIcon(MainFrame.class.getResource("/icons/import-menu.png")));
+            importMenu.setIcon(new ImageIcon(MainFrame.class.getResource("/icons/import-menu.png"))); //$NON-NLS-1$
             importMenu.setText(textBundle.textFor("MainFrame.ImportMenu.Title")); //$NON-NLS-1$
             importMenu.setMnemonic(textBundle.textFor("MainFrame.ImportMenu.Title").charAt(0)); //$NON-NLS-1$
             importMenu.add(getImportItem());

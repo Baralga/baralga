@@ -11,6 +11,7 @@ task installer(dependsOn: prepareInstaller) {
 == Baralga Version 1.6.1 ==
 Functionality
  * Added data export to xml.
+ * Added data export to iCal.
  * Restored periodical data backup as xml file.
  * Data import from xml.
 
