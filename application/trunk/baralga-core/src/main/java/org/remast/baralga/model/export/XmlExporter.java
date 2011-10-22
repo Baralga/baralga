@@ -31,6 +31,7 @@ import org.remast.baralga.model.filter.Filter;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 /**
  * Exports all data to XML format.
  * @author remast

@@ -29,6 +29,7 @@ import org.remast.baralga.gui.actions.ExitAction;
 import org.remast.baralga.gui.actions.ExportCsvAction;
 import org.remast.baralga.gui.actions.ExportExcelAction;
 import org.remast.baralga.gui.actions.ExportXmlAction;
+import org.remast.baralga.gui.actions.ICalExportAction;
 import org.remast.baralga.gui.actions.ImportXmlAction;
 import org.remast.baralga.gui.actions.ManageProjectsAction;
 import org.remast.baralga.gui.actions.SettingsAction;
@@ -112,6 +113,8 @@ public class MainFrame extends JFrame implements Observer {
     private JMenuItem editProjectsMenuItem = null;
 
     private JMenuItem exportExcelItem = null;
+    
+    private JMenuItem exportiCalItem = null;
 
     private JMenuItem exportCsvItem = null;
     
@@ -435,6 +438,19 @@ public class MainFrame extends JFrame implements Observer {
     }
 
     /**
+     * This method initializes exportiCalItem.
+     * @return javax.swing.JMenuItem
+     */
+    private JMenuItem getExportiCalItem() {
+        if (exportiCalItem == null) {
+            final AbstractBaralgaAction iCalExportAction = new ICalExportAction(this, this.model);
+            exportiCalItem = new JMenuItem(iCalExportAction);
+            exportiCalItem.setMnemonic(iCalExportAction.getMnemonic());
+        }
+        return exportiCalItem;
+    }
+
+    /**
      * This method initializes exportExcelItem.
      * @return javax.swing.JMenuItem
      */
@@ -484,6 +500,7 @@ public class MainFrame extends JFrame implements Observer {
             exportMenu.setText(textBundle.textFor("MainFrame.ExportMenu.Title")); //$NON-NLS-1$
             exportMenu.setMnemonic(textBundle.textFor("MainFrame.ExportMenu.Title").charAt(0)); //$NON-NLS-1$
 
+            exportMenu.add(getExportiCalItem());
             exportMenu.add(getExportExcelItem());
             exportMenu.add(getExportCsvItem());
             exportMenu.add(getExportDataItem());

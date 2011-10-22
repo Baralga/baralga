@@ -16,6 +16,22 @@ public abstract class FileFilters {
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(FileFilters.class);
 
 	/**
+	 * Filter for iCal files.
+	 */
+    public static final class ICalFileFilter extends FileFilter {
+
+        @Override
+        public boolean accept(final File file) {
+            return file.isDirectory() || file.getName().endsWith(".ics"); //$NON-NLS-1$
+        }
+
+        @Override
+        public String getDescription() {
+            return textBundle.textFor("FileFilters.ICalFile"); //$NON-NLS-1$
+        }
+
+    }
+	/**
 	 * Filter for Microsoft Excel files.
 	 */
     public static final class ExcelFileFilter extends FileFilter {

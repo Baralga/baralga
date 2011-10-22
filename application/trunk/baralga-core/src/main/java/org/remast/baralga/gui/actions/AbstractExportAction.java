@@ -80,7 +80,9 @@ public abstract class AbstractExportAction extends AbstractBaralgaAction {
         final JFileChooser chooser = new JFileChooser();
 
         // Set selection to last export location
-        chooser.setSelectedFile(new File(getLastExportLocation()));
+        if (getLastExportLocation() != null) {
+        	chooser.setSelectedFile(new File(getLastExportLocation()));
+        }
 
         chooser.setFileFilter(getFileFilter());
 
