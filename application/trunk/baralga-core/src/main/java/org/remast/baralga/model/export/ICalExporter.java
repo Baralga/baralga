@@ -42,7 +42,7 @@ public class ICalExporter implements Exporter {
 		calendar.getProperties().add(CalScale.GREGORIAN);
 
 		final TimeZoneRegistry registry = TimeZoneRegistryFactory.getInstance().createRegistry();
-		TimeZone timeZone = registry.getTimeZone(DEFAULT_TIME_ZONE_IDENTIFIER);
+		TimeZone timeZone = registry.getTimeZone(TimeZone.getDefault().getID());
 		if (timeZone == null) {
 			timeZone = registry.getTimeZone(DEFAULT_TIME_ZONE_IDENTIFIER);
 		}
