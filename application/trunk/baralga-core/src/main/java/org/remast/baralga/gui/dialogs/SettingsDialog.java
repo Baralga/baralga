@@ -6,8 +6,11 @@ import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -30,6 +33,10 @@ public class SettingsDialog extends EscapeDialog implements ActionListener {
 
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(SettingsDialog.class);
+    
+    private static final String [] TIMEZONE_ITEMS = new String [] {
+    	"Europe/Berlin"
+    };
     
     /** Component to edit setting to remember window size and location. */
     private JCheckBox rememberWindowSizeLocation;
@@ -58,23 +65,30 @@ public class SettingsDialog extends EscapeDialog implements ActionListener {
 
         final double border = 5;
         final double[][] size = {
-                { border, TableLayout.FILL, border, TableLayout.PREFERRED, border }, // Columns
-                { border, TableLayout.PREFERRED, border, TableLayout.FILL, border, TableLayout.PREFERRED, border}  // Rows
+                { border, TableLayout.PREFERRED, border, TableLayout.FILL, border }, // Columns
+                { border, TableLayout.PREFERRED, border, TableLayout.FILL, border, TableLayout.FILL, border, TableLayout.PREFERRED, border}  // Rows
         };
 
         final TableLayout tableLayout = new TableLayout(size);
         this.setLayout(tableLayout);
 
-        this.setSize(300, 130);
+        this.setSize(340, 160);
 
         this.setName("SettingsDialog"); //$NON-NLS-1$
         this.setTitle(textBundle.textFor("SettingsDialog.Title")); //$NON-NLS-1$
-        this.add(new JXHeader(textBundle.textFor("SettingsDialog.UserSettingsTitle"), null), "0, 0, 3, 1"); //$NON-NLS-1$ //$NON-NLS-2$
+        final ImageIcon icon = new ImageIcon(getClass().getResource("/icons/stock_folder-properties.png"));
+        this.add(new JXHeader(textBundle.textFor("SettingsDialog.UserSettingsTitle"), null, icon), "0, 0, 3, 1"); //$NON-NLS-1$ //$NON-NLS-2$
 
         rememberWindowSizeLocation = new JCheckBox(textBundle.textFor("SettingsDialog.Setting.RememberWindowSizeLocation.Title"));
         rememberWindowSizeLocation.setToolTipText(textBundle.textFor("SettingsDialog.Setting.RememberWindowSizeLocation.ToolTipText"));
         rememberWindowSizeLocation.addActionListener(this);
         this.add(rememberWindowSizeLocation, "1, 3, 3, 3"); //$NON-NLS-1$
+        
+        final JLabel timeZoneLabel = new JLabel(textBundle.textFor("SettingsDialog.Setting.TimeZone.Label"));
+        final JComboBox timeZoneSelector = new JComboBox(TIMEZONE_ITEMS);
+        timeZoneSelector.setEditable(true);
+        this.add(timeZoneLabel, "1, 5"); //$NON-NLS-1$
+        this.add(timeZoneSelector, "3, 5"); //$NON-NLS-1$
         
         final JButton resetButton = new JButton(textBundle.textFor("SettingsDialog.ResetButton.Title"));
         resetButton.setToolTipText(textBundle.textFor("SettingsDialog.ResetButton.ToolTipText"));
@@ -86,7 +100,7 @@ public class SettingsDialog extends EscapeDialog implements ActionListener {
             }
             
         });
-        this.add(resetButton, "1, 5, 3, 5"); //$NON-NLS-1$
+        this.add(resetButton, "1, 7, 3, 7"); //$NON-NLS-1$
 
         readFromModel();
     }
