@@ -9,8 +9,6 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,10 +31,6 @@ public class SettingsDialog extends EscapeDialog implements ActionListener {
 
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(SettingsDialog.class);
-    
-    private static final String [] TIMEZONE_ITEMS = new String [] {
-    	"Europe/Berlin"
-    };
     
     /** Component to edit setting to remember window size and location. */
     private JCheckBox rememberWindowSizeLocation;
@@ -66,14 +60,14 @@ public class SettingsDialog extends EscapeDialog implements ActionListener {
         final double border = 5;
         final double[][] size = {
                 { border, TableLayout.PREFERRED, border, TableLayout.FILL, border }, // Columns
-                { border, TableLayout.PREFERRED, border, TableLayout.FILL, border, TableLayout.FILL, border, TableLayout.PREFERRED, border}  // Rows
+                { border, TableLayout.PREFERRED, border, TableLayout.FILL, border, TableLayout.PREFERRED, border}  // Rows
         };
 
         final TableLayout tableLayout = new TableLayout(size);
         this.setLayout(tableLayout);
 
         this.setSize(340, 160);
-
+        
         this.setName("SettingsDialog"); //$NON-NLS-1$
         this.setTitle(textBundle.textFor("SettingsDialog.Title")); //$NON-NLS-1$
         final ImageIcon icon = new ImageIcon(getClass().getResource("/icons/stock_folder-properties.png"));
@@ -83,15 +77,9 @@ public class SettingsDialog extends EscapeDialog implements ActionListener {
         rememberWindowSizeLocation.setToolTipText(textBundle.textFor("SettingsDialog.Setting.RememberWindowSizeLocation.ToolTipText"));
         rememberWindowSizeLocation.addActionListener(this);
         this.add(rememberWindowSizeLocation, "1, 3, 3, 3"); //$NON-NLS-1$
-        
-        final JLabel timeZoneLabel = new JLabel(textBundle.textFor("SettingsDialog.Setting.TimeZone.Label"));
-        final JComboBox timeZoneSelector = new JComboBox(TIMEZONE_ITEMS);
-        timeZoneSelector.setEditable(true);
-        this.add(timeZoneLabel, "1, 5"); //$NON-NLS-1$
-        this.add(timeZoneSelector, "3, 5"); //$NON-NLS-1$
-        
-        final JButton resetButton = new JButton(textBundle.textFor("SettingsDialog.ResetButton.Title"));
-        resetButton.setToolTipText(textBundle.textFor("SettingsDialog.ResetButton.ToolTipText"));
+               
+        final JButton resetButton = new JButton(textBundle.textFor("SettingsDialog.ResetButton.Title")); //$NON-NLS-1$
+        resetButton.setToolTipText(textBundle.textFor("SettingsDialog.ResetButton.ToolTipText")); //$NON-NLS-1$
         resetButton.addActionListener(new ActionListener() {
 
             @Override
@@ -100,7 +88,7 @@ public class SettingsDialog extends EscapeDialog implements ActionListener {
             }
             
         });
-        this.add(resetButton, "1, 7, 3, 7"); //$NON-NLS-1$
+        this.add(resetButton, "1, 5, 3, 5"); //$NON-NLS-1$
 
         readFromModel();
     }
