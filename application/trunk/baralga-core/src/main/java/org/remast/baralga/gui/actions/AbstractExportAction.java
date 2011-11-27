@@ -13,8 +13,8 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileFilter;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.export.Exporter;
@@ -31,7 +31,7 @@ public abstract class AbstractExportAction extends AbstractBaralgaAction {
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(AbstractExportAction.class);
 
     /** The logger. */
-    private static final Log log = LogFactory.getLog(AbstractExportAction.class);
+    private static final Logger log = LoggerFactory.getLogger(AbstractExportAction.class);
 
     /**
      * Creates a new export action.
@@ -161,7 +161,7 @@ public abstract class AbstractExportAction extends AbstractBaralgaAction {
                 // Store export location in settings
                 setLastExportLocation(file.getAbsolutePath());
             } catch (Exception e) {
-                log.error(e, e);
+                log.error(e.getLocalizedMessage(), e);
                 JOptionPane.showMessageDialog(
                         owner, 
                         textBundle.textFor("AbstractExportAction.IOException.Message", file.getAbsolutePath(), e.getLocalizedMessage()), //$NON-NLS-1$

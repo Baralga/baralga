@@ -2,8 +2,8 @@ package org.remast.baralga.model.io;
 
 import java.util.TimerTask;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.remast.baralga.gui.model.PresentationModel;
 
 /**
@@ -13,7 +13,7 @@ import org.remast.baralga.gui.model.PresentationModel;
 public class SaveTimer extends TimerTask {
     
     /** The logger. */
-    private static final Log log = LogFactory.getLog(SaveTimer.class);
+    private static final Logger log = LoggerFactory.getLogger(SaveTimer.class);
 
     /** The model. */
     private final PresentationModel model;
@@ -31,7 +31,7 @@ public class SaveTimer extends TimerTask {
         try {
             this.model.save();
         } catch (Exception exception) {
-            log.error(exception, exception);
+            log.error(exception.getLocalizedMessage(), exception);
         }
     }
 

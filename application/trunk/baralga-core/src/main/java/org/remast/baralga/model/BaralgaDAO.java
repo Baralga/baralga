@@ -19,8 +19,8 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.h2.tools.RunScript;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -39,7 +39,7 @@ public class BaralgaDAO {
 	private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaDAO.class);
 
 	/** The logger. */
-	private static final Log log = LogFactory.getLog(BaralgaDAO.class);
+	private static final Logger log = LoggerFactory.getLogger(BaralgaDAO.class);
 
 	/**
 	 * The latest version of the database. If the database is not up to date yet it is being
@@ -77,7 +77,7 @@ public class BaralgaDAO {
 				connection.close();
 			}
 		} catch (SQLException e) {
-			log.error(e, e);
+			log.error(e.getLocalizedMessage(), e);
 		}
 	}
 
@@ -178,7 +178,7 @@ public class BaralgaDAO {
 			projectDelete.setLong(1, project.getId());
 			projectDelete.execute();
 		} catch (SQLException e) {
-			log.error(e, e);
+			log.error(e.getLocalizedMessage(), e);
 			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
 		}
 	}
@@ -208,7 +208,7 @@ public class BaralgaDAO {
 				project.setId(id);
 			}
 		} catch (SQLException e) {
-			log.error(e, e);
+			log.error(e.getLocalizedMessage(), e);
 			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
 		}
 	}
@@ -230,7 +230,7 @@ public class BaralgaDAO {
 				activeProjects.add(project);
 			}
 		} catch (SQLException e) {
-			log.error(e, e);
+			log.error(e.getLocalizedMessage(), e);
 			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
 		}
 
@@ -255,7 +255,7 @@ public class BaralgaDAO {
 			}
 
 		} catch (SQLException e) {
-			log.error(e, e);
+			log.error(e.getLocalizedMessage(), e);
 			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
 		}
 
@@ -302,7 +302,7 @@ public class BaralgaDAO {
 				activity.setId(id);
 			}
 		} catch (SQLException e) {
-			log.error(e, e);
+			log.error(e.getLocalizedMessage(), e);
 			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
 		}
 	}
@@ -322,7 +322,7 @@ public class BaralgaDAO {
 
 			preparedStatement.execute();
 		} catch (SQLException e) {
-			log.error(e, e);
+			log.error(e.getLocalizedMessage(), e);
 			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
 		}
 	}
@@ -388,7 +388,7 @@ public class BaralgaDAO {
 
 			preparedStatement.execute();
 		} catch (SQLException e) {
-			log.error(e, e);
+			log.error(e.getLocalizedMessage(), e);
 			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
 		}
 	}
@@ -420,7 +420,7 @@ public class BaralgaDAO {
 			preparedStatement.execute();
 
 		} catch (SQLException e) {
-			log.error(e, e);
+			log.error(e.getLocalizedMessage(), e);
 			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
 		}
 	}
@@ -446,7 +446,7 @@ public class BaralgaDAO {
 				return project;
 			}
 		} catch (SQLException e) {
-			log.error(e, e);
+			log.error(e.getLocalizedMessage(), e);
 			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
 		}
 
@@ -466,7 +466,7 @@ public class BaralgaDAO {
 				monthList.add(resultSet.getInt("month")); //$NON-NLS-1$
 			}
 		} catch (SQLException e) {
-			log.error(e, e);
+			log.error(e.getLocalizedMessage(), e);
 			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
 		}
 		
@@ -486,7 +486,7 @@ public class BaralgaDAO {
 				yearList.add(resultSet.getInt("year")); //$NON-NLS-1$
 			}
 		} catch (SQLException e) {
-			log.error(e, e);
+			log.error(e.getLocalizedMessage(), e);
 			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
 		}
 		
@@ -506,7 +506,7 @@ public class BaralgaDAO {
 				weekOfYearList.add(resultSet.getInt("week")); //$NON-NLS-1$
 			}
 		} catch (SQLException e) {
-			log.error(e, e);
+			log.error(e.getLocalizedMessage(), e);
 			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
 		}
 		
@@ -553,7 +553,7 @@ public class BaralgaDAO {
 				activities.add(activity);
 			}
 		} catch (SQLException e) {
-			log.error(e, e);
+			log.error(e.getLocalizedMessage(), e);
 			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
 		}
 
@@ -596,7 +596,7 @@ public class BaralgaDAO {
 				
 			}
 		} catch (SQLException e) {
-			log.error(e, e);
+			log.error(e.getLocalizedMessage(), e);
 			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
 		}
 	}
@@ -614,7 +614,7 @@ public class BaralgaDAO {
 			final PreparedStatement projectsDelete = prepare("delete from project"); //$NON-NLS-1$
 			projectsDelete.execute();
 		} catch (SQLException e) {
-			log.error(e, e);
+			log.error(e.getLocalizedMessage(), e);
 			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
 		}
 	}

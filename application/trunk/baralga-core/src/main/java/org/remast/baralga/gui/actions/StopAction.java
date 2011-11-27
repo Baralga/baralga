@@ -7,8 +7,8 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.ImageIcon;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.model.ProjectActivityStateException;
 import org.remast.util.TextResourceBundle;
@@ -24,7 +24,7 @@ public class StopAction extends AbstractBaralgaAction {
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(StopAction.class);
 
     /** The logger. */
-    private static final Log log = LogFactory.getLog(StopAction.class);
+    private static final Logger log = LoggerFactory.getLogger(StopAction.class);
     
     /**
      * Creates a new {@link StopAction}.
@@ -46,7 +46,7 @@ public class StopAction extends AbstractBaralgaAction {
         try {
             getModel().stop();
         } catch (ProjectActivityStateException e) {
-            log.error(e, e);
+            log.error(e.getLocalizedMessage(), e);
         }
     }
 

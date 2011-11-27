@@ -5,8 +5,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.remast.baralga.model.ProTrack;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
@@ -21,7 +21,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 public class ProTrackReader {
 
     /** The logger. */
-    private static final Log log = LogFactory.getLog(ProTrackReader.class);
+    private static final Logger log = LoggerFactory.getLogger(ProTrackReader.class);
 
     /** The data read. */
     private ProTrack data;
@@ -58,14 +58,14 @@ public class ProTrackReader {
         try {
             o = xstream.fromXML(in);
         } catch (Exception e)  {
-            log.error(e, e);
+            log.error(e.getLocalizedMessage(), e);
             throw new IOException("The input stream does not contain valid Baralga data.", e);
         }
 
         try {
             data = (ProTrack) o;
         } catch (ClassCastException e) {
-            log.error(e, e);
+            log.error(e.getLocalizedMessage(), e);
             throw new IOException("The file input stream does not contain valid Baralga data.", e);
         }
     }

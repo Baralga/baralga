@@ -5,8 +5,8 @@ import java.awt.Frame;
 import javax.swing.ImageIcon;
 import javax.swing.filechooser.FileFilter;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.baralga.model.export.Exporter;
@@ -27,7 +27,7 @@ public final class ExportXmlAction extends AbstractExportAction {
 
     /** The logger. */
     @SuppressWarnings("unused")
-    private static final Log log = LogFactory.getLog(ExportXmlAction.class);
+    private static final Logger log = LoggerFactory.getLogger(ExportXmlAction.class);
     
     /** File extension of MS Excel files. */
     private static final String DATA_FILE_EXTENSION = ".baralga.xml";

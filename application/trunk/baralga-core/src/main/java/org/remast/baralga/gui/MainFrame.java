@@ -19,8 +19,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.actions.AboutAction;
 import org.remast.baralga.gui.actions.AbstractBaralgaAction;
@@ -49,7 +49,7 @@ public class MainFrame extends JFrame implements Observer {
     
     /** The logger. */
     @SuppressWarnings("unused")
-    private static final Log log = LogFactory.getLog(MainFrame.class);
+    private static final Logger log = LoggerFactory.getLogger(MainFrame.class);
 
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(MainFrame.class);

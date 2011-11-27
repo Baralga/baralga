@@ -9,8 +9,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
@@ -26,7 +26,7 @@ import org.remast.util.TextResourceBundle;
 public class ImportXmlAction extends AbstractBaralgaAction {
 
     /** The logger. */
-    private static final Log log = LogFactory.getLog(ImportXmlAction.class);
+    private static final Logger log = LoggerFactory.getLogger(ImportXmlAction.class);
 
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(ImportXmlAction.class);
@@ -72,7 +72,7 @@ public class ImportXmlAction extends AbstractBaralgaAction {
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, textBundle.textFor("ImportDataAction.IOException.Message", file.getAbsolutePath()), textBundle.textFor("ImportDataAction.IOException.Heading"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                         JOptionPane.ERROR_MESSAGE);
-                log.error(e, e);
+                log.error(e.getLocalizedMessage(), e);
             }
 
         }

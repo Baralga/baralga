@@ -13,8 +13,8 @@ import java.awt.EventQueue;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.logging.Level;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 import org.remast.baralga.gui.BaralgaMain;
@@ -30,7 +30,7 @@ public class ExceptionUtils {
 	private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
 
 	/** The logger. */
-	private static final Log log = LogFactory.getLog(ExceptionUtils.class);
+	private static final Logger log = LoggerFactory.getLogger(ExceptionUtils.class);
 
 	/**
 	 * Shows an error dialog for the given exception.
@@ -49,7 +49,7 @@ public class ExceptionUtils {
 					null);
 			JXErrorPane.showDialog(null, errorInfo);
 		} catch (Exception innerEx) {
-			log.error(innerEx, innerEx);
+			log.error(innerEx.getLocalizedMessage(), innerEx);
 		}
 	}
 	

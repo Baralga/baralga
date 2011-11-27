@@ -14,11 +14,8 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Appender;
 import org.apache.log4j.DailyRollingFileAppender;
-import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.remast.baralga.gui.model.PresentationModel;
@@ -32,6 +29,8 @@ import org.remast.baralga.model.io.ProTrackReader;
 import org.remast.baralga.model.io.SaveTimer;
 import org.remast.swing.util.ExceptionUtils;
 import org.remast.util.TextResourceBundle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Controls the lifecycle of the application.
@@ -43,7 +42,7 @@ public final class BaralgaMain {
 	private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
 
 	/** The logger. */
-	private static final Log log = LogFactory.getLog(BaralgaMain.class);
+	private static final Logger log = LoggerFactory.getLogger(BaralgaMain.class);
 
 	//------------------------------------------------
 	// Command line options
@@ -123,11 +122,11 @@ public final class BaralgaMain {
 
 			initTrayIcon(mainInstance, model, mainFrame);
 		} catch (Exception e) {
-			log.error(e, e);
+			log.error(e.getLocalizedMessage(), e);
 			ExceptionUtils.showErrorDialog(e);
 			System.exit(1);
 		} catch (Error e) {
-			log.error(e, e);
+			log.error(e.getLocalizedMessage(), e);
 			ExceptionUtils.showErrorDialog(e);
 			System.exit(1);
 		}
@@ -252,18 +251,18 @@ public final class BaralgaMain {
 								}
 							}
 						} catch (Exception e) {
-							log.error(e, e);
+							log.error(e.getLocalizedMessage(), e);
 						} catch (Error e) {
-							log.error(e, e);
+							log.error(e.getLocalizedMessage(), e);
 						}
 
 						try {
 							// 2. Save model
 							model.getDAO().close();
 						} catch (Exception e) {
-							log.error(e, e);
+							log.error(e.getLocalizedMessage(), e);
 						} catch (Error e) {
-							log.error(e, e);
+							log.error(e.getLocalizedMessage(), e);
 						} finally {
 							// 3. Release lock
 							releaseLock();
@@ -355,7 +354,7 @@ public final class BaralgaMain {
 
 				log.info("Successfully migrated the model to version 1.5 and following.");
 			} catch (IOException e) {
-				log.error(e, e);
+				log.error(e.getLocalizedMessage(), e);
 			}
 		}
 	}
@@ -399,7 +398,7 @@ public final class BaralgaMain {
 		logFileName = ApplicationSettings.instance().getApplicationDataDirectory().getAbsolutePath() + File.separator + "log" + File.separator + "baralga.log";
 		final Appender mainAppender = new DailyRollingFileAppender(new PatternLayout("%d{ISO8601} %-5p [%t] %c: %m%n"), logFileName, "'.'yyyy-MM-dd");
 
-		final Logger root = Logger.getRootLogger();
+		final org.apache.log4j.Logger root = org.apache.log4j.Logger.getRootLogger();
 		root.addAppender(mainAppender);
 	}
 
@@ -414,7 +413,7 @@ public final class BaralgaMain {
 					UIManager.getSystemLookAndFeelClassName()
 			);
 		} catch (Exception ex) {
-			log.error(ex, ex);
+			log.error(ex.getLocalizedMessage(), ex);
 		}
 	}
 
@@ -473,7 +472,7 @@ public final class BaralgaMain {
 		try {
 			lock.release();
 		} catch (IOException e) {
-			log.error(e, e);
+			log.error(e.getLocalizedMessage(), e);
 		} finally {
 			try {
 				lock.channel().close();

@@ -15,8 +15,8 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.settings.ApplicationSettings;
 import org.remast.baralga.gui.settings.UserSettings;
@@ -31,7 +31,7 @@ import org.remast.baralga.model.export.XmlExporter;
 public class DataBackup {
 
 	/** The logger. */
-	private static final Log log = LogFactory.getLog(DataBackup.class);
+	private static final Logger log = LoggerFactory.getLogger(DataBackup.class);
 
 	/** The date format for dates used in the names of backup files. */
 	private static final SimpleDateFormat BACKUP_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd_HHmmss");
@@ -74,7 +74,7 @@ public class DataBackup {
 			// Make sure everything is written.
 			outputStream.flush();
 		} catch (Throwable t) {
-			log.error(t, t);
+			log.error(t.getLocalizedMessage(), t);
 		} finally {
 			if (outputStream != null) {
 				try {
@@ -138,7 +138,7 @@ public class DataBackup {
 				final Date backupDate = BACKUP_DATE_FORMAT.parse(backupFile.substring(UserSettings.DEFAULT_FILE_NAME.length() + 1));
 				sortedBackupFiles.put(backupDate, new File(ApplicationSettings.instance().getApplicationDataDirectory() + File.separator + backupFile));
 			} catch (ParseException e) {
-				log.error(e, e);
+				log.error(e.getLocalizedMessage(), e);
 			}
 		}
 
@@ -164,7 +164,7 @@ public class DataBackup {
 		try {
 			return BACKUP_DATE_FORMAT.parse(backupFile.getName().substring(UserSettings.DEFAULT_FILE_NAME.length() + 1));
 		} catch (Exception e) {
-			log.error(e, e);
+			log.error(e.getLocalizedMessage(), e);
 		}
 		
 		return null;

@@ -14,8 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jdesktop.swinghelper.tray.JXTrayIcon;
 import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.actions.ChangeProjectAction;
@@ -37,7 +37,7 @@ public class TrayIcon implements Observer {
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(TrayIcon.class);
 
     /** The logger. */
-    private static final Log log = LogFactory.getLog(TrayIcon.class);
+    private static final Logger log = LoggerFactory.getLogger(TrayIcon.class);
 
     /** The standard icon image. */
     private static final Image NORMAL_ICON = new ImageIcon(BaralgaMain.class.getResource("/icons/Baralga-Tray.gif")).getImage();
@@ -126,7 +126,7 @@ public class TrayIcon implements Observer {
     		try {
     			tray.add(trayIcon);
     		} catch (AWTException e) {
-    			log.error(e, e);
+    			log.error(e.getLocalizedMessage(), e);
     		}
     	}
     }

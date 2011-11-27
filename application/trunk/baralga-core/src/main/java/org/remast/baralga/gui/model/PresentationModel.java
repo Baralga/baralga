@@ -12,8 +12,8 @@ import javax.swing.SwingUtilities;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.joda.time.DateTime;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.events.BaralgaEvent;
@@ -46,7 +46,7 @@ public class PresentationModel extends Observable {
 
     /** The logger. */
     @SuppressWarnings("unused")
-    private static final Log log = LogFactory.getLog(PresentationModel.class);
+    private static final Logger log = LoggerFactory.getLogger(PresentationModel.class);
 
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);

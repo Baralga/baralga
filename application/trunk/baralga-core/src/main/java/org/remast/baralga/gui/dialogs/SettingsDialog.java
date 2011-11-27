@@ -10,8 +10,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jdesktop.swingx.JXHeader;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.settings.UserSettings;
@@ -27,7 +27,7 @@ public class SettingsDialog extends EscapeDialog implements ActionListener {
 
     /** The logger. */
     @SuppressWarnings("unused")
-    private static final Log log = LogFactory.getLog(SettingsDialog.class);
+    private static final Logger log = LoggerFactory.getLogger(SettingsDialog.class);
 
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(SettingsDialog.class);

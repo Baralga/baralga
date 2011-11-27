@@ -7,11 +7,12 @@ import java.io.File;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
 import org.joda.time.DateTime;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.baralga.model.filter.SpanType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Stores and reads all settings specific to one user.
@@ -20,7 +21,7 @@ import org.remast.baralga.model.filter.SpanType;
 public final class UserSettings {
 
     /** The logger. */
-    private static final Log log = LogFactory.getLog(UserSettings.class);
+    private static final Logger log = LoggerFactory.getLogger(UserSettings.class);
 
     /** Default name of the ProTrack data file. */
     public static final String DEFAULT_FILE_NAME = "Data.baralga.xml"; //$NON-NLS-1$
@@ -59,7 +60,7 @@ public final class UserSettings {
             userConfig = new PropertiesConfiguration(userConfigFile);
             userConfig.setAutoSave(true);
         } catch (ConfigurationException e) {
-            log.error(e, e);
+            log.error(e.getLocalizedMessage(), e);
         }
     }
 
@@ -379,7 +380,7 @@ public final class UserSettings {
     	try {
     		userConfig.save();
     	} catch (ConfigurationException e) {
-    		log.error(e, e);
+    		log.error(e.getLocalizedMessage(), e);
     	}
     }
 
@@ -394,10 +395,10 @@ public final class UserSettings {
         try {
             return userConfig.getString(key, defaultValue);
         } catch (Exception e) {
-            log.error(e, e);
+            log.error(e.getLocalizedMessage(), e);
             return defaultValue;
         } catch (Throwable t) {
-            log.error(t, t);
+            log.error(t.getLocalizedMessage(), t);
             return defaultValue;
         }
     }
@@ -413,10 +414,10 @@ public final class UserSettings {
         try {
             return userConfig.getLong(key, defaultValue);
         } catch (Exception e) {
-            log.error(e, e);
+            log.error(e.getLocalizedMessage(), e);
             return defaultValue;
         } catch (Throwable t) {
-            log.error(t, t);
+            log.error(t.getLocalizedMessage(), t);
             return defaultValue;
         }
     }
@@ -432,10 +433,10 @@ public final class UserSettings {
         try {
             return userConfig.getInteger(key, defaultValue);
         } catch (Exception e) {
-            log.error(e, e);
+            log.error(e.getLocalizedMessage(), e);
             return defaultValue;
         } catch (Throwable t) {
-            log.error(t, t);
+            log.error(t.getLocalizedMessage(), t);
             return defaultValue;
         }
     }
@@ -451,10 +452,10 @@ public final class UserSettings {
         try {
             return userConfig.getBoolean(key, defaultValue);
         } catch (Exception e) {
-            log.error(e, e);
+            log.error(e.getLocalizedMessage(), e);
             return defaultValue;
         } catch (Throwable t) {
-            log.error(t, t);
+            log.error(t.getLocalizedMessage(), t);
             return defaultValue;
         }
     }
@@ -480,10 +481,10 @@ public final class UserSettings {
     		
     		return new DateTime(dateMilliseconds);
     	} catch (Exception e) {
-    		log.error(e, e);
+    		log.error(e.getLocalizedMessage(), e);
     		return defaultValue;
     	} catch (Throwable t) {
-    		log.error(t, t);
+    		log.error(t.getLocalizedMessage(), t);
     		return defaultValue;
     	}
     }

@@ -12,8 +12,8 @@ import java.util.Map.Entry;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
@@ -31,7 +31,7 @@ public class DescriptionPanel extends JPanel implements Observer {
 
 	/** The logger. */
 	@SuppressWarnings("unused")
-	private static final Log log = LogFactory.getLog(DescriptionPanel.class);
+	private static final Logger log = LoggerFactory.getLogger(DescriptionPanel.class);
 
 	/** The model. */
 	private final PresentationModel model;

@@ -8,8 +8,8 @@ import java.util.NoSuchElementException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Stores and reads all settings specific to the whole application.
@@ -18,7 +18,7 @@ import org.apache.commons.logging.LogFactory;
 public final class ApplicationSettings {
 
     /** The logger. */
-    private static final Log log = LogFactory.getLog(ApplicationSettings.class);
+    private static final Logger log = LoggerFactory.getLogger(ApplicationSettings.class);
 
     /** The singleton instance. */
     private static ApplicationSettings instance;
@@ -95,11 +95,11 @@ public final class ApplicationSettings {
             applicationConfig = new PropertiesConfiguration(file);
             applicationConfig.setAutoSave(true);
         } catch (MalformedURLException e) {
-            log.error(e, e);
+            log.error(e.getLocalizedMessage(), e);
         } catch (ConfigurationException e) {
-            log.error(e, e);
+            log.error(e.getLocalizedMessage(), e);
         } catch (URISyntaxException e) {
-            log.error(e, e);
+            log.error(e.getLocalizedMessage(), e);
         }
     }
 

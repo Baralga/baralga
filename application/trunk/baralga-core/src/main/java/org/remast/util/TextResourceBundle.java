@@ -9,8 +9,8 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Provides easy access to texts from properties files. This uses the default 
@@ -22,7 +22,7 @@ import org.apache.commons.logging.LogFactory;
 public final class TextResourceBundle {
     
     /** The logger. */
-    private static final Log log = LogFactory.getLog(TextResourceBundle.class);
+    private static final Logger log = LoggerFactory.getLogger(TextResourceBundle.class);
 
     /** The resource bundle. */
     private ResourceBundle resourceBundle = null;
@@ -57,7 +57,7 @@ public final class TextResourceBundle {
                     clazz.getClassLoader()
             );
         } catch (MissingResourceException e) {
-            log.error(e, e);
+            log.error(e.getLocalizedMessage(), e);
         }
     }
 
