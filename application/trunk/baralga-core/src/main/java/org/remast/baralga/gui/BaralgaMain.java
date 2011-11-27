@@ -23,9 +23,6 @@ import org.remast.baralga.gui.model.ProjectActivityStateException;
 import org.remast.baralga.gui.settings.ApplicationSettings;
 import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.baralga.model.BaralgaDAO;
-import org.remast.baralga.model.ProTrack;
-import org.remast.baralga.model.Project;
-import org.remast.baralga.model.io.ProTrackReader;
 import org.remast.baralga.model.io.SaveTimer;
 import org.remast.swing.util.ExceptionUtils;
 import org.remast.util.TextResourceBundle;
@@ -311,51 +308,7 @@ public final class BaralgaMain {
 	private static void migrateModel(final PresentationModel model, BaralgaMain mainInstance) {
 		final File dataFile = new File(UserSettings.instance().getDataFileLocation());
 		if (dataFile.exists() && dataFile.canRead()) {
-			ProTrackReader reader = new ProTrackReader();
-			try {
-				reader.read(dataFile);
-
-				final ProTrack data = reader.getData();
-
-				// 1. Add projects
-				// -- Add normal projects
-				for (Project project : data.getProjects()) {
-					model.addProject(project, mainInstance);
-				}
-
-				// -- Add deleted projects
-				for (Project project : data.getDeletedProjects()) {
-					model.addProject(project, mainInstance);
-				}
-
-				// 2. Add activities
-				model.addActivities(data.getActivities(), mainInstance);
-
-				// 3. Remove deleted projects including all associated activities
-				for (Project project : data.getDeletedProjects()) {
-					model.removeProject(project, mainInstance);
-				}
-
-				// 4. Rename data file as backup
-				final File dataFileBackup = new File(UserSettings.instance().getDataFileLocation() + ".pre15Backup");
-				final boolean renameSuccessfull = dataFile.renameTo(dataFileBackup);
-				if (!renameSuccessfull) {
-					throw new RuntimeException("Could not rename data file " + 
-							dataFile.getAbsolutePath() + " to " + 
-							dataFileBackup.getAbsolutePath() + "." +
-							"Please rename manually."
-					);
-				} else {
-					log.info("Successfully renamed data file from " +
-							dataFile.getAbsolutePath() + " to " + 
-							dataFileBackup.getAbsolutePath() + "."
-					);
-				}
-
-				log.info("Successfully migrated the model to version 1.5 and following.");
-			} catch (IOException e) {
-				log.error(e.getLocalizedMessage(), e);
-			}
+			JOptionPane.showInternalMessageDialog(null, "Data from version 1.4.x is not migrated any more. Please update to 1.5 or 1.6 first before using this version.");
 		}
 	}
 

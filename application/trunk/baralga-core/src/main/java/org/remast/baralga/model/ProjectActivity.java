@@ -11,8 +11,6 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.remast.baralga.FormatUtils;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-
 /**
  * An activity for a project.
  * 
@@ -23,7 +21,6 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
  * 
  * @author remast
  */
-@XStreamAlias("projectActivity")//$NON-NLS-1$
 public class ProjectActivity implements Serializable, Comparable<ProjectActivity> {
 
     /**
