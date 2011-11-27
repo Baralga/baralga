@@ -96,7 +96,7 @@ public final class BaralgaMain {
 			final BaralgaMain mainInstance = new BaralgaMain();
 			mainInstance.parseCommandLineArguments(arguments);
 
-			migrateApplicationDirectory();
+			checkForOldApplicationDirectory();
 
 			initLogger();
 
@@ -105,8 +105,6 @@ public final class BaralgaMain {
 			initLockFile();
 
 			final PresentationModel model = initModel();
-
-			migrateModel(model, mainInstance);
 
 			initShutdownHook(model);
 
@@ -305,39 +303,14 @@ public final class BaralgaMain {
 		return model;
 	}
 
-	private static void migrateModel(final PresentationModel model, BaralgaMain mainInstance) {
-		final File dataFile = new File(UserSettings.instance().getDataFileLocation());
-		if (dataFile.exists() && dataFile.canRead()) {
+	/**
+	 * Check for old  application data directory and displays info dialog if present.
+	 */
+	private static void checkForOldApplicationDirectory() {
+		final File oldDefaultDataDirectory = new File(System.getProperty("user.home") + File.separator + ".ProTrack");
+		if (oldDefaultDataDirectory.exists() && oldDefaultDataDirectory.canRead()) {
 			JOptionPane.showInternalMessageDialog(null, "Data from version 1.4.x is not migrated any more. Please update to 1.5 or 1.6 first before using this version.");
 		}
-	}
-
-	/**
-	 * Migrates the application data directory. Up to version 1.5 the data directory used to
-	 * be <code>${user.home}/.ProTrack</code>. From version 1.5 on the data directory is located
-	 * at <code>${user.home}/.Baralga</code>.
-	 */
-	private static void migrateApplicationDirectory() {
-		final File oldDefaultDataDirectory = new File(System.getProperty("user.home") + File.separator + ".ProTrack");
-		final File defaultDataDirectory = new File(System.getProperty("user.home") + File.separator + ".Baralga");
-
-		if (oldDefaultDataDirectory.exists() && oldDefaultDataDirectory.isDirectory() && !defaultDataDirectory.exists()) {
-			final boolean renameSuccessfull = oldDefaultDataDirectory.renameTo(defaultDataDirectory);
-
-			if (!renameSuccessfull) {
-				throw new RuntimeException("Could not rename application directory " + 
-						oldDefaultDataDirectory.getAbsolutePath() + " to " + 
-						defaultDataDirectory.getAbsolutePath() + "." +
-						"Please rename manually."
-				);
-			} else {
-				log.info("Successfully renamed application directory from " +
-						oldDefaultDataDirectory.getAbsolutePath() + " to " + 
-						defaultDataDirectory.getAbsolutePath() + "."
-				);
-			}
-		}
-
 	}
 
 	/**
