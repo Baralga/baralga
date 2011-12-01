@@ -19,7 +19,6 @@ import javax.swing.JOptionPane;
 import javax.swing.text.DateFormatter;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXDatePicker;
 import org.joda.time.DateTime;
 import org.remast.baralga.FormatUtils;
@@ -35,6 +34,8 @@ import org.remast.util.DateUtils;
 import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
+
+import com.google.common.base.Strings;
 
 /**
  * Dialog for manually adding a project activity.
@@ -331,11 +332,11 @@ public class AddOrEditActivityDialog extends EscapeDialog {
             return false;
         }
 
-        if (StringUtils.isBlank(getStartField().getText())) {
+        if (Strings.isNullOrEmpty(getStartField().getText())) {
             return false;
         }
 
-        if (StringUtils.isBlank(getEndField().getText())) {
+        if (Strings.isNullOrEmpty(getEndField().getText())) {
             return false;
         }
 

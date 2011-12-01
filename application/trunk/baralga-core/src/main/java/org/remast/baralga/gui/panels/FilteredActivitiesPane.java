@@ -6,8 +6,6 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.AbstractAction;
 import javax.swing.Icon;
@@ -28,6 +26,8 @@ import org.remast.baralga.gui.panels.report.HoursByWeekPanel;
 import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.util.TextResourceBundle;
 
+import com.google.common.base.Objects;
+import com.google.common.eventbus.Subscribe;
 import com.jidesoft.swing.JideTabbedPane;
 import com.jidesoft.swing.JideToggleButton;
 
@@ -35,7 +35,7 @@ import com.jidesoft.swing.JideToggleButton;
  * @author remast
  */
 @SuppressWarnings("serial")//$NON-NLS-1$
-public class FilteredActivitiesPane extends JPanel implements Observer {
+public class FilteredActivitiesPane extends JPanel {
 
 	/** The bundle for internationalized texts. */
 	private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
@@ -125,7 +125,7 @@ public class FilteredActivitiesPane extends JPanel implements Observer {
 	public FilteredActivitiesPane(final PresentationModel model) {
 		super();
 		this.model = model;
-		this.model.addObserver(this);
+        this.model.getEventBus().register(this);
 
 		initialize();
 	}
@@ -255,11 +255,11 @@ public class FilteredActivitiesPane extends JPanel implements Observer {
 		projectButton.setSelected(false);
 
 		// 2. Select shown button
-		if (StringUtils.equals("General", shownCategory)) { //$NON-NLS-1$
+		if (Objects.equal("General", shownCategory)) { //$NON-NLS-1$
 			generalButton.setSelected(true);
-		} else if (StringUtils.equals("Time", shownCategory)) { //$NON-NLS-1$
+		} else if (Objects.equal("Time", shownCategory)) { //$NON-NLS-1$
 			timeButton.setSelected(true);
-		} else if (StringUtils.equals("Project", shownCategory)) { //$NON-NLS-1$
+		} else if (Objects.equal("Project", shownCategory)) { //$NON-NLS-1$
 			projectButton.setSelected(true);
 		}
 	}
@@ -316,7 +316,7 @@ public class FilteredActivitiesPane extends JPanel implements Observer {
 	 * {@inheritDoc}
 	 */
 	@SuppressWarnings("unchecked")
-	public void update(final Observable source, final Object eventObject) {
+	@Subscribe public void update(final Object eventObject) {
 		if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
 			return;
 		}

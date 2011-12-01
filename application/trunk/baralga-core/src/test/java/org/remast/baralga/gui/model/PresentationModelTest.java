@@ -1,18 +1,6 @@
 package org.remast.baralga.gui.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.util.Calendar;
-import java.util.Date;
-
-import org.joda.time.DateTime;
-import org.junit.Before;
 import org.junit.Test;
-import org.remast.baralga.model.Project;
-import org.remast.baralga.model.ProjectActivity;
-import org.remast.util.DateUtils;
 
 /**
  * Tests for the presentation model.

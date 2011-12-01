@@ -13,8 +13,6 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Date;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -51,12 +49,14 @@ import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 
+import com.google.common.eventbus.Subscribe;
+
 /**
  * Panel for capturing new activities.
  * @author remast
  */
 @SuppressWarnings("serial")
-public class ActivityPanel extends JPanel implements Observer, ActionListener {
+public class ActivityPanel extends JPanel implements ActionListener {
 
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(MainFrame.class);
@@ -117,7 +117,7 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
      */
     public ActivityPanel(final PresentationModel model) {
         this.model = model;
-        this.model.addObserver(this);
+        this.model.getEventBus().register(this);
 
         // Fire timer event every minute
         this.timer = new Timer(1000 * 60, this);
@@ -323,7 +323,7 @@ public class ActivityPanel extends JPanel implements Observer, ActionListener {
     /**
      * {@inheritDoc}
      */
-    public final void update(final Observable source, final Object eventObject) {
+    @Subscribe public final void update(final Object eventObject) {
         if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
             return;
         }

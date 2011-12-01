@@ -4,8 +4,6 @@
 package org.remast.baralga.gui.model.edit;
 
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Stack;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -15,12 +13,14 @@ import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
 
+import com.google.common.eventbus.Subscribe;
+
 /**
  * Edit stack for undoing and redoing edit actions. The stack observes
  * the model and keeps track of undoable and redoable events.
  * @author remast
  */
-public class EditStack implements Observer {
+public class EditStack {
 
     /**
      * The action for undoing an edit activity.
@@ -60,7 +60,7 @@ public class EditStack implements Observer {
     /**
      * {@inheritDoc}
      */
-    public void update(final Observable source, final Object eventObject) {
+    @Subscribe public void update(final Object eventObject) {
         if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
             return;
         }

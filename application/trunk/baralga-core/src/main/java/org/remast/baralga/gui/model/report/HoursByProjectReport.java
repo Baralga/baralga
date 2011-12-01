@@ -1,8 +1,5 @@
 package org.remast.baralga.gui.model.report;
 
-import java.util.Observable;
-import java.util.Observer;
-
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
@@ -10,25 +7,39 @@ import org.remast.baralga.model.ProjectActivity;
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.SortedList;
 
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
+
 /**
  * Report for the working hours by project.
  * @author remast
  */
-public class HoursByProjectReport extends Observable implements Observer  {
+public class HoursByProjectReport {
 
     /** The model. */
     private PresentationModel model;
+
+    /** The bus to publish changes of the report. */
+    private EventBus eventBus = new EventBus();
 
     private SortedList<HoursByProject> hoursByProjectList;
 
     public HoursByProjectReport(final PresentationModel model) {
         this.model = model;
-        this.model.addObserver(this);
+        this.model.getEventBus().register(this);
         this.hoursByProjectList = new SortedList<HoursByProject>(new BasicEventList<HoursByProject>());
 
         calculateHours();
     }
-
+    
+    /**
+     * Getter for the event bus.
+     * @return the event bus
+     */
+    public EventBus getEventBus() {
+    	return eventBus;
+    }
+    
     public void calculateHours() {
         this.hoursByProjectList.clear();
 
@@ -57,7 +68,7 @@ public class HoursByProjectReport extends Observable implements Observer  {
      * {@inheritDoc}
      */
     @SuppressWarnings("unchecked")
-	public void update(final Observable source, final Object eventObject) {
+    @Subscribe public void update(final Object eventObject) {
         if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
             return;
         }
@@ -73,9 +84,7 @@ public class HoursByProjectReport extends Observable implements Observer  {
                 calculateHours();
                 break;
         }
-
-        setChanged();
-        notifyObservers();
+        eventBus.post(this);
     }
 
 }

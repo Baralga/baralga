@@ -12,8 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -50,6 +48,7 @@ import ca.odell.glazedlists.swing.EventComboBoxModel;
 import ca.odell.glazedlists.swing.EventTableModel;
 import ca.odell.glazedlists.swing.TableComparatorChooser;
 
+import com.google.common.eventbus.Subscribe;
 import com.jidesoft.swing.JideScrollPane;
 import com.jidesoft.utils.BasicTransferable;
 
@@ -57,7 +56,7 @@ import com.jidesoft.utils.BasicTransferable;
  * @author remast
  */
 @SuppressWarnings("serial")//$NON-NLS-1$
-public class AllActitvitiesPanel extends JPanel implements Observer {
+public class AllActitvitiesPanel extends JPanel {
 
 	/** The bundle for internationalized texts. */
 	private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
@@ -78,7 +77,7 @@ public class AllActitvitiesPanel extends JPanel implements Observer {
 	 */
 	public AllActitvitiesPanel(final PresentationModel model) {
 		this.model = model;
-		this.model.addObserver(this);
+        this.model.getEventBus().register(this);
 
 		this.setLayout(new BorderLayout());
 
@@ -268,8 +267,8 @@ public class AllActitvitiesPanel extends JPanel implements Observer {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void update(final Observable source, final Object eventObject) {
-		if (source == null || !(eventObject instanceof BaralgaEvent)) {
+	@Subscribe public void update(final Object eventObject) {
+		if (!(eventObject instanceof BaralgaEvent)) {
 			return;
 		}
 

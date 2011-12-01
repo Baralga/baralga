@@ -22,13 +22,14 @@ import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 
-import org.apache.commons.lang.StringUtils;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.baralga.model.filter.FilterUtils;
 import org.remast.baralga.model.report.AccumulatedActivitiesReport;
 import org.remast.baralga.model.report.AccumulatedProjectActivity;
 import org.remast.util.TextResourceBundle;
+
+import com.google.common.base.Strings;
 
 /**
  * Exports data to Microsoft Excel format.
@@ -93,7 +94,7 @@ public class ExcelExporter implements Exporter {
 
                 // Description
                 String description = org.remast.util.StringUtils.stripXmlTags(actitivity.getDescription());
-                description = StringUtils.trim(description);
+                description = Strings.nullToEmpty(description).trim();
                 sheet.addCell(new Label(col++, row, description));
                 
                 col = 0;

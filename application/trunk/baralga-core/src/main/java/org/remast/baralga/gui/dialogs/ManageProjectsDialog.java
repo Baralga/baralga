@@ -5,8 +5,6 @@ import info.clearthought.layout.TableLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,6 +26,7 @@ import org.remast.util.TextResourceBundle;
 import ca.odell.glazedlists.swing.EventTableModel;
 import ca.odell.glazedlists.swing.TableComparatorChooser;
 
+import com.google.common.eventbus.Subscribe;
 import com.jidesoft.swing.JideScrollPane;
 
 /**
@@ -35,7 +34,7 @@ import com.jidesoft.swing.JideScrollPane;
  * @author remast
  */
 @SuppressWarnings("serial")
-public class ManageProjectsDialog extends EscapeDialog implements Observer {
+public class ManageProjectsDialog extends EscapeDialog {
 
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(ManageProjectsDialog.class);
@@ -61,7 +60,7 @@ public class ManageProjectsDialog extends EscapeDialog implements Observer {
         super(owner);
 
         this.model = model;
-        this.model.addObserver(this);
+        this.model.getEventBus().register(this);
 
         initialize();
     }
@@ -187,9 +186,8 @@ public class ManageProjectsDialog extends EscapeDialog implements Observer {
         return removeProjectButton;
     }
 
-    @Override
-    public void update(final Observable source, final Object eventObject) {
-        if (source == null || !(eventObject instanceof BaralgaEvent)) {
+    @Subscribe public void update(final Object eventObject) {
+        if (!(eventObject instanceof BaralgaEvent)) {
             return;
         }
 

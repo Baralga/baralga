@@ -8,11 +8,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.remast.baralga.FormatUtils;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.util.TextResourceBundle;
+
+import com.google.common.base.Strings;
 
 import au.com.bytecode.opencsv.CSVWriter;
 
@@ -89,7 +90,7 @@ public class CsvExporter implements Exporter {
 
         // Description
         String description = org.remast.util.StringUtils.stripXmlTags(activity.getDescription());
-        description = StringUtils.trim(description);
+        description = Strings.nullToEmpty(description).trim();
         csvLine[5] = description;
 
         return csvLine;

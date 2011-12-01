@@ -7,8 +7,6 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -19,8 +17,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.actions.AboutAction;
 import org.remast.baralga.gui.actions.AbstractBaralgaAction;
@@ -39,13 +35,17 @@ import org.remast.baralga.gui.panels.ActivityPanel;
 import org.remast.baralga.gui.panels.ReportPanel;
 import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.util.TextResourceBundle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.eventbus.Subscribe;
 
 /**
  * The main frame of the application.
  * @author remast
  */
 @SuppressWarnings("serial")//$NON-NLS-1$
-public class MainFrame extends JFrame implements Observer {
+public class MainFrame extends JFrame {
     
     /** The logger. */
     @SuppressWarnings("unused")
@@ -132,7 +132,7 @@ public class MainFrame extends JFrame implements Observer {
         super();
 
         this.model = model;
-        this.model.addObserver(this);
+        this.model.getEventBus().register(this);
 
         initialize();
     }
@@ -374,7 +374,7 @@ public class MainFrame extends JFrame implements Observer {
     /**
      * {@inheritDoc}
      */
-    public void update(final Observable source, final Object eventObject) {
+    @Subscribe public void update(final Object eventObject) {
         if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
             return;
         }

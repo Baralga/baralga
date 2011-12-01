@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JTable;
 
@@ -22,6 +20,7 @@ import org.remast.swing.table.JHighligthedTable;
 import ca.odell.glazedlists.swing.EventTableModel;
 import ca.odell.glazedlists.swing.TableComparatorChooser;
 
+import com.google.common.eventbus.Subscribe;
 import com.jidesoft.swing.JideScrollPane;
 
 /**
@@ -30,7 +29,7 @@ import com.jidesoft.swing.JideScrollPane;
  * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
-public class HoursByDayPanel extends JXPanel implements Observer {
+public class HoursByDayPanel extends JXPanel {
 	
 	/** Format for one day in report. */
 	private static DateFormat DAY_FORMAT = new SimpleDateFormat(DateTimeFormat.patternForStyle("S-", Locale.getDefault()) + " EEEEEEEEE");
@@ -53,7 +52,7 @@ public class HoursByDayPanel extends JXPanel implements Observer {
         this.report = report;
         this.setLayout(new BorderLayout());
         
-        this.report.addObserver(this);
+        this.report.getEventBus().register(this);
         
         initialize();
     }
@@ -79,7 +78,7 @@ public class HoursByDayPanel extends JXPanel implements Observer {
         this.add(table_scroll_pane, BorderLayout.CENTER);
     }
 
-    public void update(final Observable o, final Object arg) {
+   @Subscribe public void update(final Object o) {
         if (o != null && o instanceof HoursByDayReport) {
             tableModel.fireTableDataChanged();
         }

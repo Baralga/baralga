@@ -5,8 +5,6 @@ import java.awt.Image;
 import java.awt.SystemTray;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
@@ -14,8 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.jdesktop.swinghelper.tray.JXTrayIcon;
 import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.actions.ChangeProjectAction;
@@ -26,12 +22,16 @@ import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
 import org.remast.util.TextResourceBundle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.eventbus.Subscribe;
 
 /**
  * Tray icon for quick start, stop and switching of project activities.
  * @author remast
  */
-public class TrayIcon implements Observer {
+public class TrayIcon {
 
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(TrayIcon.class);
@@ -56,7 +56,7 @@ public class TrayIcon implements Observer {
 
     public TrayIcon(final PresentationModel model, final MainFrame mainFrame) {
         this.model = model;
-        this.model.addObserver(this);
+        this.model.getEventBus().register(this);
 
         buildMenu();
 
@@ -143,7 +143,7 @@ public class TrayIcon implements Observer {
     /**
      * {@inheritDoc}
      */
-    public void update(final Observable source, final Object eventObject) {
+    @Subscribe public void update(final Object eventObject) {
         if (eventObject != null && eventObject instanceof BaralgaEvent) {
             BaralgaEvent event = (BaralgaEvent) eventObject;
 

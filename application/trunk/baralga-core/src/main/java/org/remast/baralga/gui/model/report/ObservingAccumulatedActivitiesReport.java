@@ -1,14 +1,13 @@
 package org.remast.baralga.gui.model.report;
 
-import java.util.Observable;
-import java.util.Observer;
-
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.baralga.model.report.AccumulatedActivitiesReport;
 
-public class ObservingAccumulatedActivitiesReport extends AccumulatedActivitiesReport implements Observer {
+import com.google.common.eventbus.Subscribe;
+
+public class ObservingAccumulatedActivitiesReport extends AccumulatedActivitiesReport {
 
     /** The model. */
     private final PresentationModel model;
@@ -17,7 +16,7 @@ public class ObservingAccumulatedActivitiesReport extends AccumulatedActivitiesR
         super(model.getActivitiesList(), model.getFilter());
 
         this.model = model;
-        this.model.addObserver(this);
+        this.model.getEventBus().register(this);
 
         this.accumulate();
     }
@@ -26,7 +25,7 @@ public class ObservingAccumulatedActivitiesReport extends AccumulatedActivitiesR
      * {@inheritDoc}
      */
     @SuppressWarnings("unchecked")
-    public void update(final Observable source, final Object eventObject) {
+    @Subscribe public void update(final Object eventObject) {
         if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
             return;
         }

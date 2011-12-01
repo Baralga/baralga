@@ -1,8 +1,5 @@
 package org.remast.baralga.gui.model.report;
 
-import java.util.Observable;
-import java.util.Observer;
-
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
@@ -10,23 +7,37 @@ import org.remast.baralga.model.ProjectActivity;
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.SortedList;
 
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
+
 /**
  * Report for the working hours by day.
  * @author remast
  */
-public class HoursByDayReport extends Observable implements Observer  {
+public class HoursByDayReport {
 
     /** The model. */
     private PresentationModel model;
+
+    /** The bus to publish changes of the report. */
+    private EventBus eventBus = new EventBus();
 
     private SortedList<HoursByDay> hoursByDayList;
 
     public HoursByDayReport(final PresentationModel model) {
         this.model = model;
-        this.model.addObserver(this);
+        this.model.getEventBus().register(this);
         this.hoursByDayList = new SortedList<HoursByDay>(new BasicEventList<HoursByDay>());
 
         calculateHours();
+    }
+    
+    /**
+     * Getter for the event bus.
+     * @return the event bus
+     */
+    public EventBus getEventBus() {
+    	return eventBus;
     }
 
     public void calculateHours() {
@@ -57,7 +68,7 @@ public class HoursByDayReport extends Observable implements Observer  {
      * {@inheritDoc}
      */
     @SuppressWarnings("unchecked")
-	public void update(final Observable source, final Object eventObject) {
+    @Subscribe public void update(final Object eventObject) {
         if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
             return;
         }
@@ -74,8 +85,7 @@ public class HoursByDayReport extends Observable implements Observer  {
                 break;
         }
 
-        setChanged();
-        notifyObservers();
+        eventBus.post(this);
     }
 
 }

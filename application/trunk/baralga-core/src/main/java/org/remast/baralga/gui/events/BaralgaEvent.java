@@ -68,9 +68,9 @@ public class BaralgaEvent {
      * Constructor for a new event.
      * @param type the type of the event.
      */
-    public BaralgaEvent(final int type) {
-        this.type = type;
-    }
+//    public BaralgaEvent(final int type) {
+//        this.type = type;
+//    }
 
     /**
      * Constructor for a new event.

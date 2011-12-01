@@ -4,16 +4,12 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Observable;
+import java.util.concurrent.Executors;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.joda.time.DateTime;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.events.BaralgaEvent;
@@ -32,9 +28,14 @@ import org.remast.baralga.model.filter.Filter;
 import org.remast.baralga.model.io.DataBackup;
 import org.remast.util.DateUtils;
 import org.remast.util.TextResourceBundle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.SortedList;
+
+import com.google.common.eventbus.AsyncEventBus;
+import com.google.common.eventbus.EventBus;
 
 /**
  * The model of the Baralga application. This is the model capturing both the state
@@ -42,9 +43,15 @@ import ca.odell.glazedlists.SortedList;
  * For further information on the pattern see <a href="http://www.martinfowler.com/eaaDev/PresentationModel.html">presentation model</a>.
  * @author remast
  */
-public class PresentationModel extends Observable {
+public class PresentationModel {
+	
+	private EventBus eventBus = new AsyncEventBus(Executors.newFixedThreadPool(3));
 
-    /** The logger. */
+    public final EventBus getEventBus() {
+		return eventBus;
+	}
+
+	/** The logger. */
     @SuppressWarnings("unused")
     private static final Logger log = LoggerFactory.getLogger(PresentationModel.class);
 
@@ -147,7 +154,7 @@ public class PresentationModel extends Observable {
         // Edit stack
         if (editStack == null) {
             editStack = new EditStack(this);
-            this.addObserver(editStack);
+            eventBus.register(editStack);
         }
 
     }
@@ -267,7 +274,7 @@ public class PresentationModel extends Observable {
         setStart(start);
 
         // Fire start event
-        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_STARTED);
+        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_STARTED, this);
         notify(event);
     }
 
@@ -288,15 +295,7 @@ public class PresentationModel extends Observable {
 			log.debug("Sending event notification for " + String.valueOf(event) + ".");
 		}
 		
-        final Runnable notifyRunner = new Runnable() {
-
-            @Override
-            public void run() {
-                setChanged();
-                notifyObservers(event);
-            }
-        };
-        SwingUtilities.invokeLater(notifyRunner);
+		eventBus.post(event);
     }
 
     /**
@@ -305,7 +304,7 @@ public class PresentationModel extends Observable {
      * @param propertyChangeEvent the event to fire
      */
     public void fireProjectChangedEvent(final Project changedProject, final PropertyChangeEvent propertyChangeEvent) {
-        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_CHANGED);
+        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_CHANGED, this);
         event.setData(changedProject);
         event.setPropertyChangeEvent(propertyChangeEvent);
         
@@ -328,7 +327,7 @@ public class PresentationModel extends Observable {
      * @param propertyChangeEvent the event to fire
      */
     public void fireProjectActivityChangedEvent(final ProjectActivity changedActivity, final PropertyChangeEvent propertyChangeEvent) {
-        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_CHANGED);
+        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_CHANGED, this);
         event.setData(changedActivity);
         event.setPropertyChangeEvent(propertyChangeEvent);
 
@@ -406,7 +405,7 @@ public class PresentationModel extends Observable {
             this.activitiesList.add(activityOnEndDay);
 
             // Create Event for Project Activity
-            eventOnEndDay  = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED);
+            eventOnEndDay  = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED, this);
             final List<ProjectActivity> activitiesOnEndDay = new ArrayList<ProjectActivity>(1);
             activitiesOnEndDay.add(activityOnEndDay);            
             eventOnEndDay.setData(activitiesOnEndDay);
@@ -420,14 +419,14 @@ public class PresentationModel extends Observable {
         this.activitiesList.add(activityOnStartDay);
 
         // Clear old activity
-        description = StringUtils.EMPTY;
-        UserSettings.instance().setLastDescription(StringUtils.EMPTY);
+        description = "";
+        UserSettings.instance().setLastDescription("");
         setActive(false);
         start = null;
 
         if (notifyObservers) {
             // Create Event for Project Activity
-            BaralgaEvent event  = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED);
+            BaralgaEvent event  = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED, this);
             final List<ProjectActivity> activitiesOnStartDay = new ArrayList<ProjectActivity>(1);
             activitiesOnStartDay.add(activityOnStartDay);   
             event.setData(activitiesOnStartDay);
@@ -439,7 +438,7 @@ public class PresentationModel extends Observable {
             }
 
             // Create Stop Event
-            event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_STOPPED);
+            event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_STOPPED, this);
             notify(event);
         }
     }
@@ -485,11 +484,11 @@ public class PresentationModel extends Observable {
             this.activitiesList.add(activity);
 
             // Clear description
-            description = StringUtils.EMPTY;
-            UserSettings.instance().setLastDescription(StringUtils.EMPTY);
+            description = "";
+            UserSettings.instance().setLastDescription("");
 
             // 3. Broadcast project activity event.
-            final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED);
+            final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED, this);
             final List<ProjectActivity> activities = new ArrayList<ProjectActivity>(1);
             activities.add(activity);
             event.setData(activities);
@@ -502,7 +501,7 @@ public class PresentationModel extends Observable {
         }
 
         // Fire project changed event
-        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_CHANGED);
+        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_CHANGED, this);
         event.setData(activeProject);
         notify(event);
     }

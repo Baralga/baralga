@@ -2,7 +2,6 @@ package org.remast.baralga.model.filter;
 
 import java.util.Locale;
 
-import org.apache.commons.lang.StringUtils;
 import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -31,7 +30,7 @@ public abstract class FilterUtils {
      */
 	public static String makeIntervalString(final Filter filter) {
 		if (filter == null) {
-			return StringUtils.EMPTY;
+			return "";
 		}
 		
 		String intervalString = filter.getTimeInterval().toString();

@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Date;
 
-import org.apache.commons.lang.StringUtils;
+import com.google.common.base.Strings;
 
 /**
  * Smart time format based on the simple date format.
@@ -25,9 +25,9 @@ public class SmartTimeFormat extends TimeFormat {
      */
     public final Date parse(final String source, final ParsePosition pos) {
         String time = source;
-        time = StringUtils.trimToEmpty(time);
+        time = Strings.nullToEmpty(time).trim();
         
-        if (StringUtils.isBlank(time)) {
+        if (time.length() == 0) {
             return super.parse(time, pos);
         }
         
@@ -43,9 +43,9 @@ public class SmartTimeFormat extends TimeFormat {
      */
     public static int[] parseToHourAndMinutes(final String timeString) throws ParseException {
         String time = timeString;
-        time = StringUtils.trimToEmpty(time);
+        time = Strings.nullToEmpty(time).trim();
         
-        if (StringUtils.isBlank(time)) {
+        if (time.length() == 0) {
             throw new ParseException("String is empty", 1);
         }
         
@@ -71,11 +71,11 @@ public class SmartTimeFormat extends TimeFormat {
      * @return the normalized String
      */
     private static String normalize(final String timeString) {
-        String time = timeString;
-        time = StringUtils.replace(time, ",,", ":");
-        time = StringUtils.replaceChars(time, '/', ':');
-        time = StringUtils.replaceChars(time, ';', ',');
-        time = StringUtils.replaceChars(time, '.', ':');
+        String time = Strings.emptyToNull(timeString);
+        time = time.replace(",,", ":");
+        time = time.replace('/', ':');
+        time = time.replace(';', ',');
+        time = time.replace('.', ':');
         
         // Treat 11,25 as 11:15
         // Treat 11,75 as 11:45

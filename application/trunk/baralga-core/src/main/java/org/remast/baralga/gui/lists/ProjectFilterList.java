@@ -1,8 +1,6 @@
 package org.remast.baralga.gui.lists;
 
 import java.util.Collection;
-import java.util.Observable;
-import java.util.Observer;
 
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
@@ -15,12 +13,14 @@ import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.SortedList;
 
+import com.google.common.eventbus.Subscribe;
+
 /**
  * The list containing all projects available for the filter.
  * @author remast
  * TODO: Enhance so that only projects occur in list that there are activities for.
  */
-public class ProjectFilterList implements Observer {
+public class ProjectFilterList {
 
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(ProjectFilterList.class);
@@ -44,7 +44,7 @@ public class ProjectFilterList implements Observer {
     public ProjectFilterList(final PresentationModel model) {
         this.model = model;
         this.projectList = new BasicEventList<LabeledItem<Project>>();
-        this.model.addObserver(this);
+        this.model.getEventBus().register(this);
 
         initialize();
     }
@@ -66,8 +66,8 @@ public class ProjectFilterList implements Observer {
     }
 
     @SuppressWarnings("unchecked")
-	public void update(final Observable source, final Object eventObject) {
-        if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
+    @Subscribe public void update(final Object eventObject) {
+        if (!(eventObject instanceof BaralgaEvent)) {
             return;
         }
 

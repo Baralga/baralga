@@ -5,21 +5,20 @@ import java.awt.Color;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Map.Entry;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.swing.util.GuiConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.google.common.eventbus.Subscribe;
 import com.jidesoft.swing.JideScrollPane;
 
 /**
@@ -27,7 +26,7 @@ import com.jidesoft.swing.JideScrollPane;
  * @author remast
  */
 @SuppressWarnings("serial")
-public class DescriptionPanel extends JPanel implements Observer {
+public class DescriptionPanel extends JPanel {
 
 	/** The logger. */
 	@SuppressWarnings("unused")
@@ -46,7 +45,7 @@ public class DescriptionPanel extends JPanel implements Observer {
 		this.setLayout(new BorderLayout());
 		this.model = model;
 		this.entriesByActivity = new HashMap<ProjectActivity, DescriptionPanelEntry>();
-		this.model.addObserver(this);
+        this.model.getEventBus().register(this);
 
 		initialize();
 	}
@@ -95,7 +94,7 @@ public class DescriptionPanel extends JPanel implements Observer {
 	 * {@inheritDoc}
 	 */
 	@SuppressWarnings("unchecked")
-	public void update(final Observable source, final Object eventObject) {
+	@Subscribe public void update(final Object eventObject) {
 		if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
 			return;
 		}

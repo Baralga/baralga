@@ -1,8 +1,6 @@
 package org.remast.baralga.gui.panels.report;
 
 import java.awt.BorderLayout;
-import java.util.Observable;
-import java.util.Observer;
 
 import org.jdesktop.swingx.JXPanel;
 import org.jfree.chart.ChartFactory;
@@ -12,13 +10,15 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.remast.baralga.gui.model.report.HoursByProject;
 import org.remast.baralga.gui.model.report.HoursByProjectReport;
 
+import com.google.common.eventbus.Subscribe;
+
 /**
  * Panel for displaying the report of working hours by project.
  * @see HoursByProjectReport
  * @author remast
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
-public class HoursByProjectChartPanel extends JXPanel implements Observer {
+public class HoursByProjectChartPanel extends JXPanel {
 
     /**
      * The report displayed by this panel.
@@ -36,7 +36,7 @@ public class HoursByProjectChartPanel extends JXPanel implements Observer {
         this.report = report;
         this.setLayout(new BorderLayout());
 
-        this.report.addObserver(this);
+        this.report.getEventBus().register(this);
 
         initialize();
     }
@@ -71,7 +71,7 @@ public class HoursByProjectChartPanel extends JXPanel implements Observer {
         }
     }
 
-    public void update(final Observable o, final Object arg) {
+    @Subscribe public void update(final Object o) {
         if (o != null && o instanceof HoursByProjectReport) {
             initChartData();
         }
