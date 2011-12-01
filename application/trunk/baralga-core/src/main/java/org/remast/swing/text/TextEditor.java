@@ -16,17 +16,17 @@ import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
+import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.DefaultEditorKit;
-import javax.swing.text.html.HTMLEditorKit;
-import javax.swing.text.html.StyleSheet;
 
 import org.jdesktop.swingx.JXCollapsiblePane;
 import org.jdesktop.swingx.JXPanel;
+import org.jdesktop.swingx.JXTextArea;
+import org.remast.util.StringUtils;
 
 /**
  * Simple editor for html formatted text.
@@ -45,7 +45,7 @@ public class TextEditor extends JXPanel {
 
     private List<TextChangeObserver> textObservers = new ArrayList<TextChangeObserver>();
 
-    JTextPane textPane;
+    JXTextArea textArea;
 
     private JToolBar toolbar;
 
@@ -55,29 +55,7 @@ public class TextEditor extends JXPanel {
 
     private boolean scrollable = false;
 
-    private StyleSheet styleSheet;
-
-    private HTMLEditorKit editorKit;
-
     private List<Action> actions = new ArrayList<Action>();
-
-    private static class BoldAction extends javax.swing.text.StyledEditorKit.BoldAction {
-
-        public BoldAction() {
-            super();
-            putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/text_bold.png"))); //$NON-NLS-1$
-        }
-
-    }
-
-    private static class ItalicAction extends javax.swing.text.StyledEditorKit.ItalicAction {
-
-        public ItalicAction() {
-            super();
-            putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/text_italic.png"))); //$NON-NLS-1$
-        }
-
-    }
 
     private static class CopyAction extends DefaultEditorKit.CopyAction {
 
@@ -123,27 +101,22 @@ public class TextEditor extends JXPanel {
     }
 
     private void initialize() {
-        actions.add(new BoldAction());
-        actions.add(new ItalicAction());
         actions.add(new CopyAction());
         actions.add(new PasteAction());
 
 
         this.setLayout(new BorderLayout());
-        textPane = new JTextPane();
-
-        styleSheet = new StyleSheet();
-        styleSheet.addRule("body {font-family: Tahoma; font-size: 11pt; font-style: normal; font-weight: normal;}");
-
-        editorKit = new HTMLEditorKit();
-        editorKit.setStyleSheet(styleSheet);
-        textPane.setEditorKit(editorKit);
-
-        textPane.setEnabled(true);
-        textPane.setEditable(true);
+        
+        // Use the same font as a text field
+        UIManager.put("TextArea.font", UIManager.get("TextField.font"));
+        textArea = new JXTextArea();
+        textArea.setLineWrap(true);
+        textArea.setEnabled(true);
+        textArea.setEditable(true);
 
         setTabBehavior();
-        textPane.addFocusListener(new FocusListener() {
+        
+        textArea.addFocusListener(new FocusListener() {
 
             public void focusGained(final FocusEvent e) {
                 if (collapseEditToolbar) {
@@ -161,7 +134,7 @@ public class TextEditor extends JXPanel {
 
         });
 
-        textPane.getDocument().addDocumentListener(new DocumentListener() {
+        textArea.getDocument().addDocumentListener(new DocumentListener() {
 
             public void changedUpdate(final DocumentEvent e) {
                 notifyTextObservers();
@@ -190,9 +163,9 @@ public class TextEditor extends JXPanel {
 
         this.add(collapsiblePane, BorderLayout.NORTH);
         if (scrollable) {
-            this.add(new JScrollPane(textPane), BorderLayout.CENTER);
+            this.add(new JScrollPane(textArea), BorderLayout.CENTER);
         } else {
-            this.add(textPane, BorderLayout.CENTER);
+            this.add(textArea, BorderLayout.CENTER);
         }
     }
 
@@ -202,19 +175,19 @@ public class TextEditor extends JXPanel {
         key.add(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0));
 
         int forwardTraversal = KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS;
-        textPane.setFocusTraversalKeys(forwardTraversal, key);
+        textArea.setFocusTraversalKeys(forwardTraversal, key);
 
         // focus previous pane with SHIFT+TAB instead of SHIFT+CTRL+TAB
         key = new HashSet<KeyStroke>();
         key.add(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, InputEvent.SHIFT_DOWN_MASK));
 
         final int backwardTraversal = KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS;
-        textPane.setFocusTraversalKeys(backwardTraversal, key);
+        textArea.setFocusTraversalKeys(backwardTraversal, key);
 
         final int shortcutKey = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
         final KeyStroke ctrlTab = KeyStroke.getKeyStroke(KeyEvent.VK_TAB, shortcutKey);
         // insert tab with CTRL+TAB instead of TAB
-        textPane.getInputMap(JComponent.WHEN_FOCUSED).put(ctrlTab, DefaultEditorKit.insertTabAction);
+        textArea.getInputMap(JComponent.WHEN_FOCUSED).put(ctrlTab, DefaultEditorKit.insertTabAction);
     }
 
     /**
@@ -231,16 +204,17 @@ public class TextEditor extends JXPanel {
     }
 
     public String getText() {
-        return textPane.getText();
+        return textArea.getText();
     }
 
     public void setText(final String description) {
-        textPane.setText(description);
+        textArea.setText(StringUtils.stripXmlTags(description));
     }
 
     public void setEditable(final boolean active) {
-        textPane.setEnabled(active);
-        textPane.setEditable(active);
+        textArea.setEnabled(active);
+        textArea.setEditable(active);
+        textArea.setVisible(active);
         toolbar.setEnabled(active);
 
         for (Action action : actions) {
