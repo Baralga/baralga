@@ -86,5 +86,4 @@ public class LabeledItem<E extends Comparable<E>> implements Comparable<LabeledI
         return this.getItem().compareTo(o.getItem());
     }
 
-
 }
