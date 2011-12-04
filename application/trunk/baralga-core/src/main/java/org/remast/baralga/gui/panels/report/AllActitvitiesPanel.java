@@ -1,5 +1,7 @@
 package org.remast.baralga.gui.panels.report;
 
+import info.clearthought.layout.TableLayout;
+
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -37,16 +39,21 @@ import org.remast.baralga.gui.dialogs.AddOrEditActivityDialog;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.panels.table.AllActivitiesTableFormat;
+import org.remast.baralga.gui.panels.table.ProjectActivityTextFilterator;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
+import org.remast.swing.JSearchField;
 import org.remast.swing.table.JHighligthedTable;
 import org.remast.swing.util.AWTUtils;
 import org.remast.text.SmartTimeFormat;
 import org.remast.util.TextResourceBundle;
 
+import ca.odell.glazedlists.FilterList;
+import ca.odell.glazedlists.matchers.MatcherEditor;
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 import ca.odell.glazedlists.swing.EventTableModel;
 import ca.odell.glazedlists.swing.TableComparatorChooser;
+import ca.odell.glazedlists.swing.TextComponentMatcherEditor;
 
 import com.google.common.eventbus.Subscribe;
 import com.jidesoft.swing.JideScrollPane;
@@ -89,10 +96,24 @@ public class AllActitvitiesPanel extends JPanel {
 	 * Set up GUI components.
 	 */
 	private void initialize() {
+		JSearchField filterEdit = new JSearchField();
+//		JXTextField filterEdit = new JXTextField();
+//		filterEdit.setPrompt("Search");
+//		BuddyButton b = new BuddyButton();
+//		b.setIcon(new ImageIcon(getClass().getResource("/icons/Start-Menu-Search-icon.png")));
+//		BuddySupport.addGap(5, BuddySupport.Position.LEFT, filterEdit);
+//		BuddySupport.addLeft(b, filterEdit);
+//		BuddySupport.addGap(5, BuddySupport.Position.LEFT, filterEdit);
+
+		 MatcherEditor<ProjectActivity> textMatcherEditor = new TextComponentMatcherEditor<ProjectActivity>(filterEdit, new ProjectActivityTextFilterator());
+		    FilterList<ProjectActivity> textFilteredIssues = new FilterList<ProjectActivity>(model.getActivitiesList(), textMatcherEditor);
+		
+		
 		tableModel = new EventTableModel<ProjectActivity>(
-				model.getActivitiesList(),
+				textFilteredIssues,
 				new AllActivitiesTableFormat(model)
 		);
+		
 		final JTable table = new JHighligthedTable(tableModel);
 
 		TableComparatorChooser.install(
@@ -261,7 +282,15 @@ public class AllActitvitiesPanel extends JPanel {
 		projectColumn.setCellEditor(cellEditor);
 
 		final JideScrollPane tableScrollPane = new JideScrollPane(table);
-		this.add(tableScrollPane);
+		
+		int border = 5;
+		final double[][] size = {
+				{ border, TableLayout.FILL, border}, // Columns
+				{ border, TableLayout.PREFERRED, border, TableLayout.FILL } }; // Rows
+		this.setLayout(new TableLayout(size));
+
+		this.add(filterEdit, "1, 1");
+		this.add(tableScrollPane, "1, 3");
 	}
 
 	/**
