@@ -66,7 +66,7 @@ public class HoursByMonthPanel extends JXPanel {
         
         table.getColumn(table.getColumnName(0)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(new SimpleDateFormat("MM MMMMMMMMMM"))));
         table.getColumn(table.getColumnName(1)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(new SimpleDateFormat("yyyy"))));
-        table.getColumn(table.getColumnName(2)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.durationFormat)));
+        table.getColumn(table.getColumnName(2)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.DURATION_FORMAT)));
         
         JideScrollPane table_scroll_pane = new JideScrollPane(table);
 

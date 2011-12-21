@@ -3,6 +3,8 @@ package org.remast.baralga;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -19,7 +21,10 @@ public abstract class FormatUtils {
     // Date Formats
     // ------------------------------------------------
     
-    private static final DateTimeFormatter timeFormatter = DateTimeFormat.forPattern(TimeFormat.HHMM_FORMAT);
+    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormat.forPattern(TimeFormat.HHMM_FORMAT);
+
+    /** Format for one in report. */
+	public static DateFormat DAY_FORMAT = new SimpleDateFormat(DateTimeFormat.patternForStyle("S-", Locale.getDefault()) + " EE");
 
     /**
      * Format the given date as time.
@@ -31,7 +36,7 @@ public abstract class FormatUtils {
     		return null;
     	}
     	
-        return timeFormatter.print(date);
+        return TIME_FORMATTER.print(date);
     }
     
     /**
@@ -47,9 +52,25 @@ public abstract class FormatUtils {
         return DateFormat.getDateInstance().format(date.toDate());
     }
     
+    /**
+     * Format the given date as day.
+     * @param date the date to format
+     * @return the formatted date
+     */
+    public static String formatDay(final DateTime date) {
+    	if (date == null) {
+    		return null;
+    	}
+    	
+        return DAY_FORMAT.format(date.toDate());
+    }
+    
+    
+    
     // ------------------------------------------------
     // Number Formats
     // ------------------------------------------------
-    public static final NumberFormat durationFormat = new DecimalFormat("#0.00"); //$NON-NLS-1$
+    
+    public static final NumberFormat DURATION_FORMAT = new DecimalFormat("#0.00"); //$NON-NLS-1$
     
 }

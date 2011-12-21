@@ -9,11 +9,8 @@ import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -32,7 +29,6 @@ import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.FormatStringValue;
 import org.jdesktop.swingx.table.DatePickerCellEditor;
-import org.joda.time.format.DateTimeFormat;
 import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.dialogs.AddOrEditActivityDialog;
@@ -67,9 +63,6 @@ public class AllActitvitiesPanel extends JPanel {
 
 	/** The bundle for internationalized texts. */
 	private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
-
-	/** Format for one day in report. */
-	private static DateFormat DAY_FORMAT = new SimpleDateFormat(DateTimeFormat.patternForStyle("S-", Locale.getDefault()) + " EE");
 
 	/** The model. */
 	private final PresentationModel model;
@@ -123,7 +116,7 @@ public class AllActitvitiesPanel extends JPanel {
 		);
 
 		table.getColumn(table.getColumnName(1)).setCellRenderer(
-				new DefaultTableRenderer(new FormatStringValue(DAY_FORMAT))
+				new DefaultTableRenderer(new FormatStringValue(FormatUtils.DAY_FORMAT))
 		);
 		table.getColumn(table.getColumnName(1)).setCellEditor(
 				new DatePickerCellEditor()
@@ -136,7 +129,7 @@ public class AllActitvitiesPanel extends JPanel {
 				new DefaultTableRenderer(new FormatStringValue(new SmartTimeFormat()))
 		);
 		table.getColumn(table.getColumnName(4)).setCellRenderer(
-				new DefaultTableRenderer(new FormatStringValue(FormatUtils.durationFormat))
+				new DefaultTableRenderer(new FormatStringValue(FormatUtils.DURATION_FORMAT))
 		);
 
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -158,7 +151,7 @@ public class AllActitvitiesPanel extends JPanel {
 					}
 				}
 
-				table.setToolTipText(textBundle.textFor("AllActivitiesPanel.tooltipDuration", FormatUtils.durationFormat.format(duration))); //$NON-NLS-1$
+				table.setToolTipText(textBundle.textFor("AllActivitiesPanel.tooltipDuration", FormatUtils.DURATION_FORMAT.format(duration))); //$NON-NLS-1$
 			}
 
 		});

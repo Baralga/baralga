@@ -1,9 +1,6 @@
 package org.remast.baralga.gui.panels.report;
 
 import java.awt.BorderLayout;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -12,7 +9,6 @@ import javax.swing.JTable;
 
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.FormatStringValue;
-import org.joda.time.format.DateTimeFormat;
 import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.model.report.ObservingAccumulatedActivitiesReport;
 import org.remast.baralga.gui.panels.table.AccumulatedActivitiesTableFormat;
@@ -31,9 +27,6 @@ import com.jidesoft.swing.JideScrollPane;
  */
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class AccummulatedActitvitiesPanel extends JPanel implements Observer {
-
-	/** Format for one day in report. */
-	private static DateFormat DAY_FORMAT = new SimpleDateFormat(DateTimeFormat.patternForStyle("S-", Locale.getDefault()) + " EEEEEEEEE");
 
     private AccumulatedActivitiesReport report;
     
@@ -60,8 +53,8 @@ public class AccummulatedActitvitiesPanel extends JPanel implements Observer {
 				TableComparatorChooser.MULTIPLE_COLUMN_MOUSE
 		);
 		
-        table.getColumn(table.getColumnName(0)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DAY_FORMAT)));
-        table.getColumn(table.getColumnName(2)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.durationFormat)));
+        table.getColumn(table.getColumnName(0)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.DAY_FORMAT)));
+        table.getColumn(table.getColumnName(2)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.DURATION_FORMAT)));
 
         JideScrollPane table_scroll_pane = new JideScrollPane(table);
 
