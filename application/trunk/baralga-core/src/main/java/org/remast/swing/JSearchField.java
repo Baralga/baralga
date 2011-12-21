@@ -13,15 +13,19 @@ import javax.swing.ImageIcon;
 import org.jdesktop.swingx.JXTextField;
 import org.jdesktop.swingx.prompt.BuddyButton;
 import org.jdesktop.swingx.prompt.BuddySupport;
+import org.remast.util.TextResourceBundle;
 
 /**
- * @author Jan
- *
+ * @author remast
  */
+@SuppressWarnings("serial")
 public class JSearchField extends JXTextField {
 	
+    /** The bundle for internationalized texts. */
+    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(JSearchField.class);
+	
 	public JSearchField() {
-		setPrompt("Search");
+		setPrompt(textBundle.textFor("SearchField.prompt"));
 		setBorder(null);
 
 		BuddyButton b = new BuddyButton();
