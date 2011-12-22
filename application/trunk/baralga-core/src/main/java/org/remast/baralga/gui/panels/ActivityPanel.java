@@ -40,7 +40,7 @@ import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.baralga.model.Project;
-import org.remast.swing.text.JTextEditor;
+import org.remast.swing.JTextEditor;
 import org.remast.swing.util.GuiConstants;
 import org.remast.text.SmartTimeFormat;
 import org.remast.text.TimeFormat;

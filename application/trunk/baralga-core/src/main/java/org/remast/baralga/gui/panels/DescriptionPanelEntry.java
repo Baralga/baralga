@@ -12,7 +12,7 @@ import javax.swing.border.TitledBorder;
 
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
-import org.remast.swing.text.JTextEditor;
+import org.remast.swing.JTextEditor;
 import org.remast.swing.util.GuiConstants;
 
 /**
