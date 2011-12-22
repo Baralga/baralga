@@ -57,6 +57,7 @@ public class ExceptionUtils {
 		
 		@Override
 		public void uncaughtException(Thread t, Throwable e) {
+			log.error(e.getLocalizedMessage(), e);
 			showErrorDialog(e);		}
 	};
 	
@@ -66,8 +67,10 @@ public class ExceptionUtils {
 			try {
 				super.dispatchEvent(evt);
 			} catch (final Exception e) {
+				log.error(e.getLocalizedMessage(), e);
 				showErrorDialog(e);
 			} catch (final Error e) {
+				log.error(e.getLocalizedMessage(), e);
 				showErrorDialog(e);
 			}
 		}
