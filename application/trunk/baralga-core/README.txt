@@ -8,7 +8,7 @@ task installer(dependsOn: prepareInstaller) {
        ant.izpack(input: "[installation XML file]", output:  "${jar.baseName}-${jar.version}-Installer.jar", basedir: "${buildDir}/installer")
 }
 
-== Baralga Version 1.6.1 ==
+== Baralga Version 1.7 ==
 Functionality
  * Added data export to xml.
  * Added data export to iCal.
