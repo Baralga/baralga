@@ -26,7 +26,7 @@ import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.swing.dialog.EscapeDialog;
-import org.remast.swing.text.TextEditor;
+import org.remast.swing.text.JTextEditor;
 import org.remast.swing.util.GuiConstants;
 import org.remast.text.SmartTimeFormat;
 import org.remast.text.TimeFormat;
@@ -89,7 +89,7 @@ public class AddOrEditActivityDialog extends EscapeDialog {
     private JXDatePicker datePicker;
 
     /** The description of the activity. */
-    private TextEditor descriptionEditor;
+    private JTextEditor descriptionEditor;
 
     // ------------------------------------------------
     // Edit components
@@ -222,7 +222,7 @@ public class AddOrEditActivityDialog extends EscapeDialog {
         this.add(getEndField(), "3, 7");
 
         this.add(descriptionLabel, "1, 9");
-        descriptionEditor = new TextEditor(true, false);
+        descriptionEditor = new JTextEditor(true, false);
         descriptionEditor.setBorder(BorderFactory.createLineBorder(GuiConstants.VERY_LIGHT_GREY));
         this.add(descriptionEditor, "3, 9");
 

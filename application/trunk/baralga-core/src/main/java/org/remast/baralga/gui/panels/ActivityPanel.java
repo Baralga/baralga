@@ -40,7 +40,7 @@ import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.baralga.model.Project;
-import org.remast.swing.text.TextEditor;
+import org.remast.swing.text.JTextEditor;
 import org.remast.swing.util.GuiConstants;
 import org.remast.text.SmartTimeFormat;
 import org.remast.text.TimeFormat;
@@ -94,7 +94,7 @@ public class ActivityPanel extends JPanel implements ActionListener {
     private JComboBox projectSelector = null;
 
     /** The description editor. */
-    private TextEditor descriptionEditor;
+    private JTextEditor descriptionEditor;
 
     /** Timer for the time passed since activity was started. */
     private Timer timer;
@@ -162,13 +162,13 @@ public class ActivityPanel extends JPanel implements ActionListener {
 
         this.setLayout(new TableLayout(size));
 
-        descriptionEditor = new TextEditor(true);
+        descriptionEditor = new JTextEditor(true);
         descriptionEditor.setBorder(
                 BorderFactory.createLineBorder(GuiConstants.VERY_LIGHT_GREY)
         );
         descriptionEditor.setPreferredSize(new Dimension(200, 100));
         descriptionEditor.setCollapseEditToolbar(false);
-        descriptionEditor.addTextObserver(new TextEditor.TextChangeObserver() {
+        descriptionEditor.addTextObserver(new JTextEditor.TextChangeObserver() {
 
             public void onTextChange() {
                 final String description = descriptionEditor.getText();

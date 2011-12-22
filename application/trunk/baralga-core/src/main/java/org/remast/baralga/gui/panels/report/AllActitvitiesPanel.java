@@ -90,13 +90,6 @@ public class AllActitvitiesPanel extends JPanel {
 	 */
 	private void initialize() {
 		JSearchField filterEdit = new JSearchField();
-//		JXTextField filterEdit = new JXTextField();
-//		filterEdit.setPrompt("Search");
-//		BuddyButton b = new BuddyButton();
-//		b.setIcon(new ImageIcon(getClass().getResource("/icons/Start-Menu-Search-icon.png")));
-//		BuddySupport.addGap(5, BuddySupport.Position.LEFT, filterEdit);
-//		BuddySupport.addLeft(b, filterEdit);
-//		BuddySupport.addGap(5, BuddySupport.Position.LEFT, filterEdit);
 
 		 MatcherEditor<ProjectActivity> textMatcherEditor = new TextComponentMatcherEditor<ProjectActivity>(filterEdit, new ProjectActivityTextFilterator());
 		    FilterList<ProjectActivity> textFilteredIssues = new FilterList<ProjectActivity>(model.getActivitiesList(), textMatcherEditor);

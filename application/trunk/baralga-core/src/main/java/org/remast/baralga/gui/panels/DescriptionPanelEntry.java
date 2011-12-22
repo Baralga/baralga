@@ -12,7 +12,7 @@ import javax.swing.border.TitledBorder;
 
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
-import org.remast.swing.text.TextEditor;
+import org.remast.swing.text.JTextEditor;
 import org.remast.swing.util.GuiConstants;
 
 /**
@@ -26,7 +26,7 @@ public class DescriptionPanelEntry extends JPanel {
     private ProjectActivity activity;
 
     /** The editor to edit the description of the activity. */
-    private TextEditor editor;
+    private JTextEditor editor;
 
     /** The border containing the title of the activity. */
     private TitledBorder titledBorder;
@@ -54,12 +54,12 @@ public class DescriptionPanelEntry extends JPanel {
         titledBorder.setTitleColor(GuiConstants.DARK_BLUE);
         this.setBorder(titledBorder);
 
-        editor = new TextEditor();
+        editor = new JTextEditor();
         editor.setText(activity.getDescription());
         editor.setBorder(BorderFactory.createLineBorder(GuiConstants.VERY_LIGHT_GREY));
         this.add(editor, BorderLayout.CENTER);
 
-        editor.addTextObserver(new TextEditor.TextChangeObserver() {
+        editor.addTextObserver(new JTextEditor.TextChangeObserver() {
 
             public void onTextChange() {
                 final String oldDescription = activity.getDescription();
