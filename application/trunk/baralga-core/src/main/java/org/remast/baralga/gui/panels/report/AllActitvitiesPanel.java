@@ -77,7 +77,7 @@ public class AllActitvitiesPanel extends JPanel {
 	 */
 	public AllActitvitiesPanel(final PresentationModel model) {
 		this.model = model;
-        this.model.getEventBus().register(this);
+		this.model.getEventBus().register(this);
 
 		this.setLayout(new BorderLayout());
 
@@ -89,41 +89,40 @@ public class AllActitvitiesPanel extends JPanel {
 	 * Set up GUI components.
 	 */
 	private void initialize() {
-		JSearchField filterEdit = new JSearchField();
+		// Init search field and a list filtered list for the quick search
+		final JSearchField searchField = new JSearchField();
+		final MatcherEditor<ProjectActivity> textMatcherEditor = new TextComponentMatcherEditor<ProjectActivity>(searchField, new ProjectActivityTextFilterator());
+		final FilterList<ProjectActivity> textFilteredIssues = new FilterList<ProjectActivity>(model.getActivitiesList(), textMatcherEditor);
 
-		 MatcherEditor<ProjectActivity> textMatcherEditor = new TextComponentMatcherEditor<ProjectActivity>(filterEdit, new ProjectActivityTextFilterator());
-		    FilterList<ProjectActivity> textFilteredIssues = new FilterList<ProjectActivity>(model.getActivitiesList(), textMatcherEditor);
-		
-		
 		tableModel = new EventTableModel<ProjectActivity>(
 				textFilteredIssues,
 				new AllActivitiesTableFormat(model)
-		);
-		
+				);
+
 		final JTable table = new JHighligthedTable(tableModel);
 
 		TableComparatorChooser.install(
 				table, 
 				model.getActivitiesList(), 
 				TableComparatorChooser.MULTIPLE_COLUMN_MOUSE
-		);
+				);
 
 		table.getColumn(table.getColumnName(1)).setCellRenderer(
 				new DefaultTableRenderer(new FormatStringValue(FormatUtils.DAY_FORMAT))
-		);
+				);
 		table.getColumn(table.getColumnName(1)).setCellEditor(
 				new DatePickerCellEditor()
-		);
+				);
 
 		table.getColumn(table.getColumnName(2)).setCellRenderer(
 				new DefaultTableRenderer(new FormatStringValue(new SmartTimeFormat()))
-		);
+				);
 		table.getColumn(table.getColumnName(3)).setCellRenderer(
 				new DefaultTableRenderer(new FormatStringValue(new SmartTimeFormat()))
-		);
+				);
 		table.getColumn(table.getColumnName(4)).setCellRenderer(
 				new DefaultTableRenderer(new FormatStringValue(FormatUtils.DURATION_FORMAT))
-		);
+				);
 
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
@@ -165,7 +164,7 @@ public class AllActitvitiesPanel extends JPanel {
 						AWTUtils.getFrame(AllActitvitiesPanel.this), 
 						model, 
 						model.getActivitiesList().get(selectionIndices[0])
-				);
+						);
 				editActivityDialog.setVisible(true);
 			}
 
@@ -185,7 +184,7 @@ public class AllActitvitiesPanel extends JPanel {
 				for (int selectionIndex : selectionIndices) {
 					selectedActivities.add(
 							model.getActivitiesList().get(selectionIndex)
-					);
+							);
 				}
 				model.removeActivities(selectedActivities, this);
 			}
@@ -263,19 +262,19 @@ public class AllActitvitiesPanel extends JPanel {
 		final TableCellEditor cellEditor = new ComboBoxCellEditor(
 				new JComboBox(
 						new EventComboBoxModel<Project>(model.getProjectList())
-				)
-		);
+						)
+				);
 		projectColumn.setCellEditor(cellEditor);
 
 		final JideScrollPane tableScrollPane = new JideScrollPane(table);
-		
+
 		int border = 5;
 		final double[][] size = {
 				{ border, TableLayout.FILL, border}, // Columns
 				{ border, TableLayout.PREFERRED, border, TableLayout.FILL } }; // Rows
 		this.setLayout(new TableLayout(size));
 
-		this.add(filterEdit, "1, 1");
+		this.add(searchField, "1, 1");
 		this.add(tableScrollPane, "1, 3");
 	}
 

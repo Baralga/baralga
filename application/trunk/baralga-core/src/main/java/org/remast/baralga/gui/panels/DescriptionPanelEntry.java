@@ -3,12 +3,14 @@
  */
 package org.remast.baralga.gui.panels;
 
-import java.awt.BorderLayout;
+import info.clearthought.layout.TableLayout;
+
 import java.beans.PropertyChangeEvent;
 
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
+import javax.swing.UIManager;
 
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
@@ -28,8 +30,8 @@ public class DescriptionPanelEntry extends JPanel {
     /** The editor to edit the description of the activity. */
     private JTextEditor editor;
 
-    /** The border containing the title of the activity. */
-    private TitledBorder titledBorder;
+    /** The label containing the title of the activity. */
+    private JLabel activityLabel;
 
     /** The model. */
     private PresentationModel model;
@@ -49,15 +51,23 @@ public class DescriptionPanelEntry extends JPanel {
      * Set up GUI components.
      */
     private void initialize() {
-        this.setLayout(new BorderLayout());
-        titledBorder = BorderFactory.createTitledBorder(String.valueOf(activity));
-        titledBorder.setTitleColor(GuiConstants.DARK_BLUE);
-        this.setBorder(titledBorder);
+        this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UIManager.getColor("Table.gridColor")));
+        activityLabel = new JLabel(String.valueOf(activity));
+    	activityLabel.setFont(activityLabel.getFont().deriveFont(activityLabel.getFont().getSize() + 2));
+    	
+		int border = 5;
+		final double[][] size = {
+				{ border, TableLayout.FILL, border}, // Columns
+				{ 12, TableLayout.PREFERRED, border, TableLayout.FILL, border } }; // Rows
+		this.setLayout(new TableLayout(size));
 
         editor = new JTextEditor();
         editor.setText(activity.getDescription());
         editor.setBorder(BorderFactory.createLineBorder(GuiConstants.VERY_LIGHT_GREY));
-        this.add(editor, BorderLayout.CENTER);
+        
+		this.add(activityLabel, "1, 1");
+		this.add(editor, "1, 3");
+
 
         editor.addTextObserver(new JTextEditor.TextChangeObserver() {
 
@@ -82,7 +92,7 @@ public class DescriptionPanelEntry extends JPanel {
      * Update internal state from the project activity.
      */
     public void update() {
-        this.titledBorder.setTitle(String.valueOf(activity));
+        this.activityLabel.setText(String.valueOf(activity));
         updateUI();
     }
 
