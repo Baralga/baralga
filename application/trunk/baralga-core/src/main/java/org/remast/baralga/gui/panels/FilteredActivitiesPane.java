@@ -11,6 +11,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 import org.apache.commons.lang.StringUtils;
 import org.remast.baralga.gui.BaralgaMain;
@@ -28,7 +29,6 @@ import org.remast.util.TextResourceBundle;
 
 import com.google.common.base.Objects;
 import com.google.common.eventbus.Subscribe;
-import com.jidesoft.swing.JideTabbedPane;
 import com.jidesoft.swing.JideToggleButton;
 
 /**
@@ -47,7 +47,7 @@ public class FilteredActivitiesPane extends JPanel {
 	private String shownCategory;
 
 	/** The tab container for the categorized tabs. */
-	private JideTabbedPane tabs = new JideTabbedPane();
+	private JTabbedPane tabs = new JTabbedPane();
 
 	/** All categorized tabs. */
 	private List<CategorizedTab> categorizedTabs = new ArrayList<CategorizedTab>();
@@ -146,8 +146,8 @@ public class FilteredActivitiesPane extends JPanel {
 		categoryButtonPanel.add(projectButton, "5, 1"); //$NON-NLS-1$
 		this.add(categoryButtonPanel, "0, 0"); //$NON-NLS-1$
 
-		tabs.setTabShape(JideTabbedPane.SHAPE_WINDOWS);
-		tabs.setTabColorProvider(JideTabbedPane.ONENOTE_COLOR_PROVIDER);
+//		tabs.setTabShape(JideTabbedPane.SHAPE_WINDOWS);
+//		tabs.setTabColorProvider(JideTabbedPane.ONENOTE_COLOR_PROVIDER);
 
 		shownCategory = UserSettings.instance().getShownCategory();
 
