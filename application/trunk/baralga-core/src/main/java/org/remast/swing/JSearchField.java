@@ -8,6 +8,7 @@ import org.jdesktop.swingx.prompt.BuddySupport;
 import org.remast.util.TextResourceBundle;
 
 /**
+ * A search filter for performing a quick search.
  * @author remast
  */
 @SuppressWarnings("serial")
@@ -19,10 +20,10 @@ public class JSearchField extends JXTextField {
 	public JSearchField() {
 		setPrompt(textBundle.textFor("SearchField.prompt"));
 
-		BuddyButton b = new BuddyButton();
-		b.setIcon(new ImageIcon(getClass().getResource("/icons/Start-Menu-Search-icon.png")));
+		final BuddyButton buddyButton = new BuddyButton();
+		buddyButton.setIcon(new ImageIcon(getClass().getResource("/icons/Start-Menu-Search-icon.png")));
 		BuddySupport.addGap(5, BuddySupport.Position.LEFT, this);
-		BuddySupport.addLeft(b, this);
+		BuddySupport.addLeft(buddyButton, this);
 		BuddySupport.addGap(5, BuddySupport.Position.LEFT, this);
 	}
 
