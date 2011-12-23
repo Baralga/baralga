@@ -26,7 +26,6 @@ public class JSearchField extends JXTextField {
 	
 	public JSearchField() {
 		setPrompt(textBundle.textFor("SearchField.prompt"));
-		setBorder(null);
 
 		BuddyButton b = new BuddyButton();
 		b.setIcon(new ImageIcon(getClass().getResource("/icons/Start-Menu-Search-icon.png")));
