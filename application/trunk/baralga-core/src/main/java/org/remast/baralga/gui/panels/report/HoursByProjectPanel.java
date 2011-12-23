@@ -1,5 +1,7 @@
 package org.remast.baralga.gui.panels.report;
 
+import info.clearthought.layout.TableLayout;
+
 import java.awt.BorderLayout;
 import java.text.DateFormat;
 
@@ -12,10 +14,15 @@ import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.model.report.HoursByProject;
 import org.remast.baralga.gui.model.report.HoursByProjectReport;
 import org.remast.baralga.gui.panels.table.HoursByProjectTableFormat;
+import org.remast.baralga.gui.panels.table.HoursByProjectTextFilterator;
+import org.remast.swing.JSearchField;
 import org.remast.swing.table.JHighligthedTable;
 
+import ca.odell.glazedlists.FilterList;
+import ca.odell.glazedlists.matchers.MatcherEditor;
 import ca.odell.glazedlists.swing.EventTableModel;
 import ca.odell.glazedlists.swing.TableComparatorChooser;
+import ca.odell.glazedlists.swing.TextComponentMatcherEditor;
 
 import com.google.common.eventbus.Subscribe;
 import com.jidesoft.swing.JideScrollPane;
@@ -55,7 +62,12 @@ public class HoursByProjectPanel extends JXPanel {
      * Set up GUI components.
      */
     private void initialize() {
-        tableModel = new EventTableModel<HoursByProject>(this.report.getHoursByProject(), new HoursByProjectTableFormat());
+		// Init search field and a list filtered list for the quick search
+		final JSearchField searchField = new JSearchField();
+		final MatcherEditor<HoursByProject> textMatcherEditor = new TextComponentMatcherEditor<HoursByProject>(searchField, new HoursByProjectTextFilterator());
+		final FilterList<HoursByProject> textFilteredIssues = new FilterList<HoursByProject>(this.report.getHoursByProject(), textMatcherEditor);
+
+        tableModel = new EventTableModel<HoursByProject>(textFilteredIssues, new HoursByProjectTableFormat());
 
         final JTable table = new JHighligthedTable(tableModel);
 		TableComparatorChooser.install(
@@ -67,10 +79,17 @@ public class HoursByProjectPanel extends JXPanel {
         table.getColumn(table.getColumnName(0)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance())));
         table.getColumn(table.getColumnName(1)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.DURATION_FORMAT)));
         
-        JideScrollPane table_scroll_pane = new JideScrollPane(table);
+        JideScrollPane tableScrollPane = new JideScrollPane(table);
 
-        this.add(table_scroll_pane, BorderLayout.CENTER);
-    }
+		int border = 5;
+		final double[][] size = {
+				{ border, TableLayout.FILL, border}, // Columns
+				{ border, TableLayout.PREFERRED, border, TableLayout.FILL } }; // Rows
+		this.setLayout(new TableLayout(size));
+
+		this.add(searchField, "1, 1");
+		this.add(tableScrollPane, "1, 3");
+		}
 
     @Subscribe public void update(final Object o) {
         if (o != null && o instanceof HoursByProjectReport) {

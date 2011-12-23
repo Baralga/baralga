@@ -23,6 +23,10 @@ public class ProjectActivityTextFilterator implements TextFilterator<ProjectActi
 
 	@Override
 	public void getFilterStrings(List<String> baseList, ProjectActivity activity) {
+		if (baseList == null || activity == null) {
+			return;
+		}
+		
 		baseList.add(activity.getProject().getTitle());
 		baseList.add(FormatUtils.formatDay(activity.getStart()));
 		baseList.add(activity.getDescription());

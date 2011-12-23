@@ -8,7 +8,6 @@ import ca.odell.glazedlists.gui.TableFormat;
 
 /**
  * Table format for accumulated activities.
- * 
  * @author remast
  */
 public class AccumulatedActivitiesTableFormat implements TableFormat<AccumulatedProjectActivity> {

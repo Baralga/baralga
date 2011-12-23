@@ -28,6 +28,13 @@ public class AccumulatedProjectActivity implements Comparable<AccumulatedProject
     public Date getDay() {
         return day.toDate();
     }
+    
+    /**
+     * @return the day
+     */
+    public DateTime getDayDateTime() {
+    	return day;
+    }
 
     /**
      * @return the project
