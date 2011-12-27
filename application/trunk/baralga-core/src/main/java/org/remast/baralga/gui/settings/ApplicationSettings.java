@@ -4,7 +4,6 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.NoSuchElementException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -93,7 +92,7 @@ public final class ApplicationSettings {
             );
 
             applicationConfig = new PropertiesConfiguration(file);
-            applicationConfig.setAutoSave(true);
+//            applicationConfig.setAutoSave(true);
         } catch (MalformedURLException e) {
             log.error(e.getLocalizedMessage(), e);
         } catch (ConfigurationException e) {
@@ -113,24 +112,20 @@ public final class ApplicationSettings {
      * directory or <code>false</code> if data is stored in default directory
      */
     public boolean isStoreDataInApplicationDirectory() {
-        try {
-            return applicationConfig.getBoolean(STORE_DATA_IN_APPLICATION_DIRECTORY);
-        } catch (NoSuchElementException e) {
-            return false;
-        }
+    	return applicationConfig.getBoolean(STORE_DATA_IN_APPLICATION_DIRECTORY, false);
     }
 
-    /**
-     * Sets the storage mode of the application.
-     * @param storeDataInApplicationDirectory the new storage mode
-     */
-    public void setStoreDataInApplicationDirectory(final boolean storeDataInApplicationDirectory) {
-        if (isStoreDataInApplicationDirectory() == storeDataInApplicationDirectory) {
-            return;
-        }
-
-        applicationConfig.setProperty(STORE_DATA_IN_APPLICATION_DIRECTORY, storeDataInApplicationDirectory);
-    }
+//    /**
+//     * Sets the storage mode of the application.
+//     * @param storeDataInApplicationDirectory the new storage mode
+//     */
+//    private void setStoreDataInApplicationDirectory(final boolean storeDataInApplicationDirectory) {
+//        if (isStoreDataInApplicationDirectory() == storeDataInApplicationDirectory) {
+//            return;
+//        }
+//
+//        applicationConfig.setProperty(STORE_DATA_IN_APPLICATION_DIRECTORY, storeDataInApplicationDirectory);
+//    }
 
     /**
      * Get the directory of the application in the profile of the user.

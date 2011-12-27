@@ -123,7 +123,7 @@ public class BaralgaDAO {
 		}
 
 
-		log.info("Using Baralga DB Version: " + databaseVersion + ", description: " + description); //$NON-NLS-1$ //$NON-NLS-2$
+		log.info("Using Baralga DB Version: {}, description: {}.", databaseVersion, description); //$NON-NLS-1$
 	}
 
 	/**

@@ -383,6 +383,8 @@ public final class BaralgaMain {
 		if (!baralgaDirCreated) {
 			throw new RuntimeException("Could not create directory at " + baralgaDir.getAbsolutePath() + ".");
 		}
+		
+		log.info("Using application data directory \"{}\".", baralgaDir.getAbsolutePath()); //$NON-NLS-1$
 	}
 
 	/**
