@@ -38,7 +38,7 @@ public abstract class FileFilters {
 
         @Override
         public boolean accept(final File file) {
-            return file.isDirectory() || file.getName().endsWith(".xls"); //$NON-NLS-1$
+            return file.isDirectory() || file.getName().endsWith(".xlsx"); //$NON-NLS-1$
         }
 
         @Override

@@ -30,7 +30,7 @@ public final class ExportExcelAction extends AbstractExportAction {
     private static final Logger log = LoggerFactory.getLogger(ExportExcelAction.class);
     
     /** File extension of MS Excel files. */
-    private static final String EXCEL_FILE_EXTENSION = ".xls";
+    private static final String EXCEL_FILE_EXTENSION = ".xlsx";
     
     /** File filter for MS Excel files. */
     private static final FileFilter EXCEL_FILE_FILTER = new FileFilters.ExcelFileFilter();

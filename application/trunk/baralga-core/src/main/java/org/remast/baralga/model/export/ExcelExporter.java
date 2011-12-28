@@ -1,27 +1,20 @@
 package org.remast.baralga.model.export;
 
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
-import jxl.CellView;
-import jxl.JXLException;
-import jxl.Workbook;
-import jxl.format.Colour;
-import jxl.write.DateFormat;
-import jxl.write.DateTime;
-import jxl.write.Label;
-import jxl.write.NumberFormats;
-import jxl.write.WritableCell;
-import jxl.write.WritableCellFormat;
-import jxl.write.WritableFont;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
-
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.baralga.model.filter.FilterUtils;
@@ -37,154 +30,204 @@ import com.google.common.base.Strings;
  */
 public class ExcelExporter implements Exporter {
 
-    /** The bundle for internationalized texts. */
-    private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(ExcelExporter.class);
+	/** The bundle for internationalized texts. */
+	private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(ExcelExporter.class);
 
-    public ExcelExporter() { }
+	/** Style for formatting headers. */
+	private static CellStyle headingStyle;
 
-    public final SimpleDateFormat MONTH_FORMAT = new SimpleDateFormat("MM"); //$NON-NLS-1$
+	/** Style for formatting dates. */
+	private static CellStyle dateStyle;
 
-    public final SimpleDateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy"); //$NON-NLS-1$
+	/** Style for formatting times. */
+	private static CellStyle timeStyle;
+	
+	/** Style for formatting the duration of an activity. */
+	private static CellStyle durationStyle;
 
-    private static WritableCellFormat headingFormat;
+	/**
+	 * Exports the given data as Microsoft Excel to the 
+	 * <code>OutputStream</code> under consideration of the given filter.
+	 * @param data the data to be exported
+	 * @param filter the current filter
+	 * @param outputStream the stream to write to
+	 * @throws Exception exception during data export
+	 */
+	@Override
+	public void export(final Collection<ProjectActivity> data, final Filter filter, final OutputStream outputStream) throws Exception {
+		Workbook workbook = new XSSFWorkbook();  // or new HSSFWorkbook();
 
-    /**
-     * Exports the given data as Microsoft Excel to the 
-     * <code>OutputStream</code> under consideration of the given filter.
-     * @param data the data to be exported
-     * @param filter the current filter
-     * @param outputStream the stream to write to
-     * @throws Exception exception during data export
-     */
-    @Override
-    public void export(final Collection<ProjectActivity> data, final Filter filter, final OutputStream outputStream) throws Exception {
-            init();
-            
-            final WritableWorkbook workbook = Workbook.createWorkbook(outputStream);
-            createFilteredReport(workbook, data, filter);
-            
-            final WritableSheet sheet = workbook.createSheet(textBundle.textFor("ExcelExporter.SheetTitleActivityRecords"), 1); //$NON-NLS-1$
-            
-            int row = 0;
-            int col = 0;
-            
-            sheet.addCell(new Label(col++, row, textBundle.textFor("ExcelExporter.ProjectHeading"), headingFormat)); //$NON-NLS-1$
-            sheet.addCell(new Label(col++, row, textBundle.textFor("ExcelExporter.DateHeading"), headingFormat)); //$NON-NLS-1$
-            sheet.addCell(new Label(col++, row, textBundle.textFor("ExcelExporter.StartTimeHeading"), headingFormat)); //$NON-NLS-1$
-            sheet.addCell(new Label(col++, row, textBundle.textFor("ExcelExporter.EndTimeHeading"), headingFormat)); //$NON-NLS-1$
-            sheet.addCell(new Label(col++, row, textBundle.textFor("ExcelExporter.HoursHeading"), headingFormat)); //$NON-NLS-1$
-            sheet.addCell(new Label(col++, row, textBundle.textFor("ExcelExporter.DescriptionHeading"), headingFormat)); //$NON-NLS-1$
-            
-            col = 0;
-            row++;
+		init(workbook);
 
-            final List<ProjectActivity> activities = new ArrayList<ProjectActivity>(data);
-            
-            // Sort activities by default sort order (date) before export
-            Collections.sort(activities);
-            
-            for (ProjectActivity actitivity : activities) {
-                sheet.addCell(new Label(col++, row, actitivity.getProject().getTitle()));
-                sheet.addCell(makeDateCell(col++, row, actitivity.getStart().toDate()));
-                sheet.addCell(makeTimeCell(col++, row, actitivity.getStart().toDate()));
-                
-                WritableCell c = makeTimeCell(col++, row, actitivity.getEnd().toDate());
-                sheet.addCell(c);
-                sheet.addCell(makeNumberCell(col++, row, actitivity.getDuration()));
+		createFilteredReport(workbook, data, filter);
 
-                // Description
-                String description = org.remast.util.StringUtils.stripXmlTags(actitivity.getDescription());
-                description = Strings.nullToEmpty(description).trim();
-                sheet.addCell(new Label(col++, row, description));
-                
-                col = 0;
-                row++;
-            }
-            // reset col
-            col = 0;
-            
-            // Format Cells
-            CellView v = new CellView();
-            v.setAutosize(true);
-            sheet.setColumnView(col++, v);
-            sheet.setColumnView(col++, v);
-            sheet.setColumnView(col++, v);
-            sheet.setColumnView(col++, v);
-            sheet.setColumnView(col++, v);
-            sheet.setColumnView(col++, v);
-            
-            workbook.write();
-            workbook.close();
-    }
-    
-    private static void init() throws JXLException {
-        final WritableFont arial16 = new WritableFont(WritableFont.ARIAL, 14, WritableFont.BOLD, true);
-        arial16.setColour(Colour.DARK_BLUE);
-        headingFormat = new WritableCellFormat(arial16);
-        headingFormat.setBackground(Colour.GRAY_25);
-    }
+		final Sheet sheet = workbook.createSheet(textBundle.textFor("ExcelExporter.SheetTitleActivityRecords")); //$NON-NLS-1$
 
-    private void createFilteredReport(final WritableWorkbook workbook, final Collection<ProjectActivity> data, final Filter filter) throws JXLException {      
-        String reportName = textBundle.textFor("ExcelExporter.SheetTitleStart"); //$NON-NLS-1$
-        if (filter != null) {
-            reportName += FilterUtils.makeIntervalString(filter);
-        }
-        
-        final WritableSheet sheet = workbook.createSheet(reportName, 0);
+		int currentRow = 0;
+		Row row = sheet.createRow(currentRow);
 
-        final AccumulatedActivitiesReport report = new AccumulatedActivitiesReport(data, filter);
+		int col = 0;
+		Cell cell;
 
-        int row = 0;
-        int col = 0;
-        
-        sheet.addCell(new Label(col++, row, textBundle.textFor("ExcelExporter.DateHeading"), headingFormat)); //$NON-NLS-1$
-        sheet.addCell(new Label(col++, row, textBundle.textFor("ExcelExporter.ProjectHeading"), headingFormat)); //$NON-NLS-1$
-        sheet.addCell(new Label(col++, row, textBundle.textFor("ExcelExporter.TimeHeading"), headingFormat)); //$NON-NLS-1$
+		cell = row.createCell(col++);
+		cell.setCellStyle(headingStyle);
+		cell.setCellValue(textBundle.textFor("ExcelExporter.ProjectHeading"));
 
-        row++;
-        col = 0;
+		cell = row.createCell(col++);
+		cell.setCellStyle(headingStyle);
+		cell.setCellValue(textBundle.textFor("ExcelExporter.DateHeading"));
 
-        final List<AccumulatedProjectActivity> accumulatedActivitiesByDay = report.getAccumulatedActivitiesByDay();
-        
-        // Sort activities by default sort order (date) before export
-        Collections.sort(accumulatedActivitiesByDay);
+		cell = row.createCell(col++);
+		cell.setCellStyle(headingStyle);
+		cell.setCellValue(textBundle.textFor("ExcelExporter.StartTimeHeading"));
 
-        for (AccumulatedProjectActivity activity : accumulatedActivitiesByDay) {
-            sheet.addCell(makeDateCell(col++, row, activity.getDay()));
-            sheet.addCell(new Label(col++, row, activity.getProject().getTitle()));
-            sheet.addCell(makeNumberCell(col++, row, activity.getTime()));
+		cell = row.createCell(col++);
+		cell.setCellStyle(headingStyle);
+		cell.setCellValue(textBundle.textFor("ExcelExporter.EndTimeHeading"));
 
-            row++;
-            col = 0;
-        }
+		cell = row.createCell(col++);
+		cell.setCellStyle(headingStyle);
+		cell.setCellValue(textBundle.textFor("ExcelExporter.HoursHeading"));
 
-        col = 0;
+		cell = row.createCell(col++);
+		cell.setCellStyle(headingStyle);
+		cell.setCellValue(textBundle.textFor("ExcelExporter.DescriptionHeading"));
 
-        // Format Cells
-        final CellView v = new CellView();
-        v.setAutosize(true);
-        sheet.setColumnView(col++, v);
-        sheet.setColumnView(col++, v);
-        sheet.setColumnView(col++, v);
-    }
+		col = 0;
+		currentRow++;
 
-    private static jxl.write.Number makeNumberCell(final int col, final int row, final double number) {
-        final WritableCellFormat floatFormat = new WritableCellFormat(NumberFormats.FLOAT); 
-        return new jxl.write.Number(col, row, number, floatFormat); 
-        }
+		final List<ProjectActivity> activities = new ArrayList<ProjectActivity>(data);
 
-    private static WritableCell makeTimeCell(final int col, final int row, final Date date) {
-        final DateFormat customDateFormat = new DateFormat("hh:mm"); //$NON-NLS-1$
-        final WritableCellFormat dateFormat = new WritableCellFormat(customDateFormat);
-        return new DateTime(col, row, date, dateFormat); 
-    }
+		// Sort activities by default sort order (date) before export
+		Collections.sort(activities);
 
-    private static DateTime makeDateCell(final int i, final int j, final Date date) {
-        final DateFormat customDateFormat = new DateFormat("DD.MM.yyyy"); //$NON-NLS-1$
-        final WritableCellFormat dateFormat = new WritableCellFormat(customDateFormat);
-        return new DateTime(i, j, date, dateFormat); 
-    }
-    
+		for (ProjectActivity actitivity : activities) {
+			row = sheet.createRow(currentRow);
+
+			row.createCell(col++).setCellValue(actitivity.getProject().getTitle());
+
+			cell = row.createCell(col++);
+			cell.setCellStyle(dateStyle);
+			cell.setCellValue(actitivity.getStart().toDate());
+
+			cell = row.createCell(col++);
+			cell.setCellStyle(timeStyle);
+			cell.setCellValue(actitivity.getStart().toDate());
+
+
+			cell = row.createCell(col++);
+			cell.setCellStyle(timeStyle);
+			cell.setCellValue(actitivity.getEnd().toDate());
+
+			cell = row.createCell(col++);
+			cell.setCellStyle(durationStyle);
+			cell.setCellValue(actitivity.getDuration());
+
+			// Description
+			String description = org.remast.util.StringUtils.stripXmlTags(actitivity.getDescription());
+			description = Strings.nullToEmpty(description).trim();
+			row.createCell(col++).setCellValue(description);
+
+			col = 0;
+			currentRow++;
+		}
+		
+		// reset col
+		col = 0;
+
+		// Format Cells
+		sheet.autoSizeColumn(col++);
+		sheet.autoSizeColumn(col++);
+		sheet.autoSizeColumn(col++);
+		sheet.autoSizeColumn(col++);
+		sheet.autoSizeColumn(col++);
+		sheet.autoSizeColumn(col++);
+
+		workbook.write(outputStream);
+	}
+
+	private static void init(Workbook workbook) {
+		final CreationHelper createHelper = workbook.getCreationHelper();
+
+		headingStyle = workbook.createCellStyle();
+		Font font = workbook.createFont();
+		font.setBoldweight(Font.BOLDWEIGHT_BOLD);
+		headingStyle.setFont(font);
+		headingStyle.setFillForegroundColor(IndexedColors.LIGHT_CORNFLOWER_BLUE.getIndex());
+		headingStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+
+		dateStyle = workbook.createCellStyle();
+		dateStyle.setDataFormat(createHelper.createDataFormat().getFormat("DD.MM.yyyy"));
+
+		timeStyle = workbook.createCellStyle();
+		timeStyle.setDataFormat(createHelper.createDataFormat().getFormat("hh:mm"));
+
+		durationStyle = workbook.createCellStyle();
+		durationStyle.setDataFormat(createHelper.createDataFormat().getFormat("#0.00"));
+	}
+
+	private void createFilteredReport(final Workbook workbook, final Collection<ProjectActivity> data, final Filter filter) {      
+		String reportName = textBundle.textFor("ExcelExporter.SheetTitleStart"); //$NON-NLS-1$
+		if (filter != null) {
+			reportName += FilterUtils.makeIntervalString(filter);
+		}
+
+		final Sheet sheet = workbook.createSheet(reportName);
+
+		final AccumulatedActivitiesReport report = new AccumulatedActivitiesReport(data, filter);
+
+		int currentRow = 0;
+		Row row = sheet.createRow(currentRow);
+
+		int col = 0;
+		Cell cell;
+
+		cell = row.createCell(col++);
+		cell.setCellStyle(headingStyle);
+		cell.setCellValue(textBundle.textFor("ExcelExporter.DateHeading")); //$NON-NLS-1$
+
+		cell = row.createCell(col++);
+		cell.setCellStyle(headingStyle);
+		cell.setCellValue(textBundle.textFor("ExcelExporter.ProjectHeading")); //$NON-NLS-1$
+
+		cell = row.createCell(col++);
+		cell.setCellStyle(headingStyle);
+		cell.setCellValue(textBundle.textFor("ExcelExporter.TimeHeading")); //$NON-NLS-1$
+
+		currentRow++;
+		col = 0;
+
+		final List<AccumulatedProjectActivity> accumulatedActivitiesByDay = report.getAccumulatedActivitiesByDay();
+
+		// Sort activities by default sort order (date) before export
+		Collections.sort(accumulatedActivitiesByDay);
+
+		for (AccumulatedProjectActivity activity : accumulatedActivitiesByDay) {
+			row = sheet.createRow(currentRow);
+
+			cell = row.createCell(col++);
+			cell.setCellStyle(dateStyle);
+			cell.setCellValue(activity.getDay());
+
+			row.createCell(col++).setCellValue(activity.getProject().getTitle());
+			
+			cell = row.createCell(col++);
+			cell.setCellStyle(durationStyle);
+			cell.setCellValue(activity.getTime());
+
+			currentRow++;
+			col = 0;
+		}
+
+		// reset col
+		col = 0;
+
+		// Format Cells
+		sheet.autoSizeColumn(col++);
+		sheet.autoSizeColumn(col++);
+		sheet.autoSizeColumn(col++);
+	}
+
 	@Override
 	public boolean isFullExport() {
 		return false;
