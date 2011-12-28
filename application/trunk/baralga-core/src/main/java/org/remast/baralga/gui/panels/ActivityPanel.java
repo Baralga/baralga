@@ -27,8 +27,8 @@ import javax.swing.Timer;
 
 import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXButton;
+import org.jdesktop.swingx.JXHeader;
 import org.jdesktop.swingx.JXPanel;
-import org.jdesktop.swingx.JXTitledSeparator;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.remast.baralga.FormatUtils;
@@ -157,7 +157,7 @@ public class ActivityPanel extends JPanel implements ActionListener {
         final double border = 5;
         final double[][] size = {
                 { border, 0.45, border, 0.55, border }, // Columns
-                { border, TableLayout.PREFERRED, border, TableLayout.FILL, border }  // Rows
+                { 0, TableLayout.PREFERRED, border, TableLayout.FILL, 0 }  // Rows
         };
 
         this.setLayout(new TableLayout(size));
@@ -274,7 +274,7 @@ public class ActivityPanel extends JPanel implements ActionListener {
 
         buttonPanel.add(timerPanel, "3, 5"); //$NON-NLS-1$
 
-        this.add(new JXTitledSeparator(textBundle.textFor("ActivityPanel.ActivityLabel")), "1, 1, 3, 1"); //$NON-NLS-1$ $NON-NLS-2$
+        this.add(new JXHeader(textBundle.textFor("ActivityPanel.ActivityLabel"), null), "0, 1, 3, 1"); //$NON-NLS-1$ $NON-NLS-2$
         this.add(buttonPanel, "1, 3"); //$NON-NLS-1$
         this.add(descriptionEditor, "3, 3"); //$NON-NLS-1$
     }

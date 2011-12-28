@@ -14,12 +14,10 @@ import javax.swing.JComboBox;
 import javax.swing.UIManager;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.jdesktop.swingx.JXButton;
+import org.jdesktop.swingx.JXHeader;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
-import org.jdesktop.swingx.JXTitledSeparator;
 import org.jdesktop.swingx.painter.GlossPainter;
 import org.jdesktop.swingx.painter.MattePainter;
 import org.remast.baralga.gui.BaralgaMain;
@@ -32,6 +30,8 @@ import org.remast.baralga.model.filter.FilterUtils;
 import org.remast.baralga.model.filter.SpanType;
 import org.remast.swing.util.LabeledItem;
 import org.remast.util.TextResourceBundle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 
@@ -106,7 +106,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 		final double border = 5;
 		final double[][] size = {
 				{ border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, 10, TableLayout.PREFERRED, border, TableLayout.FILL, border}, // Columns
-				{ border, TableLayout.PREFERRED, borderBig, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.FILL, border }  // Rows
+				{ 0, TableLayout.PREFERRED, borderBig, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.FILL, border }  // Rows
 		};
 		this.setLayout(new TableLayout(size));
 
@@ -168,8 +168,8 @@ public class ReportPanel extends JXPanel implements ActionListener {
 		});
 
 		dateField = new JXLabel();
-		final JXTitledSeparator dataSeparator = new JXTitledSeparator(textBundle.textFor("ReportPanel.DataLabel")); //$NON-NLS-1$
-		this.add(dataSeparator, "1, 3, 11, 0"); //$NON-NLS-1$
+		final JXHeader dataSeparator = new JXHeader(textBundle.textFor("ReportPanel.DataLabel"), null); //$NON-NLS-1$
+		this.add(dataSeparator, "0, 3, 11, 0"); //$NON-NLS-1$
 
 		this.add(spanTypeSelector, "1, 5"); //$NON-NLS-1$
 
