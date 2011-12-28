@@ -167,7 +167,6 @@ public class ActivityPanel extends JPanel implements ActionListener {
                 BorderFactory.createLineBorder(GuiConstants.VERY_LIGHT_GREY)
         );
         descriptionEditor.setPreferredSize(new Dimension(200, 100));
-        descriptionEditor.setCollapseEditToolbar(false);
         descriptionEditor.addTextObserver(new JTextEditor.TextChangeObserver() {
 
             public void onTextChange() {

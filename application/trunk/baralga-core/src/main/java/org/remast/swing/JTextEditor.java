@@ -3,8 +3,6 @@ package org.remast.swing;
 import java.awt.BorderLayout;
 import java.awt.KeyboardFocusManager;
 import java.awt.Toolkit;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -12,18 +10,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.Action;
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
-import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.DefaultEditorKit;
 
-import org.jdesktop.swingx.JXCollapsiblePane;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTextArea;
 import org.remast.util.StringUtils;
@@ -51,33 +45,7 @@ public class JTextEditor extends JXPanel {
 
     JXTextArea textArea;
 
-    private JToolBar toolbar;
-
-    private JXCollapsiblePane collapsiblePane;
-
-    private boolean collapseEditToolbar = true;
-
     private boolean scrollable = false;
-
-    private List<Action> actions = new ArrayList<Action>();
-
-    private static class CopyAction extends DefaultEditorKit.CopyAction {
-
-        public CopyAction() {
-            super();
-            putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/gtk-copy.png"))); //$NON-NLS-1$
-        }
-
-    }
-
-    private static class PasteAction extends DefaultEditorKit.PasteAction {
-
-        public PasteAction() {
-            super();
-            putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/gtk-paste.png"))); //$NON-NLS-1$
-        }
-
-    }
 
     private void notifyTextObservers() {
         for (TextChangeObserver txtObserver : textObservers) {
@@ -98,17 +66,7 @@ public class JTextEditor extends JXPanel {
         initialize();
     }
 
-    public JTextEditor(final boolean scrollable, final boolean collapseEditToolbar) {
-        this.scrollable = scrollable;
-        this.collapseEditToolbar = collapseEditToolbar;
-        initialize();
-    }
-
     private void initialize() {
-        actions.add(new CopyAction());
-        actions.add(new PasteAction());
-
-
         this.setLayout(new BorderLayout());
         
         // Use the same font as a text field
@@ -121,24 +79,6 @@ public class JTextEditor extends JXPanel {
 
         setTabBehavior();
         
-        textArea.addFocusListener(new FocusListener() {
-
-            public void focusGained(final FocusEvent e) {
-                if (collapseEditToolbar) {
-                    collapsiblePane.setCollapsed(false);
-                }
-            }
-
-            public void focusLost(final FocusEvent e) {
-                if (collapseEditToolbar) {
-                    if (e.getOppositeComponent() != null && e.getOppositeComponent().getParent() != toolbar) {
-                        collapsiblePane.setCollapsed(true);
-                    }
-                }
-            }
-
-        });
-
         textArea.getDocument().addDocumentListener(new DocumentListener() {
 
             public void changedUpdate(final DocumentEvent e) {
@@ -155,18 +95,6 @@ public class JTextEditor extends JXPanel {
 
         });
 
-        createToolbar();
-
-        collapsiblePane = new JXCollapsiblePane();
-        collapsiblePane.add(toolbar);
-
-        if (!collapseEditToolbar) {
-            collapsiblePane.setCollapsed(false);
-        } else {
-            collapsiblePane.setCollapsed(true);
-        }
-
-        this.add(collapsiblePane, BorderLayout.NORTH);
         if (scrollable) {
             this.add(new JScrollPane(textArea), BorderLayout.CENTER);
         } else {
@@ -191,21 +119,9 @@ public class JTextEditor extends JXPanel {
 
         final int shortcutKey = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
         final KeyStroke ctrlTab = KeyStroke.getKeyStroke(KeyEvent.VK_TAB, shortcutKey);
+        
         // insert tab with CTRL+TAB instead of TAB
         textArea.getInputMap(JComponent.WHEN_FOCUSED).put(ctrlTab, DefaultEditorKit.insertTabAction);
-    }
-
-    /**
-     * Creates the toolbar with actions for editing text.
-     */
-    private void createToolbar() {
-        toolbar = new JToolBar();
-        toolbar.setFloatable(false);
-
-        // Add edit actions
-        for (Action action : actions) {
-            toolbar.add(action);
-        }
     }
 
     public String getText() {
@@ -220,23 +136,6 @@ public class JTextEditor extends JXPanel {
         textArea.setEnabled(active);
         textArea.setEditable(active);
         textArea.setVisible(active);
-        toolbar.setEnabled(active);
-
-        for (Action action : actions) {
-            action.setEnabled(active);
-        }
-    }
-
-    public boolean isCollapseEditToolbar() {
-        return collapseEditToolbar;
-    }
-
-    public void setCollapseEditToolbar(final boolean collapseEditToolbar) {
-        this.collapseEditToolbar = collapseEditToolbar;
-
-        if (!collapseEditToolbar) {
-            collapsiblePane.setCollapsed(false);
-        }
     }
 
 }

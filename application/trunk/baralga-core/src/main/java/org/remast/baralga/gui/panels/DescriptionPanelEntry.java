@@ -10,7 +10,6 @@ import java.beans.PropertyChangeEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
@@ -35,7 +34,7 @@ public class DescriptionPanelEntry extends JPanel {
 
     /** The model. */
     private PresentationModel model;
-
+    
     /**
      * Creates a new panel to edit the description.
      * @param activity the activity whose description is displayed
@@ -51,9 +50,7 @@ public class DescriptionPanelEntry extends JPanel {
      * Set up GUI components.
      */
     private void initialize() {
-        this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UIManager.getColor("Table.gridColor")));
         activityLabel = new JLabel(String.valueOf(activity));
-    	activityLabel.setFont(activityLabel.getFont().deriveFont(activityLabel.getFont().getSize() + 2));
     	
 		int border = 5;
 		final double[][] size = {
