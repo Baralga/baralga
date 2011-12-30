@@ -99,6 +99,8 @@ public final class BaralgaMain {
 			checkForOldApplicationDirectory();
 
 			initLogger();
+			
+			initVersion();
 
 			initLookAndFeel();
 
@@ -327,6 +329,11 @@ public final class BaralgaMain {
 		final org.apache.log4j.Logger root = org.apache.log4j.Logger.getRootLogger();
 		root.addAppender(mainAppender);
 	}
+	
+	private static void initVersion() {
+		log.info("Starting Baralga version {}.", BaralgaMain.class.getPackage().getImplementationVersion());
+	}
+
 
 	/**
 	 * Initialize the look & feel of the application.

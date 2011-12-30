@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 import org.jdesktop.swingx.JXHyperlink;
 import org.jdesktop.swingx.JXImagePanel;
+import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.settings.ApplicationSettings;
 import org.remast.swing.action.OpenBrowserAction;
 import org.remast.swing.dialog.EscapeDialog;
@@ -74,7 +75,7 @@ public class AboutDialog extends EscapeDialog {
         aboutInfo.add(hyperlinkBug, "3, 3"); //$NON-NLS-1$
 
         aboutInfo.add(new JLabel(textBundle.textFor("Global.Version") + ":"), "1, 5"); //$NON-NLS-1$ //$NON-NLS-2$
-        final JLabel version = new JLabel(textBundle.textFor("Global.VersionNumber")); //$NON-NLS-1$
+        final JLabel version = new JLabel(BaralgaMain.class.getPackage().getImplementationVersion()); //$NON-NLS-1$
         aboutInfo.add(version, "3, 5"); //$NON-NLS-1$
 
         aboutInfo.add(new JLabel(textBundle.textFor("AboutDialog.ModeLabel")), "1, 7"); //$NON-NLS-1$ //$NON-NLS-2$
