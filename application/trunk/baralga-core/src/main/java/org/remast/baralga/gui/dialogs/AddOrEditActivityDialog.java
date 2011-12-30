@@ -222,7 +222,7 @@ public class AddOrEditActivityDialog extends EscapeDialog {
         this.add(getEndField(), "3, 7");
 
         this.add(descriptionLabel, "1, 9");
-        descriptionEditor = new JTextEditor(true, false);
+        descriptionEditor = new JTextEditor(true);
         descriptionEditor.setBorder(BorderFactory.createLineBorder(GuiConstants.VERY_LIGHT_GREY));
         this.add(descriptionEditor, "3, 9");
 

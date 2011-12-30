@@ -199,14 +199,14 @@ public class MainFrame extends JFrame {
         // 2. Set layout
         final double[][] size = { 
                 {TableLayout.FILL }, // Columns
-                {TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.FILL} // Rows
+                {TableLayout.PREFERRED, TableLayout.PREFERRED, 15, TableLayout.FILL} // Rows
         };
 
         final TableLayout tableLayout = new TableLayout(size);
         this.setLayout(tableLayout);
         this.add(getToolBar(), "0, 0");
         this.add(getCurrentActivityPanel(), "0, 1");
-        this.add(getReportPanel(), "0, 2");
+        this.add(getReportPanel(), "0, 3");
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }

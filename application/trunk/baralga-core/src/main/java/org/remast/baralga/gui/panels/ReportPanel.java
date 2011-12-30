@@ -106,7 +106,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 		final double border = 5;
 		final double[][] size = {
 				{ border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, 10, TableLayout.PREFERRED, border, TableLayout.FILL, border}, // Columns
-				{ 0, TableLayout.PREFERRED, borderBig, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.FILL, border }  // Rows
+				{ TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.FILL, border }  // Rows
 		};
 		this.setLayout(new TableLayout(size));
 
@@ -169,20 +169,19 @@ public class ReportPanel extends JXPanel implements ActionListener {
 
 		dateField = new JXLabel();
 		final JXHeader dataSeparator = new JXHeader(textBundle.textFor("ReportPanel.DataLabel"), null); //$NON-NLS-1$
-		this.add(dataSeparator, "0, 3, 11, 0"); //$NON-NLS-1$
+		this.add(dataSeparator, "0, 0, 11, 0"); //$NON-NLS-1$
 
-		this.add(spanTypeSelector, "1, 5"); //$NON-NLS-1$
+		this.add(spanTypeSelector, "1, 2"); //$NON-NLS-1$
 
-		this.add(previousIntervalButton, "3, 5"); //$NON-NLS-1$
+		this.add(previousIntervalButton, "3, 2"); //$NON-NLS-1$
 
-		this.add(homeButton, "5, 5"); //$NON-NLS-1$
+		this.add(homeButton, "5, 2"); //$NON-NLS-1$
 
-		this.add(nextIntervalButton, "7, 5"); //$NON-NLS-1$
+		this.add(nextIntervalButton, "7, 2"); //$NON-NLS-1$
 
-		this.add(dateField, "9, 5, 12, 5"); //$NON-NLS-1$
+		this.add(dateField, "9, 2, 12, 2"); //$NON-NLS-1$
 
-		this.add(filteredActivitiesPane, "1, 7, 11, 7"); //$NON-NLS-1$
-		
+		this.add(filteredActivitiesPane, "1, 4, 11, 4"); //$NON-NLS-1$
 		
 		updateLabelsAndTooltips();
 	}
