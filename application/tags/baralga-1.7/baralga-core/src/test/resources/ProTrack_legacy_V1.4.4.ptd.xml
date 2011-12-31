@@ -1,0 +1,86 @@
+<proTrack id="1" active="false" startTime="2009-01-28 19:24:00.0 CET">
+  <activeProjects id="2">
+    <project id="3">
+      <id>8407415082569172992</id>
+      <title>Development</title>
+      <description>Development</description>
+    </project>
+    <project id="4">
+      <id>16827493404884992</id>
+      <title>Testing</title>
+      <description>Testing</description>
+      <active>true</active>
+    </project>
+    <project id="5">
+      <id>6823667323474578432</id>
+      <title>Bugfixing</title>
+      <description>Bugfixing</description>
+      <active>true</active>
+    </project>
+  </activeProjects>
+  <projectsToBeDeleted id="6">
+    <project id="7">
+      <id>3998056515203860480</id>
+      <title>2</title>
+      <description>2</description>
+    </project>
+    <project id="8">
+      <id>8699647950529173504</id>
+      <title>6</title>
+      <description>6</description>
+    </project>
+    <project id="9">
+      <id>8742016910185280512</id>
+      <title>5</title>
+      <description>5</description>
+    </project>
+    <project id="10">
+      <id>3120897936375786496</id>
+      <title>4</title>
+      <description>4</description>
+    </project>
+    <project id="11">
+      <id>6641273911046759424</id>
+      <title>3</title>
+      <description>3</description>
+    </project>
+    <project id="12">
+      <id>7091238231983162368</id>
+      <title>1</title>
+      <description>1</description>
+    </project>
+  </projectsToBeDeleted>
+  <activities id="13">
+    <projectActivity id="14">
+      <start id="15">2009-01-28 20:00:00.0 CET</start>
+      <end id="16">2009-01-28 19:00:00.0 CET</end>
+      <project reference="4"/>
+      <description>Activity which ends before it starts</description>
+    </projectActivity>
+    <projectActivity id="17">
+      <start id="18">2009-01-28 15:00:00.0 CET</start>
+      <end id="19">2009-01-29 17:30:00.0 CET</end>
+      <project reference="3"/>
+      <description>Activity which ends on next day</description>
+    </projectActivity>
+    <projectActivity id="18">
+      <start id="24">2008-11-25 00:00:00.0 CET</start>
+      <end id="25">2008-11-29 15:15:00.0 CET</end>
+      <project reference="5"/>
+      <description>Activity which ends several days later</description>
+    </projectActivity>
+    <projectActivity id="20">
+      <start id="21">2008-12-28 12:00:00.0 CET</start>
+      <end id="22">2008-12-28 00:00:00.0 CET</end>
+      <project reference="3"/>
+      <description></description>
+    </projectActivity>
+    <projectActivity id="23">
+      <start id="24">2008-11-29 00:00:00.0 CET</start>
+      <end id="25">2008-11-29 15:15:00.0 CET</end>
+      <project reference="5"/>
+      <description/>
+    </projectActivity>
+  </activities>
+  <activeProject reference="4"/>
+</proTrack>
