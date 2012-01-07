@@ -1,12 +1,10 @@
 package org.remast.baralga.gui.settings;
 
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
+import java.io.FileInputStream;
 import java.net.URL;
+import java.util.Properties;
 
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +24,7 @@ public final class ApplicationSettings {
     private static String APPLICATION_PROPERTIES_FILENAME = "application.properties"; //$NON-NLS-1$
 
     /** Node for Baralga application preferences. */
-    private PropertiesConfiguration applicationConfig;
+    private Properties applicationConfig;
 
     //------------------------------------------------
     // Data locations
@@ -91,13 +89,10 @@ public final class ApplicationSettings {
                     APPLICATION_PROPERTIES_FILENAME
             );
 
-            applicationConfig = new PropertiesConfiguration(file);
-//            applicationConfig.setAutoSave(true);
-        } catch (MalformedURLException e) {
-            log.error(e.getLocalizedMessage(), e);
-        } catch (ConfigurationException e) {
-            log.error(e.getLocalizedMessage(), e);
-        } catch (URISyntaxException e) {
+
+            applicationConfig = new Properties();
+            applicationConfig.load(new FileInputStream(file));
+        } catch (Exception e) {
             log.error(e.getLocalizedMessage(), e);
         }
     }
@@ -112,7 +107,7 @@ public final class ApplicationSettings {
      * directory or <code>false</code> if data is stored in default directory
      */
     public boolean isStoreDataInApplicationDirectory() {
-    	return applicationConfig.getBoolean(STORE_DATA_IN_APPLICATION_DIRECTORY, false);
+    	return "true".equalsIgnoreCase(applicationConfig.getProperty(STORE_DATA_IN_APPLICATION_DIRECTORY, "false"));
     }
 
 //    /**

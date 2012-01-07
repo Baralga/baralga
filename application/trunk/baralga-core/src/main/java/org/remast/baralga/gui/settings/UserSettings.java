@@ -3,10 +3,14 @@ package org.remast.baralga.gui.settings;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.Properties;
 
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.joda.time.DateTime;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.baralga.model.filter.SpanType;
@@ -39,7 +43,7 @@ public final class UserSettings {
 	private static String USER_PROPERTIES_FILENAME = "baralga.properties";
 
 	/** Node for Baralga user preferences. */
-	private PropertiesConfiguration userConfig;
+	private Properties userConfig;
 
 	/** The singleton instance. */
 	private static UserSettings instance = new UserSettings();
@@ -56,11 +60,11 @@ public final class UserSettings {
 	 * Constructor for the settings.
 	 */
 	private UserSettings() {
-		final File userConfigFile = new File(ApplicationSettings.instance().getApplicationDataDirectory() + File.separator + USER_PROPERTIES_FILENAME);
+		userConfigFile = new File(ApplicationSettings.instance().getApplicationDataDirectory() + File.separator + USER_PROPERTIES_FILENAME);
 		try {
-			userConfig = new PropertiesConfiguration(userConfigFile);
-			userConfig.setAutoSave(true);
-		} catch (ConfigurationException e) {
+			userConfig = new Properties();
+			userConfig.load(new FileInputStream(userConfigFile));
+		} catch (Exception e) {
 			log.error(e.getLocalizedMessage(), e);
 		}
 	}
@@ -103,6 +107,9 @@ public final class UserSettings {
 	 */
 	public void setLastExcelExportLocation(final String excelExportLocation) {
 		userConfig.setProperty(LAST_EXCEL_EXPORT_LOCATION, excelExportLocation);
+		
+		// Auto save change
+		save();
 	}
 
 
@@ -127,6 +134,9 @@ public final class UserSettings {
 	 */
 	public void setLastDataExportLocation(final String dataExportLocation) {
 		userConfig.setProperty(LAST_DATA_EXPORT_LOCATION, dataExportLocation);
+		
+		// Auto save change
+		save();
 	}
 
 
@@ -151,6 +161,9 @@ public final class UserSettings {
 	 */
 	public void setLastCsvExportLocation(final String csvExportLocation) {
 		userConfig.setProperty(LAST_CSV_EXPORT_LOCATION, csvExportLocation);
+		
+		// Auto save change
+		save();
 	}
 
 
@@ -175,6 +188,9 @@ public final class UserSettings {
 	 */
 	public void setLastICalExportLocation(final String iCalExportLocation) {
 		userConfig.setProperty(LAST_ICAL_EXPORT_LOCATION, iCalExportLocation);
+		
+		// Auto save change
+		save();
 	}
 
 
@@ -191,6 +207,9 @@ public final class UserSettings {
 
 	public void setLastDescription(final String lastDescription) {
 		userConfig.setProperty(LAST_DESCRIPTION, lastDescription);
+		
+		// Auto save change
+		save();
 	}
 
 
@@ -206,7 +225,10 @@ public final class UserSettings {
 	}
 
 	public void setActive(final boolean active) {
-		userConfig.setProperty(ACTIVE, active);
+		userConfig.setProperty(ACTIVE, String.valueOf(active));
+		
+		// Auto save change
+		save();
 	}
 
 
@@ -222,7 +244,10 @@ public final class UserSettings {
 	}
 
 	public void setActiveProjectId(final Long activeProjectId) {
-		userConfig.setProperty(ACTIVE_PROJECT_ID, activeProjectId);
+		userConfig.setProperty(ACTIVE_PROJECT_ID, String.valueOf(activeProjectId));
+		
+		// Auto save change
+		save();
 	}
 
 
@@ -239,10 +264,13 @@ public final class UserSettings {
 
 	public void setStart(final DateTime start) {
 		if (start == null) {
-			userConfig.setProperty(START, null);
+			userConfig.setProperty(START, String.valueOf(null));
 		} else {
-			userConfig.setProperty(START, start.getMillis());
+			userConfig.setProperty(START, String.valueOf(start.getMillis()));
 		}
+		
+		// Auto save change
+		save();
 	}
 
 
@@ -255,10 +283,13 @@ public final class UserSettings {
 
 	public void setFilterSelectedSpanType(final SpanType spanType) {
 		userConfig.setProperty(SELECTED_SPAN_TYPE, spanType.name());
+		
+		// Auto save change
+		save();
 	}
 
 	public SpanType getFilterSelectedSpanType() {
-		final String spanTypeName = userConfig.getString(SELECTED_SPAN_TYPE);
+		final String spanTypeName = userConfig.getProperty(SELECTED_SPAN_TYPE);
 		if (spanTypeName == null) {
 			return null;
 		}
@@ -274,7 +305,10 @@ public final class UserSettings {
 	}
 
 	public void setFilterSelectedProjectId(final long projectId) {
-		userConfig.setProperty(SELECTED_PROJECT_ID, Long.valueOf(projectId));
+		userConfig.setProperty(SELECTED_PROJECT_ID, String.valueOf(Long.valueOf(projectId)));
+		
+		// Auto save change
+		save();
 	}
 
 	/**
@@ -308,6 +342,9 @@ public final class UserSettings {
 
 	public void setShownCategory(final String shownCategory) {
 		userConfig.setProperty(SHOWN_CATEGORY, shownCategory);
+		
+		// Auto save change
+		save();
 	}
 
 
@@ -323,7 +360,10 @@ public final class UserSettings {
 	}
 
 	public void setRememberWindowSizeLocation(final boolean rememberWindowSizeLocation) {
-		userConfig.setProperty(REMEMBER_WINDOWSIZE_LOCATION, rememberWindowSizeLocation);
+		userConfig.setProperty(REMEMBER_WINDOWSIZE_LOCATION, String.valueOf(rememberWindowSizeLocation));
+		
+		// Auto save change
+		save();
 	}
 
 
@@ -346,6 +386,9 @@ public final class UserSettings {
 	public void setWindowSize(final Dimension size) {
 		final String encodedSize = size.getWidth() + "|" + size.getHeight(); //$NON-NLS-1$
 		userConfig.setProperty(WINDOW_SIZE, encodedSize);
+		
+		// Auto save change
+		save();
 	}
 
 
@@ -355,6 +398,8 @@ public final class UserSettings {
 
 	/** The key for the shown category. */
 	public static final String WINDOW_LOCATION = "settings.windowLocation"; //$NON-NLS-1$
+
+	private File userConfigFile;
 
 	public Point getWindowLocation() {
 		final String encodedLocation = doGetString(WINDOW_LOCATION, "0.0|0.0"); //$NON-NLS-1$
@@ -368,6 +413,9 @@ public final class UserSettings {
 	public void setWindowLocation(final Point location) {
 		final String encodedLocation = location.getX() + "|" + location.getY(); //$NON-NLS-1$
 		userConfig.setProperty(WINDOW_LOCATION, encodedLocation);
+		
+		// Auto save change
+		save();
 	}
 
 
@@ -380,11 +428,7 @@ public final class UserSettings {
 	 */
 	public void reset() {
 		userConfig.clear();
-		try {
-			userConfig.save();
-		} catch (ConfigurationException e) {
-			log.error(e.getLocalizedMessage(), e);
-		}
+		save();
 	}
 
 	/**
@@ -396,7 +440,7 @@ public final class UserSettings {
 	 */
 	private String doGetString(final String key, final String defaultValue) {
 		try {
-			return userConfig.getString(key, defaultValue);
+			return userConfig.getProperty(key, defaultValue);
 		} catch (Exception e) {
 			log.error(e.getLocalizedMessage(), e);
 			return defaultValue;
@@ -415,7 +459,7 @@ public final class UserSettings {
 	 */
 	private Long doGetLong(final String key, final Long defaultValue) {
 		try {
-			return userConfig.getLong(key, defaultValue);
+			return Long.valueOf(userConfig.getProperty(key, String.valueOf(defaultValue)));
 		} catch (Exception e) {
 			log.error(e.getLocalizedMessage(), e);
 			return defaultValue;
@@ -434,7 +478,7 @@ public final class UserSettings {
 	 */
 	private Boolean doGetBoolean(final String key, final Boolean defaultValue) {
 		try {
-			return userConfig.getBoolean(key, defaultValue);
+			return Boolean.valueOf(userConfig.getProperty(key, String.valueOf(defaultValue)));
 		} catch (Exception e) {
 			log.error(e.getLocalizedMessage(), e);
 			return defaultValue;
@@ -458,7 +502,7 @@ public final class UserSettings {
 				defaultMillis = defaultValue.getMillis();	
 			}
 
-			final Long dateMilliseconds = userConfig.getLong(key, defaultMillis);
+			final Long dateMilliseconds = Long.valueOf(userConfig.getProperty(key, String.valueOf(defaultMillis)));
 			if (dateMilliseconds == null) {
 				return null;
 			}
@@ -472,4 +516,24 @@ public final class UserSettings {
 			return defaultValue;
 		}
 	}
+	
+    public void save() {
+        OutputStream out = null;
+        try
+        {
+            out = new FileOutputStream(userConfigFile);
+            userConfig.store(out, "Created at " + new Date());
+        } catch (IOException e) {
+        	log.error(e.getLocalizedMessage(), e);
+        }
+        finally {
+        	if (out != null) {
+        		try {
+					out.close();
+				} catch (IOException e) {
+					// Ignore
+				}
+        	}
+        }
+    }
 }

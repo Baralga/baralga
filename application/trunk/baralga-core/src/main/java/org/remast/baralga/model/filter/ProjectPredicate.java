@@ -1,6 +1,6 @@
 package org.remast.baralga.model.filter;
 
-import org.apache.commons.collections.Predicate;
+import com.google.common.base.Predicate;
 import org.apache.commons.lang.ObjectUtils;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
@@ -9,7 +9,7 @@ import org.remast.baralga.model.ProjectActivity;
  * Holds for all activities of one project.
  * @author remast
  */
-public class ProjectPredicate implements Predicate {
+public class ProjectPredicate implements Predicate<ProjectActivity> {
 
     /**
      * The project to check for.
@@ -30,16 +30,11 @@ public class ProjectPredicate implements Predicate {
      * @return <code>true</code> if the given object is a project activity
      * of that project else <code>false</code>
      */
-    public boolean evaluate(final Object object) {
-        if (object == null) {
+    public boolean apply(final ProjectActivity activity) {
+        if (activity == null) {
             return false;
         }
 
-        if (!(object instanceof ProjectActivity)) {
-            return false;
-        }
-
-        final ProjectActivity activity = (ProjectActivity) object;
         return ObjectUtils.equals(this.project, activity.getProject());
     }
 

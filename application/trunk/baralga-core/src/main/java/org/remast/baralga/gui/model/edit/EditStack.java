@@ -6,7 +6,6 @@ package org.remast.baralga.gui.model.edit;
 import java.util.List;
 import java.util.Stack;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.remast.baralga.gui.actions.RedoAction;
 import org.remast.baralga.gui.actions.UndoAction;
 import org.remast.baralga.gui.events.BaralgaEvent;
@@ -83,7 +82,7 @@ public class EditStack {
      * @param event 
      */
     private void updateActions() {
-        if (CollectionUtils.isNotEmpty(undoStack)) {
+        if (undoStack != null && !undoStack.isEmpty()) {
             undoAction.setEnabled(true);
             undoAction.setText(undoStack.peek().getUndoText());
         } else {
@@ -91,7 +90,7 @@ public class EditStack {
             undoAction.resetText();
         }
 
-        if (CollectionUtils.isNotEmpty(redoStack)) {
+        if (redoStack != null && !redoStack.isEmpty()) {
             redoAction.setEnabled(true);
             redoAction.setText(redoStack.peek().getRedoText());
         } else {
@@ -118,7 +117,7 @@ public class EditStack {
      * Undo last edit action.
      */
     public final void undo() {
-        if (CollectionUtils.isEmpty(undoStack)) {
+        if (undoStack == null || undoStack.isEmpty()) {
             return;
         }
 
@@ -134,7 +133,7 @@ public class EditStack {
      * Redo last edit action.
      */
     public final void redo() {
-        if (CollectionUtils.isEmpty(redoStack)) {
+        if (redoStack == null || redoStack.isEmpty()) {
             return;
         }
 

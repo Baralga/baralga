@@ -18,7 +18,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.text.DateFormatter;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.jdesktop.swingx.JXDatePicker;
 import org.joda.time.DateTime;
 import org.remast.baralga.FormatUtils;
@@ -161,7 +160,7 @@ public class AddOrEditActivityDialog extends EscapeDialog {
             // a) If no project selected take first project
             if (model.getSelectedProject() == null) {
                 // Select first entry
-                if (!CollectionUtils.isEmpty(model.getProjectList())) {
+                if (model.getProjectList() != null && !model.getProjectList().isEmpty()) {
                     final Project project = model.getProjectList().get(0);
                     projectSelector.setSelectedItem(project);
                 }

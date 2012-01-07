@@ -1,15 +1,16 @@
 package org.remast.baralga.model.filter;
 
-import org.apache.commons.collections.Predicate;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.remast.baralga.model.ProjectActivity;
+
+import com.google.common.base.Predicate;
 
 /**
  * Holds for all project activities of a time interval.
  * @author remast
  */
-public class TimeIntervalPredicate implements Predicate {
+public class TimeIntervalPredicate implements Predicate<ProjectActivity> {
 
     /**
      * The interval to check for.
@@ -31,17 +32,11 @@ public class TimeIntervalPredicate implements Predicate {
      * @return <code>true</code> if the given object is a project activity of
      *         that day else <code>false</code>
      */
-    public boolean evaluate(final Object object) {
-        if (object == null) {
+    public boolean apply(final ProjectActivity activity) {
+        if (activity == null) {
             return false;
         }
 
-        if (!(object instanceof ProjectActivity)) {
-            return false;
-        }
-
-        final ProjectActivity activity = (ProjectActivity) object;
-        
         // Set hours, minutes, seconds and milliseconds of interval ends 
         // to zero so that every activity of a day is contained within the 
         // interval.

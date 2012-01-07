@@ -3,7 +3,6 @@ package org.remast.baralga.model.filter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections.Predicate;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -13,6 +12,8 @@ import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.util.DateUtils;
 
+import com.google.common.base.Predicate;
+
 /**
  * Filter for selecting only those project activities which satisfy 
  * some selected criteria.
@@ -21,7 +22,7 @@ import org.remast.util.DateUtils;
 public class Filter {
 
     /** The predicates of the filter. */
-    private final List<Predicate> predicates = new ArrayList<Predicate>();
+    private final List<Predicate<ProjectActivity>> predicates = new ArrayList<Predicate<ProjectActivity>>();
     
     /** The time interval to filter by. */
     private Interval timeInterval = new Interval(
@@ -36,13 +37,13 @@ public class Filter {
 	private SpanType spanType = SpanType.Day;
 
 	/** The predicate to filter by time interval. */
-    private Predicate timeIntervalPredicate;
+    private Predicate<ProjectActivity> timeIntervalPredicate;
     
     /** The project to filter by. */
     private Project project;
 
     /** The predicate to filter by project. */
-    private Predicate projectPredicate;
+    private Predicate<ProjectActivity> projectPredicate;
 
     /**
      * Create filter with no predicates.
@@ -61,8 +62,8 @@ public class Filter {
     		return false;
     	}
     	
-        for (Predicate predicate : predicates) {
-            if (!predicate.evaluate(activity)) {
+        for (Predicate<ProjectActivity> predicate : predicates) {
+            if (!predicate.apply(activity)) {
                 return false;
             }
         }
@@ -104,7 +105,7 @@ public class Filter {
             this.predicates.remove(this.timeIntervalPredicate);
         }
 
-        final Predicate newTimeIntervalPredicate = new TimeIntervalPredicate(timeInterval);
+        final Predicate<ProjectActivity> newTimeIntervalPredicate = new TimeIntervalPredicate(timeInterval);
         this.timeIntervalPredicate = newTimeIntervalPredicate;
         this.predicates.add(newTimeIntervalPredicate);
     }
@@ -134,7 +135,7 @@ public class Filter {
             return;
         }
 
-        final Predicate newProjectPredicate = new ProjectPredicate(project);
+        final Predicate<ProjectActivity> newProjectPredicate = new ProjectPredicate(project);
         this.projectPredicate = newProjectPredicate;
         this.predicates.add(newProjectPredicate);
     }
