@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -26,6 +27,7 @@ import javax.swing.table.TableColumn;
 
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
+import org.jdesktop.swingx.plaf.basic.core.BasicTransferable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.FormatStringValue;
 import org.jdesktop.swingx.table.DatePickerCellEditor;
@@ -52,8 +54,6 @@ import ca.odell.glazedlists.swing.TableComparatorChooser;
 import ca.odell.glazedlists.swing.TextComponentMatcherEditor;
 
 import com.google.common.eventbus.Subscribe;
-import com.jidesoft.swing.JideScrollPane;
-import com.jidesoft.utils.BasicTransferable;
 
 /**
  * @author remast
@@ -266,7 +266,7 @@ public class AllActitvitiesPanel extends JPanel {
 				);
 		projectColumn.setCellEditor(cellEditor);
 
-		final JideScrollPane tableScrollPane = new JideScrollPane(table);
+		final JScrollPane tableScrollPane = new JScrollPane(table);
 
 		int border = 5;
 		final double[][] size = {

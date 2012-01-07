@@ -7,6 +7,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
@@ -25,8 +26,6 @@ import ca.odell.glazedlists.matchers.MatcherEditor;
 import ca.odell.glazedlists.swing.EventTableModel;
 import ca.odell.glazedlists.swing.TableComparatorChooser;
 import ca.odell.glazedlists.swing.TextComponentMatcherEditor;
-
-import com.jidesoft.swing.JideScrollPane;
 
 /**
  * Panel containing the accumulated hours spent on each project on one day.
@@ -68,7 +67,7 @@ public class AccummulatedActitvitiesPanel extends JPanel implements Observer {
         table.getColumn(table.getColumnName(0)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.DAY_FORMAT)));
         table.getColumn(table.getColumnName(2)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.DURATION_FORMAT)));
 
-        JideScrollPane tableScrollPane = new JideScrollPane(table);
+        JScrollPane tableScrollPane = new JScrollPane(table);
 
 		int border = 5;
 		final double[][] size = {

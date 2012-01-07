@@ -12,6 +12,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.JToggleButton;
 
 import org.apache.commons.lang.StringUtils;
 import org.remast.baralga.gui.BaralgaMain;
@@ -29,7 +30,6 @@ import org.remast.util.TextResourceBundle;
 
 import com.google.common.base.Objects;
 import com.google.common.eventbus.Subscribe;
-import com.jidesoft.swing.JideToggleButton;
 
 /**
  * @author remast
@@ -86,7 +86,7 @@ public class FilteredActivitiesPane extends JPanel {
 
 	private JPanel categoryButtonPanel = new JPanel();
 
-	private JideToggleButton generalButton = new JideToggleButton(new AbstractAction(textBundle.textFor("Category.General"), new ImageIcon(getClass().getResource("/icons/gtk-dnd-multiple.png"))) {
+	private JToggleButton generalButton = new JToggleButton(new AbstractAction(textBundle.textFor("Category.General"), new ImageIcon(getClass().getResource("/icons/gtk-dnd-multiple.png"))) {
 
 		@Override
 		public void actionPerformed(final ActionEvent e) {
@@ -95,10 +95,11 @@ public class FilteredActivitiesPane extends JPanel {
 
 	});
 	{
+		generalButton.setBorder(null);
 		generalButton.setToolTipText(textBundle.textFor("Category.General.ToolTipText"));
 	}
 
-	private JideToggleButton timeButton = new JideToggleButton(new AbstractAction(textBundle.textFor("Category.Time"), new ImageIcon(getClass().getResource("/icons/clock.png"))) {
+	private JToggleButton timeButton = new JToggleButton(new AbstractAction(textBundle.textFor("Category.Time"), new ImageIcon(getClass().getResource("/icons/clock.png"))) {
 
 		@Override
 		public void actionPerformed(final ActionEvent e) {
@@ -110,7 +111,7 @@ public class FilteredActivitiesPane extends JPanel {
 		timeButton.setToolTipText(textBundle.textFor("Category.Time.ToolTipText"));
 	}
 
-	private JideToggleButton projectButton = new JideToggleButton(new AbstractAction(textBundle.textFor("Category.Project"), new ImageIcon(getClass().getResource("/icons/stock_calendar-view-day.png"))) {
+	private JToggleButton projectButton = new JToggleButton(new AbstractAction(textBundle.textFor("Category.Project"), new ImageIcon(getClass().getResource("/icons/stock_calendar-view-day.png"))) {
 
 		@Override
 		public void actionPerformed(final ActionEvent e) {

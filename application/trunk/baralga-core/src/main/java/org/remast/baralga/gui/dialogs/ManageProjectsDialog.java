@@ -9,6 +9,7 @@ import java.awt.Frame;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
@@ -27,7 +28,6 @@ import ca.odell.glazedlists.swing.EventTableModel;
 import ca.odell.glazedlists.swing.TableComparatorChooser;
 
 import com.google.common.eventbus.Subscribe;
-import com.jidesoft.swing.JideScrollPane;
 
 /**
  * The dialog to manage the available projects.
@@ -94,7 +94,7 @@ public class ManageProjectsDialog extends EscapeDialog {
         this.add(lableProjectTitle, "1, 1");
         this.add(getNewProjectTextField(), "3, 1, 6, 1");
         
-        this.add(new JideScrollPane(getProjectTable()), "1, 3, 4, 5");
+        this.add(new JScrollPane(getProjectTable()), "1, 3, 4, 5");
 
         this.add(getAddProjectButton(), "6, 3");
         this.add(getRemoveProjectButton(), "6, 5");

@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
@@ -19,7 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.eventbus.Subscribe;
-import com.jidesoft.swing.JideScrollPane;
 
 /**
  * Display and edit the descriptions of all project activities.
@@ -54,7 +54,7 @@ public class DescriptionPanel extends JPanel {
 		container = new JPanel();
 		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 
-		this.add(new JideScrollPane(container), BorderLayout.CENTER);
+		this.add(new JScrollPane(container), BorderLayout.CENTER);
 
 		applyFilter();
 	}

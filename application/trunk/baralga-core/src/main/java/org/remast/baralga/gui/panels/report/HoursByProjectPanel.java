@@ -5,6 +5,7 @@ import info.clearthought.layout.TableLayout;
 import java.awt.BorderLayout;
 import java.text.DateFormat;
 
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import org.jdesktop.swingx.JXPanel;
@@ -25,7 +26,6 @@ import ca.odell.glazedlists.swing.TableComparatorChooser;
 import ca.odell.glazedlists.swing.TextComponentMatcherEditor;
 
 import com.google.common.eventbus.Subscribe;
-import com.jidesoft.swing.JideScrollPane;
 
 /**
  * Panel for displaying the report of working hours by project.
@@ -79,7 +79,7 @@ public class HoursByProjectPanel extends JXPanel {
         table.getColumn(table.getColumnName(0)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance())));
         table.getColumn(table.getColumnName(1)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.DURATION_FORMAT)));
         
-        JideScrollPane tableScrollPane = new JideScrollPane(table);
+        JScrollPane tableScrollPane = new JScrollPane(table);
 
 		int border = 5;
 		final double[][] size = {
