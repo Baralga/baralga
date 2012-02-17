@@ -9,7 +9,9 @@ task installer(dependsOn: prepareInstaller) {
 }
 
 == Baralga Version 1.7.1 ==
-
+Fixes 
+ * Report name may not contain character (Issue #99 http://baralga.origo.ethz.ch/issues/99).
+ 
 Misc
  * Removed some libraries which are not really necessary.
 

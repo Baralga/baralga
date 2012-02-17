@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
@@ -171,6 +172,9 @@ public class ExcelExporter implements Exporter {
 		if (filter != null) {
 			reportName += FilterUtils.makeIntervalString(filter);
 		}
+		
+		// Issue #99 : Report name may not contain character /.
+		reportName = StringUtils.replace(reportName, "/", "-");
 
 		final Sheet sheet = workbook.createSheet(reportName);
 
