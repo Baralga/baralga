@@ -25,7 +25,6 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 
-import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 import org.jdesktop.swingx.plaf.basic.core.BasicTransferable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
@@ -256,7 +255,6 @@ public class AllActitvitiesPanel extends JPanel {
 		table.setPreferredScrollableViewportSize(table.getPreferredSize());
 
 		//        table.setHighlighters(GuiConstants.HIGHLIGHTERS);
-		table.setCellEditor(new JXTable.GenericEditor());
 
 		final TableColumn projectColumn = table.getColumn(table.getColumnName(0));
 		final TableCellEditor cellEditor = new ComboBoxCellEditor(
