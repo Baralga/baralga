@@ -1,0 +1,206 @@
+UndoAction.Name=Rückgängig
+UndoAction.ShortDescription=Letzte Aktivität rückgängig machen.
+
+RedoAction.Name=Wiederherstellen
+RedoAction.ShortDescription=Letzte Aktivitiät wiederherstellen.
+
+ExitAction.Name=Beenden
+ExitAction.ShortDescription=Beenden der Anwendung.
+ExitAction.LongDescription=Beenden der Anwendung.
+
+ImportDataAction.Name=Importiere aus Daten Backup.
+ImportDataAction.ShortDescription=Importiere aus Daten Backup (d.h. Projekte und Aktivitäten).
+ImportDataAction.IOException.Message=Fehler beim Import der Baralga Daten von {0}.
+ImportDataAction.IOException.Heading=Import fehlgeschlagen
+
+ImportDataAction.Message=Beim Import werden alle vorhandenen Daten überschrieben.\nWollen Sie die Daten wirklich importieren?
+ImportDataAction.Title=Import durchführen?
+
+ExportDataAction.Name=Exportiere als Daten Backup.
+ExportDataAction.ShortDescription=Exportiere als Daten Backup (d.h. Projekte und Aktivitäten).
+ExportDataAction.DataFileExtension=.ptd.xml
+ExportDataAction.IOException.Message=Fehler beim Schreiben der Baralga Daten nach {0}.
+ExportDataAction.IOException.Heading=Speichern fehlgeschlagen
+
+ManageProjectsAction.Name=Verwalte Projekte
+ManageProjectsAction.ShortDescription=Neue Projekte hinzufügen und entfernen.
+
+StartAction.Name=Start
+StartAction.ShortDescription=Starte Arbeit an ausgewähltem Projekt.
+StartAction.ErrorDialog.Title=Fehler
+
+ChangeProjectAction.ShortDescription=Setze aktuelles Projekt zu  
+
+ExcelExportAction.Name=Exportiere nach MS-Excel.
+ExcelExportAction.ShortDescription=Exportiere Daten nach Microsoft Excel (*.xls).
+ExcelExportAction.ExcelFileExtension=.xls
+ExcelExportAction.IOException.Message=Fehler beim Schreiben der Baralga Daten nach {0}.
+ExcelExportAction.IOException.Heading=Speichern fehlgeschlagen
+
+SaveAction.ErrorText=Fehler beim Schreiben der Baralga Daten.
+SaveAction.ErrorTitle=Speichern fehlgeschlagen
+SaveAction.Name=Speichern
+SaveAction.ShortDescription=Speichere aufgezeichnete Aktitvitäten.
+
+StopAction.Name=Stop
+StopAction.ShortDescription=Stop Arbeit an ausgewähltem Projekt.
+
+AboutAction.Name=Über
+AboutAction.ShortDescription=Informationen über Baralga.
+
+AddActivityAction.Name=Aktivität hinzufügen
+AddActivityAction.ShortDescription=Füge Aktivität manuell hinzu.
+
+ExitConfirmDialog.Title=Baralga beenden?
+ExitConfirmDialog.Message=Wenn Sie Baralga beenden wird die laufende Aktivität beendet. \n Möchten Sie Baralga wirklich beenden?
+
+Global.Version=Version
+Global.VersionNumber=1.3.3
+
+AboutDialog.Title=Über
+AboutDialog.HomepageLabel=Homepage:
+AboutDialog.HomepageUrl=http://baralga.origo.ethz.ch
+AboutDialog.BugLabel=Fehler melden:
+AboutDialog.BugUrl=http://baralga.origo.ethz.ch/issues
+
+AddActivityDialog.AddActivityLabel=Aktivität hinzufügen
+AddActivityDialog.DescriptionLabel=Beschreibung:
+AddActivityDialog.ProjectLabel=Projekt:
+AddActivityDialog.StartLabel=Start:
+AddActivityDialog.EndLabel=Ende:
+AddActivityDialog.DateLabel=Datum:
+AddActivityDialog.AddLabel=Hinzufügen
+AddActivityDialog.Error.Title=Fehler
+AddActivityDialog.Error.InvalidStartEnd=Ungültige Start- und Ende-Zeit.
+
+ManageProjectsDialog.Title=Verwalte Projekte
+ManageProjectsDialog.ProjectList.ToolTipText=Liste der Projekte.
+ManageProjectsDialog.4=newProjectTextField
+ManageProjectsDialog.NewProjectTitle.DefaultNewProjectName=<Mein Projekt>
+ManageProjectsDialog.NewProjectTitle.ToolTipText=Titel des neuen Projekts.
+ManageProjectsDialog.AddProjectButton.Title=Hinzufügen
+ManageProjectsDialog.AddProjectButton.ToolTipText=Füge neues Projekt hinzu.
+ManageProjectsDialog.RemoveProjectButton.Title=Löschen
+ManageProjectsDialog.RemoveProjectButton.ToolTipText=Lösche ausgewähltes Projekt.
+ManageProjectsDialog.ProjectSelector.Title=Projekt Titel:
+MonthFilterList.AllMonthsLabel=Alle
+MonthFilterList.CurrentMonthLabel=Aktuell ({0})
+YearFilterList.AllYearsLabel=Alle
+YearFilterList.CurrentYearsLabel=Aktuell ({0})
+ProjectFilterList.AllProjectsLabel=Alle
+WeekOfYearFilterList.AllWeeksOfYearLabel=Alle
+WeekOfYearFilterList.CurrentWeekOfYearLabel=Aktuell ({0})
+Category.Time=Zeit
+Category.Time.ToolTipText=Zeige nur Reports der Kategorie Project.
+
+Category.Project=Projekt
+Category.Project.ToolTipText=Zeige nur Reports der Kategorie Projekt.
+
+Category.General=Allgemein
+Category.General.ToolTipText=Zeige nur Reports der Kategorie Allgemein.
+
+Global.Title=Baralga
+
+ProjectSelector.ToolTipText=Projekt auswählen an dem gearbeitet wird.
+
+ProjectFilterSelector.ToolTipText=Nur Aktivitäten des gewählten Projektes anzeigen.
+YearFilterSelector.ToolTipText=Nur Aktivitäten des gewählten Jahres anzeigen.
+MonthFilterSelector.ToolTipText=Nur Aktivitäten des gewählten Monats anzeigen.
+WeekOfYearFilterSelector.ToolTipText=Nur Aktivitäten der gewählten Woche anzeigen.
+
+BaralgaMain.DataLoading.ErrorText=Die Daten konnten nicht gelesen werden. Es wurde die Sicherungskopie vom {0} geladen.
+BaralgaMain.DataLoading.ErrorTitle=Laden der Daten fehlgeschlagen
+BaralgaMain.DataLoading.ErrorTextNoBackup=Die Daten konnten nicht gelesen werden und es wurde keine Sicherungskopie gefunden.
+
+MainFrame.FileMenu.Title=Datei
+MainFrame.EditMenu.Title=Bearbeiten
+MainFrame.HelpMenu.Title=Hilfe
+MainFrame.DescriptionLabel=Beschreibung:
+MainFrame.9=\ seit 
+MainFrame.11=\ seit 
+MainFrame.12=untätig seit 
+MainFrame.ExportMenu.Title=Exportieren ...
+MainFrame.ImportMenu.Title=Importieren ...
+
+StartAction.Name=Start
+StartAction.ShortDescription=Starte Arbeit an ausgewähltem Projekt.
+
+PresentationModel.NoActiveProjectSelectedError=Kein aktives Projekt ausgewählt.
+PresentationModel.NoActiveProjectError=Kein aktives Projekt.
+
+ReportPanel.FiltersLabel=Filter:
+ReportPanel.ProjectLabel=Projekt:
+ReportPanel.YearLabel=Jahr:
+ReportPanel.MonthLabel=Monat:
+ReportPanel.WeekLabel=Woche:
+ReportPanel.DataLabel=Daten:
+
+FilteredActivitiesPane.Tab.AccumulatedActivities=Akkumulierte Aktivitäten
+FilteredActivitiesPane.Tab.HoursByWeek=Stunden pro Woche
+FilteredActivitiesPane.Tab.HoursByDay=Stunden pro Tag
+FilteredActivitiesPane.Tab.HoursByProject=Stunden pro Projekt
+FilteredActivitiesPane.Tab.AllActivities=Alle Aktivitäten
+FilteredActivitiesPane.Tab.Descriptions=Beschreibungen
+
+FilteredActivitiesPane.Tab.HoursByProjectChart=Anteil pro Projekt
+FilteredActivitiesPane.Tab.HoursByProjectChart.Tooltip=Anteil der Stunden pro Projekt.
+
+FilteredActivitiesPane.Tab.AccumulatedActivities.Tooltip=Akkumulierte Aktivitäten, d.h. die Summe der Aktivitäten pro Tag.
+FilteredActivitiesPane.Tab.HoursByWeek.Tooltip=Arbeitsstunden pro Woche.
+FilteredActivitiesPane.Tab.HoursByDay.Tooltip=Arbeitsstunden pro Tag.
+FilteredActivitiesPane.Tab.HoursByProject.Tooltip=Arbeitsstunden pro Project.
+FilteredActivitiesPane.Tab.AllActivities.Tooltip=Alle Aktivitäten.
+FilteredActivitiesPane.Tab.Descriptions.Tooltip=Beschreibungen aller Aktivitäten..
+
+AccumulatedActivitiesTableFormat.DayHeading=Tag
+AccumulatedActivitiesTableFormat.ProjectHeading=Projekt
+AccumulatedActivitiesTableFormat.DurationHeading=Dauer
+
+AllActivitiesTableFormat.ProjectHeading=Projekt
+AllActivitiesTableFormat.DateHeading=Datum
+AllActivitiesTableFormat.StartHeading=Start
+AllActivitiesTableFormat.EndHeading=Ende
+AllActivitiesTableFormat.DurationHeading=Dauer (Stunden)
+
+AllActivitiesPanel.tooltipDuration=Dauer ausgewählter Aktivitäten ist {0}.
+
+HoursByWeekTableFormat.WeekHeading=Woche
+HoursByWeekTableFormat.HoursHeading=Stunden
+
+HoursByDayProjectFormat.ProjectHeading=Projekt
+HoursByDayProjectFormat.HoursHeading=Stunden
+
+HoursByDayTableFormat.DayHeading=Tag
+HoursByDayTableFormat.HoursHeading=Stunden
+
+AddActivityDialog.AddActivityLabel=Aktivität hinzufügen
+AddActivityDialog.DescriptionLabel=Beschreibung:
+AddActivityDialog.ProjectLabel=Projekt:
+AddActivityDialog.StartLabel=Start:
+AddActivityDialog.EndLabel=Ende:
+AddActivityDialog.DateLabel=Datum:
+AddActivityDialog.AddLabel=Hinzufügen
+
+BaralgaMain.ErrorAlreadyRunning=Baralga läuft bereits.
+BaralgaMain.8=Lock-Datei konnte nicht erstellt werden.
+
+AllActitvitiesPanel.Delete=Löschen
+
+ExcelExport.DateHeading=Datum
+ExcelExport.HoursHeading=Stunden
+ExcelExport.DescriptionHeading=Beschreibung
+ExcelExport.TimeHeading=Zeit
+ExcelExport.SheetTitleActivityRecords=Aktivität
+ExcelExport.ProjectHeading=Projekt
+ExcelExport.StartTimeHeading=Startzeit
+ExcelExport.EndTimeHeading=Endzeit
+ExcelExport.SheetTitleStart=Bericht 
+ProjectPredicate.ErrorNoProjectActivity=Keine Instanz von ProjectActivity verfügbar.
+WeekOfYearPredicate.ErrorNoProjectActivity=Keine Instanz von ProjectActivity verfügbar.
+YearPredicate.ErrorNoProjectActivity=Keine Instanz von ProjectActivity verfügbar.
+MonthPredicate.ErrorNoProjectActivity=Keine Instanz von ProjectActivity verfügbar.
+FileFilters.MicrosoftExcelFile=Microsoft Excel Datei (*.xls)
+FileFilters.DataFile=Baralga Daten (*.ptd.xml)
+
+StartActivityConfirmDialog.Title=Aktivität starten?
+StartActivityConfirmDialog.Message=Zurzeit läuft keine Aktivität. \nArbeit an ausgewähltem Projekt starten?
