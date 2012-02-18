@@ -5,7 +5,7 @@
 	<groupId>com.remast.baralga</groupId>
 	<artifactId>baralga-installer</artifactId>
 	<packaging>jar</packaging>
-	<version>1.5</version>
+	<version>1.7</version>
 	<name>Baralga Installer</name>
 	<url>http://baralga.origo.ethz.ch</url>
 	<parent>
