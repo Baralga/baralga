@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?> 
-<langpack>
-  <str id="base.name" txt="Põhi" /> 
-  <str id="base.description" txt="Rakenduse põhifailid." /> 
-</langpack>

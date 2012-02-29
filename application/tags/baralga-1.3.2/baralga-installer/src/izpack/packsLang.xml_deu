@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?> 
-<langpack>
-  <str id="base.name" txt="Basis" /> 
-  <str id="base.description" txt="Die grundlegenden Dateien der Anwendung." /> 
-</langpack>
