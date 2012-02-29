@@ -1,6 +1,6 @@
 __NOTOC__
 
-=== Baralga Time Tracker ===
+== Baralga Time Tracker ==
 Baralga is a simple time tracking solution for the desktop.
 
 === Known Bugs ===
@@ -17,9 +17,9 @@ Baralga is a simple time tracking solution for the desktop.
 Fixes 
 * Report name may not contain character (Issue #99 http://baralga.origo.ethz.ch/issues/99).
 * Support for Java 7.
- 
+
 Misc
- * Removed some libraries which are not really necessary.
+* Removed some libraries which are not really necessary.
 
 
 === Baralga Version 1.7 ===
