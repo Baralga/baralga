@@ -441,9 +441,6 @@ public final class UserSettings {
 	private String doGetString(final String key, final String defaultValue) {
 		try {
 			return userConfig.getProperty(key, defaultValue);
-		} catch (Exception e) {
-			log.error(e.getLocalizedMessage(), e);
-			return defaultValue;
 		} catch (Throwable t) {
 			log.error(t.getLocalizedMessage(), t);
 			return defaultValue;
@@ -460,9 +457,6 @@ public final class UserSettings {
 	private Long doGetLong(final String key, final Long defaultValue) {
 		try {
 			return Long.valueOf(userConfig.getProperty(key, String.valueOf(defaultValue)));
-		} catch (Exception e) {
-			log.error(e.getLocalizedMessage(), e);
-			return defaultValue;
 		} catch (Throwable t) {
 			log.error(t.getLocalizedMessage(), t);
 			return defaultValue;
@@ -479,9 +473,6 @@ public final class UserSettings {
 	private Boolean doGetBoolean(final String key, final Boolean defaultValue) {
 		try {
 			return Boolean.valueOf(userConfig.getProperty(key, String.valueOf(defaultValue)));
-		} catch (Exception e) {
-			log.error(e.getLocalizedMessage(), e);
-			return defaultValue;
 		} catch (Throwable t) {
 			log.error(t.getLocalizedMessage(), t);
 			return defaultValue;
@@ -508,9 +499,6 @@ public final class UserSettings {
 			}
 
 			return new DateTime(dateMilliseconds);
-		} catch (Exception e) {
-			log.error(e.getLocalizedMessage(), e);
-			return defaultValue;
 		} catch (Throwable t) {
 			log.error(t.getLocalizedMessage(), t);
 			return defaultValue;
@@ -525,8 +513,7 @@ public final class UserSettings {
             userConfig.store(out, "Created at " + new Date());
         } catch (IOException e) {
         	log.error(e.getLocalizedMessage(), e);
-        }
-        finally {
+        } finally {
         	if (out != null) {
         		try {
 					out.close();
