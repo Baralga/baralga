@@ -45,7 +45,7 @@ import com.google.common.eventbus.EventBus;
  */
 public class PresentationModel {
 	
-	private EventBus eventBus = new AsyncEventBus(Executors.newFixedThreadPool(3));
+	private EventBus eventBus = new EventBus();
 
     public final EventBus getEventBus() {
 		return eventBus;
