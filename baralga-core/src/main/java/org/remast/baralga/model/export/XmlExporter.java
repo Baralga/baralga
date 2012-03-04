@@ -83,7 +83,7 @@ public class XmlExporter implements Exporter {
         root.appendChild(activitiesElement);
         
         for (ProjectActivity activity : data) {
-        	Element activityElement = document.createElement("activity");
+        	final Element activityElement = document.createElement("activity");
          	activityElement.setAttribute("id", String.valueOf(activity.getId()));
          	activityElement.setAttribute("projectReference", String.valueOf(activity.getProject().getId()));
 
