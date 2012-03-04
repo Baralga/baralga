@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<baralga version="1">
+<!--Baralga data export created at 2012-03-04T21:55:51.585+01:00.-->
+<projects>
+<project id="9">
+<title>Misc</title>
+<description>Misc</description>
+</project>
+<project id="8">
+<title>Development</title>
+<description>Development</description>
+</project>
+<project id="7">
+<title>Bugfixing</title>
+<description>Bugfixing</description>
+</project>
+</projects>
+<activities>
+<activity end="2012-02-06T11:30" id="8" projectReference="7" start="2012-02-06T11:00">
+<description/>
+</activity>
+<activity end="2012-02-07T21:30" id="4" projectReference="7" start="2012-02-07T18:00">
+<description/>
+</activity>
+<activity end="2012-02-14T16:00" id="6" projectReference="9" start="2012-02-14T08:00">
+<description/>
+</activity>
+<activity end="2012-02-16T11:00" id="2" projectReference="7" start="2012-02-16T10:00">
+<description/>
+</activity>
+<activity end="2012-02-21T12:00" id="7" projectReference="9" start="2012-02-21T10:00">
+<description/>
+</activity>
+<activity end="2012-02-21T19:15" id="5" projectReference="7" start="2012-02-21T19:00">
+<description/>
+</activity>
+<activity end="2012-02-29T15:00" id="3" projectReference="8" start="2012-02-29T13:00">
+<description/>
+</activity>
+</activities>
+</baralga>
