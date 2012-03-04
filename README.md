@@ -8,7 +8,9 @@ Known Bugs
 * Active missing in import
 * DayFilters in several languages
 
-=== Further Development ===
+
+Further Development
+---------------------
 >   task installer(dependsOn: prepareInstaller) {
 >       ant.taskdef(name: 'izpack', classname: 'com.izforge.izpack.ant.IzPackTask', classpath: configurations.izpack.asPath)
 >       ant.izpack(input: "[installation XML file]", output:  "${jar.baseName}-${jar.version}-Installer.jar", basedir: "${buildDir}/installer")
