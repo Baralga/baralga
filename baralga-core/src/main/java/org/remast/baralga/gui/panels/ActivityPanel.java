@@ -3,7 +3,6 @@ package org.remast.baralga.gui.panels;
 import info.clearthought.layout.TableLayout;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -166,7 +165,6 @@ public class ActivityPanel extends JPanel implements ActionListener {
         descriptionEditor.setBorder(
                 BorderFactory.createLineBorder(GuiConstants.VERY_LIGHT_GREY)
         );
-        descriptionEditor.setPreferredSize(new Dimension(200, 100));
         descriptionEditor.addTextObserver(new JTextEditor.TextChangeObserver() {
 
             public void onTextChange() {
@@ -187,7 +185,7 @@ public class ActivityPanel extends JPanel implements ActionListener {
 
         final double[][] buttonPanelSize = {
                 { border, TableLayout.FILL, border, TableLayout.FILL, border }, // Columns
-                { 0, TableLayout.FILL, border, TableLayout.FILL, border, TableLayout.FILL, border * 2 } // Rows
+                { 0, TableLayout.FILL, border, TableLayout.FILL, border, TableLayout.PREFERRED, border * 2 } // Rows
         };
 
         buttonPanel.setLayout(new TableLayout(buttonPanelSize));
