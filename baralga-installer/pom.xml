@@ -15,7 +15,7 @@
 	</parent>
 	<properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<baralga.version>1.7.2</baralga.version>
+		<baralga.version>1.7.3</baralga.version>
 	</properties>
 	<build>
 		<!--
