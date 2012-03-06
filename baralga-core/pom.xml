@@ -81,7 +81,6 @@
 							<addExtensions />
 						</manifest>
 						<manifestEntries>
-							<Implementation-Build>${buildNumber}</Implementation-Build>
 							<SplashScreen-Image>images/baralga/Baralga-Splash.png</SplashScreen-Image>
 						</manifestEntries>
 					</archive>
