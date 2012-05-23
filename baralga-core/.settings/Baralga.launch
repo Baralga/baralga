@@ -18,10 +18,10 @@
 <stringAttribute key="org.eclipse.hyades.trace.ui.ATTR_DESTINATION_PROJECT" value="ProfileProject"/>
 <booleanAttribute key="org.eclipse.hyades.trace.ui.ATTR_PROFILE_TO_FILE" value="false"/>
 <stringAttribute key="org.eclipse.hyades.trace.ui.ATTR_PROFILING_SET" value="tptp-dummy-profiling-set-Baralga"/>
-<stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.m2e.launchconfig.classpathProvider"/>
+<stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.maven.ide.eclipse.launchconfig.classpathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.remast.baralga.gui.BaralgaMain"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="com.remast.baralga.baralga-core"/>
-<stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
+<stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.maven.ide.eclipse.launchconfig.sourcepathProvider"/>
 <stringAttribute key="org.eclipse.tptp.platform.instrumentation.ui.CURRENT_INSTRUMENT_POINT" value="org.eclipse.tptp.monitoring.instrumentation.jmxProbe"/>
 <stringAttribute key="org.eclipse.tptp.platform.instrumentation.ui.SELECTED_INSTRUMENT_COLLECTOR" value="org.eclipse.tptp.platform.instrumentation.ui.instrumentCollector.jvmti"/>
 <listAttribute key="org.eclipse.tptp.platform.instrumentation.ui.SELECTED_INSTRUMENT_FILES">
