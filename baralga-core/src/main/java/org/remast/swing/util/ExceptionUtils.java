@@ -34,9 +34,9 @@ public class ExceptionUtils {
 
 	/**
 	 * Shows an error dialog for the given exception.
-	 * @param t the exception
+	 * @param throwable the exception
 	 */
-	public static void showErrorDialog(final Throwable t) {
+	public static void showErrorDialog(final Throwable throwable) {
 		// Catch any uncaught GUI Exceptions
 		try {
 			final ErrorInfo errorInfo = new ErrorInfo(
@@ -44,7 +44,7 @@ public class ExceptionUtils {
 					textBundle.textFor("BaralgaMain.FatalError.Message", BaralgaMain.getLogFileName()),  //$NON-NLS-1$, 
 					null, // detailedErrorMessage
 					null, // category
-					t, 
+					throwable, 
 					Level.SEVERE, 
 					null);
 			JXErrorPane.showDialog(null, errorInfo);

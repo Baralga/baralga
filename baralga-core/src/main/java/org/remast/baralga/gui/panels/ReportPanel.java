@@ -102,7 +102,6 @@ public class ReportPanel extends JXPanel implements ActionListener {
 		// Obtain a reusable constraints object to place components in the grid.
 		filteredActivitiesPane = new FilteredActivitiesPane(model);
 
-		final double borderBig = 10;
 		final double border = 5;
 		final double[][] size = {
 				{ border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, 10, TableLayout.PREFERRED, border, TableLayout.FILL, border}, // Columns
