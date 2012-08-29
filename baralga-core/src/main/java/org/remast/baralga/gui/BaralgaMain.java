@@ -311,7 +311,7 @@ public final class BaralgaMain {
 	private static void checkForOldApplicationDirectory() {
 		final File oldDefaultDataDirectory = new File(System.getProperty("user.home") + File.separator + ".ProTrack");
 		if (oldDefaultDataDirectory.exists() && oldDefaultDataDirectory.canRead()) {
-			JOptionPane.showInternalMessageDialog(null, "Data from version 1.4.x is not migrated any more. Please update to 1.5 or 1.6 first before using this version.");
+			log.error("Data from version 1.4.x is not migrated any more. Please update to 1.5 or 1.6 first before using this version.");
 		}
 	}
 
