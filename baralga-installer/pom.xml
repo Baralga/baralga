@@ -7,7 +7,7 @@
 	<packaging>jar</packaging>
 	<version>1.7</version>
 	<name>Baralga Installer</name>
-	<url>http://baralga.origo.ethz.ch</url>
+	<url>http://baralga.github.com</url>
 	<parent>
 		<groupId>com.remast.baralga</groupId>
 		<artifactId>parent</artifactId>
@@ -86,7 +86,7 @@
 						<configuration>
                             <descriptor>${project.build.directory}/classes/install.xml</descriptor>
                             <descriptorEncoding>UTF-8</descriptorEncoding>
-							<izpackBasedir>${project.build.directory}/Baralga-Portable-${baralga.version}.dir</izpackBasedir>
+							<izpackBasedir>${project.build.directory}/Baralga-Portable-${baralga.version}</izpackBasedir>
 							<installerFile>${project.build.directory}/Baralga-Installer-${baralga.version}.jar</installerFile>
 						</configuration>
 					</execution>
@@ -98,7 +98,7 @@
         <dependency>
             <groupId>org.codehaus.izpack</groupId>
             <artifactId>izpack-standalone-compiler</artifactId>
-            <version>4.3.4</version>
+            <version>4.3.5</version>
             <scope>provided</scope>
         </dependency>
 		<dependency>
