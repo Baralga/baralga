@@ -492,6 +492,9 @@ public final class UserSettings {
 			if (defaultValue != null) {
 				defaultMillis = defaultValue.getMillis();	
 			}
+			if (defaultMillis == null) {
+			   return null;
+			}
 
 			final Long dateMilliseconds = Long.valueOf(userConfig.getProperty(key, String.valueOf(defaultMillis)));
 			if (dateMilliseconds == null) {
