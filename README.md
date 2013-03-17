@@ -9,6 +9,11 @@ Known Bugs
 * DayFilters in several languages
 
 
+Baralga Version 1.7.4	
+---------------------
+### Misc
+* Updated several libraries.
+
 Baralga Version 1.7.3	
 ---------------------
 ### Misc 
