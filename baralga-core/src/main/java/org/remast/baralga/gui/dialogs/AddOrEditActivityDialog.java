@@ -70,7 +70,7 @@ public class AddOrEditActivityDialog extends EscapeDialog {
     // ------------------------------------------------
 
     /** Selects the project of the activity. */
-    private JComboBox projectSelector = null;
+    private JComboBox<Project> projectSelector = null;
 
     /** Button to submit the edited activity. */
     private JButton submitActivityButton = null;
@@ -188,9 +188,9 @@ public class AddOrEditActivityDialog extends EscapeDialog {
      * This method initializes projectSelector.
      * @return javax.swing.JComboBox
      */
-    private JComboBox getProjectSelector() {
+    private JComboBox<Project> getProjectSelector() {
         if (projectSelector == null) {
-            projectSelector = new JComboBox(new EventComboBoxModel<Project>(model.getProjectList()));
+            projectSelector = new JComboBox<Project>(new EventComboBoxModel<Project>(model.getProjectList()));
         }
         return projectSelector;
     }

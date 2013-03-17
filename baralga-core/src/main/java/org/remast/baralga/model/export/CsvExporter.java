@@ -13,9 +13,9 @@ import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.util.TextResourceBundle;
 
-import com.google.common.base.Strings;
-
 import au.com.bytecode.opencsv.CSVWriter;
+
+import com.google.common.base.Strings;
 
 /**
  * Exports the data into Commma Separated Value (CSV) format.
@@ -56,18 +56,24 @@ public class CsvExporter implements Exporter {
         // Sort activities by default sort order (date) before export
         Collections.sort(activities);
 
-        final CSVWriter writer = new CSVWriter(
-                new OutputStreamWriter(outputStream),
-                SEPARATOR_CHARACTER
-        );
+        CSVWriter writer = null;
+        try {
+            writer = new CSVWriter(
+                    new OutputStreamWriter(outputStream),
+                    SEPARATOR_CHARACTER
+            );
 
-        writer.writeNext(CSV_HEADER);
+            writer.writeNext(CSV_HEADER);
 
-        for (ProjectActivity activity : activities) {
-            writer.writeNext(makeCsvLine(activity));
-            writer.flush();
-        }
-
+            for (ProjectActivity activity : activities) {
+                writer.writeNext(makeCsvLine(activity));
+                writer.flush();
+            }
+		} finally {
+			if (writer != null) {
+				writer.close();
+			}
+		}
     }
 
     /**
