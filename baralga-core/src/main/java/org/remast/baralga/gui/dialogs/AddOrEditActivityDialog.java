@@ -188,7 +188,8 @@ public class AddOrEditActivityDialog extends EscapeDialog {
      * This method initializes projectSelector.
      * @return javax.swing.JComboBox
      */
-    private JComboBox<Project> getProjectSelector() {
+    @SuppressWarnings("unchecked")
+	private JComboBox<Project> getProjectSelector() {
         if (projectSelector == null) {
             projectSelector = new JComboBox<Project>(new EventComboBoxModel<Project>(model.getProjectList()));
         }

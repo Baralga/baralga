@@ -316,7 +316,6 @@ public class FilteredActivitiesPane extends JPanel {
 	/**
 	 * {@inheritDoc}
 	 */
-	@SuppressWarnings("unchecked")
 	@Subscribe public void update(final Object eventObject) {
 		if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
 			return;

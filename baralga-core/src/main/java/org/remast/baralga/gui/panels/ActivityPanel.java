@@ -90,7 +90,7 @@ public class ActivityPanel extends JPanel implements ActionListener {
     private static final Icon ICON_STOP_DISABLED = new ImageIcon(BaralgaMain.class.getResource("/icons/Stop-Disabled-icon.png"));
 	
 	/** The list of projects. The selected project is the currently active project. */
-    private JComboBox projectSelector = null;
+    private JComboBox<Project> projectSelector = null;
 
     /** The description editor. */
     private JTextEditor descriptionEditor;
@@ -294,9 +294,10 @@ public class ActivityPanel extends JPanel implements ActionListener {
      * This method initializes projectSelector.
      * @return javax.swing.JComboBox
      */
-    private JComboBox getProjectSelector() {
+    @SuppressWarnings("unchecked")
+	private JComboBox<Project> getProjectSelector() {
         if (projectSelector == null) {
-            projectSelector = new JComboBox();
+            projectSelector = new JComboBox<Project>();
             projectSelector.setToolTipText(textBundle.textFor("ProjectSelector.ToolTipText")); //$NON-NLS-1$
             projectSelector.setModel(new EventComboBoxModel<Project>(this.model.getProjectList()));
 
