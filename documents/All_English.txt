@@ -58,7 +58,7 @@ Global.VersionNumber=1.3.3
 
 AboutDialog.Title=About
 AboutDialog.HomepageLabel=Homepage:
-AboutDialog.HomepageUrl=http://baralga.origo.ethz.ch
+AboutDialog.HomepageUrl=http://baralga.github.io/
 AboutDialog.BugLabel=Report bug:
 AboutDialog.BugUrl=http://baralga.origo.ethz.ch/issues
 
