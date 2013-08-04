@@ -141,7 +141,7 @@ public class PresentationModel {
 
         // If there is a active project that has been started on another day,
         // we end it here.
-        if (active && !org.apache.commons.lang.time.DateUtils.isSameDay(start.toDate(), DateUtils.getNow())) {
+        if (active && start != null && !org.apache.commons.lang.time.DateUtils.isSameDay(start.toDate(), DateUtils.getNow())) {
             try {
                 stop();
             } catch (ProjectActivityStateException e) {
