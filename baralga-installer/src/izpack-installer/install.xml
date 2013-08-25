@@ -2,7 +2,7 @@
 <installation version="1.0">
 	<info>
 		<appname>Baralga</appname>
-		<appversion>${baralga.version}</appversion>
+		<appversion>${project.version}</appversion>
 		<authors>
 			<author name="${user.name}" email="baralga@geekmail.de" />
 		</authors>
@@ -58,7 +58,7 @@
 			<description>The base files of the application.</description>
 			<file src="Licence.txt" targetdir="$INSTALL_PATH" />
 			<file src="Baralga-Tray.ico" targetdir="$INSTALL_PATH" />
-			<file src="baralga-core-${baralga.version}.jar" targetdir="$INSTALL_PATH" />
+			<file src="baralga-core-${project.version}.jar" targetdir="$INSTALL_PATH" />
 			<file src="lib" targetdir="$INSTALL_PATH" />
             <file src="data" targetdir="$INSTALL_PATH" />
 			<updatecheck>
