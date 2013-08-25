@@ -67,8 +67,8 @@ public class HoursByProjectReport {
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
-    @Subscribe public void update(final Object eventObject) {
+    @Subscribe 
+    public void update(final Object eventObject) {
         if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
             return;
         }

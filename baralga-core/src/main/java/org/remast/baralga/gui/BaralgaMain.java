@@ -360,12 +360,14 @@ public final class BaralgaMain {
 	private static boolean tryLock() {
 		checkOrCreateBaralgaDir();
 		final File lockFile = new File(UserSettings.getLockFileLocation());
+		RandomAccessFile randomAccessFile = null;
 		try {
 			if (!lockFile.exists()) {
 				lockFile.createNewFile();
 			}
 
-			final FileChannel channel = new RandomAccessFile(lockFile, "rw").getChannel(); //$NON-NLS-1$
+			randomAccessFile = new RandomAccessFile(lockFile, "rw"); //$NON-NLS-1$
+			final FileChannel channel = randomAccessFile.getChannel();
 			lock = channel.tryLock();
 
 			return lock != null;
@@ -373,6 +375,14 @@ public final class BaralgaMain {
 			final String error = textBundle.textFor("ProTrackMain.8"); //$NON-NLS-1$
 			log.error(error, e);
 			throw new RuntimeException(error);
+		} finally {
+			if (randomAccessFile != null) {
+				try {
+					randomAccessFile.close();
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			}
 		}
 	}
 

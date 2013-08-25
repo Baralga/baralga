@@ -70,8 +70,8 @@ public class HoursByMonthReport {
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
-    @Subscribe public void update(final Object eventObject) {
+    @Subscribe 
+    public void update(final Object eventObject) {
         if (eventObject != null && eventObject instanceof BaralgaEvent) {
             final BaralgaEvent event = (BaralgaEvent) eventObject;
             switch (event.getType()) {

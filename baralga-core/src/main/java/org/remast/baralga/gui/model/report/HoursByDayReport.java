@@ -67,7 +67,6 @@ public class HoursByDayReport {
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
     @Subscribe public void update(final Object eventObject) {
         if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
             return;

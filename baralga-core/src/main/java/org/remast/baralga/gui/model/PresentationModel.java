@@ -50,7 +50,6 @@ public class PresentationModel {
 	}
 
 	/** The logger. */
-    @SuppressWarnings("unused")
     private static final Logger log = LoggerFactory.getLogger(PresentationModel.class);
 
     /** The bundle for internationalized texts. */
