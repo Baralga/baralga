@@ -305,7 +305,6 @@ public class AddOrEditActivityDialog extends EscapeDialog {
             final DateFormatter dateFormatter = new DateFormatter(new SmartTimeFormat());
             startField = new JFormattedTextField(dateFormatter);
             dateFormatter.install(startField);
-
         }
         return startField;
     }
