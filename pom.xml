@@ -4,7 +4,7 @@
 	<groupId>com.remast.baralga</groupId>
 	<artifactId>parent</artifactId>
 	<packaging>pom</packaging>
-	<version>1.7.6</version>
+	<version>1.7.7-SNAPSHOT</version>
 	<name>Baralga Parent</name>
 	<url>http://baralga.github.io</url>
 	<properties>
