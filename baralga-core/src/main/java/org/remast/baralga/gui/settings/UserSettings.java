@@ -31,6 +31,8 @@ public final class UserSettings {
 	/** Default name of the ProTrack data file. */
 	public static final String DEFAULT_FILE_NAME = "Data.baralga.xml"; //$NON-NLS-1$
 
+	private static final long DEFAULT_INACTIVITY_THRESHOLD = 1000 * 60 * 5; // 5 minutes
+//	private static final long DEFAULT_INACTIVITY_THRESHOLD = 1000; // 5 minutes
 	/**
 	 * Get the location of the data file.
 	 * @return the path of the data file
@@ -368,6 +370,25 @@ public final class UserSettings {
 
 
 	//------------------------------------------------
+	// Show Stopwatch
+	//------------------------------------------------
+
+	/** The key for show stopwatch. */
+	public static final String SHOW_STOPWATCH = "settings.showStopwatch"; //$NON-NLS-1$
+
+	public Boolean isShowStopwatch() {
+		return doGetBoolean(SHOW_STOPWATCH, false);
+	}
+
+	public void setShowStopwatch(final boolean showStopwatch) {
+		userConfig.setProperty(SHOW_STOPWATCH, String.valueOf(showStopwatch));
+		
+		// Auto save change
+		save();
+	}
+
+
+	//------------------------------------------------
 	// Window size
 	//------------------------------------------------
 
@@ -413,6 +434,56 @@ public final class UserSettings {
 	public void setWindowLocation(final Point location) {
 		final String encodedLocation = location.getX() + "|" + location.getY(); //$NON-NLS-1$
 		userConfig.setProperty(WINDOW_LOCATION, encodedLocation);
+		
+		// Auto save change
+		save();
+	}
+	
+	
+	//------------------------------------------------
+	// Stopwatch Window size
+	//------------------------------------------------
+
+	/** The key for the window size. */
+	public static final String STOPWATCH_WINDOW_SIZE = "settings.stopwatchwindowSize"; //$NON-NLS-1$
+
+	public Dimension getStopwatchWindowSize() {
+		final String encodedSize = doGetString(STOPWATCH_WINDOW_SIZE, "450|35"); //$NON-NLS-1$
+		final Iterable<String> sizeValues = Splitter.on('|').split(encodedSize);
+		final Iterator<String> sizeValuesIterator = sizeValues.iterator();
+
+		final Dimension size = new Dimension(Double.valueOf(sizeValuesIterator.next()).intValue(), Double.valueOf(sizeValuesIterator.next()).intValue());
+		return size;
+	}
+
+	public void setStopwatchWindowSize(final Dimension size) {
+		final String encodedSize = size.getWidth() + "|" + size.getHeight(); //$NON-NLS-1$
+		userConfig.setProperty(STOPWATCH_WINDOW_SIZE, encodedSize);
+		
+		// Auto save change
+		save();
+	}
+
+
+	//------------------------------------------------
+	// Window location
+	//------------------------------------------------
+
+	/** The key for the shown category. */
+	public static final String STOPWATCH_WINDOW_LOCATION = "settings.stopwatchwindowLocation"; //$NON-NLS-1$
+
+	public Point getStopwatchWindowLocation() {
+		final String encodedLocation = doGetString(STOPWATCH_WINDOW_LOCATION, "0.0|0.0"); //$NON-NLS-1$
+		final Iterable<String> locationCoordinates = Splitter.on('|').split(encodedLocation);
+		final Iterator<String> locationCoordinatesIterator = locationCoordinates.iterator();
+
+		final Point location = new Point(Double.valueOf(locationCoordinatesIterator.next()).intValue(), Double.valueOf(locationCoordinatesIterator.next()).intValue());
+		return location;
+	}
+
+	public void setStopwatchWindowLocation(final Point location) {
+		final String encodedLocation = location.getX() + "|" + location.getY(); //$NON-NLS-1$
+		userConfig.setProperty(STOPWATCH_WINDOW_LOCATION, encodedLocation);
 		
 		// Auto save change
 		save();
@@ -523,4 +594,8 @@ public final class UserSettings {
         	}
         }
     }
+
+	public long getInactivityThreshold() {
+		return doGetLong("settings.userInactivityThreshold", DEFAULT_INACTIVITY_THRESHOLD);
+	}
 }
