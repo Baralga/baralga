@@ -52,6 +52,12 @@ public class BaralgaEvent {
     /** The start time has changed. */
     public static final int START_CHANGED = 10;
 
+    /** The stopwatch visibility has changed. */
+    public static final int STOPWATCH_VISIBILITY_CHANGED = 11;
+
+    /** mouse action caught from windows, user seems to be actively working with the computer. */
+    public static final int USER_IS_INACTIVE = 12;
+
     /** The type of the event. */
     private final int type;
 

@@ -18,6 +18,9 @@ import org.apache.log4j.Appender;
 import org.apache.log4j.DailyRollingFileAppender;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.xml.DOMConfigurator;
+import org.remast.baralga.gui.dialogs.UserInactivityReminderDialog;
+import org.remast.baralga.gui.dialogs.StopWatch;
+import org.remast.baralga.gui.model.CWMouseHook;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.model.ProjectActivityStateException;
 import org.remast.baralga.gui.settings.ApplicationSettings;
@@ -28,6 +31,8 @@ import org.remast.swing.util.ExceptionUtils;
 import org.remast.util.TextResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.sun.jna.Platform;
 
 /**
  * Controls the lifecycle of the application.
@@ -116,6 +121,9 @@ public final class BaralgaMain {
 			Toolkit.getDefaultToolkit().getSystemEventQueue().push(new ExceptionUtils.ExceptionHandlingEventProcessor());
 
 			final MainFrame mainFrame = initMainFrame(model, mainInstance);
+			initStopWatch(model);
+			
+			initUserInactivityRecognition(model);
 
 			initTrayIcon(mainInstance, model, mainFrame);
 		} catch (Exception e) {
@@ -127,6 +135,22 @@ public final class BaralgaMain {
 			ExceptionUtils.showErrorDialog(e);
 			System.exit(1);
 		}
+	}
+
+	private static void initUserInactivityRecognition(PresentationModel model) {
+		//TODO: Please add addition classes to get Mouse and Keyboard events from different operating system. I do only have Windows available
+		switch(Platform.getOSType()) {
+		case Platform.WINDOWS:
+			CWMouseHook windowsMouseHook = new CWMouseHook(model);
+			windowsMouseHook.setMouseHook();
+			break;
+		default:
+			log.warn("InactivityRecognition not implemented for Operating System. Feature will be disabled!");
+			break;
+		}
+		
+		//Creating the dialog. It handles visiblity automaticaly by events from eventHub.
+		new UserInactivityReminderDialog(model);
 	}
 
 	/**
@@ -169,6 +193,29 @@ public final class BaralgaMain {
 		});
 
 		return mainFrame;
+	}
+
+	/**
+	 * Initializes the stop watch.
+	 * @param model the model to be displayed
+	 * @return the initialized stopwatch
+	 */
+	private static StopWatch initStopWatch(final PresentationModel model) {
+		if (log.isDebugEnabled()) {
+			log.debug("Initializing stopwatch ..."); //$NON-NLS-1$
+		}
+
+		final StopWatch stopwatch = new StopWatch(model);
+
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				stopwatch.setVisible(UserSettings.instance().isShowStopwatch());
+			}
+		});
+
+		return stopwatch;
 	}
 
 	/**
