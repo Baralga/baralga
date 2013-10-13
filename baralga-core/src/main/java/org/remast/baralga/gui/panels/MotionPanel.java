@@ -10,7 +10,9 @@ import javax.swing.JWindow;
 
 @SuppressWarnings("serial")
 public class MotionPanel extends JPanel {
+
 	private Point initialClick;
+
 	@SuppressWarnings("unused")
 	private JWindow parent;
 
@@ -18,6 +20,7 @@ public class MotionPanel extends JPanel {
 		this.parent = parent;
 
 		addMouseListener(new MouseAdapter() {
+
 			public void mousePressed(MouseEvent e) {
 				initialClick = e.getPoint();
 				getComponentAt(initialClick);
@@ -25,9 +28,9 @@ public class MotionPanel extends JPanel {
 		});
 
 		addMouseMotionListener(new MouseMotionAdapter() {
+
 			@Override
 			public void mouseDragged(MouseEvent e) {
-
 				// get location of Window
 				int thisX = parent.getLocation().x;
 				int thisY = parent.getLocation().y;
@@ -42,5 +45,7 @@ public class MotionPanel extends JPanel {
 				parent.setLocation(X, Y);
 			}
 		});
+
 	}
+
 }

@@ -14,16 +14,21 @@ import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.panels.SelectLastActionPanel;
 import org.remast.baralga.gui.panels.SelectNextActionPanel;
+import org.remast.util.TextResourceBundle;
 
 import com.google.common.eventbus.Subscribe;
 
 @SuppressWarnings("serial")
 public class UserInactivityReminderDialog extends JDialog implements ActionListener {
 
-	PresentationModel model;
+	/** The bundle for internationalized texts. */
+	private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(UserInactivityReminderDialog.class);
+	
+	private PresentationModel model;
 
-	SelectLastActionPanel lastActionPanel;
-	SelectNextActionPanel nextActionPanel;
+	private SelectLastActionPanel lastActionPanel;
+	
+	private SelectNextActionPanel nextActionPanel;
 
 	public UserInactivityReminderDialog(PresentationModel model) {
 		this.model = model;
@@ -32,6 +37,8 @@ public class UserInactivityReminderDialog extends JDialog implements ActionListe
 		setAlwaysOnTop(true);
 		setLocationByPlatform(true);
 		setVisible(false);
+		
+		this.setTitle(textBundle.textFor("UserInactivityReminderDialog.Title")); //$NON-NLS-1$
 
 		final double border = 1;
 		final double[][] size = { { border, TableLayout.PREFERRED, border }, // Columns
@@ -42,11 +49,11 @@ public class UserInactivityReminderDialog extends JDialog implements ActionListe
 
 		lastActionPanel = new SelectLastActionPanel(model);
 		nextActionPanel = new SelectNextActionPanel(model);
-		JButton okBtn = getOKButton();
+		JButton okButton = getOKButton();
 
 		add(lastActionPanel, "1, 1");
 		add(nextActionPanel, "1, 3");
-		add(okBtn, "1, 5");
+		add(okButton, "1, 5");
 
 		pack();
 	}
@@ -88,7 +95,7 @@ public class UserInactivityReminderDialog extends JDialog implements ActionListe
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("OK")) {
+		if ("OK".equals(e.getActionCommand())) {
 			try {
 				lastActionPanel.beginSaving();
 				nextActionPanel.beginSaving();
@@ -101,7 +108,6 @@ public class UserInactivityReminderDialog extends JDialog implements ActionListe
 				nextActionPanel.endSaving();
 			}
 		}
-
 	}
 
 	private void resetInactivity() {

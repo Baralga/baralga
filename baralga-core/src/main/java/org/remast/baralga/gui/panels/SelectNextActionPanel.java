@@ -15,6 +15,8 @@ import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
 import org.remast.util.TextResourceBundle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 
@@ -22,7 +24,10 @@ import com.google.common.eventbus.Subscribe;
 
 @SuppressWarnings("serial")
 public class SelectNextActionPanel extends JPanel {
-
+	
+    /** The logger. */
+    private static final Logger log = LoggerFactory.getLogger(SelectNextActionPanel.class);
+    
 	/** The bundle for internationalized texts. */
 	private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
 
@@ -102,8 +107,6 @@ public class SelectNextActionPanel extends JPanel {
 
 	private JLabel getIntroductionLabel() {
 		final JLabel introductionLabel = new JLabel(textBundle.textFor("SelectNextActionPanel.IntroductionLabel.Title")); //$NON-NLS-1$
-		// introductionLabel.setFont(FONT_BIG);
-
 		return introductionLabel;
 	}
 
@@ -164,7 +167,7 @@ public class SelectNextActionPanel extends JPanel {
 					model.start();
 				}
 			} catch (Exception ex) {
-				ex.printStackTrace();
+				log.error("Could not save project.", ex);
 			}
 		}
 	}

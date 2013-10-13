@@ -1,5 +1,8 @@
 package org.remast.baralga.gui.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.sun.jna.Native;
 import com.sun.jna.NativeLong;
 import com.sun.jna.Platform;
@@ -16,6 +19,10 @@ import com.sun.jna.platform.win32.WinUser.MSG;
 import com.sun.jna.platform.win32.WinUser.POINT;
 
 public class CWMouseHook {
+	
+    /** The logger. */
+    private static final Logger log = LoggerFactory.getLogger(CWMouseHook.class);
+	
 	public final User32 USER32INST;
 	public final Kernel32 KERNEL32INST;
 
@@ -25,8 +32,7 @@ public class CWMouseHook {
 		this.model = model;
 		
 		if (!Platform.isWindows()) {
-			throw new UnsupportedOperationException(
-					"Not supported on this platform.");
+			throw new UnsupportedOperationException("Not supported on this platform.");
 		}
 		
 		USER32INST = User32.INSTANCE;
@@ -74,15 +80,14 @@ public class CWMouseHook {
 						while ((USER32INST.GetMessage(msg, null, 0, 0)) != 0) {
 							USER32INST.TranslateMessage(msg);
 							USER32INST.DispatchMessage(msg);
-							System.out.print(isHooked);
 							if (!isHooked)
 								break;
 						}
-					} else
-						System.out.println("The Hook is already installed.");
+					} else {
+						log.debug("The Hook is already installed.");
+					}
 				} catch (Exception e) {
-					System.err.println(e.getMessage());
-					System.err.println("Caught exception in MouseHook!");
+					log.error("Caught exception in MouseHook!", e);
 				}
 			}
 		}, "Named thread");

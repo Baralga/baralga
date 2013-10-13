@@ -46,9 +46,6 @@ public class ActivityPanelStopWatch extends JPanel implements ActionListener {
 	/** The bundle for internationalized texts. */
 	private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(MainFrame.class);
 
-	/** Big font for labels. */
-	private static final Font FONT_BIG = new Font("Sans Serif", Font.PLAIN, 14);
-
 	/** Color for highlighted time and duration. */
 	private static final Color HIGHLIGHT_COLOR = new Color(51, 0, 102);
 
@@ -89,9 +86,7 @@ public class ActivityPanelStopWatch extends JPanel implements ActionListener {
 
 	/**
 	 * Create a new panel for the given model.
-	 * 
-	 * @param model
-	 *            the model
+	 * @param model the model
 	 */
 	public ActivityPanelStopWatch(final PresentationModel model) {
 		this.model = model;
@@ -157,7 +152,6 @@ public class ActivityPanelStopWatch extends JPanel implements ActionListener {
 
 	/**
 	 * This method initializes startStopButton.
-	 * 
 	 * @return javax.swing.JButton
 	 */
 	private JButton getStartStopButton() {
@@ -172,7 +166,6 @@ public class ActivityPanelStopWatch extends JPanel implements ActionListener {
 
 	/**
 	 * This method initializes projectSelector.
-	 * 
 	 * @return javax.swing.JComboBox
 	 */
 	@SuppressWarnings("unchecked")
@@ -233,9 +226,7 @@ public class ActivityPanelStopWatch extends JPanel implements ActionListener {
 
 	/**
 	 * Executed on project changed event.
-	 * 
-	 * @param event
-	 *            the event of the project change
+	 * @param event the event of the project change
 	 */
 	private void updateProjectChanged(final BaralgaEvent event) {
 		getProjectSelector().setSelectedItem((Project) event.getData());
@@ -285,9 +276,7 @@ public class ActivityPanelStopWatch extends JPanel implements ActionListener {
 
 	/**
 	 * Timer event during running activity.
-	 * 
-	 * @param event
-	 *            the timer event
+	 * @param event the timer event
 	 */
 	@Override
 	public final void actionPerformed(final ActionEvent event) {

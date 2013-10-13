@@ -4,7 +4,6 @@ import info.clearthought.layout.TableLayout;
 
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -22,6 +21,8 @@ import org.remast.baralga.model.Project;
 import org.remast.swing.JTextEditor;
 import org.remast.swing.util.GuiConstants;
 import org.remast.util.TextResourceBundle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 
@@ -29,11 +30,14 @@ import com.google.common.eventbus.Subscribe;
 
 @SuppressWarnings("serial")
 public class SelectLastActionPanel extends JPanel {
-
+	
+    /** The logger. */
+    private static final Logger log = LoggerFactory.getLogger(SelectLastActionPanel.class);
+    
 	/** The bundle for internationalized texts. */
 	private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
 
-	PresentationModel model;
+	private PresentationModel model;
 
 	/** The description editor. */
 	private JTextEditor descriptionEditor;
@@ -55,19 +59,17 @@ public class SelectLastActionPanel extends JPanel {
 	 * The RadioButton that will be checked when no activity for the inactivity
 	 * time should be tracked
 	 */
-	private JRadioButton btnNoAction;
+	private JRadioButton buttonNoAction;
 
 	/**
 	 * The Radio button, that will be checked when another Project ( or
 	 * Activity) should be tracked
 	 */
-	private JRadioButton btnAction;
+	private JRadioButton buttonAction;
 
 	/**
 	 * Create a new panel for the given model.
-	 * 
-	 * @param model
-	 *            the model
+	 * @param model the model
 	 */
 	public SelectLastActionPanel(final PresentationModel model) {
 		this.model = model;
@@ -103,7 +105,7 @@ public class SelectLastActionPanel extends JPanel {
 		if (isSaving) {
 			return;
 		}
-		
+
 		if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
 			return;
 		}
@@ -116,7 +118,7 @@ public class SelectLastActionPanel extends JPanel {
 		case BaralgaEvent.PROJECT_ACTIVITY_STOPPED:
 		case BaralgaEvent.PROJECT_CHANGED:
 			this.updateProjectChanged(event);
-			btnAction.setSelected(true);
+			buttonAction.setSelected(true);
 			break;
 
 		case BaralgaEvent.USER_IS_INACTIVE:
@@ -140,8 +142,6 @@ public class SelectLastActionPanel extends JPanel {
 
 	private JLabel getIntroductionLabel() {
 		final JLabel introductionLabel = new JLabel(textBundle.textFor("SelectLastActionPanel.IntroductionLabel.Title")); //$NON-NLS-1$
-		// introductionLabel.setFont(FONT_BIG);
-
 		return introductionLabel;
 	}
 
@@ -153,17 +153,17 @@ public class SelectLastActionPanel extends JPanel {
 		JPanel panel = new JPanel(new TableLayout(size));
 
 		// Create the radio buttons.
-		btnNoAction = new JRadioButton(textBundle.textFor("SelectLastActionPanel.ButtonNoAction.Title")); //$NON-NLS-1$
-		btnNoAction.setMnemonic(KeyEvent.VK_T);
-		btnNoAction.setSelected(true);
+		buttonNoAction = new JRadioButton(textBundle.textFor("SelectLastActionPanel.ButtonNoAction.Title")); //$NON-NLS-1$
+		buttonNoAction.setMnemonic(KeyEvent.VK_T);
+		buttonNoAction.setSelected(true);
 
-		btnAction = new JRadioButton(textBundle.textFor("SelectLastActionPanel.ButtonAction.Title")); //$NON-NLS-1$
-		btnAction.setMnemonic(KeyEvent.VK_C);
+		buttonAction = new JRadioButton(textBundle.textFor("SelectLastActionPanel.ButtonAction.Title")); //$NON-NLS-1$
+		buttonAction.setMnemonic(KeyEvent.VK_C);
 
 		// Group the radio buttons.
-		ButtonGroup group = new ButtonGroup();
-		group.add(btnNoAction);
-		group.add(btnAction);
+		ButtonGroup buttonGroup = new ButtonGroup();
+		buttonGroup.add(buttonNoAction);
+		buttonGroup.add(buttonAction);
 
 		// Register a listener for the radio buttons.
 
@@ -185,8 +185,8 @@ public class SelectLastActionPanel extends JPanel {
 		descriptionEditor.setText(model.getDescription());
 		descriptionEditor.setEditable(model.isActive());
 
-		panel.add(btnNoAction, "1, 1"); //$NON-NLS-1$
-		panel.add(btnAction, "1, 3"); //$NON-NLS-1$
+		panel.add(buttonNoAction, "1, 1"); //$NON-NLS-1$
+		panel.add(buttonAction, "1, 3"); //$NON-NLS-1$
 		panel.add(getProjectSelector(), "3, 3"); //$NON-NLS-1$
 		panel.add(descriptionEditor, "3, 5"); //$NON-NLS-1$
 
@@ -195,20 +195,17 @@ public class SelectLastActionPanel extends JPanel {
 
 	private JLabel getAwaySinceLabel() {
 		awaySince = new JLabel(textBundle.textFor("SelectLastActionPanel.AwaySince.Title", 0, 0, 0)); //$NON-NLS-1$
-		// introductionLabel.setFont(FONT_BIG);
 		return awaySince;
 	}
 
 	private JLabel getLastProjectLabel() {
 		lastProjectLabel = new JLabel();
 		updateLastProjextLabel();
-		// lastActionLabel.setFont(FONT_BIG);
 		return lastProjectLabel;
 	}
 
 	/**
 	 * This method initializes projectSelector.
-	 * 
 	 * @return javax.swing.JComboBox
 	 */
 	@SuppressWarnings("unchecked")
@@ -223,39 +220,33 @@ public class SelectLastActionPanel extends JPanel {
 
 	/**
 	 * Executed on project changed event.
-	 * 
-	 * @param event
-	 *            the event of the project change
+	 * @param event the event of the project change
 	 */
 	private void updateProjectChanged(final BaralgaEvent event) {
 		getProjectSelector().setSelectedItem(model.getSelectedProject());
 	}
 
 	private void updateInactivityTime(long inactivityTime) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis(System.currentTimeMillis() - inactivityTime);
-		cal.add(Calendar.HOUR, -1); // FIXME: I don't know why, but the Calendar
-									// object show 1 hour more then actually
-									// excpected.
+		DateTime dateTime = new DateTime().minusHours(1).minus(inactivityTime);
 
-		SimpleDateFormat hours = new SimpleDateFormat("HH");
-		SimpleDateFormat minutes = new SimpleDateFormat("mm");
-		SimpleDateFormat seconds = new SimpleDateFormat("ss");
+		SimpleDateFormat hoursFormat = new SimpleDateFormat("HH");
+		SimpleDateFormat minutesFormat = new SimpleDateFormat("mm");
+		SimpleDateFormat secondsFormat = new SimpleDateFormat("ss");
 
-		String strHours = hours.format(cal.getTime());
-		String strMinutes = minutes.format(cal.getTime());
-		String strSeconds = seconds.format(cal.getTime());
+		String hours = hoursFormat.format(dateTime.toDate());
+		String minutes = minutesFormat.format(dateTime.toDate());
+		String seconds = secondsFormat.format(dateTime.toDate());
 
-		awaySince.setText(textBundle.textFor("SelectLastActionPanel.AwaySince.Title", strHours, strMinutes, strSeconds)); //$NON-NLS-1$
+		awaySince.setText(textBundle.textFor("SelectLastActionPanel.AwaySince.Title", hours, minutes, seconds)); //$NON-NLS-1$
 	}
 
 	public void save() {
 		// If "no action" is selected, there is nothing to do.
-		if (this.btnNoAction.isSelected()) {
+		if (this.buttonNoAction.isSelected()) {
 			return;
 		}
 
-		if (this.btnAction.isSelected()) {
+		if (this.buttonAction.isSelected()) {
 			try {
 				if (!this.model.getSelectedProject().equals(projectSelector.getSelectedItem())) {
 					if (model.isActive()) {
@@ -275,7 +266,7 @@ public class SelectLastActionPanel extends JPanel {
 					}
 				}
 			} catch (Exception ex) {
-				ex.printStackTrace();
+				log.error("Could not save action.", ex);
 			}
 		}
 	}
