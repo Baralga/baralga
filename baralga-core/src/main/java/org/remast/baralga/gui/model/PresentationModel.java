@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.events.BaralgaEvent;
@@ -862,6 +863,18 @@ public class PresentationModel {
 	 * when threshold is reached.
 	 */
 	public void addUserActivity() {
+	    /** Check whether InactivityReminder as disabled for today */
+	    boolean inactivityReminderDisabled = UserSettings.instance().getInactivityReminderDate().equals(DateMidnight.now());
+	    
+	    /** Check whether InactivityReminder is generally disabled */
+	    inactivityReminderDisabled |= UserSettings.instance().getInactivityReminderDate().equals(UserSettings.DEFAULT_INACTIVITYREMINDER_INACTIVATION_DATE);
+	    
+	    /** If InactivityReminder is disabled, there is no need to react on UserActivities. */
+	    if (inactivityReminderDisabled) {
+	        return;
+	    }
+	    
+	    
 		final long now = System.currentTimeMillis();
 		long difference = now - this.lastActivity;
 
