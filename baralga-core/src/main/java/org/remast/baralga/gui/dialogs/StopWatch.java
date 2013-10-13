@@ -48,7 +48,7 @@ public class StopWatch extends JWindow {
 		final BaralgaEvent event = (BaralgaEvent) eventObject;
 
 		if (event.getType() == BaralgaEvent.STOPWATCH_VISIBILITY_CHANGED) {
-			this.setVisible(!this.isVisible());
+			this.setVisible(UserSettings.instance().isShowStopwatch());
 		}
 	}
 
