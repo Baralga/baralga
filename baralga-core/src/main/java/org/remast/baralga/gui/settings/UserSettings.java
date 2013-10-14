@@ -32,8 +32,7 @@ public final class UserSettings {
 	/** Default name of the ProTrack data file. */
 	public static final String DEFAULT_FILE_NAME = "Data.baralga.xml"; //$NON-NLS-1$
 
-//    public static final long DEFAULT_INACTIVITY_THRESHOLD = 1000 * 60 * 5; // 5 minutes
-    public static final long DEFAULT_INACTIVITY_THRESHOLD = 1000; // 5 minutes
+    public static final long DEFAULT_INACTIVITY_THRESHOLD = 1000 * 60 * 5; // 5 minutes
 	
 	/**
 	 * Get the location of the data file.
