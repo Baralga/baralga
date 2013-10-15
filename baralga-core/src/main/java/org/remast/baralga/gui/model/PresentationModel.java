@@ -26,6 +26,7 @@ import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.baralga.model.io.DataBackup;
+import org.remast.swing.JTextEditor;
 import org.remast.util.DateUtils;
 import org.remast.util.TextResourceBundle;
 import org.slf4j.Logger;
@@ -302,6 +303,17 @@ public class PresentationModel {
 	 */
 	public final void start() throws ProjectActivityStateException {
 		start(DateUtils.getNowAsDateTime());
+	}
+	
+	public final void fireDescriptionChangedEvent(JTextEditor descriptionEditor) {
+	    BaralgaEvent event = new BaralgaEvent(BaralgaEvent.DESCRIPTION_CHANGED, descriptionEditor);
+	    event.setData(descriptionEditor);
+	    
+	    try {
+	    notify(event);
+	    } catch (Throwable ex) {
+	        //Nischt
+	    }
 	}
 
 	/**

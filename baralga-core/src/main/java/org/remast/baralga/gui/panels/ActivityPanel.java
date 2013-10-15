@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -167,14 +169,20 @@ public class ActivityPanel extends JPanel implements ActionListener {
         );
         descriptionEditor.addTextObserver(new JTextEditor.TextChangeObserver() {
 
-            public void onTextChange() {
+            public void onTextChange() {                
                 final String description = descriptionEditor.getText();
+
+//                //Check wheter text is already set to avoid seesaw changes
+//                if (description.equals(model.getDescription())) {
+//                    return;
+//                }
 
                 // Store in model
                 model.setDescription(description);
 
                 // Save description in settings.
                 UserSettings.instance().setLastDescription(description);
+//                model.fireDescriptionChangedEvent(descriptionEditor); 
             }
         });
 
@@ -351,6 +359,26 @@ public class ActivityPanel extends JPanel implements ActionListener {
         case BaralgaEvent.START_CHANGED:
             updateDuration();
             break;
+
+//        case BaralgaEvent.DESCRIPTION_CHANGED:
+//            //Do not handle events, fired from my own descriptionEditor
+//            if (descriptionEditor.equals(event.getData())) {
+//                return;
+//            }
+//            
+//            //We are only interested in description changes, sent by JTextEditor
+//            if (!event.getData().getClass().equals(JTextEditor.class)) {
+//                return;
+//            }
+//
+//            //Check wheter text is already set to avoid seesaw changes
+//            JTextEditor sendingEditor = (JTextEditor)event.getData();
+//            if (descriptionEditor.getText().equals(sendingEditor.getText())) {
+//                return;
+//            }
+//            
+//            descriptionEditor.setText(sendingEditor.getText());
+//            break;
         }
     }
 

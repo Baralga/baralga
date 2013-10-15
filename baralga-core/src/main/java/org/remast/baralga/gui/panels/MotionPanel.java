@@ -5,8 +5,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JWindow;
 
 @SuppressWarnings("serial")
 public class MotionPanel extends JPanel {
@@ -14,9 +14,9 @@ public class MotionPanel extends JPanel {
 	private Point initialClick;
 
 	@SuppressWarnings("unused")
-	private JWindow parent;
+	private JFrame parent;
 
-	public MotionPanel(final JWindow parent) {
+	public MotionPanel(final JFrame parent) {
 		this.parent = parent;
 
 		addMouseListener(new MouseAdapter() {
