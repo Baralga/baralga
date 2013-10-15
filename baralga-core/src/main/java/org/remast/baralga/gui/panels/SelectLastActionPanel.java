@@ -240,36 +240,38 @@ public class SelectLastActionPanel extends JPanel {
 		awaySince.setText(textBundle.textFor("SelectLastActionPanel.AwaySince.Title", hours, minutes, seconds)); //$NON-NLS-1$
 	}
 
-	public void save() {
-		// If "no action" is selected, there is nothing to do.
-		if (this.buttonNoAction.isSelected()) {
-			return;
-		}
+    public void save() {
+        try {
+            if (this.buttonNoAction.isSelected()) {
+                if (model.isActive()) {
+                    DateTime lastActivity = new DateTime(this.lastActivity);
+                    model.stop(lastActivity, true);
+                }
+            }
 
-		if (this.buttonAction.isSelected()) {
-			try {
-				if (!this.model.getSelectedProject().equals(projectSelector.getSelectedItem())) {
-					if (model.isActive()) {
-						DateTime lastActivity = new DateTime(this.lastActivity);
-						model.stop(lastActivity, false);
-					}
+            if (this.buttonAction.isSelected()) {
+                if (!this.model.getSelectedProject().equals(projectSelector.getSelectedItem())) {
+                    if (model.isActive()) {
+                        DateTime lastActivity = new DateTime(this.lastActivity);
+                        model.stop(lastActivity, false);
+                    }
 
-					Project selectedProject = (Project) projectSelector.getSelectedItem();
-					model.changeProject(selectedProject);
+                    Project selectedProject = (Project) projectSelector.getSelectedItem();
+                    model.changeProject(selectedProject);
 
-					DateTime dateTime = new DateTime(this.lastActivity);
-					model.start(dateTime);
-				} else {
-					if (!model.isActive()) {
-						DateTime dateTime = new DateTime(this.lastActivity);
-						model.start(dateTime);
-					}
-				}
-			} catch (Exception ex) {
-				log.error("Could not save action.", ex);
-			}
-		}
-	}
+                    DateTime dateTime = new DateTime(this.lastActivity);
+                    model.start(dateTime);
+                } else {
+                    if (!model.isActive()) {
+                        DateTime dateTime = new DateTime(this.lastActivity);
+                        model.start(dateTime);
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            log.error("Could not save action.", ex);
+        }
+    }
 
 	public void beginSaving() {
 		this.isSaving = true;

@@ -181,6 +181,12 @@ public class ActivityPanelStopWatch extends JPanel implements ActionListener {
 					// 1. Set current project to the just selected project.
 					final Project selectedProject = (Project) projectSelector.getSelectedItem();
 					ActivityPanelStopWatch.this.model.changeProject(selectedProject);
+
+					//FIXME Das muss noch rein!
+                    // 2. Clear the description.
+//                    if (descriptionEditor != null) {
+//                        descriptionEditor.setText(StringUtils.EMPTY);
+//                    }
 				}
 			});
 		}
