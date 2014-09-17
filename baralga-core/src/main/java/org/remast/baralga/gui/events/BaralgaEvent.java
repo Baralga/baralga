@@ -58,6 +58,9 @@ public class BaralgaEvent {
     /** mouse action caught from windows, user seems to be actively working with the computer. */
     public static final int USER_IS_INACTIVE = 12;
 
+    /** Description in either main window or stopwatch changed */
+    public static final int DESCRIPTION_CHANGED = 13;
+
     /** The type of the event. */
     private final int type;
 

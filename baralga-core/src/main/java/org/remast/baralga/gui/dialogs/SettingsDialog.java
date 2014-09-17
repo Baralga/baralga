@@ -9,9 +9,11 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JPanel;
 
 import org.jdesktop.swingx.JXHeader;
 import org.remast.baralga.gui.model.PresentationModel;
+import org.remast.baralga.gui.panels.UserSettingsInactivityReminderSetupPanel;
 import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.swing.dialog.EscapeDialog;
 import org.remast.util.TextResourceBundle;
@@ -39,6 +41,9 @@ public class SettingsDialog extends EscapeDialog implements ActionListener {
 	/** Component to edit setting to show stopwatch. */
 	private JCheckBox showStopwatch;
 
+    /** Component to edit setting to show stopwatch. */
+	private UserSettingsInactivityReminderSetupPanel inactivityReminderSetupPanel;
+	
 	/** The model. */
 	private final PresentationModel model;
 
@@ -65,13 +70,13 @@ public class SettingsDialog extends EscapeDialog implements ActionListener {
 
 		final double border = 5;
 		final double[][] size = { { border, TableLayout.PREFERRED, border, TableLayout.FILL, border }, // Columns
-				{ border, TableLayout.PREFERRED, border, TableLayout.FILL, border, TableLayout.FILL, border, TableLayout.PREFERRED, border } // Rows
+				{ border, TableLayout.PREFERRED, border, TableLayout.FILL, border, TableLayout.FILL, border, TableLayout.PREFERRED, border, TableLayout.PREFERRED, border } // Rows
 		};
 
 		final TableLayout tableLayout = new TableLayout(size);
 		this.setLayout(tableLayout);
 
-		this.setSize(340, 170);
+		this.setSize(600, 300);
 
 		this.setName("SettingsDialog"); //$NON-NLS-1$
 		this.setTitle(textBundle.textFor("SettingsDialog.Title")); //$NON-NLS-1$
@@ -95,6 +100,9 @@ public class SettingsDialog extends EscapeDialog implements ActionListener {
 		});
 
 		this.add(showStopwatch, "1, 5, 1, 1"); //$NON-NLS-1$
+        
+        inactivityReminderSetupPanel = new UserSettingsInactivityReminderSetupPanel();
+        this.add(inactivityReminderSetupPanel, "1, 7"); //$NON-NLS-1$
 
 		final JButton resetButton = new JButton(textBundle.textFor("SettingsDialog.ResetButton.Title")); //$NON-NLS-1$
 		resetButton.setToolTipText(textBundle.textFor("SettingsDialog.ResetButton.ToolTipText")); //$NON-NLS-1$
@@ -105,9 +113,9 @@ public class SettingsDialog extends EscapeDialog implements ActionListener {
 				resetSettings();
 			}
 
-		});
+		});		
 
-		this.add(resetButton, "1, 7, 3, 5"); //$NON-NLS-1$
+		this.add(resetButton, "1, 9, 3, 5"); //$NON-NLS-1$
 
 		readFromModel();
 	}
@@ -127,6 +135,7 @@ public class SettingsDialog extends EscapeDialog implements ActionListener {
 		// Read window size and location
 		rememberWindowSizeLocation.setSelected(UserSettings.instance().isRememberWindowSizeLocation());
 		showStopwatch.setSelected(UserSettings.instance().isShowStopwatch());
+		inactivityReminderSetupPanel.setDisplayValues();
 	}
 
 	/**

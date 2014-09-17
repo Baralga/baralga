@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Properties;
 
+import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.baralga.model.filter.SpanType;
@@ -31,7 +32,7 @@ public final class UserSettings {
 	/** Default name of the ProTrack data file. */
 	public static final String DEFAULT_FILE_NAME = "Data.baralga.xml"; //$NON-NLS-1$
 
-	public static final long DEFAULT_INACTIVITY_THRESHOLD = 1000 * 60 * 5; // 5 minutes
+    public static final long DEFAULT_INACTIVITY_THRESHOLD = 1000 * 60 * 5; // 5 minutes
 	
 	/**
 	 * Get the location of the data file.
@@ -369,24 +370,63 @@ public final class UserSettings {
 	}
 
 
-	//------------------------------------------------
-	// Show Stopwatch
-	//------------------------------------------------
+    //------------------------------------------------
+    // Show Stopwatch
+    //------------------------------------------------
 
-	/** The key for show stopwatch. */
-	public static final String SHOW_STOPWATCH = "settings.showStopwatch"; //$NON-NLS-1$
+    /** The key for show stopwatch. */
+    public static final String SHOW_STOPWATCH = "settings.showStopwatch"; //$NON-NLS-1$
 
-	public Boolean isShowStopwatch() {
-		return doGetBoolean(SHOW_STOPWATCH, false);
-	}
+    public Boolean isShowStopwatch() {
+        return doGetBoolean(SHOW_STOPWATCH, false);
+    }
 
-	public void setShowStopwatch(final boolean showStopwatch) {
-		userConfig.setProperty(SHOW_STOPWATCH, String.valueOf(showStopwatch));
-		
-		// Auto save change
-		save();
-	}
+    public void setShowStopwatch(final boolean showStopwatch) {
+        userConfig.setProperty(SHOW_STOPWATCH, String.valueOf(showStopwatch));
+        
+        // Auto save change
+        save();
+    }
 
+
+    //------------------------------------------------
+    // Use Inactivity Reminder
+    //------------------------------------------------    
+    /** The key for temporarily activating/deactivating inactivity reminder. */
+    public static final String INACTIVITYREMINDER_DEACTIVATION_DATE = "settings.InactivityReminderDeactivationDate"; //$NON-NLS-1$
+    
+    /** The key for temporarily activating/deactivating inactivity reminder. */
+    public static final String INACTIVITYREMINDER_TRHRESHOLD = "settings.userInactivityThreshold"; //$NON-NLS-1$
+        
+    /** Default value when inactivity reminder is activated */
+    public static final DateMidnight DEFAULT_INACTIVITYREMINDER_ACTIVATION_DATE = new DateMidnight(0);
+    
+    /** Default value when inactivity reminder is deactivated */
+    public static final DateMidnight DEFAULT_INACTIVITYREMINDER_INACTIVATION_DATE = (new DateMidnight(0)).plusDays(1);
+
+    public DateMidnight getInactivityReminderDate() {
+        return doGetDate(INACTIVITYREMINDER_DEACTIVATION_DATE, DEFAULT_INACTIVITYREMINDER_ACTIVATION_DATE.toDateTime()).toDateMidnight();
+    }
+
+    public void setInactivityReminderDate(final DateMidnight inactivityReminderInactivationDate) {
+        userConfig.setProperty(INACTIVITYREMINDER_DEACTIVATION_DATE, String.valueOf(inactivityReminderInactivationDate.getMillis()));
+        
+        // Auto save change
+        save();
+    }
+    
+    public long getInactivityThreshold() {
+        return doGetLong(INACTIVITYREMINDER_TRHRESHOLD, DEFAULT_INACTIVITY_THRESHOLD);
+    }
+    
+    public void setInactivityThreshold(long inactivityThreshold) {
+        userConfig.setProperty(INACTIVITYREMINDER_TRHRESHOLD, String.valueOf(inactivityThreshold));
+        
+        // Auto save change
+        save();
+    }
+    
+    
 
 	//------------------------------------------------
 	// Window size
@@ -550,31 +590,31 @@ public final class UserSettings {
 		}
 	}
 
-	/**
-	 * Getter that handle errors gracefully meaning errors are logged 
-	 * but applications continues with the default value.
-	 * @param key the key of the property to get
-	 * @param defaultValue the default value of the property to get
-	 * @return the property value if set and correct otherwise the default value
-	 */
-	private DateTime doGetDate(final String key, final DateTime defaultValue) {
-		try {
-			Long defaultMillis = null;
-			if (defaultValue != null) {
-				defaultMillis = defaultValue.getMillis();	
-			}
+    /**
+     * Getter that handle errors gracefully meaning errors are logged 
+     * but applications continues with the default value.
+     * @param key the key of the property to get
+     * @param defaultValue the default value of the property to get
+     * @return the property value if set and correct otherwise the default value
+     */
+    private DateTime doGetDate(final String key, final DateTime defaultValue) {
+        try {
+            Long defaultMillis = null;
+            if (defaultValue != null) {
+                defaultMillis = defaultValue.getMillis();   
+            }
 
-			final Long dateMilliseconds = Long.valueOf(userConfig.getProperty(key, String.valueOf(defaultMillis)));
-			if (dateMilliseconds == null) {
-				return null;
-			}
+            final Long dateMilliseconds = Long.valueOf(userConfig.getProperty(key, String.valueOf(defaultMillis)));
+            if (dateMilliseconds == null) {
+                return null;
+            }
 
-			return new DateTime(dateMilliseconds);
-		} catch (Throwable t) {
-			log.error(t.getLocalizedMessage(), t);
-			return defaultValue;
-		}
-	}
+            return new DateTime(dateMilliseconds);
+        } catch (Throwable t) {
+            log.error(t.getLocalizedMessage(), t);
+            return defaultValue;
+        }
+    }
 	
     public void save() {
         OutputStream out = null;
@@ -594,8 +634,4 @@ public final class UserSettings {
         	}
         }
     }
-
-	public long getInactivityThreshold() {
-		return doGetLong("settings.userInactivityThreshold", DEFAULT_INACTIVITY_THRESHOLD);
-	}
 }
