@@ -407,7 +407,7 @@ public final class BaralgaMain {
 	private static boolean tryLock() {
 		checkOrCreateBaralgaDir();
 		final File lockFile = new File(UserSettings.getLockFileLocation());
-		RandomAccessFile randomAccessFile = null;
+		RandomAccessFile randomAccessFile;
 		try {
 			if (!lockFile.exists()) {
 				lockFile.createNewFile();
@@ -422,14 +422,6 @@ public final class BaralgaMain {
 			final String error = textBundle.textFor("ProTrackMain.8"); //$NON-NLS-1$
 			log.error(error, e);
 			throw new RuntimeException(error);
-		} finally {
-			if (randomAccessFile != null) {
-				try {
-					randomAccessFile.close();
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-				}
-			}
 		}
 	}
 
@@ -452,7 +444,7 @@ public final class BaralgaMain {
 	}
 
 	/**
-	 * Releases the lock file created with {@link #createLock()}.
+	 * Releases the lock file created with {@link #tryLock()}.
 	 */
 	private static void releaseLock() {
 		if (lock == null) {
