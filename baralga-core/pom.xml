@@ -192,7 +192,7 @@
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
-			<version>2.3</version>
+			<version>2.5</version>
 		</dependency>
 		<dependency>
 			<groupId>tablelayout</groupId>
@@ -262,12 +262,12 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<version>1.4.181</version>
+			<version>1.4.182</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mnode.ical4j</groupId>
 			<artifactId>ical4j</artifactId>
-			<version>1.0.5.2</version>
+			<version>1.0.6</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>commons-logging</artifactId>
