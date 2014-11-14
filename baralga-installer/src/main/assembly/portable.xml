@@ -23,18 +23,6 @@
 	</fileSets>
 	<dependencySets>
 		<dependencySet>
-			<outputDirectory>lib/</outputDirectory>
-			<outputFileNameMapping>
-				${artifact.artifactId}-${artifact.version}.${artifact.extension}
-			</outputFileNameMapping>
-			<unpack>false</unpack>
-			<scope>runtime</scope>
-			<excludes>
-				<exclude>com.remast.baralga:baralga-core</exclude>
-				<exclude>com.remast.baralga:baralga-installer</exclude>
-			</excludes>
-		</dependencySet>
-		<dependencySet>
 			<outputDirectory></outputDirectory>
 			<outputFileNameMapping>
 				Baralga-${artifact.version}.${artifact.extension}

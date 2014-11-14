@@ -1,21 +1,27 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<installation version="1.0">
-	<info>
+<izpack:installation version="5.0"
+                     xmlns:izpack="http://izpack.org/schema/installation"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="http://izpack.org/schema/installation http://izpack.org/schema/5.0/izpack-installation-5.0.xsd">
+    <info>
 		<appname>Baralga</appname>
 		<appversion>${project.version}</appversion>
 		<authors>
 			<author name="${user.name}" email="baralga@geekmail.de" />
 		</authors>
 		<url>${project.url}</url>
+        <run-privileged condition="izpack.windowsinstall|izpack.macinstall" />
 	</info>
 	
 	<!-- Windows binary for creating shortcuts. -->
-	<native type="izpack" name="ShellLink.dll"/>
+    <native type="izpack" name="ShellLink.dll" >
+        <os family="windows" />
+    </native>
+    <native type="izpack" name="ShellLink_x64.dll">
+        <os family="windows" />
+    </native>
 
 	<!-- Gui Preferences -->
-	<guiprefs height="480" resizable="yes" width="480">
-	</guiprefs>
-	
+	<guiprefs height="480" resizable="yes" width="480" />
 
 	<locale>
 		<langpack iso3="eng" />
@@ -26,6 +32,10 @@
         <langpack iso3="est" />
 		-->
 	</locale>
+
+    <variables>
+        <variable name="ShowCreateDirectoryMessage" value="false" />
+    </variables>
 
 	<!--
 		The resources section. The ids must be these ones if you want to use
@@ -56,15 +66,11 @@
 	<packs>
 		<pack name="Base" required="yes" id="base">
 			<description>The base files of the application.</description>
-			<file src="Licence.txt" targetdir="$INSTALL_PATH" />
+                <file src="Licence.txt" targetdir="$INSTALL_PATH" />
 			<file src="Baralga-Tray.ico" targetdir="$INSTALL_PATH" />
 			<file src="baralga-core-${project.version}.jar" targetdir="$INSTALL_PATH" />
-			<file src="lib" targetdir="$INSTALL_PATH" />
             <file src="data" targetdir="$INSTALL_PATH" />
-			<updatecheck>
-				<include name="lib/**" />
-			</updatecheck>	
 		</pack>
 	</packs>
 
-</installation>
+</izpack:installation>

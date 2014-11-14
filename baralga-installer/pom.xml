@@ -11,10 +11,10 @@
 	<packaging>jar</packaging>
 	<name>Baralga Installer</name>
 	<build>
-		<!--
-			Use version number of baralga-core instead of installer version.
-		-->
-		<finalName>Baralga-Portable-${project.version}</finalName>
+	  <!--
+	   Use version number of baralga-core instead of installer version.
+	  -->
+      <finalName>Baralga-Portable-${project.version}</finalName>
       <resources>
          <resource>
            <directory>src/izpack-installer</directory>
@@ -34,12 +34,8 @@
 				</executions>
 				<configuration>
 					<descriptors>
-                        <descriptor>
-                            src/main/assembly/portable.xml
-                        </descriptor>
-						<descriptor>
-							src/main/assembly/installer.xml
-						</descriptor>
+                        <descriptor>src/main/assembly/portable.xml</descriptor>
+						<descriptor>src/main/assembly/installer.xml</descriptor>
 					</descriptors>
 				</configuration>
 			</plugin>
@@ -69,7 +65,7 @@
 			<plugin>
 				<groupId>org.codehaus.izpack</groupId>
 				<artifactId>izpack-maven-plugin</artifactId>
-				<version>1.0-alpha-5</version>
+                <version>5.0.0-rc4</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -77,10 +73,10 @@
 							<goal>izpack</goal>
 						</goals>
 						<configuration>
-                            <descriptor>${project.build.directory}/classes/install.xml</descriptor>
-                            <descriptorEncoding>UTF-8</descriptorEncoding>
-							<izpackBasedir>${project.build.directory}/Baralga-Portable-${project.version}</izpackBasedir>
-							<installerFile>${project.build.directory}/Baralga-Installer-${project.version}.jar</installerFile>
+                            <installFile>${project.build.directory}/classes/install.xml</installFile>
+							<baseDir>${project.build.directory}/Baralga-Portable-${project.version}</baseDir>
+                            <finalName>Baralga-Installer-${project.version}</finalName>
+                            <jarName>${project.build.directory}/Baralga-Installer-${project.version}</jarName>
 						</configuration>
 					</execution>
 				</executions>
@@ -88,12 +84,6 @@
 		</plugins>
 	</build>
 	<dependencies>
-        <dependency>
-            <groupId>org.codehaus.izpack</groupId>
-            <artifactId>izpack-standalone-compiler</artifactId>
-            <version>4.3.5</version>
-            <scope>provided</scope>
-        </dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>baralga-core</artifactId>
