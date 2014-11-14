@@ -1,6 +1,16 @@
 Baralga Time Tracker
 ====================
 
+Baralga Version 1.7.7
+---------------------
+### Fixes
+* Run Windows and Mac Installers as Admin to make sure installation in default path is permitted.
+* Avoid error log when getting the initial start date.
+
+### Misc
+* Updated IZPack Installer to version 5.0.0-rc4.
+* Package application as single jar with libraries included.
+
 Baralga Version 1.7.4	
 ---------------------
 ### Misc
