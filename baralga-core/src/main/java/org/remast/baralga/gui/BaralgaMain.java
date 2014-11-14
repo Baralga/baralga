@@ -145,7 +145,7 @@ public final class BaralgaMain {
 			windowsMouseHook.setMouseHook();
 			break;
 		default:
-			log.warn("InactivityRecognition not implemented for Operating System. Feature will be disabled!");
+			log.info("InactivityRecognition not available for your Operating System.");
 			break;
 		}
 		
