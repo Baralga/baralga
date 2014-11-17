@@ -22,14 +22,10 @@ import org.remast.text.DurationFormat;
  */
 public class ProjectActivity implements Serializable, Comparable<ProjectActivity> {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1L;
 
     /** The unique identifier of the project. */
     private long id;
-
 
     /** Start date of this activity. */
     private DateTime start;
@@ -54,9 +50,6 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
 
     public static final String PROPERTY_DESCRIPTION = "org.remast.baralga.model.ProjectActivity.description";
     
-    /**
-     * @return the id
-     */
     public long getId() {
         return id;
     }
@@ -67,7 +60,6 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
 
     /**
      * Creates a new {@link ProjectActivity} with an empty description.
-     * 
      * @throws IllegalArgumentException if end time is before start time
      */
     public ProjectActivity(final DateTime start, final DateTime end, final Project project) {
@@ -75,8 +67,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
     }
 
     /**
-     * Creates a new {@link ProjectActivity}.
-     * 
+     * Creates a new {@link ProjectActivity}.     *
      * @throws IllegalArgumentException if end time is before start time
      */
     public ProjectActivity(final DateTime start, final DateTime end, final Project project,
@@ -90,18 +81,10 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
         this.description = description;
     }
     
-    /**
-     * Getter for the description.
-     * @return the description to get
-     */
     public String getDescription() {
         return description;
     }
 
-    /**
-     * Setter for the description.
-     * @param description the description to set
-     */
     public void setDescription(final String description) {
         if (StringUtils.equals(this.description, description)) {
             return;
@@ -112,7 +95,6 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
 
     /**
      * Sets the day of the activity.
-     * 
      * @param day the new activity day.
      *   Hours, minutes, seconds and so on in the passed value are ignored.
      */
@@ -120,9 +102,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
         DateTime newStartDay = getStart();
         this.start = newStartDay.withYear(day.getYear()).withMonthOfYear(day.getMonthOfYear())
             .withDayOfMonth(day.getDayOfMonth());
-        
-        
-        
+
         DateTime newEndDay = getEnd();
         newEndDay = newEndDay.withYear(day.getYear()).withMonthOfYear(day.getMonthOfYear())
             .withDayOfMonth(day.getDayOfMonth());
@@ -141,10 +121,6 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
         return getStart().withMillisOfDay(0);
     }
 
-    /**
-     * Getter for the end.
-     * @return the end to get
-     */
     public DateTime getEnd() {
         return end;
     }
@@ -177,17 +153,10 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
         this.end = endDate;
     }
 
-    /**
-     * @return the project
-     */
     public Project getProject() {
         return project;
     }
 
-    /**
-     * Setter for the project.
-     * @param project the project to set
-     */
     public void setProject(final Project project) {
         if (ObjectUtils.equals(this.project, project)) {
             return;
@@ -196,9 +165,6 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
         this.project = project;
     }
 
-    /**
-     * @return the start
-     */
     public DateTime getStart() {
         return start;
     }

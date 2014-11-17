@@ -35,14 +35,8 @@ public class HoursByMonthPanel extends JXPanel {
 	
 	public static final DateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy");
 
-    /**
-     * The report displayed by this panel.
-     */
     private HoursByMonthReport report;
     
-    /**
-     * The table model.
-     */
     private EventTableModel<HoursByMonth> tableModel;
     
     /**
@@ -92,7 +86,8 @@ public class HoursByMonthPanel extends JXPanel {
 		this.add(tableScrollPane, "1, 3");
     }
 
-    @Subscribe public void update(final Object o) {
+    @Subscribe
+    public void update(final Object o) {
         if (o != null && o instanceof HoursByMonthReport) {
             tableModel.fireTableDataChanged();
         }

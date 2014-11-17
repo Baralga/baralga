@@ -84,6 +84,5 @@ public class AccummulatedActitvitiesPanel extends JPanel implements Observer {
         if (o != null && o instanceof ObservingAccumulatedActivitiesReport) {
             tableModel.fireTableDataChanged();
         }
-        
     }
 }
