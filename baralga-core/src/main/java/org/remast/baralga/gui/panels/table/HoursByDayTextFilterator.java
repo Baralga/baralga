@@ -1,12 +1,11 @@
 package org.remast.baralga.gui.panels.table;
 
-import java.util.List;
-
-import org.remast.baralga.FormatUtils;
+import ca.odell.glazedlists.TextFilterator;
 import org.remast.baralga.gui.model.report.HoursByDay;
 import org.remast.baralga.gui.panels.report.HoursByDayPanel;
+import org.remast.text.DurationFormat;
 
-import ca.odell.glazedlists.TextFilterator;
+import java.util.List;
 
 /**
  * Prepares the filter strings for quick filtering hours by day.
@@ -21,7 +20,7 @@ public class HoursByDayTextFilterator implements TextFilterator<HoursByDay> {
 		}
 		
 		baseList.add(HoursByDayPanel.DAY_FORMAT.format(hoursByDay.getDay()));
-		baseList.add(FormatUtils.DURATION_FORMAT.format(hoursByDay.getHours()));
+		baseList.add(new DurationFormat().format(hoursByDay.getHours()));
 	}
 
 }

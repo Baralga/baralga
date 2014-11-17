@@ -26,6 +26,7 @@ import ca.odell.glazedlists.swing.TableComparatorChooser;
 import ca.odell.glazedlists.swing.TextComponentMatcherEditor;
 
 import com.google.common.eventbus.Subscribe;
+import org.remast.text.DurationFormat;
 
 /**
  * Panel for displaying the report of working hours by project.
@@ -64,10 +65,10 @@ public class HoursByProjectPanel extends JXPanel {
     private void initialize() {
 		// Init search field and a list filtered list for the quick search
 		final JSearchField searchField = new JSearchField();
-		final MatcherEditor<HoursByProject> textMatcherEditor = new TextComponentMatcherEditor<HoursByProject>(searchField, new HoursByProjectTextFilterator());
-		final FilterList<HoursByProject> textFilteredIssues = new FilterList<HoursByProject>(this.report.getHoursByProject(), textMatcherEditor);
+		final MatcherEditor<HoursByProject> textMatcherEditor = new TextComponentMatcherEditor<>(searchField, new HoursByProjectTextFilterator());
+		final FilterList<HoursByProject> textFilteredIssues = new FilterList<>(this.report.getHoursByProject(), textMatcherEditor);
 
-        tableModel = new EventTableModel<HoursByProject>(textFilteredIssues, new HoursByProjectTableFormat());
+        tableModel = new EventTableModel<>(textFilteredIssues, new HoursByProjectTableFormat());
 
         final JTable table = new JHighligthedTable(tableModel);
 		TableComparatorChooser.install(
@@ -77,7 +78,7 @@ public class HoursByProjectPanel extends JXPanel {
 		);
         
         table.getColumn(table.getColumnName(0)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DateFormat.getDateInstance())));
-        table.getColumn(table.getColumnName(1)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.DURATION_FORMAT)));
+        table.getColumn(table.getColumnName(1)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(new DurationFormat())));
         
         JScrollPane tableScrollPane = new JScrollPane(table);
 

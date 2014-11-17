@@ -14,6 +14,7 @@ import org.remast.baralga.FormatUtils;
 import org.remast.baralga.model.ProjectActivity;
 
 import ca.odell.glazedlists.TextFilterator;
+import org.remast.text.DurationFormat;
 
 /**
  * Prepares the filter strings for quick filtering project activities.
@@ -32,7 +33,7 @@ public class ProjectActivityTextFilterator implements TextFilterator<ProjectActi
 		baseList.add(activity.getDescription());
 		baseList.add(FormatUtils.formatTime(activity.getStart()));
 		baseList.add(FormatUtils.formatTime(activity.getEnd()));
-		baseList.add(FormatUtils.DURATION_FORMAT.format(activity.getDuration()));
+		baseList.add(new DurationFormat().format(activity.getDuration()));
 	}
 
 }

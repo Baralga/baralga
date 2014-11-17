@@ -1,34 +1,29 @@
 package org.remast.baralga.gui.panels.report;
 
+import ca.odell.glazedlists.FilterList;
+import ca.odell.glazedlists.matchers.MatcherEditor;
+import ca.odell.glazedlists.swing.EventTableModel;
+import ca.odell.glazedlists.swing.TableComparatorChooser;
+import ca.odell.glazedlists.swing.TextComponentMatcherEditor;
+import com.google.common.eventbus.Subscribe;
 import info.clearthought.layout.TableLayout;
-
-import java.awt.BorderLayout;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.FormatStringValue;
 import org.joda.time.format.DateTimeFormat;
-import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.model.report.HoursByDay;
 import org.remast.baralga.gui.model.report.HoursByDayReport;
 import org.remast.baralga.gui.panels.table.HoursByDayTableFormat;
 import org.remast.baralga.gui.panels.table.HoursByDayTextFilterator;
 import org.remast.swing.JSearchField;
 import org.remast.swing.table.JHighligthedTable;
+import org.remast.text.DurationFormat;
 
-import ca.odell.glazedlists.FilterList;
-import ca.odell.glazedlists.matchers.MatcherEditor;
-import ca.odell.glazedlists.swing.EventTableModel;
-import ca.odell.glazedlists.swing.TableComparatorChooser;
-import ca.odell.glazedlists.swing.TextComponentMatcherEditor;
-
-import com.google.common.eventbus.Subscribe;
+import javax.swing.*;
+import java.awt.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 /**
  * Panel for displaying the report of working hours by day.
@@ -70,10 +65,10 @@ public class HoursByDayPanel extends JXPanel {
     private void initialize() {
 		// Init search field and a list filtered list for the quick search
 		final JSearchField searchField = new JSearchField();
-		final MatcherEditor<HoursByDay> textMatcherEditor = new TextComponentMatcherEditor<HoursByDay>(searchField, new HoursByDayTextFilterator());
-		final FilterList<HoursByDay> textFilteredIssues = new FilterList<HoursByDay>(this.report.getHoursByDay(), textMatcherEditor);
+		final MatcherEditor<HoursByDay> textMatcherEditor = new TextComponentMatcherEditor<>(searchField, new HoursByDayTextFilterator());
+		final FilterList<HoursByDay> textFilteredIssues = new FilterList<>(this.report.getHoursByDay(), textMatcherEditor);
 
-        tableModel = new EventTableModel<HoursByDay>(textFilteredIssues, new HoursByDayTableFormat());
+        tableModel = new EventTableModel<>(textFilteredIssues, new HoursByDayTableFormat());
 
         final JTable table = new JHighligthedTable(tableModel);
 		TableComparatorChooser.install(
@@ -83,7 +78,7 @@ public class HoursByDayPanel extends JXPanel {
 		);
         
         table.getColumn(table.getColumnName(0)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(DAY_FORMAT)));
-        table.getColumn(table.getColumnName(1)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.DURATION_FORMAT)));
+        table.getColumn(table.getColumnName(1)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(new DurationFormat())));
         
         JScrollPane tableScrollPane = new JScrollPane(table);
 

@@ -1,11 +1,14 @@
 package org.remast.baralga.model;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.remast.baralga.FormatUtils;
+import org.remast.text.DurationFormat;
 
 /**
  * An activity for a project.
@@ -225,7 +228,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
     public String toString() {
         return FormatUtils.formatDay(getStart()) + "   "
                 + FormatUtils.formatTime(getStart()) + " - " + FormatUtils.formatTime(getEnd()) + " ("
-                + FormatUtils.DURATION_FORMAT.format(this.getDuration()) + " h) " + this.project;
+                + new DurationFormat().format(this.getDuration()) + " h) " + this.project;
     }
 
     @Override
@@ -252,5 +255,5 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
         final double hours = timeMin / 60.0;
         return hours;
     }
-    
+
 }

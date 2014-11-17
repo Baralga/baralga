@@ -1,15 +1,13 @@
 package org.remast.baralga;
 
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.remast.text.TimeFormat;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 /** Utility class for formatting. */
 public abstract class FormatUtils {
@@ -64,13 +62,5 @@ public abstract class FormatUtils {
     	
         return DAY_FORMAT.format(date.toDate());
     }
-    
-    
-    
-    // ------------------------------------------------
-    // Number Formats
-    // ------------------------------------------------
-    
-    public static final NumberFormat DURATION_FORMAT = new DecimalFormat("#0.00"); //$NON-NLS-1$
-    
+
 }

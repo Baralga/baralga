@@ -1,30 +1,13 @@
 package org.remast.baralga.gui.panels.report;
 
+import ca.odell.glazedlists.FilterList;
+import ca.odell.glazedlists.matchers.MatcherEditor;
+import ca.odell.glazedlists.swing.EventComboBoxModel;
+import ca.odell.glazedlists.swing.EventTableModel;
+import ca.odell.glazedlists.swing.TableComparatorChooser;
+import ca.odell.glazedlists.swing.TextComponentMatcherEditor;
+import com.google.common.eventbus.Subscribe;
 import info.clearthought.layout.TableLayout;
-
-import java.awt.BorderLayout;
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.Transferable;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableColumn;
-
 import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 import org.jdesktop.swingx.plaf.basic.core.BasicTransferable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
@@ -37,22 +20,27 @@ import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.panels.table.AllActivitiesTableFormat;
 import org.remast.baralga.gui.panels.table.ProjectActivityTextFilterator;
-import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.swing.JSearchField;
 import org.remast.swing.table.JHighligthedTable;
 import org.remast.swing.util.AWTUtils;
+import org.remast.text.DurationFormat;
 import org.remast.text.SmartTimeFormat;
 import org.remast.util.TextResourceBundle;
 
-import ca.odell.glazedlists.FilterList;
-import ca.odell.glazedlists.matchers.MatcherEditor;
-import ca.odell.glazedlists.swing.EventComboBoxModel;
-import ca.odell.glazedlists.swing.EventTableModel;
-import ca.odell.glazedlists.swing.TableComparatorChooser;
-import ca.odell.glazedlists.swing.TextComponentMatcherEditor;
-
-import com.google.common.eventbus.Subscribe;
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumn;
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.Transferable;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author remast
@@ -90,10 +78,10 @@ public class AllActitvitiesPanel extends JPanel {
 	private void initialize() {
 		// Init search field and a list filtered list for the quick search
 		final JSearchField searchField = new JSearchField();
-		final MatcherEditor<ProjectActivity> textMatcherEditor = new TextComponentMatcherEditor<ProjectActivity>(searchField, new ProjectActivityTextFilterator());
-		final FilterList<ProjectActivity> textFilteredIssues = new FilterList<ProjectActivity>(model.getActivitiesList(), textMatcherEditor);
+		final MatcherEditor<ProjectActivity> textMatcherEditor = new TextComponentMatcherEditor<>(searchField, new ProjectActivityTextFilterator());
+		final FilterList<ProjectActivity> textFilteredIssues = new FilterList<>(model.getActivitiesList(), textMatcherEditor);
 
-		tableModel = new EventTableModel<ProjectActivity>(
+		tableModel = new EventTableModel<>(
 				textFilteredIssues,
 				new AllActivitiesTableFormat(model)
 				);
@@ -120,7 +108,7 @@ public class AllActitvitiesPanel extends JPanel {
 				new DefaultTableRenderer(new FormatStringValue(new SmartTimeFormat()))
 				);
 		table.getColumn(table.getColumnName(4)).setCellRenderer(
-				new DefaultTableRenderer(new FormatStringValue(FormatUtils.DURATION_FORMAT))
+				new DefaultTableRenderer(new FormatStringValue(new DurationFormat()))
 				);
 
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -142,7 +130,7 @@ public class AllActitvitiesPanel extends JPanel {
 					}
 				}
 
-				table.setToolTipText(textBundle.textFor("AllActivitiesPanel.tooltipDuration", FormatUtils.DURATION_FORMAT.format(duration))); //$NON-NLS-1$
+				table.setToolTipText(textBundle.textFor("AllActivitiesPanel.tooltipDuration", new DurationFormat().format(duration))); //$NON-NLS-1$
 			}
 
 		});
@@ -179,7 +167,7 @@ public class AllActitvitiesPanel extends JPanel {
 				final int[] selectionIndices = table.getSelectedRows();
 
 				// 2. Remove all selected activities
-				final List<ProjectActivity> selectedActivities = new ArrayList<ProjectActivity>(selectionIndices.length);
+				final List<ProjectActivity> selectedActivities = new ArrayList<>(selectionIndices.length);
 				for (int selectionIndex : selectionIndices) {
 					selectedActivities.add(
 							model.getActivitiesList().get(selectionIndex)
@@ -258,9 +246,7 @@ public class AllActitvitiesPanel extends JPanel {
 
 		final TableColumn projectColumn = table.getColumn(table.getColumnName(0));
 		final TableCellEditor cellEditor = new ComboBoxCellEditor(
-				new JComboBox(
-						new EventComboBoxModel<Project>(model.getProjectList())
-						)
+				new JComboBox(new EventComboBoxModel<>(model.getProjectList()))
 				);
 		projectColumn.setCellEditor(cellEditor);
 

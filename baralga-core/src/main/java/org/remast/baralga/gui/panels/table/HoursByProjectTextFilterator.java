@@ -1,11 +1,10 @@
 package org.remast.baralga.gui.panels.table;
 
-import java.util.List;
-
-import org.remast.baralga.FormatUtils;
-import org.remast.baralga.gui.model.report.HoursByProject;
-
 import ca.odell.glazedlists.TextFilterator;
+import org.remast.baralga.gui.model.report.HoursByProject;
+import org.remast.text.DurationFormat;
+
+import java.util.List;
 
 /**
  * Prepares the filter strings for quick filtering hours by project.
@@ -20,7 +19,7 @@ public class HoursByProjectTextFilterator implements TextFilterator<HoursByProje
 		}
 		
 		baseList.add(hoursByProject.getProject().getTitle());
-		baseList.add(FormatUtils.DURATION_FORMAT.format(hoursByProject.getHours()));
+		baseList.add(new DurationFormat().format(hoursByProject.getHours()));
 	}
 
 }

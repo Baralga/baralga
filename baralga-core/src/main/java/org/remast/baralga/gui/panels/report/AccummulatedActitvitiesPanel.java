@@ -26,6 +26,7 @@ import ca.odell.glazedlists.matchers.MatcherEditor;
 import ca.odell.glazedlists.swing.EventTableModel;
 import ca.odell.glazedlists.swing.TableComparatorChooser;
 import ca.odell.glazedlists.swing.TextComponentMatcherEditor;
+import org.remast.text.DurationFormat;
 
 /**
  * Panel containing the accumulated hours spent on each project on one day.
@@ -53,10 +54,10 @@ public class AccummulatedActitvitiesPanel extends JPanel implements Observer {
     private void initialize() {
 		// Init search field and a list filtered list for the quick search
 		final JSearchField searchField = new JSearchField();
-		final MatcherEditor<AccumulatedProjectActivity> textMatcherEditor = new TextComponentMatcherEditor<AccumulatedProjectActivity>(searchField, new AccumulatedProjectActivityTextFilterator());
-		final FilterList<AccumulatedProjectActivity> textFilteredIssues = new FilterList<AccumulatedProjectActivity>(this.report.getAccumulatedActivitiesByDay(), textMatcherEditor);
+		final MatcherEditor<AccumulatedProjectActivity> textMatcherEditor = new TextComponentMatcherEditor<>(searchField, new AccumulatedProjectActivityTextFilterator());
+		final FilterList<AccumulatedProjectActivity> textFilteredIssues = new FilterList<>(this.report.getAccumulatedActivitiesByDay(), textMatcherEditor);
     	
-        tableModel = new EventTableModel<AccumulatedProjectActivity>(textFilteredIssues, new AccumulatedActivitiesTableFormat());
+        tableModel = new EventTableModel<>(textFilteredIssues, new AccumulatedActivitiesTableFormat());
         final JTable table = new JHighligthedTable(tableModel);
 		TableComparatorChooser.install(
 				table, 
@@ -65,7 +66,7 @@ public class AccummulatedActitvitiesPanel extends JPanel implements Observer {
 		);
 		
         table.getColumn(table.getColumnName(0)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.DAY_FORMAT)));
-        table.getColumn(table.getColumnName(2)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.DURATION_FORMAT)));
+        table.getColumn(table.getColumnName(2)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(new DurationFormat())));
 
         JScrollPane tableScrollPane = new JScrollPane(table);
 

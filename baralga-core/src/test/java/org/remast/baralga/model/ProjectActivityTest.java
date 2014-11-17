@@ -1,17 +1,17 @@
 package org.remast.baralga.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.remast.util.DateUtils;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class ProjectActivityTest {
 
     @Test
     public void testCalculateDuration() {
-        ProjectActivity act = new ProjectActivity(new DateTime(0L), new DateTime(1000L * 60 * 60 * 30), null);
+        ProjectActivity act;
         DateTime startTime = new DateTime(DateUtils.getNow());
 
         act = new ProjectActivity(startTime, startTime.plusMinutes(45), null);

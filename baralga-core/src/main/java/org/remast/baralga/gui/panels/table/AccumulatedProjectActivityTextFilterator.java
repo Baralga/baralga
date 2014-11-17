@@ -6,6 +6,7 @@ import org.remast.baralga.FormatUtils;
 import org.remast.baralga.model.report.AccumulatedProjectActivity;
 
 import ca.odell.glazedlists.TextFilterator;
+import org.remast.text.DurationFormat;
 
 /**
  * Prepares the filter strings for quick filtering project activities.
@@ -21,7 +22,7 @@ public class AccumulatedProjectActivityTextFilterator implements TextFilterator<
 		
 		baseList.add(activity.getProject().getTitle());
 		baseList.add(FormatUtils.formatDay(activity.getDayDateTime()));
-		baseList.add(FormatUtils.DURATION_FORMAT.format(activity.getTime()));
+		baseList.add(new DurationFormat().format(activity.getTime()));
 	}
 
 }

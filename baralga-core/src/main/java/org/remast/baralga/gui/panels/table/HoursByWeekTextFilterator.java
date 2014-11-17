@@ -7,6 +7,7 @@ import org.remast.baralga.gui.model.report.HoursByWeek;
 import org.remast.baralga.gui.panels.report.HoursByWeekPanel;
 
 import ca.odell.glazedlists.TextFilterator;
+import org.remast.text.DurationFormat;
 
 /**
  * Prepares the filter strings for quick filtering hours by week.
@@ -22,7 +23,7 @@ public class HoursByWeekTextFilterator implements TextFilterator<HoursByWeek> {
 		
 		baseList.add(HoursByWeekPanel.WEEK_FORMAT.format(hoursByWeek.getWeek()));
 		baseList.add(HoursByWeekPanel.YEAR_FORMAT.format(hoursByWeek.getWeek()));
-		baseList.add(FormatUtils.DURATION_FORMAT.format(hoursByWeek.getHours()));
+		baseList.add(new DurationFormat().format(hoursByWeek.getHours()));
 	}
 
 }
