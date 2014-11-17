@@ -60,9 +60,6 @@ public class HoursByProjectChartPanel extends JXPanel {
         this.add(chartPanel, BorderLayout.CENTER);
     }
 
-    /**
-     * 
-     */
     private void initChartData() {
         hoursByProjectDataset.clear();
 
@@ -71,7 +68,8 @@ public class HoursByProjectChartPanel extends JXPanel {
         }
     }
 
-    @Subscribe public void update(final Object o) {
+    @Subscribe
+    public void update(final Object o) {
         if (o != null && o instanceof HoursByProjectReport) {
             initChartData();
         }
