@@ -27,7 +27,7 @@ public class HoursByDayReport {
     public HoursByDayReport(final PresentationModel model) {
         this.model = model;
         this.model.getEventBus().register(this);
-        this.hoursByDayList = new SortedList<HoursByDay>(new BasicEventList<HoursByDay>());
+        this.hoursByDayList = new SortedList<>(new BasicEventList<HoursByDay>());
 
         calculateHours();
     }
@@ -81,7 +81,7 @@ public class HoursByDayReport {
             case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
             case BaralgaEvent.FILTER_CHANGED:
                calculateHours();
-                break;
+               break;
         }
 
         eventBus.post(this);

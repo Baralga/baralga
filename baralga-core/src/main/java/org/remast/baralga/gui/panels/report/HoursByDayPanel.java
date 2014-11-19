@@ -92,7 +92,8 @@ public class HoursByDayPanel extends JXPanel {
 		this.add(tableScrollPane, "1, 3");
     }
 
-   @Subscribe public void update(final Object o) {
+   @Subscribe
+   public void update(final Object o) {
         if (o != null && o instanceof HoursByDayReport) {
             tableModel.fireTableDataChanged();
         }

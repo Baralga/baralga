@@ -1,5 +1,7 @@
 package org.remast.text;
 
+import org.remast.baralga.gui.settings.UserSettings;
+
 import java.text.DecimalFormat;
 import java.text.FieldPosition;
 import java.text.NumberFormat;
@@ -33,7 +35,7 @@ public class DurationFormat extends NumberFormat {
     }
 
     private boolean displayAsHoursAndMinutes() {
-        return false;
+        return UserSettings.DurationFormat.HOURS_AND_MINUTES.equals(UserSettings.instance().getDurationFormat());
     }
 
     private String formatAsHoursAndMinutes(final double duration) {

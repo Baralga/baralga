@@ -171,9 +171,9 @@ public class ActivityPanelStopWatch extends JPanel implements ActionListener {
 	@SuppressWarnings("unchecked")
 	private JComboBox<Project> getProjectSelector() {
 		if (projectSelector == null) {
-			projectSelector = new JComboBox<Project>();
+			projectSelector = new JComboBox<>();
 			projectSelector.setToolTipText(textBundle.textFor("ProjectSelector.ToolTipText")); //$NON-NLS-1$
-			projectSelector.setModel(new EventComboBoxModel<Project>(this.model.getProjectList()));
+			projectSelector.setModel(new EventComboBoxModel<>(this.model.getProjectList()));
 
 			/* Handling of selection events: */
 			projectSelector.addActionListener(new ActionListener() {
@@ -229,7 +229,7 @@ public class ActivityPanelStopWatch extends JPanel implements ActionListener {
 	 * @param event the event of the project change
 	 */
 	private void updateProjectChanged(final BaralgaEvent event) {
-		getProjectSelector().setSelectedItem((Project) event.getData());
+		getProjectSelector().setSelectedItem(event.getData());
 
 		if (model.isActive()) {
 			updateDuration();

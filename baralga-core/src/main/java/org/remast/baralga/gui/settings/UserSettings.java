@@ -490,6 +490,30 @@ public final class UserSettings {
 	}
 
 
+    //------------------------------------------------
+    // Duration format
+    //------------------------------------------------
+
+    public static enum DurationFormat {
+        DECIMAL,
+        HOURS_AND_MINUTES
+    }
+
+    /** The key for duration format. */
+    public static final String DURATION_FORMAT = "settings.durationFormat"; //$NON-NLS-1$
+
+    public DurationFormat getDurationFormat() {
+        return DurationFormat.valueOf(doGetString(DURATION_FORMAT, DurationFormat.DECIMAL.name()));
+    }
+
+    public void setDurationFormat(final DurationFormat durationFormat) {
+        userConfig.setProperty(DURATION_FORMAT, durationFormat.name());
+
+        // Auto save change
+        save();
+    }
+
+
 	//------------------------------------------------
 	// Helper methods
 	//------------------------------------------------

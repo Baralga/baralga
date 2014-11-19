@@ -104,9 +104,9 @@ public class PresentationModel {
 	 * Creates a new model.
 	 */
 	public PresentationModel() {
-		this.projectList = new SortedList<Project>(new BasicEventList<Project>());
-		this.allProjectsList = new SortedList<Project>(new BasicEventList<Project>());
-		this.activitiesList = new SortedList<ProjectActivity>(new BasicEventList<ProjectActivity>());
+		this.projectList = new SortedList<>(new BasicEventList<Project>());
+		this.allProjectsList = new SortedList<>(new BasicEventList<Project>());
+		this.activitiesList = new SortedList<>(new BasicEventList<ProjectActivity>());
 	}
 
 	/**
@@ -143,7 +143,7 @@ public class PresentationModel {
 		// projects)
 		final Long selectedProjectId = UserSettings.instance().getFilterSelectedProjectId();
 		if (selectedProjectId != null) {
-			filter.setProject(this.baralgaDAO.findProjectById(selectedProjectId.longValue()));
+			filter.setProject(this.baralgaDAO.findProjectById(selectedProjectId));
 		}
 		applyFilter();
 
@@ -251,7 +251,7 @@ public class PresentationModel {
 
 		final Object selectedValue = pane.getValue();
 
-		return (selectedValue instanceof Integer) && (((Integer) selectedValue).intValue() == JOptionPane.YES_OPTION);
+		return (selectedValue instanceof Integer) && (((Integer) selectedValue) == JOptionPane.YES_OPTION);
 	}
 
 	/**
@@ -451,7 +451,7 @@ public class PresentationModel {
 
 			// Create Event for Project Activity
 			eventOnEndDay = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED, this);
-			final List<ProjectActivity> activitiesOnEndDay = new ArrayList<ProjectActivity>(1);
+			final List<ProjectActivity> activitiesOnEndDay = new ArrayList<>(1);
 			activitiesOnEndDay.add(activityOnEndDay);
 			eventOnEndDay.setData(activitiesOnEndDay);
 		} else {
@@ -471,7 +471,7 @@ public class PresentationModel {
 		if (notifyObservers) {
 			// Create Event for Project Activity
 			BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED, this);
-			final List<ProjectActivity> activitiesOnStartDay = new ArrayList<ProjectActivity>(1);
+			final List<ProjectActivity> activitiesOnStartDay = new ArrayList<>(1);
 			activitiesOnStartDay.add(activityOnStartDay);
 			event.setData(activitiesOnStartDay);
 			notify(event);
@@ -540,7 +540,7 @@ public class PresentationModel {
 
 			// 3. Broadcast project activity event.
 			final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_ACTIVITY_ADDED, this);
-			final List<ProjectActivity> activities = new ArrayList<ProjectActivity>(1);
+			final List<ProjectActivity> activities = new ArrayList<>(1);
 			activities.add(activity);
 			event.setData(activities);
 
@@ -556,6 +556,11 @@ public class PresentationModel {
 		event.setData(activeProject);
 		notify(event);
 	}
+
+    public final void fireDurationFormatChanged() {
+        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.DATA_CHANGED, this);
+        notify(event);
+    }
 
 	/**
 	 * Add a new activity to the model.
@@ -596,7 +601,7 @@ public class PresentationModel {
 			log.debug("Removing activity " + String.valueOf(activity) + ".");
 		}
 
-		final List<ProjectActivity> activities = new ArrayList<ProjectActivity>(1);
+		final List<ProjectActivity> activities = new ArrayList<>(1);
 		activities.add(activity);
 
 		this.removeActivities(activities, source);

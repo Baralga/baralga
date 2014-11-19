@@ -6,14 +6,13 @@ import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
+import javax.swing.*;
 
 import org.jdesktop.swingx.JXHeader;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.swing.dialog.EscapeDialog;
+import org.remast.swing.util.LabeledItem;
 import org.remast.util.TextResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,8 +38,16 @@ public class SettingsDialog extends EscapeDialog implements ActionListener {
 	/** Component to edit setting to show stopwatch. */
 	private JCheckBox showStopwatch;
 
+    /** Component to edit setting for duration format. */
+    private JComboBox<LabeledItem<UserSettings.DurationFormat>> durationFormatSelector;
+
 	/** The model. */
 	private final PresentationModel model;
+
+    private static final LabeledItem<UserSettings.DurationFormat> [] DURATION_FORMAT_OPTIONS = new LabeledItem [] {
+            new LabeledItem<>(UserSettings.DurationFormat.DECIMAL, textBundle.textFor("SettingsDialog.DurationFormat.DECIMAL")),
+            new LabeledItem<>(UserSettings.DurationFormat.HOURS_AND_MINUTES, textBundle.textFor("SettingsDialog.DurationFormat.HOURS_AND_MINUTES"))
+    };
 
 	/**
 	 * Creates a new settings dialog.
@@ -64,14 +71,15 @@ public class SettingsDialog extends EscapeDialog implements ActionListener {
 		setLocationRelativeTo(getOwner());
 
 		final double border = 5;
-		final double[][] size = { { border, TableLayout.PREFERRED, border, TableLayout.FILL, border }, // Columns
-				{ border, TableLayout.PREFERRED, border, TableLayout.FILL, border, TableLayout.FILL, border, TableLayout.PREFERRED, border } // Rows
+		final double[][] size = {
+                { border, TableLayout.PREFERRED, border, TableLayout.FILL, border }, // Columns
+				{ border, TableLayout.PREFERRED, border, TableLayout.FILL, border, TableLayout.FILL, border, TableLayout.FILL, border, TableLayout.PREFERRED, border } // Rows
 		};
 
 		final TableLayout tableLayout = new TableLayout(size);
 		this.setLayout(tableLayout);
 
-		this.setSize(340, 170);
+		this.setSize(400, 180);
 
 		this.setName("SettingsDialog"); //$NON-NLS-1$
 		this.setTitle(textBundle.textFor("SettingsDialog.Title")); //$NON-NLS-1$
@@ -96,6 +104,19 @@ public class SettingsDialog extends EscapeDialog implements ActionListener {
 
 		this.add(showStopwatch, "1, 5, 1, 1"); //$NON-NLS-1$
 
+        durationFormatSelector = new JComboBox<>(DURATION_FORMAT_OPTIONS);
+        durationFormatSelector.addActionListener(this);
+        durationFormatSelector.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SettingsDialog.this.model.fireDurationFormatChanged();
+            }
+
+        });
+        this.add(new JLabel(textBundle.textFor("SettingsDialog.DurationFormat.Label")), "1, 7, 1, 1"); //$NON-NLS-1$
+        this.add(durationFormatSelector, "3, 7, 3, 5"); //$NON-NLS-1$
+
 		final JButton resetButton = new JButton(textBundle.textFor("SettingsDialog.ResetButton.Title")); //$NON-NLS-1$
 		resetButton.setToolTipText(textBundle.textFor("SettingsDialog.ResetButton.ToolTipText")); //$NON-NLS-1$
 		resetButton.addActionListener(new ActionListener() {
@@ -107,7 +128,7 @@ public class SettingsDialog extends EscapeDialog implements ActionListener {
 
 		});
 
-		this.add(resetButton, "1, 7, 3, 5"); //$NON-NLS-1$
+		this.add(resetButton, "1, 9, 3, 5"); //$NON-NLS-1$
 
 		readFromModel();
 	}
@@ -124,18 +145,25 @@ public class SettingsDialog extends EscapeDialog implements ActionListener {
 	 * Reads the data displayed in the dialog from the model.
 	 */
 	private void readFromModel() {
-		// Read window size and location
 		rememberWindowSizeLocation.setSelected(UserSettings.instance().isRememberWindowSizeLocation());
 		showStopwatch.setSelected(UserSettings.instance().isShowStopwatch());
+
+        final UserSettings.DurationFormat durationFormat = UserSettings.instance().getDurationFormat();
+        for (LabeledItem<UserSettings.DurationFormat> durationFormatOption : DURATION_FORMAT_OPTIONS) {
+            if (durationFormatOption.getItem().equals(durationFormat)) {
+                durationFormatSelector.setSelectedItem(durationFormatOption);
+                break;
+            }
+        }
 	}
 
 	/**
 	 * Writes the data displayed in the dialog to the model.
 	 */
 	private void writeToModel() {
-		// Remember window size and location
 		UserSettings.instance().setRememberWindowSizeLocation(rememberWindowSizeLocation.isSelected());
 		UserSettings.instance().setShowStopwatch(showStopwatch.isSelected());
+        UserSettings.instance().setDurationFormat(((LabeledItem<UserSettings.DurationFormat>) durationFormatSelector.getSelectedItem()).getItem());
 	}
 
 	@Override

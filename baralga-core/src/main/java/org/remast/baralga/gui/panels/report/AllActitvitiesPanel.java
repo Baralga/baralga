@@ -265,7 +265,8 @@ public class AllActitvitiesPanel extends JPanel {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Subscribe public void update(final Object eventObject) {
+	@Subscribe
+    public void update(final Object eventObject) {
 		if (!(eventObject instanceof BaralgaEvent)) {
 			return;
 		}
@@ -282,6 +283,7 @@ public class AllActitvitiesPanel extends JPanel {
 			tableModel.fireTableDataChanged();
 			break;
 
+        case BaralgaEvent.DATA_CHANGED:
 		case BaralgaEvent.PROJECT_CHANGED:
 			tableModel.fireTableDataChanged();
 			break;
