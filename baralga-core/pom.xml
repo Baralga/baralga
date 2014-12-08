@@ -148,8 +148,7 @@
 			<url>http://download.java.net/maven/2/</url>
 		</repository>
 		<repository>
-			<id>maven2-repository.atlassian.com
-			</id>
+			<id>maven2-repository.atlassian.com</id>
 			<name>Atlassian Repository for Maven</name>
 			<url>https://maven.atlassian.com/repository/public</url>
 		</repository>
