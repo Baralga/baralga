@@ -1,5 +1,15 @@
 package org.remast.baralga.model.io;
 
+import org.apache.commons.lang.StringUtils;
+import org.remast.baralga.gui.model.PresentationModel;
+import org.remast.baralga.gui.settings.ApplicationSettings;
+import org.remast.baralga.gui.settings.UserSettings;
+import org.remast.baralga.model.ProjectActivity;
+import org.remast.baralga.model.export.Exporter;
+import org.remast.baralga.model.export.XmlExporter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
@@ -13,16 +23,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.remast.baralga.gui.model.PresentationModel;
-import org.remast.baralga.gui.settings.ApplicationSettings;
-import org.remast.baralga.gui.settings.UserSettings;
-import org.remast.baralga.model.ProjectActivity;
-import org.remast.baralga.model.export.Exporter;
-import org.remast.baralga.model.export.XmlExporter;
 
 /**
  * Misc utility methods for creating and reading backups.
@@ -45,7 +45,6 @@ public class DataBackup {
 	/**
 	 * Create a backup from given file.
 	 * @param model 
-	 * @param toBackup the file to be backed up
 	 */
 	public static void createBackup(final PresentationModel model) {
 		OutputStream outputStream = null;
@@ -143,7 +142,7 @@ public class DataBackup {
 		}
 
 		// Order the list by the date of the backup with the latest backup at front.
-		final List<File> backupFileList = new ArrayList<File>(sortedBackupFiles.size());
+		final List<File> backupFileList = new ArrayList<>(sortedBackupFiles.size());
 		final int numberOfBackups = sortedBackupFiles.size();
 		for (int i = 0; i < numberOfBackups; i++) {
 			final Date backupDate = sortedBackupFiles.lastKey();
@@ -153,21 +152,6 @@ public class DataBackup {
 		}
 
 		return backupFileList;
-	}
-
-	/**
-	 * Get the date on which the backup file has been created. 
-	 * @param backupFile the backup file to get date for
-	 * @return The date on which the backup file has been created. If no date could be inferred <code>null</code> is returned.
-	 */
-	public static Date getDateOfBackup(final File backupFile) {
-		try {
-			return BACKUP_DATE_FORMAT.parse(backupFile.getName().substring(UserSettings.DEFAULT_FILE_NAME.length() + 1));
-		} catch (Exception e) {
-			log.error(e.getLocalizedMessage(), e);
-		}
-		
-		return null;
 	}
 
 }
