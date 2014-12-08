@@ -25,8 +25,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
- * Misc utility methods for creating and reading backups.
- * @author remast
+ * Creates and reads backups.
  */
 public class DataBackup {
 
@@ -42,11 +41,13 @@ public class DataBackup {
 	/** The number of backup files to keep. */
 	private static final int NUMBER_OF_BACKUPS = 3;
 
-	/**
-	 * Create a backup from given file.
-	 * @param model 
-	 */
-	public static void createBackup(final PresentationModel model) {
+	private PresentationModel presentationModel;
+
+	public DataBackup(final PresentationModel presentationModel) {
+		this.presentationModel = presentationModel;
+	}
+
+	public void createBackup() {
 		OutputStream outputStream = null;
 		final File backupFile = new File(UserSettings.instance().getDataFileLocation() + "." + BACKUP_DATE_FORMAT.format(new Date()));
 		try {
@@ -55,17 +56,17 @@ public class DataBackup {
 			final Exporter exporter = new XmlExporter();
 
 			// Get activities for export
-			Collection<ProjectActivity> activitiesForExport = null;
+			Collection<ProjectActivity> activitiesForExport;
 			if (exporter.isFullExport()) {
-				activitiesForExport = model.getAllActivitiesList();
+				activitiesForExport = presentationModel.getAllActivitiesList();
 			} else {
-				activitiesForExport = model.getActivitiesList();
+				activitiesForExport = presentationModel.getActivitiesList();
 			}
 
 			synchronized (activitiesForExport) {
 				exporter.export(
 						activitiesForExport,
-						model.getFilter(),
+						presentationModel.getFilter(),
 						outputStream
 						);
 			}
@@ -90,7 +91,7 @@ public class DataBackup {
 	/**
 	 * Cleans up old backup files so that not more backup files than <code>NUMBER_OF_BACKUPS</code> exist.
 	 */
-	private static void cleanupBackupFiles() {
+	private void cleanupBackupFiles() {
 		final List<File> backupFiles = getBackupFiles();
 		if (backupFiles != null && backupFiles.size() > NUMBER_OF_BACKUPS) {
 			final int numberOfFilesToDelete = backupFiles.size() - NUMBER_OF_BACKUPS;
@@ -110,20 +111,16 @@ public class DataBackup {
 	 * there there are no backups <code>Collections.EMPTY_LIST</code> is returned.
 	 * @return the list of backup files
 	 */
-	public static List<File> getBackupFiles()  {
-		final SortedMap<Date, File> sortedBackupFiles = new TreeMap<Date, File>();
+	public List<File> getBackupFiles()  {
+		final SortedMap<Date, File> sortedBackupFiles = new TreeMap<>();
 
 		final File dir = ApplicationSettings.instance().getApplicationDataDirectory();
 		final String [] backupFiles = dir.list(new FilenameFilter() {
 
 			public boolean accept(final File dir, final String name) {
-				if (!StringUtils.equals(ERROR_FILE_NAME, name) 
+				return !StringUtils.equals(ERROR_FILE_NAME, name)
 						&& !StringUtils.equals(UserSettings.DEFAULT_FILE_NAME, name) 
-						&& name.startsWith(UserSettings.DEFAULT_FILE_NAME)) {
-					return true;
-				}
-
-				return false;
+						&& name.startsWith(UserSettings.DEFAULT_FILE_NAME);
 			}
 
 		});

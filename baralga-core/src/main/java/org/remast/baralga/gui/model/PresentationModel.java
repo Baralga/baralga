@@ -1,13 +1,8 @@
 package org.remast.baralga.gui.model;
 
-import java.beans.PropertyChangeEvent;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-
+import ca.odell.glazedlists.BasicEventList;
+import ca.odell.glazedlists.SortedList;
+import com.google.common.eventbus.EventBus;
 import org.apache.commons.lang.ObjectUtils;
 import org.joda.time.DateTime;
 import org.remast.baralga.gui.BaralgaMain;
@@ -30,10 +25,11 @@ import org.remast.util.TextResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ca.odell.glazedlists.BasicEventList;
-import ca.odell.glazedlists.SortedList;
-
-import com.google.common.eventbus.EventBus;
+import javax.swing.*;
+import java.beans.PropertyChangeEvent;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * The model of the Baralga application. This is the model capturing both the
@@ -565,7 +561,7 @@ public class PresentationModel {
 			log.debug("Adding activity " + String.valueOf(activity) + ".");
 		}
 
-		final List<ProjectActivity> activities = new ArrayList<ProjectActivity>(1);
+		final List<ProjectActivity> activities = new ArrayList<>(1);
 		activities.add(activity);
 
 		this.addActivities(activities, source);
@@ -767,7 +763,7 @@ public class PresentationModel {
 	 *             on error during saving
 	 */
 	public final void save() throws Exception {
-		DataBackup.createBackup(this);
+		new DataBackup(this).createBackup();
 	}
 
 	/**
@@ -791,21 +787,6 @@ public class PresentationModel {
 	public void resetUserInactivityState() {
 		this.lastActivity = System.currentTimeMillis();
 		this.userWasInActive = false;
-	}
-
-	/**
-	 * Getter for UserIsInactive. Will be true when user was not actively
-	 * working on the computer for at least a certain amount of time AND first
-	 * UserInteraction has been identified. There is no timer running, to check
-	 * whether inactivity threshold has been raised. This flag is depending on
-	 * user getting back to the computer.
-	 * 
-	 * @return true when user was not actively working on the computer für at
-	 *         least UserSettings.getInactivityThreshold AND first
-	 *         UserInteraction has been identified.
-	 */
-	public boolean getUserWasInActive() {
-		return this.userWasInActive;
 	}
 
 }
