@@ -34,10 +34,10 @@ import org.xml.sax.helpers.DefaultHandler;
 public class XmlDataReader extends DefaultHandler {
 
 	/** The imported projects. */
-	private Collection<Project> projects = new ArrayList<Project>();
+	private Collection<Project> projects = new ArrayList<>();
 
 	/** The imported activites. */
-	private Collection<ProjectActivity> activities = new ArrayList<ProjectActivity>();
+	private Collection<ProjectActivity> activities = new ArrayList<>();
 	
 	/** Temporary string buffer. */
 	private String currentBuffer;

@@ -7,13 +7,8 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 /**
  * Utility methods for working with strings.
- * @author remast
  */
-public abstract class StringUtils {
-	
-	/** Hide default constructor for utility classes. */
-	private StringUtils() {
-	}
+public class StringUtils {
 
     /** Regular expression for xml tags. */
     private static final String XML_TAG_PATTERN = "<[^<>]+>";

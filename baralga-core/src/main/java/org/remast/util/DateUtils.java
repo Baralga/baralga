@@ -7,13 +7,8 @@ import org.joda.time.ReadableInstant;
 
 /**
  * Miscellaneous utility methods for dealing with dates.
- * @author remast
  */
-public abstract class DateUtils {
-    
-    /** Hide constructor. */
-    private DateUtils() {
-    }
+public class DateUtils {
 
     /**
      * Get current time rounded to minutes.

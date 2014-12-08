@@ -218,7 +218,7 @@ public class BaralgaDAO {
 	 * @return read-only view of the projects
 	 */
 	public List<Project> getActiveProjects() {
-		final List<Project> activeProjects = new ArrayList<Project>();
+		final List<Project> activeProjects = new ArrayList<>();
 
 		try {
 			final Statement st = connection.createStatement();
@@ -457,7 +457,7 @@ public class BaralgaDAO {
 	 * Provides a list of all months with activities.
 	 */
 	public List<Integer> getMonthList() {
-		final List<Integer> monthList = new ArrayList<Integer>();
+		final List<Integer> monthList = new ArrayList<>();
 		
 		try {
 			final Statement statement = connection.createStatement();
@@ -497,7 +497,7 @@ public class BaralgaDAO {
 	 * Provides a list of all weeks of year with activities.
 	 */
 	public List<Integer> getWeekOfYearList() {
-		final List<Integer> weekOfYearList = new ArrayList<Integer>();
+		final List<Integer> weekOfYearList = new ArrayList<>();
 		
 		try {
 			final Statement statement = connection.createStatement();
@@ -530,7 +530,7 @@ public class BaralgaDAO {
 			sqlCondition += " and ? <= activity.start and activity.start < ?"; //$NON-NLS-1$
 		}
 		
-		final List<ProjectActivity> activities = new ArrayList<ProjectActivity>();
+		final List<ProjectActivity> activities = new ArrayList<>();
 
 		try {
 			final String filterCondition = StringUtils.defaultString(sqlCondition);
