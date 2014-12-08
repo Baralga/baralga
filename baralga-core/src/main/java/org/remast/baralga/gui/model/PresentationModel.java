@@ -388,9 +388,7 @@ public class PresentationModel {
 
 	/**
 	 * Stop a project activity.
-	 * 
-	 * @throws ProjectActivityStateException
-	 *             if there is no running project
+	 * @throws ProjectActivityStateException if there is no running project
 	 * @see #stop(boolean)
 	 */
 	public final void stop() throws ProjectActivityStateException {
@@ -399,10 +397,8 @@ public class PresentationModel {
 	}
 
 	/**
-	 * Stop a project activity.<br/>
-	 * 
-	 * @throws ProjectActivityStateException
-	 *             if there is no running project
+	 * Stop a project activity.
+	 * @throws ProjectActivityStateException if there is no running project
 	 */
 	public final void stop(final boolean notifyObservers) throws ProjectActivityStateException {
 		final DateTime now = DateUtils.getNowAsDateTime();
@@ -410,10 +406,8 @@ public class PresentationModel {
 	}
 
 	/**
-	 * Stop a project activity.<br/>
-	 * 
-	 * @throws ProjectActivityStateException
-	 *             if there is no running project
+	 * Stop a project activity.
+	 * @throws ProjectActivityStateException if there is no running project
 	 */
 	public final void stop(DateTime endDate, final boolean notifyObservers) throws ProjectActivityStateException {
 		if (log.isDebugEnabled()) {
@@ -494,9 +488,7 @@ public class PresentationModel {
 
 	/**
 	 * Changes to the given project.
-	 * 
-	 * @param activeProject
-	 *            the new active project
+	 * @param activeProject the new active project
 	 */
 	public final void changeProject(final Project activeProject) {
 		if (log.isDebugEnabled()) {
@@ -619,38 +611,18 @@ public class PresentationModel {
 		notify(event);
 	}
 
-	/**
-	 * Getter for the list of active projects.
-	 * 
-	 * @return the list with all active projects
-	 */
 	public final SortedList<Project> getProjectList() {
 		return projectList;
 	}
 
-	/**
-	 * Getter for the list of projects.
-	 * 
-	 * @return the list with all projects
-	 */
 	public final SortedList<Project> getAllProjectsList() {
 		return allProjectsList;
 	}
 
-	/**
-	 * Getter for the list of project activities.
-	 * 
-	 * @return the list with all filtered project activities
-	 */
 	public final SortedList<ProjectActivity> getActivitiesList() {
 		return activitiesList;
 	}
 
-	/**
-	 * Getter for the list of all project activities.
-	 * 
-	 * @return the list with all project activities
-	 */
 	public List<ProjectActivity> getAllActivitiesList() {
 		return baralgaDAO.getActivities();
 	}
@@ -659,55 +631,28 @@ public class PresentationModel {
 		return new ProjectFilterList(this);
 	}
 
-	/**
-	 * Getter for the ObservingAccumulatedActivitiesReport.
-	 * 
-	 * @return the ObservingAccumulatedActivitiesReport to get
-	 */
 	public final ObservingAccumulatedActivitiesReport getFilteredReport() {
 		return new ObservingAccumulatedActivitiesReport(this);
 	}
 
-	/**
-	 * Getter for the HoursByWeekReport.
-	 * 
-	 * @return the HoursByWeekReport to get
-	 */
 	public final HoursByWeekReport getHoursByWeekReport() {
 		return new HoursByWeekReport(this);
 	}
 
-	/**
-	 * Getter for the HoursByMonthReport.
-	 * 
-	 * @return the HoursByMonthReport to get
-	 */
 	public final HoursByMonthReport getHoursByMonthReport() {
 		return new HoursByMonthReport(this);
 	}
 
-	/**
-	 * Getter for the HoursByDayReport.
-	 * 
-	 * @return the HoursByDayReport to get
-	 */
 	public final HoursByDayReport getHoursByDayReport() {
 		return new HoursByDayReport(this);
 	}
 
-	/**
-	 * Getter for the HoursByProjectReport.
-	 * 
-	 * @return the HoursByProjectReport to get
-	 */
 	public final HoursByProjectReport getHoursByProjectReport() {
 		return new HoursByProjectReport(this);
 	}
 
 	/**
-	 * Gets the start of the current activity.
-	 * 
-	 * @return the start
+	 * Gets the start time of the current activity.
 	 */
 	public final DateTime getStart() {
 		return start;
@@ -715,9 +660,6 @@ public class PresentationModel {
 
 	/**
 	 * Sets the start of a new activity.
-	 * 
-	 * @param start
-	 *            the start to set
 	 */
 	public final void setStart(final DateTime start) {
 		this.start = start;
@@ -730,38 +672,21 @@ public class PresentationModel {
 		notify(event);
 	}
 
-	/**
-	 * Getter for the stop time.
-	 * 
-	 * @return the stop
-	 */
 	public final DateTime getStop() {
 		return stop;
 	}
 
-	/**
-	 * Setter for the stop time.
-	 * 
-	 * @param stop
-	 *            the stop to set
-	 */
 	private void setStop(final DateTime stop) {
 		this.stop = stop;
 	}
 
 	/**
 	 * Checks whether a project activity is currently running.
-	 * 
-	 * @return the active
 	 */
 	public boolean isActive() {
 		return active;
 	}
 
-	/**
-	 * @param active
-	 *            the active to set
-	 */
 	public void setActive(final boolean active) {
 		this.active = active;
 		UserSettings.instance().setActive(active);
@@ -782,9 +707,6 @@ public class PresentationModel {
 		this.baralgaDAO = baralgaDAO;
 	}
 
-	/**
-	 * @return the filter
-	 */
 	public Filter getFilter() {
 		return filter;
 	}
@@ -812,28 +734,14 @@ public class PresentationModel {
 		notify(event);
 	}
 
-	/**
-	 * Getter for the description.
-	 * 
-	 * @return the description to get
-	 */
 	public final String getDescription() {
 		return description;
 	}
 
-	/**
-	 * Setter for the description.
-	 * 
-	 * @param description
-	 *            the description to set
-	 */
 	public final void setDescription(final String description) {
 		this.description = description;
 	}
 
-	/**
-	 * @return the editStack
-	 */
 	public final EditStack getEditStack() {
 		return editStack;
 	}
