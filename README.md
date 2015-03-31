@@ -1,3 +1,5 @@
+[![Dependency Status](https://www.versioneye.com/user/projects/551a39aa3661f134fe00004c/badge.svg?style=flat)](https://www.versioneye.com/user/projects/551a39aa3661f134fe00004c)
+
 Baralga Time Tracker
 ====================
 Baralga is a simple time tracking solution for the desktop.
