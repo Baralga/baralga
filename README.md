@@ -1,4 +1,6 @@
 [![Dependency Status](https://www.versioneye.com/user/projects/551a39aa3661f134fe00004c/badge.svg?style=flat)](https://www.versioneye.com/user/projects/551a39aa3661f134fe00004c)
+[ ![Codeship Status for Baralga/baralga](https://codeship.com/projects/37f139e0-f2fd-0132-cce4-5ed004d44c71/status?branch=master)](https://codeship.com/projects/85307)
+
 Baralga Time Tracker
 ====================
 Baralga is a simple time tracking solution for the desktop.
