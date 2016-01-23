@@ -6,7 +6,7 @@
 	<packaging>pom</packaging>
 	<version>1.8.0-SNAPSHOT</version>
 	<name>Baralga Parent</name>
-	<url>http://baralga.github.io</url>
+	<url>https://baralga.github.io</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>

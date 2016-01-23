@@ -13,6 +13,7 @@ Changelog
 Baralga Version 1.8.0
 ---------------------
 ### Fixes
+* Removed platform specific inactivity reminder.
 * Run Windows and Mac Installers as Admin to make sure installation in default path is permitted.
 * Avoid error log when getting the initial start date.
 

@@ -22,7 +22,7 @@ import com.google.common.base.Predicate;
 public class Filter {
 
     /** The predicates of the filter. */
-    private final List<Predicate<ProjectActivity>> predicates = new ArrayList<Predicate<ProjectActivity>>();
+    private final List<Predicate<ProjectActivity>> predicates = new ArrayList<>();
     
     /** The time interval to filter by. */
     private Interval timeInterval = new Interval(
