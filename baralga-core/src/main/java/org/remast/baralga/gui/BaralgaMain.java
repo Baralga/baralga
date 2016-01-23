@@ -1,26 +1,10 @@
 package org.remast.baralga.gui;
 
-import java.awt.SystemTray;
-import java.awt.Toolkit;
-import java.io.File;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.nio.channels.FileChannel;
-import java.nio.channels.FileLock;
-import java.sql.SQLException;
-import java.util.Timer;
-
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-
 import org.apache.log4j.Appender;
 import org.apache.log4j.DailyRollingFileAppender;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.xml.DOMConfigurator;
-import org.remast.baralga.gui.dialogs.UserInactivityReminderDialog;
 import org.remast.baralga.gui.dialogs.StopWatch;
-import org.remast.baralga.gui.model.CWMouseHook;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.model.ProjectActivityStateException;
 import org.remast.baralga.gui.settings.ApplicationSettings;
@@ -32,7 +16,15 @@ import org.remast.util.TextResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sun.jna.Platform;
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
+import java.sql.SQLException;
+import java.util.Timer;
 
 /**
  * Controls the lifecycle of the application.
@@ -122,8 +114,6 @@ public final class BaralgaMain {
 
 			final MainFrame mainFrame = initMainFrame(model, mainInstance);
 			initStopWatch(model);
-			
-			initUserInactivityRecognition(model);
 
 			initTrayIcon(mainInstance, model, mainFrame);
 		} catch (Exception e) {
@@ -135,22 +125,6 @@ public final class BaralgaMain {
 			ExceptionUtils.showErrorDialog(e);
 			System.exit(1);
 		}
-	}
-
-	private static void initUserInactivityRecognition(PresentationModel model) {
-		//TODO: Please add addition classes to get Mouse and Keyboard events from different operating system. I do only have Windows available
-		switch(Platform.getOSType()) {
-		case Platform.WINDOWS:
-			CWMouseHook windowsMouseHook = new CWMouseHook(model);
-			windowsMouseHook.setMouseHook();
-			break;
-		default:
-			log.info("InactivityRecognition not available for your Operating System.");
-			break;
-		}
-		
-		//Creating the dialog. It handles visiblity automaticaly by events from eventHub.
-		new UserInactivityReminderDialog(model);
 	}
 
 	/**
