@@ -1,6 +1,6 @@
 package org.remast.baralga.model.filter;
 
-import com.google.common.base.Predicate;
+import java.util.function.Predicate;
 import org.apache.commons.lang.ObjectUtils;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
@@ -30,7 +30,7 @@ public class ProjectPredicate implements Predicate<ProjectActivity> {
      * @return <code>true</code> if the given object is a project activity
      * of that project else <code>false</code>
      */
-    public boolean apply(final ProjectActivity activity) {
+    public boolean test(final ProjectActivity activity) {
         if (activity == null) {
             return false;
         }

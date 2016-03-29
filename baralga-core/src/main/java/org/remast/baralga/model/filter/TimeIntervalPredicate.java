@@ -4,7 +4,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.remast.baralga.model.ProjectActivity;
 
-import com.google.common.base.Predicate;
+import java.util.function.Predicate;
 
 /**
  * Holds for all project activities of a time interval.
@@ -32,7 +32,7 @@ public class TimeIntervalPredicate implements Predicate<ProjectActivity> {
      * @return <code>true</code> if the given object is a project activity of
      *         that day else <code>false</code>
      */
-    public boolean apply(final ProjectActivity activity) {
+    public boolean test(final ProjectActivity activity) {
         if (activity == null) {
             return false;
         }

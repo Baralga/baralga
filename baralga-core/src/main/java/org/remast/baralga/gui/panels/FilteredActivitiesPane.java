@@ -28,7 +28,7 @@ import org.remast.baralga.gui.panels.report.HoursByWeekPanel;
 import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.util.TextResourceBundle;
 
-import com.google.common.base.Objects;
+import java.util.Objects;
 import com.google.common.eventbus.Subscribe;
 
 /**
@@ -256,11 +256,11 @@ public class FilteredActivitiesPane extends JPanel {
 		projectButton.setSelected(false);
 
 		// 2. Select shown button
-		if (Objects.equal("General", shownCategory)) { //$NON-NLS-1$
+		if (Objects.equals("General", shownCategory)) { //$NON-NLS-1$
 			generalButton.setSelected(true);
-		} else if (Objects.equal("Time", shownCategory)) { //$NON-NLS-1$
+		} else if (Objects.equals("Time", shownCategory)) { //$NON-NLS-1$
 			timeButton.setSelected(true);
-		} else if (Objects.equal("Project", shownCategory)) { //$NON-NLS-1$
+		} else if (Objects.equals("Project", shownCategory)) { //$NON-NLS-1$
 			projectButton.setSelected(true);
 		}
 	}

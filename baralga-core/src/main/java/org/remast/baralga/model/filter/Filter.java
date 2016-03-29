@@ -1,8 +1,5 @@
 package org.remast.baralga.model.filter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -12,7 +9,9 @@ import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.util.DateUtils;
 
-import com.google.common.base.Predicate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Filter for selecting only those project activities which satisfy 
@@ -63,7 +62,7 @@ public class Filter {
     	}
     	
         for (Predicate<ProjectActivity> predicate : predicates) {
-            if (!predicate.apply(activity)) {
+            if (!predicate.test(activity)) {
                 return false;
             }
         }
