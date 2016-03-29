@@ -70,7 +70,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         case 3:
             return FormatUtils.formatTime(activity.getEnd());
         case 4:
-            return (Double) activity.getDuration();
+            return activity.getDuration();
         default:
             return ""; //$NON-NLS-1$
         }

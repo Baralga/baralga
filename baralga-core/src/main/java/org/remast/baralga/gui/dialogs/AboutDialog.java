@@ -80,7 +80,7 @@ public class AboutDialog extends EscapeDialog {
 
         aboutInfo.add(new JLabel(textBundle.textFor("AboutDialog.ModeLabel")), "1, 7"); //$NON-NLS-1$ //$NON-NLS-2$
         // Get storage mode from ApplicationSettings
-        String storageMode = null;
+        String storageMode;
         if (ApplicationSettings.instance().isStoreDataInApplicationDirectory()) {
             storageMode = textBundle.textFor("Settings.DataStorage.PortableLabel");
         } else {

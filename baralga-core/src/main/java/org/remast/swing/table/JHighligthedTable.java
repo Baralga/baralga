@@ -25,7 +25,6 @@ public class JHighligthedTable extends JTable {
 		if (!returnComp.getBackground().equals(getSelectionBackground())){
 			Color backgroundColor = (row % 2 == 0 ? BEIGE : Color.WHITE);
 			returnComp.setBackground(backgroundColor);
-			backgroundColor = null;
 		}
 		return returnComp;
 	}

@@ -494,7 +494,7 @@ public final class UserSettings {
     // Duration format
     //------------------------------------------------
 
-    public static enum DurationFormat {
+    public enum DurationFormat {
         DECIMAL,
         HOURS_AND_MINUTES
     }

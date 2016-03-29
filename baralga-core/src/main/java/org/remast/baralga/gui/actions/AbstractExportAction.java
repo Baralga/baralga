@@ -140,7 +140,7 @@ public abstract class AbstractExportAction extends AbstractBaralgaAction {
                 outputStream = new FileOutputStream(file);
                 
                 // Get activities for export
-                Collection<ProjectActivity> activitiesForExport = null;
+                Collection<ProjectActivity> activitiesForExport;
                 if (exporter.isFullExport()) {
                 	activitiesForExport = model.getAllActivitiesList();
                 } else {

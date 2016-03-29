@@ -58,8 +58,10 @@ public class ExceptionUtils {
 		@Override
 		public void uncaughtException(Thread t, Throwable e) {
 			log.error(e.getLocalizedMessage(), e);
-			showErrorDialog(e);		}
-	};
+			showErrorDialog(e);
+		}
+
+	}
 	
 	public static final class ExceptionHandlingEventProcessor extends EventQueue {
  

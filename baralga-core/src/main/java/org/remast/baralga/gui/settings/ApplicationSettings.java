@@ -53,7 +53,7 @@ public final class ApplicationSettings {
             String url = ApplicationSettings.class.getResource("/" + ApplicationSettings.class.getName().replaceAll("\\.", "/") + ".class").toString();
             url = url.substring(4).replaceFirst("/[^/]+\\.jar!.*$", "/");
             
-            File rootDirectory = null;
+            File rootDirectory;
             
             // TRICKY: Here's a hack to make it work for production environment, jUnit tests and development.
             // So we check if the url is a file 

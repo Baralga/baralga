@@ -109,7 +109,7 @@ public class ManageProjectsDialog extends EscapeDialog {
      */
     private JTable getProjectTable() {
         if (projectTable == null) {
-            projectTableModel = new EventTableModel<Project>(model.getAllProjectsList(), new ProjectListTableFormat(model));
+            projectTableModel = new EventTableModel<>(model.getAllProjectsList(), new ProjectListTableFormat(model));
 
             projectTable = new JHighligthedTable(projectTableModel);
     		TableComparatorChooser.install(

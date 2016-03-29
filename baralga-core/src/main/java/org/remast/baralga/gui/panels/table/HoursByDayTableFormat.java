@@ -41,7 +41,7 @@ public class HoursByDayTableFormat implements TableFormat<HoursByDay> {
         case 0:
             return baseObject.getDay();
         case 1:
-            return (Double) baseObject.getHours();
+            return baseObject.getHours();
         default:
             return null;
         }
