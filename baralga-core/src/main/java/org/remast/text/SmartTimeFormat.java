@@ -111,7 +111,7 @@ public class SmartTimeFormat extends TimeFormat {
         	}
         }
 
-        // Treat 11 as 11:30
+        // Treat 11 as 11:00
         if (!time.contains(":")) { //$NON-NLS-1$
             time = time + ":00"; //$NON-NLS-1$
         }
