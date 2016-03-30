@@ -41,7 +41,7 @@ public class XmlExporter implements Exporter {
 	@Override
 	public void export(Collection<ProjectActivity> data, Filter filter, OutputStream outputStream) throws Exception {
 		// Gather all projects of the given activities
-		final Set<Project> projects = new HashSet<Project>();
+		final Set<Project> projects = new HashSet<>();
 		for (ProjectActivity activity : data) {
 			projects.add(activity.getProject());
 		}
