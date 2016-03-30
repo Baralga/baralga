@@ -1,7 +1,7 @@
 package org.remast.baralga.model.filter;
 
+import java.util.Objects;
 import java.util.function.Predicate;
-import org.apache.commons.lang.ObjectUtils;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 
@@ -35,7 +35,7 @@ public class ProjectPredicate implements Predicate<ProjectActivity> {
             return false;
         }
 
-        return ObjectUtils.equals(this.project, activity.getProject());
+        return Objects.equals(this.project, activity.getProject());
     }
 
 }

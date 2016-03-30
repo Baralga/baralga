@@ -1,10 +1,8 @@
 package org.remast.baralga.model;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
+import java.util.Objects;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.remast.baralga.FormatUtils;
@@ -158,7 +156,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
     }
 
     public void setProject(final Project project) {
-        if (ObjectUtils.equals(this.project, project)) {
+        if (Objects.equals(this.project, project)) {
             return;
         }
         

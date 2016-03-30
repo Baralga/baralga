@@ -1,12 +1,12 @@
 package org.remast.baralga.model.report;
 
-import java.util.Date;
-
+import com.google.common.base.Objects;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
 import org.remast.baralga.model.Project;
+
+import java.util.Date;
 
 public class AccumulatedProjectActivity implements Comparable<AccumulatedProjectActivity> {
 
@@ -83,13 +83,11 @@ public class AccumulatedProjectActivity implements Comparable<AccumulatedProject
     
     @Override
     public int hashCode() {
-        final HashCodeBuilder hashBuilder = new HashCodeBuilder();
-
-        hashBuilder.append(this.getProject());
-        hashBuilder.append(this.day.getDayOfYear());
-        hashBuilder.append(this.day.getYear());
-        
-        return hashBuilder.toHashCode();
+        return Objects.hashCode(
+                this.getProject(),
+                this.day.getDayOfYear(),
+                this.day.getYear()
+        );
     }
     
     @Override

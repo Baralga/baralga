@@ -7,13 +7,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Objects;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.UIManager;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXHeader;
 import org.jdesktop.swingx.JXLabel;
@@ -195,7 +195,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 
 			// Read from Filter
 			for (LabeledItem<SpanType> item : spanSelectorItems) {
-				if (ObjectUtils.equals(item.getItem(), model.getFilter().getSpanType())) {
+				if (Objects.equals(item.getItem(), model.getFilter().getSpanType())) {
 					spanTypeSelector.setSelectedItem(item);
 					break;
 				}
@@ -226,7 +226,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 			final Long selectedProjectId = UserSettings.instance().getFilterSelectedProjectId();
 			if (selectedProjectId != null) {
 				for (LabeledItem<Project> item : projectFilterList.getProjectList()) {
-					if (ObjectUtils.equals(item.getItem().getId(), selectedProjectId.longValue())) {
+					if (Objects.equals(item.getItem().getId(), selectedProjectId.longValue())) {
 						projectFilterSelector.setSelectedItem(item);
 						break;
 					}

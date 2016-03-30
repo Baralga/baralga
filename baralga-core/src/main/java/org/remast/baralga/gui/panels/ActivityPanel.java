@@ -1,29 +1,8 @@
 package org.remast.baralga.gui.panels;
 
+import ca.odell.glazedlists.swing.EventComboBoxModel;
+import com.google.common.eventbus.Subscribe;
 import info.clearthought.layout.TableLayout;
-
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.Date;
-
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.Timer;
-
 import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXHeader;
@@ -46,9 +25,16 @@ import org.remast.text.TimeFormat;
 import org.remast.util.DateUtils;
 import org.remast.util.TextResourceBundle;
 
-import ca.odell.glazedlists.swing.EventComboBoxModel;
-
-import com.google.common.eventbus.Subscribe;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Date;
 
 /**
  * Panel for capturing new activities.
@@ -310,7 +296,7 @@ public class ActivityPanel extends JPanel implements ActionListener {
 
                     // 2. Clear the description.
                     if (descriptionEditor != null) {
-                        descriptionEditor.setText(StringUtils.EMPTY);
+                        descriptionEditor.setText("");
                     }
                 }
             });

@@ -1,12 +1,6 @@
 package org.remast.baralga.model.export;
 
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
+import com.google.common.base.Strings;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
@@ -23,7 +17,11 @@ import org.remast.baralga.model.report.AccumulatedActivitiesReport;
 import org.remast.baralga.model.report.AccumulatedProjectActivity;
 import org.remast.util.TextResourceBundle;
 
-import com.google.common.base.Strings;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Exports data to Microsoft Excel format.
@@ -174,7 +172,7 @@ public class ExcelExporter implements Exporter {
 		}
 		
 		// Issue #99 : Report name may not contain character /.
-		reportName = StringUtils.replace(reportName, "/", "-");
+		reportName = reportName.replace("/", "-");
 
 		final Sheet sheet = workbook.createSheet(reportName);
 

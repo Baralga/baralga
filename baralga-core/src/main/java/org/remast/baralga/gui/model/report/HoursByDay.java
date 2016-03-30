@@ -1,11 +1,11 @@
 package org.remast.baralga.gui.model.report;
 
-import java.util.Date;
-
+import com.google.common.base.Objects;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
+
+import java.util.Date;
 
 /**
  * Item of the hours by day report.
@@ -87,12 +87,10 @@ public class HoursByDay implements Comparable<HoursByDay> {
     
     @Override
     public int hashCode() {
-    	final HashCodeBuilder hashCodeBuilder = new HashCodeBuilder();
-    	
-    	hashCodeBuilder.append(day.getYear());
-    	hashCodeBuilder.append(day.getDayOfYear());
-    	
-        return hashCodeBuilder.toHashCode();
+        return Objects.hashCode(
+            day.getYear(),
+            day.getDayOfYear()
+        );
     }
 
 }

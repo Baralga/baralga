@@ -3,7 +3,6 @@ package org.remast.baralga.gui.model;
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.SortedList;
 import com.google.common.eventbus.EventBus;
-import org.apache.commons.lang.ObjectUtils;
 import org.joda.time.DateTime;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.events.BaralgaEvent;
@@ -30,6 +29,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The model of the Baralga application. This is the model capturing both the
@@ -492,7 +492,7 @@ public class PresentationModel {
 		}
 
 		// If there's no change we're done.
-		if (ObjectUtils.equals(getSelectedProject(), activeProject)) {
+		if (Objects.equals(getSelectedProject(), activeProject)) {
 			return;
 		}
 
@@ -714,7 +714,7 @@ public class PresentationModel {
 	 *            the source of the new filter
 	 */
 	public void setFilter(final Filter filter, final Object source) {
-		if (ObjectUtils.equals(this.filter, filter)) {
+		if (Objects.equals(this.filter, filter)) {
 			return;
 		}
 

@@ -3,14 +3,14 @@
  */
 package org.remast.util;
 
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Provides easy access to texts from properties files. This uses the default 
@@ -43,7 +43,7 @@ public final class TextResourceBundle {
         this.clazz = clazz;
 
         try {
-            final String [] superPackageNames = StringUtils.split(clazz.getPackage().getName(), '.');
+            final String [] superPackageNames = clazz.getPackage().getName().split("\\.");
 
             // Get name of the current package
             String currentPackageName = "";

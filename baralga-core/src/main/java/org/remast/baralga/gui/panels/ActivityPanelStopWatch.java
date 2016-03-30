@@ -17,7 +17,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXButton;
 import org.joda.time.Period;
 import org.remast.baralga.gui.BaralgaMain;
@@ -243,7 +242,7 @@ public class ActivityPanelStopWatch extends JPanel implements ActionListener {
 		timer.start();
 
 		// Clear description in settings.
-		UserSettings.instance().setLastDescription(StringUtils.EMPTY);
+		UserSettings.instance().setLastDescription("");
 
 		// Change button from start to stop
 		getStartStopButton().setAction(new StopAction(this.model));
@@ -262,7 +261,7 @@ public class ActivityPanelStopWatch extends JPanel implements ActionListener {
 		timer.stop();
 
 		// Clear description in settings.
-		UserSettings.instance().setLastDescription(StringUtils.EMPTY);
+		UserSettings.instance().setLastDescription("");
 
 		getStartStopButton().setAction(new StartAction(null, this.model));
 		getStartStopButton().setText("");

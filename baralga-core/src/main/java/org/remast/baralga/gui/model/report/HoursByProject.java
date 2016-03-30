@@ -1,7 +1,8 @@
 package org.remast.baralga.gui.model.report;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.remast.baralga.model.Project;
+
+import java.util.Objects;
 
 /**
  * Item of the hours by project report.
@@ -44,7 +45,7 @@ public class HoursByProject implements Comparable<HoursByProject> {
         }
 
         final HoursByProject accAct = (HoursByProject) that;
-        return ObjectUtils.equals(this.getProject(), accAct.getProject());
+        return Objects.equals(this.getProject(), accAct.getProject());
     }
 
     /**

@@ -5,11 +5,11 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.util.Objects;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.model.ProjectActivityStateException;
 import org.remast.baralga.model.Project;
@@ -51,7 +51,7 @@ public class ChangeProjectAction extends AbstractBaralgaAction {
     @Override
     public final void actionPerformed(final ActionEvent event) {
         // Check if the new project is different from the old one
-        if (ObjectUtils.equals(getModel().getSelectedProject(), newProject)) {
+        if (Objects.equals(getModel().getSelectedProject(), newProject)) {
             return;
         }
         

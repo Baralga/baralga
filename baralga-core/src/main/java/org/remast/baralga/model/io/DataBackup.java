@@ -1,6 +1,5 @@
 package org.remast.baralga.model.io;
 
-import org.apache.commons.lang.StringUtils;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.settings.ApplicationSettings;
 import org.remast.baralga.gui.settings.UserSettings;
@@ -21,6 +20,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -107,7 +107,7 @@ public class DataBackup {
 	}
 
 	/**
-	 * Get a list of all backup files in order of the backup date (with the latest backup as first). If 
+	 * Get a list of all backup files in order of the backup date (with the latest backup as first). If
 	 * there there are no backups <code>Collections.EMPTY_LIST</code> is returned.
 	 * @return the list of backup files
 	 */
@@ -118,8 +118,8 @@ public class DataBackup {
 		final String [] backupFiles = dir.list(new FilenameFilter() {
 
 			public boolean accept(final File dir, final String name) {
-				return !StringUtils.equals(ERROR_FILE_NAME, name)
-						&& !StringUtils.equals(UserSettings.DEFAULT_FILE_NAME, name) 
+				return !Objects.equals(ERROR_FILE_NAME, name)
+						&& !Objects.equals(UserSettings.DEFAULT_FILE_NAME, name)
 						&& name.startsWith(UserSettings.DEFAULT_FILE_NAME);
 			}
 

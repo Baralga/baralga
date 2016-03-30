@@ -1,20 +1,7 @@
 package org.remast.baralga.gui.panels;
 
+import com.google.common.eventbus.Subscribe;
 import info.clearthought.layout.TableLayout;
-
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.AbstractAction;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.JToggleButton;
-
-import org.apache.commons.lang.StringUtils;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
@@ -28,8 +15,12 @@ import org.remast.baralga.gui.panels.report.HoursByWeekPanel;
 import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.util.TextResourceBundle;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import com.google.common.eventbus.Subscribe;
 
 /**
  * @author remast
@@ -272,7 +263,7 @@ public class FilteredActivitiesPane extends JPanel {
 
 		// Show tabs of the shown category.
 		for (CategorizedTab tab : categorizedTabs) {
-			if (StringUtils.equals(shownCategory, tab.getCategory())) {
+			if (Objects.equals(shownCategory, tab.getCategory())) {
 				this.addCategorizedTab(tab);
 			}
 		}
@@ -337,7 +328,7 @@ public class FilteredActivitiesPane extends JPanel {
 	 * a day it does not make sense to display the hours by month.
 	 */
 	private void updateTabVisibility() {
-		if (!StringUtils.equals(shownCategory, "Time")) {
+		if (!Objects.equals(shownCategory, "Time")) {
 			return;
 		}
 

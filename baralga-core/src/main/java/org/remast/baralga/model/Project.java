@@ -1,9 +1,9 @@
 package org.remast.baralga.model;
 
-import java.io.Serializable;
-
+import com.google.common.base.Objects;
 import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+
+import java.io.Serializable;
 
 public class Project implements Serializable, Comparable<Project> {
     
@@ -107,7 +107,6 @@ public class Project implements Serializable, Comparable<Project> {
         }
         
         final Project project = (Project) that;
-        
         final EqualsBuilder eqBuilder = new EqualsBuilder();
         eqBuilder.append(this.getId(), project.getId());
         
@@ -126,8 +125,6 @@ public class Project implements Serializable, Comparable<Project> {
     
     @Override
     public int hashCode() {
-        final HashCodeBuilder hashCodeBuilder = new HashCodeBuilder();
-        hashCodeBuilder.append(this.getId());
-        return hashCodeBuilder.toHashCode();
+        return Objects.hashCode(this.getId());
     }
 }
