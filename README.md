@@ -1,4 +1,4 @@
-[ ![Codeship Status for Baralga/baralga](https://codeship.com/projects/37f139e0-f2fd-0132-cce4-5ed004d44c71/status?branch=master)](https://codeship.com/projects/85307)
+[ ![Codeship Status for Baralga/baralga](https://app.codeship.com/projects/6f2240f0-1d6f-0136-fe9c-5a983ec826ea/status?branch=master)](https://app.codeship.com/projects/284718)
 
 Baralga Time Tracker
 ====================
