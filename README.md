@@ -4,7 +4,7 @@ Baralga Time Tracker
 ====================
 Baralga is a simple time tracking solution for the desktop.
 
-http://baralga.github.io/
+https://baralga.github.io/
 
 Changelog
 ====================
