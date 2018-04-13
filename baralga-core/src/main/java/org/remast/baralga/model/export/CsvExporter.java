@@ -8,12 +8,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import com.opencsv.CSVWriter;
 import org.remast.baralga.FormatUtils;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.util.TextResourceBundle;
-
-import au.com.bytecode.opencsv.CSVWriter;
 
 import com.google.common.base.Strings;
 

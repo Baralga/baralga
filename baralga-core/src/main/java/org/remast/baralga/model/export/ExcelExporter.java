@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
@@ -150,10 +151,10 @@ public class ExcelExporter implements Exporter {
 
 		headingStyle = workbook.createCellStyle();
 		Font font = workbook.createFont();
-		font.setBoldweight(Font.BOLDWEIGHT_BOLD);
+		font.setBold(true);
 		headingStyle.setFont(font);
 		headingStyle.setFillForegroundColor(IndexedColors.LIGHT_CORNFLOWER_BLUE.getIndex());
-		headingStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+		headingStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
 		dateStyle = workbook.createCellStyle();
 		dateStyle.setDataFormat(createHelper.createDataFormat().getFormat("DD.MM.yyyy"));
