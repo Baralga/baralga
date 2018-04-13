@@ -9,6 +9,13 @@ https://baralga.github.io/
 Changelog
 ====================
 
+Baralga Version 1.8.1-SNAPSHOT
+---------------------
+### Misc
+* Updated opencsv.
+* Updated Apache POI.
+* Updated IZPack Installer.
+
 Baralga Version 1.8.0
 ---------------------
 ### Fixes
