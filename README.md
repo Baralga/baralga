@@ -9,7 +9,7 @@ https://baralga.github.io/
 Changelog
 ====================
 
-Baralga Version 1.8.1-SNAPSHOT
+Baralga Version 1.8.1
 ---------------------
 ### Misc
 * Updated opencsv.
