@@ -285,7 +285,7 @@
 		<dependency>
 			<groupId>org.mnode.ical4j</groupId>
 			<artifactId>ical4j</artifactId>
-			<version>1.0.7</version>
+			<version>3.0.4</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>commons-logging</artifactId>

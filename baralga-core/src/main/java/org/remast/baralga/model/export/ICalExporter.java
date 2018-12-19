@@ -25,6 +25,7 @@ import net.fortuna.ical4j.model.property.ProdId;
 import net.fortuna.ical4j.model.property.TzId;
 import net.fortuna.ical4j.model.property.Uid;
 import net.fortuna.ical4j.model.property.Version;
+import net.fortuna.ical4j.util.RandomUidGenerator;
 import net.fortuna.ical4j.util.UidGenerator;
 
 import org.remast.baralga.model.ProjectActivity;
@@ -50,7 +51,7 @@ public class ICalExporter implements Exporter {
 		final TzId timeZoneId = vTimeZone.getTimeZoneId();
 		 
 		for (ProjectActivity activity : data) {
-			UidGenerator ug = new UidGenerator("uidGen");
+			UidGenerator ug = new RandomUidGenerator();
 			Uid uid = ug.generateUid();
 			
 			final String eventName = activity.getProject().getTitle();
