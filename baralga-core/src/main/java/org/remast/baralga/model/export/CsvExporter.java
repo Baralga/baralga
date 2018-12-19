@@ -55,23 +55,13 @@ public class CsvExporter implements Exporter {
         // Sort activities by default sort order (date) before export
         Collections.sort(activities);
 
-        CSVWriter writer = null;
-        try {
-            writer = new CSVWriter(
-                    new OutputStreamWriter(outputStream),
-                    SEPARATOR_CHARACTER
-            );
-
+        try (CSVWriter writer = new CSVWriter(new OutputStreamWriter(outputStream), SEPARATOR_CHARACTER)) {
             writer.writeNext(CSV_HEADER);
 
             for (ProjectActivity activity : activities) {
                 writer.writeNext(makeCsvLine(activity));
                 writer.flush();
             }
-		} finally {
-			if (writer != null) {
-				writer.close();
-			}
 		}
     }
 

@@ -48,11 +48,8 @@ public class DataBackup {
 	}
 
 	public void createBackup() {
-		OutputStream outputStream = null;
 		final File backupFile = new File(UserSettings.instance().getDataFileLocation() + "." + BACKUP_DATE_FORMAT.format(new Date()));
-		try {
-			outputStream = new FileOutputStream(backupFile);
-
+		try (OutputStream outputStream = new FileOutputStream(backupFile)) {
 			final Exporter exporter = new XmlExporter();
 
 			// Get activities for export
@@ -76,14 +73,6 @@ public class DataBackup {
 		} catch (Throwable t) {
 			log.error(t.getLocalizedMessage(), t);
 		} finally {
-			if (outputStream != null) {
-				try {
-					outputStream.close();
-				} catch (Throwable t) {
-					// Ignore
-				}
-			}
-
 			cleanupBackupFiles();
 		}
 	}
