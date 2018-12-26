@@ -1,8 +1,8 @@
 package org.remast.baralga.model.filter;
 
 import com.google.common.base.Objects;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.remast.baralga.model.Project;

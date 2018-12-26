@@ -13,7 +13,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.jdesktop.swingx.JXTable;
 import org.remast.baralga.gui.dialogs.table.ProjectListTableFormat;
 import org.remast.baralga.gui.events.BaralgaEvent;

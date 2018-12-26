@@ -1,7 +1,7 @@
 package org.remast.baralga.model;
 
 import com.google.common.base.Objects;
-import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import java.io.Serializable;
 

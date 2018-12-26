@@ -21,7 +21,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.remast.baralga.model.BaralgaDAO;
@@ -91,7 +91,7 @@ public class XmlExporter implements Exporter {
         	activityElement.setAttribute("end", StringEscapeUtils.escapeXml(ISODateTimeFormat.dateHourMinute().print(activity.getEnd())));
 
         	Element descriptionElement = document.createElement("description");
-        	descriptionElement.appendChild(document.createTextNode(StringEscapeUtils.escapeXml(org.apache.commons.lang.StringUtils.defaultString(activity.getDescription()))));
+        	descriptionElement.appendChild(document.createTextNode(StringEscapeUtils.escapeXml(org.apache.commons.lang3.StringUtils.defaultString(activity.getDescription()))));
         	activityElement.appendChild(descriptionElement);
 
         	activitiesElement.appendChild(activityElement);

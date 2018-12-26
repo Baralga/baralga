@@ -3,7 +3,7 @@ package org.remast.baralga.gui.panels;
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 import com.google.common.eventbus.Subscribe;
 import info.clearthought.layout.TableLayout;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXHeader;
 import org.jdesktop.swingx.JXPanel;

@@ -1,8 +1,8 @@
 package org.remast.baralga.gui.model.report;
 
 import com.google.common.base.Objects;
-import org.apache.commons.lang.builder.CompareToBuilder;
-import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.joda.time.DateTime;
 
 import java.util.Date;

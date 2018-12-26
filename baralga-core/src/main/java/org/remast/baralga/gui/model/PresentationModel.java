@@ -147,7 +147,7 @@ public class PresentationModel {
 
 		// If there is a active project that has been started on another day,
 		// we end it here.
-		if (active && start != null && !org.apache.commons.lang.time.DateUtils.isSameDay(start.toDate(), DateUtils.getNow())) {
+		if (active && start != null && !org.apache.commons.lang3.time.DateUtils.isSameDay(start.toDate(), DateUtils.getNow())) {
 			try {
 				stop();
 			} catch (ProjectActivityStateException e) {
@@ -426,7 +426,7 @@ public class PresentationModel {
 		// day after start.
 		// Also make a new activity from 0:00 the next day until the stop time
 		// of the next day.
-		if (!org.apache.commons.lang.time.DateUtils.isSameDay(start.toDate(), endDate.toDate())) {
+		if (!org.apache.commons.lang3.time.DateUtils.isSameDay(start.toDate(), endDate.toDate())) {
 			DateTime dt = new DateTime(start);
 			dt = dt.plusDays(1);
 

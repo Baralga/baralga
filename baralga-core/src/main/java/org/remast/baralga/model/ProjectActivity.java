@@ -3,7 +3,7 @@ package org.remast.baralga.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.remast.baralga.FormatUtils;
 import org.remast.text.DurationFormat;

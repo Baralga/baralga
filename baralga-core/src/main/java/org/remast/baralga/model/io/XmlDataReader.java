@@ -18,7 +18,7 @@ import java.util.Collection;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.remast.baralga.model.Project;
@@ -87,7 +87,7 @@ public class XmlDataReader extends DefaultHandler {
 			}
 		} else if ("description".equals(qName)) {
 			if (currentActivity != null) {
-				currentActivity.setDescription(StringEscapeUtils.unescapeHtml(currentBuffer));
+				currentActivity.setDescription(StringEscapeUtils.unescapeHtml4(currentBuffer));
 			}
 		} else if ("activity".equals(qName)) {
 			activities.add(currentActivity);
