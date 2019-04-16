@@ -2,7 +2,7 @@ package org.remast.baralga.gui.panels.report;
 
 import ca.odell.glazedlists.FilterList;
 import ca.odell.glazedlists.matchers.MatcherEditor;
-import ca.odell.glazedlists.swing.EventTableModel;
+import ca.odell.glazedlists.swing.DefaultEventTableModel;
 import ca.odell.glazedlists.swing.TableComparatorChooser;
 import ca.odell.glazedlists.swing.TextComponentMatcherEditor;
 import com.google.common.eventbus.Subscribe;
@@ -44,7 +44,7 @@ public class HoursByDayPanel extends JXPanel {
     /**
      * The table model.
      */
-    private EventTableModel<HoursByDay> tableModel;
+    private DefaultEventTableModel<HoursByDay> tableModel;
     
     /**
      * Creates a new panel for the given report of hours by day.
@@ -68,7 +68,7 @@ public class HoursByDayPanel extends JXPanel {
 		final MatcherEditor<HoursByDay> textMatcherEditor = new TextComponentMatcherEditor<>(searchField, new HoursByDayTextFilterator());
 		final FilterList<HoursByDay> textFilteredIssues = new FilterList<>(this.report.getHoursByDay(), textMatcherEditor);
 
-        tableModel = new EventTableModel<>(textFilteredIssues, new HoursByDayTableFormat());
+        tableModel = new DefaultEventTableModel<>(textFilteredIssues, new HoursByDayTableFormat());
 
         final JTable table = new JHighligthedTable(tableModel);
 		TableComparatorChooser.install(

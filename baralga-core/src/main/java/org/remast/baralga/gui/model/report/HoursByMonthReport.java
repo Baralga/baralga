@@ -67,10 +67,7 @@ public class HoursByMonthReport {
         return hoursByMonthList;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Subscribe 
+    @Subscribe
     public void update(final Object eventObject) {
         if (eventObject != null && eventObject instanceof BaralgaEvent) {
             final BaralgaEvent event = (BaralgaEvent) eventObject;

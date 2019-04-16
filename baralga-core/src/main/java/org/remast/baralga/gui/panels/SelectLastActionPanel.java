@@ -24,9 +24,10 @@ import org.remast.util.TextResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ca.odell.glazedlists.swing.EventComboBoxModel;
 
 import com.google.common.eventbus.Subscribe;
+
+import ca.odell.glazedlists.swing.DefaultEventComboBoxModel;
 
 @SuppressWarnings("serial")
 public class SelectLastActionPanel extends JPanel {
@@ -97,9 +98,6 @@ public class SelectLastActionPanel extends JPanel {
 		this.add(whatToTrackPanel, "1, 7");
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Subscribe
 	public final void update(final Object eventObject) {
 		if (isSaving) {
@@ -213,7 +211,7 @@ public class SelectLastActionPanel extends JPanel {
 		if (projectSelector == null) {
 			projectSelector = new JComboBox<Project>();
 			projectSelector.setToolTipText(textBundle.textFor("SelectLastActionPanel.ProjectSelector.Hint")); //$NON-NLS-1$
-			projectSelector.setModel(new EventComboBoxModel<Project>(this.model.getProjectList()));
+			projectSelector.setModel(new DefaultEventComboBoxModel<Project>(this.model.getProjectList()));
 		}
 		return projectSelector;
 	}

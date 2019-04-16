@@ -140,10 +140,8 @@ public class TrayIcon {
     	}
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Subscribe public void update(final Object eventObject) {
+    @Subscribe 
+    public void update(final Object eventObject) {
         if (eventObject != null && eventObject instanceof BaralgaEvent) {
             BaralgaEvent event = (BaralgaEvent) eventObject;
 

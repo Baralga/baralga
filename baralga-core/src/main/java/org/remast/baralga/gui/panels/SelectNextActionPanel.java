@@ -76,9 +76,6 @@ public class SelectNextActionPanel extends JPanel {
 		this.add(whatToTrackPanel, "1, 3");
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Subscribe
 	public final void update(final Object eventObject) {
 		if (isSaving) {

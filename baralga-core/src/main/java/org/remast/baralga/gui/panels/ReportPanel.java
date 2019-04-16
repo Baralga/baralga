@@ -34,7 +34,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ca.odell.glazedlists.swing.DefaultEventComboBoxModel;
-import ca.odell.glazedlists.swing.EventComboBoxModel;
 
 /**
  * Displays the reports generated from the project activities.

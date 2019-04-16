@@ -23,7 +23,7 @@ import org.remast.swing.table.JHighligthedTable;
 
 import ca.odell.glazedlists.FilterList;
 import ca.odell.glazedlists.matchers.MatcherEditor;
-import ca.odell.glazedlists.swing.EventTableModel;
+import ca.odell.glazedlists.swing.DefaultEventTableModel;
 import ca.odell.glazedlists.swing.TableComparatorChooser;
 import ca.odell.glazedlists.swing.TextComponentMatcherEditor;
 import org.remast.text.DurationFormat;
@@ -37,7 +37,7 @@ public class AccummulatedActitvitiesPanel extends JPanel implements Observer {
 
     private AccumulatedActivitiesReport report;
     
-    private EventTableModel<AccumulatedProjectActivity> tableModel;
+    private DefaultEventTableModel<AccumulatedProjectActivity> tableModel;
 
     public AccummulatedActitvitiesPanel(final AccumulatedActivitiesReport report) {
         this.report = report;
@@ -57,7 +57,7 @@ public class AccummulatedActitvitiesPanel extends JPanel implements Observer {
 		final MatcherEditor<AccumulatedProjectActivity> textMatcherEditor = new TextComponentMatcherEditor<>(searchField, new AccumulatedProjectActivityTextFilterator());
 		final FilterList<AccumulatedProjectActivity> textFilteredIssues = new FilterList<>(this.report.getAccumulatedActivitiesByDay(), textMatcherEditor);
     	
-        tableModel = new EventTableModel<>(textFilteredIssues, new AccumulatedActivitiesTableFormat());
+        tableModel = new DefaultEventTableModel<>(textFilteredIssues, new AccumulatedActivitiesTableFormat());
         final JTable table = new JHighligthedTable(tableModel);
 		TableComparatorChooser.install(
 				table, 

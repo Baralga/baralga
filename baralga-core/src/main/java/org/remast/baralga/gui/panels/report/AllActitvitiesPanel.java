@@ -2,8 +2,8 @@ package org.remast.baralga.gui.panels.report;
 
 import ca.odell.glazedlists.FilterList;
 import ca.odell.glazedlists.matchers.MatcherEditor;
-import ca.odell.glazedlists.swing.EventComboBoxModel;
-import ca.odell.glazedlists.swing.EventTableModel;
+import ca.odell.glazedlists.swing.DefaultEventComboBoxModel;
+import ca.odell.glazedlists.swing.DefaultEventTableModel;
 import ca.odell.glazedlists.swing.TableComparatorChooser;
 import ca.odell.glazedlists.swing.TextComponentMatcherEditor;
 import com.google.common.eventbus.Subscribe;
@@ -54,7 +54,7 @@ public class AllActitvitiesPanel extends JPanel {
 	/** The model. */
 	private final PresentationModel model;
 
-	private EventTableModel<ProjectActivity> tableModel;
+	private DefaultEventTableModel<ProjectActivity> tableModel;
 
 	/**
 	 * Create a panel showing all activities of the given model.
@@ -81,7 +81,7 @@ public class AllActitvitiesPanel extends JPanel {
 		final MatcherEditor<ProjectActivity> textMatcherEditor = new TextComponentMatcherEditor<>(searchField, new ProjectActivityTextFilterator());
 		final FilterList<ProjectActivity> textFilteredIssues = new FilterList<>(model.getActivitiesList(), textMatcherEditor);
 
-		tableModel = new EventTableModel<>(
+		tableModel = new DefaultEventTableModel<>(
 				textFilteredIssues,
 				new AllActivitiesTableFormat(model)
 				);
@@ -246,7 +246,7 @@ public class AllActitvitiesPanel extends JPanel {
 
 		final TableColumn projectColumn = table.getColumn(table.getColumnName(0));
 		final TableCellEditor cellEditor = new ComboBoxCellEditor(
-				new JComboBox(new EventComboBoxModel<>(model.getProjectList()))
+				new JComboBox<>(new DefaultEventComboBoxModel<>(model.getProjectList()))
 				);
 		projectColumn.setCellEditor(cellEditor);
 
@@ -262,9 +262,7 @@ public class AllActitvitiesPanel extends JPanel {
 		this.add(tableScrollPane, "1, 3");
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+
 	@Subscribe
     public void update(final Object eventObject) {
 		if (!(eventObject instanceof BaralgaEvent)) {

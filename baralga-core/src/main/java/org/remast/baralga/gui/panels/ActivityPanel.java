@@ -1,6 +1,6 @@
 package org.remast.baralga.gui.panels;
 
-import ca.odell.glazedlists.swing.EventComboBoxModel;
+import ca.odell.glazedlists.swing.DefaultEventComboBoxModel;
 import com.google.common.eventbus.Subscribe;
 import info.clearthought.layout.TableLayout;
 import org.apache.commons.lang3.StringUtils;
@@ -285,7 +285,7 @@ public class ActivityPanel extends JPanel implements ActionListener {
         if (projectSelector == null) {
             projectSelector = new JComboBox<Project>();
             projectSelector.setToolTipText(textBundle.textFor("ProjectSelector.ToolTipText")); //$NON-NLS-1$
-            projectSelector.setModel(new EventComboBoxModel<Project>(this.model.getProjectList()));
+            projectSelector.setModel(new DefaultEventComboBoxModel<Project>(this.model.getProjectList()));
 
             /* Handling of selection events: */
             projectSelector.addActionListener(new ActionListener() {
@@ -304,10 +304,8 @@ public class ActivityPanel extends JPanel implements ActionListener {
         return projectSelector;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Subscribe public final void update(final Object eventObject) {
+    @Subscribe
+    public final void update(final Object eventObject) {
         if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
             return;
         }

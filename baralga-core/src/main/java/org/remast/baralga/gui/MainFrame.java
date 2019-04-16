@@ -361,9 +361,6 @@ public class MainFrame extends JFrame {
         return aboutMenuItem;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Subscribe
     public void update(final Object eventObject) {
         if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {

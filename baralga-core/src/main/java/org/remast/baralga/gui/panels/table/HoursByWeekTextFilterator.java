@@ -2,7 +2,6 @@ package org.remast.baralga.gui.panels.table;
 
 import java.util.List;
 
-import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.model.report.HoursByWeek;
 import org.remast.baralga.gui.panels.report.HoursByWeekPanel;
 

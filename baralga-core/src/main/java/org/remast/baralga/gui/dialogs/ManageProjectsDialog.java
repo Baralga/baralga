@@ -24,7 +24,7 @@ import org.remast.swing.table.BooleanCellRenderer;
 import org.remast.swing.table.JHighligthedTable;
 import org.remast.util.TextResourceBundle;
 
-import ca.odell.glazedlists.swing.EventTableModel;
+import ca.odell.glazedlists.swing.DefaultEventTableModel;
 import ca.odell.glazedlists.swing.TableComparatorChooser;
 
 import com.google.common.eventbus.Subscribe;
@@ -51,7 +51,7 @@ public class ManageProjectsDialog extends EscapeDialog {
 
     private final PresentationModel model;
 
-    private EventTableModel<Project> projectTableModel;
+    private DefaultEventTableModel<Project> projectTableModel;
 
     /**
      * @param owner
@@ -109,7 +109,7 @@ public class ManageProjectsDialog extends EscapeDialog {
      */
     private JTable getProjectTable() {
         if (projectTable == null) {
-            projectTableModel = new EventTableModel<>(model.getAllProjectsList(), new ProjectListTableFormat(model));
+            projectTableModel = new DefaultEventTableModel<>(model.getAllProjectsList(), new ProjectListTableFormat(model));
 
             projectTable = new JHighligthedTable(projectTableModel);
     		TableComparatorChooser.install(

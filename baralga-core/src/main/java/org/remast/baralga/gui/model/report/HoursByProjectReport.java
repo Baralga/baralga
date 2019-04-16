@@ -64,9 +64,6 @@ public class HoursByProjectReport {
         return hoursByProjectList;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Subscribe 
     public void update(final Object eventObject) {
         if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {

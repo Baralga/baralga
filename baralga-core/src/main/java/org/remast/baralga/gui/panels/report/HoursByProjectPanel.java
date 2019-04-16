@@ -11,7 +11,6 @@ import javax.swing.JTable;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.FormatStringValue;
-import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.model.report.HoursByProject;
 import org.remast.baralga.gui.model.report.HoursByProjectReport;
 import org.remast.baralga.gui.panels.table.HoursByProjectTableFormat;
@@ -21,7 +20,7 @@ import org.remast.swing.table.JHighligthedTable;
 
 import ca.odell.glazedlists.FilterList;
 import ca.odell.glazedlists.matchers.MatcherEditor;
-import ca.odell.glazedlists.swing.EventTableModel;
+import ca.odell.glazedlists.swing.DefaultEventTableModel;
 import ca.odell.glazedlists.swing.TableComparatorChooser;
 import ca.odell.glazedlists.swing.TextComponentMatcherEditor;
 
@@ -44,7 +43,7 @@ public class HoursByProjectPanel extends JXPanel {
     /**
      * The table model.
      */
-    private EventTableModel<HoursByProject> tableModel;
+    private DefaultEventTableModel<HoursByProject> tableModel;
     
     /**
      * Creates a new panel for the given report of hours by project.
@@ -68,7 +67,7 @@ public class HoursByProjectPanel extends JXPanel {
 		final MatcherEditor<HoursByProject> textMatcherEditor = new TextComponentMatcherEditor<>(searchField, new HoursByProjectTextFilterator());
 		final FilterList<HoursByProject> textFilteredIssues = new FilterList<>(this.report.getHoursByProject(), textMatcherEditor);
 
-        tableModel = new EventTableModel<>(textFilteredIssues, new HoursByProjectTableFormat());
+        tableModel = new DefaultEventTableModel<>(textFilteredIssues, new HoursByProjectTableFormat());
 
         final JTable table = new JHighligthedTable(tableModel);
 		TableComparatorChooser.install(

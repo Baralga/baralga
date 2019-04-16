@@ -32,9 +32,9 @@ import org.remast.text.TimeFormat;
 import org.remast.util.DateUtils;
 import org.remast.util.TextResourceBundle;
 
-import ca.odell.glazedlists.swing.EventComboBoxModel;
-
 import com.google.common.base.Strings;
+
+import ca.odell.glazedlists.swing.DefaultEventComboBoxModel;
 
 /**
  * Dialog for manually adding a project activity.
@@ -191,7 +191,7 @@ public class AddOrEditActivityDialog extends EscapeDialog {
     @SuppressWarnings("unchecked")
 	private JComboBox<Project> getProjectSelector() {
         if (projectSelector == null) {
-            projectSelector = new JComboBox<Project>(new EventComboBoxModel<Project>(model.getProjectList()));
+            projectSelector = new JComboBox<Project>(new DefaultEventComboBoxModel<Project>(model.getProjectList()));
         }
         return projectSelector;
     }

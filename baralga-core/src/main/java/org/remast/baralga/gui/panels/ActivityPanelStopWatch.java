@@ -30,7 +30,7 @@ import org.remast.baralga.model.Project;
 import org.remast.util.DateUtils;
 import org.remast.util.TextResourceBundle;
 
-import ca.odell.glazedlists.swing.EventComboBoxModel;
+import ca.odell.glazedlists.swing.DefaultEventComboBoxModel;
 
 import com.google.common.eventbus.Subscribe;
 
@@ -172,7 +172,7 @@ public class ActivityPanelStopWatch extends JPanel implements ActionListener {
 		if (projectSelector == null) {
 			projectSelector = new JComboBox<>();
 			projectSelector.setToolTipText(textBundle.textFor("ProjectSelector.ToolTipText")); //$NON-NLS-1$
-			projectSelector.setModel(new EventComboBoxModel<>(this.model.getProjectList()));
+			projectSelector.setModel(new DefaultEventComboBoxModel<>(this.model.getProjectList()));
 
 			/* Handling of selection events: */
 			projectSelector.addActionListener(new ActionListener() {
@@ -186,9 +186,6 @@ public class ActivityPanelStopWatch extends JPanel implements ActionListener {
 		return projectSelector;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Subscribe
 	public final void update(final Object eventObject) {
 		if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
