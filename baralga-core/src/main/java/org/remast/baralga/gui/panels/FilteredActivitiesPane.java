@@ -362,6 +362,8 @@ public class FilteredActivitiesPane extends JPanel {
 	    addCategorizedTab(hoursByMonthTab);
 	    // Don't display hours by quarter.
 	    break;
+
+	case Quarter:
 	case Year:
 	    addCategorizedTab(hoursByWeekTab);
 	    addCategorizedTab(hoursByMonthTab);
