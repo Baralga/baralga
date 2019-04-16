@@ -12,7 +12,7 @@ Changelog
 Baralga Version 1.8.2-SNAPSHOT
 ---------------------
 ### Features
-* Report for hours by quarter
+* Report for hours by quarter and filter by quarter.
 
 Baralga Version 1.8.1
 ---------------------
