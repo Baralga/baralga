@@ -33,6 +33,7 @@ import org.remast.util.TextResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ca.odell.glazedlists.swing.DefaultEventComboBoxModel;
 import ca.odell.glazedlists.swing.EventComboBoxModel;
 
 /**
@@ -53,7 +54,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 	private PresentationModel model;
 
 	/** Filter by selected project. */
-	private JComboBox projectFilterSelector;
+	private JComboBox<LabeledItem<Project>> projectFilterSelector;
 
 	/** List of projects by which can be filtered. */
 	private ProjectFilterList projectFilterList;
@@ -62,7 +63,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 	private FilteredActivitiesPane filteredActivitiesPane;
 	
 	/** Filter by selected span type. */
-	private JComboBox spanTypeSelector;
+	private JComboBox<LabeledItem<SpanType>> spanTypeSelector;
 	
 	/** Displays the interval of the current filter. */
 	private JXLabel dateField;
@@ -188,9 +189,9 @@ public class ReportPanel extends JXPanel implements ActionListener {
 	/**
 	 * @return the selector for the span type
 	 */
-	private JComboBox getSpanTypeSelector() {
+	private JComboBox<LabeledItem<SpanType>> getSpanTypeSelector() {
 		if (spanTypeSelector == null) {
-			spanTypeSelector = new JComboBox(spanSelectorItems);
+			spanTypeSelector = new JComboBox<LabeledItem<SpanType>>(spanSelectorItems);
 			spanTypeSelector.setToolTipText(textBundle.textFor("SpanTypeSelector.ToolTipText")); //$NON-NLS-1$
 
 			// Read from Filter
@@ -209,11 +210,11 @@ public class ReportPanel extends JXPanel implements ActionListener {
 	/**
 	 * @return the projectFilterSelector
 	 */
-	private JComboBox getProjectFilterSelector() {
+	private JComboBox<LabeledItem<Project>> getProjectFilterSelector() {
 		if (projectFilterSelector == null) {
 			projectFilterList = model.getProjectFilterList();
-			projectFilterSelector = new JComboBox(
-					new EventComboBoxModel<LabeledItem<Project>>(projectFilterList.getProjectList())
+			projectFilterSelector = new JComboBox<LabeledItem<Project>>(
+					new DefaultEventComboBoxModel<LabeledItem<Project>>(projectFilterList.getProjectList())
 			);
 			projectFilterSelector.setToolTipText(textBundle.textFor("ProjectFilterSelector.ToolTipText")); //$NON-NLS-1$
 
