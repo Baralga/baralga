@@ -11,6 +11,7 @@ import org.remast.baralga.gui.model.edit.EditStack;
 import org.remast.baralga.gui.model.report.HoursByDayReport;
 import org.remast.baralga.gui.model.report.HoursByMonthReport;
 import org.remast.baralga.gui.model.report.HoursByProjectReport;
+import org.remast.baralga.gui.model.report.HoursByQuarterReport;
 import org.remast.baralga.gui.model.report.HoursByWeekReport;
 import org.remast.baralga.gui.model.report.ObservingAccumulatedActivitiesReport;
 import org.remast.baralga.gui.settings.UserSettings;
@@ -635,6 +636,10 @@ public class PresentationModel {
 		return new HoursByWeekReport(this);
 	}
 
+	public final HoursByQuarterReport getHoursByQuarterReport() {
+	    	return new HoursByQuarterReport(this);
+	}
+	    
 	public final HoursByMonthReport getHoursByMonthReport() {
 		return new HoursByMonthReport(this);
 	}
