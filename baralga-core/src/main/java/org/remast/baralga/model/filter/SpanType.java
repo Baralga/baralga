@@ -9,5 +9,5 @@
 package org.remast.baralga.model.filter;
 
 public enum SpanType {
-	Day, Week, Month, Year
+	Day, Week, Month, Quarter, Year
 }

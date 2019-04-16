@@ -2,6 +2,7 @@ package org.remast.baralga.model.filter;
 
 import java.util.Locale;
 
+import org.jfree.data.time.Quarter;
 import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -45,6 +46,9 @@ public abstract class FilterUtils {
 		case Month:
 			intervalString = monthFormatter.print(filter.getTimeInterval().getStart());
 			break;
+		case Quarter:
+			intervalString = "Q" + new Quarter(filter.getTimeInterval().getStart().toDate()).getQuarter() + " " + yearFormatter.print(filter.getTimeInterval().getStart());
+			break;
 		case Year:
 			intervalString = yearFormatter.print(filter.getTimeInterval().getStart());
 			break;
@@ -76,6 +80,9 @@ public abstract class FilterUtils {
 		case Month:
 			newTimeInterval = new Interval(timeInterval.getStart().minusMonths(1), timeInterval.getEnd().minusMonths(1));
 			break;
+		case Quarter:
+			newTimeInterval = new Interval(timeInterval.getStart().minusMonths(3), timeInterval.getEnd().minusMonths(3));
+			break;
 		case Year:
 			newTimeInterval = new Interval(timeInterval.getStart().minusYears(1), timeInterval.getEnd().minusYears(1));
 			break;
@@ -106,6 +113,9 @@ public abstract class FilterUtils {
 			break;
 		case Month:
 			newTimeInterval = new Interval(timeInterval.getStart().plusMonths(1), timeInterval.getEnd().plusMonths(1));
+			break;
+		case Quarter:
+			newTimeInterval = new Interval(timeInterval.getStart().plusMonths(3), timeInterval.getEnd().plusMonths(3));
 			break;
 		case Year:
 			newTimeInterval = new Interval(timeInterval.getStart().plusYears(1), timeInterval.getEnd().plusYears(1));

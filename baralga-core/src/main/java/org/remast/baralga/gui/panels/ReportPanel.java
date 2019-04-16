@@ -82,6 +82,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 		spanSelectorItems.add(new LabeledItem<SpanType>(SpanType.Day, textBundle.textFor("ReportPanel.DayLabel")));
 		spanSelectorItems.add(new LabeledItem<SpanType>(SpanType.Week, textBundle.textFor("ReportPanel.WeekLabel")));
 		spanSelectorItems.add(new LabeledItem<SpanType>(SpanType.Month, textBundle.textFor("ReportPanel.MonthLabel")));
+		spanSelectorItems.add(new LabeledItem<SpanType>(SpanType.Quarter, textBundle.textFor("ReportPanel.QuarterLabel")));
 		spanSelectorItems.add(new LabeledItem<SpanType>(SpanType.Year, textBundle.textFor("ReportPanel.YearLabel")));
 	}
 
