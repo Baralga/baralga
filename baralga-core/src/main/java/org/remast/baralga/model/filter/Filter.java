@@ -152,6 +152,7 @@ public class Filter {
 			setTimeInterval(new Interval(now, now.plusWeeks(1)));
 			break;
 		case Month:
+		case Quarter:
 			now = now.withDayOfMonth(1);
 			setTimeInterval(new Interval(now, now.plusMonths(1)));
 			break;
