@@ -316,10 +316,8 @@ public class FilteredActivitiesPane extends JPanel {
 	tabs.addTab(tab.getTitle(), tab.getIcon(), tab.getComponent(), tab.getTooltip());
     }
 
-    /**
-     * {@inheritDoc}
-     */
-	@Subscribe public void update(final Object eventObject) {
+    @Subscribe 
+    public void update(final Object eventObject) {
 	if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
 	    return;
 	}
@@ -336,8 +334,8 @@ public class FilteredActivitiesPane extends JPanel {
     }
 
     /**
-	 * Updates the visibility of tabs. E.g. if there is a filter for 
-	 * a day it does not make sense to display the hours by month.
+     * Updates the visibility of tabs. E.g. if there is a filter for 
+     * a day it does not make sense to display the hours by month.
      */
     private void updateTabVisibility() {
 	if (!Objects.equals(shownCategory, "Time")) {
@@ -392,7 +390,7 @@ public class FilteredActivitiesPane extends JPanel {
 	    this.category = category;
 	}
 
-		private void setComponent(final String title, final Icon icon, final Component component, final String tooltip) {
+	private void setComponent(final String title, final Icon icon, final Component component, final String tooltip) {
 	    this.title = title;
 	    this.icon = icon;
 	    this.component = component;
