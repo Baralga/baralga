@@ -58,7 +58,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.0.0</version>
+				<version>3.1.1</version>
 				<configuration>
 					<archive>
 						<manifest>
@@ -161,6 +161,12 @@
 			<groupId>com.opencsv</groupId>
 			<artifactId>opencsv</artifactId>
 			<version>4.5</version>
+			<exclusions>
+			    <exclusion>
+			        <groupId>commons-logging</groupId>
+			        <artifactId>commons-logging</artifactId>
+			    </exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -245,7 +251,7 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<version>1.4.197</version>
+			<version>1.4.199</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mnode.ical4j</groupId>
@@ -259,6 +265,10 @@
 				<exclusion>
 					<artifactId>commons-lang</artifactId>
 					<groupId>commons-lang</groupId>
+				</exclusion>
+				<exclusion>
+				    <groupId>com.sun.mail</groupId>
+				    <artifactId>javax.mail</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
