@@ -14,6 +14,12 @@ Baralga Version 1.8.2-SNAPSHOT
 ### Features
 * Report for hours by quarter and filter by quarter.
 
+### Misc
+* Updated opencsv.
+* Updated Apache POI.
+* Updated commons-lang.
+* Updated ical4j.
+
 Baralga Version 1.8.1
 ---------------------
 ### Misc
