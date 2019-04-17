@@ -55,7 +55,7 @@ public class CsvExporter implements Exporter {
         // Sort activities by default sort order (date) before export
         Collections.sort(activities);
 
-        try (CSVWriter writer = new CSVWriter(new OutputStreamWriter(outputStream), SEPARATOR_CHARACTER)) {
+        try (CSVWriter writer = new CSVWriter(new OutputStreamWriter(outputStream), SEPARATOR_CHARACTER, CSVWriter.DEFAULT_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END)) {
             writer.writeNext(CSV_HEADER);
 
             for (ProjectActivity activity : activities) {

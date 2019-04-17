@@ -324,7 +324,7 @@ public class AddOrEditActivityDialog extends EscapeDialog {
 
     /**
      * Validates the field to ensure that the entered data is valid.
-     * @return
+     * @return <code>true</code> when valid otherwise <code>false</code>
      */
     public boolean validateFields() {
         if (getProjectSelector().getSelectedItem() == null) {

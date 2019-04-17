@@ -21,7 +21,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.remast.baralga.model.BaralgaDAO;
@@ -68,11 +68,11 @@ public class XmlExporter implements Exporter {
         	projectElement.setAttribute("id", String.valueOf(project.getId()));
 
         	Element titleElement = document.createElement("title");
-        	titleElement.appendChild(document.createTextNode(StringEscapeUtils.escapeXml(project.getTitle())));
+        	titleElement.appendChild(document.createTextNode(StringEscapeUtils.escapeXml10(project.getTitle())));
         	projectElement.appendChild(titleElement);
         	
         	Element descriptionElement = document.createElement("description");
-        	descriptionElement.appendChild(document.createTextNode(StringEscapeUtils.escapeXml(project.getDescription())));
+        	descriptionElement.appendChild(document.createTextNode(StringEscapeUtils.escapeXml10(project.getDescription())));
         	projectElement.appendChild(descriptionElement);
 
         	projectsElement.appendChild(projectElement);
@@ -87,11 +87,11 @@ public class XmlExporter implements Exporter {
          	activityElement.setAttribute("id", String.valueOf(activity.getId()));
          	activityElement.setAttribute("projectReference", String.valueOf(activity.getProject().getId()));
 
-        	activityElement.setAttribute("start", StringEscapeUtils.escapeXml(ISODateTimeFormat.dateHourMinute().print(activity.getStart())));
-        	activityElement.setAttribute("end", StringEscapeUtils.escapeXml(ISODateTimeFormat.dateHourMinute().print(activity.getEnd())));
+        	activityElement.setAttribute("start", StringEscapeUtils.escapeXml10(ISODateTimeFormat.dateHourMinute().print(activity.getStart())));
+        	activityElement.setAttribute("end", StringEscapeUtils.escapeXml10(ISODateTimeFormat.dateHourMinute().print(activity.getEnd())));
 
         	Element descriptionElement = document.createElement("description");
-        	descriptionElement.appendChild(document.createTextNode(StringEscapeUtils.escapeXml(org.apache.commons.lang3.StringUtils.defaultString(activity.getDescription()))));
+        	descriptionElement.appendChild(document.createTextNode(StringEscapeUtils.escapeXml10(org.apache.commons.lang3.StringUtils.defaultString(activity.getDescription()))));
         	activityElement.appendChild(descriptionElement);
 
         	activitiesElement.appendChild(activityElement);
