@@ -115,7 +115,7 @@ public class Project implements Serializable, Comparable<Project> {
 
     @Override
     public int compareTo(final Project project) {
-        if (project == null || this.getTitle() == null) {
+        if (project == null || this.getTitle() == null || project.getTitle() == null) {
             return 0;
         }
         
