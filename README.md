@@ -9,7 +9,10 @@ https://baralga.github.io/
 Changelog
 ====================
 
-Baralga Version 1.8.2-SNAPSHOT
+Baralga Version 1.8.3-SNAPSHOT
+---------------------
+
+Baralga Version 1.8.2
 ---------------------
 ### Features
 * Report for hours by quarter and filter by quarter.
