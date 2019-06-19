@@ -117,7 +117,7 @@ public class JTextEditor extends JXPanel {
         final int backwardTraversal = KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS;
         textArea.setFocusTraversalKeys(backwardTraversal, key);
 
-        final int shortcutKey = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+        final int shortcutKey = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
         final KeyStroke ctrlTab = KeyStroke.getKeyStroke(KeyEvent.VK_TAB, shortcutKey);
         
         // insert tab with CTRL+TAB instead of TAB

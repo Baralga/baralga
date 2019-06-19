@@ -14,6 +14,9 @@ Baralga Version 1.8.2-SNAPSHOT
 ### Features
 * Report for hours by quarter and filter by quarter.
 
+### Fixes
+* Avoid NullPointerException after data import on certain conditions.
+
 ### Misc
 * Updated opencsv.
 * Updated Apache POI.

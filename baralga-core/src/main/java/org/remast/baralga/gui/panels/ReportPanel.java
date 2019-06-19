@@ -336,6 +336,9 @@ public class ReportPanel extends JXPanel implements ActionListener {
 		case Month:
 			spanTypeLabel = textBundle.textFor("ReportPanel.MonthLabel");
 			break;
+		case Quarter:
+			spanTypeLabel = textBundle.textFor("ReportPanel.QuarterLabel");
+			break;
 		case Year:
 			spanTypeLabel = textBundle.textFor("ReportPanel.YearLabel");
 			break;
