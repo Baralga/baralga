@@ -12,6 +12,9 @@ Changelog
 Baralga Version 1.8.3-SNAPSHOT
 ---------------------
 
+### Fixes
+* Fixed compatibility with older Java versions (<10).
+
 Baralga Version 1.8.2
 ---------------------
 ### Features
