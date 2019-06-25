@@ -43,6 +43,7 @@ public class ObservingAccumulatedActivitiesReport extends AccumulatedActivitiesR
             break;
 
         case BaralgaEvent.DATA_CHANGED:
+        case BaralgaEvent.PROJECT_REMOVED:
             setData(model.getActivitiesList());
             break;
         }

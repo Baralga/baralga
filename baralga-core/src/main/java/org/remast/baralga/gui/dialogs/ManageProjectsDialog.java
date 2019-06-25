@@ -195,6 +195,7 @@ public class ManageProjectsDialog extends EscapeDialog {
 
         switch (event.getType()) {
         case BaralgaEvent.PROJECT_CHANGED:
+        case BaralgaEvent.PROJECT_REMOVED:
             projectTableModel.fireTableDataChanged();
             break;
         }

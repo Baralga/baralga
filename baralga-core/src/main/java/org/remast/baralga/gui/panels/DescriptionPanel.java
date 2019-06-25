@@ -145,6 +145,7 @@ public class DescriptionPanel extends JPanel {
 			setFilter(newFilter);
 			break;
 
+        case BaralgaEvent.PROJECT_REMOVED:
 		case BaralgaEvent.DATA_CHANGED:
 			applyFilter();
 			break;
