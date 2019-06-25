@@ -30,6 +30,7 @@ import net.fortuna.ical4j.util.UidGenerator;
 
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
+import org.remast.util.DateUtils;
 
 public class ICalExporter implements Exporter {
 
@@ -55,8 +56,8 @@ public class ICalExporter implements Exporter {
 			Uid uid = ug.generateUid();
 			
 			final String eventName = activity.getProject().getTitle();
-			final DateTime start = new DateTime(activity.getStart().toDate());
-			final DateTime end = new DateTime(activity.getEnd().toDate());
+			final DateTime start = new DateTime(DateUtils.convertToDate(activity.getStart()));
+			final DateTime end = new DateTime(DateUtils.convertToDate(activity.getEnd()));
 			final VEvent event = new VEvent(start, end, eventName);
 
 			event.getProperties().add(timeZoneId);

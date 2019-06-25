@@ -9,6 +9,8 @@
 package org.remast.baralga.model.export;
 
 import java.io.OutputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,8 +24,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.text.StringEscapeUtils;
-import org.joda.time.DateTime;
-import org.joda.time.format.ISODateTimeFormat;
 import org.remast.baralga.model.BaralgaDAO;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
@@ -56,7 +56,7 @@ public class XmlExporter implements Exporter {
         document.appendChild(root);
 
         // Create a comment and put it in the root element
-        Comment comment = document.createComment("Baralga data export created at " +  new DateTime() + ".");
+        Comment comment = document.createComment("Baralga data export created at " +  LocalDateTime.now() + ".");
         root.appendChild(comment);
 
         Element projectsElement = document.createElement("projects");
@@ -88,8 +88,8 @@ public class XmlExporter implements Exporter {
          	activityElement.setAttribute("id", String.valueOf(activity.getId()));
          	activityElement.setAttribute("projectReference", String.valueOf(activity.getProject().getId()));
 
-        	activityElement.setAttribute("start", StringEscapeUtils.escapeXml10(ISODateTimeFormat.dateHourMinute().print(activity.getStart())));
-        	activityElement.setAttribute("end", StringEscapeUtils.escapeXml10(ISODateTimeFormat.dateHourMinute().print(activity.getEnd())));
+        	activityElement.setAttribute("start", StringEscapeUtils.escapeXml10(DateTimeFormatter.ISO_DATE_TIME.format(activity.getStart())));
+        	activityElement.setAttribute("end", StringEscapeUtils.escapeXml10(DateTimeFormatter.ISO_DATE_TIME.format(activity.getEnd())));
 
         	Element descriptionElement = document.createElement("description");
         	descriptionElement.appendChild(document.createTextNode(StringEscapeUtils.escapeXml10(org.apache.commons.lang3.StringUtils.defaultString(activity.getDescription()))));

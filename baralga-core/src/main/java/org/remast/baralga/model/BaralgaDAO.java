@@ -22,11 +22,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.h2.tools.RunScript;
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
-import org.joda.time.format.PeriodFormat;
 import org.remast.baralga.gui.settings.ApplicationSettings;
 import org.remast.baralga.model.filter.Filter;
+import org.remast.util.DateUtils;
 import org.remast.util.TextResourceBundle;
 
 /**
@@ -285,10 +283,10 @@ public class BaralgaDAO {
 			
 			preparedStatement.setString(1, activity.getDescription());
 
-			final Timestamp d = new Timestamp( activity.getStart().getMillis());
+			final Timestamp d = Timestamp.valueOf(activity.getStart());
 			preparedStatement.setTimestamp(2,d);
 
-			final Timestamp endDate = new Timestamp( activity.getEnd().getMillis());
+			final Timestamp endDate = Timestamp.valueOf(activity.getEnd());
 			preparedStatement.setTimestamp(3, endDate);
 			
 			preparedStatement.setLong(4, activity.getProject().getId());
@@ -408,10 +406,10 @@ public class BaralgaDAO {
 
 			preparedStatement.setString(1, activity.getDescription());
 
-			final Timestamp d = new Timestamp( activity.getStart().getMillis());
+			final Timestamp d = Timestamp.valueOf( activity.getStart());
 			preparedStatement.setTimestamp(2,d);
 
-			final Timestamp endDate = new Timestamp( activity.getEnd().getMillis());
+			final Timestamp endDate = Timestamp.valueOf(activity.getEnd());
 			preparedStatement.setTimestamp(3, endDate);
 
 			preparedStatement.setLong(4, activity.getProject().getId());
@@ -537,8 +535,8 @@ public class BaralgaDAO {
 			final PreparedStatement preparedStatement = prepare("select * from activity, project where activity.project_id = project.id " + filterCondition + " order by start asc"); //$NON-NLS-1$ //$NON-NLS-2$
 			
 			if (filter != null && filter.getTimeInterval() != null) {
-				preparedStatement.setDate(1, new java.sql.Date(filter.getTimeInterval().getStart().toDate().getTime()));
-				preparedStatement.setDate(2, new java.sql.Date(filter.getTimeInterval().getEnd().toDate().getTime()));
+				preparedStatement.setDate(1, java.sql.Date.valueOf(filter.getTimeInterval().getStart().toLocalDate()));
+				preparedStatement.setDate(2, java.sql.Date.valueOf(filter.getTimeInterval().getEnd().toLocalDate()));
 			}
 			
 			final ResultSet resultSet = preparedStatement.executeQuery();
@@ -546,7 +544,7 @@ public class BaralgaDAO {
 				final Project project = new Project(resultSet.getLong("project.id"), resultSet.getString("title"), resultSet.getString("project.description")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				project.setActive(resultSet.getBoolean("active")); //$NON-NLS-1$
 
-				final ProjectActivity activity = new ProjectActivity(new DateTime(resultSet.getTimestamp("start")), new DateTime(resultSet.getTimestamp("end")), project); //$NON-NLS-1$ //$NON-NLS-2$
+				final ProjectActivity activity = new ProjectActivity(resultSet.getTimestamp("start").toLocalDateTime(), resultSet.getTimestamp("end").toLocalDateTime(), project); //$NON-NLS-1$ //$NON-NLS-2$
 				activity.setId(resultSet.getLong("activity.id")); //$NON-NLS-1$
 				activity.setDescription(resultSet.getString("activity.description")); //$NON-NLS-1$
 				
@@ -591,8 +589,8 @@ public class BaralgaDAO {
 			}
 			
 			if (earliestDate != null && latestDate != null) {
-				Duration dur = new Duration(earliestDate.getTime(), latestDate.getTime());
-				log.error("using for " + PeriodFormat.getDefault().print(dur.toPeriod())); //$NON-NLS-1$
+			    java.time.Duration dur = java.time.Duration.between(DateUtils.convertToLocalDateTime(earliestDate), DateUtils.convertToLocalDateTime(latestDate));
+				log.error("using for " + dur.toString()); //$NON-NLS-1$
 				
 			}
 		} catch (SQLException e) {

@@ -1,9 +1,9 @@
 package org.remast.baralga.model.filter;
 
-import org.joda.time.DateTime;
-import org.joda.time.Interval;
 import org.remast.baralga.model.ProjectActivity;
+import org.remast.util.Interval;
 
+import java.time.LocalDateTime;
 import java.util.function.Predicate;
 
 /**
@@ -40,11 +40,11 @@ public class TimeIntervalPredicate implements Predicate<ProjectActivity> {
         // Set hours, minutes, seconds and milliseconds of interval ends 
         // to zero so that every activity of a day is contained within the 
         // interval.
-        final DateTime startAdjusted = timeInterval.getStart().withMillisOfDay(0);
-        final DateTime endAdjusted = timeInterval.getEnd().withMillisOfDay(0);
+        final LocalDateTime startAdjusted = timeInterval.getStart().withHour(0).withMinute(0).withSecond(0).withNano(0);
+        final LocalDateTime endAdjusted = timeInterval.getEnd().withHour(0).withMinute(0).withSecond(0).withNano(0);
         final Interval intervalAdjusted = new Interval(startAdjusted, endAdjusted);
         
-        return intervalAdjusted.contains(activity.getStart().getMillis());
+        return intervalAdjusted.contains(activity.getStart());
     }
 
 }

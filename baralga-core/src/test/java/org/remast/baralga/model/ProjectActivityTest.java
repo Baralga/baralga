@@ -1,18 +1,19 @@
 package org.remast.baralga.model;
 
-import org.joda.time.DateTime;
 import org.junit.Test;
 import org.remast.util.DateUtils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.time.LocalDateTime;
+
 public class ProjectActivityTest {
 
     @Test
     public void testCalculateDuration() {
         ProjectActivity act;
-        DateTime startTime = new DateTime(DateUtils.getNow());
+        LocalDateTime startTime = DateUtils.convertToLocalDateTime(DateUtils.getNow());
 
         act = new ProjectActivity(startTime, startTime.plusMinutes(45), null);
         assertEquals(0.75, act.getDuration(), 0);
@@ -33,8 +34,8 @@ public class ProjectActivityTest {
      */
     @Test
     public void testStartAndEndOnSameDay() {
-        ProjectActivity act = new ProjectActivity(new DateTime(2009, 1, 1, 0, 0, 0, 0),
-                new DateTime(2009, 1, 1, 23, 0, 0 ,0), null);
+        ProjectActivity act = new ProjectActivity(LocalDateTime.of(2009, 1, 1, 0, 0, 0),
+                LocalDateTime.of(2009, 1, 1, 23, 0, 0 ,0), null);
 
         assertEquals(1, act.getStart().getDayOfMonth());
         assertEquals(1, act.getEnd().getDayOfMonth());
@@ -66,16 +67,16 @@ public class ProjectActivityTest {
     @Test
     public void testStartNotAfterEnd() {
         try {
-            new ProjectActivity(new DateTime(2009, 1, 1, 13, 0, 0 ,0),
-                    new DateTime(2009, 1, 1, 12, 0, 0, 0), null);
+            new ProjectActivity(LocalDateTime.of(2009, 1, 1, 13, 0, 0 ,0),
+                    LocalDateTime.of(2009, 1, 1, 12, 0, 0, 0), null);
             fail("Expected IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             // ok, expected
         }
 
         try {
-            ProjectActivity act = new ProjectActivity(new DateTime(2009, 1, 1, 11, 0, 0 ,0),
-                    new DateTime(2009, 1, 1, 12, 0, 0, 0), null);
+            ProjectActivity act = new ProjectActivity(LocalDateTime.of(2009, 1, 1, 11, 0, 0 ,0),
+                    LocalDateTime.of(2009, 1, 1, 12, 0, 0, 0), null);
             act.setEndTime(10, 0);
             fail("Expected IllegalArgumentException");
         } catch (IllegalArgumentException e) {
@@ -83,8 +84,8 @@ public class ProjectActivityTest {
         }
 
         try {
-            ProjectActivity act = new ProjectActivity(new DateTime(2009, 1, 1, 11, 0, 0 ,0),
-                    new DateTime(2009, 1, 1, 12, 0, 0, 0), null);
+            ProjectActivity act = new ProjectActivity(LocalDateTime.of(2009, 1, 1, 11, 0, 0 ,0),
+                    LocalDateTime.of(2009, 1, 1, 12, 0, 0, 0), null);
             act.setEndTime(13, 0);
         } catch (IllegalArgumentException e) {
             fail("Unexpected IllegalArgumentException");
@@ -98,53 +99,53 @@ public class ProjectActivityTest {
     public void testSetDay() {
         {
             ProjectActivity act = new ProjectActivity(
-                    new DateTime(2009, 1, 1, 11, 0, 0 ,0),
-                    new DateTime(2009, 1, 1, 12, 47, 0, 0), 
+                    LocalDateTime.of(2009, 1, 1, 11, 0, 0 ,0),
+                    LocalDateTime.of(2009, 1, 1, 12, 47, 0, 0), 
                     null
             );
-            DateTime day = act.getDay();
+            LocalDateTime day = act.getDay();
             assertEquals(1, day.getDayOfMonth());
-            assertEquals(1, day.getMonthOfYear());
+            assertEquals(1, day.getMonth().getValue());
             assertEquals(2009, day.getYear());
 
-            act.setDay(new DateTime(2020, 7, 13, 11, 0, 0 ,0));
+            act.setDay(LocalDateTime.of(2020, 7, 13, 11, 0, 0 ,0));
             day = act.getDay();
             assertEquals(13, day.getDayOfMonth());
-            assertEquals(7, day.getMonthOfYear());
+            assertEquals(7, day.getMonth().getValue());
             assertEquals(2020, day.getYear());
 
-            DateTime end = act.getEnd();
+            LocalDateTime end = act.getEnd();
             assertEquals(13, end.getDayOfMonth());
-            assertEquals(7, end.getMonthOfYear());
+            assertEquals(7, end.getMonth().getValue());
             assertEquals(2020, end.getYear());
-            assertEquals(12, end.getHourOfDay());
-            assertEquals(47, end.getMinuteOfHour());
+            assertEquals(12, end.getHour());
+            assertEquals(47, end.getMinute());
         }
 
         // these time with an activity ending at 0:00h
         {
             ProjectActivity act = new ProjectActivity(
-                    new DateTime(2009, 1, 1, 11, 0, 0 ,0),
-                    new DateTime(2009, 1, 2, 0, 0, 0, 0), 
+                    LocalDateTime.of(2009, 1, 1, 11, 0, 0 ,0),
+                    LocalDateTime.of(2009, 1, 2, 0, 0, 0, 0), 
                     null
             );
-            DateTime day = act.getDay();
+            LocalDateTime day = act.getDay();
             assertEquals(1, day.getDayOfMonth());
-            assertEquals(1, day.getMonthOfYear());
+            assertEquals(1, day.getMonth().getValue());
             assertEquals(2009, day.getYear());
 
-            act.setDay(new DateTime(2020, 7, 13, 11, 0, 0 ,0));
+            act.setDay(LocalDateTime.of(2020, 7, 13, 11, 0, 0 ,0));
             day = act.getDay();
             assertEquals(13, day.getDayOfMonth());
-            assertEquals(7, day.getMonthOfYear());
+            assertEquals(7, day.getMonth().getValue());
             assertEquals(2020, day.getYear());
 
-            DateTime end = act.getEnd();
+            LocalDateTime end = act.getEnd();
             assertEquals(14, end.getDayOfMonth());
-            assertEquals(7, end.getMonthOfYear());
+            assertEquals(7, end.getMonth().getValue());
             assertEquals(2020, end.getYear());
-            assertEquals(0, end.getHourOfDay());
-            assertEquals(0, end.getMinuteOfHour());
+            assertEquals(0, end.getHour());
+            assertEquals(0, end.getMinute());
         }
     }
 }

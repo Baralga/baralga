@@ -3,8 +3,9 @@ package org.remast.baralga.gui.model.report;
 import com.google.common.base.Objects;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.joda.time.DateTime;
+import org.remast.util.DateUtils;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -14,12 +15,12 @@ import java.util.Date;
 public class HoursByDay implements Comparable<HoursByDay> {
     
     /** The day of the year. */
-    private DateTime day;
+    private LocalDateTime day;
     
     /** The amount of hours worked that week. */
     private double hours;
     
-    public HoursByDay(final DateTime day, final double hours) {
+    public HoursByDay(final LocalDateTime day, final double hours) {
         this.day = day;
         this.hours = hours;
     }
@@ -28,7 +29,7 @@ public class HoursByDay implements Comparable<HoursByDay> {
      * @return the week
      */
     public Date getDay() {
-        return day.toDate();
+        return DateUtils.convertToDate(day);
     }
 
     /**

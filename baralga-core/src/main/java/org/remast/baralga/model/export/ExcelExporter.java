@@ -16,6 +16,7 @@ import org.remast.baralga.model.filter.Filter;
 import org.remast.baralga.model.filter.FilterUtils;
 import org.remast.baralga.model.report.AccumulatedActivitiesReport;
 import org.remast.baralga.model.report.AccumulatedProjectActivity;
+import org.remast.util.DateUtils;
 import org.remast.util.TextResourceBundle;
 
 import java.io.OutputStream;
@@ -108,16 +109,16 @@ public class ExcelExporter implements Exporter {
 
 			cell = row.createCell(col++);
 			cell.setCellStyle(dateStyle);
-			cell.setCellValue(actitivity.getStart().toDate());
+			cell.setCellValue(DateUtils.convertToDate(actitivity.getStart()));
 
 			cell = row.createCell(col++);
 			cell.setCellStyle(timeStyle);
-			cell.setCellValue(actitivity.getStart().toDate());
+			cell.setCellValue(DateUtils.convertToDate(actitivity.getStart()));
 
 
 			cell = row.createCell(col++);
 			cell.setCellStyle(timeStyle);
-			cell.setCellValue(actitivity.getEnd().toDate());
+			cell.setCellValue(DateUtils.convertToDate(actitivity.getEnd()));
 
 			cell = row.createCell(col++);
 			cell.setCellStyle(durationStyle);

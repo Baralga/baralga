@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.time.Duration;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -18,7 +19,6 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import org.jdesktop.swingx.JXButton;
-import org.joda.time.Period;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.MainFrame;
 import org.remast.baralga.gui.actions.StartAction;
@@ -283,8 +283,8 @@ public class ActivityPanelStopWatch extends JPanel implements ActionListener {
 	 * Updates the GUI with the current duration.
 	 */
 	private void updateDuration() {
-		final Period period = new Period(this.model.getStart(), DateUtils.getNowAsDateTime());
-		final String durationPrint = period.getHours() + ":" + MINUTE_FORMAT.format(period.getMinutes()) + " h";
+		final Duration period = Duration.between(this.model.getStart(), DateUtils.getNowAsDateTime());
+		final String durationPrint = period.toHours() + ":" + MINUTE_FORMAT.format(period.toMinutes() % 60) + " h";
 
 		// Display duration
 		duration.setText(durationPrint);

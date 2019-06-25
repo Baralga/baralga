@@ -4,6 +4,11 @@ import info.clearthought.layout.TableLayout;
 
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -12,7 +17,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import org.joda.time.DateTime;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
@@ -225,15 +229,15 @@ public class SelectLastActionPanel extends JPanel {
 	}
 
 	private void updateInactivityTime(long inactivityTime) {
-		DateTime dateTime = new DateTime().minusHours(1).minus(inactivityTime);
+		LocalDateTime dateTime =LocalDateTime.now().minusHours(1).minus(inactivityTime, ChronoUnit.MILLIS);
 
-		SimpleDateFormat hoursFormat = new SimpleDateFormat("HH");
-		SimpleDateFormat minutesFormat = new SimpleDateFormat("mm");
-		SimpleDateFormat secondsFormat = new SimpleDateFormat("ss");
+		DateTimeFormatter hoursFormat = DateTimeFormatter.ofPattern("HH");
+		DateTimeFormatter minutesFormat = DateTimeFormatter.ofPattern("mm");
+		DateTimeFormatter secondsFormat = DateTimeFormatter.ofPattern("ss");
 
-		String hours = hoursFormat.format(dateTime.toDate());
-		String minutes = minutesFormat.format(dateTime.toDate());
-		String seconds = secondsFormat.format(dateTime.toDate());
+		String hours = hoursFormat.format(dateTime);
+		String minutes = minutesFormat.format(dateTime);
+		String seconds = secondsFormat.format(dateTime);
 
 		awaySince.setText(textBundle.textFor("SelectLastActionPanel.AwaySince.Title", hours, minutes, seconds)); //$NON-NLS-1$
 	}
@@ -248,18 +252,18 @@ public class SelectLastActionPanel extends JPanel {
 			try {
 				if (!this.model.getSelectedProject().equals(projectSelector.getSelectedItem())) {
 					if (model.isActive()) {
-						DateTime lastActivity = new DateTime(this.lastActivity);
+						LocalDateTime lastActivity = Instant.ofEpochMilli(this.lastActivity).atZone(ZoneId.systemDefault()).toLocalDateTime();;
 						model.stop(lastActivity, false);
 					}
 
 					Project selectedProject = (Project) projectSelector.getSelectedItem();
 					model.changeProject(selectedProject);
 
-					DateTime dateTime = new DateTime(this.lastActivity);
+					LocalDateTime dateTime = Instant.ofEpochMilli(this.lastActivity).atZone(ZoneId.systemDefault()).toLocalDateTime();
 					model.start(dateTime);
 				} else {
 					if (!model.isActive()) {
-						DateTime dateTime = new DateTime(this.lastActivity);
+					    LocalDateTime dateTime = Instant.ofEpochMilli(this.lastActivity).atZone(ZoneId.systemDefault()).toLocalDateTime();
 						model.start(dateTime);
 					}
 				}

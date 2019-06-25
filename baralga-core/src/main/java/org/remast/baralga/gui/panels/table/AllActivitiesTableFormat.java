@@ -2,15 +2,16 @@ package org.remast.baralga.gui.panels.table;
 
 import java.beans.PropertyChangeEvent;
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.Date;
 
-import org.joda.time.DateTime;
 import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.text.SmartTimeFormat;
+import org.remast.util.DateUtils;
 import org.remast.util.TextResourceBundle;
 
 import ca.odell.glazedlists.gui.WritableTableFormat;
@@ -64,7 +65,7 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         case 0:
             return activity.getProject();
         case 1:
-            return activity.getStart().toDate();
+            return DateUtils.convertToDate(activity.getStart());
         case 2:
             return FormatUtils.formatTime(activity.getStart());
         case 3:
@@ -97,10 +98,10 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
             model.fireProjectActivityChangedEvent(activity, propertyChangeEvent);
         } else if (column == 1) {
             // Day and month
-            final Date oldDate = activity.getEnd().toDate();
+            final LocalDateTime oldDate = activity.getEnd();
             Date newDate = (Date) editedValue;
 
-            activity.setDay(new DateTime(newDate));
+            activity.setDay(DateUtils.convertToLocalDateTime(newDate));
 
             // Fire event
             final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(activity, ProjectActivity.PROPERTY_DATE, oldDate, newDate);
@@ -108,14 +109,14 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         } else if (column == 2) {
             // Start time
             try {
-                final Date oldStart = activity.getStart().toDate();
+                final LocalDateTime oldStart = activity.getStart();
 
                 int[] hoursMinutes = SmartTimeFormat.parseToHourAndMinutes((String) editedValue);
                 activity.setStartTime(hoursMinutes[0], hoursMinutes[1]);
 
                 // Fire event
                 final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(activity, ProjectActivity.PROPERTY_START,
-                        oldStart, activity.getStart().toDate());
+                        oldStart, activity.getStart());
                 model.fireProjectActivityChangedEvent(activity, propertyChangeEvent);
             } catch (IllegalArgumentException e) {
                 // Ignore and don't save changes to model.
@@ -125,14 +126,14 @@ public class AllActivitiesTableFormat implements WritableTableFormat<ProjectActi
         } else if (column == 3) {
             // End time
             try {
-                final Date oldEnd = activity.getEnd().toDate();
+                final LocalDateTime oldEnd = activity.getEnd();
 
                 int[] hoursMinutes = SmartTimeFormat.parseToHourAndMinutes((String) editedValue);
                 activity.setEndTime(hoursMinutes[0], hoursMinutes[1]);
 
                 // Fire event
                 final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(activity, ProjectActivity.PROPERTY_END,
-                        oldEnd, activity.getEnd().toDate());
+                        oldEnd, activity.getEnd());
                 model.fireProjectActivityChangedEvent(activity, propertyChangeEvent);
             } catch (IllegalArgumentException e) {
                 // Ignore and don't save changes to model.

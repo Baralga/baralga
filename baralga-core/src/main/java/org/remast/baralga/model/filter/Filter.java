@@ -3,14 +3,16 @@ package org.remast.baralga.model.filter;
 import com.google.common.base.Objects;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.joda.time.DateTime;
-import org.joda.time.Interval;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.util.DateUtils;
+import org.remast.util.Interval;
 
+import java.time.LocalDateTime;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Predicate;
 
 /**
@@ -25,8 +27,8 @@ public class Filter {
     
     /** The time interval to filter by. */
     private Interval timeInterval = new Interval(
-    		org.remast.util.DateUtils.getNowAsDateTime().withMillisOfDay(0), 
-    		org.remast.util.DateUtils.getNowAsDateTime().plusDays(1).withMillisOfDay(0)
+    		org.remast.util.DateUtils.getNowAsDateTime().withHour(0).withMinute(0).withSecond(0).withNano(0), 
+    		org.remast.util.DateUtils.getNowAsDateTime().plusDays(1).withHour(0).withMinute(0).withSecond(0).withNano(0)
     );
 
     /** 
@@ -141,14 +143,14 @@ public class Filter {
     
 	/** Initializes the time interval for the span type of the filter. */
 	public void initTimeInterval() {
-		DateTime now = DateUtils.getNowAsDateTime().withMillisOfDay(0);
+		LocalDateTime now = DateUtils.getNowAsDateTime().withHour(0).withMinute(0).withSecond(0).withNano(0);
 
 		switch (spanType) {
 		case Day:
 			setTimeInterval(new Interval(now, now.plusDays(1)));
 			break;
 		case Week:
-			now = now.withDayOfWeek(1);
+			now = now.with(WeekFields.of(Locale.getDefault()).dayOfWeek(), 1);
 			setTimeInterval(new Interval(now, now.plusWeeks(1)));
 			break;
 		case Month:

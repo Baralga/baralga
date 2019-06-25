@@ -3,9 +3,12 @@ package org.remast.baralga.gui.model.report;
 import com.google.common.base.Objects;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.joda.time.DateTime;
+import org.remast.util.DateUtils;
 
+import java.time.LocalDateTime;
+import java.time.temporal.WeekFields;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Item of the hours by week report.
@@ -14,12 +17,12 @@ import java.util.Date;
 public class HoursByWeek implements Comparable<HoursByWeek> {
     
     /** The week of the year. */
-    private DateTime week;
+    private LocalDateTime week;
     
     /** The amount of hours worked that week. */
     private double hours;
     
-    public HoursByWeek(final DateTime week, final double hours) {
+    public HoursByWeek(final LocalDateTime week, final double hours) {
         this.week = week;
         this.hours = hours;
     }
@@ -28,7 +31,7 @@ public class HoursByWeek implements Comparable<HoursByWeek> {
      * @return the week
      */
     public Date getWeek() {
-        return week.toDate();
+        return DateUtils.convertToDate(week);
     }
 
     /**
@@ -52,7 +55,7 @@ public class HoursByWeek implements Comparable<HoursByWeek> {
         final EqualsBuilder eqBuilder = new EqualsBuilder();
         
         eqBuilder.append(this.week.getYear(), accAct.week.getYear());
-        eqBuilder.append(this.week.getWeekOfWeekyear(), accAct.week.getWeekOfWeekyear());
+        eqBuilder.append(this.week.get(WeekFields.of(Locale.getDefault()).weekOfYear()), accAct.week.get(WeekFields.of(Locale.getDefault()).weekOfYear()));
         
         return eqBuilder.isEquals();
     }
@@ -78,7 +81,7 @@ public class HoursByWeek implements Comparable<HoursByWeek> {
         final CompareToBuilder compareBuilder = new CompareToBuilder();
 
         compareBuilder.append(this.week.getYear(), that.week.getYear());
-        compareBuilder.append(this.week.getWeekOfWeekyear(), that.week.getWeekOfWeekyear());
+        compareBuilder.append(this.week.get(WeekFields.of(Locale.getDefault()).weekOfYear()), that.week.get(WeekFields.of(Locale.getDefault()).weekOfYear()));
 
         // Sort by start date but the other way round. That way the latest
         // activity is always on top.
@@ -89,7 +92,7 @@ public class HoursByWeek implements Comparable<HoursByWeek> {
     public int hashCode() {
         return Objects.hashCode(
                 week.getYear(),
-                week.getWeekOfWeekyear()
+                week.get(WeekFields.of(Locale.getDefault()).weekOfYear())
         );
     }
 

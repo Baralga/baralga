@@ -1,9 +1,9 @@
 package org.remast.util;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
-
-import org.joda.time.DateTime;
-import org.joda.time.ReadableInstant;
 
 /**
  * Miscellaneous utility methods for dealing with dates.
@@ -15,16 +15,16 @@ public class DateUtils {
      * @return  the current time rounded to minutes
      */
     public static Date getNow() {
-        return getNowAsDateTime().toDate();
+        return convertToDate(getNowAsDateTime());
     }
     
     /**
      * Get current time rounded to minutes.
      * @return
      */
-    public static DateTime getNowAsDateTime() {
-        final DateTime now = new DateTime();
-        final DateTime nowRounded = now.minuteOfDay().roundHalfCeilingCopy();
+    public static LocalDateTime getNowAsDateTime() {
+        final LocalDateTime now = LocalDateTime.now();
+        final LocalDateTime nowRounded = now.withSecond(0).withNano(0);
         return nowRounded;
     }
 
@@ -35,9 +35,9 @@ public class DateUtils {
      * @param midnightOnNextDay if <code>true</code> treats midnight (0:00h) as belonging to the next day.
      *   Otherwise 0:00h is treated as being the start of the current day.
      */
-    public static DateTime adjustToSameDay(final DateTime day, final DateTime timeToAdjust, final boolean midnightOnNextDay) {
-    	DateTime result = timeToAdjust.withYear(day.getYear()).withDayOfYear(day.getDayOfYear());
-        if (midnightOnNextDay && result.getHourOfDay() == 0 && result.getMinuteOfHour() == 0) {
+    public static LocalDateTime adjustToSameDay(final LocalDate day, final LocalDateTime timeToAdjust, final boolean midnightOnNextDay) {
+        LocalDateTime result = timeToAdjust.withYear(day.getYear()).withDayOfYear(day.getDayOfYear());
+        if (midnightOnNextDay && result.getHour() == 0 && result.getMinute() == 0) {
             result = result.plusDays(1);
         }
         return result;
@@ -48,7 +48,31 @@ public class DateUtils {
      * @param time1 the first time
      * @param time2 the second time
      */
-    public static boolean isBeforeOrEqual(final ReadableInstant time1, final ReadableInstant time2) {
+    public static boolean isBeforeOrEqual(final LocalDateTime time1, final LocalDateTime time2) {
     	return time1.isBefore(time2) || time1.isEqual(time2);
+    }
+    
+    public static LocalDateTime convertToLocalDateTime(Date dateToConvert) {
+        return dateToConvert.toInstant()
+          .atZone(ZoneId.systemDefault())
+          .toLocalDateTime();
+    }
+    
+    public static LocalDate convertToLocalDate(Date dateToConvert) {
+        return dateToConvert.toInstant()
+          .atZone(ZoneId.systemDefault())
+          .toLocalDate();
+    }
+    
+    public static Date convertToDate(LocalDate dateToConvert) {
+        return java.util.Date.from(dateToConvert.atStartOfDay()
+          .atZone(ZoneId.systemDefault())
+          .toInstant());
+    }
+    
+    public static Date convertToDate(LocalDateTime dateToConvert) {
+        return java.util.Date
+          .from(dateToConvert.atZone(ZoneId.systemDefault())
+          .toInstant());
     }
 }

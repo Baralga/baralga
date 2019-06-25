@@ -1,6 +1,5 @@
 package org.remast.text;
 
-import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +8,8 @@ import org.remast.baralga.model.ProjectActivity;
 import org.remast.util.DateUtils;
 
 import static org.junit.Assert.assertEquals;
+
+import java.time.LocalDateTime;
 
 public class DurationFormatTest {
 
@@ -25,7 +26,7 @@ public class DurationFormatTest {
     public void formatDurationInHoursAndMinutes() {
         UserSettings.instance().setDurationFormat(UserSettings.DurationFormat.HOURS_AND_MINUTES);
         ProjectActivity act;
-        DateTime startTime = new DateTime(DateUtils.getNow());
+        LocalDateTime startTime = DateUtils.convertToLocalDateTime(DateUtils.getNow());
 
         act = new ProjectActivity(startTime, startTime.plusMinutes(45), null);
         assertEquals("00:45", format.format(act.getDuration()));

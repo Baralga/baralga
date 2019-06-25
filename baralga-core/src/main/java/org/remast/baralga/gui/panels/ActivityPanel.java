@@ -7,8 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXHeader;
 import org.jdesktop.swingx.JXPanel;
-import org.joda.time.DateTime;
-import org.joda.time.Period;
 import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.MainFrame;
@@ -34,6 +32,9 @@ import java.awt.event.FocusListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -188,7 +189,7 @@ public class ActivityPanel extends JPanel implements ActionListener {
         // Restore current activity
         if (model.isActive()) {
             start.setEnabled(true);
-            start.setValue(this.model.getStart().toDate());
+            start.setValue(DateUtils.convertToDate(this.model.getStart()));
         } else {
             start.setText(START_INACTIVE);
             start.setEnabled(false);
@@ -346,7 +347,7 @@ public class ActivityPanel extends JPanel implements ActionListener {
         getProjectSelector().setSelectedItem((Project) event.getData());
 
         if (model.isActive()) {
-            start.setValue(this.model.getStart().toDate());
+            start.setValue(DateUtils.convertToDate(this.model.getStart()));
             updateDuration();
         }
     }
@@ -369,7 +370,7 @@ public class ActivityPanel extends JPanel implements ActionListener {
         getStartStopButton().setIcon(ICON_STOP_DISABLED);
         getStartStopButton().setRolloverIcon(ICON_STOP_ENABLED);
 
-        start.setValue(this.model.getStart().toDate());
+        start.setValue(DateUtils.convertToDate(this.model.getStart()));
         start.setEnabled(true);
 
         updateDuration();
@@ -416,11 +417,11 @@ public class ActivityPanel extends JPanel implements ActionListener {
      * Updates the GUI with the current duration.
      */
     private void updateDuration() {
-        final Period period = new Period(
+        final Duration durationBetween = Duration.between(
                 this.model.getStart(), 
                 DateUtils.getNowAsDateTime()
         );
-        final String durationPrint = period.getHours() + ":" + MINUTE_FORMAT.format(period.getMinutes()) + " h";
+        final String durationPrint = durationBetween.toHours() + ":" + MINUTE_FORMAT.format(durationBetween.toMinutes() % 60) + " h";
 
         // Display duration
         duration.setText(durationPrint);
@@ -443,9 +444,9 @@ public class ActivityPanel extends JPanel implements ActionListener {
         // New start time must be before the current time.
         try {
             final Date newStartTime = timeFormat.parse(start.getText());
-            final DateTime newStart = DateUtils.adjustToSameDay(
-                    DateUtils.getNowAsDateTime(), 
-                    new DateTime(newStartTime), 
+            final LocalDateTime newStart = DateUtils.adjustToSameDay(
+                    LocalDate.now(), 
+                    DateUtils.convertToLocalDateTime(newStartTime), 
                     false
             );
 

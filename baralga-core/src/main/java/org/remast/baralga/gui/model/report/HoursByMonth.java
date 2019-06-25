@@ -3,8 +3,9 @@ package org.remast.baralga.gui.model.report;
 import com.google.common.base.Objects;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.joda.time.DateTime;
+import org.remast.util.DateUtils;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -14,12 +15,12 @@ import java.util.Date;
 public class HoursByMonth implements Comparable<HoursByMonth> {
     
     /** The month of the year. */
-    private DateTime month;
+    private LocalDateTime month;
     
     /** The amount of hours worked that month. */
     private double hours;
     
-    public HoursByMonth(final DateTime month, final double hours) {
+    public HoursByMonth(final LocalDateTime month, final double hours) {
         this.month = month;
         this.hours = hours;
     }
@@ -28,7 +29,7 @@ public class HoursByMonth implements Comparable<HoursByMonth> {
      * @return the month
      */
     public Date getMonth() {
-        return month.toDate();
+        return DateUtils.convertToDate(month);
     }
 
     /**
@@ -51,7 +52,7 @@ public class HoursByMonth implements Comparable<HoursByMonth> {
         
         final EqualsBuilder eqBuilder = new EqualsBuilder();
         eqBuilder.append(this.month.getYear(), accAct.month.getYear());
-        eqBuilder.append(this.month.getMonthOfYear(), accAct.month.getMonthOfYear());
+        eqBuilder.append(this.month.getMonth(), accAct.month.getMonth());
         
         return eqBuilder.isEquals();
     }
@@ -77,7 +78,7 @@ public class HoursByMonth implements Comparable<HoursByMonth> {
         final CompareToBuilder compareBuilder = new CompareToBuilder();
         
         compareBuilder.append(month.getYear(), that.month.getYear());
-        compareBuilder.append(month.getMonthOfYear(), that.month.getMonthOfYear());
+        compareBuilder.append(month.getMonth(), that.month.getMonth());
         
         // Sort by start date but the other way round. That way the latest
         // activity is always on top.
@@ -88,7 +89,7 @@ public class HoursByMonth implements Comparable<HoursByMonth> {
     public int hashCode() {
         return Objects.hashCode(
                 month.getYear(),
-                month.getMonthOfYear()
+                month.getMonth()
         );
     }
 

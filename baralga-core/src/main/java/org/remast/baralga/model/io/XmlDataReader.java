@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -19,8 +21,6 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.text.StringEscapeUtils;
-import org.joda.time.DateTime;
-import org.joda.time.format.ISODateTimeFormat;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 import org.xml.sax.Attributes;
@@ -63,9 +63,9 @@ public class XmlDataReader extends DefaultHandler {
 			if (attributes.getValue("active") != null) {
 			  currentProject.setActive(Boolean.valueOf(attributes.getValue("active")));  
 			}
-		} else if ("activity".equals(qName)) {
-			DateTime start = ISODateTimeFormat.dateHourMinute().parseDateTime(attributes.getValue("start"));
-			DateTime end = ISODateTimeFormat.dateHourMinute().parseDateTime(attributes.getValue("end"));
+		} else if ("activity".equals(qName)) {		    
+			LocalDateTime start = LocalDateTime.parse(attributes.getValue("start"), DateTimeFormatter.ISO_DATE_TIME);
+			LocalDateTime end = LocalDateTime.parse(attributes.getValue("end"), DateTimeFormatter.ISO_DATE_TIME);
 
 			long projectId = Long.valueOf(attributes.getValue("projectReference"));
 			Project project = null;

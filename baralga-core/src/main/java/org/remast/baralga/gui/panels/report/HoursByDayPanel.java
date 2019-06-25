@@ -10,7 +10,6 @@ import info.clearthought.layout.TableLayout;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.FormatStringValue;
-import org.joda.time.format.DateTimeFormat;
 import org.remast.baralga.gui.model.report.HoursByDay;
 import org.remast.baralga.gui.model.report.HoursByDayReport;
 import org.remast.baralga.gui.panels.table.HoursByDayTableFormat;
@@ -23,7 +22,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 /**
  * Panel for displaying the report of working hours by day.
@@ -34,7 +32,7 @@ import java.util.Locale;
 public class HoursByDayPanel extends JXPanel {
 	
 	/** Format for one day in report. */
-	public static DateFormat DAY_FORMAT = new SimpleDateFormat(DateTimeFormat.patternForStyle("S-", Locale.getDefault()) + " EEEEEEEEE");
+	public static DateFormat DAY_FORMAT = new SimpleDateFormat("EEEE");//  DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT); " EEEEEEEEE");
 
     /**
      * The report displayed by this panel.

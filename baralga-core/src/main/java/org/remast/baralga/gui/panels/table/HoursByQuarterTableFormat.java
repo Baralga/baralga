@@ -41,7 +41,7 @@ public class HoursByQuarterTableFormat implements TableFormat<HoursByQuarter> {
     public Object getColumnValue(final HoursByQuarter baseObject, final int column) {
         switch (column) {
         case 0:
-            return "Q" + baseObject.getQuarter().getQuarter();
+            return "Q" + baseObject.getQuarter();
         case 1:
             return baseObject.getDate();
         case 2:

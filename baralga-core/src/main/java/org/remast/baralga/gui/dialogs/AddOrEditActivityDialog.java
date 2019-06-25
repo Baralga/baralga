@@ -7,6 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -19,7 +22,6 @@ import javax.swing.JOptionPane;
 import javax.swing.text.DateFormatter;
 
 import org.jdesktop.swingx.JXDatePicker;
-import org.joda.time.DateTime;
 import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.Project;
@@ -105,13 +107,13 @@ public class AddOrEditActivityDialog extends EscapeDialog {
     private Project project;
 
     /** The start time of the activity. */
-    private DateTime start;
+    private LocalDateTime start;
 
     /** The end time of the activity. */
-    private DateTime end;
+    private LocalDateTime end;
 
     /** The day of the activity. */
-    private DateTime day;
+    private LocalDate day;
 
     /**
      * Create a new dialog.
@@ -170,13 +172,13 @@ public class AddOrEditActivityDialog extends EscapeDialog {
             }
 
             // Initialize start and end time with current time
-            final String now = FormatUtils.formatTime(new DateTime());
+            final String now = FormatUtils.formatTime(LocalDateTime.now());
             this.startField.setText(now);
             this.endField.setText(now);
         } else {
             projectSelector.setSelectedItem(oldActivity.getProject());
-            this.day = oldActivity.getStart();
-            this.getDatePicker().setDate(day.toDate());
+            this.day = oldActivity.getStart().toLocalDate();
+            this.getDatePicker().setDate(DateUtils.convertToDate(day));
             this.startField.setText(FormatUtils.formatTime(oldActivity.getStart()));
             this.endField.setText(FormatUtils.formatTime(oldActivity.getEnd()));
             this.descriptionEditor.setText(oldActivity.getDescription());
@@ -340,10 +342,13 @@ public class AddOrEditActivityDialog extends EscapeDialog {
         }
 
         try {
-            day = new DateTime(getDatePicker().getDate());
+            day = DateUtils.convertToLocalDate(getDatePicker().getDate());
 
-            start = TimeFormat.parseTime(getStartField().getText());
-            end = TimeFormat.parseTime(getEndField().getText());
+            final LocalTime startTime = TimeFormat.parseTime(getStartField().getText());
+            start = day.atStartOfDay().withHour(startTime.getHour()).withMinute(startTime.getMinute());
+
+            final LocalTime endTime = TimeFormat.parseTime(getEndField().getText());
+            end = day.atStartOfDay().withHour(endTime.getHour()).withMinute(endTime.getMinute());
 
             correctDates();
         } catch (ParseException e) {

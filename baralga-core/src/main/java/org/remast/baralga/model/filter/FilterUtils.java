@@ -1,13 +1,11 @@
 package org.remast.baralga.model.filter;
 
-import java.util.Locale;
-
-import org.jfree.data.time.Quarter;
-import org.joda.time.Interval;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.time.temporal.IsoFields;
 import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.BaralgaMain;
+import org.remast.util.Interval;
 import org.remast.util.TextResourceBundle;
 
 /**
@@ -19,10 +17,10 @@ public abstract class FilterUtils {
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(BaralgaMain.class);
 
-    private static final DateTimeFormatter dayFormatter = DateTimeFormat.forPattern(DateTimeFormat.patternForStyle("S-", Locale.getDefault()) + " EEEEEEEEE");
-	private static final DateTimeFormatter weekOfYearFormatter = DateTimeFormat.forPattern("ww");
-    private static final DateTimeFormatter monthFormatter = DateTimeFormat.forPattern("MMMMMMMMMM yyyy");
-    private static final DateTimeFormatter yearFormatter = DateTimeFormat.forPattern("yyyy");
+    private static final DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern(" EEEE");
+	private static final DateTimeFormatter weekOfYearFormatter = DateTimeFormatter.ofPattern("ww");
+    private static final DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("MMMM yyyy");
+    private static final DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yyyy");
 
     /**
      * Builds a string for the time interval of the filter.
@@ -37,20 +35,20 @@ public abstract class FilterUtils {
 		String intervalString = filter.getTimeInterval().toString();
 		switch (filter.getSpanType()) {
 		case Day:
-			intervalString = dayFormatter.print(filter.getTimeInterval().getStart());
+			intervalString = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).format(filter.getTimeInterval().getStart()) + dayFormatter.format(filter.getTimeInterval().getStart());
 			break;
 		case Week:
-			intervalString = "(" + textBundle.textFor("ReportPanel.CWLabel") + " " + weekOfYearFormatter.print(filter.getTimeInterval().getStart()) + ") ";
+			intervalString = "(" + textBundle.textFor("ReportPanel.CWLabel") + " " + weekOfYearFormatter.format(filter.getTimeInterval().getStart()) + ") ";
 			intervalString += FormatUtils.formatDate(filter.getTimeInterval().getStart()) + " - " + FormatUtils.formatDate(filter.getTimeInterval().getEnd().minusDays(1));
 			break;
 		case Month:
-			intervalString = monthFormatter.print(filter.getTimeInterval().getStart());
+			intervalString = monthFormatter.format(filter.getTimeInterval().getStart());
 			break;
 		case Quarter:
-			intervalString = "Q" + new Quarter(filter.getTimeInterval().getStart().toDate()).getQuarter() + " " + yearFormatter.print(filter.getTimeInterval().getStart());
+			intervalString = "Q" + filter.getTimeInterval().getStart().get(IsoFields.QUARTER_OF_YEAR) + " " + yearFormatter.format(filter.getTimeInterval().getStart());
 			break;
 		case Year:
-			intervalString = yearFormatter.print(filter.getTimeInterval().getStart());
+			intervalString = yearFormatter.format(filter.getTimeInterval().getStart());
 			break;
 		}
 		

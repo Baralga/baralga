@@ -3,7 +3,6 @@ package org.remast.baralga.gui.model;
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.SortedList;
 import com.google.common.eventbus.EventBus;
-import org.joda.time.DateTime;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.lists.ProjectFilterList;
@@ -27,6 +26,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -74,10 +74,10 @@ public class PresentationModel {
 	private boolean active;
 
 	/** Start date of activity. */
-	private DateTime start;
+	private LocalDateTime start;
 
 	/** Stop date of activity. */
-	private DateTime stop;
+	private LocalDateTime stop;
 
 	/** Current activity filter. */
 	private Filter filter;
@@ -148,7 +148,7 @@ public class PresentationModel {
 
 		// If there is a active project that has been started on another day,
 		// we end it here.
-		if (active && start != null && !org.apache.commons.lang3.time.DateUtils.isSameDay(start.toDate(), DateUtils.getNow())) {
+		if (active && start != null && !org.apache.commons.lang3.time.DateUtils.isSameDay(DateUtils.convertToDate(start), DateUtils.getNow())) {
 			try {
 				stop();
 			} catch (ProjectActivityStateException e) {
@@ -261,7 +261,7 @@ public class PresentationModel {
 	 *             if there is already a running project or if no project is
 	 *             selected, currently
 	 */
-	public final void start(final DateTime startTime) throws ProjectActivityStateException {
+	public final void start(final LocalDateTime startTime) throws ProjectActivityStateException {
 		if (log.isDebugEnabled()) {
 			log.debug("Starting activity at " + String.valueOf(startTime) + ".");
 		}
@@ -278,7 +278,7 @@ public class PresentationModel {
 		setActive(true);
 
 		// Set start time to now if null
-		DateTime start;
+		LocalDateTime start;
 		if (startTime == null) {
 			start = DateUtils.getNowAsDateTime();
 		} else {
@@ -400,7 +400,7 @@ public class PresentationModel {
 	 * @throws ProjectActivityStateException if there is no running project
 	 */
 	public final void stop(final boolean notifyObservers) throws ProjectActivityStateException {
-		final DateTime now = DateUtils.getNowAsDateTime();
+		final LocalDateTime now = DateUtils.getNowAsDateTime();
 		stop(now, notifyObservers);
 	}
 
@@ -408,7 +408,7 @@ public class PresentationModel {
 	 * Stop a project activity.
 	 * @throws ProjectActivityStateException if there is no running project
 	 */
-	public final void stop(DateTime endDate, final boolean notifyObservers) throws ProjectActivityStateException {
+	public final void stop(LocalDateTime endDate, final boolean notifyObservers) throws ProjectActivityStateException {
 		if (log.isDebugEnabled()) {
 			log.debug("Stopping activity.");
 		}
@@ -417,26 +417,26 @@ public class PresentationModel {
 			throw new ProjectActivityStateException(textBundle.textFor("PresentationModel.NoActiveProjectError")); //$NON-NLS-1$
 		}
 
-		DateTime now = DateUtils.getNowAsDateTime();
+		LocalDateTime now = DateUtils.getNowAsDateTime();
 		if (endDate.compareTo(now) > 0) {
 			throw new ProjectActivityStateException(textBundle.textFor("PresentationModel.EndDateNotInFuturError")); //$NON-NLS-1$
 		}
 
 		BaralgaEvent eventOnEndDay = null;
-		DateTime stop2 = null;
+		LocalDateTime stop2 = null;
 
 		// If start is on a different day from now end the activity at 0:00 one
 		// day after start.
 		// Also make a new activity from 0:00 the next day until the stop time
 		// of the next day.
-		if (!org.apache.commons.lang3.time.DateUtils.isSameDay(start.toDate(), endDate.toDate())) {
-			DateTime dt = new DateTime(start);
+		if (!org.apache.commons.lang3.time.DateUtils.isSameDay(DateUtils.convertToDate(start), DateUtils.convertToDate(endDate))) {
+			LocalDateTime dt = start.minusDays(0);
 			dt = dt.plusDays(1);
 
-			stop = dt.toDateMidnight().toDateTime();
+			stop = dt.withHour(0).withMinute(0).withSecond(0).withNano(0);
 
 			stop2 = DateUtils.getNowAsDateTime();
-			final DateTime start2 = stop;
+			final LocalDateTime start2 = stop;
 
 			final ProjectActivity activityOnEndDay = new ProjectActivity(start2, stop2, getSelectedProject(), this.description);
 			this.baralgaDAO.addActivity(activityOnEndDay);
@@ -512,7 +512,7 @@ public class PresentationModel {
 			UserSettings.instance().setActiveProjectId(activeProject.getId());
 		}
 
-		final DateTime now = DateUtils.getNowAsDateTime();
+		final LocalDateTime now = DateUtils.getNowAsDateTime();
 
 		// If a project is currently running we create a new project activity.
 		if (isActive()) {
@@ -657,14 +657,14 @@ public class PresentationModel {
 	/**
 	 * Gets the start time of the current activity.
 	 */
-	public final DateTime getStart() {
+	public final LocalDateTime getStart() {
 		return start;
 	}
 
 	/**
 	 * Sets the start of a new activity.
 	 */
-	public final void setStart(final DateTime start) {
+	public final void setStart(final LocalDateTime start) {
 		this.start = start;
 		UserSettings.instance().setStart(start);
 
@@ -675,11 +675,11 @@ public class PresentationModel {
 		notify(event);
 	}
 
-	public final DateTime getStop() {
+	public final LocalDateTime getStop() {
 		return stop;
 	}
 
-	private void setStop(final DateTime stop) {
+	private void setStop(final LocalDateTime stop) {
 		this.stop = stop;
 	}
 

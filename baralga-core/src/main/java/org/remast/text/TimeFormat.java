@@ -5,9 +5,9 @@ import java.text.FieldPosition;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
-
-import org.joda.time.DateTime;
 
 /**
  * Custom format for time in format HH:mm e.g. 12:00.
@@ -21,12 +21,13 @@ public class TimeFormat extends DateFormat {
      */
     public static final String HHMM_FORMAT = "HH:mm"; //$NON-NLS-1$
 
+    private static final DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern(HHMM_FORMAT);
+    
     private static final DateFormat timeFormat = new SimpleDateFormat(HHMM_FORMAT);
 
-    public static DateTime parseTime(final String time) throws ParseException {
-        synchronized (timeFormat) {
-            return new DateTime(timeFormat.parse(time));
-        }
+
+    public static LocalTime parseTime(final String time) throws ParseException {
+        return LocalTime.parse(time, dateTimeFormat);
     }
 
     /**

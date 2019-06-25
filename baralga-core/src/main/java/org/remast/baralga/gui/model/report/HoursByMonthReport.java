@@ -1,6 +1,7 @@
 package org.remast.baralga.gui.model.report;
 
-import org.joda.time.DateTime;
+import java.time.LocalDateTime;
+
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.model.ProjectActivity;
@@ -50,7 +51,7 @@ public class HoursByMonthReport {
     }
 
     public void addHours(final ProjectActivity activity) {
-        final DateTime dateTime = activity.getStart();
+        final LocalDateTime dateTime = activity.getStart();
 
         final HoursByMonth newHoursByMonth = new HoursByMonth(dateTime, activity.getDuration());
 

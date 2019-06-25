@@ -7,11 +7,13 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Properties;
 
-import org.joda.time.DateTime;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.baralga.model.filter.SpanType;
 import org.slf4j.Logger;
@@ -262,15 +264,15 @@ public final class UserSettings {
 	/** Active Flag. */
 	private static final String START = "start"; //$NON-NLS-1$
 
-	public DateTime getStart() {
+	public LocalDateTime getStart() {
 		return doGetDate(START, null);
 	}
 
-	public void setStart(final DateTime start) {
+	public void setStart(final LocalDateTime start) {
 		if (start == null) {
 			userConfig.setProperty(START, String.valueOf(null));
 		} else {
-			userConfig.setProperty(START, String.valueOf(start.getMillis()));
+			userConfig.setProperty(START, String.valueOf(start.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()));
 		}
 		
 		// Auto save change
@@ -584,11 +586,11 @@ public final class UserSettings {
 	 * @param defaultValue the default value of the property to get
 	 * @return the property value if set and correct otherwise the default value
 	 */
-	private DateTime doGetDate(final String key, final DateTime defaultValue) {
+	private LocalDateTime doGetDate(final String key, final LocalDateTime defaultValue) {
 		try {
 			Long defaultMillis = null;
 			if (defaultValue != null) {
-				defaultMillis = defaultValue.getMillis();	
+				defaultMillis = defaultValue.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();	
 			}
 
             final String dateMillisecondsString = userConfig.getProperty(key, defaultMillis != null ? String.valueOf(defaultMillis) : null);
@@ -601,7 +603,7 @@ public final class UserSettings {
 				return null;
 			}
 
-			return new DateTime(dateMilliseconds);
+			return Instant.ofEpochMilli(dateMilliseconds).atZone(ZoneId.systemDefault()).toLocalDateTime();
 		} catch (Throwable t) {
 			log.error(t.getLocalizedMessage(), t);
 			return defaultValue;

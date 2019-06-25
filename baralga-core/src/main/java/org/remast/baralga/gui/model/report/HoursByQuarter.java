@@ -2,12 +2,13 @@ package org.remast.baralga.gui.model.report;
 
 import com.google.common.base.Objects;
 
+import java.time.LocalDateTime;
+import java.time.temporal.IsoFields;
 import java.util.Date;
 
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.jfree.data.time.Quarter;
-import org.joda.time.DateTime;
+import org.remast.util.DateUtils;
 
 /**
  * Item of the hours by quater report.
@@ -15,17 +16,17 @@ import org.joda.time.DateTime;
  */
 public class HoursByQuarter implements Comparable<HoursByQuarter> {
     
-    private DateTime date;
+    private LocalDateTime date;
     
     /** The quarter of the year. */
-    private Quarter quarter;
+    private Integer quarter;
     
     /** The amount of hours worked that month. */
     private double hours;
     
-    public HoursByQuarter(final DateTime date, final double hours) {
-	this.date = date;
-        this.quarter = new Quarter(date.toDate());
+    public HoursByQuarter(final LocalDateTime date, final double hours) {
+        this.date = date;
+        this.quarter = date.get(IsoFields.QUARTER_OF_YEAR);
         this.hours = hours;
     }
 
@@ -33,13 +34,13 @@ public class HoursByQuarter implements Comparable<HoursByQuarter> {
      * @return the date
      */
     public Date getDate() {
-        return date.toDate();
+        return DateUtils.convertToDate(date);
     }
 
     /**
      * @return the quarter
      */
-    public Quarter getQuarter() {
+    public Integer getQuarter() {
         return quarter;
     }
 
@@ -63,7 +64,7 @@ public class HoursByQuarter implements Comparable<HoursByQuarter> {
         
         final EqualsBuilder eqBuilder = new EqualsBuilder();
         eqBuilder.append(this.date.getYear(), accAct.date.getYear());
-        eqBuilder.append(this.quarter.getQuarter(), accAct.quarter.getQuarter());
+        eqBuilder.append(this.quarter, accAct.quarter);
         
         return eqBuilder.isEquals();
     }
@@ -89,7 +90,7 @@ public class HoursByQuarter implements Comparable<HoursByQuarter> {
         final CompareToBuilder compareBuilder = new CompareToBuilder();
         
         compareBuilder.append(date.getYear(), that.date.getYear());
-        compareBuilder.append(quarter.getQuarter(), that.quarter.getQuarter());
+        compareBuilder.append(quarter, that.quarter);
         
         // Sort by start date but the other way round. That way the latest
         // activity is always on top.
@@ -100,7 +101,7 @@ public class HoursByQuarter implements Comparable<HoursByQuarter> {
     public int hashCode() {
         return Objects.hashCode(
                 date.getYear(),
-                quarter.getQuarter()
+                quarter
         );
     }
 

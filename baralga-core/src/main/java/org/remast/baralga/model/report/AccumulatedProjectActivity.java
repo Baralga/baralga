@@ -3,20 +3,21 @@ package org.remast.baralga.model.report;
 import com.google.common.base.Objects;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.joda.time.DateTime;
 import org.remast.baralga.model.Project;
+import org.remast.util.DateUtils;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class AccumulatedProjectActivity implements Comparable<AccumulatedProjectActivity> {
 
-    private final DateTime day;
+    private final LocalDateTime day;
 
     private final Project project;
 
     private double time;
 
-    public AccumulatedProjectActivity(final Project project, final DateTime day, final double time) {
+    public AccumulatedProjectActivity(final Project project, final LocalDateTime day, final double time) {
         this.project = project;
         this.day = day;
         this.time = time;
@@ -26,13 +27,13 @@ public class AccumulatedProjectActivity implements Comparable<AccumulatedProject
      * @return the day
      */
     public Date getDay() {
-        return day.toDate();
+        return DateUtils.convertToDate(day);
     }
     
     /**
      * @return the day
      */
-    public DateTime getDayDateTime() {
+    public LocalDateTime getDayDateTime() {
     	return day;
     }
 

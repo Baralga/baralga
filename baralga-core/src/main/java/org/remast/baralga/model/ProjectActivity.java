@@ -1,10 +1,11 @@
 package org.remast.baralga.model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
 import org.remast.baralga.FormatUtils;
 import org.remast.text.DurationFormat;
 
@@ -26,10 +27,10 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
     private long id;
 
     /** Start date of this activity. */
-    private DateTime start;
+    private LocalDateTime start;
 
     /** End date of this activity. */
-    private DateTime end;
+    private LocalDateTime end;
 
     /** The project associated with this activity. */
     private Project project;
@@ -60,7 +61,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
      * Creates a new {@link ProjectActivity} with an empty description.
      * @throws IllegalArgumentException if end time is before start time
      */
-    public ProjectActivity(final DateTime start, final DateTime end, final Project project) {
+    public ProjectActivity(final LocalDateTime start, final LocalDateTime end, final Project project) {
         this(start, end, project, null);
     }
 
@@ -68,7 +69,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
      * Creates a new {@link ProjectActivity}.     *
      * @throws IllegalArgumentException if end time is before start time
      */
-    public ProjectActivity(final DateTime start, final DateTime end, final Project project,
+    public ProjectActivity(final LocalDateTime start, final LocalDateTime end, final Project project,
             final String description) {
         if (start.isAfter(end)) {
             throw new IllegalArgumentException("End time may not be before start time!");
@@ -96,15 +97,15 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
      * @param day the new activity day.
      *   Hours, minutes, seconds and so on in the passed value are ignored.
      */
-    public void setDay(final DateTime day) {
-        DateTime newStartDay = getStart();
-        this.start = newStartDay.withYear(day.getYear()).withMonthOfYear(day.getMonthOfYear())
+    public void setDay(final LocalDateTime day) {
+        LocalDateTime newStartDay = getStart();
+        this.start = newStartDay.withYear(day.getYear()).withMonth(day.getMonthValue())
             .withDayOfMonth(day.getDayOfMonth());
 
-        DateTime newEndDay = getEnd();
-        newEndDay = newEndDay.withYear(day.getYear()).withMonthOfYear(day.getMonthOfYear())
+        LocalDateTime newEndDay = getEnd();
+        newEndDay = newEndDay.withYear(day.getYear()).withMonth(day.getMonthValue())
             .withDayOfMonth(day.getDayOfMonth());
-        if (newEndDay.getHourOfDay() == 0 && newEndDay.getMinuteOfHour() == 0) {
+        if (newEndDay.getHour() == 0 && newEndDay.getHour() == 0) {
             newEndDay = newEndDay.plusDays(1);
         }
         
@@ -115,11 +116,11 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
      * Returns the day of the activity. 
      * Hours, minutes, seconds of the returned value are to be ignored.
      */
-    public DateTime getDay() {
-        return getStart().withMillisOfDay(0);
+    public LocalDateTime getDay() {
+        return getStart().withNano(0).withSecond(0);
     }
 
-    public DateTime getEnd() {
+    public LocalDateTime getEnd() {
         return end;
     }
     
@@ -131,18 +132,18 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
      * @throws IllegalArgumentException if end time is before start time
      */
     public void setEndTime(final int hours, final int minutes) {
-        DateTime endDate = getEnd();
-        if (hours == endDate.getHourOfDay() && minutes == endDate.getMinuteOfHour()) {
+        LocalDateTime endDate = getEnd();
+        if (hours == endDate.getHour() && minutes == endDate.getMinute()) {
             return;
         }
         
-        if (endDate.getHourOfDay() == 0 && endDate.getMinuteOfHour() == 0) { // adjust day if old end was on midnight
+        if (endDate.getHour() == 0 && endDate.getMinute() == 0) { // adjust day if old end was on midnight
             endDate = endDate.minusDays(1);
         } else if (hours == 0 && minutes == 0) { // adjust day if new end is on midnight
             endDate = endDate.plusDays(1);
         }
         
-        endDate = endDate.withHourOfDay(hours).withMinuteOfHour(minutes);
+        endDate = endDate.withHour(hours).withMinute(minutes);
         
         if (endDate.isBefore(getStart())) {
             throw new IllegalArgumentException("End time may not be before start time!");
@@ -163,7 +164,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
         this.project = project;
     }
 
-    public DateTime getStart() {
+    public LocalDateTime getStart() {
         return start;
     }
     
@@ -174,12 +175,12 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
      * @throws IllegalArgumentException if end time is before start time
      */
     public void setStartTime(final int hours, final int minutes) {
-        DateTime startTime = getStart();
-        if (hours == startTime.getHourOfDay() && minutes == startTime.getMinuteOfHour()) {
+        LocalDateTime startTime = getStart();
+        if (hours == startTime.getHour() && minutes == startTime.getMinute()) {
             return;
         }
         
-        startTime = startTime.withHourOfDay(hours).withMinuteOfHour(minutes);
+        startTime = startTime.withHour(hours).withMinute(minutes);
         
         if (startTime.isAfter(getEnd())) {
             throw new IllegalArgumentException("End time may not be before start time!");
@@ -203,8 +204,8 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
 
         // Sort by start date but the other way round. That way the latest
         // activity is always on top.
-        final DateTime startDateTime =  this.getDay().withHourOfDay(getStart().getHourOfDay()).withMinuteOfHour(getStart().getMinuteOfHour());
-        final DateTime startDateTimeOther =  activity.getDay().withHourOfDay(activity.getStart().getHourOfDay()).withMinuteOfHour(activity.getStart().getMinuteOfHour());
+        final LocalDateTime startDateTime =  this.getDay().withHour(getStart().getHour()).withMinute(getStart().getMinute());
+        final LocalDateTime startDateTimeOther =  activity.getDay().withHour(activity.getStart().getHour()).withMinute(activity.getStart().getMinute());
 
         return startDateTime.compareTo(startDateTimeOther) * -1;
     }
@@ -214,7 +215,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
      * @return decimal value of the duration (e.g. for 30 minutes, 0.5 and so on)
      */    
     public final double getDuration() {
-        final long timeMilliSec = end.getMillis() - start.getMillis();
+        final long timeMilliSec = end.toInstant(ZoneOffset.ofTotalSeconds(0)).toEpochMilli() - start.toInstant(ZoneOffset.ofTotalSeconds(0)).toEpochMilli();
         final double timeMin = timeMilliSec / 1000.0 / 60.0;
         final double hours = timeMin / 60.0;
         return hours;
