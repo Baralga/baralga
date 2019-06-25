@@ -39,7 +39,7 @@ public class DataBackup {
 	private static final String ERROR_FILE_NAME = UserSettings.DEFAULT_FILE_NAME + ".Error";
 
 	/** The number of backup files to keep. */
-	private static final int NUMBER_OF_BACKUPS = 3;
+	private static final int NUMBER_OF_BACKUPS = 10;
 
 	private PresentationModel presentationModel;
 
