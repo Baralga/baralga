@@ -66,6 +66,7 @@ public class XmlExporter implements Exporter {
         for (Project project : projects) {
         	Element projectElement = document.createElement("project");
         	projectElement.setAttribute("id", String.valueOf(project.getId()));
+            projectElement.setAttribute("active", String.valueOf(project.isActive()));
 
         	Element titleElement = document.createElement("title");
         	titleElement.appendChild(document.createTextNode(StringEscapeUtils.escapeXml10(project.getTitle())));
