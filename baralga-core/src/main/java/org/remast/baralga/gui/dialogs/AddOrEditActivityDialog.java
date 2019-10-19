@@ -95,7 +95,7 @@ public class AddOrEditActivityDialog extends EscapeDialog {
     // ------------------------------------------------
 
     /** Activity before being edited. */
-    private ProjectActivity oldActivity = null;
+    private ProjectActivity oldActivity;
 
     // ------------------------------------------------
     // Fields for project activity

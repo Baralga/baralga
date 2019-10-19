@@ -169,7 +169,7 @@ public class Filter {
             return true;
         }
         
-        if (that == null || !(that instanceof Filter)) {
+        if (!(that instanceof Filter)) {
             return false;
         }
         

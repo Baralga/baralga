@@ -34,12 +34,12 @@ public class EditStack {
     /**
      * The undoable edit events.
      */
-    private final Stack<BaralgaEvent> undoStack = new Stack<BaralgaEvent>();
+    private final Stack<BaralgaEvent> undoStack = new Stack<>();
 
     /**
      * The redoable edit events.
      */
-    private final Stack<BaralgaEvent> redoStack = new Stack<BaralgaEvent>();
+    private final Stack<BaralgaEvent> redoStack = new Stack<>();
 
     /** The model. */
     private PresentationModel model;
@@ -58,7 +58,7 @@ public class EditStack {
 
     @Subscribe 
     public void update(final Object eventObject) {
-        if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
+        if (!(eventObject instanceof BaralgaEvent)) {
             return;
         }
 
@@ -77,7 +77,6 @@ public class EditStack {
 
     /**
      * Enable or disable actions.
-     * @param event 
      */
     private void updateActions() {
         if (undoStack != null && !undoStack.isEmpty()) {

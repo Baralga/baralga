@@ -66,22 +66,19 @@ public class DescriptionPanelEntry extends JPanel {
 		this.add(editor, "1, 3");
 
 
-        editor.addTextObserver(new JTextEditor.TextChangeObserver() {
+        editor.addTextObserver(() -> {
+            final String oldDescription = activity.getDescription();
+            final String newDescription = editor.getText();
 
-            public void onTextChange() {
-                final String oldDescription = activity.getDescription();
-                final String newDescription = editor.getText();
+            activity.setDescription(newDescription);
 
-                activity.setDescription(newDescription);
-
-                final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(
-                        activity, 
-                        ProjectActivity.PROPERTY_DESCRIPTION, 
-                        oldDescription, 
-                        newDescription
-                );
-                model.fireProjectActivityChangedEvent(activity, propertyChangeEvent);
-            }
+            final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(
+                    activity,
+                    ProjectActivity.PROPERTY_DESCRIPTION,
+                    oldDescription,
+                    newDescription
+            );
+            model.fireProjectActivityChangedEvent(activity, propertyChangeEvent);
         });
     }
 

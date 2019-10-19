@@ -94,39 +94,19 @@ public class SettingsDialog extends EscapeDialog implements ActionListener {
 		showStopwatch = new JCheckBox(textBundle.textFor("SettingsDialog.ShowStopwatch.Title")); //$NON-NLS-1$
 		showStopwatch.setToolTipText(textBundle.textFor("SettingsDialog.ShowStopwatch.ToolTipText")); //$NON-NLS-1$
 		showStopwatch.addActionListener(this);
-		showStopwatch.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				model.changeStopWatchVisibility();
-			}
-		});
+		showStopwatch.addActionListener(e -> model.changeStopWatchVisibility());
 
 		this.add(showStopwatch, "1, 5, 1, 1"); //$NON-NLS-1$
 
         durationFormatSelector = new JComboBox<>(DURATION_FORMAT_OPTIONS);
         durationFormatSelector.addActionListener(this);
-        durationFormatSelector.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                SettingsDialog.this.model.fireDurationFormatChanged();
-            }
-
-        });
+        durationFormatSelector.addActionListener(e -> SettingsDialog.this.model.fireDurationFormatChanged());
         this.add(new JLabel(textBundle.textFor("SettingsDialog.DurationFormat.Label")), "1, 7, 1, 1"); //$NON-NLS-1$
         this.add(durationFormatSelector, "3, 7, 3, 5"); //$NON-NLS-1$
 
 		final JButton resetButton = new JButton(textBundle.textFor("SettingsDialog.ResetButton.Title")); //$NON-NLS-1$
 		resetButton.setToolTipText(textBundle.textFor("SettingsDialog.ResetButton.ToolTipText")); //$NON-NLS-1$
-		resetButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(final ActionEvent e) {
-				resetSettings();
-			}
-
-		});
+		resetButton.addActionListener(e -> resetSettings());
 
 		this.add(resetButton, "1, 9, 3, 5"); //$NON-NLS-1$
 

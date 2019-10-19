@@ -31,7 +31,7 @@ public final class UserSettings {
 	/** Default name of the ProTrack data file. */
 	public static final String DEFAULT_FILE_NAME = "Data.baralga.xml"; //$NON-NLS-1$
 
-	public static final long DEFAULT_INACTIVITY_THRESHOLD = 1000 * 60 * 5; // 5 minutes
+	public static final long DEFAULT_INACTIVITY_THRESHOLD = 1000L * 60 * 5; // 5 minutes
 	
 	/**
 	 * Get the location of the data file.
@@ -402,8 +402,7 @@ public final class UserSettings {
 		final Iterable<String> sizeValues = Splitter.on('|').split(encodedSize);
 		final Iterator<String> sizeValuesIterator = sizeValues.iterator();
 
-		final Dimension size = new Dimension(Double.valueOf(sizeValuesIterator.next()).intValue(), Double.valueOf(sizeValuesIterator.next()).intValue());
-		return size;
+		return new Dimension(Double.valueOf(sizeValuesIterator.next()).intValue(), Double.valueOf(sizeValuesIterator.next()).intValue());
 	}
 
 	public void setWindowSize(final Dimension size) {
@@ -429,8 +428,7 @@ public final class UserSettings {
 		final Iterable<String> locationCoordinates = Splitter.on('|').split(encodedLocation);
 		final Iterator<String> locationCoordinatesIterator = locationCoordinates.iterator();
 
-		final Point location = new Point(Double.valueOf(locationCoordinatesIterator.next()).intValue(), Double.valueOf(locationCoordinatesIterator.next()).intValue());
-		return location;
+		return new Point(Double.valueOf(locationCoordinatesIterator.next()).intValue(), Double.valueOf(locationCoordinatesIterator.next()).intValue());
 	}
 
 	public void setWindowLocation(final Point location) {
@@ -454,8 +452,7 @@ public final class UserSettings {
 		final Iterable<String> sizeValues = Splitter.on('|').split(encodedSize);
 		final Iterator<String> sizeValuesIterator = sizeValues.iterator();
 
-		final Dimension size = new Dimension(Double.valueOf(sizeValuesIterator.next()).intValue(), Double.valueOf(sizeValuesIterator.next()).intValue());
-		return size;
+		return new Dimension(Double.valueOf(sizeValuesIterator.next()).intValue(), Double.valueOf(sizeValuesIterator.next()).intValue());
 	}
 
 	public void setStopwatchWindowSize(final Dimension size) {
@@ -479,8 +476,7 @@ public final class UserSettings {
 		final Iterable<String> locationCoordinates = Splitter.on('|').split(encodedLocation);
 		final Iterator<String> locationCoordinatesIterator = locationCoordinates.iterator();
 
-		final Point location = new Point(Double.valueOf(locationCoordinatesIterator.next()).intValue(), Double.valueOf(locationCoordinatesIterator.next()).intValue());
-		return location;
+		return new Point(Double.valueOf(locationCoordinatesIterator.next()).intValue(), Double.valueOf(locationCoordinatesIterator.next()).intValue());
 	}
 
 	public void setStopwatchWindowLocation(final Point location) {
@@ -609,23 +605,13 @@ public final class UserSettings {
 	}
 	
     public void save() {
-        OutputStream out = null;
-        try
-        {
-            out = new FileOutputStream(userConfigFile);
-            userConfig.store(out, "Created at " + new Date());
-        } catch (IOException e) {
-        	log.error(e.getLocalizedMessage(), e);
-        } finally {
-        	if (out != null) {
-        		try {
-					out.close();
-				} catch (IOException e) {
-					// Ignore
-				}
-        	}
-        }
-    }
+		try (OutputStream out = new FileOutputStream(userConfigFile)) {
+			userConfig.store(out, "Created at " + new Date());
+		} catch (IOException e) {
+			log.error(e.getLocalizedMessage(), e);
+		}
+		// Ignore
+	}
 
 	public long getInactivityThreshold() {
 		return doGetLong("settings.userInactivityThreshold", DEFAULT_INACTIVITY_THRESHOLD);

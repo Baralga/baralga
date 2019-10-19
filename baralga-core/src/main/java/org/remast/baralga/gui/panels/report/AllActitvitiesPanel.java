@@ -111,28 +111,23 @@ public class AllActitvitiesPanel extends JPanel {
 				new DefaultTableRenderer(new FormatStringValue(new DurationFormat()))
 				);
 
-		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-
-			@Override
-			public void valueChanged(final ListSelectionEvent event) {
-				if (table.getSelectedRows() == null) {
-					table.setToolTipText(null);
-				}
-
-				double duration = 0;
-
-				for (int i : table.getSelectedRows()) {
-					try {
-						duration += model.getActivitiesList().get(i).getDuration();
-					} catch (IndexOutOfBoundsException e) {
-						// Exception occurs when user has selected entries and then the filter changes.
-						// Therefore we can safely ignore the exception and keep going.
-					}
-				}
-
-				table.setToolTipText(textBundle.textFor("AllActivitiesPanel.tooltipDuration", new DurationFormat().format(duration))); //$NON-NLS-1$
+		table.getSelectionModel().addListSelectionListener(event -> {
+			if (table.getSelectedRows() == null) {
+				table.setToolTipText(null);
 			}
 
+			double duration = 0;
+
+			for (int i : table.getSelectedRows()) {
+				try {
+					duration += model.getActivitiesList().get(i).getDuration();
+				} catch (IndexOutOfBoundsException e) {
+					// Exception occurs when user has selected entries and then the filter changes.
+					// Therefore we can safely ignore the exception and keep going.
+				}
+			}
+
+			table.setToolTipText(textBundle.textFor("AllActivitiesPanel.tooltipDuration", new DurationFormat().format(duration))); //$NON-NLS-1$
 		});
 
 		final JPopupMenu contextMenu = new JPopupMenu();

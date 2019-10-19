@@ -26,7 +26,7 @@ public class ProjectPredicate implements Predicate<ProjectActivity> {
 
     /**
      * Checks if this predicate holds for the given object.
-     * @param object the object to check
+     * @param activity the object to check
      * @return <code>true</code> if the given object is a project activity
      * of that project else <code>false</code>
      */

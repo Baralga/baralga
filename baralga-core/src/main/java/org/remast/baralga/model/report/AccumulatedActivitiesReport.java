@@ -28,7 +28,7 @@ public class AccumulatedActivitiesReport extends Observable {
     public AccumulatedActivitiesReport(final Collection<ProjectActivity> data, Filter filter) {
         this.data = data;
         this.filter = filter;
-        this.accumulatedActivitiesByDay = new SortedList<AccumulatedProjectActivity>(new BasicEventList<AccumulatedProjectActivity>());
+        this.accumulatedActivitiesByDay = new SortedList<>(new BasicEventList<>());
 
         accumulate();
     }
@@ -39,7 +39,7 @@ public class AccumulatedActivitiesReport extends Observable {
 
         // accumulate activities for every day
         for (AccumulatedProjectActivity activity : accumulatedActivitiesByDay) {
-            result.append(activity.toString() + ":"); //$NON-NLS-1$
+            result.append(activity.toString()).append(":"); //$NON-NLS-1$
         }
 
         return "[" + result.toString() + "]"; //$NON-NLS-1$ //$NON-NLS-2$

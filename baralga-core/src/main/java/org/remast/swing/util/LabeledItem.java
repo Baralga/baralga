@@ -66,7 +66,7 @@ public class LabeledItem<E extends Comparable<E>> implements Comparable<LabeledI
 	@Override
 	@SuppressWarnings("unchecked")
     public boolean equals(final Object obj) {
-        if (obj == null || !(obj instanceof LabeledItem)) {
+        if (!(obj instanceof LabeledItem)) {
             return false;
         }
 

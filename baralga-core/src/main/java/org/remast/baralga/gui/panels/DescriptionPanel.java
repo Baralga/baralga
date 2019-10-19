@@ -44,7 +44,7 @@ public class DescriptionPanel extends JPanel {
 		super();
 		this.setLayout(new BorderLayout());
 		this.model = model;
-		this.entriesByActivity = new HashMap<ProjectActivity, DescriptionPanelEntry>();
+		this.entriesByActivity = new HashMap<>();
         this.model.getEventBus().register(this);
 
 		initialize();
@@ -92,7 +92,7 @@ public class DescriptionPanel extends JPanel {
 
 	@SuppressWarnings("unchecked")
 	@Subscribe public void update(final Object eventObject) {
-		if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
+		if (!(eventObject instanceof BaralgaEvent)) {
 			return;
 		}
 

@@ -104,15 +104,9 @@ public class DataBackup {
 		final SortedMap<Date, File> sortedBackupFiles = new TreeMap<>();
 
 		final File dir = ApplicationSettings.instance().getApplicationDataDirectory();
-		final String [] backupFiles = dir.list(new FilenameFilter() {
-
-			public boolean accept(final File dir, final String name) {
-				return !Objects.equals(ERROR_FILE_NAME, name)
-						&& !Objects.equals(UserSettings.DEFAULT_FILE_NAME, name)
-						&& name.startsWith(UserSettings.DEFAULT_FILE_NAME);
-			}
-
-		});
+		final String [] backupFiles = dir.list((dir1, name) -> !Objects.equals(ERROR_FILE_NAME, name)
+				&& !Objects.equals(UserSettings.DEFAULT_FILE_NAME, name)
+				&& name.startsWith(UserSettings.DEFAULT_FILE_NAME));
 
 		if (backupFiles == null) {
 			return Collections.emptyList();

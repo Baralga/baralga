@@ -65,18 +65,14 @@ public class TrayIcon {
         trayIcon.setJPopupMenu(menu);
         trayIcon.setImageAutoSize(true);
 
-        trayIcon.addActionListener(new ActionListener() {
-
-            public void actionPerformed(final ActionEvent event) {
-            	// Show main frame if it is not already shown
-            	if (!mainFrame.isVisible()) {
-            		mainFrame.setVisible(true);
-            	}
-            	
-                mainFrame.setState(JFrame.NORMAL);
-                mainFrame.requestFocus();
+        trayIcon.addActionListener(event -> {
+            // Show main frame if it is not already shown
+            if (!mainFrame.isVisible()) {
+                mainFrame.setVisible(true);
             }
 
+            mainFrame.setState(JFrame.NORMAL);
+            mainFrame.requestFocus();
         });
 
         if (model.isActive()) {
@@ -142,7 +138,7 @@ public class TrayIcon {
 
     @Subscribe 
     public void update(final Object eventObject) {
-        if (eventObject != null && eventObject instanceof BaralgaEvent) {
+        if (eventObject instanceof BaralgaEvent) {
             BaralgaEvent event = (BaralgaEvent) eventObject;
 
             switch (event.getType()) {

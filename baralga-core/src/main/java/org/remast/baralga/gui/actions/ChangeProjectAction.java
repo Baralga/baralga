@@ -42,7 +42,7 @@ public class ChangeProjectAction extends AbstractBaralgaAction {
         }
 
         putValue(NAME, projectName);
-        putValue(SHORT_DESCRIPTION, textBundle.textFor("ChangeProjectAction.ShortDescription") + String.valueOf(newProject) + "."); //$NON-NLS-1$ //$NON-NLS-2$
+        putValue(SHORT_DESCRIPTION, textBundle.textFor("ChangeProjectAction.ShortDescription") + newProject + "."); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /**
@@ -94,6 +94,6 @@ public class ChangeProjectAction extends AbstractBaralgaAction {
         final Object selectedValue = pane.getValue();
 
         return (selectedValue instanceof Integer)
-        && (((Integer) selectedValue).intValue() == JOptionPane.YES_OPTION);
+        && ((Integer) selectedValue == JOptionPane.YES_OPTION);
     }
 }

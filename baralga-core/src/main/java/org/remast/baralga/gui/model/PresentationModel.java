@@ -101,9 +101,9 @@ public class PresentationModel {
 	 * Creates a new model.
 	 */
 	public PresentationModel() {
-		this.projectList = new SortedList<>(new BasicEventList<Project>());
-		this.allProjectsList = new SortedList<>(new BasicEventList<Project>());
-		this.activitiesList = new SortedList<>(new BasicEventList<ProjectActivity>());
+		this.projectList = new SortedList<>(new BasicEventList<>());
+		this.allProjectsList = new SortedList<>(new BasicEventList<>());
+		this.activitiesList = new SortedList<>(new BasicEventList<>());
 	}
 
 	/**
@@ -185,7 +185,7 @@ public class PresentationModel {
 	 */
 	public final void addProject(final Project project, final Object source) {
 		if (log.isDebugEnabled()) {
-			log.debug("Adding project " + String.valueOf(project) + ".");
+			log.debug("Adding project " + project + ".");
 		}
 
 		this.baralgaDAO.addProject(project);
@@ -209,7 +209,7 @@ public class PresentationModel {
 	 */
 	public final void removeProject(final Project project, final Object source) {
 		if (log.isDebugEnabled()) {
-			log.debug("Removing project " + String.valueOf(project) + ".");
+			log.debug("Removing project " + project + ".");
 		}
 
 		if (source.getClass().equals(BaralgaMain.class)) {
@@ -263,7 +263,7 @@ public class PresentationModel {
 	 */
 	public final void start(final DateTime startTime) throws ProjectActivityStateException {
 		if (log.isDebugEnabled()) {
-			log.debug("Starting activity at " + String.valueOf(startTime) + ".");
+			log.debug("Starting activity at " + startTime + ".");
 		}
 
 		if (getSelectedProject() == null) {
@@ -310,7 +310,7 @@ public class PresentationModel {
 	 */
 	private void notify(final BaralgaEvent event) {
 		if (log.isDebugEnabled()) {
-			log.debug("Sending event notification for " + String.valueOf(event) + ".");
+			log.debug("Sending event notification for " + event + ".");
 		}
 
 		eventBus.post(event);
@@ -491,7 +491,7 @@ public class PresentationModel {
 	 */
 	public final void changeProject(final Project activeProject) {
 		if (log.isDebugEnabled()) {
-			log.debug("Changing project to " + String.valueOf(activeProject) + ".");
+			log.debug("Changing project to " + activeProject + ".");
 		}
 
 		// If there's no change we're done.
@@ -561,7 +561,7 @@ public class PresentationModel {
 	 */
 	public final void addActivity(final ProjectActivity activity, final Object source) {
 		if (log.isDebugEnabled()) {
-			log.debug("Adding activity " + String.valueOf(activity) + ".");
+			log.debug("Adding activity " + activity + ".");
 		}
 
 		final List<ProjectActivity> activities = new ArrayList<>(1);
@@ -589,7 +589,7 @@ public class PresentationModel {
 	 */
 	public final void removeActivity(final ProjectActivity activity, final Object source) {
 		if (log.isDebugEnabled()) {
-			log.debug("Removing activity " + String.valueOf(activity) + ".");
+			log.debug("Removing activity " + activity + ".");
 		}
 
 		final List<ProjectActivity> activities = new ArrayList<>(1);
@@ -772,11 +772,9 @@ public class PresentationModel {
 
 	/**
 	 * Save the model.
-	 * 
-	 * @throws Exception
-	 *             on error during saving
+	 *
 	 */
-	public final void save() throws Exception {
+	public final void save() {
 		new DataBackup(this).createBackup();
 	}
 

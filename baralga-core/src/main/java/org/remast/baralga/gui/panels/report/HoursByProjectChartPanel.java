@@ -70,7 +70,7 @@ public class HoursByProjectChartPanel extends JXPanel {
 
     @Subscribe
     public void update(final Object o) {
-        if (o != null && o instanceof HoursByProjectReport) {
+        if (o instanceof HoursByProjectReport) {
             initChartData();
         }
     }

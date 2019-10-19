@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -100,6 +101,7 @@ public class XmlExporter implements Exporter {
         
         // Output the XML
         TransformerFactory transfac = TransformerFactory.newInstance();
+		transfac.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
         Transformer trans = transfac.newTransformer();
 //        trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
         trans.setOutputProperty(OutputKeys.INDENT, "yes");

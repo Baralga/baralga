@@ -41,7 +41,7 @@ public class StopWatch extends JWindow {
 
 	@Subscribe
 	public void update(final Object eventObject) {
-		if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
+		if (!(eventObject instanceof BaralgaEvent)) {
 			return;
 		}
 

@@ -27,7 +27,7 @@ public class HoursByProjectReport {
     public HoursByProjectReport(final PresentationModel model) {
         this.model = model;
         this.model.getEventBus().register(this);
-        this.hoursByProjectList = new SortedList<HoursByProject>(new BasicEventList<HoursByProject>());
+        this.hoursByProjectList = new SortedList<>(new BasicEventList<>());
 
         calculateHours();
     }
@@ -66,7 +66,7 @@ public class HoursByProjectReport {
 
     @Subscribe 
     public void update(final Object eventObject) {
-        if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
+        if (!(eventObject instanceof BaralgaEvent)) {
             return;
         }
 

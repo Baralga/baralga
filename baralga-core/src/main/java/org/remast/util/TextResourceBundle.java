@@ -71,8 +71,7 @@ public final class TextResourceBundle {
             throw new IllegalArgumentException("Parameter clazz may not be null.");
         }
 
-        final TextResourceBundle textBundle = new TextResourceBundle(clazz);
-        return textBundle;
+        return new TextResourceBundle(clazz);
     }
 
     /**

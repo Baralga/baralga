@@ -32,7 +32,7 @@ public class ProjectFilterList {
 
     public static final Project ALL_PROJECTS_DUMMY = new Project(ALL_PROJECTS_DUMMY_VALUE, "*", "*"); //$NON-NLS-1$ //$NON-NLS-2$
 
-    public static final LabeledItem<Project> ALL_PROJECTS_FILTER_ITEM = new LabeledItem<Project>(ALL_PROJECTS_DUMMY, textBundle.textFor("ProjectFilterList.AllProjectsLabel")); //$NON-NLS-1$
+    public static final LabeledItem<Project> ALL_PROJECTS_FILTER_ITEM = new LabeledItem<>(ALL_PROJECTS_DUMMY, textBundle.textFor("ProjectFilterList.AllProjectsLabel")); //$NON-NLS-1$
 
     /** The actual list containing all projects. */
     private final EventList<LabeledItem<Project>> projectList;
@@ -43,7 +43,7 @@ public class ProjectFilterList {
      */
     public ProjectFilterList(final PresentationModel model) {
         this.model = model;
-        this.projectList = new BasicEventList<LabeledItem<Project>>();
+        this.projectList = new BasicEventList<>();
         this.model.getEventBus().register(this);
 
         initialize();
@@ -62,7 +62,7 @@ public class ProjectFilterList {
     }
 
     public SortedList<LabeledItem<Project>> getProjectList() {
-        return new SortedList<LabeledItem<Project>>(this.projectList);
+        return new SortedList<>(this.projectList);
     }
 
     @SuppressWarnings("unchecked")
@@ -105,9 +105,9 @@ public class ProjectFilterList {
             return;
         }
 
-        final LabeledItem<Project> filterItem = new LabeledItem<Project>(project);
+        final LabeledItem<Project> filterItem = new LabeledItem<>(project);
         if (!this.projectList.contains(filterItem)) {
-            this.projectList.add(new LabeledItem<Project>(project));
+            this.projectList.add(new LabeledItem<>(project));
         }
     }
 

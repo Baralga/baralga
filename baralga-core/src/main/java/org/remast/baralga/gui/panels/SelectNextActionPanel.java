@@ -82,7 +82,7 @@ public class SelectNextActionPanel extends JPanel {
 			return;
 		}
 
-		if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
+		if (!(eventObject instanceof BaralgaEvent)) {
 			return;
 		}
 
@@ -103,8 +103,7 @@ public class SelectNextActionPanel extends JPanel {
 	}
 
 	private JLabel getIntroductionLabel() {
-		final JLabel introductionLabel = new JLabel(textBundle.textFor("SelectNextActionPanel.IntroductionLabel.Title")); //$NON-NLS-1$
-		return introductionLabel;
+		return new JLabel(textBundle.textFor("SelectNextActionPanel.IntroductionLabel.Title"));
 	}
 
 	private JPanel getProjectToStartPanel() {
@@ -142,7 +141,7 @@ public class SelectNextActionPanel extends JPanel {
 	@SuppressWarnings("unchecked")
 	private JComboBox<Project> getProjectSelector() {
 		if (projectSelector == null) {
-			projectSelector = new JComboBox<Project>();
+			projectSelector = new JComboBox<>();
 			projectSelector.setToolTipText(textBundle.textFor("SelectNextActionPanel.ProjectSelector.Hint")); //$NON-NLS-1$
 			projectSelector.setModel(new DefaultEventComboBoxModel<Project>(this.model.getProjectList()));
 		}

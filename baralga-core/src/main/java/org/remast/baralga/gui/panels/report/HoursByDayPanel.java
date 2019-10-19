@@ -34,7 +34,7 @@ import java.util.Locale;
 public class HoursByDayPanel extends JXPanel {
 	
 	/** Format for one day in report. */
-	public static DateFormat DAY_FORMAT = new SimpleDateFormat(DateTimeFormat.patternForStyle("S-", Locale.getDefault()) + " EEEEEEEEE");
+	public static final DateFormat DAY_FORMAT = new SimpleDateFormat(DateTimeFormat.patternForStyle("S-", Locale.getDefault()) + " EEEEEEEEE");
 
     /**
      * The report displayed by this panel.
@@ -94,7 +94,7 @@ public class HoursByDayPanel extends JXPanel {
 
    @Subscribe
    public void update(final Object o) {
-        if (o != null && o instanceof HoursByDayReport) {
+        if (o instanceof HoursByDayReport) {
             tableModel.fireTableDataChanged();
         }
     }

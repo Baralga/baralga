@@ -28,7 +28,7 @@ public class HoursByMonthReport {
     public HoursByMonthReport(final PresentationModel model) {
         this.model = model;
         this.model.getEventBus().register(this);
-        this.hoursByMonthList = new SortedList<HoursByMonth>(new BasicEventList<HoursByMonth>());
+        this.hoursByMonthList = new SortedList<>(new BasicEventList<>());
 
         calculateHours();
     }
@@ -69,7 +69,7 @@ public class HoursByMonthReport {
 
     @Subscribe
     public void update(final Object eventObject) {
-        if (eventObject != null && eventObject instanceof BaralgaEvent) {
+        if (eventObject instanceof BaralgaEvent) {
             final BaralgaEvent event = (BaralgaEvent) eventObject;
             switch (event.getType()) {
 

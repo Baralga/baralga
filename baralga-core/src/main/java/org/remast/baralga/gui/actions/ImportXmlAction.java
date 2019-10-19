@@ -56,7 +56,6 @@ public class ImportXmlAction extends AbstractBaralgaAction {
                 final Collection<Project> projectsForImport = reader.getProjects();
                 final Collection<ProjectActivity> activitiesForImport = reader.getActivities();
 
-                boolean doImport = true;
                 final int dialogResult = JOptionPane.showConfirmDialog(
                         getOwner(), 
                         textBundle.textFor("ImportDataAction.Message"),  //$NON-NLS-1$
@@ -64,7 +63,7 @@ public class ImportXmlAction extends AbstractBaralgaAction {
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.INFORMATION_MESSAGE
                 );
-                doImport = JOptionPane.YES_OPTION == dialogResult;
+                boolean doImport = JOptionPane.YES_OPTION == dialogResult;
 
                 if (doImport) {
                     getModel().importData(projectsForImport, activitiesForImport);

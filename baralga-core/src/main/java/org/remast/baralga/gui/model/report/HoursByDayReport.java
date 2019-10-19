@@ -27,7 +27,7 @@ public class HoursByDayReport {
     public HoursByDayReport(final PresentationModel model) {
         this.model = model;
         this.model.getEventBus().register(this);
-        this.hoursByDayList = new SortedList<>(new BasicEventList<HoursByDay>());
+        this.hoursByDayList = new SortedList<>(new BasicEventList<>());
 
         calculateHours();
     }
@@ -66,7 +66,7 @@ public class HoursByDayReport {
 
     @Subscribe
     public void update(final Object eventObject) {
-        if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
+        if (!(eventObject instanceof BaralgaEvent)) {
             return;
         }
 

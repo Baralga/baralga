@@ -21,7 +21,7 @@ public final class ApplicationSettings {
     private static ApplicationSettings instance;
 
     /** Key for the name of the application properties file. */
-    private static String APPLICATION_PROPERTIES_FILENAME = "application.properties"; //$NON-NLS-1$
+    private static final String APPLICATION_PROPERTIES_FILENAME = "application.properties"; //$NON-NLS-1$
 
     /** Node for Baralga application preferences. */
     private Properties applicationConfig;

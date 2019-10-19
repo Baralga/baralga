@@ -104,7 +104,7 @@ public class SelectLastActionPanel extends JPanel {
 			return;
 		}
 
-		if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
+		if (!(eventObject instanceof BaralgaEvent)) {
 			return;
 		}
 
@@ -139,8 +139,7 @@ public class SelectLastActionPanel extends JPanel {
 	}
 
 	private JLabel getIntroductionLabel() {
-		final JLabel introductionLabel = new JLabel(textBundle.textFor("SelectLastActionPanel.IntroductionLabel.Title")); //$NON-NLS-1$
-		return introductionLabel;
+		return new JLabel(textBundle.textFor("SelectLastActionPanel.IntroductionLabel.Title"));
 	}
 
 	private JPanel getWhatToTrackPanel() {
@@ -167,17 +166,14 @@ public class SelectLastActionPanel extends JPanel {
 
 		descriptionEditor = new JTextEditor(true);
 		descriptionEditor.setBorder(BorderFactory.createLineBorder(GuiConstants.VERY_LIGHT_GREY));
-		descriptionEditor.addTextObserver(new JTextEditor.TextChangeObserver() {
+		descriptionEditor.addTextObserver(() -> {
+			final String description = descriptionEditor.getText();
 
-			public void onTextChange() {
-				final String description = descriptionEditor.getText();
+			// Store in model
+			model.setDescription(description);
 
-				// Store in model
-				model.setDescription(description);
-
-				// Save description in settings.
-				UserSettings.instance().setLastDescription(description);
-			}
+			// Save description in settings.
+			UserSettings.instance().setLastDescription(description);
 		});
 
 		descriptionEditor.setText(model.getDescription());
@@ -209,7 +205,7 @@ public class SelectLastActionPanel extends JPanel {
 	@SuppressWarnings("unchecked")
 	private JComboBox<Project> getProjectSelector() {
 		if (projectSelector == null) {
-			projectSelector = new JComboBox<Project>();
+			projectSelector = new JComboBox<>();
 			projectSelector.setToolTipText(textBundle.textFor("SelectLastActionPanel.ProjectSelector.Hint")); //$NON-NLS-1$
 			projectSelector.setModel(new DefaultEventComboBoxModel<Project>(this.model.getProjectList()));
 		}

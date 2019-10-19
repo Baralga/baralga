@@ -175,12 +175,10 @@ public class ActivityPanelStopWatch extends JPanel implements ActionListener {
 			projectSelector.setModel(new DefaultEventComboBoxModel<>(this.model.getProjectList()));
 
 			/* Handling of selection events: */
-			projectSelector.addActionListener(new ActionListener() {
-				public void actionPerformed(final ActionEvent e) {
-					// 1. Set current project to the just selected project.
-					final Project selectedProject = (Project) projectSelector.getSelectedItem();
-					ActivityPanelStopWatch.this.model.changeProject(selectedProject);
-				}
+			projectSelector.addActionListener(e -> {
+				// 1. Set current project to the just selected project.
+				final Project selectedProject = (Project) projectSelector.getSelectedItem();
+				ActivityPanelStopWatch.this.model.changeProject(selectedProject);
 			});
 		}
 		return projectSelector;
@@ -188,7 +186,7 @@ public class ActivityPanelStopWatch extends JPanel implements ActionListener {
 
 	@Subscribe
 	public final void update(final Object eventObject) {
-		if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
+		if (!(eventObject instanceof BaralgaEvent)) {
 			return;
 		}
 
@@ -209,8 +207,6 @@ public class ActivityPanelStopWatch extends JPanel implements ActionListener {
 			break;
 
 		case BaralgaEvent.PROJECT_ADDED:
-			break;
-
 		case BaralgaEvent.PROJECT_REMOVED:
 			break;
 

@@ -90,7 +90,7 @@ public class SmartTimeFormat extends TimeFormat {
 
         	try {
         		// Convert to integer value
-        		int m = Integer.valueOf(mm);
+        		int m = Integer.parseInt(mm);
 
         		// Convert to float for calculation
         		float fm = m;          

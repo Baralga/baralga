@@ -68,13 +68,10 @@ public class ExceptionUtils {
 		protected void dispatchEvent(final AWTEvent evt) {
 			try {
 				super.dispatchEvent(evt);
-			} catch (final Exception e) {
-				log.error(e.getLocalizedMessage(), e);
-				showErrorDialog(e);
-			} catch (final Error e) {
+			} catch (final Exception | Error e) {
 				log.error(e.getLocalizedMessage(), e);
 				showErrorDialog(e);
 			}
-		}
+        }
 	}
 }

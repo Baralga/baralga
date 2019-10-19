@@ -116,11 +116,7 @@ public class JXTrayIcon extends TrayIcon {
     public static void main(final String[] args) throws Exception {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                createGui();
-            }
-        });
+        SwingUtilities.invokeLater(() -> createGui());
     }
 
     static Image createImage() {
@@ -143,12 +139,7 @@ public class JXTrayIcon extends TrayIcon {
         m.add(submenu);        
         
         JMenuItem exitItem = new JMenuItem("Exit");
-        exitItem.addActionListener(new ActionListener() {
-            @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = "DM_EXIT", justification = "That's what this action is good for")
-            public void actionPerformed(final ActionEvent e) {
-                System.exit(0);
-            }
-        });
+        exitItem.addActionListener(e -> System.exit(0));
         m.add(exitItem);
         return m;
     }

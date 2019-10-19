@@ -24,8 +24,7 @@ public class DateUtils {
      */
     public static DateTime getNowAsDateTime() {
         final DateTime now = new DateTime();
-        final DateTime nowRounded = now.minuteOfDay().roundHalfCeilingCopy();
-        return nowRounded;
+        return now.minuteOfDay().roundHalfCeilingCopy();
     }
 
     /**

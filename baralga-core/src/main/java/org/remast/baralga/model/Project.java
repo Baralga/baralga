@@ -102,7 +102,7 @@ public class Project implements Serializable, Comparable<Project> {
             return true;
         }
         
-        if (that == null || !(that instanceof Project)) {
+        if (!(that instanceof Project)) {
             return false;
         }
         

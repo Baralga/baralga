@@ -26,7 +26,7 @@ import java.text.SimpleDateFormat;
 /**
  * Panel for displaying the report of working hours by Month.
  * 
- * @see HoursByMonthReport
+ * @see HoursByQuarterReport
  * @author remast
  */
 @SuppressWarnings("serial")
@@ -90,7 +90,7 @@ public class HoursByQuarterPanel extends JXPanel {
 
     @Subscribe
     public void update(final Object o) {
-	if (o != null && o instanceof HoursByQuarterReport) {
+	if (o instanceof HoursByQuarterReport) {
 	    tableModel.fireTableDataChanged();
 	}
     }

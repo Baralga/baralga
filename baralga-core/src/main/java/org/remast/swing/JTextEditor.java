@@ -34,14 +34,13 @@ public class JTextEditor extends JXPanel {
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(JTextEditor.class);
 
     /**
-     * A interface that allows to listen for text changes to the card side text panes. Use
-     * {@link CardPanel#addTextObserver} method to hook it to the CardPanel.
+     * A interface that allows to listen for text changes.
      */
     public interface TextChangeObserver {
         void onTextChange();
     }
 
-    private List<TextChangeObserver> textObservers = new ArrayList<TextChangeObserver>();
+    private List<TextChangeObserver> textObservers = new ArrayList<>();
 
     JXTextArea textArea;
 
@@ -104,14 +103,14 @@ public class JTextEditor extends JXPanel {
 
     private void setTabBehavior() {
         // focus next pane with TAB instead of CTRL+TAB
-        Set<KeyStroke> key = new HashSet<KeyStroke>();
+        Set<KeyStroke> key = new HashSet<>();
         key.add(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0));
 
         int forwardTraversal = KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS;
         textArea.setFocusTraversalKeys(forwardTraversal, key);
 
         // focus previous pane with SHIFT+TAB instead of SHIFT+CTRL+TAB
-        key = new HashSet<KeyStroke>();
+        key = new HashSet<>();
         key.add(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, InputEvent.SHIFT_DOWN_MASK));
 
         final int backwardTraversal = KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS;

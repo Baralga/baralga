@@ -150,13 +150,10 @@ public class ManageProjectsDialog extends EscapeDialog {
             addProjectButton = new JButton(new ImageIcon(getClass().getResource("/icons/gtk-add.png")));
             addProjectButton.setText(textBundle.textFor("ManageProjectsDialog.AddProjectButton.Title")); //$NON-NLS-1$
             addProjectButton.setToolTipText(textBundle.textFor("ManageProjectsDialog.AddProjectButton.ToolTipText")); //$NON-NLS-1$
-            addProjectButton.addActionListener(new java.awt.event.ActionListener() {   
-                public void actionPerformed(final java.awt.event.ActionEvent e) {
-                    String projectName = getNewProjectTextField().getText();
-                    model.addProject(new Project(RandomUtils.nextLong(), projectName, projectName), ManageProjectsDialog.this);
-                    getNewProjectTextField().setText(""); //$NON-NLS-1$
-                }
-
+            addProjectButton.addActionListener(e -> {
+                String projectName = getNewProjectTextField().getText();
+                model.addProject(new Project(RandomUtils.nextLong(), projectName, projectName), ManageProjectsDialog.this);
+                getNewProjectTextField().setText(""); //$NON-NLS-1$
             });
             addProjectButton.setDefaultCapable(true);
         }
@@ -172,14 +169,12 @@ public class ManageProjectsDialog extends EscapeDialog {
             removeProjectButton = new JButton(new ImageIcon(getClass().getResource("/icons/gtk-delete.png")));
             removeProjectButton.setText(textBundle.textFor("ManageProjectsDialog.RemoveProjectButton.Title")); //$NON-NLS-1$
             removeProjectButton.setToolTipText(textBundle.textFor("ManageProjectsDialog.RemoveProjectButton.ToolTipText")); //$NON-NLS-1$
-            removeProjectButton.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(final java.awt.event.ActionEvent e) {
-                    for (int index : getProjectTable().getSelectedRows()) {
-                        model.removeProject(
-                                model.getAllProjectsList().get(index), 
-                                ManageProjectsDialog.this
-                        );
-                    }
+            removeProjectButton.addActionListener(e -> {
+                for (int index : getProjectTable().getSelectedRows()) {
+                    model.removeProject(
+                            model.getAllProjectsList().get(index),
+                            ManageProjectsDialog.this
+                    );
                 }
             });
         }

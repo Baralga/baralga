@@ -42,7 +42,7 @@ public class FilteredActivitiesPane extends JPanel {
     private JTabbedPane tabs = new JTabbedPane();
 
     /** All categorized tabs. */
-    private List<CategorizedTab> categorizedTabs = new ArrayList<CategorizedTab>();
+    private List<CategorizedTab> categorizedTabs = new ArrayList<>();
 
     // ------------------------------------------------
     // Tabs with their panels
@@ -287,7 +287,6 @@ public class FilteredActivitiesPane extends JPanel {
     /**
      * Processes the action that the user toggles a category button.
 	 * @param category the toggled category
-	 * @param toggledCategoryButton the toggled button
      */
     private void toggleCategory(final String category) {
 	// 1. Store category
@@ -318,7 +317,7 @@ public class FilteredActivitiesPane extends JPanel {
 
     @Subscribe 
     public void update(final Object eventObject) {
-	if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
+	if (!(eventObject instanceof BaralgaEvent)) {
 	    return;
 	}
 

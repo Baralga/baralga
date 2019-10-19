@@ -52,22 +52,22 @@ public class XmlDataReader extends DefaultHandler {
 	private ProjectActivity currentActivity;
 
 	@Override
-	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+	public void startElement(String uri, String localName, String qName, Attributes attributes) {
 		currentBuffer = null;
 		
 		if ("baralga".equals(qName)) {
-			version = Integer.valueOf(attributes.getValue("version"));
+			version = Integer.parseInt(attributes.getValue("version"));
 		} else if ("project".equals(qName)) {
-			currentProject = new Project(Long.valueOf(attributes.getValue("id")), null, null);
+			currentProject = new Project(Long.parseLong(attributes.getValue("id")), null, null);
 			
 			if (attributes.getValue("active") != null) {
-			  currentProject.setActive(Boolean.valueOf(attributes.getValue("active")));  
+			  currentProject.setActive(Boolean.parseBoolean(attributes.getValue("active")));
 			}
 		} else if ("activity".equals(qName)) {
 			DateTime start = ISODateTimeFormat.dateHourMinute().parseDateTime(attributes.getValue("start"));
 			DateTime end = ISODateTimeFormat.dateHourMinute().parseDateTime(attributes.getValue("end"));
 
-			long projectId = Long.valueOf(attributes.getValue("projectReference"));
+			long projectId = Long.parseLong(attributes.getValue("projectReference"));
 			Project project = null;
 			for (Project tmpProject : projects) {
 				if (tmpProject.getId() == projectId) {
@@ -81,7 +81,7 @@ public class XmlDataReader extends DefaultHandler {
 	}
 
 	@Override
-	public void endElement(String uri, String localName, String qName) throws SAXException {
+	public void endElement(String uri, String localName, String qName) {
 		if ("project".equals(qName)) {
 			projects.add(currentProject);
 			currentProject = null;
@@ -101,7 +101,7 @@ public class XmlDataReader extends DefaultHandler {
 	}
 
 	@Override
-	public void characters(char[] ch, int start, int length) throws SAXException {
+	public void characters(char[] ch, int start, int length) {
 		final String currentCharacters = new String(ch, start, length);
 		if (currentBuffer == null) {
 			currentBuffer = currentCharacters;
@@ -115,13 +115,10 @@ public class XmlDataReader extends DefaultHandler {
 	 * @throws IOException
 	 */
 	public void read(final File file) throws IOException {
-		final InputStream fis = new FileInputStream(file);
-		try {
+		try (InputStream fis = new FileInputStream(file)) {
 			read(fis);
 		} catch (IOException e) {
 			throw new IOException("The file " + (file != null ? file.getName() : "<null>") + " does not contain valid Baralga data.", e);
-		} finally {
-			fis.close();
 		}
 	}
 

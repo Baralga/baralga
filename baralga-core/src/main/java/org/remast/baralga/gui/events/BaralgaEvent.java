@@ -156,7 +156,7 @@ public class BaralgaEvent {
     
     @Override
     public String toString() {
-    	return "BaralgaEvent{"+ "data: " + String.valueOf(data) + ", type: " + String.valueOf(type) + "}";
+    	return "BaralgaEvent{"+ "data: " + data + ", type: " + type + "}";
     }
 
     /**

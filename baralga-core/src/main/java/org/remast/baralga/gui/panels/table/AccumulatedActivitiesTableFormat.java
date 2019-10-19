@@ -24,7 +24,7 @@ public class AccumulatedActivitiesTableFormat implements TableFormat<Accumulated
 
     /**
      * Gets the name of the given column.
-     * @param column the number of the column
+     * @param col the number of the column
      */
     public String getColumnName(final int col) {
         switch (col) {

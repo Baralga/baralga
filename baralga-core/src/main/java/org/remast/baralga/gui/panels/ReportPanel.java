@@ -74,15 +74,15 @@ public class ReportPanel extends JXPanel implements ActionListener {
 	private JXButton previousIntervalButton;
 	
 	/** All available options for the time span. */
-	private static final Vector<LabeledItem<SpanType>> spanSelectorItems = new Vector<LabeledItem<SpanType>>();
+	private static final Vector<LabeledItem<SpanType>> spanSelectorItems = new Vector<>();
 
 	private JXButton homeButton;
 	static {
-		spanSelectorItems.add(new LabeledItem<SpanType>(SpanType.Day, textBundle.textFor("ReportPanel.DayLabel")));
-		spanSelectorItems.add(new LabeledItem<SpanType>(SpanType.Week, textBundle.textFor("ReportPanel.WeekLabel")));
-		spanSelectorItems.add(new LabeledItem<SpanType>(SpanType.Month, textBundle.textFor("ReportPanel.MonthLabel")));
-		spanSelectorItems.add(new LabeledItem<SpanType>(SpanType.Quarter, textBundle.textFor("ReportPanel.QuarterLabel")));
-		spanSelectorItems.add(new LabeledItem<SpanType>(SpanType.Year, textBundle.textFor("ReportPanel.YearLabel")));
+		spanSelectorItems.add(new LabeledItem<>(SpanType.Day, textBundle.textFor("ReportPanel.DayLabel")));
+		spanSelectorItems.add(new LabeledItem<>(SpanType.Week, textBundle.textFor("ReportPanel.WeekLabel")));
+		spanSelectorItems.add(new LabeledItem<>(SpanType.Month, textBundle.textFor("ReportPanel.MonthLabel")));
+		spanSelectorItems.add(new LabeledItem<>(SpanType.Quarter, textBundle.textFor("ReportPanel.QuarterLabel")));
+		spanSelectorItems.add(new LabeledItem<>(SpanType.Year, textBundle.textFor("ReportPanel.YearLabel")));
 	}
 
 	/**
@@ -113,28 +113,14 @@ public class ReportPanel extends JXPanel implements ActionListener {
 		spanTypeSelector = getSpanTypeSelector();
 
 		nextIntervalButton = new JXButton("");
-		nextIntervalButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				ReportPanel.this.actionPerformed(event, FilterInterval.Next);
-			}
-
-		});
+		nextIntervalButton.addActionListener(event -> ReportPanel.this.actionPerformed(event, FilterInterval.Next));
 		nextIntervalButton.setContentAreaFilled(false);
 		nextIntervalButton.setRolloverEnabled(true);
 		nextIntervalButton.setIcon(new ImageIcon(BaralgaMain.class.getResource("/icons/Play-1-Disabled-icon.png")));
 		nextIntervalButton.setRolloverIcon(new ImageIcon(BaralgaMain.class.getResource("/icons/Play-icon.png")));
 		
 		previousIntervalButton = new JXButton("");
-		previousIntervalButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				ReportPanel.this.actionPerformed(event, FilterInterval.Previous);
-			}
-
-		});
+		previousIntervalButton.addActionListener(event -> ReportPanel.this.actionPerformed(event, FilterInterval.Previous));
 		previousIntervalButton.setContentAreaFilled(false);
 		nextIntervalButton.setRolloverEnabled(true);
 		previousIntervalButton.setIcon(new ImageIcon(BaralgaMain.class.getResource("/icons/Play-1-Disabled-icon-left.png")));
@@ -156,15 +142,11 @@ public class ReportPanel extends JXPanel implements ActionListener {
 		});
 
 		homeButton.setToolTipText(textBundle.textFor("ReportPanel.TodayButton.ToolTipText"));
-		homeButton.addActionListener(new ActionListener() {
+		homeButton.addActionListener(event -> {
+			spanTypeSelector.setSelectedIndex(0);
 
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				spanTypeSelector.setSelectedIndex(0);
-
-				// Delegate to parent class
-				ReportPanel.this.actionPerformed(event, FilterInterval.Today);
-			}
+			// Delegate to parent class
+			ReportPanel.this.actionPerformed(event, FilterInterval.Today);
 		});
 
 		dateField = new JXLabel();
@@ -191,7 +173,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 	 */
 	private JComboBox<LabeledItem<SpanType>> getSpanTypeSelector() {
 		if (spanTypeSelector == null) {
-			spanTypeSelector = new JComboBox<LabeledItem<SpanType>>(spanSelectorItems);
+			spanTypeSelector = new JComboBox<>(spanSelectorItems);
 			spanTypeSelector.setToolTipText(textBundle.textFor("SpanTypeSelector.ToolTipText")); //$NON-NLS-1$
 
 			// Read from Filter
@@ -227,7 +209,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 			final Long selectedProjectId = UserSettings.instance().getFilterSelectedProjectId();
 			if (selectedProjectId != null) {
 				for (LabeledItem<Project> item : projectFilterList.getProjectList()) {
-					if (Objects.equals(item.getItem().getId(), selectedProjectId.longValue())) {
+					if (Objects.equals(item.getItem().getId(), selectedProjectId)) {
 						projectFilterSelector.setSelectedItem(item);
 						break;
 					}

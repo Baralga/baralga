@@ -51,7 +51,7 @@ public class BaralgaDAO {
 	private Connection connection;
 	
 	/** Cache for the prepared statements. */
-    private Map<String, PreparedStatement> preparedStatementCache = Collections.synchronizedMap(new WeakHashMap<String, PreparedStatement>());
+    private Map<String, PreparedStatement> preparedStatementCache = Collections.synchronizedMap(new WeakHashMap<>());
 
 	/** The current version number of the database. */
 	private int databaseVersion;
@@ -121,7 +121,6 @@ public class BaralgaDAO {
 			final String updateScript = "db_version_" + StringUtils.leftPad(String.valueOf(versionUpdate), 3, "0") + ".sql";
 			executeScript(updateScript);
 		}
-
 
 		log.info("Using Baralga DB Version: {}, description: {}.", databaseVersion, description); //$NON-NLS-1$
 	}
@@ -242,7 +241,7 @@ public class BaralgaDAO {
 	 * @return read-only view of the projects
 	 */
 	public List<Project> getAllProjects() {
-		final List<Project> allProjects = new ArrayList<Project>();
+		final List<Project> allProjects = new ArrayList<>();
 
 		try {
 			final Statement statement = connection.createStatement();
@@ -477,7 +476,7 @@ public class BaralgaDAO {
 	 * Provides a list of all years with activities.
 	 */
 	public List<Integer> getYearList() {
-		final List<Integer> yearList = new ArrayList<Integer>();
+		final List<Integer> yearList = new ArrayList<>();
 		
 		try {
 			final Statement statement = connection.createStatement();

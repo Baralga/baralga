@@ -52,9 +52,9 @@ public class ScreenUtils {
         Rectangle screenBounds = new Rectangle();
         GraphicsEnvironment environment = GraphicsEnvironment
                 .getLocalGraphicsEnvironment();
-        List<Rectangle> screensList = new ArrayList<Rectangle>();
-        List<Insets> insetsList = new ArrayList<Insets>();
-        List<Rectangle> screensWithInsets = new ArrayList<Rectangle>();
+        List<Rectangle> screensList = new ArrayList<>();
+        List<Insets> insetsList = new ArrayList<>();
+        List<Rectangle> screensWithInsets = new ArrayList<>();
         GraphicsDevice[] screenDevices = environment.getScreenDevices();
         for (GraphicsDevice device : screenDevices) {
             GraphicsConfiguration configuration = device
@@ -261,24 +261,21 @@ public class ScreenUtils {
             rect.y = (SCREENS_WITH_INSETS[0].width - rect.width) / 2;
             return rect;
         } else {
-            
-            Rectangle screenToConsider = containgScreen;
-            
             // move rect so it is completely on a single screen
             // check X
             int rectRight = rect.x + rect.width;
-            int screenRight = screenToConsider.x + screenToConsider.width;
+            int screenRight = containgScreen.x + containgScreen.width;
             if (rectRight > screenRight) {
                 rect.x = screenRight - rect.width;
             }
-            if (rect.x < screenToConsider.x) rect.x = screenToConsider.x;
+            if (rect.x < containgScreen.x) rect.x = containgScreen.x;
             // check Y
             int rectBottom = rect.y + rect.height;
-            int screenBottom = screenToConsider.y + screenToConsider.height;
+            int screenBottom = containgScreen.y + containgScreen.height;
             if (rectBottom > screenBottom) {
                 rect.y = screenBottom - rect.height;
             }
-            if (rect.y < screenToConsider.y) rect.y = screenToConsider.y;
+            if (rect.y < containgScreen.y) rect.y = containgScreen.y;
             // return corrected rect
             return rect;
         }

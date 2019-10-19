@@ -2,8 +2,7 @@ package org.remast.util;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the class {@link StringUtils}.
@@ -17,7 +16,7 @@ public class StringUtilsTest {
      */
     @Test
 	public void testStripXmlTags() {
-        assertEquals(null, org.remast.util.StringUtils.stripXmlTags(null));
+        assertNull(StringUtils.stripXmlTags(null));
         assertNotSame("", org.remast.util.StringUtils.stripXmlTags(null));
         assertEquals("", org.remast.util.StringUtils.stripXmlTags(""));
         assertEquals("<", org.remast.util.StringUtils.stripXmlTags("<"));

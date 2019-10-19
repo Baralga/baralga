@@ -135,26 +135,24 @@ public abstract class AbstractExportAction extends AbstractBaralgaAction {
 
         @Override
         public String doInBackground() {
-            OutputStream outputStream = null;
-            try {
-                outputStream = new FileOutputStream(file);
-                
+            try (OutputStream outputStream = new FileOutputStream(file)) {
+
                 // Get activities for export
                 Collection<ProjectActivity> activitiesForExport;
                 if (exporter.isFullExport()) {
-                	activitiesForExport = model.getAllActivitiesList();
+                    activitiesForExport = model.getAllActivitiesList();
                 } else {
-                	activitiesForExport = model.getActivitiesList();
+                    activitiesForExport = model.getActivitiesList();
                 }
-                
+
                 synchronized (activitiesForExport) {
                     exporter.export(
-                    		activitiesForExport,
+                            activitiesForExport,
                             model.getFilter(),
                             outputStream
                     );
                 }
-                
+
                 // Make sure everything is written.
                 outputStream.flush();
 
@@ -163,20 +161,13 @@ public abstract class AbstractExportAction extends AbstractBaralgaAction {
             } catch (Exception e) {
                 log.error(e.getLocalizedMessage(), e);
                 JOptionPane.showMessageDialog(
-                        owner, 
+                        owner,
                         textBundle.textFor("AbstractExportAction.IOException.Message", file.getAbsolutePath(), e.getLocalizedMessage()), //$NON-NLS-1$
                         textBundle.textFor("AbstractExportAction.IOException.Heading", fileFilter.getDescription()), //$NON-NLS-1$
                         JOptionPane.ERROR_MESSAGE
                 );
-            } finally {
-                if (outputStream != null) {
-                	try {
-						outputStream.close();
-					} catch (IOException e) {
-						// Ignore
-					}
-                }
             }
+            // Ignore
             return null;
         }
     }

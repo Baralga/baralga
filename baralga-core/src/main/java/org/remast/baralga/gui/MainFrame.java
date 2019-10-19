@@ -363,7 +363,7 @@ public class MainFrame extends JFrame {
 
     @Subscribe
     public void update(final Object eventObject) {
-        if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
+        if (!(eventObject instanceof BaralgaEvent)) {
             return;
         }
 

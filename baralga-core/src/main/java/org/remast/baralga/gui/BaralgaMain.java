@@ -116,11 +116,7 @@ public final class BaralgaMain {
 			initStopWatch(model);
 
 			initTrayIcon(mainInstance, model, mainFrame);
-		} catch (Exception e) {
-			log.error(e.getLocalizedMessage(), e);
-			ExceptionUtils.showErrorDialog(e);
-			System.exit(1);
-		} catch (Error e) {
+		} catch (Exception | Error e) {
 			log.error(e.getLocalizedMessage(), e);
 			ExceptionUtils.showErrorDialog(e);
 			System.exit(1);
@@ -158,13 +154,7 @@ public final class BaralgaMain {
 
 		final MainFrame mainFrame = new MainFrame(model);
 
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				mainFrame.setVisible(!mainInstance.minimized);
-			}
-		});
+		SwingUtilities.invokeLater(() -> mainFrame.setVisible(!mainInstance.minimized));
 
 		return mainFrame;
 	}
@@ -181,13 +171,7 @@ public final class BaralgaMain {
 
 		final StopWatch stopwatch = new StopWatch(model);
 
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				stopwatch.setVisible(UserSettings.instance().isShowStopwatch());
-			}
-		});
+		SwingUtilities.invokeLater(() -> stopwatch.setVisible(UserSettings.instance().isShowStopwatch()));
 
 		return stopwatch;
 	}
@@ -268,18 +252,14 @@ public final class BaralgaMain {
 									// ignore
 								}
 							}
-						} catch (Exception e) {
-							log.error(e.getLocalizedMessage(), e);
-						} catch (Error e) {
+						} catch (Exception | Error e) {
 							log.error(e.getLocalizedMessage(), e);
 						}
 
 						try {
 							// 2. Save model
 							model.getDAO().close();
-						} catch (Exception e) {
-							log.error(e.getLocalizedMessage(), e);
-						} catch (Error e) {
+						} catch (Exception | Error e) {
 							log.error(e.getLocalizedMessage(), e);
 						} finally {
 							// 3. Release lock
@@ -303,7 +283,7 @@ public final class BaralgaMain {
 	private static void initTimer(final PresentationModel model) {
 		log.debug("Initializing timer ...");
 		timer = new Timer("Baralga save timer.");
-		timer.scheduleAtFixedRate(new SaveTimer(model), 1000 * 60 * SAVE_TIMER_INTERVAL, 1000 * 60 * SAVE_TIMER_INTERVAL);
+		timer.scheduleAtFixedRate(new SaveTimer(model), 1000L * 60 * SAVE_TIMER_INTERVAL, 1000L * 60 * SAVE_TIMER_INTERVAL);
 	}
 
 	/**

@@ -151,17 +151,14 @@ public class ActivityPanel extends JPanel implements ActionListener {
         descriptionEditor.setBorder(
                 BorderFactory.createLineBorder(GuiConstants.VERY_LIGHT_GREY)
         );
-        descriptionEditor.addTextObserver(new JTextEditor.TextChangeObserver() {
+        descriptionEditor.addTextObserver(() -> {
+            final String description = descriptionEditor.getText();
 
-            public void onTextChange() {
-                final String description = descriptionEditor.getText();
+            // Store in model
+            model.setDescription(description);
 
-                // Store in model
-                model.setDescription(description);
-
-                // Save description in settings.
-                UserSettings.instance().setLastDescription(description);
-            }
+            // Save description in settings.
+            UserSettings.instance().setLastDescription(description);
         });
 
         descriptionEditor.setText(model.getDescription());
@@ -283,21 +280,19 @@ public class ActivityPanel extends JPanel implements ActionListener {
     @SuppressWarnings("unchecked")
 	private JComboBox<Project> getProjectSelector() {
         if (projectSelector == null) {
-            projectSelector = new JComboBox<Project>();
+            projectSelector = new JComboBox<>();
             projectSelector.setToolTipText(textBundle.textFor("ProjectSelector.ToolTipText")); //$NON-NLS-1$
             projectSelector.setModel(new DefaultEventComboBoxModel<Project>(this.model.getProjectList()));
 
             /* Handling of selection events: */
-            projectSelector.addActionListener(new ActionListener() {
-                public void actionPerformed(final ActionEvent e) {
-                    // 1. Set current project to the just selected project.
-                    final Project selectedProject = (Project) projectSelector.getSelectedItem();
-                    ActivityPanel.this.model.changeProject(selectedProject);
+            projectSelector.addActionListener(e -> {
+                // 1. Set current project to the just selected project.
+                final Project selectedProject = (Project) projectSelector.getSelectedItem();
+                ActivityPanel.this.model.changeProject(selectedProject);
 
-                    // 2. Clear the description.
-                    if (descriptionEditor != null) {
-                        descriptionEditor.setText("");
-                    }
+                // 2. Clear the description.
+                if (descriptionEditor != null) {
+                    descriptionEditor.setText("");
                 }
             });
         }
@@ -306,7 +301,7 @@ public class ActivityPanel extends JPanel implements ActionListener {
 
     @Subscribe
     public final void update(final Object eventObject) {
-        if (eventObject == null || !(eventObject instanceof BaralgaEvent)) {
+        if (!(eventObject instanceof BaralgaEvent)) {
             return;
         }
 
@@ -327,8 +322,6 @@ public class ActivityPanel extends JPanel implements ActionListener {
             break;
 
         case BaralgaEvent.PROJECT_ADDED:
-            break;
-
         case BaralgaEvent.PROJECT_REMOVED:
             break;
 
@@ -343,7 +336,7 @@ public class ActivityPanel extends JPanel implements ActionListener {
      * @param event the event of the project change
      */
     private void updateProjectChanged(final BaralgaEvent event) {
-        getProjectSelector().setSelectedItem((Project) event.getData());
+        getProjectSelector().setSelectedItem(event.getData());
 
         if (model.isActive()) {
             start.setValue(this.model.getStart().toDate());
@@ -467,7 +460,7 @@ public class ActivityPanel extends JPanel implements ActionListener {
                 start.setText(FormatUtils.formatTime(model.getStart()));
             }
         } catch (ParseException e) {
-            return;
+            // Ignore
         }
     }
 
