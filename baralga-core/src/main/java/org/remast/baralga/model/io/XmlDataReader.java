@@ -59,6 +59,10 @@ public class XmlDataReader extends DefaultHandler {
 			version = Integer.valueOf(attributes.getValue("version"));
 		} else if ("project".equals(qName)) {
 			currentProject = new Project(Long.valueOf(attributes.getValue("id")), null, null);
+			
+			if (attributes.getValue("active") != null) {
+			  currentProject.setActive(Boolean.valueOf(attributes.getValue("active")));  
+			}
 		} else if ("activity".equals(qName)) {
 			DateTime start = ISODateTimeFormat.dateHourMinute().parseDateTime(attributes.getValue("start"));
 			DateTime end = ISODateTimeFormat.dateHourMinute().parseDateTime(attributes.getValue("end"));

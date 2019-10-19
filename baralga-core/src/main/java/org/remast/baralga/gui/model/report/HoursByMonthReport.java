@@ -78,6 +78,7 @@ public class HoursByMonthReport {
                 case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
                 case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
                 case BaralgaEvent.FILTER_CHANGED:
+                case BaralgaEvent.PROJECT_REMOVED:
                     calculateHours();
                     break;
             }

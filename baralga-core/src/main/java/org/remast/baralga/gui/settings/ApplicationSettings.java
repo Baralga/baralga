@@ -91,7 +91,10 @@ public final class ApplicationSettings {
 
 
             applicationConfig = new Properties();
-            applicationConfig.load(new FileInputStream(file));
+            
+            if (file.exists()) {
+                applicationConfig.load(new FileInputStream(file));
+            }
         } catch (Exception e) {
             log.error(e.getLocalizedMessage(), e);
         }

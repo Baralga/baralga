@@ -65,7 +65,9 @@ public final class UserSettings {
 		userConfigFile = new File(ApplicationSettings.instance().getApplicationDataDirectory() + File.separator + USER_PROPERTIES_FILENAME);
 		try {
 			userConfig = new Properties();
-			userConfig.load(new FileInputStream(userConfigFile));
+			if (userConfigFile.exists()) {
+			    userConfig.load(new FileInputStream(userConfigFile));
+			}
 		} catch (Exception e) {
 			log.error(e.getLocalizedMessage(), e);
 		}
@@ -551,7 +553,8 @@ public final class UserSettings {
 	 */
 	private Long doGetLong(final String key, final Long defaultValue) {
 		try {
-			return Long.valueOf(userConfig.getProperty(key, String.valueOf(defaultValue)));
+		    final String value = userConfig.getProperty(key, defaultValue == null ? null : String.valueOf(defaultValue));
+			return value == null ? null : Long.valueOf(value);
 		} catch (Throwable t) {
 			log.error(t.getLocalizedMessage(), t);
 			return defaultValue;

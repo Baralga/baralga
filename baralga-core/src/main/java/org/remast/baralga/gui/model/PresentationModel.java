@@ -224,6 +224,8 @@ public class PresentationModel {
 
 		this.projectList.remove(project);
 		this.allProjectsList.remove(project);
+		
+		applyFilter();
 
 		final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_REMOVED, source);
 		event.setData(project);
@@ -757,8 +759,15 @@ public class PresentationModel {
 		this.baralgaDAO.addActivities(activitiesForImport);
 
 		setFilter(filter, this);
+
 		this.projectList.clear();
 		this.projectList.addAll(this.baralgaDAO.getAllProjects());
+        
+        this.allProjectsList.clear();
+		this.allProjectsList.addAll(this.baralgaDAO.getAllProjects());
+		
+        final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.DATA_CHANGED, this);
+        notify(event);
 	}
 
 	/**

@@ -273,9 +273,6 @@ public class AllActitvitiesPanel extends JPanel {
 
 		switch (event.getType()) {
 		case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
-			tableModel.fireTableDataChanged();
-			break;
-
 		case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
 		case BaralgaEvent.PROJECT_ACTIVITY_REMOVED:
 			tableModel.fireTableDataChanged();
@@ -283,6 +280,7 @@ public class AllActitvitiesPanel extends JPanel {
 
         case BaralgaEvent.DATA_CHANGED:
 		case BaralgaEvent.PROJECT_CHANGED:
+        case BaralgaEvent.PROJECT_REMOVED:
 			tableModel.fireTableDataChanged();
 			break;
 		}
