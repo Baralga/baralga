@@ -17,6 +17,7 @@ Baralga Version 1.8.4-SNAPSHOT
 * Fixed data dispay after import and project deletion.
 * Avoid unnecessary exceptions on startup.
 * Dependency updates.
+* Updated junit from 4 to 5.
 
 Baralga Version 1.8.3
 ---------------------

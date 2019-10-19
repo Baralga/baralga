@@ -1,14 +1,14 @@
 package org.remast.text;
 
 import org.joda.time.DateTime;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.util.DateUtils;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DurationFormatTest {
 
@@ -16,7 +16,7 @@ public class DurationFormatTest {
 
     private UserSettings.DurationFormat initialDurationFormat;
 
-    @Before
+    @BeforeEach
     public void before() {
         initialDurationFormat = UserSettings.instance().getDurationFormat();
     }
@@ -43,7 +43,7 @@ public class DurationFormatTest {
         assertEquals("07:15", format.format(act.getDuration()));
     }
 
-    @After
+    @AfterEach
     public void after() {
         UserSettings.instance().setDurationFormat(initialDurationFormat);
     }

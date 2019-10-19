@@ -1,6 +1,6 @@
 package org.remast.baralga.gui.model;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the presentation model.
