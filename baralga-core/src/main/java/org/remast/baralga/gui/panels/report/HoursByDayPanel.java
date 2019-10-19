@@ -39,7 +39,7 @@ public class HoursByDayPanel extends JXPanel {
     /**
      * The report displayed by this panel.
      */
-    private HoursByDayReport report;
+    private transient HoursByDayReport report;
     
     /**
      * The table model.

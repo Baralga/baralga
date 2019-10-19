@@ -34,7 +34,7 @@ public class HoursByQuarterPanel extends JXPanel {
 
     public static final DateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy");
 
-    private HoursByQuarterReport report;
+    private transient HoursByQuarterReport report;
 
     private DefaultEventTableModel<HoursByQuarter> tableModel;
 

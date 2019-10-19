@@ -52,8 +52,8 @@ public class HoursByProjectReport {
         final HoursByProject newHoursByProject = new HoursByProject(activity.getProject(), activity.getDuration());
 
         if (this.hoursByProjectList.contains(newHoursByProject)) {
-            HoursByProject HoursByProject = this.hoursByProjectList.get(hoursByProjectList.indexOf(newHoursByProject));
-            HoursByProject.addHours(newHoursByProject.getHours());
+            HoursByProject hoursByProject = this.hoursByProjectList.get(hoursByProjectList.indexOf(newHoursByProject));
+            hoursByProject.addHours(newHoursByProject.getHours());
         } else {
             this.hoursByProjectList.add(newHoursByProject);
         }

@@ -33,7 +33,7 @@ public class DescriptionPanel extends JPanel {
 	private static final Logger log = LoggerFactory.getLogger(DescriptionPanel.class);
 
 	/** The model. */
-	private final PresentationModel model;
+	private final transient PresentationModel model;
 
 	/** Cache for all entries by activity. */
 	private final Map<ProjectActivity, DescriptionPanelEntry> entriesByActivity;

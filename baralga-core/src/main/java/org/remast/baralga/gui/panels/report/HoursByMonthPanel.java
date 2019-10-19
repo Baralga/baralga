@@ -37,7 +37,7 @@ public class HoursByMonthPanel extends JXPanel
 
     public static final DateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy");
 
-    private HoursByMonthReport report;
+    private transient HoursByMonthReport report;
 
     private DefaultEventTableModel<HoursByMonth> tableModel;
 

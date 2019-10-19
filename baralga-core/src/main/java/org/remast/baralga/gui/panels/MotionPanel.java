@@ -14,10 +14,10 @@ public class MotionPanel extends JPanel {
 	private Point initialClick;
 
 	@SuppressWarnings("unused")
-	private JWindow parent;
+	private JWindow parentWindow;
 
-	public MotionPanel(final JWindow parent) {
-		this.parent = parent;
+	public MotionPanel(final JWindow parentWindow) {
+		this.parentWindow = parentWindow;
 
 		addMouseListener(new MouseAdapter() {
 
@@ -32,8 +32,8 @@ public class MotionPanel extends JPanel {
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				// get location of Window
-				int thisX = parent.getLocation().x;
-				int thisY = parent.getLocation().y;
+				int thisX = parentWindow.getLocation().x;
+				int thisY = parentWindow.getLocation().y;
 
 				// Determine how much the mouse moved since the initial click
 				int xMoved = (thisX + e.getX()) - (thisX + initialClick.x);
@@ -42,7 +42,7 @@ public class MotionPanel extends JPanel {
 				// Move window to this position
 				int X = thisX + xMoved;
 				int Y = thisY + yMoved;
-				parent.setLocation(X, Y);
+				parentWindow.setLocation(X, Y);
 			}
 		});
 

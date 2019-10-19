@@ -79,7 +79,7 @@ public class EditStack {
      * Enable or disable actions.
      */
     private void updateActions() {
-        if (undoStack != null && !undoStack.isEmpty()) {
+        if (!undoStack.isEmpty()) {
             undoAction.setEnabled(true);
             undoAction.setText(undoStack.peek().getUndoText());
         } else {
@@ -87,7 +87,7 @@ public class EditStack {
             undoAction.resetText();
         }
 
-        if (redoStack != null && !redoStack.isEmpty()) {
+        if (!redoStack.isEmpty()) {
             redoAction.setEnabled(true);
             redoAction.setText(redoStack.peek().getRedoText());
         } else {
@@ -114,7 +114,7 @@ public class EditStack {
      * Undo last edit action.
      */
     public final void undo() {
-        if (undoStack == null || undoStack.isEmpty()) {
+        if (undoStack.isEmpty()) {
             return;
         }
 
@@ -130,7 +130,7 @@ public class EditStack {
      * Redo last edit action.
      */
     public final void redo() {
-        if (redoStack == null || redoStack.isEmpty()) {
+        if (redoStack.isEmpty()) {
             return;
         }
 

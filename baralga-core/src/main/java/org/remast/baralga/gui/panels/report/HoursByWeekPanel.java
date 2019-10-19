@@ -38,7 +38,7 @@ public class HoursByWeekPanel extends JXPanel {
     /**
      * The report displayed by this panel.
      */
-    private HoursByWeekReport report;
+    private transient HoursByWeekReport report;
     
     /**
      * The table model.

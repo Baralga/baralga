@@ -27,8 +27,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
@@ -70,13 +68,17 @@ public class JXTrayIcon extends TrayIcon {
     public JXTrayIcon(final Image image) {
         super(image);
         addMouseListener(new MouseAdapter() {
+
+            @Override
             public void mousePressed(final MouseEvent e) {
                 showJPopupMenu(e);
             }
 
+            @Override
             public void mouseReleased(final MouseEvent e) {
                 showJPopupMenu(e);
             }
+
         });
     }
 

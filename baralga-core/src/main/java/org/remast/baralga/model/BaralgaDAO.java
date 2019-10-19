@@ -201,11 +201,12 @@ public class BaralgaDAO {
 
 			preparedStatement.execute();
 
-			final Statement statement = connection.createStatement();
-			try (final ResultSet rs = statement.executeQuery("select max(id) as id from project")) { //$NON-NLS-1$
-				if (rs.next()) {
-					long id = rs.getLong("id"); //$NON-NLS-1$
-					project.setId(id);
+			try (final Statement statement = connection.createStatement()) {
+				try (final ResultSet rs = statement.executeQuery("select max(id) as id from project")) { //$NON-NLS-1$
+					if (rs.next()) {
+						long id = rs.getLong("id"); //$NON-NLS-1$
+						project.setId(id);
+					}
 				}
 			}
 		} catch (SQLException e) {
@@ -293,11 +294,12 @@ public class BaralgaDAO {
 			
 			preparedStatement.execute();
 
-			final Statement statement = connection.createStatement();
-			try (final ResultSet resultSet = statement.executeQuery("select max(id) as id from activity")) { //$NON-NLS-1$
-				if (resultSet.next()) {
-					long id = resultSet.getLong("id"); //$NON-NLS-1$
-					activity.setId(id);
+			try (final Statement statement = connection.createStatement()) {
+				try (final ResultSet resultSet = statement.executeQuery("select max(id) as id from activity")) { //$NON-NLS-1$
+					if (resultSet.next()) {
+						long id = resultSet.getLong("id"); //$NON-NLS-1$
+						activity.setId(id);
+					}
 				}
 			}
 		} catch (SQLException e) {

@@ -38,7 +38,7 @@ public class HoursByProjectPanel extends JXPanel {
     /**
      * The report displayed by this panel.
      */
-    private HoursByProjectReport report;
+    private transient HoursByProjectReport report;
     
     /**
      * The table model.

@@ -62,7 +62,7 @@ public class ActivityPanel extends JPanel implements ActionListener {
     private static final String DURATION_INACTIVE = "-:-- h";
 
     /** The model. */
-    private final PresentationModel model;
+    private final transient PresentationModel model;
 
     /** Starts/stops the active project. */
     private JXButton startStopButton = null;
@@ -91,7 +91,7 @@ public class ActivityPanel extends JPanel implements ActionListener {
     private JFormattedTextField start;
 
     /** Format for minutes. */
-    private static NumberFormat MINUTE_FORMAT = new DecimalFormat("##00");
+    private static final NumberFormat MINUTE_FORMAT = new DecimalFormat("##00");
 
     /** Format for start time. */
 	private TimeFormat timeFormat = new SmartTimeFormat();

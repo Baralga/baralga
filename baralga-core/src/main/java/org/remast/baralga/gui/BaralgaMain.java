@@ -115,7 +115,7 @@ public final class BaralgaMain {
 			final MainFrame mainFrame = initMainFrame(model, mainInstance);
 			initStopWatch(model);
 
-			initTrayIcon(mainInstance, model, mainFrame);
+			initTrayIcon(model, mainFrame);
 		} catch (Exception | Error e) {
 			log.error(e.getLocalizedMessage(), e);
 			ExceptionUtils.showErrorDialog(e);
@@ -199,11 +199,9 @@ public final class BaralgaMain {
 	/**
 	 * Initializes the lock file.
 	 * @param model the model to be displayed
-	 * @param mainInstance the main instance
 	 * @param mainFrame
 	 */
-	private static void initTrayIcon(final BaralgaMain mainInstance,
-			final PresentationModel model, final MainFrame mainFrame) {
+	private static void initTrayIcon(final PresentationModel model, final MainFrame mainFrame) {
 		if (log.isDebugEnabled()) {
 			log.debug("Initializing tray icon ..."); //$NON-NLS-1$
 		}

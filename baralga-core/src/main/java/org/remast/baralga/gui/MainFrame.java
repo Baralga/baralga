@@ -51,7 +51,7 @@ public class MainFrame extends JFrame {
     private static final Image ACTIVE_ICON = new ImageIcon(BaralgaMain.class.getResource("/icons/Baralga-Tray-Green.png")).getImage(); //$NON-NLS-1$
 
     /** The model. */
-    private final PresentationModel model;
+    private final transient PresentationModel model;
 
     /** The tool bar. */
     private JToolBar toolBar = null;

@@ -3,8 +3,6 @@ package org.remast.baralga.gui;
 import java.awt.AWTException;
 import java.awt.Image;
 import java.awt.SystemTray;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
