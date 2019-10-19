@@ -166,16 +166,17 @@ public class BaralgaDAO {
 			return;
 		}
 
-		try {
+		final String sql = "delete from activity where project_id = ?"; //$NON-NLS-1$
+		try (final PreparedStatement activityDelete = prepare(sql)) {
 			// Remove activities associated with the project
-			final PreparedStatement activityDelete = prepare("delete from activity where project_id = ?"); //$NON-NLS-1$
 			activityDelete.setLong(1, project.getId());
 			activityDelete.execute();
 
 			// Remove the project
-			final PreparedStatement projectDelete = prepare("delete from project where id = ?"); //$NON-NLS-1$
-			projectDelete.setLong(1, project.getId());
-			projectDelete.execute();
+			try (final PreparedStatement projectDelete = prepare("delete from project where id = ?")) { //$NON-NLS-1$
+				projectDelete.setLong(1, project.getId());
+				projectDelete.execute();
+			}
 		} catch (SQLException e) {
 			log.error(e.getLocalizedMessage(), e);
 			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
@@ -192,19 +193,20 @@ public class BaralgaDAO {
 		}
 
 		// TODO: Check if exists
-		try {
-			final PreparedStatement pst = prepare("insert into project (title, description, active) values (?, ?, ?)"); //$NON-NLS-1$
-			pst.setString(1, project.getTitle());
-			pst.setString(2, project.getDescription());
-			pst.setBoolean(3, project.isActive());
+		final String sql = "insert into project (title, description, active) values (?, ?, ?)"; //$NON-NLS-1$
+		try (final PreparedStatement preparedStatement = prepare(sql)) {
+			preparedStatement.setString(1, project.getTitle());
+			preparedStatement.setString(2, project.getDescription());
+			preparedStatement.setBoolean(3, project.isActive());
 
-			pst.execute();
+			preparedStatement.execute();
 
-			final Statement st = connection.createStatement();
-			final ResultSet rs = st.executeQuery("select max(id) as id from project"); //$NON-NLS-1$
-			if (rs.next()) {
-				long id = rs.getLong("id"); //$NON-NLS-1$
-				project.setId(id);
+			final Statement statement = connection.createStatement();
+			try (final ResultSet rs = statement.executeQuery("select max(id) as id from project")) { //$NON-NLS-1$
+				if (rs.next()) {
+					long id = rs.getLong("id"); //$NON-NLS-1$
+					project.setId(id);
+				}
 			}
 		} catch (SQLException e) {
 			log.error(e.getLocalizedMessage(), e);
@@ -219,14 +221,13 @@ public class BaralgaDAO {
 	public List<Project> getActiveProjects() {
 		final List<Project> activeProjects = new ArrayList<>();
 
-		try {
-			final Statement st = connection.createStatement();
-
-			final ResultSet rs = st.executeQuery("select * from project where active = True"); //$NON-NLS-1$
-			while (rs.next()) {
-				Project project = new Project(rs.getLong("id"), rs.getString("title"), rs.getString("description")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				project.setActive(true);
-				activeProjects.add(project);
+		try (final Statement statement = connection.createStatement()) {
+			try (final ResultSet rs = statement.executeQuery("select * from project where active = True")) { //$NON-NLS-1$
+				while (rs.next()) {
+					Project project = new Project(rs.getLong("id"), rs.getString("title"), rs.getString("description")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					project.setActive(true);
+					activeProjects.add(project);
+				}
 			}
 		} catch (SQLException e) {
 			log.error(e.getLocalizedMessage(), e);
@@ -243,16 +244,15 @@ public class BaralgaDAO {
 	public List<Project> getAllProjects() {
 		final List<Project> allProjects = new ArrayList<>();
 
-		try {
-			final Statement statement = connection.createStatement();
-			final ResultSet resultSet = statement.executeQuery("select * from project"); //$NON-NLS-1$
-			while (resultSet.next()) {
-				final Project project = new Project(resultSet.getLong("id"), resultSet.getString("title"), resultSet.getString("description")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				project.setActive(resultSet.getBoolean("active")); //$NON-NLS-1$
-				
-				allProjects.add(project);
-			}
+		try (final Statement statement = connection.createStatement()) {
+			try (final ResultSet resultSet = statement.executeQuery("select * from project")) { //$NON-NLS-1$
+				while (resultSet.next()) {
+					final Project project = new Project(resultSet.getLong("id"), resultSet.getString("title"), resultSet.getString("description")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					project.setActive(resultSet.getBoolean("active")); //$NON-NLS-1$
 
+					allProjects.add(project);
+				}
+			}
 		} catch (SQLException e) {
 			log.error(e.getLocalizedMessage(), e);
 			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
@@ -279,9 +279,8 @@ public class BaralgaDAO {
 		}
 
 		// TODO: Check if exists
-		try {
-			final PreparedStatement preparedStatement = prepare("insert into activity (description, start, end, project_id) values (?, ?, ?, ?)"); //$NON-NLS-1$
-			
+		final String sql = "insert into activity (description, start, end, project_id) values (?, ?, ?, ?)"; //$NON-NLS-1$
+		try (final PreparedStatement preparedStatement = prepare(sql)){
 			preparedStatement.setString(1, activity.getDescription());
 
 			final Timestamp d = new Timestamp( activity.getStart().getMillis());
@@ -295,10 +294,11 @@ public class BaralgaDAO {
 			preparedStatement.execute();
 
 			final Statement statement = connection.createStatement();
-			final ResultSet resultSet = statement.executeQuery("select max(id) as id from activity"); //$NON-NLS-1$
-			if (resultSet.next()) {
-				long id = resultSet.getLong("id"); //$NON-NLS-1$
-				activity.setId(id);
+			try (final ResultSet resultSet = statement.executeQuery("select max(id) as id from activity")) { //$NON-NLS-1$
+				if (resultSet.next()) {
+					long id = resultSet.getLong("id"); //$NON-NLS-1$
+					activity.setId(id);
+				}
 			}
 		} catch (SQLException e) {
 			log.error(e.getLocalizedMessage(), e);
@@ -315,8 +315,7 @@ public class BaralgaDAO {
 			return;
 		}
 
-		try {
-			final PreparedStatement preparedStatement = prepare("delete from activity where id = ?"); //$NON-NLS-1$
+		try (final PreparedStatement preparedStatement = prepare("delete from activity where id = ?")) { //$NON-NLS-1$
 			preparedStatement.setLong(1, activity.getId());
 
 			preparedStatement.execute();
@@ -378,8 +377,8 @@ public class BaralgaDAO {
 		}
 
 		// TODO: Check if exists
-		try {
-			final PreparedStatement preparedStatement = prepare("update project set title = ?, description = ?, active = ? where id = ?"); //$NON-NLS-1$
+		final String sql = "update project set title = ?, description = ?, active = ? where id = ?"; //$NON-NLS-1$
+		try (final PreparedStatement preparedStatement = prepare(sql)) {
 			preparedStatement.setString(1, project.getTitle());
 			preparedStatement.setString(2, project.getDescription());
 			preparedStatement.setBoolean(3, project.isActive());
@@ -402,9 +401,8 @@ public class BaralgaDAO {
 		}
 
 		// TODO: Check if exists
-		try {
-			final PreparedStatement preparedStatement = prepare("update activity set description = ?, start = ?, end = ?, project_id = ? where id = ?"); //$NON-NLS-1$
-
+		final String sql = "update activity set description = ?, start = ?, end = ?, project_id = ? where id = ?"; //$NON-NLS-1$
+		try (final PreparedStatement preparedStatement = prepare(sql)) {
 			preparedStatement.setString(1, activity.getDescription());
 
 			final Timestamp d = new Timestamp( activity.getStart().getMillis());
@@ -417,7 +415,6 @@ public class BaralgaDAO {
 			preparedStatement.setLong(5, activity.getId());
 
 			preparedStatement.execute();
-
 		} catch (SQLException e) {
 			log.error(e.getLocalizedMessage(), e);
 			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
@@ -434,15 +431,15 @@ public class BaralgaDAO {
 			return null;
 		}
 
-		try {
-			final PreparedStatement preparedStatement = prepare("select * from project where id = ?"); //$NON-NLS-1$
+		try (final PreparedStatement preparedStatement = prepare("select * from project where id = ?")) { //$NON-NLS-1$
 			preparedStatement.setLong(1, projectId);
 
-			ResultSet rs = preparedStatement.executeQuery();
-			if (rs.next()) {
-				final Project project = new Project(rs.getLong("id"), rs.getString("title"), rs.getString("description")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				project.setActive(rs.getBoolean("active")); //$NON-NLS-1$
-				return project;
+			try (ResultSet rs = preparedStatement.executeQuery()) {
+				if (rs.next()) {
+					final Project project = new Project(rs.getLong("id"), rs.getString("title"), rs.getString("description")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					project.setActive(rs.getBoolean("active")); //$NON-NLS-1$
+					return project;
+				}
 			}
 		} catch (SQLException e) {
 			log.error(e.getLocalizedMessage(), e);
@@ -458,11 +455,11 @@ public class BaralgaDAO {
 	public List<Integer> getMonthList() {
 		final List<Integer> monthList = new ArrayList<>();
 		
-		try {
-			final Statement statement = connection.createStatement();
-			final ResultSet resultSet = statement.executeQuery("select distinct month(activity.start) as month from activity order by month desc"); //$NON-NLS-1$
-			while (resultSet.next()) {
-				monthList.add(resultSet.getInt("month")); //$NON-NLS-1$
+		try (final Statement statement = connection.createStatement()) {
+			try (final ResultSet resultSet = statement.executeQuery("select distinct month(activity.start) as month from activity order by month desc")) { //$NON-NLS-1$
+				while (resultSet.next()) {
+					monthList.add(resultSet.getInt("month")); //$NON-NLS-1$
+				}
 			}
 		} catch (SQLException e) {
 			log.error(e.getLocalizedMessage(), e);
@@ -478,11 +475,11 @@ public class BaralgaDAO {
 	public List<Integer> getYearList() {
 		final List<Integer> yearList = new ArrayList<>();
 		
-		try {
-			final Statement statement = connection.createStatement();
-			final ResultSet resultSet = statement.executeQuery("select distinct year(activity.start) as year from activity order by year desc"); //$NON-NLS-1$
-			while (resultSet.next()) {
-				yearList.add(resultSet.getInt("year")); //$NON-NLS-1$
+		try (final Statement statement = connection.createStatement()) {
+			try (final ResultSet resultSet = statement.executeQuery("select distinct year(activity.start) as year from activity order by year desc")) { //$NON-NLS-1$
+				while (resultSet.next()) {
+					yearList.add(resultSet.getInt("year")); //$NON-NLS-1$
+				}
 			}
 		} catch (SQLException e) {
 			log.error(e.getLocalizedMessage(), e);
@@ -498,11 +495,11 @@ public class BaralgaDAO {
 	public List<Integer> getWeekOfYearList() {
 		final List<Integer> weekOfYearList = new ArrayList<>();
 		
-		try {
-			final Statement statement = connection.createStatement();
-			final ResultSet resultSet = statement.executeQuery("select distinct week(activity.start) as week from activity order by week desc"); //$NON-NLS-1$
-			while (resultSet.next()) {
-				weekOfYearList.add(resultSet.getInt("week")); //$NON-NLS-1$
+		try (Statement statement = connection.createStatement()) {
+			try (final ResultSet resultSet = statement.executeQuery("select distinct week(activity.start) as week from activity order by week desc")) { //$NON-NLS-1$
+				while (resultSet.next()) {
+					weekOfYearList.add(resultSet.getInt("week")); //$NON-NLS-1$
+				}
 			}
 		} catch (SQLException e) {
 			log.error(e.getLocalizedMessage(), e);
@@ -530,26 +527,26 @@ public class BaralgaDAO {
 		}
 		
 		final List<ProjectActivity> activities = new ArrayList<>();
+		final String filterCondition = StringUtils.defaultString(sqlCondition);
+		final String sql = "select * from activity, project where activity.project_id = project.id " + filterCondition + " order by start asc"; //$NON-NLS-1$ //$NON-NLS-2$
 
-		try {
-			final String filterCondition = StringUtils.defaultString(sqlCondition);
-			final PreparedStatement preparedStatement = prepare("select * from activity, project where activity.project_id = project.id " + filterCondition + " order by start asc"); //$NON-NLS-1$ //$NON-NLS-2$
-			
+		try (final PreparedStatement preparedStatement = prepare(sql)) {
 			if (filter != null && filter.getTimeInterval() != null) {
 				preparedStatement.setDate(1, new java.sql.Date(filter.getTimeInterval().getStart().toDate().getTime()));
 				preparedStatement.setDate(2, new java.sql.Date(filter.getTimeInterval().getEnd().toDate().getTime()));
 			}
-			
-			final ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				final Project project = new Project(resultSet.getLong("project.id"), resultSet.getString("title"), resultSet.getString("project.description")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				project.setActive(resultSet.getBoolean("active")); //$NON-NLS-1$
 
-				final ProjectActivity activity = new ProjectActivity(new DateTime(resultSet.getTimestamp("start")), new DateTime(resultSet.getTimestamp("end")), project); //$NON-NLS-1$ //$NON-NLS-2$
-				activity.setId(resultSet.getLong("activity.id")); //$NON-NLS-1$
-				activity.setDescription(resultSet.getString("activity.description")); //$NON-NLS-1$
-				
-				activities.add(activity);
+			try (final ResultSet resultSet = preparedStatement.executeQuery()) {
+				while (resultSet.next()) {
+					final Project project = new Project(resultSet.getLong("project.id"), resultSet.getString("title"), resultSet.getString("project.description")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					project.setActive(resultSet.getBoolean("active")); //$NON-NLS-1$
+
+					final ProjectActivity activity = new ProjectActivity(new DateTime(resultSet.getTimestamp("start")), new DateTime(resultSet.getTimestamp("end")), project); //$NON-NLS-1$ //$NON-NLS-2$
+					activity.setId(resultSet.getLong("activity.id")); //$NON-NLS-1$
+					activity.setDescription(resultSet.getString("activity.description")); //$NON-NLS-1$
+
+					activities.add(activity);
+				}
 			}
 		} catch (SQLException e) {
 			log.error(e.getLocalizedMessage(), e);
@@ -563,30 +560,33 @@ public class BaralgaDAO {
 	 * Gathers some statistics about the tracked activities.
 	 */
 	public void gatherStatistics() {
-		try {
-			final Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery("select count(*) as rowcount from activity"); //$NON-NLS-1$
-			if (resultSet.next()) {
-				log.error("#activities: " + resultSet.getInt("rowcount")); //$NON-NLS-1$
+		try (final Statement statement = connection.createStatement()) {
+			try (ResultSet resultSet = statement.executeQuery("select count(*) as rowcount from activity")) { //$NON-NLS-1$
+				if (resultSet.next()) {
+					log.error("#activities: " + resultSet.getInt("rowcount")); //$NON-NLS-1$
+				}
 			}
-			
-			resultSet = statement.executeQuery("select count(*) as rowcount from project"); //$NON-NLS-1$
-			if (resultSet.next()) {
-				log.error("#projects: " + resultSet.getInt("rowcount")); //$NON-NLS-1$
+
+			try (ResultSet resultSet = statement.executeQuery("select count(*) as rowcount from project")) { //$NON-NLS-1$
+				if (resultSet.next()) {
+					log.error("#projects: " + resultSet.getInt("rowcount")); //$NON-NLS-1$
+				}
 			}
 
 			Date earliestDate = null;
-			resultSet = statement.executeQuery("select min(start) as startDate from activity"); //$NON-NLS-1$
-			if (resultSet.next()) {
-				earliestDate = resultSet.getDate("startDate");
-				log.error("earliest activity: " + earliestDate); //$NON-NLS-1$
+			try (ResultSet resultSet = statement.executeQuery("select min(start) as startDate from activity")) { //$NON-NLS-1$
+				if (resultSet.next()) {
+					earliestDate = resultSet.getDate("startDate");
+					log.error("earliest activity: " + earliestDate); //$NON-NLS-1$
+				}
 			}
 			
 			Date latestDate = null;
-			resultSet = statement.executeQuery("select max(start) as startDate from activity"); //$NON-NLS-1$
-			if (resultSet.next()) {
-				latestDate = resultSet.getDate("startDate");
-				log.error("latest activity: " + latestDate); //$NON-NLS-1$
+			try (ResultSet resultSet = statement.executeQuery("select max(start) as startDate from activity")) { //$NON-NLS-1$
+				if (resultSet.next()) {
+					latestDate = resultSet.getDate("startDate");
+					log.error("latest activity: " + latestDate); //$NON-NLS-1$
+				}
 			}
 			
 			if (earliestDate != null && latestDate != null) {
@@ -604,14 +604,14 @@ public class BaralgaDAO {
 	 * Removes all projects and activities from the database.
 	 */
 	public void clearData() {
-		try {
+		try (final PreparedStatement activitiesDelete = prepare("delete from activity")) { //$NON-NLS-1$
 			// Remove activities
-			final PreparedStatement activitiesDelete = prepare("delete from activity"); //$NON-NLS-1$
 			activitiesDelete.execute();
 
 			// Remove the projects
-			final PreparedStatement projectsDelete = prepare("delete from project"); //$NON-NLS-1$
-			projectsDelete.execute();
+			try (final PreparedStatement projectsDelete = prepare("delete from project")) { //$NON-NLS-1$
+				projectsDelete.execute();
+			}
 		} catch (SQLException e) {
 			log.error(e.getLocalizedMessage(), e);
 			throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
