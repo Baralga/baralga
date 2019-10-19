@@ -18,6 +18,7 @@ Baralga Version 1.8.4-SNAPSHOT
 * Avoid unnecessary exceptions on startup.
 * Dependency updates.
 * Updated junit from 4 to 5.
+* Build with Maven wrapper.
 
 Baralga Version 1.8.3
 ---------------------
