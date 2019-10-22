@@ -66,7 +66,7 @@
 							</addDefaultImplementationEntries>
 							<mainClass>org.remast.baralga.gui.BaralgaMain</mainClass>
 							<packageName>org.remast.baralga</packageName>
-							<addExtensions />
+							<addExtensions/>
 						</manifest>
 						<manifestEntries>
 							<SplashScreen-Image>images/baralga/Baralga-Splash.png</SplashScreen-Image>
@@ -160,7 +160,7 @@
 		<dependency>
 			<groupId>com.opencsv</groupId>
 			<artifactId>opencsv</artifactId>
-			<version>4.6</version>
+			<version>5.0</version>
 			<exclusions>
 			    <exclusion>
 			        <groupId>commons-logging</groupId>
