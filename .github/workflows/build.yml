@@ -14,3 +14,7 @@ jobs:
         java-version: ${{ matrix.java }}
     - name: Build with Maven
       run: ./mvnw -B package
+    - name: Build with Maven
+      run: ./mvnw verify sonar:sonar -Dsonar.projectKey=baralga -Dsonar.organization=baralga -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
