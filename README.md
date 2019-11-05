@@ -1,4 +1,5 @@
-[![Codeship Status for Baralga/baralga](https://app.codeship.com/projects/4ed40830-4298-0137-05fa-722e2affcf3a/status?branch=master)](https://app.codeship.com/projects/336356)
+[![Github Actions Status for Baralga/baralga](https://github.com/baralga/baralga/workflows/Build/badge.svg)](https://github.com/Baralga/baralga/actions) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=baralga&metric=alert_status)](https://sonarcloud.io/dashboard?id=baralga)
+
 
 Baralga Time Tracker
 ====================
