@@ -3,18 +3,16 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-16.04
-    strategy:
-      matrix:
-        java: [ '11' ]
     steps:
     - uses: actions/checkout@v1
-    - name: Set up JDK ${{ matrix.java }}
+    - name: Set up JDK
       uses: actions/setup-java@v1
       with:
-        java-version: ${{ matrix.java }}
+        java-version: '11'
     - name: Build with Maven
       run: ./mvnw -B package
-    - name: Build with Maven
+    - name: Analyze with SonarCloud
       run: ./mvnw verify sonar:sonar -Dsonar.projectKey=baralga -Dsonar.organization=baralga -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
       env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
