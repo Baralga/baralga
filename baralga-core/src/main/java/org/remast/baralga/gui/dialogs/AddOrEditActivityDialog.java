@@ -342,8 +342,9 @@ public class AddOrEditActivityDialog extends EscapeDialog {
         try {
             day = new DateTime(getDatePicker().getDate());
 
-            start = TimeFormat.parseTime(getStartField().getText());
-            end = TimeFormat.parseTime(getEndField().getText());
+            TimeFormat timeFormat = new TimeFormat();
+            start = timeFormat.parseTime(getStartField().getText());
+            end = timeFormat.parseTime(getEndField().getText());
 
             correctDates();
         } catch (ParseException e) {

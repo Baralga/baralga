@@ -21,12 +21,10 @@ public class TimeFormat extends DateFormat {
      */
     public static final String HHMM_FORMAT = "HH:mm"; //$NON-NLS-1$
 
-    private static final DateFormat timeFormat = new SimpleDateFormat(HHMM_FORMAT);
+    private final DateFormat timeFormat = new SimpleDateFormat(HHMM_FORMAT);
 
-    public static DateTime parseTime(final String time) throws ParseException {
-        synchronized (timeFormat) {
-            return new DateTime(timeFormat.parse(time));
-        }
+    public DateTime parseTime(final String time) throws ParseException {
+        return new DateTime(timeFormat.parse(time));
     }
 
     /**

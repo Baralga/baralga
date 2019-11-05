@@ -88,11 +88,12 @@ public class BaralgaDAO {
 
 		// Look for table db_version if that is present the database has already been set up
 		final Statement statement = connection.createStatement();
-		ResultSet resultSet = statement.executeQuery("SHOW TABLES"); //$NON-NLS-1$
-		while (resultSet.next()) {
-			if ("db_version".equalsIgnoreCase(resultSet.getString("TABLE_NAME"))) { //$NON-NLS-1$ //$NON-NLS-2$
-				databaseExists = true;
-				break;
+		try (ResultSet resultSet = statement.executeQuery("SHOW TABLES")) { //$NON-NLS-1$
+			while (resultSet.next()) {
+				if ("db_version".equalsIgnoreCase(resultSet.getString("TABLE_NAME"))) { //$NON-NLS-1$ //$NON-NLS-2$
+					databaseExists = true;
+					break;
+				}
 			}
 		}
 
@@ -104,11 +105,12 @@ public class BaralgaDAO {
 		connection.commit();
 
 		databaseVersion = -1;
-		resultSet = statement.executeQuery("select max(version) as version, description from db_version"); //$NON-NLS-1$
 		String description = "-"; //$NON-NLS-1$
-		if (resultSet.next()) {
-			databaseVersion = resultSet.getInt("version"); //$NON-NLS-1$
-			description = resultSet.getString("description"); //$NON-NLS-1$
+		try (ResultSet resultSet = statement.executeQuery("select max(version) as version, description from db_version")) { //$NON-NLS-1$
+			if (resultSet.next()) {
+				databaseVersion = resultSet.getInt("version"); //$NON-NLS-1$
+				description = resultSet.getString("description"); //$NON-NLS-1$
+			}
 		}
 		
 		int versionDifference = LATEST_DATABASE_VERSION - databaseVersion;

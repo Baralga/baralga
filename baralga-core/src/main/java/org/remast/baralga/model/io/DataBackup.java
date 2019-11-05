@@ -33,7 +33,7 @@ public class DataBackup {
 	private static final Logger log = LoggerFactory.getLogger(DataBackup.class);
 
 	/** The date format for dates used in the names of backup files. */
-	private static final SimpleDateFormat BACKUP_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd_HHmmss");
+	private final SimpleDateFormat BACKUP_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd_HHmmss");
 
 	/** The name of the backed up corrupt data file. */
 	private static final String ERROR_FILE_NAME = UserSettings.DEFAULT_FILE_NAME + ".Error";
