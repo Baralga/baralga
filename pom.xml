@@ -9,6 +9,9 @@
 	<url>https://baralga.github.io</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<!-- SonarCloud -->
+		<sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
 	</properties>
 	<scm>
 		<connection>scm:git:https://github.com/Baralga/baralga.git</connection>
