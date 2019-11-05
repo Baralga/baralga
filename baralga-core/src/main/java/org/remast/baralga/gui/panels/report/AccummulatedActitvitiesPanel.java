@@ -65,7 +65,7 @@ public class AccummulatedActitvitiesPanel extends JPanel implements Observer {
 				TableComparatorChooser.MULTIPLE_COLUMN_MOUSE
 		);
 		
-        table.getColumn(table.getColumnName(0)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.DAY_FORMAT)));
+        table.getColumn(table.getColumnName(0)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.INSTANCE.DAY_FORMAT)));
         table.getColumn(table.getColumnName(2)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(new DurationFormat())));
 
         JScrollPane tableScrollPane = new JScrollPane(table);

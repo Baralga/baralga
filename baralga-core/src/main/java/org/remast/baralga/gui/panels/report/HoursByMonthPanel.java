@@ -33,9 +33,9 @@ import java.text.SimpleDateFormat;
 public class HoursByMonthPanel extends JXPanel
 {
 
-    public static final DateFormat MONTH_FORMAT = new SimpleDateFormat("MM MMMMMMMMMM");
+    private final DateFormat MONTH_FORMAT = newMonthFormat();
 
-    public static final DateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy");
+    private final DateFormat YEAR_FORMAT = newYearFormat();
 
     private transient HoursByMonthReport report;
 
@@ -99,4 +99,11 @@ public class HoursByMonthPanel extends JXPanel
         }
     }
 
+    public static DateFormat newYearFormat() {
+        return new SimpleDateFormat("yyyy");
+    }
+
+    public static DateFormat newMonthFormat() {
+        return new SimpleDateFormat("MM MMMMMMMMMM");
+    }
 }

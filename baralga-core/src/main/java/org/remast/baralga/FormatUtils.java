@@ -10,8 +10,10 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 /** Utility class for formatting. */
-public abstract class FormatUtils {
-    
+public enum FormatUtils {
+
+    INSTANCE;
+
     /** Hide constructor in utility class. */
     private FormatUtils() { }
 
@@ -22,7 +24,7 @@ public abstract class FormatUtils {
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormat.forPattern(TimeFormat.HHMM_FORMAT);
 
     /** Format for one in report. */
-	public static final DateFormat DAY_FORMAT = new SimpleDateFormat(DateTimeFormat.patternForStyle("S-", Locale.getDefault()) + " EE");
+	public final DateFormat DAY_FORMAT = new SimpleDateFormat(DateTimeFormat.patternForStyle("S-", Locale.getDefault()) + " EE");
 
     /**
      * Format the given date as time.
@@ -55,7 +57,7 @@ public abstract class FormatUtils {
      * @param date the date to format
      * @return the formatted date
      */
-    public static String formatDay(final DateTime date) {
+    public String formatDay(final DateTime date) {
     	if (date == null) {
     		return null;
     	}

@@ -95,7 +95,7 @@ public class AllActitvitiesPanel extends JPanel {
 				);
 
 		table.getColumn(table.getColumnName(1)).setCellRenderer(
-				new DefaultTableRenderer(new FormatStringValue(FormatUtils.DAY_FORMAT))
+				new DefaultTableRenderer(new FormatStringValue(FormatUtils.INSTANCE.DAY_FORMAT))
 				);
 		table.getColumn(table.getColumnName(1)).setCellEditor(
 				new DatePickerCellEditor()

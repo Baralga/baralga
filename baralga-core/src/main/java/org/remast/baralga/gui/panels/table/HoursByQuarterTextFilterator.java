@@ -21,7 +21,7 @@ public class HoursByQuarterTextFilterator implements TextFilterator<HoursByQuart
 	}
 
 	baseList.add(String.valueOf(hoursByQuarter.getQuarter()));
-	baseList.add(HoursByQuarterPanel.YEAR_FORMAT.format(hoursByQuarter.getDate()));
+	baseList.add(HoursByQuarterPanel.newYearFormat().format(hoursByQuarter.getDate()));
 	baseList.add(new DurationFormat().format(hoursByQuarter.getHours()));
     }
 

@@ -31,9 +31,9 @@ import java.text.SimpleDateFormat;
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class HoursByWeekPanel extends JXPanel {
 	
-	public static final DateFormat WEEK_FORMAT = new SimpleDateFormat("ww")
-	;
-	public static final DateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy");
+	private final DateFormat WEEK_FORMAT = newWeekFormat();
+
+    private final DateFormat YEAR_FORMAT = newYearFormat();
 
     /**
      * The report displayed by this panel.
@@ -97,6 +97,13 @@ public class HoursByWeekPanel extends JXPanel {
         if (o instanceof HoursByWeekReport) {
             tableModel.fireTableDataChanged();
         }
+    }
+
+    public static DateFormat newWeekFormat() {
+        return new SimpleDateFormat("ww");
+    }
+    public static DateFormat newYearFormat() {
+        return new SimpleDateFormat("yyyy");
     }
 
 }

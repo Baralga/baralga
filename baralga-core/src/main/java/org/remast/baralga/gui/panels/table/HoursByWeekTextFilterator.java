@@ -20,8 +20,8 @@ public class HoursByWeekTextFilterator implements TextFilterator<HoursByWeek> {
 			return;
 		}
 		
-		baseList.add(HoursByWeekPanel.WEEK_FORMAT.format(hoursByWeek.getWeek()));
-		baseList.add(HoursByWeekPanel.YEAR_FORMAT.format(hoursByWeek.getWeek()));
+		baseList.add(HoursByWeekPanel.newWeekFormat().format(hoursByWeek.getWeek()));
+		baseList.add(HoursByWeekPanel.newYearFormat().format(hoursByWeek.getWeek()));
 		baseList.add(new DurationFormat().format(hoursByWeek.getHours()));
 	}
 

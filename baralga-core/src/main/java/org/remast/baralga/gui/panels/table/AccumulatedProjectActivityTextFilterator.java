@@ -21,7 +21,7 @@ public class AccumulatedProjectActivityTextFilterator implements TextFilterator<
 		}
 		
 		baseList.add(activity.getProject().getTitle());
-		baseList.add(FormatUtils.formatDay(activity.getDayDateTime()));
+		baseList.add(FormatUtils.INSTANCE.formatDay(activity.getDayDateTime()));
 		baseList.add(new DurationFormat().format(activity.getTime()));
 	}
 

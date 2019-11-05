@@ -32,9 +32,9 @@ import java.text.SimpleDateFormat;
 @SuppressWarnings("serial")
 public class HoursByQuarterPanel extends JXPanel {
 
-    public static final DateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy");
+    private final DateFormat YEAR_FORMAT = newYearFormat();
 
-    private transient HoursByQuarterReport report;
+	private transient HoursByQuarterReport report;
 
     private DefaultEventTableModel<HoursByQuarter> tableModel;
 
@@ -90,9 +90,13 @@ public class HoursByQuarterPanel extends JXPanel {
 
     @Subscribe
     public void update(final Object o) {
-	if (o instanceof HoursByQuarterReport) {
-	    tableModel.fireTableDataChanged();
-	}
+		if (o instanceof HoursByQuarterReport) {
+			tableModel.fireTableDataChanged();
+		}
     }
+
+	public static DateFormat newYearFormat() {
+		return new SimpleDateFormat("yyyy");
+	}
 
 }

@@ -19,8 +19,8 @@ public class HoursByMonthTextFilterator implements TextFilterator<HoursByMonth> 
 			return;
 		}
 		
-		baseList.add(HoursByMonthPanel.MONTH_FORMAT.format(hoursByMonth.getMonth()));
-		baseList.add(HoursByMonthPanel.YEAR_FORMAT.format(hoursByMonth.getMonth()));
+		baseList.add(HoursByMonthPanel.newMonthFormat().format(hoursByMonth.getMonth()));
+		baseList.add(HoursByMonthPanel.newYearFormat().format(hoursByMonth.getMonth()));
 		baseList.add(new DurationFormat().format(hoursByMonth.getHours()));
 	}
 

@@ -49,9 +49,6 @@ public class BaralgaDAO {
 
 	/** The connection to the database. */
 	private Connection connection;
-	
-	/** Cache for the prepared statements. */
-    private Map<String, PreparedStatement> preparedStatementCache = Collections.synchronizedMap(new WeakHashMap<>());
 
 	/** The current version number of the database. */
 	private int databaseVersion;
@@ -149,12 +146,7 @@ public class BaralgaDAO {
 	 * @throws SQLException on errors during statement creation
 	 */
 	private PreparedStatement prepare(final String sql) throws SQLException {
-		PreparedStatement preparedStatement = preparedStatementCache.get(sql);
-		if (preparedStatement == null) {
-			preparedStatement = connection.prepareStatement(sql);
-			preparedStatementCache.put(sql, preparedStatement);
-		}
-		return preparedStatement;
+		return connection.prepareStatement(sql);
 	}
 	
 	/**

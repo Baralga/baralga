@@ -19,7 +19,7 @@ public class HoursByDayTextFilterator implements TextFilterator<HoursByDay> {
 			return;
 		}
 		
-		baseList.add(HoursByDayPanel.DAY_FORMAT.format(hoursByDay.getDay()));
+		baseList.add(HoursByDayPanel.newDayFormat().format(hoursByDay.getDay()));
 		baseList.add(new DurationFormat().format(hoursByDay.getHours()));
 	}
 

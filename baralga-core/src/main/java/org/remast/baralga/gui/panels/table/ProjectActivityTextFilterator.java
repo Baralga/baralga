@@ -29,7 +29,7 @@ public class ProjectActivityTextFilterator implements TextFilterator<ProjectActi
 		}
 		
 		baseList.add(activity.getProject().getTitle());
-		baseList.add(FormatUtils.formatDay(activity.getStart()));
+		baseList.add(FormatUtils.INSTANCE.formatDay(activity.getStart()));
 		baseList.add(activity.getDescription());
 		baseList.add(FormatUtils.formatTime(activity.getStart()));
 		baseList.add(FormatUtils.formatTime(activity.getEnd()));
