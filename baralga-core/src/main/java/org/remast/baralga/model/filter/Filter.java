@@ -1,6 +1,5 @@
 package org.remast.baralga.model.filter;
 
-import com.google.common.base.Objects;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.joda.time.DateTime;
@@ -11,6 +10,7 @@ import org.remast.util.DateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 /**
@@ -185,7 +185,7 @@ public class Filter {
     
     @Override
     public int hashCode() {
-        return Objects.hashCode(
+        return Objects.hash(
                 this.getProject(),
                 this.getSpanType(),
                 this.getTimeInterval()
