@@ -11,7 +11,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<!-- SonarCloud -->
-		<sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/javoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+		<sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
 	<scm>
 		<connection>scm:git:https://github.com/Baralga/baralga.git</connection>
