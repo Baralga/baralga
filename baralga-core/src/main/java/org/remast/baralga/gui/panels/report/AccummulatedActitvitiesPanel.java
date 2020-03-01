@@ -35,7 +35,7 @@ import org.remast.text.DurationFormat;
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class AccummulatedActitvitiesPanel extends JPanel implements Observer {
 
-    private AccumulatedActivitiesReport report;
+    private transient AccumulatedActivitiesReport report;
     
     private DefaultEventTableModel<AccumulatedProjectActivity> tableModel;
 

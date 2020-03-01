@@ -48,32 +48,32 @@ public class FilteredActivitiesPane extends JPanel {
     // Tabs with their panels
     // ------------------------------------------------
 
-    private AccummulatedActitvitiesPanel accummulatedActitvitiesPanel;
-    private CategorizedTab accummulatedActitvitiesTab;
+    private transient AccummulatedActitvitiesPanel accummulatedActitvitiesPanel;
+    private transient CategorizedTab accummulatedActitvitiesTab;
 
-    private HoursByWeekPanel hoursByWeekPanel;
-    private CategorizedTab hoursByWeekTab;
+    private transient HoursByWeekPanel hoursByWeekPanel;
+    private transient CategorizedTab hoursByWeekTab;
 
-    private HoursByDayPanel hoursByDayPanel;
-    private CategorizedTab hoursByDayTab;
+    private transient HoursByDayPanel hoursByDayPanel;
+    private transient CategorizedTab hoursByDayTab;
 
-    private HoursByMonthPanel hoursByMonthPanel;
-    private CategorizedTab hoursByMonthTab;
+    private transient HoursByMonthPanel hoursByMonthPanel;
+    private transient CategorizedTab hoursByMonthTab;
 
-    private HoursByQuarterPanel hoursByQuarterPanel;
-    private CategorizedTab hoursByQuarterTab;
+    private transient HoursByQuarterPanel hoursByQuarterPanel;
+    private transient CategorizedTab hoursByQuarterTab;
 
-    private HoursByProjectPanel hoursByProjectPanel;
-    private CategorizedTab hoursByProjectTab;
+    private transient HoursByProjectPanel hoursByProjectPanel;
+    private transient CategorizedTab hoursByProjectTab;
 
-    private HoursByProjectChartPanel hoursByProjectChartPanel;
-    private CategorizedTab hoursByProjectChartTab;
+    private transient HoursByProjectChartPanel hoursByProjectChartPanel;
+    private transient CategorizedTab hoursByProjectChartTab;
 
-    private AllActitvitiesPanel filteredActitvitiesPanel;
-    private CategorizedTab filteredActitvitiesTab;
+    private transient AllActitvitiesPanel filteredActitvitiesPanel;
+    private transient CategorizedTab filteredActitvitiesTab;
 
-    private DescriptionPanel descriptionPanel;
-    private CategorizedTab descriptionTab;
+    private transient DescriptionPanel descriptionPanel;
+    private transient CategorizedTab descriptionTab;
 
     // ------------------------------------------------
     // Toggle buttons for tab categories
@@ -141,9 +141,6 @@ public class FilteredActivitiesPane extends JPanel {
 	categoryButtonPanel.add(timeButton, "3, 1"); //$NON-NLS-1$
 	categoryButtonPanel.add(projectButton, "5, 1"); //$NON-NLS-1$
 	this.add(categoryButtonPanel, "0, 0"); //$NON-NLS-1$
-
-	// tabs.setTabShape(JideTabbedPane.SHAPE_WINDOWS);
-	// tabs.setTabColorProvider(JideTabbedPane.ONENOTE_COLOR_PROVIDER);
 
 	shownCategory = UserSettings.instance().getShownCategory();
 

@@ -23,7 +23,7 @@ public class HoursByProjectChartPanel extends JXPanel {
     /**
      * The report displayed by this panel.
      */
-    private HoursByProjectReport report;
+    private transient HoursByProjectReport report;
 
     /** Dataset for the displayed chart. */
     private DefaultPieDataset hoursByProjectDataset;
