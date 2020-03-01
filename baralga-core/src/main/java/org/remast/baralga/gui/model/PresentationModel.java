@@ -168,9 +168,7 @@ public class PresentationModel {
 	 * Applies the current filter to the activities.
 	 */
 	private void applyFilter() {
-		if (log.isDebugEnabled()) {
-			log.debug("Applying filter to activities.");
-		}
+		log.debug("Applying filter to activities.");
 		this.activitiesList.clear();
 		this.activitiesList.addAll(this.baralgaDAO.getActivities(this.filter));
 	}
@@ -184,9 +182,7 @@ public class PresentationModel {
 	 *            the source of the edit activity
 	 */
 	public final void addProject(final Project project, final Object source) {
-		if (log.isDebugEnabled()) {
-			log.debug("Adding project " + project + ".");
-		}
+		log.debug("Adding project {}.", project);
 
 		this.baralgaDAO.addProject(project);
 
@@ -208,9 +204,7 @@ public class PresentationModel {
 	 *            the source of the edit activity
 	 */
 	public final void removeProject(final Project project, final Object source) {
-		if (log.isDebugEnabled()) {
-			log.debug("Removing project " + project + ".");
-		}
+		log.debug("Removing project {}.", project);
 
 		if (source.getClass().equals(BaralgaMain.class)) {
 			// Don't confirm deletion during model migration.
@@ -262,9 +256,7 @@ public class PresentationModel {
 	 *             selected, currently
 	 */
 	public final void start(final DateTime startTime) throws ProjectActivityStateException {
-		if (log.isDebugEnabled()) {
-			log.debug("Starting activity at " + startTime + ".");
-		}
+		log.debug("Starting activity at {}.", startTime);
 
 		if (getSelectedProject() == null) {
 			throw new ProjectActivityStateException(textBundle.textFor("PresentationModel.NoActiveProjectSelectedError")); //$NON-NLS-1$
@@ -309,10 +301,7 @@ public class PresentationModel {
 	 *            the event to forward to the observers
 	 */
 	private void notify(final BaralgaEvent event) {
-		if (log.isDebugEnabled()) {
-			log.debug("Sending event notification for " + event + ".");
-		}
-
+		log.debug("Sending event notification for {}.", event);
 		eventBus.post(event);
 	}
 
@@ -361,15 +350,6 @@ public class PresentationModel {
 		// filtered now (after the change).
 		final boolean matchesFilter = filter != null && filter.matchesCriteria(changedActivity);
 
-		// activitiesList.contains(changedActivity)
-		// boolean contains = false;
-		// for (ProjectActivity activity : activitiesList) {
-		// if (activity.getId() == changedActivity.getId()) {
-		// contains = true;
-		// break;
-		// }
-		// }
-
 		if (activitiesList.contains(changedActivity)) {
 			// Did match before but doesn't now.
 			if (!matchesFilter) {
@@ -409,9 +389,7 @@ public class PresentationModel {
 	 * @throws ProjectActivityStateException if there is no running project
 	 */
 	public final void stop(DateTime endDate, final boolean notifyObservers) throws ProjectActivityStateException {
-		if (log.isDebugEnabled()) {
-			log.debug("Stopping activity.");
-		}
+		log.debug("Stopping activity.");
 
 		if (!isActive()) {
 			throw new ProjectActivityStateException(textBundle.textFor("PresentationModel.NoActiveProjectError")); //$NON-NLS-1$
@@ -490,9 +468,7 @@ public class PresentationModel {
 	 * @param activeProject the new active project
 	 */
 	public final void changeProject(final Project activeProject) {
-		if (log.isDebugEnabled()) {
-			log.debug("Changing project to " + activeProject + ".");
-		}
+		log.debug("Changing project to {}.", activeProject);
 
 		// If there's no change we're done.
 		if (Objects.equals(getSelectedProject(), activeProject)) {
@@ -556,13 +532,10 @@ public class PresentationModel {
 	/**
 	 * Add a new activity to the model.
 	 * 
-	 * @param activity
-	 *            the activity to add
+	 * @param activity the activity to add
 	 */
 	public final void addActivity(final ProjectActivity activity, final Object source) {
-		if (log.isDebugEnabled()) {
-			log.debug("Adding activity " + activity + ".");
-		}
+		log.debug("Adding activity {}}.", activity);
 
 		final List<ProjectActivity> activities = new ArrayList<>(1);
 		activities.add(activity);
@@ -588,9 +561,7 @@ public class PresentationModel {
 	 *            the activity to remove
 	 */
 	public final void removeActivity(final ProjectActivity activity, final Object source) {
-		if (log.isDebugEnabled()) {
-			log.debug("Removing activity " + activity + ".");
-		}
+		log.debug("Removing activity {}.", activity);
 
 		final List<ProjectActivity> activities = new ArrayList<>(1);
 		activities.add(activity);
