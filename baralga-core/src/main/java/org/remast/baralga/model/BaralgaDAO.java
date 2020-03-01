@@ -87,41 +87,42 @@ public class BaralgaDAO {
 		boolean databaseExists = false;
 
 		// Look for table db_version if that is present the database has already been set up
-		final Statement statement = connection.createStatement();
-		try (ResultSet resultSet = statement.executeQuery("SHOW TABLES")) { //$NON-NLS-1$
-			while (resultSet.next()) {
-				if ("db_version".equalsIgnoreCase(resultSet.getString("TABLE_NAME"))) { //$NON-NLS-1$ //$NON-NLS-2$
-					databaseExists = true;
-					break;
+		try (final Statement statement = connection.createStatement()) {
+			try (ResultSet resultSet = statement.executeQuery("SHOW TABLES")) { //$NON-NLS-1$
+				while (resultSet.next()) {
+					if ("db_version".equalsIgnoreCase(resultSet.getString("TABLE_NAME"))) { //$NON-NLS-1$ //$NON-NLS-2$
+						databaseExists = true;
+						break;
+					}
 				}
 			}
-		}
 
-		if (!databaseExists) {
-			log.info("Creating Baralga DB."); //$NON-NLS-1$
-			executeScript("setup_database.sql");
-			log.info("Baralga DB successfully created."); //$NON-NLS-1$
-		}
-		connection.commit();
-
-		databaseVersion = -1;
-		String description = "-"; //$NON-NLS-1$
-		try (ResultSet resultSet = statement.executeQuery("select max(version) as version, description from db_version")) { //$NON-NLS-1$
-			if (resultSet.next()) {
-				databaseVersion = resultSet.getInt("version"); //$NON-NLS-1$
-				description = resultSet.getString("description"); //$NON-NLS-1$
+			if (!databaseExists) {
+				log.info("Creating Baralga DB."); //$NON-NLS-1$
+				executeScript("setup_database.sql");
+				log.info("Baralga DB successfully created."); //$NON-NLS-1$
 			}
-		}
-		
-		int versionDifference = LATEST_DATABASE_VERSION - databaseVersion;
-		for (int i = 0; i < versionDifference; i++) {
-			final int versionUpdate = databaseVersion + versionDifference;
-			log.info("Updating database to version " + versionUpdate + "."); //$NON-NLS-1$
-			final String updateScript = "db_version_" + StringUtils.leftPad(String.valueOf(versionUpdate), 3, "0") + ".sql";
-			executeScript(updateScript);
-		}
+			connection.commit();
 
-		log.info("Using Baralga DB Version: {}, description: {}.", databaseVersion, description); //$NON-NLS-1$
+			databaseVersion = -1;
+			String description = "-"; //$NON-NLS-1$
+			try (ResultSet resultSet = statement.executeQuery("select max(version) as version, description from db_version")) { //$NON-NLS-1$
+				if (resultSet.next()) {
+					databaseVersion = resultSet.getInt("version"); //$NON-NLS-1$
+					description = resultSet.getString("description"); //$NON-NLS-1$
+				}
+			}
+
+			int versionDifference = LATEST_DATABASE_VERSION - databaseVersion;
+			for (int i = 0; i < versionDifference; i++) {
+				final int versionUpdate = databaseVersion + versionDifference;
+				log.info("Updating database to version " + versionUpdate + "."); //$NON-NLS-1$
+				final String updateScript = "db_version_" + StringUtils.leftPad(String.valueOf(versionUpdate), 3, "0") + ".sql";
+				executeScript(updateScript);
+			}
+
+			log.info("Using Baralga DB Version: {}, description: {}.", databaseVersion, description); //$NON-NLS-1$
+		}
 	}
 
 	/**
