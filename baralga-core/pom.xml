@@ -10,7 +10,7 @@
 	<artifactId>baralga-core</artifactId>
 	<name>Baralga Application</name>
 	<properties>
-		<slf4j.version>1.7.25</slf4j.version>
+		<slf4j.version>1.7.30</slf4j.version>
 	</properties>
 	<build>
 		<resources>
