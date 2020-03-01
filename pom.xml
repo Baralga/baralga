@@ -9,6 +9,7 @@
 	<url>https://baralga.github.io</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jqassistant.version>1.8.0</jqassistant.version>
 
 		<!-- SonarCloud -->
 		<sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
@@ -45,4 +46,55 @@
 		<module>baralga-core</module>
 		<module>baralga-installer</module>
 	</modules>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.buschmais.jqassistant</groupId>
+				<artifactId>jqassistant-maven-plugin</artifactId>
+				<version>${jqassistant.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>scan</goal>
+							<goal>analyze</goal>
+						</goals>
+						<configuration>
+                     		<store>
+                                <uri>file:target/mystore</uri>
+                                <username>jqa_baralga</username>
+                                <password>b.NZGuJcooLXTX.zuPUFEq3JOHYqpUE</password>
+                            </store>
+							<groups>
+								<group>jqassistant-dashboard:Default</group>
+								<!-- Insert your own group references here -->
+							</groups>
+							<!-- Include .git folder path as a scan location -->
+							<scanIncludes>
+								<scanInclude>
+									<path>${project.basedir}/.git</path>
+								</scanInclude>
+								<scanInclude>
+									<path>${project.build.directory}/site/jacoco/jacoco.xml</path>
+								</scanInclude>
+							</scanIncludes>
+							<scanProperties>
+								<jqassistant.plugin.jacoco.filename>jacoco.xml</jqassistant.plugin.jacoco.filename>
+								<jqassistant.plugin.jacoco.dirname>${project.build.directory}/site/jacoco</jqassistant.plugin.jacoco.dirname>
+							</scanProperties>
+							<warnOnSeverity>MINOR</warnOnSeverity>
+							<failOnSeverity>MAJOR</failOnSeverity>
+						</configuration>
+					</execution>
+				</executions>
+				<!-- Add the jqassistant-dashboard-plugin itself as a dependency-->
+				<dependencies>
+					<dependency>
+						<groupId>org.jqassistant.contrib.plugin</groupId>
+						<artifactId>jqassistant-dashboard-plugin</artifactId>
+						<version>1.8.0</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
 </project>
