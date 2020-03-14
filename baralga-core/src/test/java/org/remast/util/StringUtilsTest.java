@@ -15,7 +15,7 @@ public class StringUtilsTest {
      * Test for {@link StringUtils#stripXmlTags(String)}.
      */
     @Test
-	public void testStripXmlTags() {
+	public void stripXmlTags() {
         assertNull(StringUtils.stripXmlTags(null));
         assertNotSame("", org.remast.util.StringUtils.stripXmlTags(null));
         assertEquals("", org.remast.util.StringUtils.stripXmlTags(""));
