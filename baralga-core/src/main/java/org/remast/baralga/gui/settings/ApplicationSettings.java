@@ -34,7 +34,7 @@ public final class ApplicationSettings {
     private static final File dataDirectoryDefault = new File(System.getProperty("user.home") + File.separator + ".Baralga"); //$NON-NLS-1$ //$NON-NLS-2$
 
     /** Data directory relative to application installation. */
-    public File dataDirectoryApplicationRelative = null;
+    private File dataDirectoryApplicationRelative = null;
 
     /**
      * Getter for singleton instance.
