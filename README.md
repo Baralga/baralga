@@ -16,7 +16,7 @@ Baralga Version 1.8.4-SNAPSHOT
 ### Fixes
 * #49 Fixed iCal export.
 * #20 state of project restored on export/import
-* Fixed data dispay after import and project deletion.
+* Fixed data display after import and project deletion.
 * Avoid unnecessary exceptions on startup.
 * Dependency updates.
 * Updated junit from 4 to 5.
