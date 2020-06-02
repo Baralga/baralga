@@ -14,6 +14,7 @@ Baralga Version 1.8.4-SNAPSHOT
 ---------------------
 
 ### Fixes
+* #49 Fixed iCal export.
 * #20 state of project restored on export/import
 * Fixed data dispay after import and project deletion.
 * Avoid unnecessary exceptions on startup.
@@ -76,12 +77,12 @@ Baralga Version 1.7.3
 Baralga Version 1.7.2
 ---------------------
 ### Fixes 
-* Crash during typing of an description (Issue #100 http://baralga.origo.ethz.ch/issues/100).
+* Crash during typing of an description.
 
 Baralga Version 1.7.1
 ---------------------
 ### Fixes 
-* Report name may not contain character (Issue #99 http://baralga.origo.ethz.ch/issues/99).
+* Report name may not contain character.
 * Support for Java 7.
 
 ### Misc
