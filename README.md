@@ -14,7 +14,7 @@ Baralga Version 1.8.4-SNAPSHOT
 ---------------------
 
 ### Fixes
-* #52 Added russion translation (thanks @mrkaban)
+* #52 Added russion translation (thanks [@mrkaban](https://github.com/@mrkaban))
 * #49 Fixed iCal export.
 * #20 state of project restored on export/import
 * Fixed data display after import and project deletion.
