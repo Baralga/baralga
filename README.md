@@ -10,7 +10,7 @@ https://baralga.github.io/
 Changelog
 ====================
 
-Baralga Version 1.8.4-SNAPSHOT
+Baralga Version 1.8.4
 ---------------------
 
 ### Fixes
