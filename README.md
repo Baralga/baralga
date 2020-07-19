@@ -12,7 +12,8 @@ Changelog
 
 Baralga Version 1.8.5-SNAPSHOT
 ---------------------
-* #50 Added missing russion translations  (thanks [@mrkaban](https://github.com/@mrkaban))
+* #50 Added missing russian translations  (thanks [@mrkaban](https://github.com/@mrkaban))
+* #56 Use strings as ids to be compatible with https://github.com/Baralga/baralga-web.
 
 Baralga Version 1.8.4
 ---------------------
