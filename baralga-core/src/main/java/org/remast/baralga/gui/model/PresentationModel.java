@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * The model of the Baralga application. This is the model capturing both the
@@ -116,7 +117,7 @@ public class PresentationModel {
 
 		this.active = UserSettings.instance().isActive();
 		this.start = UserSettings.instance().getStart();
-		final Long activeProjectId = UserSettings.instance().getActiveProjectId();
+		final String activeProjectId = UserSettings.instance().getActiveProjectId();
 		if (activeProjectId != null) {
 			this.selectedProject = this.baralgaDAO.findProjectById(activeProjectId);
 		}
@@ -136,12 +137,6 @@ public class PresentationModel {
 		// Set restored filter from settings
 		setFilter(UserSettings.instance().restoreFromSettings(), this);
 
-		// b) restore project (can be done here only as we need to search all
-		// projects)
-		final Long selectedProjectId = UserSettings.instance().getFilterSelectedProjectId();
-		if (selectedProjectId != null) {
-			filter.setProject(this.baralgaDAO.findProjectById(selectedProjectId));
-		}
 		applyFilter();
 
 		this.description = UserSettings.instance().getLastDescription();
@@ -314,19 +309,29 @@ public class PresentationModel {
 	 *            the event to fire
 	 */
 	public void fireProjectChangedEvent(final Project changedProject, final PropertyChangeEvent propertyChangeEvent) {
+		this.baralgaDAO.updateProject(changedProject);
+
 		final BaralgaEvent event = new BaralgaEvent(BaralgaEvent.PROJECT_CHANGED, this);
 		event.setData(changedProject);
 		event.setPropertyChangeEvent(propertyChangeEvent);
-
-		this.baralgaDAO.updateProject(changedProject);
-
-		notify(event);
 
 		if (propertyChangeEvent.getPropertyName().equals(Project.PROPERTY_ACTIVE)) {
 			if (changedProject.isActive()) {
 				this.projectList.add(changedProject);
 			} else {
 				this.projectList.remove(changedProject);
+			}
+		} else if (propertyChangeEvent.getPropertyName().equals(Project.PROPERTY_TITLE)) {
+			Optional<Project> origProject = this.projectList.stream().filter(p -> p.equals(changedProject)).findAny();
+			if (origProject.isPresent() && this.projectList.contains(origProject.get())) {
+				this.projectList.remove(origProject.get());
+				this.projectList.add(changedProject);
+			}
+
+			origProject = this.allProjectsList.stream().filter(p -> p.equals(changedProject)).findAny();
+			if (origProject.isPresent() &&  this.allProjectsList.contains(origProject.get())) {
+				this.allProjectsList.remove(origProject.get());
+				this.allProjectsList.add(changedProject);
 			}
 		}
 	}

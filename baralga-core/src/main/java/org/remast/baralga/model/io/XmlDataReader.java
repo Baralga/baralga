@@ -57,7 +57,7 @@ public class XmlDataReader extends DefaultHandler {
 		if ("baralga".equals(qName)) {
 			version = Integer.parseInt(attributes.getValue("version"));
 		} else if ("project".equals(qName)) {
-			currentProject = new Project(Long.parseLong(attributes.getValue("id")), null, null);
+			currentProject = new Project(attributes.getValue("id"), null, null);
 			
 			if (attributes.getValue("active") != null) {
 			  currentProject.setActive(Boolean.parseBoolean(attributes.getValue("active")));
@@ -66,10 +66,10 @@ public class XmlDataReader extends DefaultHandler {
 			DateTime start = ISODateTimeFormat.dateHourMinute().parseDateTime(attributes.getValue("start"));
 			DateTime end = ISODateTimeFormat.dateHourMinute().parseDateTime(attributes.getValue("end"));
 
-			long projectId = Long.parseLong(attributes.getValue("projectReference"));
+			String projectId = attributes.getValue("projectReference");
 			Project project = null;
 			for (Project tmpProject : projects) {
-				if (tmpProject.getId() == projectId) {
+				if (tmpProject.getId().equals(projectId)) {
 					project = tmpProject;
 					break;
 				}

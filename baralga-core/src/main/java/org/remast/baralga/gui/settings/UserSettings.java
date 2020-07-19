@@ -243,11 +243,11 @@ public final class UserSettings {
 	/** Active Flag. */
 	private static final String ACTIVE_PROJECT_ID = "activeProjectId"; //$NON-NLS-1$
 
-	public Long getActiveProjectId() {
-		return doGetLong(ACTIVE_PROJECT_ID, null);
+	public String getActiveProjectId() {
+		return doGetString(ACTIVE_PROJECT_ID, null);
 	}
 
-	public void setActiveProjectId(final Long activeProjectId) {
+	public void setActiveProjectId(final String activeProjectId) {
 		userConfig.setProperty(ACTIVE_PROJECT_ID, String.valueOf(activeProjectId));
 		
 		// Auto save change
@@ -304,12 +304,12 @@ public final class UserSettings {
 	/** The key for the selected project id of filter. */
 	private static final String SELECTED_PROJECT_ID = "filter.projectId"; //$NON-NLS-1$
 
-	public Long getFilterSelectedProjectId() {
-		return doGetLong(SELECTED_PROJECT_ID, null);
+	public String getFilterSelectedProjectId() {
+		return doGetString(SELECTED_PROJECT_ID, null);
 	}
 
-	public void setFilterSelectedProjectId(final long projectId) {
-		userConfig.setProperty(SELECTED_PROJECT_ID, String.valueOf(Long.valueOf(projectId)));
+	public void setFilterSelectedProjectId(final String projectId) {
+		userConfig.setProperty(SELECTED_PROJECT_ID, String.valueOf(projectId));
 		
 		// Auto save change
 		save();

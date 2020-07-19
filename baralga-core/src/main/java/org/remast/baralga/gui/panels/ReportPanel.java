@@ -1,5 +1,6 @@
 package org.remast.baralga.gui.panels;
 
+import com.google.common.eventbus.Subscribe;
 import info.clearthought.layout.TableLayout;
 
 import java.awt.Color;
@@ -7,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Vector;
 
@@ -21,10 +23,12 @@ import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.painter.GlossPainter;
 import org.jdesktop.swingx.painter.MattePainter;
 import org.remast.baralga.gui.BaralgaMain;
+import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.lists.ProjectFilterList;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.baralga.model.Project;
+import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
 import org.remast.baralga.model.filter.FilterUtils;
 import org.remast.baralga.model.filter.SpanType;
@@ -91,6 +95,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 	 */
 	public ReportPanel(final PresentationModel model) {
 		this.model = model;
+		this.model.getEventBus().register(this);
 
 		// Initialize GUI elements.
 		initialize();
@@ -206,7 +211,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 			}
 
 			// Read from Settings.
-			final Long selectedProjectId = UserSettings.instance().getFilterSelectedProjectId();
+			final String selectedProjectId = UserSettings.instance().getFilterSelectedProjectId();
 			if (selectedProjectId != null) {
 				for (LabeledItem<Project> item : projectFilterList.getProjectList()) {
 					if (Objects.equals(item.getItem().getId(), selectedProjectId)) {
@@ -231,7 +236,6 @@ public class ReportPanel extends JXPanel implements ActionListener {
 		final Filter filter = new Filter();
 
 		// Restore criteria from previous filter
-		filter.setProject(model.getFilter().getProject());
 		filter.setSpanType(model.getFilter().getSpanType());
 		filter.setTimeInterval(model.getFilter().getTimeInterval());
 
@@ -252,12 +256,6 @@ public class ReportPanel extends JXPanel implements ActionListener {
 			filter.initTimeInterval();
 		}
 
-		// Filter for project
-		final LabeledItem<Project> projectFilterItem = (LabeledItem<Project>) getProjectFilterSelector().getSelectedItem();
-		final Project project = projectFilterItem.getItem();
-		if (!ProjectFilterList.ALL_PROJECTS_DUMMY.equals(project)) {
-			filter.setProject(project);
-		}
 		return filter;
 	}
 
@@ -274,7 +272,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 		final LabeledItem<Project> projectFilterItem = (LabeledItem<Project>) getProjectFilterSelector().getSelectedItem();
 		final Project project = projectFilterItem.getItem();
 		if (!ProjectFilterList.ALL_PROJECTS_DUMMY.equals(project)) {
-			long projectId = project.getId();
+			String projectId = project.getId();
 			UserSettings.instance().setFilterSelectedProjectId(projectId);
 		} else {
 			UserSettings.instance().setFilterSelectedProjectId(

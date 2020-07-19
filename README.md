@@ -12,6 +12,7 @@ Changelog
 
 Baralga Version 1.8.6-SNAPSHOT
 ---------------------
+* #56 Use strings as ids to be compatible with https://github.com/Baralga/baralga-web.
 
 Baralga Version 1.8.5
 ---------------------

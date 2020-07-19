@@ -1,6 +1,7 @@
 package org.remast.baralga.gui.lists;
 
 import java.util.Collection;
+import java.util.UUID;
 
 import org.remast.baralga.gui.events.BaralgaEvent;
 import org.remast.baralga.gui.model.PresentationModel;
@@ -28,7 +29,7 @@ public class ProjectFilterList {
     /** The model. */
     private final PresentationModel model;
 
-    public static final int ALL_PROJECTS_DUMMY_VALUE = -10;
+    public static final String ALL_PROJECTS_DUMMY_VALUE = new UUID(0,0).toString();
 
     public static final Project ALL_PROJECTS_DUMMY = new Project(ALL_PROJECTS_DUMMY_VALUE, "*", "*"); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -91,6 +92,7 @@ public class ProjectFilterList {
             break;
 
         case BaralgaEvent.DATA_CHANGED:
+        case BaralgaEvent.PROJECT_CHANGED:
             this.initialize();
             break;
         }

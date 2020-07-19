@@ -37,12 +37,6 @@ public class Filter {
 
 	/** The predicate to filter by time interval. */
     private Predicate<ProjectActivity> timeIntervalPredicate;
-    
-    /** The project to filter by. */
-    private Project project;
-
-    /** The predicate to filter by project. */
-    private Predicate<ProjectActivity> projectPredicate;
 
     /**
      * Create filter with no predicates.
@@ -109,36 +103,6 @@ public class Filter {
         this.predicates.add(newTimeIntervalPredicate);
     }
     
-    /**
-     * Getter for the project.
-     * @return the project
-     */
-    public Project getProject() {
-        return this.project;
-    }
-
-    /**
-     * Sets the project to filter by.
-     * @param project the project to set
-     */
-    public void setProject(final Project project) {
-        this.project = project;
-
-        if (this.projectPredicate != null) {
-            this.predicates.remove(this.projectPredicate);
-        }
-
-        // If project is null set project predicate also to null.
-        if (this.project == null) {
-            this.projectPredicate = null;
-            return;
-        }
-
-        final Predicate<ProjectActivity> newProjectPredicate = new ProjectPredicate(project);
-        this.projectPredicate = newProjectPredicate;
-        this.predicates.add(newProjectPredicate);
-    }
-    
 	/** Initializes the time interval for the span type of the filter. */
 	public void initTimeInterval() {
 		DateTime now = DateUtils.getNowAsDateTime().withMillisOfDay(0);
@@ -176,7 +140,6 @@ public class Filter {
         final Filter filter = (Filter) that;
         
         final EqualsBuilder eqBuilder = new EqualsBuilder();
-        eqBuilder.append(this.getProject(), filter.getProject());
         eqBuilder.append(this.getSpanType(), filter.getSpanType());
         eqBuilder.append(this.getTimeInterval(), filter.getTimeInterval());
         
@@ -186,7 +149,6 @@ public class Filter {
     @Override
     public int hashCode() {
         return Objects.hash(
-                this.getProject(),
                 this.getSpanType(),
                 this.getTimeInterval()
         );
@@ -196,7 +158,6 @@ public class Filter {
     public String toString() {
     	final ToStringBuilder toStringBuilder = new ToStringBuilder(this);
     	
-    	toStringBuilder.append(this.getProject()); 
     	toStringBuilder.append(this.getSpanType());
     	toStringBuilder.append(this.getTimeInterval()); 
     	

@@ -5,6 +5,7 @@ import info.clearthought.layout.TableLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.util.UUID;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -152,7 +153,7 @@ public class ManageProjectsDialog extends EscapeDialog {
             addProjectButton.setToolTipText(textBundle.textFor("ManageProjectsDialog.AddProjectButton.ToolTipText")); //$NON-NLS-1$
             addProjectButton.addActionListener(e -> {
                 String projectName = getNewProjectTextField().getText();
-                model.addProject(new Project(RandomUtils.nextLong(), projectName, projectName), ManageProjectsDialog.this);
+                model.addProject(new Project(UUID.randomUUID().toString(), projectName, projectName), ManageProjectsDialog.this);
                 getNewProjectTextField().setText(""); //$NON-NLS-1$
             });
             addProjectButton.setDefaultCapable(true);
