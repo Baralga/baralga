@@ -10,6 +10,9 @@ https://baralga.github.io/
 Changelog
 ====================
 
+Baralga Version 1.8.6-SNAPSHOT
+---------------------
+
 Baralga Version 1.8.5
 ---------------------
 * #50 Added missing russian translations (thanks [@mrkaban](https://github.com/@mrkaban))
