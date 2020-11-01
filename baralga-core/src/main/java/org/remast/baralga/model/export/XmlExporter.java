@@ -25,7 +25,6 @@ import javax.xml.transform.stream.StreamResult;
 import org.apache.commons.text.StringEscapeUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
-import org.remast.baralga.model.BaralgaDAO;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.model.filter.Filter;
@@ -38,6 +37,8 @@ import org.w3c.dom.Element;
  * @author remast
  */
 public class XmlExporter implements Exporter {
+
+	private static final String LATEST_XML_VERSION = "2";
 
 	@Override
 	public void export(Collection<ProjectActivity> data, Filter filter, OutputStream outputStream) throws Exception {
@@ -58,7 +59,7 @@ public class XmlExporter implements Exporter {
 
         // Create root element with db version
         Element root = document.createElement("baralga");
-        root.setAttribute("version", String.valueOf(BaralgaDAO.LATEST_DATABASE_VERSION));
+        root.setAttribute("version", LATEST_XML_VERSION);
         document.appendChild(root);
 
         // Create a comment and put it in the root element

@@ -4,6 +4,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.UUID;
 
 public class Project implements Serializable, Comparable<Project> {
     
@@ -13,7 +14,7 @@ public class Project implements Serializable, Comparable<Project> {
     private static final long serialVersionUID = 1L;
 
     /** The unique identifier of the project. */
-    private long id;
+    private String id;
     
     /** The title of the project. */
     private String title;
@@ -32,7 +33,7 @@ public class Project implements Serializable, Comparable<Project> {
      * @param title the project title
      * @param description the project description
      */
-    public Project(final long id, final String title, final String description) {
+    public Project(final String id, final String title, final String description) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -48,11 +49,11 @@ public class Project implements Serializable, Comparable<Project> {
     /**
      * @return the id
      */
-    public long getId() {
+    public String getId() {
         return id;
     }
     
-    public void setId(long id) {
+    public void setId(String id) {
     	this.id = id;
     }
 

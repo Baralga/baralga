@@ -23,7 +23,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
     private static final long serialVersionUID = 1L;
 
     /** The unique identifier of the project. */
-    private long id;
+    private String id;
 
     /** Start date of this activity. */
     private DateTime start;
@@ -48,11 +48,11 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
 
     public static final String PROPERTY_DESCRIPTION = "org.remast.baralga.model.ProjectActivity.description";
     
-    public long getId() {
+    public String getId() {
         return id;
     }
     
-    public void setId(long id) {
+    public void setId(String id) {
     	this.id = id;
     }
 
