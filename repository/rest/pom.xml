@@ -7,6 +7,6 @@
 		<artifactId>repository</artifactId>
 		<version>1.8.6-SNAPSHOT</version>
 	</parent>
-	<artifactId>repository-file</artifactId>
-	<name>Baralga File Repository</name>
+	<artifactId>repository-rest</artifactId>
+	<name>Baralga REST Repository</name>
 </project>

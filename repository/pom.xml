@@ -10,5 +10,6 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>api</module>
+		<module>rest</module>
 	</modules>
 </project>
