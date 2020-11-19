@@ -296,7 +296,7 @@ public final class BaralgaMain {
 		final PresentationModel model = new PresentationModel();
 
 		final BaralgaDAO dao = new BaralgaDAO();
-		dao.init();
+		dao.initialize();
 
 		model.setDAO(dao);
 		model.initialize();

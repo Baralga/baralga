@@ -69,6 +69,7 @@ public class DescriptionPanel extends JPanel {
 
 		// Remove old description panels.
 		container.removeAll();
+		container.repaint();
 
 		for (final ProjectActivity activity : DescriptionPanel.this.model.getActivitiesList()) {
 			final DescriptionPanelEntry descriptionPanelEntry = new DescriptionPanelEntry(activity, DescriptionPanel.this.model);
@@ -85,7 +86,6 @@ public class DescriptionPanel extends JPanel {
 
 			// Display entry
 			container.add(descriptionPanelEntry);
-
 		}
 
 	}
@@ -100,10 +100,6 @@ public class DescriptionPanel extends JPanel {
 		ProjectActivity activity;
 
 		switch (event.getType()) {
-
-		case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
-			applyFilter();
-			break;
 
 		case BaralgaEvent.PROJECT_ACTIVITY_CHANGED:
 		{
@@ -147,6 +143,7 @@ public class DescriptionPanel extends JPanel {
 
         case BaralgaEvent.PROJECT_REMOVED:
 		case BaralgaEvent.DATA_CHANGED:
+		case BaralgaEvent.PROJECT_ACTIVITY_ADDED:
 			applyFilter();
 			break;
 		}

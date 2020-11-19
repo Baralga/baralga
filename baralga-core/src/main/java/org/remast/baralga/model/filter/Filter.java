@@ -6,6 +6,8 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
+import org.remast.baralga.repository.FilterVO;
+import org.remast.baralga.repository.ProjectVO;
 import org.remast.util.DateUtils;
 
 import java.util.ArrayList;
@@ -145,7 +147,13 @@ public class Filter {
         
         return eqBuilder.isEquals();
     }
-    
+
+    public FilterVO toVO() {
+	    FilterVO filterVO = new FilterVO();
+	    filterVO.setTimeInterval(timeInterval);
+        return filterVO;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(

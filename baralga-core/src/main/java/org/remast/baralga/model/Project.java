@@ -1,6 +1,7 @@
 package org.remast.baralga.model;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.remast.baralga.repository.ProjectVO;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -37,6 +38,12 @@ public class Project implements Serializable, Comparable<Project> {
         this.id = id;
         this.title = title;
         this.description = description;
+    }
+
+    public Project(final ProjectVO projectVO) {
+        id = projectVO.getId();
+        title = projectVO.getTitle();
+        description = projectVO.getDescription();
     }
 
     /**
@@ -112,6 +119,14 @@ public class Project implements Serializable, Comparable<Project> {
         eqBuilder.append(this.getId(), project.getId());
         
         return eqBuilder.isEquals();
+    }
+
+    public ProjectVO toVO() {
+        return new ProjectVO(
+                id,
+                title,
+                description
+        );
     }
 
     @Override
