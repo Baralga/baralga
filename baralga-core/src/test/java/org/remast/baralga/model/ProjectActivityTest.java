@@ -176,6 +176,7 @@ public class ProjectActivityTest {
         ProjectActivity activity = new ProjectActivity(activityVO);
 
         // Assert
+        assertEquals(activityVO.getId(), activity.getId());
         assertEquals(activityVO.getStart(), activity.getStart());
         assertEquals(activityVO.getEnd(), activity.getEnd());
         assertEquals(activityVO.getDescription(), activity.getDescription());

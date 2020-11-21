@@ -11,6 +11,9 @@ import org.remast.baralga.gui.settings.ApplicationSettings;
 import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.baralga.model.BaralgaDAO;
 import org.remast.baralga.model.io.SaveTimer;
+import org.remast.baralga.repository.BaralgaRepository;
+import org.remast.baralga.repository.BaralgaRestRepository;
+import org.remast.baralga.repository.file.BaralgaFileRepository;
 import org.remast.swing.util.ExceptionUtils;
 import org.remast.util.TextResourceBundle;
 import org.slf4j.Logger;
@@ -295,7 +298,8 @@ public final class BaralgaMain {
 		// Initialize with new site
 		final PresentationModel model = new PresentationModel();
 
-		final BaralgaDAO dao = new BaralgaDAO();
+		final BaralgaRepository repository = new BaralgaRestRepository("http://localhost:8080");
+		final BaralgaDAO dao = new BaralgaDAO(repository);
 		dao.initialize();
 
 		model.setDAO(dao);

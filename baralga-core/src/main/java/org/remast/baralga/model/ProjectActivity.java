@@ -82,6 +82,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
     }
 
     public ProjectActivity(final ActivityVO activityVO) {
+        id = activityVO.getId();
         start = activityVO.getStart();
         end = activityVO.getEnd();
         description = activityVO.getDescription();
@@ -219,7 +220,7 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
     }
 
     public ActivityVO toVO() {
-        return new ActivityVO(start, end, description, project.toVO());
+        return new ActivityVO(id, start, end, description, project.toVO());
     }
 
     /**

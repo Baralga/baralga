@@ -436,26 +436,6 @@ public class BaralgaFileRepository implements BaralgaRepository {
     }
 
     /**
-     * Provides a list of all months with activities.
-     */
-    public List<Integer> getMonthList() {
-        final List<Integer> monthList = new ArrayList<>();
-
-        try (final Statement statement = connection.createStatement()) {
-            try (final ResultSet resultSet = statement.executeQuery("select distinct month(activity.start) as month from activity order by month desc")) { //$NON-NLS-1$
-                while (resultSet.next()) {
-                    monthList.add(resultSet.getInt("month")); //$NON-NLS-1$
-                }
-            }
-        } catch (SQLException e) {
-            log.error(e.getLocalizedMessage(), e);
-            throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
-        }
-
-        return monthList;
-    }
-
-    /**
      * Provides all activities satisfying the given filter.
      * @param filter the filter for activities
      * @return read-only view of the activities

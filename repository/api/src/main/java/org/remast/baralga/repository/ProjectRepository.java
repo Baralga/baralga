@@ -6,43 +6,43 @@ import java.util.List;
 interface ProjectRepository {
 
     /**
-     * Adds a new ProjectVO.
-     * @param ProjectVO the ProjectVO to add
+     * Adds a new project.
+     * @param project the project to add
      */
-    void addProject(final ProjectVO ProjectVO);
+    void addProject(final ProjectVO project);
 
-    void remove(final ProjectVO ProjectVO);
+    void remove(final ProjectVO project);
 
     /**
-     * Getter for all active ProjectVOs.
+     * Getter for all active projects.
      * @return read-only view of the ProjectVOs
      */
     List<ProjectVO> getActiveProjects();
 
     /**
-     * Getter for all ProjectVOs (both active and inactive).
+     * Getter for all projects (both active and inactive).
      * @return read-only view of the ProjectVOs
      */
     List<ProjectVO> getAllProjects();
 
      /**
-     * Adds a bunch of ProjectVOs.
-     * @param ProjectVOs the ProjectVOs to add
+     * Adds a bunch of projects.
+     * @param projects the ProjectVOs to add
      */
-     void addProjects(final Collection<ProjectVO> ProjectVOs);
+     void addProjects(final Collection<ProjectVO> projects);
     
     /**
-     * Updates the ProjectVO in the database. Pending changes will be made persistent.
-     * @param ProjectVO the ProjectVO to update
+     * Updates the project in the database. Pending changes will be made persistent.
+     * @param project the ProjectVO to update
      */
-    void updateProject(final ProjectVO ProjectVO) ;
+    void updateProject(final ProjectVO project) ;
 
 
     /**
-     * Find a ProjectVO by it's id.
-     * @param ProjectVOId the id of the ProjectVO
+     * Find a project by it's id.
+     * @param projectId the id of the ProjectVO
      * @return the ProjectVO with the given id or <code>null</code> if there is none
      */
-    ProjectVO findProjectById(final String ProjectVOId) ;
+    ProjectVO findProjectById(final String projectId) ;
 
 }

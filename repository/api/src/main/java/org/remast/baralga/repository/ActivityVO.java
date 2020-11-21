@@ -19,10 +19,11 @@ public class ActivityVO {
     private ProjectVO project;
 
     public ActivityVO(final DateTime start, final DateTime end, final ProjectVO project) {
-        this(start, end, null, project);
+        this(null, start, end, null, project);
     }
 
-    public ActivityVO(final DateTime start, final DateTime end, final String description, final ProjectVO project) {
+    public ActivityVO(final String id, final DateTime start, final DateTime end, final String description, final ProjectVO project) {
+        this.id = id;
         this.start = start;
         this.end = end;
         this.description = description;

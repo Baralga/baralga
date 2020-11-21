@@ -16,7 +16,11 @@ import java.util.stream.Collectors;
  */
 public class BaralgaDAO {
 
-	private BaralgaRepository repository = new BaralgaFileRepository();
+	final BaralgaRepository repository;
+
+	public BaralgaDAO(final BaralgaRepository repository) {
+		this.repository = repository;
+	}
 
 	public void initialize() {
 		repository.initialize();
@@ -192,13 +196,6 @@ public class BaralgaDAO {
 		}
 
 		return new Project(projectVO);
-	}
-	
-	/**
-	 * Provides a list of all months with activities.
-	 */
-	public List<Integer> getMonthList() {
-		return repository.getMonthList();
 	}
 
 	/**
