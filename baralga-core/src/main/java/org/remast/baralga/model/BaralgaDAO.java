@@ -8,6 +8,7 @@ import org.remast.baralga.repository.file.BaralgaFileRepository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -189,13 +190,12 @@ public class BaralgaDAO {
 			return null;
 		}
 
-
-		ProjectVO projectVO = repository.findProjectById(projectId);
-		if (projectVO == null) {
+		Optional<ProjectVO> projectVO = repository.findProjectById(projectId);
+		if (!projectVO.isPresent()) {
 			return null;
 		}
 
-		return new Project(projectVO);
+		return new Project(projectVO.get());
 	}
 
 	/**

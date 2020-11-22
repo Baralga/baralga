@@ -412,9 +412,9 @@ public class BaralgaFileRepository implements BaralgaRepository {
      * @param projectId the id of the project
      * @return the project with the given id or <code>null</code> if there is none
      */
-    public ProjectVO findProjectById(final String projectId) {
+    public Optional<ProjectVO> findProjectById(final String projectId) {
         if (projectId == null) {
-            return null;
+            return Optional.empty();
         }
 
         try (final PreparedStatement preparedStatement = prepare("select * from project where project_id = ?")) { //$NON-NLS-1$
@@ -424,7 +424,7 @@ public class BaralgaFileRepository implements BaralgaRepository {
                 if (rs.next()) {
                     final ProjectVO project = new ProjectVO(rs.getString("project_id"), rs.getString("title"), rs.getString("description")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                     project.setActive(rs.getBoolean("active")); //$NON-NLS-1$
-                    return project;
+                    return Optional.ofNullable(project);
                 }
             }
         } catch (SQLException e) {
@@ -432,7 +432,7 @@ public class BaralgaFileRepository implements BaralgaRepository {
             throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
         }
 
-        return null;
+        return Optional.empty();
     }
 
     /**

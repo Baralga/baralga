@@ -2,6 +2,7 @@ package org.remast.baralga.repository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 interface ProjectRepository {
 
@@ -43,6 +44,6 @@ interface ProjectRepository {
      * @param projectId the id of the ProjectVO
      * @return the ProjectVO with the given id or <code>null</code> if there is none
      */
-    ProjectVO findProjectById(final String projectId) ;
+    Optional<ProjectVO> findProjectById(final String projectId) ;
 
 }

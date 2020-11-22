@@ -33,6 +33,13 @@ public class BaralgaRestRepository implements BaralgaRepository {
         isoDateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss");
     }
 
+    private Request addBasicAuthHeaders(Request request) {
+        final String login = "admin";
+        final String password = "admin22";
+        String credential = Credentials.basic(login, password);
+        return request.newBuilder().header("Authorization", credential).build();
+    }
+
     @Override
     public void gatherStatistics() {
         // do nothing
@@ -66,7 +73,7 @@ public class BaralgaRestRepository implements BaralgaRepository {
                     .post(RequestBody.create(MediaType.parse("application/json"), objectMapper.writeValueAsString(activityJson)))
                     .build();
 
-            Response response = client.newCall(request).execute();
+            Response response = client.newCall(addBasicAuthHeaders(request)).execute();
             if (!response.isSuccessful()) {
                 throw new RuntimeException(response.toString());
             }
@@ -88,7 +95,7 @@ public class BaralgaRestRepository implements BaralgaRepository {
                     .delete()
                     .build();
 
-            Response response = client.newCall(request).execute();
+            Response response = client.newCall(addBasicAuthHeaders(request)).execute();
             if (!response.isSuccessful()) {
                 throw new RuntimeException(response.toString());
             }
@@ -127,7 +134,7 @@ public class BaralgaRestRepository implements BaralgaRepository {
                     .put(RequestBody.create(MediaType.parse("application/json"), objectMapper.writeValueAsString(activityJson)))
                     .build();
 
-            Response response = client.newCall(request).execute();
+            Response response = client.newCall(addBasicAuthHeaders(request)).execute();
             if (!response.isSuccessful()) {
                 throw new RuntimeException(response.toString());
             }
@@ -153,7 +160,7 @@ public class BaralgaRestRepository implements BaralgaRepository {
                 .build();
 
         try {
-            Response response = client.newCall(request).execute();
+            Response response = client.newCall(addBasicAuthHeaders(request)).execute();
             if (!response.isSuccessful()) {
                 throw new RuntimeException(response.toString());
             }
@@ -169,7 +176,6 @@ public class BaralgaRestRepository implements BaralgaRepository {
                     projectsById.put(project.getId(), project);
                     projects.add(project);
                 }
-
 
                 final List<ActivityVO> activities = new ArrayList<>();
                 for (JsonNode jsonActivity : jsonActivities.get("data")) {
@@ -207,7 +213,7 @@ public class BaralgaRestRepository implements BaralgaRepository {
                 .build();
 
         try {
-            Response response = client.newCall(request).execute();
+            Response response = client.newCall(addBasicAuthHeaders(request)).execute();
             if (!response.isSuccessful()) {
                 throw new RuntimeException(response.toString());
             }
@@ -246,7 +252,7 @@ public class BaralgaRestRepository implements BaralgaRepository {
                 .build();
 
         try {
-            Response response = client.newCall(request).execute();
+            Response response = client.newCall(addBasicAuthHeaders(request)).execute();
             if (!response.isSuccessful()) {
                 throw new RuntimeException(response.toString());
             }
@@ -267,26 +273,51 @@ public class BaralgaRestRepository implements BaralgaRepository {
         }
     }
 
+    @Override
+    public Optional<ProjectVO> findProjectById(String projectId) {
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(baseUrl).newBuilder()
+                .addPathSegment("api").addPathSegment("projects")
+                .addPathSegment(projectId);
+
+        Request request = new Request.Builder()
+                .url(urlBuilder.build())
+                .build();
+
+        try {
+            Response response = client.newCall(addBasicAuthHeaders(request)).execute();
+            if (response.code() == 404) {
+                return Optional.empty();
+            }
+
+            if (!response.isSuccessful()) {
+                throw new RuntimeException(response.toString());
+            }
+
+            try (ResponseBody responseBody = response.body()) {
+                JsonNode jsonProject = objectMapper.readTree(responseBody.string());
+                ProjectVO project = readProject(jsonProject);
+                return Optional.ofNullable(project);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void addProjects(Collection<ProjectVO> projects) {
+        projects.stream().forEach(this::addProject);
+    }
+
+    @Override
+    public void updateProject(ProjectVO project) {
+        // not yet implemented
+    }
+
     private ProjectVO readProject(JsonNode jsonProject) {
         return new ProjectVO(
                 jsonProject.get("id").asText(),
                 jsonProject.get("title").asText(),
                 jsonProject.get("description").asText()
         );
-    }
-
-    @Override
-    public void addProjects(Collection<ProjectVO> projects) {
-
-    }
-
-    @Override
-    public void updateProject(ProjectVO project) {
-
-    }
-
-    @Override
-    public ProjectVO findProjectById(String projectId) {
-        return null;
     }
 }
