@@ -153,7 +153,7 @@ public class ManageProjectsDialog extends EscapeDialog {
             addProjectButton.setToolTipText(textBundle.textFor("ManageProjectsDialog.AddProjectButton.ToolTipText")); //$NON-NLS-1$
             addProjectButton.addActionListener(e -> {
                 String projectName = getNewProjectTextField().getText();
-                model.addProject(new Project(UUID.randomUUID().toString(), projectName, projectName), ManageProjectsDialog.this);
+                model.addProject(new Project(null, projectName, projectName), ManageProjectsDialog.this);
                 getNewProjectTextField().setText(""); //$NON-NLS-1$
             });
             addProjectButton.setDefaultCapable(true);

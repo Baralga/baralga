@@ -55,11 +55,8 @@ public class BaralgaDAO {
 			return;
 		}
 
-		if (project.getId() == null) {
-			throw new IllegalArgumentException("Cannot add project without id.");
-		}
-
-		repository.addProject(project.toVO());
+		ProjectVO projectVO = repository.addProject(project.toVO());
+		project.setId(projectVO.getId());
 	}
 
 	/**

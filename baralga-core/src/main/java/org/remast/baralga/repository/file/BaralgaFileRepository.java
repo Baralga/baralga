@@ -180,9 +180,9 @@ public class BaralgaFileRepository implements BaralgaRepository {
      * Adds a new project.
      * @param project the project to add
      */
-    public void addProject(final ProjectVO project) {
+    public ProjectVO addProject(final ProjectVO project) {
         if (project == null) {
-            return;
+            return null;
         }
 
         if (project.getId() == null) {
@@ -191,13 +191,17 @@ public class BaralgaFileRepository implements BaralgaRepository {
 
         // TODO: Check if exists
         final String sql = "insert into project (project_id, title, description, active) values (?, ?, ?, ?)"; //$NON-NLS-1$
+        final String id = UUID.randomUUID().toString();
         try (final PreparedStatement preparedStatement = prepare(sql)) {
-            preparedStatement.setString(1, project.getId());
+            preparedStatement.setString(1, id);
             preparedStatement.setString(2, project.getTitle());
             preparedStatement.setString(3, project.getDescription());
             preparedStatement.setBoolean(4, project.isActive());
 
             preparedStatement.execute();
+
+            project.setId(id);
+            return project;
         } catch (SQLException e) {
             log.error(e.getLocalizedMessage(), e);
             throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
@@ -263,9 +267,9 @@ public class BaralgaFileRepository implements BaralgaRepository {
      * Adds a new activity.
      * @param activity the activity to add
      */
-    public void addActivity(final ActivityVO activity) {
+    public ActivityVO addActivity(final ActivityVO activity) {
         if (activity == null) {
-            return;
+            return null;
         }
 
         // TODO: Check if exists
@@ -286,6 +290,7 @@ public class BaralgaFileRepository implements BaralgaRepository {
             preparedStatement.execute();
 
             activity.setId(activityId);
+            return activity;
         } catch (SQLException e) {
             log.error(e.getLocalizedMessage(), e);
             throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
@@ -329,14 +334,16 @@ public class BaralgaFileRepository implements BaralgaRepository {
      * Adds a bunch of activities.
      * @param activities the activities to add
      */
-    public void addActivities(final Collection<ActivityVO> activities) {
+    public Collection<ActivityVO> addActivities(final Collection<ActivityVO> activities) {
         if (activities == null || activities.size() == 0) {
-            return;
+            return null;
         }
 
         for (ActivityVO activity : activities) {
             addActivity(activity);
         }
+
+        return activities;
     }
 
     /**

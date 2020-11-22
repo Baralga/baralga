@@ -15,7 +15,7 @@ public interface ActivityRepository {
      * Adds a new activity.
      * @param activity the activity to add
      */
-     void addActivity(final ActivityVO activity);
+    ActivityVO addActivity(final ActivityVO activity);
     /**
      * Removes an activity.
      * @param activity the activity to remove
@@ -26,7 +26,7 @@ public interface ActivityRepository {
      * Adds a bunch of activities.
      * @param activities the activities to add
      */
-     void addActivities(final Collection<ActivityVO> activities);
+    Collection<ActivityVO> addActivities(final Collection<ActivityVO> activities);
 
     /**
      * Removes a bunch of activities.

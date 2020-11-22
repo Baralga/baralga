@@ -9,6 +9,7 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class BaralgaRestRepository implements BaralgaRepository {
 
@@ -35,7 +36,7 @@ public class BaralgaRestRepository implements BaralgaRepository {
 
     private Request addBasicAuthHeaders(Request request) {
         final String login = "admin";
-        final String password = "admin22";
+        final String password = "admin";
         String credential = Credentials.basic(login, password);
         return request.newBuilder().header("Authorization", credential).build();
     }
@@ -56,7 +57,7 @@ public class BaralgaRestRepository implements BaralgaRepository {
     }
 
     @Override
-    public void addActivity(ActivityVO activity) {
+    public ActivityVO addActivity(ActivityVO activity) {
         HttpUrl url = HttpUrl.parse(baseUrl).newBuilder()
                 .addPathSegment("api").addPathSegment("activities")
                 .build();
@@ -77,6 +78,12 @@ public class BaralgaRestRepository implements BaralgaRepository {
             if (!response.isSuccessful()) {
                 throw new RuntimeException(response.toString());
             }
+            try (ResponseBody responseBody = response.body()) {
+                JsonNode jsonActivity = objectMapper.readTree(responseBody.string());
+                ActivityVO activityUpdated = readActivity(jsonActivity);
+                activityUpdated.setProject(activity.getProject());
+                return activityUpdated;
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -86,7 +93,7 @@ public class BaralgaRestRepository implements BaralgaRepository {
     public void removeActivity(ActivityVO activity) {
         HttpUrl url = HttpUrl.parse(baseUrl).newBuilder()
                 .addPathSegment("api").addPathSegment("activities")
-                .addPathSegment("id").addPathSegment(activity.getId())
+                .addPathSegment(activity.getId())
                 .build();
 
         try {
@@ -105,8 +112,8 @@ public class BaralgaRestRepository implements BaralgaRepository {
     }
 
     @Override
-    public void addActivities(Collection<ActivityVO> activities) {
-        activities.stream().forEach(this::addActivity);
+    public Collection<ActivityVO> addActivities(Collection<ActivityVO> activities) {
+        return activities.stream().map(this::addActivity).collect(Collectors.toList());
     }
 
     @Override
@@ -179,13 +186,8 @@ public class BaralgaRestRepository implements BaralgaRepository {
 
                 final List<ActivityVO> activities = new ArrayList<>();
                 for (JsonNode jsonActivity : jsonActivities.get("data")) {
-                    ActivityVO activity = new ActivityVO(
-                            jsonActivity.get("id").asText(),
-                            isoDateTimeFormatter.parseDateTime(jsonActivity.get("start").asText()),
-                            isoDateTimeFormatter.parseDateTime(jsonActivity.get("end").asText()),
-                            jsonActivity.get("description").isNull() ? null : jsonActivity.get("description").asText(),
-                            projectsById.get(jsonActivity.get("projectRef").asText())
-                    );
+                    ActivityVO activity = readActivity(jsonActivity);
+                    activity.setProject(projectsById.get(jsonActivity.get("projectRef").asText()));
                     activities.add(activity);
                 }
 
@@ -197,25 +199,30 @@ public class BaralgaRestRepository implements BaralgaRepository {
     }
 
     @Override
-    public void addProject(ProjectVO project) {
+    public ProjectVO addProject(ProjectVO project) {
         HttpUrl url = HttpUrl.parse(baseUrl).newBuilder()
                 .addPathSegment("api").addPathSegment("projects")
                 .build();
 
         ObjectNode projectJson = objectMapper.createObjectNode();
-        projectJson.put("id", project.getId());
         projectJson.put("title", project.getTitle());
         projectJson.put("description", project.getDescription());
-
-        Request request = new Request.Builder()
-                .url(url)
-                .post(RequestBody.create(MediaType.parse("application/json"), projectJson.asText()))
-                .build();
+        projectJson.put("active", project.isActive() ? "true" : "false");
 
         try {
+            Request request = new Request.Builder()
+                    .url(url)
+                    .post(RequestBody.create(MediaType.parse("application/json"), objectMapper.writeValueAsString(projectJson)))
+                    .build();
+
             Response response = client.newCall(addBasicAuthHeaders(request)).execute();
             if (!response.isSuccessful()) {
                 throw new RuntimeException(response.toString());
+            }
+
+            try (ResponseBody responseBody = response.body()) {
+                JsonNode jsonProject = objectMapper.readTree(responseBody.string());
+                return readProject(jsonProject);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -311,6 +318,16 @@ public class BaralgaRestRepository implements BaralgaRepository {
     @Override
     public void updateProject(ProjectVO project) {
         // not yet implemented
+    }
+
+    private ActivityVO readActivity(JsonNode jsonActivity) {
+        return new ActivityVO(
+                jsonActivity.get("id").asText(),
+                isoDateTimeFormatter.parseDateTime(jsonActivity.get("start").asText()),
+                isoDateTimeFormatter.parseDateTime(jsonActivity.get("end").asText()),
+                jsonActivity.get("description").isNull() ? null : jsonActivity.get("description").asText(),
+                null
+        );
     }
 
     private ProjectVO readProject(JsonNode jsonProject) {

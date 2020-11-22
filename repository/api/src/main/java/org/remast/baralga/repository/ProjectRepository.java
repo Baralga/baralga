@@ -10,7 +10,7 @@ interface ProjectRepository {
      * Adds a new project.
      * @param project the project to add
      */
-    void addProject(final ProjectVO project);
+    ProjectVO addProject(final ProjectVO project);
 
     void remove(final ProjectVO project);
 

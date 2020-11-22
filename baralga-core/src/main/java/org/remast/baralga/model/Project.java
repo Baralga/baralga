@@ -30,7 +30,6 @@ public class Project implements Serializable, Comparable<Project> {
 
     /**
      * Creates a new project.
-     * @param id the unique id
      * @param title the project title
      * @param description the project description
      */
