@@ -298,7 +298,11 @@ public final class BaralgaMain {
 		// Initialize with new site
 		final PresentationModel model = new PresentationModel();
 
-		final BaralgaRepository repository = new BaralgaRestRepository("http://localhost:8080");
+		BaralgaRepository repository = new BaralgaFileRepository();
+		if (ApplicationSettings.instance().isMultiUserMode()) {
+			repository = new BaralgaRestRepository(ApplicationSettings.instance().getBackendURL());
+		}
+
 		final BaralgaDAO dao = new BaralgaDAO(repository);
 		dao.initialize();
 

@@ -100,8 +100,19 @@ public final class ApplicationSettings {
         }
     }
 
+    /** Setter for tests. */
+    void setApplicationConfig(Properties applicationConfig) {
+        this.applicationConfig = applicationConfig;
+    }
+
     /** Key for storage mode. */
     private static final String STORE_DATA_IN_APPLICATION_DIRECTORY = "storeDataInApplicationDirectory"; //$NON-NLS-1$
+
+    /** Key for user mode. */
+    private static final String USER_MODE = "userMode"; //$NON-NLS-1$
+
+    /** Key for backend URL. */
+    private static final String BACKEND_URL = "backendURL"; //$NON-NLS-1$
 
     /**
      * Getter for storage mode. This can either be the default directory 
@@ -112,6 +123,27 @@ public final class ApplicationSettings {
     public boolean isStoreDataInApplicationDirectory() {
     	return "true".equalsIgnoreCase(applicationConfig.getProperty(STORE_DATA_IN_APPLICATION_DIRECTORY, "false"));
     }
+
+    /**
+     * Getter for user mode. Can be <pre>multiuser</pre> or <pre>singleuser</pre>.
+     */
+    public boolean isMultiUserMode() {
+        String userMode;
+        if (System.getProperty(USER_MODE) != null) {
+            userMode = System.getProperty(USER_MODE);
+        } else {
+            userMode = applicationConfig.getProperty(USER_MODE, "singleuser");
+        }
+        return "multiuser".equalsIgnoreCase(userMode);
+    }
+
+    /**
+     * Getter for backend URL in multi-user mode.
+     */
+    public String getBackendURL() {
+        return applicationConfig.getProperty(BACKEND_URL, "http://localhost:8080");
+    }
+
 
 //    /**
 //     * Sets the storage mode of the application.
