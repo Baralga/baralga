@@ -300,7 +300,16 @@ public final class BaralgaMain {
 
 		BaralgaRepository repository = new BaralgaFileRepository();
 		if (ApplicationSettings.instance().isMultiUserMode()) {
-			repository = new BaralgaRestRepository(ApplicationSettings.instance().getBackendURL());
+			repository = new BaralgaRestRepository(
+					ApplicationSettings.instance().getBackendURL(),
+					ApplicationSettings.instance().getUser(),
+					ApplicationSettings.instance().getPassword()
+			);
+			log.info(
+					"Operating in multi-user mode with backend \"{}\" and user \"{}\".",
+					ApplicationSettings.instance().getBackendURL(),
+					ApplicationSettings.instance().getUser()
+			);
 		}
 
 		final BaralgaDAO dao = new BaralgaDAO(repository);

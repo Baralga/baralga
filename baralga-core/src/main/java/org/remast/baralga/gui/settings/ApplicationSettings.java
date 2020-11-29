@@ -114,6 +114,12 @@ public final class ApplicationSettings {
     /** Key for backend URL. */
     private static final String BACKEND_URL = "backendURL"; //$NON-NLS-1$
 
+    /** Key for user. */
+    private static final String USER = "user"; //$NON-NLS-1$
+
+    /** Key for user. */
+    private static final String PASSWORD = "password"; //$NON-NLS-1$
+
     /**
      * Getter for storage mode. This can either be the default directory 
      * (user specific) or a directory relative to the application installation.
@@ -144,6 +150,19 @@ public final class ApplicationSettings {
         return applicationConfig.getProperty(BACKEND_URL, "http://localhost:8080");
     }
 
+    /**
+     * Getter for user in multi-user mode.
+     */
+    public String getUser() {
+        return applicationConfig.getProperty(USER, System.getProperty("user.name"));
+    }
+
+    /**
+     * Getter for password in multi-user mode.
+     */
+    public String getPassword() {
+        return applicationConfig.getProperty(PASSWORD, "us3r");
+    }
 
 //    /**
 //     * Sets the storage mode of the application.

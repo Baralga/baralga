@@ -14,12 +14,16 @@ import java.util.stream.Collectors;
 public class BaralgaRestRepository implements BaralgaRepository {
 
     private String baseUrl;
+    private String user;
+    private String password;
     private ObjectMapper objectMapper;
     private OkHttpClient client;
     private DateTimeFormatter isoDateTimeFormatter;
 
-    public BaralgaRestRepository(final String baseUrl) {
+    public BaralgaRestRepository(final String baseUrl, final String user, final String password) {
         this.baseUrl = baseUrl;
+        this.user = user;
+        this.password = password;
     }
 
     @Override
@@ -35,9 +39,7 @@ public class BaralgaRestRepository implements BaralgaRepository {
     }
 
     private Request addBasicAuthHeaders(Request request) {
-        final String login = "admin";
-        final String password = "admin";
-        String credential = Credentials.basic(login, password);
+        final String credential = Credentials.basic(user, password);
         return request.newBuilder().header("Authorization", credential).build();
     }
 
@@ -58,32 +60,21 @@ public class BaralgaRestRepository implements BaralgaRepository {
 
     @Override
     public ActivityVO addActivity(ActivityVO activity) {
-        HttpUrl url = HttpUrl.parse(baseUrl).newBuilder()
-                .addPathSegment("api").addPathSegment("activities")
+        final HttpUrl url = activitiesUrl().build();
+
+        final ObjectNode activityJson = createActivity(activity);
+
+        final Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(MediaType.parse("application/json"), writeValueAsJsonString(activityJson)))
                 .build();
 
-        ObjectNode activityJson = objectMapper.createObjectNode();
-        activityJson.put("start", isoDateTimeFormatter.print(activity.getStart()));
-        activityJson.put("end", isoDateTimeFormatter.print(activity.getEnd()));
-        activityJson.put("description", activity.getDescription());
-        activityJson.put("projectRef", activity.getProject().getId());
-
-        try {
-            Request request = new Request.Builder()
-                    .url(url)
-                    .post(RequestBody.create(MediaType.parse("application/json"), objectMapper.writeValueAsString(activityJson)))
-                    .build();
-
-            Response response = client.newCall(addBasicAuthHeaders(request)).execute();
-            if (!response.isSuccessful()) {
-                throw new RuntimeException(response.toString());
-            }
-            try (ResponseBody responseBody = response.body()) {
-                JsonNode jsonActivity = objectMapper.readTree(responseBody.string());
-                ActivityVO activityUpdated = readActivity(jsonActivity);
-                activityUpdated.setProject(activity.getProject());
-                return activityUpdated;
-            }
+        final Response response = execute(request);
+        try (ResponseBody responseBody = response.body()) {
+            JsonNode jsonActivity = readTreeFromJsonString(responseBody.string());
+            ActivityVO activityUpdated = readActivity(jsonActivity);
+            activityUpdated.setProject(activity.getProject());
+            return activityUpdated;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -91,24 +82,16 @@ public class BaralgaRestRepository implements BaralgaRepository {
 
     @Override
     public void removeActivity(ActivityVO activity) {
-        HttpUrl url = HttpUrl.parse(baseUrl).newBuilder()
-                .addPathSegment("api").addPathSegment("activities")
+        final HttpUrl url = activitiesUrl()
                 .addPathSegment(activity.getId())
                 .build();
 
-        try {
-            Request request = new Request.Builder()
-                    .url(url)
-                    .delete()
-                    .build();
+        final Request request = new Request.Builder()
+                .url(url)
+                .delete()
+                .build();
 
-            Response response = client.newCall(addBasicAuthHeaders(request)).execute();
-            if (!response.isSuccessful()) {
-                throw new RuntimeException(response.toString());
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        execute(request);
     }
 
     @Override
@@ -123,76 +106,54 @@ public class BaralgaRestRepository implements BaralgaRepository {
 
     @Override
     public void updateActivity(ActivityVO activity) {
-        HttpUrl url = HttpUrl.parse(baseUrl).newBuilder()
-                .addPathSegment("api").addPathSegment("activities")
+        final HttpUrl url = activitiesUrl()
                 .addPathSegment(activity.getId())
                 .build();
 
-        ObjectNode activityJson = objectMapper.createObjectNode();
-        activityJson.put("id", activity.getId());
-        activityJson.put("start", isoDateTimeFormatter.print(activity.getStart()));
-        activityJson.put("end", isoDateTimeFormatter.print(activity.getEnd()));
-        activityJson.put("description", activity.getDescription());
-        activityJson.put("projectRef", activity.getProject().getId());
+        final ObjectNode activityJson = createActivity(activity);
 
-        try {
-            Request request = new Request.Builder()
-                    .url(url)
-                    .put(RequestBody.create(MediaType.parse("application/json"), objectMapper.writeValueAsString(activityJson)))
-                    .build();
+        final Request request = new Request.Builder()
+                .url(url)
+                .put(RequestBody.create(MediaType.parse("application/json"), writeValueAsJsonString(activityJson)))
+                .build();
 
-            Response response = client.newCall(addBasicAuthHeaders(request)).execute();
-            if (!response.isSuccessful()) {
-                throw new RuntimeException(response.toString());
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        execute(request);
     }
 
     @Override
     public List<ActivityVO> getActivities(FilterVO filter) {
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(baseUrl).newBuilder()
-                .addPathSegment("api").addPathSegment("activities");
+        final HttpUrl.Builder urlBuilder = activitiesUrl();
 
         if (filter != null && filter.getTimeInterval() != null) {
             urlBuilder.addQueryParameter("start", isoDateTimeFormatter.print(filter.getTimeInterval().getStart()));
             urlBuilder.addQueryParameter("end", isoDateTimeFormatter.print(filter.getTimeInterval().getEnd()));
         }
 
-        HttpUrl url = urlBuilder.build();
-
-        Request request = new Request.Builder()
-                .url(url)
+        final Request request = new Request.Builder()
+                .url(urlBuilder.build())
                 .build();
 
-        try {
-            Response response = client.newCall(addBasicAuthHeaders(request)).execute();
-            if (!response.isSuccessful()) {
-                throw new RuntimeException(response.toString());
+        final Response response = execute(request);
+
+        try (ResponseBody responseBody = response.body()) {
+            final JsonNode jsonActivities = readTreeFromJsonString(responseBody.string());
+
+            final List<ProjectVO> projects = new ArrayList<>();
+            final Map<String, ProjectVO> projectsById = new HashMap<>();
+            for (JsonNode jsonProject : jsonActivities.get("projectRefs")) {
+                ProjectVO project = readProject(jsonProject);
+                projectsById.put(project.getId(), project);
+                projects.add(project);
             }
 
-            try (ResponseBody responseBody = response.body()) {
-                String bb = responseBody.string();
-                JsonNode jsonActivities = objectMapper.readTree(bb);
-
-                final List<ProjectVO> projects = new ArrayList<>();
-                final Map<String, ProjectVO> projectsById = new HashMap<>();
-                for (JsonNode jsonProject : jsonActivities.get("projectRefs")) {
-                    ProjectVO project = readProject(jsonProject);
-                    projectsById.put(project.getId(), project);
-                    projects.add(project);
-                }
-
-                final List<ActivityVO> activities = new ArrayList<>();
-                for (JsonNode jsonActivity : jsonActivities.get("data")) {
-                    ActivityVO activity = readActivity(jsonActivity);
-                    activity.setProject(projectsById.get(jsonActivity.get("projectRef").asText()));
-                    activities.add(activity);
-                }
-
-                return activities;
+            final List<ActivityVO> activities = new ArrayList<>();
+            for (JsonNode jsonActivity : jsonActivities.get("data")) {
+                ActivityVO activity = readActivity(jsonActivity);
+                activity.setProject(projectsById.get(jsonActivity.get("projectRef").asText()));
+                activities.add(activity);
             }
+
+            return activities;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -200,30 +161,20 @@ public class BaralgaRestRepository implements BaralgaRepository {
 
     @Override
     public ProjectVO addProject(ProjectVO project) {
-        HttpUrl url = HttpUrl.parse(baseUrl).newBuilder()
-                .addPathSegment("api").addPathSegment("projects")
+        final HttpUrl url = projectsUrl().build();
+
+        final ObjectNode projectJson = createProject(project);
+
+        final Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(MediaType.parse("application/json"), writeValueAsJsonString(projectJson)))
                 .build();
 
-        ObjectNode projectJson = objectMapper.createObjectNode();
-        projectJson.put("title", project.getTitle());
-        projectJson.put("description", project.getDescription());
-        projectJson.put("active", project.isActive() ? "true" : "false");
+        final Response response = execute(request);
 
-        try {
-            Request request = new Request.Builder()
-                    .url(url)
-                    .post(RequestBody.create(MediaType.parse("application/json"), objectMapper.writeValueAsString(projectJson)))
-                    .build();
-
-            Response response = client.newCall(addBasicAuthHeaders(request)).execute();
-            if (!response.isSuccessful()) {
-                throw new RuntimeException(response.toString());
-            }
-
-            try (ResponseBody responseBody = response.body()) {
-                JsonNode jsonProject = objectMapper.readTree(responseBody.string());
-                return readProject(jsonProject);
-            }
+        try (ResponseBody responseBody = response.body()) {
+            JsonNode jsonProject = objectMapper.readTree(responseBody.string());
+            return readProject(jsonProject);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -231,7 +182,16 @@ public class BaralgaRestRepository implements BaralgaRepository {
 
     @Override
     public void remove(ProjectVO project) {
-        // not allowed by client
+        final HttpUrl url = projectsUrl()
+                .addPathSegment(project.getId())
+                .build();
+
+        final Request request = new Request.Builder()
+                .url(url)
+                .delete()
+                .build();
+
+        execute(request);
     }
 
     @Override
@@ -245,36 +205,28 @@ public class BaralgaRestRepository implements BaralgaRepository {
     }
 
     private List<ProjectVO> getProjects(Boolean active) {
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(baseUrl).newBuilder()
-                .addPathSegment("api").addPathSegment("projects");
+        final HttpUrl.Builder urlBuilder = projectsUrl();
 
         if (active != null) {
             urlBuilder.addQueryParameter("active", active ? "true" : "false");
         }
 
-        HttpUrl url = urlBuilder.build();
-
-        Request request = new Request.Builder()
-                .url(url)
+        final Request request = new Request.Builder()
+                .url(urlBuilder.build())
                 .build();
 
-        try {
-            Response response = client.newCall(addBasicAuthHeaders(request)).execute();
-            if (!response.isSuccessful()) {
-                throw new RuntimeException(response.toString());
+        final Response response = execute(request);
+
+        try (ResponseBody responseBody = response.body()) {
+            final JsonNode jsonProjects = readTreeFromJsonString(responseBody.string());
+
+            final List<ProjectVO> projects = new ArrayList<>();
+            for (JsonNode jsonProject : jsonProjects) {
+                ProjectVO project = readProject(jsonProject);
+                projects.add(project);
             }
 
-            try (ResponseBody responseBody = response.body()) {
-                JsonNode jsonProjects = objectMapper.readTree(responseBody.string());
-
-                final List<ProjectVO> projects = new ArrayList<>();
-                for (JsonNode jsonProject : jsonProjects) {
-                    ProjectVO project = readProject(jsonProject);
-                    projects.add(project);
-                }
-
-                return projects;
-            }
+            return projects;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -282,29 +234,20 @@ public class BaralgaRestRepository implements BaralgaRepository {
 
     @Override
     public Optional<ProjectVO> findProjectById(String projectId) {
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(baseUrl).newBuilder()
-                .addPathSegment("api").addPathSegment("projects")
-                .addPathSegment(projectId);
-
-        Request request = new Request.Builder()
-                .url(urlBuilder.build())
+        final HttpUrl url = projectsUrl().addPathSegment(projectId).build();
+        final Request request = new Request.Builder()
+                .url(url)
                 .build();
 
-        try {
-            Response response = client.newCall(addBasicAuthHeaders(request)).execute();
-            if (response.code() == 404) {
-                return Optional.empty();
-            }
+        final Response response = execute(request, 404);
+        if (response.code() == 404) {
+            return Optional.empty();
+        }
 
-            if (!response.isSuccessful()) {
-                throw new RuntimeException(response.toString());
-            }
-
-            try (ResponseBody responseBody = response.body()) {
-                JsonNode jsonProject = objectMapper.readTree(responseBody.string());
-                ProjectVO project = readProject(jsonProject);
-                return Optional.ofNullable(project);
-            }
+        try (ResponseBody responseBody = response.body()) {
+            JsonNode jsonProject = readTreeFromJsonString(responseBody.string());
+            ProjectVO project = readProject(jsonProject);
+            return Optional.ofNullable(project);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -317,7 +260,36 @@ public class BaralgaRestRepository implements BaralgaRepository {
 
     @Override
     public void updateProject(ProjectVO project) {
-        // not yet implemented
+        final HttpUrl url = projectsUrl()
+                .addPathSegment(project.getId())
+                .build();
+
+        final ObjectNode projectJson = createProject(project);
+
+        final Request request = new Request.Builder()
+                .url(url)
+                .put(RequestBody.create(MediaType.parse("application/json"), writeValueAsJsonString(projectJson)))
+                .build();
+
+        execute(request);
+    }
+
+    private ObjectNode createActivity(ActivityVO activity) {
+        final ObjectNode activityJson = objectMapper.createObjectNode();
+        activityJson.put("id", activity.getId());
+        activityJson.put("start", isoDateTimeFormatter.print(activity.getStart()));
+        activityJson.put("end", isoDateTimeFormatter.print(activity.getEnd()));
+        activityJson.put("description", activity.getDescription());
+        activityJson.put("projectRef", activity.getProject().getId());
+        return activityJson;
+    }
+
+    private ObjectNode createProject(ProjectVO project) {
+        final ObjectNode projectJson = objectMapper.createObjectNode();
+        projectJson.put("title", project.getTitle());
+        projectJson.put("description", project.getDescription());
+        projectJson.put("active", project.isActive() ? "true" : "false");
+        return projectJson;
     }
 
     private ActivityVO readActivity(JsonNode jsonActivity) {
@@ -336,5 +308,51 @@ public class BaralgaRestRepository implements BaralgaRepository {
                 jsonProject.get("title").asText(),
                 jsonProject.get("description").asText()
         );
+    }
+
+    private String writeValueAsJsonString(Object o) {
+        try {
+            return objectMapper.writeValueAsString(o);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public JsonNode readTreeFromJsonString(String jsonString) {
+        try {
+            return objectMapper.readTree(jsonString);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private Response execute(Request request, int... acceptedReturnCodes) {
+        try {
+            final Response response = client.newCall(addBasicAuthHeaders(request)).execute();
+            if (acceptedReturnCodes != null && Arrays.stream(acceptedReturnCodes).anyMatch(i -> i == response.code())) {
+                return response;
+            }
+
+            if (!response.isSuccessful()) {
+                throw new RuntimeException(response.toString());
+            }
+
+            return response;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private HttpUrl.Builder activitiesUrl() {
+        return baseUrl().addPathSegment("activities");
+    }
+
+    private HttpUrl.Builder projectsUrl() {
+        return baseUrl().addPathSegment("projects");
+    }
+
+    private HttpUrl.Builder baseUrl() {
+        return HttpUrl.parse(baseUrl).newBuilder()
+                .addPathSegment("api");
     }
 }
