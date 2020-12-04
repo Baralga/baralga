@@ -2,7 +2,6 @@ package org.remast.baralga.repository.file;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.remast.baralga.model.Project;
 import org.remast.baralga.repository.ProjectVO;
 
 import java.sql.SQLException;
