@@ -73,4 +73,25 @@ class BaralgaRestRepositoryTest {
         assertEquals(true, project.isActive());
     }
 
+    @Test
+    void getActivities() {
+        // Arrange
+        MockResponse mockResponse = new MockResponse()
+                .addHeader("Content-Type", "application/json; charset=utf-8")
+                .setBody("{ \"data\": [ { \"id\": \"5678\", \"start\": \"2020-11-21T10:46:28\", \"end\": \"2020-11-21T16:46:28\", \"projectRef\": \"1234\", \"description\": \"My Desc\"} ], \"projectRefs\": [ {\"id\": \"1234\", \"title\":\"My Title\", \"description\":\"My Description\", \"active\": true} ] }");
+        mockWebServer.enqueue(mockResponse);
+
+        // Act
+        List<ActivityVO> activities = repository.getActivities();
+
+        // Assert
+        assertNotNull(activities);
+        assertEquals(1, activities.size());
+
+        ActivityVO activity = activities.get(0);
+        assertNotNull(activity);
+        assertEquals("5678", activity.getId());
+        assertNotNull(activity.getProject());
+    }
+
 }
