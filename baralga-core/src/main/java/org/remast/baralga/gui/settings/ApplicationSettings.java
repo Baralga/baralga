@@ -164,18 +164,6 @@ public final class ApplicationSettings {
         return applicationConfig.getProperty(PASSWORD, "us3r");
     }
 
-//    /**
-//     * Sets the storage mode of the application.
-//     * @param storeDataInApplicationDirectory the new storage mode
-//     */
-//    private void setStoreDataInApplicationDirectory(final boolean storeDataInApplicationDirectory) {
-//        if (isStoreDataInApplicationDirectory() == storeDataInApplicationDirectory) {
-//            return;
-//        }
-//
-//        applicationConfig.setProperty(STORE_DATA_IN_APPLICATION_DIRECTORY, storeDataInApplicationDirectory);
-//    }
-
     /**
      * Get the directory of the application in the profile of the user.
      * @return the directory for user settings
