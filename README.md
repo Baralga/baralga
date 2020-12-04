@@ -7,8 +7,33 @@ Baralga is a simple time tracking solution for the desktop.
 
 https://baralga.github.io/
 
-Changelog
-====================
+# User Guide
+
+### Single User Mode
+Single user mode is enabled by default so no extra settings required.
+
+## Multi User Mode
+In multi user mode all data is stored on the Baralga server backend. Multi user mode is enabled using the Java system property
+`-DuserMode=multiuser` or the setting `userMode=multiuser` in the `application.properties`
+stored in the directory `$USER_HOME\.baralga\application.properties`.
+
+### Settings in Application Properties
+
+```properties
+# Mandatory for multiuser mode
+userMode=multiuser
+
+# Default value http://localhost:8080
+backendURL=http://localhost:8080
+
+# Default value is current system user
+user=user
+
+# Default value us3r
+password=us3r
+```
+
+# Changelog
 
 Baralga Version 1.8.6-SNAPSHOT
 ---------------------
