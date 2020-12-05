@@ -13,11 +13,13 @@ import java.util.stream.Collectors;
 
 public class BaralgaRestRepository implements BaralgaRepository {
 
+
     private String baseUrl;
     private String user;
     private String password;
     private ObjectMapper objectMapper;
     private OkHttpClient client;
+    private DateTimeFormatter dateFormat;
     private DateTimeFormatter isoDateTimeFormatter;
 
     public BaralgaRestRepository(final String baseUrl, final String user, final String password) {
@@ -35,6 +37,7 @@ public class BaralgaRestRepository implements BaralgaRepository {
     public void initialize() {
         client = new OkHttpClient();
         objectMapper = new ObjectMapper();
+        dateFormat =  DateTimeFormat.forPattern("yyyy-MM-dd");
         isoDateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss");
     }
 
@@ -125,8 +128,8 @@ public class BaralgaRestRepository implements BaralgaRepository {
         final HttpUrl.Builder urlBuilder = activitiesUrl();
 
         if (filter != null && filter.getTimeInterval() != null) {
-            urlBuilder.addQueryParameter("start", isoDateTimeFormatter.print(filter.getTimeInterval().getStart()));
-            urlBuilder.addQueryParameter("end", isoDateTimeFormatter.print(filter.getTimeInterval().getEnd()));
+            urlBuilder.addQueryParameter("start", dateFormat.print(filter.getTimeInterval().getStart()));
+            urlBuilder.addQueryParameter("end", dateFormat.print(filter.getTimeInterval().getEnd()));
         }
 
         final Request request = new Request.Builder()
