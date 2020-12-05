@@ -37,6 +37,7 @@ password=us3r
 
 ## Baralga Version 1.9.0
 
+### Features
 * Added multiuser support.
 * #56 Use strings as ids to be compatible with https://github.com/Baralga/baralga-web.
 
