@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.remast.baralga</groupId>
 		<artifactId>parent</artifactId>
-		<version>1.9.0</version>
+		<version>1.9.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>baralga-core</artifactId>
 	<name>Baralga Application</name>

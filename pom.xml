@@ -4,8 +4,8 @@
 	<groupId>com.remast.baralga</groupId>
 	<artifactId>parent</artifactId>
 	<packaging>pom</packaging>
-	<version>1.9.0</version>
-	<name>Baralga Parent</name>
+	<version>1.9.1-SNAPSHOT</version>
+	<name>Baralga Desktop</name>
 	<url>https://baralga.github.io</url>
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
