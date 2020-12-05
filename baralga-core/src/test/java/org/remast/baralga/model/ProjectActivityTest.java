@@ -2,6 +2,8 @@ package org.remast.baralga.model;
 
 import org.joda.time.DateTime;
 import org.junit.jupiter.api.Test;
+import org.remast.baralga.repository.ActivityVO;
+import org.remast.baralga.repository.ProjectVO;
 import org.remast.util.DateUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class ProjectActivityTest {
 
     @Test
-    public void testCalculateDuration() {
+    public void calculateDuration() {
         ProjectActivity act;
         DateTime startTime = new DateTime(DateUtils.getNow());
 
@@ -32,7 +34,7 @@ public class ProjectActivityTest {
      * unless end time is at 0:00h in which case end date is on the next day.
      */
     @Test
-    public void testStartAndEndOnSameDay() {
+    public void startAndEndOnSameDay() {
         ProjectActivity act = new ProjectActivity(new DateTime(2009, 1, 1, 0, 0, 0, 0),
                 new DateTime(2009, 1, 1, 23, 0, 0 ,0), null);
 
@@ -64,7 +66,7 @@ public class ProjectActivityTest {
      * end < start.
      */
     @Test
-    public void testStartNotAfterEnd() {
+    public void startNotAfterEnd() {
         try {
             new ProjectActivity(new DateTime(2009, 1, 1, 13, 0, 0 ,0),
                     new DateTime(2009, 1, 1, 12, 0, 0, 0), null);
@@ -146,5 +148,38 @@ public class ProjectActivityTest {
             assertEquals(0, end.getHourOfDay());
             assertEquals(0, end.getMinuteOfHour());
         }
+    }
+
+    @Test
+    void toVO() {
+        // Arrange
+        Project project = new Project("P1", "Project 1 Title", "Project 1 Description");
+        ProjectActivity activity = new ProjectActivity(DateTime.now().minusMinutes(10), DateTime.now(), project);
+
+        // Act
+        ActivityVO activityVO = activity.toVO();
+
+        // Assert
+        assertEquals(activity.getStart(), activityVO.getStart());
+        assertEquals(activity.getEnd(), activityVO.getEnd());
+        assertEquals(activity.getDescription(), activityVO.getDescription());
+        assertEquals(activity.getProject().getId(), activityVO.getProject().getId());
+    }
+
+    @Test
+    void fromVO() {
+        // Arrange
+        ProjectVO projectVO = new ProjectVO("P1", "Project 1 Title", "Project 1 Description");
+        ActivityVO activityVO = new ActivityVO(DateTime.now().minusMinutes(10), DateTime.now(), projectVO);
+
+        // Act
+        ProjectActivity activity = new ProjectActivity(activityVO);
+
+        // Assert
+        assertEquals(activityVO.getId(), activity.getId());
+        assertEquals(activityVO.getStart(), activity.getStart());
+        assertEquals(activityVO.getEnd(), activity.getEnd());
+        assertEquals(activityVO.getDescription(), activity.getDescription());
+        assertEquals(activityVO.getProject().getId(), activity.getProject().getId());
     }
 }

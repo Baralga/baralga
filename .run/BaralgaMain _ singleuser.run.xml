@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="BaralgaMain _ singleuser" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="org.remast.baralga.gui.BaralgaMain" />
+    <module name="baralga-core" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

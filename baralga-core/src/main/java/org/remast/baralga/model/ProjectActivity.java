@@ -6,6 +6,8 @@ import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.remast.baralga.FormatUtils;
+import org.remast.baralga.repository.ActivityVO;
+import org.remast.baralga.repository.ProjectVO;
 import org.remast.text.DurationFormat;
 
 /**
@@ -78,7 +80,15 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
         this.project = project;
         this.description = description;
     }
-    
+
+    public ProjectActivity(final ActivityVO activityVO) {
+        id = activityVO.getId();
+        start = activityVO.getStart();
+        end = activityVO.getEnd();
+        description = activityVO.getDescription();
+        project = new Project(activityVO.getProject());
+    }
+
     public String getDescription() {
         return description;
     }
@@ -208,7 +218,11 @@ public class ProjectActivity implements Serializable, Comparable<ProjectActivity
 
         return startDateTime.compareTo(startDateTimeOther) * -1;
     }
-    
+
+    public ActivityVO toVO() {
+        return new ActivityVO(id, start, end, description, project.toVO());
+    }
+
     /**
      * Calculate the duration of the given activity in decimal hours.
      * @return decimal value of the duration (e.g. for 30 minutes, 0.5 and so on)

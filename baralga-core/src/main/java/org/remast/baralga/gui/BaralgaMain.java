@@ -11,6 +11,9 @@ import org.remast.baralga.gui.settings.ApplicationSettings;
 import org.remast.baralga.gui.settings.UserSettings;
 import org.remast.baralga.model.BaralgaDAO;
 import org.remast.baralga.model.io.SaveTimer;
+import org.remast.baralga.repository.BaralgaRepository;
+import org.remast.baralga.repository.BaralgaRestRepository;
+import org.remast.baralga.repository.file.BaralgaFileRepository;
 import org.remast.swing.util.ExceptionUtils;
 import org.remast.util.TextResourceBundle;
 import org.slf4j.Logger;
@@ -295,8 +298,22 @@ public final class BaralgaMain {
 		// Initialize with new site
 		final PresentationModel model = new PresentationModel();
 
-		final BaralgaDAO dao = new BaralgaDAO();
-		dao.init();
+		BaralgaRepository repository = new BaralgaFileRepository();
+		if (ApplicationSettings.instance().isMultiUserMode()) {
+			repository = new BaralgaRestRepository(
+					ApplicationSettings.instance().getBackendURL(),
+					ApplicationSettings.instance().getUser(),
+					ApplicationSettings.instance().getPassword()
+			);
+			log.info(
+					"Operating in multi-user mode with backend \"{}\" and user \"{}\".",
+					ApplicationSettings.instance().getBackendURL(),
+					ApplicationSettings.instance().getUser()
+			);
+		}
+
+		final BaralgaDAO dao = new BaralgaDAO(repository);
+		dao.initialize();
 
 		model.setDAO(dao);
 		model.initialize();

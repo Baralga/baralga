@@ -100,8 +100,25 @@ public final class ApplicationSettings {
         }
     }
 
+    /** Setter for tests. */
+    void setApplicationConfig(Properties applicationConfig) {
+        this.applicationConfig = applicationConfig;
+    }
+
     /** Key for storage mode. */
     private static final String STORE_DATA_IN_APPLICATION_DIRECTORY = "storeDataInApplicationDirectory"; //$NON-NLS-1$
+
+    /** Key for user mode. */
+    private static final String USER_MODE = "userMode"; //$NON-NLS-1$
+
+    /** Key for backend URL. */
+    private static final String BACKEND_URL = "backendURL"; //$NON-NLS-1$
+
+    /** Key for user. */
+    private static final String USER = "user"; //$NON-NLS-1$
+
+    /** Key for user. */
+    private static final String PASSWORD = "password"; //$NON-NLS-1$
 
     /**
      * Getter for storage mode. This can either be the default directory 
@@ -113,17 +130,39 @@ public final class ApplicationSettings {
     	return "true".equalsIgnoreCase(applicationConfig.getProperty(STORE_DATA_IN_APPLICATION_DIRECTORY, "false"));
     }
 
-//    /**
-//     * Sets the storage mode of the application.
-//     * @param storeDataInApplicationDirectory the new storage mode
-//     */
-//    private void setStoreDataInApplicationDirectory(final boolean storeDataInApplicationDirectory) {
-//        if (isStoreDataInApplicationDirectory() == storeDataInApplicationDirectory) {
-//            return;
-//        }
-//
-//        applicationConfig.setProperty(STORE_DATA_IN_APPLICATION_DIRECTORY, storeDataInApplicationDirectory);
-//    }
+    /**
+     * Getter for user mode. Can be <pre>multiuser</pre> or <pre>singleuser</pre>.
+     */
+    public boolean isMultiUserMode() {
+        String userMode;
+        if (System.getProperty(USER_MODE) != null) {
+            userMode = System.getProperty(USER_MODE);
+        } else {
+            userMode = applicationConfig.getProperty(USER_MODE, "singleuser");
+        }
+        return "multiuser".equalsIgnoreCase(userMode);
+    }
+
+    /**
+     * Getter for backend URL in multi-user mode.
+     */
+    public String getBackendURL() {
+        return applicationConfig.getProperty(BACKEND_URL, "http://localhost:8080");
+    }
+
+    /**
+     * Getter for user in multi-user mode.
+     */
+    public String getUser() {
+        return applicationConfig.getProperty(USER, System.getProperty("user.name"));
+    }
+
+    /**
+     * Getter for password in multi-user mode.
+     */
+    public String getPassword() {
+        return applicationConfig.getProperty(PASSWORD, "us3r");
+    }
 
     /**
      * Get the directory of the application in the profile of the user.
