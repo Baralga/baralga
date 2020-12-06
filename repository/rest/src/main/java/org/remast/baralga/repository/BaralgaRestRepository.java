@@ -117,7 +117,7 @@ public class BaralgaRestRepository implements BaralgaRepository {
 
         final Request request = new Request.Builder()
                 .url(url)
-                .put(RequestBody.create(MediaType.parse("application/json"), writeValueAsJsonString(activityJson)))
+                .patch(RequestBody.create(writeValueAsJsonString(activityJson), MediaType.parse("application/json")))
                 .build();
 
         execute(request);
@@ -271,7 +271,7 @@ public class BaralgaRestRepository implements BaralgaRepository {
 
         final Request request = new Request.Builder()
                 .url(url)
-                .put(RequestBody.create(MediaType.parse("application/json"), writeValueAsJsonString(projectJson)))
+                .patch(RequestBody.create(writeValueAsJsonString(projectJson), MediaType.parse("application/json")))
                 .build();
 
         execute(request);
