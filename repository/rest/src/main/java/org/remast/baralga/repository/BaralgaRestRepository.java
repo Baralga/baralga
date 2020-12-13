@@ -14,9 +14,9 @@ import java.util.stream.Collectors;
 public class BaralgaRestRepository implements BaralgaRepository {
 
 
-    private String baseUrl;
-    private String user;
-    private String password;
+    private final String baseUrl;
+    private final String user;
+    private final String password;
     private ObjectMapper objectMapper;
     private OkHttpClient client;
     private DateTimeFormatter dateFormat;
@@ -69,7 +69,7 @@ public class BaralgaRestRepository implements BaralgaRepository {
 
         final Request request = new Request.Builder()
                 .url(url)
-                .post(RequestBody.create(MediaType.parse("application/json"), writeValueAsJsonString(activityJson)))
+                .post(RequestBody.create(writeValueAsJsonString(activityJson), MediaType.parse("application/json")))
                 .build();
 
         final Response response = execute(request);
@@ -141,18 +141,23 @@ public class BaralgaRestRepository implements BaralgaRepository {
         try (ResponseBody responseBody = response.body()) {
             final JsonNode jsonActivities = readTreeFromJsonString(responseBody.string());
 
+            final List<ActivityVO> activities = new ArrayList<>();
             final List<ProjectVO> projects = new ArrayList<>();
+
+            if (!jsonActivities.has("_embedded")) {
+                return activities;
+            }
+
             final Map<String, ProjectVO> projectsById = new HashMap<>();
-            for (JsonNode jsonProject : jsonActivities.get("projectRefs")) {
+            for (JsonNode jsonProject : jsonActivities.get("_embedded").get("projects")) {
                 ProjectVO project = readProject(jsonProject);
-                projectsById.put(project.getId(), project);
+                projectsById.put(jsonProject.get("_links").get("self").get("href").asText(), project);
                 projects.add(project);
             }
 
-            final List<ActivityVO> activities = new ArrayList<>();
-            for (JsonNode jsonActivity : jsonActivities.get("data")) {
+            for (JsonNode jsonActivity : jsonActivities.get("_embedded").get("activities")) {
                 ActivityVO activity = readActivity(jsonActivity);
-                activity.setProject(projectsById.get(jsonActivity.get("projectRef").asText()));
+                activity.setProject(projectsById.get(jsonActivity.get("_links").get("project").get("href").asText()));
                 activities.add(activity);
             }
 
@@ -224,7 +229,12 @@ public class BaralgaRestRepository implements BaralgaRepository {
             final JsonNode jsonProjects = readTreeFromJsonString(responseBody.string());
 
             final List<ProjectVO> projects = new ArrayList<>();
-            for (JsonNode jsonProject : jsonProjects) {
+
+            if (!jsonProjects.has("_embedded")) {
+                return projects;
+            }
+
+            for (JsonNode jsonProject : jsonProjects.get("_embedded").get("projects")) {
                 ProjectVO project = readProject(jsonProject);
                 projects.add(project);
             }
@@ -283,7 +293,13 @@ public class BaralgaRestRepository implements BaralgaRepository {
         activityJson.put("start", isoDateTimeFormatter.print(activity.getStart()));
         activityJson.put("end", isoDateTimeFormatter.print(activity.getEnd()));
         activityJson.put("description", activity.getDescription());
-        activityJson.put("projectRef", activity.getProject().getId());
+
+        ObjectNode linksJson = objectMapper.createObjectNode();
+        ObjectNode projectLinkJson = objectMapper.createObjectNode();
+        projectLinkJson.put("href", baseUrl + "/api/projects/" + activity.getProject().getId());
+        linksJson.set("project", projectLinkJson);
+        activityJson.set("_links", linksJson);
+
         return activityJson;
     }
 
