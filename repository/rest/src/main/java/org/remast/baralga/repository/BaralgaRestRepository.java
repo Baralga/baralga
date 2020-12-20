@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 
 public class BaralgaRestRepository implements BaralgaRepository {
 
-
     private final String baseUrl;
     private final String user;
     private final String password;
@@ -35,7 +34,7 @@ public class BaralgaRestRepository implements BaralgaRepository {
 
     @Override
     public void initialize() {
-        client = new OkHttpClient();
+        client = new OkHttpClient().newBuilder().followRedirects(false).build();
         objectMapper = new ObjectMapper();
         dateFormat =  DateTimeFormat.forPattern("yyyy-MM-dd");
         isoDateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss");
@@ -180,7 +179,7 @@ public class BaralgaRestRepository implements BaralgaRepository {
 
         final Request request = new Request.Builder()
                 .url(url)
-                .post(RequestBody.create(MediaType.parse("application/json"), writeValueAsJsonString(projectJson)))
+                .post(RequestBody.create(writeValueAsJsonString(projectJson), MediaType.parse("application/json")))
                 .build();
 
         try (final Response response = execute(request)) {
@@ -217,6 +216,26 @@ public class BaralgaRestRepository implements BaralgaRepository {
     @Override
     public List<ProjectVO> getAllProjects() {
         return getProjects(null);
+    }
+
+    @Override
+    public boolean isProjectAdministrationAllowed() {
+        final HttpUrl.Builder urlBuilder = projectsUrl()
+                .addQueryParameter("page", "0")
+                .addQueryParameter("size", "1");
+
+        final Request request = new Request.Builder()
+                .url(urlBuilder.build())
+                .build();
+
+        try (final Response response = execute(request)) {
+            try (ResponseBody responseBody = response.body()) {
+                final JsonNode jsonProjects = readTreeFromJsonString(responseBody.string());
+                return jsonProjects.has("_links") && jsonProjects.get("_links").has("create");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     private List<ProjectVO> getProjects(Boolean active) {
@@ -360,6 +379,10 @@ public class BaralgaRestRepository implements BaralgaRepository {
             final Response response = client.newCall(addBasicAuthHeaders(request)).execute();
             if (acceptedReturnCodes != null && Arrays.stream(acceptedReturnCodes).anyMatch(i -> i == response.code())) {
                 return response;
+            }
+
+            if (response.code() == 302 && response.header("WWW-Authenticate") != null) {
+                throw new RuntimeException("Authentication failed.");
             }
 
             if (!response.isSuccessful()) {

@@ -44,6 +44,11 @@ interface ProjectRepository {
      * @param projectId the id of the ProjectVO
      * @return the ProjectVO with the given id or <code>null</code> if there is none
      */
-    Optional<ProjectVO> findProjectById(final String projectId) ;
+    Optional<ProjectVO> findProjectById(final String projectId);
+
+    /**
+     * Check if project adminstration is allowed.
+     */
+    boolean isProjectAdministrationAllowed();
 
 }

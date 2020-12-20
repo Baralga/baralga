@@ -81,6 +81,13 @@ public class BaralgaDAO {
 	}
 
 	/**
+	 * Check if project administration allowed.
+	 */
+	public boolean isProjectAdministrationAllowed() {
+		return repository.isProjectAdministrationAllowed();
+	}
+
+	/**
 	 * Provides all activities.
 	 * @return read-only view of the activities
 	 */

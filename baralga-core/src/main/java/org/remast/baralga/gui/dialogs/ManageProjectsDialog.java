@@ -138,6 +138,7 @@ public class ManageProjectsDialog extends EscapeDialog {
             newProjectTextField.setText(textBundle.textFor("ManageProjectsDialog.NewProjectTitle.DefaultNewProjectName")); //$NON-NLS-1$
             newProjectTextField.setToolTipText(textBundle.textFor("ManageProjectsDialog.NewProjectTitle.ToolTipText")); //$NON-NLS-1$
             newProjectTextField.setPreferredSize(new Dimension(224, 19));
+            newProjectTextField.setEnabled(model.isProjectAdministrationAllowed());
         }
         return newProjectTextField;
     }
@@ -157,6 +158,7 @@ public class ManageProjectsDialog extends EscapeDialog {
                 getNewProjectTextField().setText(""); //$NON-NLS-1$
             });
             addProjectButton.setDefaultCapable(true);
+            addProjectButton.setEnabled(model.isProjectAdministrationAllowed());
         }
         return addProjectButton;
     }
@@ -178,6 +180,7 @@ public class ManageProjectsDialog extends EscapeDialog {
                     );
                 }
             });
+            removeProjectButton.setEnabled(model.isProjectAdministrationAllowed());
         }
         return removeProjectButton;
     }

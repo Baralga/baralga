@@ -442,6 +442,11 @@ public class BaralgaFileRepository implements BaralgaRepository {
         return Optional.empty();
     }
 
+    @Override
+    public boolean isProjectAdministrationAllowed() {
+        return true;
+    }
+
     /**
      * Provides all activities satisfying the given filter.
      * @param filter the filter for activities

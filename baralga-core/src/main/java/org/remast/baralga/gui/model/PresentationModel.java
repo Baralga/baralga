@@ -65,6 +65,9 @@ public class PresentationModel {
 	/** The list of project activities. */
 	private final SortedList<ProjectActivity> activitiesList;
 
+	/** If project administration is allowed or not. */
+	private boolean projectAdministrationAllowed;
+
 	/** The currently selected project. */
 	private Project selectedProject;
 
@@ -131,6 +134,8 @@ public class PresentationModel {
 
 		this.allProjectsList.clear();
 		this.allProjectsList.addAll(this.baralgaDAO.getAllProjects());
+
+		this.projectAdministrationAllowed = baralgaDAO.isProjectAdministrationAllowed();
 
 		this.activitiesList.clear();
 
@@ -751,6 +756,10 @@ public class PresentationModel {
 	 */
 	public final void save() {
 		new DataBackup(this).createBackup();
+	}
+
+	public boolean isProjectAdministrationAllowed() {
+		return projectAdministrationAllowed;
 	}
 
 	/**
