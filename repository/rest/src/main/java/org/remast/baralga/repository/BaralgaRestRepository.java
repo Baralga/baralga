@@ -34,7 +34,10 @@ public class BaralgaRestRepository implements BaralgaRepository {
 
     @Override
     public void initialize() {
-        client = new OkHttpClient().newBuilder().followRedirects(false).build();
+        client = new OkHttpClient().newBuilder()
+                .followRedirects(false)
+                .addInterceptor(new GzipInterceptor())
+                .build();
         objectMapper = new ObjectMapper();
         dateFormat =  DateTimeFormat.forPattern("yyyy-MM-dd");
         isoDateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss");
