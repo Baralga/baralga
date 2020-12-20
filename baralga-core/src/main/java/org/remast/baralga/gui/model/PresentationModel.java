@@ -421,8 +421,8 @@ public class PresentationModel {
 			stop2 = DateUtils.getNowAsDateTime();
 			final DateTime start2 = stop;
 
-			final ProjectActivity activityOnEndDay = new ProjectActivity(start2, stop2, getSelectedProject(), this.description);
-			this.baralgaDAO.addActivity(activityOnEndDay);
+			ProjectActivity activityOnEndDay = new ProjectActivity(start2, stop2, getSelectedProject(), this.description);
+			activityOnEndDay = this.baralgaDAO.addActivity(activityOnEndDay);
 			this.activitiesList.add(activityOnEndDay);
 
 			// Create Event for Project Activity
@@ -434,8 +434,8 @@ public class PresentationModel {
 			stop = endDate;
 		}
 
-		final ProjectActivity activityOnStartDay = new ProjectActivity(start, stop, getSelectedProject(), this.description);
-		this.baralgaDAO.addActivity(activityOnStartDay);
+		ProjectActivity activityOnStartDay = new ProjectActivity(start, stop, getSelectedProject(), this.description);
+		activityOnStartDay = this.baralgaDAO.addActivity(activityOnStartDay);
 		this.activitiesList.add(activityOnStartDay);
 
 		// Clear old activity
@@ -501,9 +501,8 @@ public class PresentationModel {
 			setStop(now);
 
 			// 2. Track recorded project activity.
-			final ProjectActivity activity = new ProjectActivity(start, stop, previousProject, description);
-
-			this.baralgaDAO.addActivity(activity);
+			ProjectActivity activity = new ProjectActivity(start, stop, previousProject, description);
+			activity = this.baralgaDAO.addActivity(activity);
 			this.activitiesList.add(activity);
 
 			// Clear description
@@ -548,8 +547,8 @@ public class PresentationModel {
 		this.addActivities(activities, source);
 	}
 
-	public final void addActivities(final List<ProjectActivity> activities, final Object source) {
-		this.baralgaDAO.addActivities(activities);
+	public final void addActivities(final List<ProjectActivity> newActivities, final Object source) {
+		final Collection<ProjectActivity> activities = this.baralgaDAO.addActivities(newActivities);
 
 		applyFilter();
 
