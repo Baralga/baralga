@@ -3,6 +3,8 @@ package org.remast.swing;
 import java.awt.BorderLayout;
 import java.awt.KeyboardFocusManager;
 import java.awt.Toolkit;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -14,8 +16,6 @@ import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.text.DefaultEditorKit;
 
 import org.jdesktop.swingx.JXPanel;
@@ -77,21 +77,18 @@ public class JTextEditor extends JXPanel {
         textArea.setEditable(true);
 
         setTabBehavior();
-        
-        textArea.getDocument().addDocumentListener(new DocumentListener() {
 
-            public void changedUpdate(final DocumentEvent e) {
-                notifyTextObservers();
+        textArea.addFocusListener(new FocusListener() {
+
+            @Override
+            public void focusGained(FocusEvent e) {
+                // nothing to do
             }
 
-            public void insertUpdate(final DocumentEvent e) {
+            @Override
+            public void focusLost(FocusEvent e) {
                 notifyTextObservers();
             }
-
-            public void removeUpdate(final DocumentEvent e) {
-                notifyTextObservers();
-            }
-
         });
 
         if (scrollable) {

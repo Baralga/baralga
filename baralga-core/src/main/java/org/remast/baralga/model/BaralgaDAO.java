@@ -61,16 +61,6 @@ public class BaralgaDAO {
 	}
 
 	/**
-	 * Getter for all active projects.
-	 * @return read-only view of the projects
-	 */
-	public List<Project> getActiveProjects() {
-		return repository.getActiveProjects().stream()
-				.map(Project::new)
-				.collect(Collectors.toList());
-	}
-
-	/**
 	 * Getter for all projects (both active and inactive).
 	 * @return read-only view of the projects
 	 */

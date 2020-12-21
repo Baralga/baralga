@@ -9,6 +9,7 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class BaralgaRestRepository implements BaralgaRepository {
@@ -37,6 +38,7 @@ public class BaralgaRestRepository implements BaralgaRepository {
         client = new OkHttpClient().newBuilder()
                 .followRedirects(false)
                 .addInterceptor(new GzipInterceptor())
+                .callTimeout(5, TimeUnit.SECONDS)
                 .build();
         objectMapper = new ObjectMapper();
         dateFormat =  DateTimeFormat.forPattern("yyyy-MM-dd");
@@ -209,11 +211,6 @@ public class BaralgaRestRepository implements BaralgaRepository {
         try (final Response response = execute(request)) {
             // Autclose
         }
-    }
-
-    @Override
-    public List<ProjectVO> getActiveProjects() {
-        return getProjects(true);
     }
 
     @Override

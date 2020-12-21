@@ -126,14 +126,16 @@ public class PresentationModel {
 		}
 
 		this.projectList.clear();
-		for (Project project : this.baralgaDAO.getActiveProjects()) {
+
+		final List<Project> projects = this.baralgaDAO.getAllProjects();
+		for (Project project : projects) {
 			if (project.isActive()) {
 				this.projectList.add(project);
 			}
 		}
 
 		this.allProjectsList.clear();
-		this.allProjectsList.addAll(this.baralgaDAO.getAllProjects());
+		this.allProjectsList.addAll(projects);
 
 		this.projectAdministrationAllowed = baralgaDAO.isProjectAdministrationAllowed();
 
