@@ -4,7 +4,7 @@
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <option name="MAIN_CLASS_NAME" value="org.remast.baralga.gui.BaralgaMain" />
     <module name="baralga-core" />
-    <option name="VM_PARAMETERS" value="-DuserMode=multiuser -Duser.name=user1" />
+    <option name="VM_PARAMETERS" value="-DuserMode=multiuser -Duser.name=user1111" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

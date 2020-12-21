@@ -8,6 +8,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -38,6 +39,7 @@ public class BaralgaRestRepository implements BaralgaRepository {
         client = new OkHttpClient().newBuilder()
                 .followRedirects(false)
                 .addInterceptor(new GzipInterceptor())
+                .connectTimeout(400, TimeUnit.MILLISECONDS)
                 .callTimeout(5, TimeUnit.SECONDS)
                 .build();
         objectMapper = new ObjectMapper();
@@ -381,8 +383,8 @@ public class BaralgaRestRepository implements BaralgaRepository {
                 return response;
             }
 
-            if (response.code() == 302 && response.header("WWW-Authenticate") != null) {
-                throw new RuntimeException("Authentication failed.");
+            if (response.code() == 401 || (response.code() == 302 && response.header("WWW-Authenticate") != null)) {
+                throw new UnauthorizedException(user);
             }
 
             if (!response.isSuccessful()) {
@@ -390,6 +392,8 @@ public class BaralgaRestRepository implements BaralgaRepository {
             }
 
             return response;
+        } catch (ConnectException e) {
+            throw new ServerNotAvailableException(baseUrl);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
