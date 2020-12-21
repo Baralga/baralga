@@ -35,6 +35,15 @@ password=us3r
 
 # Changelog
 
+## Baralga Version 1.9.1
+
+### Features
+* Only admins may edit projects and import data.
+
+### Fixes
+* Fixed http connection pooling.
+* Improved error handling.
+
 ## Baralga Version 1.9.0
 
 ### Features
