@@ -8,15 +8,17 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.io.IOException;
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class BaralgaRestRepository implements BaralgaRepository {
 
-
-    private String baseUrl;
-    private String user;
-    private String password;
+    private final String baseUrl;
+    private final String user;
+    private final String password;
     private ObjectMapper objectMapper;
     private OkHttpClient client;
     private DateTimeFormatter dateFormat;
@@ -35,7 +37,12 @@ public class BaralgaRestRepository implements BaralgaRepository {
 
     @Override
     public void initialize() {
-        client = new OkHttpClient();
+        client = new OkHttpClient().newBuilder()
+                .followRedirects(false)
+                .addInterceptor(new GzipInterceptor())
+                .connectTimeout(400, TimeUnit.MILLISECONDS)
+                .callTimeout(5, TimeUnit.SECONDS)
+                .build();
         objectMapper = new ObjectMapper();
         dateFormat =  DateTimeFormat.forPattern("yyyy-MM-dd");
         isoDateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss");
@@ -69,17 +76,18 @@ public class BaralgaRestRepository implements BaralgaRepository {
 
         final Request request = new Request.Builder()
                 .url(url)
-                .post(RequestBody.create(MediaType.parse("application/json"), writeValueAsJsonString(activityJson)))
+                .post(RequestBody.create(writeValueAsJsonString(activityJson), MediaType.parse("application/json")))
                 .build();
 
-        final Response response = execute(request);
-        try (ResponseBody responseBody = response.body()) {
-            JsonNode jsonActivity = readTreeFromJsonString(responseBody.string());
-            ActivityVO activityUpdated = readActivity(jsonActivity);
-            activityUpdated.setProject(activity.getProject());
-            return activityUpdated;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        try (final Response response = execute(request)) {
+            try (ResponseBody responseBody = response.body()) {
+                JsonNode jsonActivity = readTreeFromJsonString(responseBody.string());
+                ActivityVO activityUpdated = readActivity(jsonActivity);
+                activityUpdated.setProject(activity.getProject());
+                return activityUpdated;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -94,7 +102,9 @@ public class BaralgaRestRepository implements BaralgaRepository {
                 .delete()
                 .build();
 
-        execute(request);
+        try (final Response response = execute(request)) {
+            // Autoclose
+        }
     }
 
     @Override
@@ -120,7 +130,9 @@ public class BaralgaRestRepository implements BaralgaRepository {
                 .patch(RequestBody.create(writeValueAsJsonString(activityJson), MediaType.parse("application/json")))
                 .build();
 
-        execute(request);
+        try (final Response response = execute(request)) {
+            // Autoclose
+        }
     }
 
     @Override
@@ -136,30 +148,35 @@ public class BaralgaRestRepository implements BaralgaRepository {
                 .url(urlBuilder.build())
                 .build();
 
-        final Response response = execute(request);
+       try (final Response response = execute(request)) {
+           try (ResponseBody responseBody = response.body()) {
+               final JsonNode jsonActivities = readTreeFromJsonString(responseBody.string());
 
-        try (ResponseBody responseBody = response.body()) {
-            final JsonNode jsonActivities = readTreeFromJsonString(responseBody.string());
+               final List<ActivityVO> activities = new ArrayList<>();
+               final List<ProjectVO> projects = new ArrayList<>();
 
-            final List<ProjectVO> projects = new ArrayList<>();
-            final Map<String, ProjectVO> projectsById = new HashMap<>();
-            for (JsonNode jsonProject : jsonActivities.get("projectRefs")) {
-                ProjectVO project = readProject(jsonProject);
-                projectsById.put(project.getId(), project);
-                projects.add(project);
-            }
+               if (!jsonActivities.has("_embedded")) {
+                   return activities;
+               }
 
-            final List<ActivityVO> activities = new ArrayList<>();
-            for (JsonNode jsonActivity : jsonActivities.get("data")) {
-                ActivityVO activity = readActivity(jsonActivity);
-                activity.setProject(projectsById.get(jsonActivity.get("projectRef").asText()));
-                activities.add(activity);
-            }
+               final Map<String, ProjectVO> projectsById = new HashMap<>();
+               for (JsonNode jsonProject : jsonActivities.get("_embedded").get("projects")) {
+                   ProjectVO project = readProject(jsonProject);
+                   projectsById.put(jsonProject.get("_links").get("self").get("href").asText(), project);
+                   projects.add(project);
+               }
 
-            return activities;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+               for (JsonNode jsonActivity : jsonActivities.get("_embedded").get("activities")) {
+                   ActivityVO activity = readActivity(jsonActivity);
+                   activity.setProject(projectsById.get(jsonActivity.get("_links").get("project").get("href").asText()));
+                   activities.add(activity);
+               }
+
+               return activities;
+           } catch (IOException e) {
+               throw new RuntimeException(e);
+           }
+       }
     }
 
     @Override
@@ -170,16 +187,16 @@ public class BaralgaRestRepository implements BaralgaRepository {
 
         final Request request = new Request.Builder()
                 .url(url)
-                .post(RequestBody.create(MediaType.parse("application/json"), writeValueAsJsonString(projectJson)))
+                .post(RequestBody.create(writeValueAsJsonString(projectJson), MediaType.parse("application/json")))
                 .build();
 
-        final Response response = execute(request);
-
-        try (ResponseBody responseBody = response.body()) {
-            JsonNode jsonProject = objectMapper.readTree(responseBody.string());
-            return readProject(jsonProject);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        try (final Response response = execute(request)) {
+            try (ResponseBody responseBody = response.body()) {
+                JsonNode jsonProject = objectMapper.readTree(responseBody.string());
+                return readProject(jsonProject);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -194,17 +211,34 @@ public class BaralgaRestRepository implements BaralgaRepository {
                 .delete()
                 .build();
 
-        execute(request);
-    }
-
-    @Override
-    public List<ProjectVO> getActiveProjects() {
-        return getProjects(true);
+        try (final Response response = execute(request)) {
+            // Autclose
+        }
     }
 
     @Override
     public List<ProjectVO> getAllProjects() {
         return getProjects(null);
+    }
+
+    @Override
+    public boolean isProjectAdministrationAllowed() {
+        final HttpUrl.Builder urlBuilder = projectsUrl()
+                .addQueryParameter("page", "0")
+                .addQueryParameter("size", "1");
+
+        final Request request = new Request.Builder()
+                .url(urlBuilder.build())
+                .build();
+
+        try (final Response response = execute(request)) {
+            try (ResponseBody responseBody = response.body()) {
+                final JsonNode jsonProjects = readTreeFromJsonString(responseBody.string());
+                return jsonProjects.has("_links") && jsonProjects.get("_links").has("create");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     private List<ProjectVO> getProjects(Boolean active) {
@@ -218,20 +252,25 @@ public class BaralgaRestRepository implements BaralgaRepository {
                 .url(urlBuilder.build())
                 .build();
 
-        final Response response = execute(request);
+        try (final Response response = execute(request)) {
+            try (ResponseBody responseBody = response.body()) {
+                final JsonNode jsonProjects = readTreeFromJsonString(responseBody.string());
 
-        try (ResponseBody responseBody = response.body()) {
-            final JsonNode jsonProjects = readTreeFromJsonString(responseBody.string());
+                final List<ProjectVO> projects = new ArrayList<>();
 
-            final List<ProjectVO> projects = new ArrayList<>();
-            for (JsonNode jsonProject : jsonProjects) {
-                ProjectVO project = readProject(jsonProject);
-                projects.add(project);
+                if (!jsonProjects.has("_embedded")) {
+                    return projects;
+                }
+
+                for (JsonNode jsonProject : jsonProjects.get("_embedded").get("projects")) {
+                    ProjectVO project = readProject(jsonProject);
+                    projects.add(project);
+                }
+
+                return projects;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-
-            return projects;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -242,17 +281,18 @@ public class BaralgaRestRepository implements BaralgaRepository {
                 .url(url)
                 .build();
 
-        final Response response = execute(request, 404);
-        if (response.code() == 404) {
-            return Optional.empty();
-        }
+        try (final Response response = execute(request, 404)) {
+            if (response.code() == 404) {
+                return Optional.empty();
+            }
 
-        try (ResponseBody responseBody = response.body()) {
-            JsonNode jsonProject = readTreeFromJsonString(responseBody.string());
-            ProjectVO project = readProject(jsonProject);
-            return Optional.ofNullable(project);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            try (ResponseBody responseBody = response.body()) {
+                JsonNode jsonProject = readTreeFromJsonString(responseBody.string());
+                ProjectVO project = readProject(jsonProject);
+                return Optional.ofNullable(project);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -274,7 +314,9 @@ public class BaralgaRestRepository implements BaralgaRepository {
                 .patch(RequestBody.create(writeValueAsJsonString(projectJson), MediaType.parse("application/json")))
                 .build();
 
-        execute(request);
+        try (final Response response = execute(request)) {
+            // Autoclose
+        }
     }
 
     private ObjectNode createActivity(ActivityVO activity) {
@@ -283,7 +325,13 @@ public class BaralgaRestRepository implements BaralgaRepository {
         activityJson.put("start", isoDateTimeFormatter.print(activity.getStart()));
         activityJson.put("end", isoDateTimeFormatter.print(activity.getEnd()));
         activityJson.put("description", activity.getDescription());
-        activityJson.put("projectRef", activity.getProject().getId());
+
+        ObjectNode linksJson = objectMapper.createObjectNode();
+        ObjectNode projectLinkJson = objectMapper.createObjectNode();
+        projectLinkJson.put("href", baseUrl + "/api/projects/" + activity.getProject().getId());
+        linksJson.set("project", projectLinkJson);
+        activityJson.set("_links", linksJson);
+
         return activityJson;
     }
 
@@ -336,11 +384,17 @@ public class BaralgaRestRepository implements BaralgaRepository {
                 return response;
             }
 
+            if (response.code() == 401 || (response.code() == 302 && response.header("WWW-Authenticate") != null)) {
+                throw new UnauthorizedException(user);
+            }
+
             if (!response.isSuccessful()) {
                 throw new RuntimeException(response.toString());
             }
 
             return response;
+        } catch (SocketTimeoutException | ConnectException e) {
+            throw new ServerNotAvailableException(baseUrl);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

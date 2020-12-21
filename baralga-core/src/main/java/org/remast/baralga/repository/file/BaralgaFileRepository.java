@@ -209,29 +209,6 @@ public class BaralgaFileRepository implements BaralgaRepository {
     }
 
     /**
-     * Getter for all active projects.
-     * @return read-only view of the projects
-     */
-    public List<ProjectVO> getActiveProjects() {
-        final List<ProjectVO> activeProjects = new ArrayList<>();
-
-        try (final Statement statement = connection.createStatement()) {
-            try (final ResultSet rs = statement.executeQuery("select * from project where active = True")) { //$NON-NLS-1$
-                while (rs.next()) {
-                    ProjectVO project = new ProjectVO(rs.getString("project_id"), rs.getString("title"), rs.getString("description")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                    project.setActive(true);
-                    activeProjects.add(project);
-                }
-            }
-        } catch (SQLException e) {
-            log.error(e.getLocalizedMessage(), e);
-            throw new RuntimeException(textBundle.textFor("BaralgaDB.DatabaseError.Message"), e); //$NON-NLS-1$
-        }
-
-        return Collections.unmodifiableList(activeProjects);
-    }
-
-    /**
      * Getter for all projects (both active and inactive).
      * @return read-only view of the projects
      */
@@ -440,6 +417,11 @@ public class BaralgaFileRepository implements BaralgaRepository {
         }
 
         return Optional.empty();
+    }
+
+    @Override
+    public boolean isProjectAdministrationAllowed() {
+        return true;
     }
 
     /**

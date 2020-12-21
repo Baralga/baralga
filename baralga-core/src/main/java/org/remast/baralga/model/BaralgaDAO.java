@@ -1,6 +1,7 @@
 package org.remast.baralga.model;
 
 import org.remast.baralga.model.filter.Filter;
+import org.remast.baralga.repository.ActivityVO;
 import org.remast.baralga.repository.BaralgaRepository;
 import org.remast.baralga.repository.FilterVO;
 import org.remast.baralga.repository.ProjectVO;
@@ -60,16 +61,6 @@ public class BaralgaDAO {
 	}
 
 	/**
-	 * Getter for all active projects.
-	 * @return read-only view of the projects
-	 */
-	public List<Project> getActiveProjects() {
-		return repository.getActiveProjects().stream()
-				.map(Project::new)
-				.collect(Collectors.toList());
-	}
-
-	/**
 	 * Getter for all projects (both active and inactive).
 	 * @return read-only view of the projects
 	 */
@@ -77,6 +68,13 @@ public class BaralgaDAO {
 		return repository.getAllProjects().stream()
 				.map(Project::new)
 				.collect(Collectors.toList());
+	}
+
+	/**
+	 * Check if project administration allowed.
+	 */
+	public boolean isProjectAdministrationAllowed() {
+		return repository.isProjectAdministrationAllowed();
 	}
 
 	/**
@@ -91,12 +89,13 @@ public class BaralgaDAO {
 	 * Adds a new activity.
 	 * @param activity the activity to add
 	 */
-	public void addActivity(final ProjectActivity activity) {
+	public ProjectActivity addActivity(final ProjectActivity activity) {
 		if (activity == null) {
-			return;
+			return null;
 		}
 
-		repository.addActivity(activity.toVO());
+		final ActivityVO activityVO = repository.addActivity(activity.toVO());
+		return new ProjectActivity(activityVO);
 	}
 
 	/**
@@ -129,14 +128,14 @@ public class BaralgaDAO {
 	 * Adds a bunch of activities.
 	 * @param activities the activities to add
 	 */
-	public void addActivities(final Collection<ProjectActivity> activities) {
+	public Collection<ProjectActivity> addActivities(final Collection<ProjectActivity> activities) {
 		if (activities == null || activities.size() == 0) {
-			return;
+			return activities;
 		}
-		
-		for (ProjectActivity activity : activities) {
-			addActivity(activity);
-		}
+
+		return activities.stream()
+				.map(this::addActivity)
+				.collect(Collectors.toList());
 	}
 
 	/**

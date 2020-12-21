@@ -70,6 +70,10 @@ public class DescriptionPanelEntry extends JPanel {
             final String oldDescription = activity.getDescription();
             final String newDescription = editor.getText();
 
+            if (oldDescription.equalsIgnoreCase(newDescription)) {
+                return;
+            }
+
             activity.setDescription(newDescription);
 
             final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(

@@ -15,12 +15,6 @@ interface ProjectRepository {
     void remove(final ProjectVO project);
 
     /**
-     * Getter for all active projects.
-     * @return read-only view of the ProjectVOs
-     */
-    List<ProjectVO> getActiveProjects();
-
-    /**
      * Getter for all projects (both active and inactive).
      * @return read-only view of the ProjectVOs
      */
@@ -44,6 +38,11 @@ interface ProjectRepository {
      * @param projectId the id of the ProjectVO
      * @return the ProjectVO with the given id or <code>null</code> if there is none
      */
-    Optional<ProjectVO> findProjectById(final String projectId) ;
+    Optional<ProjectVO> findProjectById(final String projectId);
+
+    /**
+     * Check if project adminstration is allowed.
+     */
+    boolean isProjectAdministrationAllowed();
 
 }

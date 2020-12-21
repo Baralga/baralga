@@ -13,6 +13,8 @@ import java.awt.EventQueue;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.logging.Level;
 
+import org.remast.baralga.repository.ServerNotAvailableException;
+import org.remast.baralga.repository.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.jdesktop.swingx.JXErrorPane;
@@ -37,20 +39,38 @@ public class ExceptionUtils {
 	 * @param throwable the exception
 	 */
 	public static void showErrorDialog(final Throwable throwable) {
-		// Catch any uncaught GUI Exceptions
-		try {
-			final ErrorInfo errorInfo = new ErrorInfo(
-					textBundle.textFor("BaralgaMain.FatalError.Title"),  //$NON-NLS-1$, 
-					textBundle.textFor("BaralgaMain.FatalError.Message", BaralgaMain.getLogFileName()),  //$NON-NLS-1$, 
-					null, // detailedErrorMessage
-					null, // category
-					throwable, 
-					Level.SEVERE, 
+		ErrorInfo errorInfo = new ErrorInfo(
+				textBundle.textFor("BaralgaMain.FatalError.Title"),  //$NON-NLS-1$,
+				textBundle.textFor("BaralgaMain.FatalError.Message", BaralgaMain.getLogFileName()),  //$NON-NLS-1$,
+				throwable.getMessage(),
+				null,
+				throwable,
+				Level.SEVERE,
+				null);
+
+		if (ServerNotAvailableException.class.equals(throwable.getClass())) {
+			ServerNotAvailableException serverNotAvailableException = (ServerNotAvailableException) throwable;
+			errorInfo = new ErrorInfo(
+					textBundle.textFor("BaralgaMain.ServerNotAvailable.Title"),  //$NON-NLS-1$,
+					textBundle.textFor("BaralgaMain.ServerNotAvailable.Message", serverNotAvailableException.getBaseUrl()),  //$NON-NLS-1$,
+					throwable.getMessage(),
+					"Multiuser",
+					throwable,
+					Level.WARNING,
 					null);
-			JXErrorPane.showDialog(null, errorInfo);
-		} catch (Exception innerEx) {
-			log.error(innerEx.getLocalizedMessage(), innerEx);
+		} else if (UnauthorizedException.class.equals(throwable.getClass())) {
+			UnauthorizedException unauthorizedException = (UnauthorizedException) throwable;
+			errorInfo = new ErrorInfo(
+					textBundle.textFor("BaralgaMain.Unauthorized.Title"),  //$NON-NLS-1$,
+					textBundle.textFor("BaralgaMain.Unauthorized.Message", unauthorizedException.getUser()),  //$NON-NLS-1$,
+					throwable.getMessage(),
+					"Multiuser",
+					throwable,
+					Level.WARNING,
+					null);
 		}
+
+		JXErrorPane.showDialog(null, errorInfo);
 	}
 	
 	public static final class ExceptionHandler implements UncaughtExceptionHandler {
