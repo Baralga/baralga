@@ -74,8 +74,6 @@ public class DescriptionPanelEntry extends JPanel {
                 return;
             }
 
-            System.out.println("Updatinng!!");
-
             activity.setDescription(newDescription);
 
             final PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(
