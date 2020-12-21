@@ -9,6 +9,7 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.io.IOException;
 import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -392,7 +393,7 @@ public class BaralgaRestRepository implements BaralgaRepository {
             }
 
             return response;
-        } catch (ConnectException e) {
+        } catch (SocketTimeoutException | ConnectException e) {
             throw new ServerNotAvailableException(baseUrl);
         } catch (IOException e) {
             throw new RuntimeException(e);
