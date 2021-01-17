@@ -35,6 +35,11 @@ password=us3r
 
 # Changelog
 
+## Baralga Version 1.9.2
+
+### Fixes
+* #62 Project can be added and edited again.
+
 ## Baralga Version 1.9.1
 
 ### Features
