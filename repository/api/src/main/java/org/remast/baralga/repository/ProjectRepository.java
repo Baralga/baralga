@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-interface ProjectRepository {
+public interface ProjectRepository {
 
     /**
      * Adds a new project.

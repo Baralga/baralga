@@ -185,10 +185,6 @@ public class BaralgaFileRepository implements BaralgaRepository {
             return null;
         }
 
-        if (project.getId() == null) {
-            throw new IllegalArgumentException("Cannot add project without id.");
-        }
-
         // TODO: Check if exists
         final String sql = "insert into project (project_id, title, description, active) values (?, ?, ?, ?)"; //$NON-NLS-1$
         final String id = UUID.randomUUID().toString();

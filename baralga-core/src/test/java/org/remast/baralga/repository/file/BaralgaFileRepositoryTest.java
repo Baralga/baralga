@@ -26,25 +26,14 @@ public class BaralgaFileRepositoryTest {
     @Test
     void addProject() {
         // Arrange
-        String projectId = UUID.randomUUID().toString();
-        ProjectVO project = new ProjectVO(projectId, "My Title", "My Description");
+        ProjectVO project = new ProjectVO(null, "My Title", "My Description");
 
         // Act
         fileRepository.addProject(project);
 
         // Assert
-        assertNotNull(fileRepository.findProjectById(projectId));
+        assertNotNull(project.getId());
+        assertNotNull(fileRepository.findProjectById(project.getId()));
     }
 
-    @Test
-    void addProjectWithoutId() {
-        // Arrange
-        String projectId = null;
-        ProjectVO project = new ProjectVO(projectId, "My Title", "My Description");
-
-        // Act + Assert
-        assertThrows(IllegalArgumentException.class, () ->
-                fileRepository.addProject(project)
-        );
-    }
 }

@@ -1,5 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="BaralgaMain _ singleuser" type="Application" factoryName="Application">
+    <option name="ALTERNATIVE_JRE_PATH" value="13" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <option name="MAIN_CLASS_NAME" value="org.remast.baralga.gui.BaralgaMain" />
     <module name="baralga-core" />
     <method v="2">
