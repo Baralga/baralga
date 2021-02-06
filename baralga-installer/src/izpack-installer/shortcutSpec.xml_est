@@ -1,4 +1,7 @@
-<shortcuts>
+<izpack:shortcuts version="5.0"
+                  xmlns:izpack="http://izpack.org/schema/shortcuts"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://izpack.org/schema/shortcuts http://izpack.org/schema/5.0/izpack-shortcuts-5.0.xsd">
   <skipIfNotSupported/>
   <programGroup defaultName="$APP_NAME"
                 location="applications"/>
@@ -7,10 +10,10 @@
     target="$INSTALL_PATH\baralga-core-${baralga.version}.jar"
     commandLine=""
     workingDirectory="$INSTALL_PATH"
-    description="Aja jälgimise rakendus projektide tarbeks."
+    description="Aja jï¿½lgimise rakendus projektide tarbeks."
     iconFile="$INSTALL_PATH\Baralga-Tray.ico"
     iconIndex="0"
-    initialState="maximized"
+    initialState="normal"
     programGroup="yes"
     desktop="yes"
     applications="no"
@@ -21,4 +24,4 @@
 
     <createForPack name="Base"/>
   </shortcut>
-</shortcuts>
+</izpack:shortcuts>

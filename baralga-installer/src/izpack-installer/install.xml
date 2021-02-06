@@ -6,19 +6,16 @@
 		<appname>Baralga</appname>
 		<appversion>${project.version}</appversion>
 		<authors>
-			<author name="${user.name}" email="baralga@geekmail.de" />
+			<author name="Jan" email="baralga@geekmail.de" />
 		</authors>
-		<url>${project.url}</url>
+		<url>https://baralga.github.io</url>
         <run-privileged condition="izpack.windowsinstall|izpack.macinstall" />
 	</info>
-	
-	<!-- Windows binary for creating shortcuts. -->
-    <native type="izpack" name="ShellLink.dll" >
-        <os family="windows" />
-    </native>
-    <native type="izpack" name="ShellLink_x64.dll">
-        <os family="windows" />
-    </native>
+
+	<natives>
+		<native type="izpack" name="ShellLink.dll"/>
+		<native type="izpack" name="ShellLink_x64.dll"/>
+	</natives>
 
 	<!-- Gui Preferences -->
 	<guiprefs height="480" resizable="yes" width="480" />
@@ -48,9 +45,11 @@
 		<!-- Shortcuts -->
 		<res id="shortcutSpec.xml" src="shortcutSpec.xml" />
 		<res id="shortcutSpec.xml_deu" src="shortcutSpec.xml_deu" />
-		
+		<res id="shortcutSpec.xml_fra" src="shortcutSpec.xml_fra" />
+
 		<!-- Packs internationalization -->
 		<res id="packsLang.xml_deu" src="packsLang.xml_deu" />
+		<res id="packsLang.xml_fra" src="packsLang.xml_fra" />
 	</resources>
 
 	<panels>
@@ -66,10 +65,10 @@
 	<packs>
 		<pack name="Base" required="yes" id="base">
 			<description>The base files of the application.</description>
-                <file src="Licence.txt" targetdir="$INSTALL_PATH" />
-			<file src="Baralga-Tray.ico" targetdir="$INSTALL_PATH" />
-			<file src="baralga-core-${project.version}.jar" targetdir="$INSTALL_PATH" />
-            <file src="data" targetdir="$INSTALL_PATH" />
+			<file src="Licence.txt" targetdir="${INSTALL_PATH}" />
+			<file src="Baralga-Tray.ico" targetdir="${INSTALL_PATH}" />
+			<file src="baralga-core-${project.version}.jar" targetdir="${INSTALL_PATH}" />
+            <file src="data" targetdir="${INSTALL_PATH}" />
 		</pack>
 	</packs>
 

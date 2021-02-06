@@ -1,4 +1,7 @@
-<shortcuts>
+<izpack:shortcuts version="5.0"
+                  xmlns:izpack="http://izpack.org/schema/shortcuts"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://izpack.org/schema/shortcuts http://izpack.org/schema/5.0/izpack-shortcuts-5.0.xsd">
   <skipIfNotSupported/>
   <programGroup defaultName="$APP_NAME"
                 location="applications"/>
@@ -10,15 +13,15 @@
     description="Zeiterfassung für Projekte."
     iconFile="$INSTALL_PATH\Baralga-Tray.ico"
     iconIndex="0"
-    initialState="maximized"
+    initialState="normal"
     programGroup="yes"
     desktop="yes"
-    applications="no"
-    startMenu="no"
+    applications="yes"
+    startMenu="yes"
     startup="no"
     type="Application"
     >
 
     <createForPack name="Base"/>
   </shortcut>
-</shortcuts>
+</izpack:shortcuts>

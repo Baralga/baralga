@@ -35,6 +35,11 @@ password=us3r
 
 # Changelog
 
+## Baralga Version 1.9.3
+
+### Fixes
+* #58 Fixed installer configuration
+
 ## Baralga Version 1.9.2
 
 ### Fixes

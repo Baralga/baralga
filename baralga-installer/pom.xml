@@ -79,17 +79,19 @@
 			<plugin>
 				<groupId>org.codehaus.izpack</groupId>
 				<artifactId>izpack-maven-plugin</artifactId>
-                <version>5.1.2</version>
+                <version>5.1.3</version>
 				<executions>
 					<execution>
+						<id>installer</id>
 						<phase>package</phase>
 						<goals>
 							<goal>izpack</goal>
 						</goals>
 						<configuration>
+							<classifier>Installer</classifier>
                             <installFile>${project.build.directory}/classes/install.xml</installFile>
 							<baseDir>${project.build.directory}/Baralga-Portable-${project.version}</baseDir>
-                            <finalName>Baralga-Installer-${project.version}</finalName>
+                            <finalName>Baralga-${project.version}</finalName>
                             <jarName>${project.build.directory}/Baralga-Installer-${project.version}</jarName>
 						</configuration>
 					</execution>
