@@ -165,13 +165,13 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.7.0</version>
+			<version>5.7.1</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>30.0-jre</version>
+			<version>30.1-jre</version>
 		</dependency>
 		<dependency>
 			<groupId>net.java.dev.glazedlists</groupId>
@@ -181,7 +181,7 @@
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
-			<version>4.1.2</version>
+			<version>5.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.opencsv</groupId>
@@ -282,7 +282,7 @@
 		<dependency>
 			<groupId>org.mnode.ical4j</groupId>
 			<artifactId>ical4j</artifactId>
-			<version>3.0.20</version>
+			<version>3.0.21</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>commons-logging</artifactId>
