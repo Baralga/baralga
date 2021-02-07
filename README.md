@@ -35,6 +35,11 @@ password=us3r
 
 # Changelog
 
+## Baralga Version 1.9.4
+
+### Fixes
+* Fixed startup of portable jar.
+
 ## Baralga Version 1.9.3
 
 ### Fixes
