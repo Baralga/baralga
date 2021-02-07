@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.remast.baralga</groupId>
 		<artifactId>repository</artifactId>
-		<version>1.9.4</version>
+		<version>1.9.5-SNAPSHOT</version>
 	</parent>
 	<artifactId>repository-rest</artifactId>
 	<name>Baralga REST Repository</name>
@@ -18,7 +18,7 @@
 		<dependency>
 			<groupId>com.remast.baralga</groupId>
 			<artifactId>repository-api</artifactId>
-			<version>1.9.4</version>
+			<version>1.9.5-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.squareup.okhttp3</groupId>

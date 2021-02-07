@@ -34,7 +34,7 @@ public class GzipInterceptor implements Interceptor {
         GzipSource gzipSource = new GzipSource(response.body().source());
         String bodyString = Okio.buffer(gzipSource).readUtf8();
 
-        ResponseBody responseBody = ResponseBody.create(response.body().contentType(), bodyString);
+        ResponseBody responseBody = ResponseBody.create(bodyString, response.body().contentType());
 
         Headers strippedHeaders = response.headers().newBuilder()
                 .removeAll("Content-Encoding")
