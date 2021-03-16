@@ -107,8 +107,6 @@ public class XmlExporter implements Exporter {
         
         // Output the XML
         TransformerFactory transfac = TransformerFactory.newInstance();
-		transfac.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-		transfac.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
 		transfac.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
         Transformer trans = transfac.newTransformer();
 //        trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
