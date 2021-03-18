@@ -35,6 +35,12 @@ password=us3r
 
 # Changelog
 
+## Baralga Version 1.9.5
+
+## Fixes
+* Xml backup working again.
+* \#68 configuration for non-active projects does not remain after baralga restart
+
 ## Baralga Version 1.9.4
 
 ### Fixes
