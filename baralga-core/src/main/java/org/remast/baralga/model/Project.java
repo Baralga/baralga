@@ -43,6 +43,7 @@ public class Project implements Serializable, Comparable<Project> {
         id = projectVO.getId();
         title = projectVO.getTitle();
         description = projectVO.getDescription();
+        active = projectVO.isActive();
     }
 
     /**
@@ -124,7 +125,8 @@ public class Project implements Serializable, Comparable<Project> {
         return new ProjectVO(
                 id,
                 title,
-                description
+                description,
+                active
         );
     }
 

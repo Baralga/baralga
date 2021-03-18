@@ -214,8 +214,12 @@ public class BaralgaFileRepository implements BaralgaRepository {
         try (final Statement statement = connection.createStatement()) {
             try (final ResultSet resultSet = statement.executeQuery("select * from project")) { //$NON-NLS-1$
                 while (resultSet.next()) {
-                    final ProjectVO project = new ProjectVO(resultSet.getString("project_id"), resultSet.getString("title"), resultSet.getString("description")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                    project.setActive(resultSet.getBoolean("active")); //$NON-NLS-1$
+                    final ProjectVO project = new ProjectVO(
+                            resultSet.getString("project_id"),  //$NON-NLS-1$
+                            resultSet.getString("title"),  //$NON-NLS-1$
+                            resultSet.getString("description"), //$NON-NLS-1$
+                            resultSet.getBoolean("active")  //$NON-NLS-1$
+                    );
 
                     allProjects.add(project);
                 }
@@ -402,8 +406,12 @@ public class BaralgaFileRepository implements BaralgaRepository {
 
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 if (rs.next()) {
-                    final ProjectVO project = new ProjectVO(rs.getString("project_id"), rs.getString("title"), rs.getString("description")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                    project.setActive(rs.getBoolean("active")); //$NON-NLS-1$
+                    final ProjectVO project = new ProjectVO(
+                            rs.getString("project_id"),  //$NON-NLS-1$
+                            rs.getString("title"),  //$NON-NLS-1$
+                            rs.getString("description"), //$NON-NLS-1$
+                            rs.getBoolean("active") //$NON-NLS-1$
+                    );
                     return Optional.ofNullable(project);
                 }
             }
@@ -444,8 +452,12 @@ public class BaralgaFileRepository implements BaralgaRepository {
 
             try (final ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    final ProjectVO project = new ProjectVO(resultSet.getString("project.project_id"), resultSet.getString("title"), resultSet.getString("project.description")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                    project.setActive(resultSet.getBoolean("active")); //$NON-NLS-1$
+                    final ProjectVO project = new ProjectVO(
+                            resultSet.getString("project.project_id"), //$NON-NLS-1$
+                            resultSet.getString("title"), //$NON-NLS-1$
+                            resultSet.getString("project.description"), //$NON-NLS-1$
+                            resultSet.getBoolean("active") //$NON-NLS-1$
+                    );
 
                     final ActivityVO activity = new ActivityVO(new DateTime(resultSet.getTimestamp("start")), new DateTime(resultSet.getTimestamp("end")), project); //$NON-NLS-1$ //$NON-NLS-2$
                     activity.setId(resultSet.getString("activity.activity_id")); //$NON-NLS-1$

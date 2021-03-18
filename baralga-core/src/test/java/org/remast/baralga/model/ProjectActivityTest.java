@@ -169,7 +169,7 @@ public class ProjectActivityTest {
     @Test
     void fromVO() {
         // Arrange
-        ProjectVO projectVO = new ProjectVO("P1", "Project 1 Title", "Project 1 Description");
+        ProjectVO projectVO = new ProjectVO("P1", "Project 1 Title", "Project 1 Description", true);
         ActivityVO activityVO = new ActivityVO(DateTime.now().minusMinutes(10), DateTime.now(), projectVO);
 
         // Act

@@ -30,7 +30,8 @@ class ProjectTest {
         String id = "UUID-1";
         String title = "My Title";
         String description = "My Description";
-        ProjectVO projectVO = new ProjectVO(id, title, description);
+        Boolean active = true;
+        ProjectVO projectVO = new ProjectVO(id, title, description, active);
 
         // Act
         Project project = new Project(projectVO);

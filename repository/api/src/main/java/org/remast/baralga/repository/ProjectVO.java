@@ -13,10 +13,11 @@ public class ProjectVO {
     /** Flag that shows whether the project is active or not. */
     private boolean active = true;
 
-    public ProjectVO(final String id, final String title, final String description) {
+    public ProjectVO(final String id, final String title, final String description, boolean active) {
         this.id = id;
         this.title = title;
         this.description = description;
+        this.active = active;
     }
 
     public String getId() {

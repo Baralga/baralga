@@ -26,7 +26,7 @@ public class BaralgaFileRepositoryTest {
     @Test
     void addProject() {
         // Arrange
-        ProjectVO project = new ProjectVO(null, "My Title", "My Description");
+        ProjectVO project = new ProjectVO(null, "My Title", "My Description", true);
 
         // Act
         fileRepository.addProject(project);

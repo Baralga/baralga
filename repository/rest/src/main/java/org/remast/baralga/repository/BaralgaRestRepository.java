@@ -357,7 +357,8 @@ public class BaralgaRestRepository implements BaralgaRepository {
         return new ProjectVO(
                 jsonProject.get("id").asText(),
                 jsonProject.get("title").asText(),
-                jsonProject.get("description").asText()
+                jsonProject.get("description").asText(),
+                jsonProject.get("active").isNull() || jsonProject.get("active").asBoolean()
         );
     }
 
