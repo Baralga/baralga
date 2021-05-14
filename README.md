@@ -3,9 +3,29 @@
 
 Baralga Time Tracker
 ====================
-Baralga is a simple time tracking solution for the desktop.
+Simple and lightweight time tracking. 
 
-https://baralga.github.io/
+![Baralga Main Screen](./documents/main-screen.png)
+
+Record the time spent on a project or manually enter and edit activities.
+
+### Features
+* plain time tracking no fuzz
+* switch projects with tray icon
+* record your activities
+* report as Excel, CSV and iCalendar
+* manually add and edit activities
+* enter data fast with shortcuts
+* suitable for single users and teams
+
+### Editions
+Use [Baralga](https://baralga.github.io/) just for yourself or as time tracker for your whole team.
+
+#### Single User Mode
+As a single user use our great [Desktop application](https://github.com/Baralga/baralga/releases).
+
+#### Multi User Mode
+As a team use our great [Desktop application](https://github.com/Baralga/baralga/releases) along with our [team server](https://github.com/Baralga/backend/releases).
 
 # User Guide
 
