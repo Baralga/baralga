@@ -19,7 +19,7 @@ Record the time spent on a project or manually enter and edit activities.
 * suitable for single users and teams
 
 ### Editions
-Use [Baralga](https://baralga.github.io/) just for yourself or as time tracker for your whole team.
+Use [Baralga](https://baralga.github.io/) just for yourself or for your whole team.
 
 #### Single User Mode
 As a single user use our great [Desktop application](https://github.com/Baralga/baralga/releases).
