@@ -243,6 +243,7 @@ public class BaralgaRestRepository implements BaralgaRepository {
 
     private List<ProjectVO> getProjects(Boolean active) {
         final HttpUrl.Builder urlBuilder = projectsUrl();
+        urlBuilder.addQueryParameter("size", "150");
 
         if (active != null) {
             urlBuilder.addQueryParameter("active", active ? "true" : "false");
