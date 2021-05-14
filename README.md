@@ -35,6 +35,11 @@ password=us3r
 
 # Changelog
 
+## Baralga Version 1.9.6
+
+## Fixes
+* Multi User: Load 150 projects instead of 20.
+
 ## Baralga Version 1.9.5
 
 ## Fixes
