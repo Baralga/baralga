@@ -10,7 +10,7 @@ import static org.remast.util.DateUtils.*;
 public class DateUtilsTest {
 
     @Test
-    public void startOfQuarter() throws Exception {
+    public void startOfQuarter() {
         assertEquals(quarterStartFor(dateOf("2011/02/02")), dateOf("2011/01/01"));
         assertEquals(quarterStartFor(dateOf("2011/01/01")), dateOf("2011/01/01"));
         assertEquals(quarterStartFor(dateOf("2011/02/02")), dateOf("2011/01/01"));
@@ -20,7 +20,7 @@ public class DateUtilsTest {
     }
 
     @Test
-    public void endOfQuarter() throws Exception {
+    public void endOfQuarter() {
         assertEquals(quarterEndFor(dateOf("2011/02/02")), dateOf("2011/03/31"));
         assertEquals(quarterEndFor(dateOf("2011/01/01")), dateOf("2011/03/31"));
         assertEquals(quarterEndFor(dateOf("2011/02/02")), dateOf("2011/03/31"));
@@ -28,7 +28,6 @@ public class DateUtilsTest {
         assertEquals(quarterEndFor(dateOf("2011/07/01")), dateOf("2011/09/30"));
         assertEquals(quarterEndFor(dateOf("2011/12/19")), dateOf("2011/12/31"));
     }
-
 
     public static DateTime dateOf(String date) {
         return  DateTimeFormat.forPattern("yyyy/MM/dd").parseDateTime(date);
