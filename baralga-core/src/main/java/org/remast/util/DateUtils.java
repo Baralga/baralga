@@ -50,4 +50,13 @@ public class DateUtils {
     public static boolean isBeforeOrEqual(final ReadableInstant time1, final ReadableInstant time2) {
     	return time1.isBefore(time2) || time1.isEqual(time2);
     }
+
+    public static DateTime quarterStartFor(DateTime date) {
+        return date.withDayOfMonth(1).withMonthOfYear((((date.getMonthOfYear() - 1) / 3) * 3) + 1);
+    }
+
+    public static DateTime quarterEndFor(DateTime date) {
+        return quarterStartFor(date).plusMonths(3).minusDays(1);
+    }
+
 }

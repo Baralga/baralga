@@ -44,11 +44,11 @@ public class HoursByQuarterReport {
     }
 
     public void calculateHours() {
-	this.hoursByQuarterList.clear();
+		this.hoursByQuarterList.clear();
 
-	for (ProjectActivity activity : this.model.getActivitiesList()) {
-	    this.addHours(activity);
-	}
+		for (ProjectActivity activity : this.model.getActivitiesList()) {
+			this.addHours(activity);
+		}
     }
 
     public void addHours(final ProjectActivity activity) {

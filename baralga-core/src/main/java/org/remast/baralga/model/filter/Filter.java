@@ -4,16 +4,16 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
-import org.remast.baralga.model.Project;
 import org.remast.baralga.model.ProjectActivity;
 import org.remast.baralga.repository.FilterVO;
-import org.remast.baralga.repository.ProjectVO;
 import org.remast.util.DateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
+import static org.remast.util.DateUtils.quarterEndFor;
+import static org.remast.util.DateUtils.quarterStartFor;
 
 /**
  * Filter for selecting only those project activities which satisfy 
@@ -118,17 +118,20 @@ public class Filter {
 			setTimeInterval(new Interval(now, now.plusWeeks(1)));
 			break;
 		case Month:
-		case Quarter:
 			now = now.withDayOfMonth(1);
 			setTimeInterval(new Interval(now, now.plusMonths(1)));
 			break;
+        case Quarter:
+            now = quarterStartFor(now);
+            setTimeInterval(new Interval(now, quarterEndFor(now)));
+            break;
 		case Year:
 			now = now.withDayOfYear(1);
 			setTimeInterval(new Interval(now, now.plusYears(1)));
 			break;
 		}
 	}
-    
+
     @Override
     public boolean equals(final Object that) {
         if (this == that) {
