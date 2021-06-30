@@ -15,7 +15,6 @@
 		<!-- SonarCloud -->
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-		<sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../target/jacoco.exec</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
 	<scm>
 		<connection>scm:git:https://github.com/Baralga/baralga.git</connection>
