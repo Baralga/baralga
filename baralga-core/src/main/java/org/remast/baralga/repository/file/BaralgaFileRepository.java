@@ -38,9 +38,6 @@ public class BaralgaFileRepository implements BaralgaRepository {
     /** The connection to the database. */
     private Connection connection;
 
-    /** The current version number of the database. */
-    private int databaseVersion;
-
     /**
      * Initializes the database and the connection to the database.
      * @throws SQLException on error during initialization
@@ -102,7 +99,8 @@ public class BaralgaFileRepository implements BaralgaRepository {
             }
             connection.commit();
 
-            databaseVersion = -1;
+            /** The current version number of the database. */
+            int databaseVersion = -1;
             String description = "-"; //$NON-NLS-1$
             try (ResultSet resultSet = statement.executeQuery("select version, description from db_version order by version desc limit 1")) { //$NON-NLS-1$
                 if (resultSet.next()) {
@@ -298,7 +296,7 @@ public class BaralgaFileRepository implements BaralgaRepository {
      * @param projects the projects to add
      */
     public void addProjects(final Collection<ProjectVO> projects) {
-        if (projects == null || projects.size() == 0) {
+        if (projects == null || projects.isEmpty()) {
             return;
         }
 
@@ -312,7 +310,7 @@ public class BaralgaFileRepository implements BaralgaRepository {
      * @param activities the activities to add
      */
     public Collection<ActivityVO> addActivities(final Collection<ActivityVO> activities) {
-        if (activities == null || activities.size() == 0) {
+        if (activities == null || activities.isEmpty()) {
             return null;
         }
 
