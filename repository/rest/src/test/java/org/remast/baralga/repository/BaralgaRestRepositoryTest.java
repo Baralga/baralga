@@ -35,7 +35,7 @@ class BaralgaRestRepositoryTest {
         // Arrange
         MockResponse mockResponse = new MockResponse()
                 .addHeader("Content-Type", "application/json; charset=utf-8")
-                .setBody("[ {\"id\": \"1234\", \"title\":\"My Title\", \"description\":\"My Description\", \"active\": true} ]");
+                .setBody("{ \"_embedded\" : { \"projects\": [ {\"id\": \"1234\", \"title\":\"My Title\", \"description\":\"My Description\", \"active\": true} ] } }");
         mockWebServer.enqueue(mockResponse);
 
         // Act
@@ -78,7 +78,7 @@ class BaralgaRestRepositoryTest {
         // Arrange
         MockResponse mockResponse = new MockResponse()
                 .addHeader("Content-Type", "application/json; charset=utf-8")
-                .setBody("{ \"data\": [ { \"id\": \"5678\", \"start\": \"2020-11-21T10:46:28\", \"end\": \"2020-11-21T16:46:28\", \"projectRef\": \"1234\", \"description\": \"My Desc\"} ], \"projectRefs\": [ {\"id\": \"1234\", \"title\":\"My Title\", \"description\":\"My Description\", \"active\": true} ] }");
+                .setBody("{ \"_embedded\" : { \"activities\": [ { \"id\": \"5678\", \"start\": \"2020-11-21T10:46:28\", \"end\": \"2020-11-21T16:46:28\", \"description\": \"My Desc\", \"_links\": { \"project\": { \"href\": \"http://localhost:8080/api/projects/8b2946cc-9afd-4ffd-a2da-6e826a637d54\" } } } ], \"projectRefs\": [ {\"id\": \"1234\", \"title\":\"My Title\", \"description\":\"My Description\", \"active\": true} ], \"projects\": [ {\"id\": \"1234\", \"title\":\"My Title\", \"description\":\"My Description\", \"active\": true, \"_links\": { \"self\": { \"href\": \"http://localhost:8080/api/projects/8b2946cc-9afd-4ffd-a2da-6e826a637d54\" } } } ] } }");
         mockWebServer.enqueue(mockResponse);
 
         // Act
