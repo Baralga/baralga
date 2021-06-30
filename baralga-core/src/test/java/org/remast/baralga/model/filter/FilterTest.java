@@ -33,7 +33,7 @@ class FilterTest {
 
         // Assert
         assertEquals(dateOf("2011/01/01"), filter.getTimeInterval().getStart());
-        assertEquals(dateOf("2011/03/31"), filter.getTimeInterval().getEnd());
+        assertEquals(dateOf("2011/04/01"), filter.getTimeInterval().getEnd());
     }
 
     private static DateTime dateOf(String date) {
