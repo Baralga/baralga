@@ -107,27 +107,26 @@ public class Filter {
     
 	/** Initializes the time interval for the span type of the filter. */
 	public void initTimeInterval() {
-		DateTime now = DateUtils.getNowAsDateTime().withMillisOfDay(0);
+        DateTime now = DateUtils.getNowAsDateTime().withMillisOfDay(0);
+        initTimeInterval(now);
+    }
 
+    void initTimeInterval(final DateTime now) {
 		switch (spanType) {
 		case Day:
 			setTimeInterval(new Interval(now, now.plusDays(1)));
 			break;
 		case Week:
-			now = now.withDayOfWeek(1);
-			setTimeInterval(new Interval(now, now.plusWeeks(1)));
+			setTimeInterval(new Interval(now.withDayOfWeek(1), now.plusWeeks(1)));
 			break;
 		case Month:
-			now = now.withDayOfMonth(1);
-			setTimeInterval(new Interval(now, now.plusMonths(1)));
+			setTimeInterval(new Interval(now.withDayOfMonth(1), now.plusMonths(1)));
 			break;
         case Quarter:
-            now = quarterStartFor(now);
-            setTimeInterval(new Interval(now, quarterEndFor(now)));
+            setTimeInterval(new Interval(quarterStartFor(now), quarterEndFor(now)));
             break;
 		case Year:
-			now = now.withDayOfYear(1);
-			setTimeInterval(new Interval(now, now.plusYears(1)));
+			setTimeInterval(new Interval(now.withDayOfYear(1), now.plusYears(1)));
 			break;
 		}
 	}

@@ -29,7 +29,7 @@ public class DateUtilsTest {
         assertEquals(quarterEndFor(dateOf("2011/12/19")), dateOf("2011/12/31"));
     }
 
-    public static DateTime dateOf(String date) {
+    private static DateTime dateOf(String date) {
         return  DateTimeFormat.forPattern("yyyy/MM/dd").parseDateTime(date);
     }
 }
