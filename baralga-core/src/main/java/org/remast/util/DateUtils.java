@@ -55,8 +55,4 @@ public class DateUtils {
         return date.withDayOfMonth(1).withMonthOfYear((((date.getMonthOfYear() - 1) / 3) * 3) + 1);
     }
 
-    public static DateTime quarterEndFor(DateTime date) {
-        return quarterStartFor(date).plusMonths(3).minusDays(1);
-    }
-
 }

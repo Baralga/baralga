@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
-import static org.remast.util.DateUtils.quarterEndFor;
 import static org.remast.util.DateUtils.quarterStartFor;
 
 /**
@@ -117,16 +116,20 @@ public class Filter {
 			setTimeInterval(new Interval(now, now.plusDays(1)));
 			break;
 		case Week:
-			setTimeInterval(new Interval(now.withDayOfWeek(1), now.plusWeeks(1)));
+		    DateTime startWeek = now.withDayOfWeek(1);
+			setTimeInterval(new Interval(startWeek, startWeek.plusWeeks(1)));
 			break;
 		case Month:
-			setTimeInterval(new Interval(now.withDayOfMonth(1), now.plusMonths(1)));
+            DateTime startMonth = now.withDayOfMonth(1);
+			setTimeInterval(new Interval(startMonth, startMonth.plusMonths(1)));
 			break;
         case Quarter:
-            setTimeInterval(new Interval(quarterStartFor(now), quarterEndFor(now)));
+            DateTime startQuarter = quarterStartFor(now);
+            setTimeInterval(new Interval(startQuarter, startQuarter.plusMonths(3)));
             break;
 		case Year:
-			setTimeInterval(new Interval(now.withDayOfYear(1), now.plusYears(1)));
+            DateTime startYear = now.withDayOfYear(1);
+			setTimeInterval(new Interval(startYear, startYear.plusYears(1)));
 			break;
 		}
 	}
