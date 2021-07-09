@@ -1,5 +1,14 @@
 # Changelog
 
+## Baralga Version 1.9.7
+
+## Improvements
+* Added tooltip for filter interval.
+
+## Fixes
+* \#71 Fixed filter by quarter
+* \#70 Fixed homepage url
+
 ## Baralga Version 1.9.6
 
 ## Fixes
