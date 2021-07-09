@@ -57,6 +57,14 @@ public abstract class FilterUtils {
 		return intervalString;
 	}
 
+	public static String makeToolTipText(final Filter filter) {
+		if (filter == null) {
+			return "";
+		}
+
+		return FormatUtils.formatDate(filter.getTimeInterval().getStart()) + " - " + FormatUtils.formatDate(filter.getTimeInterval().getEnd());
+	}
+
 	/**
 	 * Moves the filter to the previous time interval.
 	 * @param filter the filter to be moved

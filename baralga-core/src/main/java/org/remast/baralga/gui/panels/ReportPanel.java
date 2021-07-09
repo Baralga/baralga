@@ -303,6 +303,7 @@ public class ReportPanel extends JXPanel implements ActionListener {
 	private void updateLabelsAndTooltips() {
 		// Date Field
 		this.dateField.setText(FilterUtils.makeIntervalString(model.getFilter()));
+		this.dateField.setToolTipText(FilterUtils.makeToolTipText(model.getFilter()));
 
 		// Tooltips of next and previous interval buttons
 		String spanTypeLabel = null;
