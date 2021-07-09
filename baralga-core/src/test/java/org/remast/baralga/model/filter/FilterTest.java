@@ -45,6 +45,16 @@ class FilterTest {
     }
 
     @Test
+    void makeToolTipTextWithNullFilter() {
+        // Arrange
+        // Act
+        String toolTipText = FilterUtils.makeToolTipText(null);
+
+        // Assert
+        assertEquals("", toolTipText);
+    }
+
+    @Test
     void makeToolTipTextForQuarter() {
         // Arrange
         Filter filter = new Filter();
