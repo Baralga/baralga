@@ -112,7 +112,7 @@ public class BaralgaFileRepository implements BaralgaRepository {
             int versionDifference = LATEST_DATABASE_VERSION - databaseVersion;
             for (int i = 1; i <= versionDifference; i++) {
                 final int versionUpdate = databaseVersion + i;
-                log.info("Updating database to version " + versionUpdate + "."); //$NON-NLS-1$
+                log.info("Updating database to version {}.", versionUpdate); //$NON-NLS-1$
                 final String updateScript = "db_version_" + StringUtils.leftPad(String.valueOf(versionUpdate), 3, "0") + ".sql";
                 executeScript(updateScript);
             }
@@ -127,7 +127,7 @@ public class BaralgaFileRepository implements BaralgaRepository {
      * @throws SQLException on errors during execution
      */
     private void executeScript(final String scriptName) throws SQLException {
-        log.info("Executing sql script " +  scriptName + ".");
+        log.info("Executing sql script {}.", scriptName);
 
         if (StringUtils.isBlank(scriptName)) {
             return;
@@ -493,7 +493,7 @@ public class BaralgaFileRepository implements BaralgaRepository {
             try (ResultSet resultSet = statement.executeQuery("select min(start) as startDate from activity")) { //$NON-NLS-1$
                 if (resultSet.next()) {
                     earliestDate = resultSet.getDate("startDate");
-                    log.error("earliest activity: " + earliestDate); //$NON-NLS-1$
+                    log.error("earliest activity: {}", earliestDate); //$NON-NLS-1$
                 }
             }
 
@@ -501,7 +501,7 @@ public class BaralgaFileRepository implements BaralgaRepository {
             try (ResultSet resultSet = statement.executeQuery("select max(start) as startDate from activity")) { //$NON-NLS-1$
                 if (resultSet.next()) {
                     latestDate = resultSet.getDate("startDate");
-                    log.error("latest activity: " + latestDate); //$NON-NLS-1$
+                    log.error("latest activity: {}", latestDate); //$NON-NLS-1$
                 }
             }
 
