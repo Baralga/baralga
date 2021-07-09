@@ -62,7 +62,11 @@ public abstract class FilterUtils {
 			return "";
 		}
 
-		return FormatUtils.formatDate(filter.getTimeInterval().getStart()) + " - " + FormatUtils.formatDate(filter.getTimeInterval().getEnd());
+		if (filter.getSpanType() == SpanType.Day) {
+			return FormatUtils.formatDate(filter.getTimeInterval().getStart());
+		}
+
+		return FormatUtils.formatDate(filter.getTimeInterval().getStart()) + " - " + FormatUtils.formatDate(filter.getTimeInterval().getEnd().minusDays(1));
 	}
 
 	/**
