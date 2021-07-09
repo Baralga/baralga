@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
-import java.sql.SQLException;
 import java.util.Timer;
 
 /**
@@ -290,9 +289,8 @@ public final class BaralgaMain {
 	/**
 	 * Initializes the model from the stored data file or creates a new one.
 	 * @return the model
-	 * @throws SQLException 
 	 */
-	private static PresentationModel initModel() throws SQLException {
+	private static PresentationModel initModel() {
 		log.debug("Initializing model..."); //$NON-NLS-1$
 
 		// Initialize with new site
