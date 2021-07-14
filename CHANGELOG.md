@@ -4,6 +4,7 @@
 
 ## Improvements
 * Added tooltip for filter interval.
+* Updated libs.
 
 ## Fixes
 * \#71 Fixed filter by quarter
