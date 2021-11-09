@@ -340,7 +340,7 @@ public class BaralgaRestRepository implements BaralgaRepository {
         final ObjectNode projectJson = objectMapper.createObjectNode();
         projectJson.put("title", project.getTitle());
         projectJson.put("description", project.getDescription());
-        projectJson.put("active", project.isActive() ? "true" : "false");
+        projectJson.put("active", project.isActive());
         return projectJson;
     }
 
