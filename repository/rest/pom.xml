@@ -11,7 +11,7 @@
 	<name>Baralga REST Repository</name>
 
 	<properties>
-		<okhttp.version>4.9.1</okhttp.version>
+		<okhttp.version>4.9.3</okhttp.version>
 	</properties>
 
 	<dependencies>
@@ -34,7 +34,7 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.8.0</version>
+			<version>5.8.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
