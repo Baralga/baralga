@@ -147,7 +147,7 @@ public final class ApplicationSettings {
      * Getter for backend URL in multi-user mode.
      */
     public String getBackendURL() {
-        return applicationConfig.getProperty(BACKEND_URL, "http://localhost:8080");
+        return applicationConfig.getProperty(BACKEND_URL, "https://baralga.tack.dev");
     }
 
     /**
@@ -161,7 +161,8 @@ public final class ApplicationSettings {
      * Getter for password in multi-user mode.
      */
     public String getPassword() {
-        return applicationConfig.getProperty(PASSWORD, "us3r");
+        String password = System.getProperty("user.password");
+        return applicationConfig.getProperty(PASSWORD, password == null ? "us3r" : password);
     }
 
     /**

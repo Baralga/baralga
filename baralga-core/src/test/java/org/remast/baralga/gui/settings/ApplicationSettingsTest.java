@@ -24,7 +24,7 @@ class ApplicationSettingsTest {
 
         // Act + Assert
         assertFalse(ApplicationSettings.instance().isMultiUserMode());
-        assertEquals("http://localhost:8080", ApplicationSettings.instance().getBackendURL());
+        assertEquals("https://baralga.tack.dev", ApplicationSettings.instance().getBackendURL());
         assertEquals("us3r", ApplicationSettings.instance().getPassword());
         assertNotNull(ApplicationSettings.instance().getUser());
     }

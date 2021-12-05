@@ -1,5 +1,11 @@
 # Changelog
 
+## Baralga Version 1.9.8
+
+## Improvements
+* Authenticate using JWT in multi-user mode.
+* Updated libs.
+
 ## Baralga Version 1.9.7
 
 ## Improvements

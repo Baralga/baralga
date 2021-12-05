@@ -8,8 +8,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.io.IOException;
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
+import java.net.*;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -37,7 +36,11 @@ public class BaralgaRestRepository implements BaralgaRepository {
 
     @Override
     public void initialize() {
+        CookieManager cookieManager = new CookieManager();
+        cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
+
         client = new OkHttpClient().newBuilder()
+                .cookieJar(new JavaNetCookieJar(cookieManager))
                 .followRedirects(false)
                 .addInterceptor(new GzipInterceptor())
                 .connectTimeout(400, TimeUnit.MILLISECONDS)
@@ -46,11 +49,6 @@ public class BaralgaRestRepository implements BaralgaRepository {
         objectMapper = new ObjectMapper();
         dateFormat =  DateTimeFormat.forPattern("yyyy-MM-dd");
         isoDateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss");
-    }
-
-    private Request addBasicAuthHeaders(Request request) {
-        final String credential = Credentials.basic(user, password);
-        return request.newBuilder().header("Authorization", credential).build();
     }
 
     @Override
@@ -363,6 +361,17 @@ public class BaralgaRestRepository implements BaralgaRepository {
         );
     }
 
+    private Response login() {
+        Map<String, String> loginRequestBody = new HashMap<>();
+        loginRequestBody.put("username", user);
+        loginRequestBody.put("password", password);
+        final Request loginRequest = new Request.Builder()
+                .url(baseUrl().addPathSegment("auth").addPathSegment("login").build())
+                .post(RequestBody.create(writeValueAsJsonString(loginRequestBody), MediaType.parse("application/json")))
+                .build();
+        return execute(loginRequest,401, 403);
+    }
+
     private String writeValueAsJsonString(Object o) {
         try {
             return objectMapper.writeValueAsString(o);
@@ -381,13 +390,18 @@ public class BaralgaRestRepository implements BaralgaRepository {
 
     private Response execute(Request request, int... acceptedReturnCodes) {
         try {
-            final Response response = client.newCall(addBasicAuthHeaders(request)).execute();
+            final Response response = client.newCall(request).execute();
             if (acceptedReturnCodes != null && Arrays.stream(acceptedReturnCodes).anyMatch(i -> i == response.code())) {
                 return response;
             }
 
-            if (response.code() == 401 || (response.code() == 302 && response.header("WWW-Authenticate") != null)) {
-                throw new UnauthorizedException(user);
+            if (response.code() == 401) {
+                try (final Response loginResponse = login()) {
+                    if (loginResponse.code() != 200) {
+                        throw new UnauthorizedException(user);
+                    }
+                    return execute(request, acceptedReturnCodes);
+                }
             }
 
             if (!response.isSuccessful()) {

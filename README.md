@@ -33,7 +33,7 @@ As a team use our great [Desktop application](https://github.com/Baralga/baralga
 Single user mode is enabled by default so no extra settings required.
 
 ## Multi User Mode
-In multi user mode all data is stored on the Baralga server backend. Multi user mode is enabled using the Java system property
+In multi-user mode all data is stored on the Baralga server backend. Multi-user mode is enabled using the Java system property
 `-DuserMode=multiuser` or the setting `userMode=multiuser` in the `application.properties`
 stored in the directory `$USER_HOME\.baralga\application.properties`.
 
