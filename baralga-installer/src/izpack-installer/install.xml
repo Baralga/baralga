@@ -67,7 +67,9 @@
 			<description>The base files of the application.</description>
 			<file src="Licence.txt" targetdir="${INSTALL_PATH}" />
 			<file src="Baralga-Tray.ico" targetdir="${INSTALL_PATH}" />
-			<file src="baralga-core-${project.version}.jar" targetdir="${INSTALL_PATH}" />
+			<file src="baralga-core-${project.version}.jar" targetdir="${INSTALL_PATH}">
+				<additionaldata key="permission.file" value="775"/>
+			</file>
             <file src="data" targetdir="${INSTALL_PATH}" />
 		</pack>
 	</packs>
