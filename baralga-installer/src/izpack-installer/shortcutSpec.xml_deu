@@ -7,10 +7,10 @@
                 location="applications"/>
   <shortcut
     name="$APP_NAME"
-    target="$INSTALL_PATH\baralga-core-${baralga.version}.jar"
+    target="$INSTALL_PATH\baralga-core-${project.version}.jar"
     commandLine=""
     workingDirectory="$INSTALL_PATH"
-    description="Zeiterfassung für Projekte."
+    description="Zeiterfassung fue  r Projekte."
     iconFile="$INSTALL_PATH\Baralga-Tray.ico"
     iconIndex="0"
     initialState="normal"

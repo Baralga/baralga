@@ -7,7 +7,7 @@
                 location="applications"/>
   <shortcut
     name="$APP_NAME"
-    target="$INSTALL_PATH\baralga-core-${baralga.version}.jar"
+    target="$INSTALL_PATH\baralga-core-${project.version}.jar"
     commandLine=""
     workingDirectory="$INSTALL_PATH"
     description="Logiciel de Time Tracking de."
