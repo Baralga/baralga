@@ -15,9 +15,11 @@ import org.remast.util.TextResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.*;
 
@@ -134,7 +136,7 @@ public class BaralgaFileRepository implements BaralgaRepository {
         }
 
         InputStream is = BaralgaFileRepository.class.getResourceAsStream("sql/h2/" + scriptName);
-        Reader reader = new InputStreamReader(is);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
         RunScript.execute(connection, reader);
     }
 
