@@ -9,10 +9,6 @@
 ## Fixes
 * \#67 Aggregated reports work also with sorting.
 
-## Improvements
-* Authenticate using JWT in multi-user mode.
-* Updated libs.
-
 ## Baralga Version 1.9.7
 
 ## Improvements
