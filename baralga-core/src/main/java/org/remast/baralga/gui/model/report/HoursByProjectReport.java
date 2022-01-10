@@ -10,6 +10,9 @@ import ca.odell.glazedlists.SortedList;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Report for the working hours by project.
  * @author remast
@@ -41,23 +44,23 @@ public class HoursByProjectReport {
     }
     
     public void calculateHours() {
-        this.hoursByProjectList.clear();
-
+        final List<HoursByProject> hoursByProjects = new ArrayList<>();
         for (ProjectActivity activity : this.model.getActivitiesList()) {
-            this.addHours(activity);
+            this.addHours(hoursByProjects, activity);
         }
+
+        this.hoursByProjectList.clear();
+        this.hoursByProjectList.addAll(hoursByProjects);
     }
 
-    public void addHours(final ProjectActivity activity) {
+    static void addHours(final List<HoursByProject> hoursByProjects, final ProjectActivity activity) {
         final HoursByProject newHoursByProject = new HoursByProject(activity.getProject(), activity.getDuration());
-
-        if (this.hoursByProjectList.contains(newHoursByProject)) {
-            HoursByProject hoursByProject = this.hoursByProjectList.get(hoursByProjectList.indexOf(newHoursByProject));
+        if (hoursByProjects.contains(newHoursByProject)) {
+            HoursByProject hoursByProject = hoursByProjects.get(hoursByProjects.indexOf(newHoursByProject));
             hoursByProject.addHours(newHoursByProject.getHours());
         } else {
-            this.hoursByProjectList.add(newHoursByProject);
+            hoursByProjects.add(newHoursByProject);
         }
-
     }
 
     public SortedList<HoursByProject> getHoursByProject() {

@@ -11,6 +11,9 @@ import ca.odell.glazedlists.SortedList;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Report for the working hours by month.
  * @author remast
@@ -42,23 +45,25 @@ public class HoursByMonthReport {
     }
 
     public void calculateHours() {
-        this.hoursByMonthList.clear();
-
+        final List<HoursByMonth> hoursByMonths = new ArrayList<>();
         for (ProjectActivity activity : this.model.getActivitiesList()) {
-            this.addHours(activity);
+            this.addHours(hoursByMonths, activity);
         }
+
+        this.hoursByMonthList.clear();
+        this.hoursByMonthList.addAll(hoursByMonths);
     }
 
-    public void addHours(final ProjectActivity activity) {
+    static void addHours(final List<HoursByMonth> hoursByMonths, final ProjectActivity activity) {
         final DateTime dateTime = activity.getStart();
 
         final HoursByMonth newHoursByMonth = new HoursByMonth(dateTime, activity.getDuration());
 
-        if (this.hoursByMonthList.contains(newHoursByMonth)) {
-            HoursByMonth hoursByMonth = this.hoursByMonthList.get(hoursByMonthList.indexOf(newHoursByMonth));
+        if (hoursByMonths.contains(newHoursByMonth)) {
+            HoursByMonth hoursByMonth = hoursByMonths.get(hoursByMonths.indexOf(newHoursByMonth));
             hoursByMonth.addHours(newHoursByMonth.getHours());
         } else {
-            this.hoursByMonthList.add(newHoursByMonth);
+            hoursByMonths.add(newHoursByMonth);
         }
 
     }

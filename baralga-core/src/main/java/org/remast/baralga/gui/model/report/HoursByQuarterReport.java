@@ -11,6 +11,9 @@ import ca.odell.glazedlists.SortedList;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Report for the working hours by month.
  * 
@@ -44,26 +47,26 @@ public class HoursByQuarterReport {
     }
 
     public void calculateHours() {
-		this.hoursByQuarterList.clear();
-
+		final List<HoursByQuarter> hoursByQuarters = new ArrayList<>();
 		for (ProjectActivity activity : this.model.getActivitiesList()) {
-			this.addHours(activity);
+			this.addHours(hoursByQuarters, activity);
 		}
+
+		this.hoursByQuarterList.clear();
+		this.hoursByQuarterList.addAll(hoursByQuarters);
     }
 
-    public void addHours(final ProjectActivity activity) {
-	final DateTime dateTime = activity.getStart();
+	static void addHours(final List<HoursByQuarter> hoursByQuarters, final ProjectActivity activity) {
+		final DateTime dateTime = activity.getStart();
+		final HoursByQuarter newHoursByQuarter = new HoursByQuarter(dateTime, activity.getDuration());
 
-	final HoursByQuarter newHoursByQuarter = new HoursByQuarter(dateTime, activity.getDuration());
-
-	if (this.hoursByQuarterList.contains(newHoursByQuarter)) {
-	    HoursByQuarter hoursByQuarter = this.hoursByQuarterList.get(hoursByQuarterList.indexOf(newHoursByQuarter));
-	    hoursByQuarter.addHours(newHoursByQuarter.getHours());
-	} else {
-	    this.hoursByQuarterList.add(newHoursByQuarter);
+		if (hoursByQuarters.contains(newHoursByQuarter)) {
+			HoursByQuarter hoursByQuarter = hoursByQuarters.get(hoursByQuarters.indexOf(newHoursByQuarter));
+			hoursByQuarter.addHours(newHoursByQuarter.getHours());
+		} else {
+			hoursByQuarters.add(newHoursByQuarter);
+		}
 	}
-
-    }
 
     public SortedList<HoursByQuarter> getHoursByQuarter() {
 	return hoursByQuarterList;

@@ -11,6 +11,9 @@ import ca.odell.glazedlists.SortedList;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Report for the working hours by week.
  * @author remast
@@ -42,23 +45,25 @@ public class HoursByWeekReport {
     }
 
     public void calculateHours() {
-        this.hoursByWeekList.clear();
-
+        final List<HoursByWeek> hoursByWeeks = new ArrayList<>();
         for (ProjectActivity activity : this.model.getActivitiesList()) {
-            this.addHours(activity);
+            this.addHours(hoursByWeeks, activity);
         }
+
+        this.hoursByWeekList.clear();
+        this.hoursByWeekList.addAll(hoursByWeeks);
     }
 
-    public void addHours(final ProjectActivity activity) {
+    static void addHours(final List<HoursByWeek> hoursByWeeks, final ProjectActivity activity) {
         final DateTime dateTime = activity.getStart();
 
         final HoursByWeek newHoursByWeek = new HoursByWeek(dateTime, activity.getDuration());
 
-        if (this.hoursByWeekList.contains(newHoursByWeek)) {
-            HoursByWeek hoursByWeek = this.hoursByWeekList.get(hoursByWeekList.indexOf(newHoursByWeek));
+        if (hoursByWeeks.contains(newHoursByWeek)) {
+            HoursByWeek hoursByWeek = hoursByWeeks.get(hoursByWeeks.indexOf(newHoursByWeek));
             hoursByWeek.addHours(newHoursByWeek.getHours());
         } else {
-            this.hoursByWeekList.add(newHoursByWeek);
+            hoursByWeeks.add(newHoursByWeek);
         }
 
     }
