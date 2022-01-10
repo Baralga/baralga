@@ -3,6 +3,13 @@
 ## Baralga Version 1.9.8
 
 ## Improvements
+* Use CI friendly Maven version.
+* Updated libs.
+
+## Fixes
+* \#67 Aggregated reports work also with sorting.
+
+## Improvements
 * Authenticate using JWT in multi-user mode.
 * Updated libs.
 
