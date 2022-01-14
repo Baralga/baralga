@@ -7,6 +7,7 @@
 * Release build on CI tag using Github action
 * Updated libs.
 * Login Dialog for multiuser mode.
+* Updated logo.
 
 ## Fixes
 * \#67 Aggregated reports work also with sorting.

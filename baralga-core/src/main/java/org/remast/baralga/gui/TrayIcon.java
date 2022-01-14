@@ -38,10 +38,10 @@ public class TrayIcon {
     private static final Logger log = LoggerFactory.getLogger(TrayIcon.class);
 
     /** The standard icon image. */
-    private static final Image NORMAL_ICON = new ImageIcon(BaralgaMain.class.getResource("/icons/Baralga-Tray.gif")).getImage();
+    private static final Image NORMAL_ICON = new ImageIcon(BaralgaMain.class.getResource("/icons/baralga_logo_32.png")).getImage();
 
     /** The icon image when an activity is running. */
-    private static final Image ACTIVE_ICON = new ImageIcon(BaralgaMain.class.getResource("/icons/Baralga-Tray-Green.png")).getImage();
+    private static final Image ACTIVE_ICON = new ImageIcon(BaralgaMain.class.getResource("/icons/baralga_logo_red_32.png")).getImage();
 
     /** The model. */
     private final PresentationModel model;

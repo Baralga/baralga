@@ -82,7 +82,7 @@ public class ChangeProjectAction extends AbstractBaralgaAction {
         );
 
         final JDialog dialog = pane.createDialog(textBundle.textFor("StartActivityConfirmDialog.Title")); //$NON-NLS-1$
-        dialog.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/Baralga-Tray.gif"))); //$NON-NLS-1$ 
+        dialog.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/baralga_logo_32.png"))); //$NON-NLS-1$
         
         Dimension d = dialog.getPreferredSize();
         final Point preferredLeftTop = new Point(currentMousePosition.x - d.width / 2, currentMousePosition.y - d.height / 2);

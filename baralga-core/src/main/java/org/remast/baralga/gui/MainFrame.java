@@ -45,10 +45,10 @@ public class MainFrame extends JFrame {
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(MainFrame.class);
 
     /** The standard icon image. */
-    private static final Image NORMAL_ICON = new ImageIcon(BaralgaMain.class.getResource("/icons/Baralga-Tray.gif")).getImage(); //$NON-NLS-1$
+    private static final Image NORMAL_ICON = new ImageIcon(BaralgaMain.class.getResource("/icons/baralga_logo_32.png")).getImage(); //$NON-NLS-1$
 
     /** The icon image when an activity is running. */
-    private static final Image ACTIVE_ICON = new ImageIcon(BaralgaMain.class.getResource("/icons/Baralga-Tray-Green.png")).getImage(); //$NON-NLS-1$
+    private static final Image ACTIVE_ICON = new ImageIcon(BaralgaMain.class.getResource("/icons/baralga_logo_red_32.png")).getImage(); //$NON-NLS-1$
 
     /** The model. */
     private final transient PresentationModel model;

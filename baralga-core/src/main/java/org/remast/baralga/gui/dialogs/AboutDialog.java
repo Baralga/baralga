@@ -53,10 +53,10 @@ public class AboutDialog extends EscapeDialog {
         this.setLayout(new BorderLayout());
 
         final JXImagePanel image = new JXImagePanel(getClass().getResource("/images/baralga/Baralga-About.png")); //$NON-NLS-1$
-        image.setBackground(GuiConstants.BEIGE);
+        //image.setBackground(GuiConstants.BEIGE);
 
         final JPanel aboutInfo = new JPanel();
-        aboutInfo.setBackground(GuiConstants.BEIGE);
+        //aboutInfo.setBackground(GuiConstants.BEIGE);
         final double border = 5;
         final double[][] size = { 
                 {border * 3, TableLayout.PREFERRED, border, TableLayout.FILL, border }, // Columns
