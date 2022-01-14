@@ -24,9 +24,7 @@ class ApplicationSettingsTest {
 
         // Act + Assert
         assertFalse(ApplicationSettings.instance().isMultiUserMode());
-        assertEquals("https://baralga.tack.dev", ApplicationSettings.instance().getBackendURL());
-        assertEquals("us3r", ApplicationSettings.instance().getPassword());
-        assertNotNull(ApplicationSettings.instance().getUser());
+        assertEquals("https://baralga-app.tack.dev", ApplicationSettings.instance().getBackendURL());
     }
 
     @Test
@@ -61,51 +59,4 @@ class ApplicationSettingsTest {
         assertTrue(multiUserMode);
     }
 
-    @Test
-    void getUserFromSystemProperty() {
-        // Arrange
-        String systemUser = "mylogin";
-        System.setProperty("user.name", systemUser);
-        Properties applicationConfig = new Properties();
-        ApplicationSettings applicationSettings = ApplicationSettings.instance();
-        applicationSettings.setApplicationConfig(applicationConfig);
-
-        // Act
-        String user = ApplicationSettings.instance().getUser();
-
-        // Assert
-        assertEquals(user, systemUser);
-    }
-
-    @Test
-    void getUserFromProps() {
-        // Arrange
-        String systemUser = "mylogin";
-        Properties applicationConfig = new Properties();
-        applicationConfig.setProperty("user", systemUser);
-        ApplicationSettings applicationSettings = ApplicationSettings.instance();
-        applicationSettings.setApplicationConfig(applicationConfig);
-
-        // Act
-        String user = ApplicationSettings.instance().getUser();
-
-        // Assert
-        assertEquals(user, systemUser);
-    }
-
-    @Test
-    void getPasswordFromProps() {
-        // Arrange
-        String configuredPassword = "**sshh**";
-        Properties applicationConfig = new Properties();
-        applicationConfig.setProperty("password", configuredPassword);
-        ApplicationSettings applicationSettings = ApplicationSettings.instance();
-        applicationSettings.setApplicationConfig(applicationConfig);
-
-        // Act
-        String password = ApplicationSettings.instance().getPassword();
-
-        // Assert
-        assertEquals(password, configuredPassword);
-    }
 }

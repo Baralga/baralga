@@ -1,8 +1,8 @@
 package org.remast.baralga.gui.settings;
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.*;
 import java.net.URL;
+import java.util.Date;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -25,6 +25,8 @@ public final class ApplicationSettings {
 
     /** Node for Baralga application preferences. */
     private Properties applicationConfig;
+
+    private File applicationConfigFile;
 
     //------------------------------------------------
     // Data locations
@@ -84,16 +86,15 @@ public final class ApplicationSettings {
                 }
             }
 
-            final File file = new File(
+            applicationConfigFile = new File(
                     dataDir,
                     APPLICATION_PROPERTIES_FILENAME
             );
 
-
             applicationConfig = new Properties();
-            
-            if (file.exists()) {
-                applicationConfig.load(new FileInputStream(file));
+
+            if (applicationConfigFile.exists()) {
+                applicationConfig.load(new FileInputStream(applicationConfigFile));
             }
         } catch (Exception e) {
             log.error(e.getLocalizedMessage(), e);
@@ -113,12 +114,6 @@ public final class ApplicationSettings {
 
     /** Key for backend URL. */
     private static final String BACKEND_URL = "backendURL"; //$NON-NLS-1$
-
-    /** Key for user. */
-    private static final String USER = "user"; //$NON-NLS-1$
-
-    /** Key for user. */
-    private static final String PASSWORD = "password"; //$NON-NLS-1$
 
     /**
      * Getter for storage mode. This can either be the default directory 
@@ -147,22 +142,7 @@ public final class ApplicationSettings {
      * Getter for backend URL in multi-user mode.
      */
     public String getBackendURL() {
-        return applicationConfig.getProperty(BACKEND_URL, "https://baralga.tack.dev");
-    }
-
-    /**
-     * Getter for user in multi-user mode.
-     */
-    public String getUser() {
-        return applicationConfig.getProperty(USER, System.getProperty("user.name"));
-    }
-
-    /**
-     * Getter for password in multi-user mode.
-     */
-    public String getPassword() {
-        String password = System.getProperty("user.password");
-        return applicationConfig.getProperty(PASSWORD, password == null ? "us3r" : password);
+        return applicationConfig.getProperty(BACKEND_URL, "https://baralga-app.tack.dev");
     }
 
     /**
@@ -176,4 +156,5 @@ public final class ApplicationSettings {
             return dataDirectoryDefault;
         }
     }
+
 }

@@ -51,6 +51,15 @@ public class BaralgaRestRepository implements BaralgaRepository {
         isoDateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss");
     }
 
+    public boolean verifyLogin() {
+        try {
+            getProjects(null,1);
+            return true;
+        } catch (UnauthorizedException e) {
+            return false;
+        }
+    }
+
     @Override
     public void gatherStatistics() {
         // do nothing
@@ -216,7 +225,7 @@ public class BaralgaRestRepository implements BaralgaRepository {
 
     @Override
     public List<ProjectVO> getAllProjects() {
-        return getProjects(null);
+        return getProjects(null,150);
     }
 
     @Override
@@ -239,9 +248,9 @@ public class BaralgaRestRepository implements BaralgaRepository {
         }
     }
 
-    private List<ProjectVO> getProjects(Boolean active) {
+    private List<ProjectVO> getProjects(Boolean active, int size) {
         final HttpUrl.Builder urlBuilder = projectsUrl();
-        urlBuilder.addQueryParameter("size", "150");
+        urlBuilder.addQueryParameter("size", String.valueOf(size));
 
         if (active != null) {
             urlBuilder.addQueryParameter("active", active ? "true" : "false");

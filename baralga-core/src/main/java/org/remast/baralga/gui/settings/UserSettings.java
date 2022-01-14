@@ -511,10 +511,47 @@ public final class UserSettings {
         save();
     }
 
+	//------------------------------------------------
+	//  User Credentials
+	//------------------------------------------------
+
+	/** Key for user. */
+	private static final String USER = "user"; //$NON-NLS-1$
+
+	/** Key for user. */
+	private static final String PASSWORD = "password"; //$NON-NLS-1$
+
+	/**
+	 * Getter for user in multi-user mode.
+	 */
+	public String getUser() {
+		return userConfig.getProperty(USER, System.getProperty("user.name"));
+	}
+
+	/**
+	 * Getter for password in multi-user mode.
+	 */
+	public String getPassword() {
+		String password = System.getProperty("user.password");
+		return userConfig.getProperty(PASSWORD, null);
+	}
+
+	public void setCredentials(final String user, final String password) {
+		userConfig.setProperty(USER, user);
+		userConfig.setProperty(PASSWORD, password);
+
+		// Auto save change
+		save();
+	}
 
 	//------------------------------------------------
 	// Helper methods
 	//------------------------------------------------
+
+	/** Setter for tests. */
+	void setUserConfig(Properties userConfig) {
+		this.userConfig = userConfig;
+	}
 
 	/**
 	 * Resets all settings to their default values.

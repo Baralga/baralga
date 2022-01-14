@@ -4,6 +4,9 @@ import org.apache.log4j.Appender;
 import org.apache.log4j.DailyRollingFileAppender;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.xml.DOMConfigurator;
+import org.remast.baralga.gui.dialogs.AboutDialog;
+import org.remast.baralga.gui.dialogs.AddOrEditActivityDialog;
+import org.remast.baralga.gui.dialogs.LoginDialog;
 import org.remast.baralga.gui.dialogs.StopWatch;
 import org.remast.baralga.gui.model.PresentationModel;
 import org.remast.baralga.gui.model.ProjectActivityStateException;
@@ -21,6 +24,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -298,15 +303,24 @@ public final class BaralgaMain {
 
 		BaralgaRepository repository = new BaralgaFileRepository();
 		if (ApplicationSettings.instance().isMultiUserMode()) {
+
+			if (UserSettings.instance().getUser() == null || UserSettings.instance().getPassword() == null) {
+				final LoginDialog loginDialog = new LoginDialog(null);
+				loginDialog.setVisible(true);
+				if (loginDialog.wasAborted()) {
+					System.exit(1);
+				}
+			}
+
 			repository = new BaralgaRestRepository(
 					ApplicationSettings.instance().getBackendURL(),
-					ApplicationSettings.instance().getUser(),
-					ApplicationSettings.instance().getPassword()
+					UserSettings.instance().getUser(),
+					UserSettings.instance().getPassword()
 			);
 			log.info(
 					"Operating in multi-user mode with backend \"{}\" and user \"{}\".",
 					ApplicationSettings.instance().getBackendURL(),
-					ApplicationSettings.instance().getUser()
+					UserSettings.instance().getUser()
 			);
 		}
 
