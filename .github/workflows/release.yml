@@ -27,10 +27,9 @@ jobs:
         java-version: '11'
     - name: Build with Maven
       run: ./mvnw -B package -Drevision=${{steps.tag.outputs.tag}}
-    - name: Archive production artifacts
-      uses: actions/upload-artifact@v2
+    - name: Release
+      uses: softprops/action-gh-release@v1
       with:
-        name: baralga-jar
-        path: |
+        files: |
           baralga-installer/target/*.jar
           baralga-installer/target/*.zip
