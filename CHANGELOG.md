@@ -4,6 +4,7 @@
 
 ## Improvements
 * Use CI friendly Maven version.
+* Release build on CI tag using Github action
 * Updated libs.
 
 ## Fixes
