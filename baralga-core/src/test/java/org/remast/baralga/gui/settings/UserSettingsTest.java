@@ -5,23 +5,22 @@ import org.junit.jupiter.api.Test;
 import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class UserSettingsTest {
 
     @Test
-    void getUserFromSystemProperty() {
+    void getEmptyUser() {
         // Arrange
-        String systemUser = "mylogin";
-        System.setProperty("user.name", systemUser);
         Properties applicationConfig = new Properties();
-        ApplicationSettings applicationSettings = ApplicationSettings.instance();
-        applicationSettings.setApplicationConfig(applicationConfig);
+        UserSettings userSettings = UserSettings.instance();
+        userSettings.setUserConfig(applicationConfig);
 
         // Act
-        String user = UserSettings.instance().getUser();
+        String user = userSettings.getUser();
 
         // Assert
-        assertEquals(user, systemUser);
+        assertNull(user);
     }
 
     @Test

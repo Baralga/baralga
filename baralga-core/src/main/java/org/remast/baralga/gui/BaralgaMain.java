@@ -303,7 +303,6 @@ public final class BaralgaMain {
 
 		BaralgaRepository repository = new BaralgaFileRepository();
 		if (ApplicationSettings.instance().isMultiUserMode()) {
-
 			if (UserSettings.instance().getUser() == null || UserSettings.instance().getPassword() == null) {
 				final LoginDialog loginDialog = new LoginDialog(null);
 				loginDialog.setVisible(true);

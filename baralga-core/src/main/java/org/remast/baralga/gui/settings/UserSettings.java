@@ -525,7 +525,7 @@ public final class UserSettings {
 	 * Getter for user in multi-user mode.
 	 */
 	public String getUser() {
-		return userConfig.getProperty(USER, System.getProperty("user.name"));
+		return userConfig.getProperty(USER, null);
 	}
 
 	/**
