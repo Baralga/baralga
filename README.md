@@ -25,7 +25,7 @@ Use [Baralga](https://baralga.github.io/) just for yourself or for your whole te
 As a single user use our great [Desktop application](https://github.com/Baralga/baralga/releases).
 
 #### Multi User Mode
-As a team use our great [Desktop application](https://github.com/Baralga/baralga/releases) along with our [team server](https://github.com/Baralga/backend/releases).
+As a team use our great [Desktop application](https://github.com/Baralga/baralga/releases) along with our [team server](https://github.com/Baralga/baralga-app).
 
 # User Guide
 
