@@ -114,7 +114,7 @@ public class TrayIcon {
     /**
      * Show the tray icon.
      */
-    public void show() {
+    public void showTrayIcon() {
     	if (SystemTray.isSupported()) {
     		SystemTray tray = SystemTray.getSystemTray(); 
     		try {
@@ -137,42 +137,48 @@ public class TrayIcon {
     @Subscribe 
     public void update(final Object eventObject) {
         if (eventObject instanceof BaralgaEvent) {
-            BaralgaEvent event = (BaralgaEvent) eventObject;
 
-            switch (event.getType()) {
-
-                case BaralgaEvent.PROJECT_ACTIVITY_STARTED:
-                    this.updateStart();
-                    break;
-
-                case BaralgaEvent.PROJECT_ACTIVITY_STOPPED:
-                    this.updateStop();
-                    break;
-
-                case BaralgaEvent.PROJECT_CHANGED:
-                    this.buildMenu();
-
-                    if (model.isActive()) {
-                        this.updateToolTip();
-                    }
-                    
-                    break;
-
-                case BaralgaEvent.PROJECT_ADDED:
-                    this.buildMenu();
-                    break;
-
-                case BaralgaEvent.PROJECT_REMOVED:
-                    this.buildMenu();
-                    break;
-                    
-                case BaralgaEvent.START_CHANGED:
-                    this.updateToolTip();
-                    break;
-                    
-            }
+            executeUpdateEvent(eventObject);
         }
     }
+
+    public void executeUpdateEvent(Object eventObject){
+        BaralgaEvent event = (BaralgaEvent) eventObject;
+
+        switch (event.getType()) {
+
+            case BaralgaEvent.PROJECT_ACTIVITY_STARTED:
+                this.updateStart();
+                break;
+
+            case BaralgaEvent.PROJECT_ACTIVITY_STOPPED:
+                this.updateStop();
+                break;
+
+            case BaralgaEvent.PROJECT_CHANGED:
+                this.buildMenu();
+
+                if (model.isActive()) {
+                    this.updateToolTip();
+                }
+
+                break;
+
+            case BaralgaEvent.PROJECT_ADDED:
+                this.buildMenu();
+                break;
+
+            case BaralgaEvent.PROJECT_REMOVED:
+                this.buildMenu();
+                break;
+
+            case BaralgaEvent.START_CHANGED:
+                this.updateToolTip();
+                break;
+
+        }
+    }
+
 
     /**
      * Executed on events that change the title.

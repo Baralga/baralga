@@ -226,7 +226,7 @@ public final class BaralgaMain {
 		}
 
 		if (tray != null) {
-			tray.show();
+			tray.showTrayIcon();
 		}
 	}
 
