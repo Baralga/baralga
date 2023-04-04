@@ -49,33 +49,38 @@ public class ImportXmlAction extends AbstractBaralgaAction {
 
         final int dialogReturnValue = chooser.showOpenDialog(getOwner());
         if (JFileChooser.APPROVE_OPTION == dialogReturnValue) {
-            final File file = chooser.getSelectedFile();
-            final XmlDataReader reader = new XmlDataReader();
-            try {
-                reader.read(file);
-                final Collection<Project> projectsForImport = reader.getProjects();
-                final Collection<ProjectActivity> activitiesForImport = reader.getActivities();
 
-                final int dialogResult = JOptionPane.showConfirmDialog(
-                        getOwner(), 
-                        textBundle.textFor("ImportDataAction.Message"),  //$NON-NLS-1$
-                        textBundle.textFor("ImportDataAction.Title"),  //$NON-NLS-1$
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.INFORMATION_MESSAGE
-                );
-                boolean doImport = JOptionPane.YES_OPTION == dialogResult;
-
-                if (doImport) {
-                    getModel().importData(projectsForImport, activitiesForImport);
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, textBundle.textFor("ImportDataAction.IOException.Message", file.getAbsolutePath()), textBundle.textFor("ImportDataAction.IOException.Heading"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                        JOptionPane.ERROR_MESSAGE);
-                log.error(e.getLocalizedMessage(), e);
-            }
+            executeActionEvent(chooser);
 
         }
 
+    }
+
+    public void executeActionEvent(JFileChooser chooser){
+        final File file = chooser.getSelectedFile();
+        final XmlDataReader reader = new XmlDataReader();
+        try {
+            reader.read(file);
+            final Collection<Project> projectsForImport = reader.getProjects();
+            final Collection<ProjectActivity> activitiesForImport = reader.getActivities();
+
+            final int dialogResult = JOptionPane.showConfirmDialog(
+                    getOwner(),
+                    textBundle.textFor("ImportDataAction.Message"),  //$NON-NLS-1$
+                    textBundle.textFor("ImportDataAction.Title"),  //$NON-NLS-1$
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+            boolean doImport = JOptionPane.YES_OPTION == dialogResult;
+
+            if (doImport) {
+                getModel().importData(projectsForImport, activitiesForImport);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, textBundle.textFor("ImportDataAction.IOException.Message", file.getAbsolutePath()), textBundle.textFor("ImportDataAction.IOException.Heading"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                    JOptionPane.ERROR_MESSAGE);
+            log.error(e.getLocalizedMessage(), e);
+        }
     }
 
 }
