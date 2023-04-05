@@ -24,7 +24,8 @@ public enum FormatUtils {
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormat.forPattern(TimeFormat.HHMM_FORMAT);
 
     /** Format for one in report. */
-	public final DateFormat DAY_FORMAT = new SimpleDateFormat(DateTimeFormat.patternForStyle("S-", Locale.getDefault()) + " EE");
+    final String dateTimePattern = DateTimeFormat.patternForStyle("S-", Locale.getDefault()) + " EE";
+	public final DateFormat DAY_FORMAT = new SimpleDateFormat(dateTimePattern);
 
     /**
      * Format the given date as time.

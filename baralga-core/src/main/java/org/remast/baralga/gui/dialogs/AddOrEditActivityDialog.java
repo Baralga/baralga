@@ -158,16 +158,11 @@ public class AddOrEditActivityDialog extends EscapeDialog {
         if (oldActivity == null) {
             // Initialize selected project
             // a) If no project selected take first project
-            if (model.getSelectedProject() == null) {
-                // Select first entry
-                if (model.getProjectList() != null && !model.getProjectList().isEmpty()) {
-                    final Project project = model.getProjectList().get(0);
-                    projectSelector.setSelectedItem(project);
-                }
-            } else {
-                // b) Take selected project
-                projectSelector.setSelectedItem(model.getSelectedProject());
+            Project selectedProject = model.getSelectedProject();
+            if (selectedProject == null && !model.getProjectList().isEmpty()) {
+                selectedProject = model.getProjectList().get(0);
             }
+            projectSelector.setSelectedItem(selectedProject);
 
             // Initialize start and end time with current time
             final String now = FormatUtils.formatTime(new DateTime());
@@ -181,8 +176,8 @@ public class AddOrEditActivityDialog extends EscapeDialog {
             this.endField.setText(FormatUtils.formatTime(oldActivity.getEnd()));
             this.descriptionEditor.setText(oldActivity.getDescription());
         }
-
     }
+
 
     /**
      * This method initializes projectSelector.
@@ -237,13 +232,12 @@ public class AddOrEditActivityDialog extends EscapeDialog {
         if (submitActivityButton == null) {
             submitActivityButton = new JButton();
 
-            if (oldActivity == null) {
-                submitActivityButton.setText(textBundle.textFor("AddOrEditActivityDialog.AddLabel")); //$NON-NLS-1$
-                submitActivityButton.setIcon(new ImageIcon(getClass().getResource("/icons/gtk-add.png"))); //$NON-NLS-1$
-            } else {
-                submitActivityButton.setText(textBundle.textFor("AddOrEditActivityDialog.SaveLabel")); //$NON-NLS-1$
-                submitActivityButton.setIcon(new ImageIcon(getClass().getResource("/icons/gtk-save.png"))); //$NON-NLS-1$
-            }
+            boolean isEditMode = oldActivity != null;
+            String submitLabel = isEditMode ? "AddOrEditActivityDialog.SaveLabel" : "AddOrEditActivityDialog.AddLabel";
+            String iconPath = isEditMode ? "/icons/gtk-save.png" : "/icons/gtk-add.png";
+
+            submitActivityButton.setText(textBundle.textFor(submitLabel));
+            submitActivityButton.setIcon(new ImageIcon(getClass().getResource(iconPath)));
 
             // Confirm with 'Enter' key
             submitActivityButton.setMnemonic(KeyEvent.VK_ENTER);
@@ -256,28 +250,27 @@ public class AddOrEditActivityDialog extends EscapeDialog {
                     }
 
                     final ProjectActivity activity = new ProjectActivity(
-                            start, 
-                            end, 
+                            start,
+                            end,
                             project,
                             descriptionEditor.getText()
                     );
 
-                    // Check if we're in edit or add mode
-                    if (oldActivity == null) {
-                        model.addActivity(activity, this);
-                    } else {
+                    if (isEditMode) {
                         final ProjectActivity oldActivity = AddOrEditActivityDialog.this.oldActivity;
 
-                        final boolean activitiesEqual = activity.getStart().equals(oldActivity.getStart()) 
-                        && activity.getEnd().equals(oldActivity.getEnd())
-                        && activity.getProject().equals(oldActivity.getProject())
-                        && activity.getDescription().equals(oldActivity.getDescription());
-                        
+                        final boolean activitiesEqual = activity.getStart().equals(oldActivity.getStart())
+                                && activity.getEnd().equals(oldActivity.getEnd())
+                                && activity.getProject().equals(oldActivity.getProject())
+                                && activity.getDescription().equals(oldActivity.getDescription());
+
                         if (!activitiesEqual) {
                             // Delete old activity and add new one (easier than changing everything)
                             model.removeActivity(oldActivity, AddOrEditActivityDialog.this);
                             model.addActivity(activity, AddOrEditActivityDialog.this);
                         }
+                    } else {
+                        model.addActivity(activity, this);
                     }
 
                     AddOrEditActivityDialog.this.dispose();
@@ -288,6 +281,7 @@ public class AddOrEditActivityDialog extends EscapeDialog {
         }
         return submitActivityButton;
     }
+
 
     private JXDatePicker getDatePicker() {
         if (datePicker == null) {
