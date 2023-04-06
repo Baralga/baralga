@@ -25,6 +25,8 @@ import org.remast.util.TextResourceBundle;
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class ImportXmlAction extends AbstractBaralgaAction {
 
+    private final PresentationModel model;
+
     /** The logger. */
     private static final Logger log = LoggerFactory.getLogger(ImportXmlAction.class);
 
@@ -32,7 +34,8 @@ public class ImportXmlAction extends AbstractBaralgaAction {
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(ImportXmlAction.class);
 
     public ImportXmlAction(final Frame owner, final PresentationModel model) {
-        super(owner, model);
+        super(owner);
+        this.model=null;
 
         putValue(NAME, textBundle.textFor("ImportDataAction.Name")); //$NON-NLS-1$
         putValue(SHORT_DESCRIPTION, textBundle.textFor("ImportDataAction.ShortDescription")); //$NON-NLS-1$
@@ -74,7 +77,7 @@ public class ImportXmlAction extends AbstractBaralgaAction {
             boolean doImport = JOptionPane.YES_OPTION == dialogResult;
 
             if (doImport) {
-                getModel().importData(projectsForImport, activitiesForImport);
+                this.model.importData(projectsForImport, activitiesForImport);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, textBundle.textFor("ImportDataAction.IOException.Message", file.getAbsolutePath()), textBundle.textFor("ImportDataAction.IOException.Heading"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$

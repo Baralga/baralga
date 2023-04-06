@@ -20,6 +20,8 @@ import org.remast.util.TextResourceBundle;
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class StopAction extends AbstractBaralgaAction {
 
+    private final PresentationModel model;
+
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(StopAction.class);
 
@@ -31,7 +33,8 @@ public class StopAction extends AbstractBaralgaAction {
      * @param model the model
      */
     public StopAction(final PresentationModel model) {
-        super(model);
+        super(null);
+        this.model=null;
         
         putValue(NAME, textBundle.textFor("StopAction.Name")); //$NON-NLS-1$
         putValue(SHORT_DESCRIPTION, textBundle.textFor("StopAction.ShortDescription")); //$NON-NLS-1$
@@ -44,7 +47,7 @@ public class StopAction extends AbstractBaralgaAction {
     @Override
     public final void actionPerformed(final ActionEvent event) {
         try {
-            getModel().stop();
+            this.model.stop();
         } catch (ProjectActivityStateException e) {
             log.error(e.getLocalizedMessage(), e);
         }

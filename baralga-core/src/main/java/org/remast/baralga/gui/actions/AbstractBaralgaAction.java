@@ -13,8 +13,6 @@ import org.remast.baralga.gui.model.PresentationModel;
 @SuppressWarnings("serial")
 public abstract class AbstractBaralgaAction extends AbstractAction {
 
-    /** The model. */
-    private final PresentationModel model;
 
     /** The owning frame. */
     private final Frame owner;
@@ -23,33 +21,26 @@ public abstract class AbstractBaralgaAction extends AbstractAction {
      * Creates a new action for the given model.
      * @param model the model to create action for
      */
-    public AbstractBaralgaAction(final PresentationModel model) {
+    /*public AbstractBaralgaAction(final PresentationModel model) {
         this(null, model);
     }
-
+*/
     /**
      * Create a new action for the given owning frame.
      * @param owner the owning frame
      */
+    /*
     public AbstractBaralgaAction(final Frame owner) {
         this(owner, null);
     }
-
+*/
     /**
      * Create a new action for the given owning frame and model.
      * @param owner the owning frame
-     * @param model the model to create action for
      */
-    public AbstractBaralgaAction(final Frame owner, final PresentationModel model) {
+    public AbstractBaralgaAction(final Frame owner) {
         this.owner = owner;
-        this.model = model;
-    }
 
-    /**
-     * @return the model
-     */
-    protected PresentationModel getModel() {
-        return model;
     }
 
     /**

@@ -26,6 +26,9 @@ import org.remast.util.TextResourceBundle;
 @SuppressWarnings("serial")
 public abstract class AbstractExportAction extends AbstractBaralgaAction {
 
+    /** The model. */
+    private final PresentationModel model;
+
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(AbstractExportAction.class);
 
@@ -38,7 +41,9 @@ public abstract class AbstractExportAction extends AbstractBaralgaAction {
      * @param model the model to be exported
      */
     public AbstractExportAction(final Frame owner, final PresentationModel model) {
-        super(owner, model);
+
+        super(owner);
+        this.model=null;
     }
 
     /**
@@ -93,7 +98,7 @@ public abstract class AbstractExportAction extends AbstractBaralgaAction {
             }
 
             final ExportWorker exportWorker = new ExportWorker(
-                    getModel(), 
+                    this.model,
                     createExporter(), 
                     getFileFilter(),
                     getOwner(),

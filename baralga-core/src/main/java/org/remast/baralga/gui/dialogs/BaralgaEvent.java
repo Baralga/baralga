@@ -25,5 +25,3 @@ public class BaralgaEvent extends Event {
 
 
 }
-
-// Other subclasses can also be created for other event types

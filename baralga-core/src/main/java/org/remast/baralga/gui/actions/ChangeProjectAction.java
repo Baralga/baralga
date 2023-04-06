@@ -23,6 +23,7 @@ import org.remast.util.TextResourceBundle;
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class ChangeProjectAction extends AbstractBaralgaAction {
 
+    private final PresentationModel model;
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(ChangeProjectAction.class);
 
@@ -31,8 +32,11 @@ public class ChangeProjectAction extends AbstractBaralgaAction {
      */
     private Project newProject;
 
+
     public ChangeProjectAction(final PresentationModel model, final Project newProject) {
-        super(model);
+        super(null);
+
+        this.model=null;
         this.newProject = newProject;
 
         // Highlight the currently selected project
@@ -51,15 +55,15 @@ public class ChangeProjectAction extends AbstractBaralgaAction {
     @Override
     public final void actionPerformed(final ActionEvent event) {
         // Check if the new project is different from the old one
-        if (Objects.equals(getModel().getSelectedProject(), newProject)) {
+        if (Objects.equals(this.model.getSelectedProject(), newProject)) {
             return;
         }
         
-        getModel().changeProject(newProject);
+        this.model.changeProject(newProject);
 
-        if (!getModel().isActive() && isStartConfirmed()) {
+        if (!this.model.isActive() && isStartConfirmed()) {
             try {
-                getModel().start();
+                this.model.start();
             } catch (ProjectActivityStateException e) {
                 // Ignore as we have already checked before that the project is active.
             }
