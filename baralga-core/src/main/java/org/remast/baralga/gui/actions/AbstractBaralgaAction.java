@@ -1,9 +1,7 @@
 package org.remast.baralga.gui.actions;
 
 import java.awt.Frame;
-
 import javax.swing.AbstractAction;
-
 import org.remast.baralga.gui.model.PresentationModel;
 
 /**
@@ -13,34 +11,15 @@ import org.remast.baralga.gui.model.PresentationModel;
 @SuppressWarnings("serial")
 public abstract class AbstractBaralgaAction extends AbstractAction {
 
-
     /** The owning frame. */
     private final Frame owner;
 
     /**
-     * Creates a new action for the given model.
-     * @param model the model to create action for
-     */
-    /*public AbstractBaralgaAction(final PresentationModel model) {
-        this(null, model);
-    }
-*/
-    /**
-     * Create a new action for the given owning frame.
-     * @param owner the owning frame
-     */
-    /*
-    public AbstractBaralgaAction(final Frame owner) {
-        this(owner, null);
-    }
-*/
-    /**
-     * Create a new action for the given owning frame and model.
+     * Creates a new action for the given owning frame.
      * @param owner the owning frame
      */
     public AbstractBaralgaAction(final Frame owner) {
         this.owner = owner;
-
     }
 
     /**
@@ -64,7 +43,6 @@ public abstract class AbstractBaralgaAction extends AbstractAction {
                 // Ignore
             }
         }
-
         return '-';
     }
 }
