@@ -13,6 +13,7 @@ import org.jdesktop.swingx.plaf.basic.core.BasicTransferable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.FormatStringValue;
 import org.jdesktop.swingx.table.DatePickerCellEditor;
+import org.remast.baralga.DateTimeFormatterFactory;
 import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.BaralgaMain;
 import org.remast.baralga.gui.dialogs.AddOrEditActivityDialog;
@@ -95,7 +96,7 @@ public class AllActitvitiesPanel extends JPanel {
 				);
 
 		table.getColumn(table.getColumnName(1)).setCellRenderer(
-				new DefaultTableRenderer(new FormatStringValue(FormatUtils.INSTANCE.DAY_FORMAT))
+				new DefaultTableRenderer(new FormatStringValue())
 				);
 		table.getColumn(table.getColumnName(1)).setCellEditor(
 				new DatePickerCellEditor()

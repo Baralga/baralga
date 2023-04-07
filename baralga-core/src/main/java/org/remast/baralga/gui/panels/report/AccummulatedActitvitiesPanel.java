@@ -12,6 +12,7 @@ import javax.swing.JTable;
 
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.renderer.FormatStringValue;
+import org.remast.baralga.DateTimeFormatterFactory;
 import org.remast.baralga.FormatUtils;
 import org.remast.baralga.gui.model.report.ObservingAccumulatedActivitiesReport;
 import org.remast.baralga.gui.panels.table.AccumulatedActivitiesTableFormat;
@@ -65,7 +66,7 @@ public class AccummulatedActitvitiesPanel extends JPanel implements Observer {
 				TableComparatorChooser.MULTIPLE_COLUMN_MOUSE
 		);
 		
-        table.getColumn(table.getColumnName(0)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(FormatUtils.INSTANCE.DAY_FORMAT)));
+        table.getColumn(table.getColumnName(0)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue()));
         table.getColumn(table.getColumnName(2)).setCellRenderer(new DefaultTableRenderer(new FormatStringValue(new DurationFormat())));
 
         JScrollPane tableScrollPane = new JScrollPane(table);
