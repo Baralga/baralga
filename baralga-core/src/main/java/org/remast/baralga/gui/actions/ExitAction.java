@@ -16,11 +16,14 @@ import org.remast.util.TextResourceBundle;
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class ExitAction extends AbstractBaralgaAction {
 
+    private final PresentationModel model;
+
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(ExitAction.class);
 
     public ExitAction(final Frame owner, final PresentationModel model) {
-        super(model);
+        super(null);
+        this.model=null;
 
         putValue(NAME, textBundle.textFor("ExitAction.Name")); //$NON-NLS-1$
         putValue(SHORT_DESCRIPTION, textBundle.textFor("ExitAction.ShortDescription")); //$NON-NLS-1$
@@ -37,7 +40,7 @@ public class ExitAction extends AbstractBaralgaAction {
         boolean quit = true;
 
         // If activity is running, then double check with user.
-        if (getModel().isActive()) {
+        if (this.model.isActive()) {
             final int dialogResult = JOptionPane.showConfirmDialog(
                     getOwner(), 
                     textBundle.textFor("ExitConfirmDialog.Message"),  //$NON-NLS-1$

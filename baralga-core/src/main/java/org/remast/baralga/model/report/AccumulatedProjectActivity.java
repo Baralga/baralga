@@ -57,6 +57,7 @@ public class AccumulatedProjectActivity implements Comparable<AccumulatedProject
 
     @Override
     public String toString() {
+
         return this.project.toString() + " " + this.time; //$NON-NLS-1$
     }
 

@@ -18,11 +18,13 @@ import org.remast.util.TextResourceBundle;
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class AddActivityAction extends AbstractBaralgaAction {
 
+    private final PresentationModel model;
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(AddActivityAction.class);
 
     public AddActivityAction(final Frame owner, final PresentationModel model) {
-        super(owner, model);
+        super(owner);
+        this.model=null;
         putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/gtk-add.png"))); //$NON-NLS-1$
         putValue(NAME, textBundle.textFor("AddActivityAction.Name")); //$NON-NLS-1$
         putValue(SHORT_DESCRIPTION, textBundle.textFor("AddActivityAction.ShortDescription")); //$NON-NLS-1$
@@ -35,7 +37,7 @@ public class AddActivityAction extends AbstractBaralgaAction {
     @Override
     public final void actionPerformed(final ActionEvent event) {
         // Display dialog to add activity
-        final AddOrEditActivityDialog addActivityDialog = new AddOrEditActivityDialog(getOwner(), getModel());
+        final AddOrEditActivityDialog addActivityDialog = new AddOrEditActivityDialog(getOwner(), this.model);
         addActivityDialog.setVisible(true);
     }
 

@@ -16,11 +16,14 @@ import org.remast.util.TextResourceBundle;
 @SuppressWarnings("serial") //$NON-NLS-1$
 public class ManageProjectsAction extends AbstractBaralgaAction {
 
+    private final PresentationModel model;
+
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(ManageProjectsAction.class);
 
     public ManageProjectsAction(final Frame owner, final PresentationModel model) {
-        super(owner, model);
+        super(owner);
+        this.model=null;
         putValue(NAME, textBundle.textFor("ManageProjectsAction.Name")); //$NON-NLS-1$
         putValue(SHORT_DESCRIPTION, textBundle.textFor("ManageProjectsAction.ShortDescription")); //$NON-NLS-1$
         putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/gtk-edit.png"))); //$NON-NLS-1$
@@ -32,7 +35,7 @@ public class ManageProjectsAction extends AbstractBaralgaAction {
     @Override
     public final void actionPerformed(final ActionEvent event) {
         // Display dialog to manage projects
-        final ManageProjectsDialog manageProjectsDialog = new ManageProjectsDialog(getOwner(), getModel());
+        final ManageProjectsDialog manageProjectsDialog = new ManageProjectsDialog(getOwner(), this.model);
         manageProjectsDialog.setVisible(true);
     }
 

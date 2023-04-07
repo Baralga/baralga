@@ -122,27 +122,27 @@ public class JXTrayIcon extends TrayIcon {
     }
 
     static Image createImage() {
-        BufferedImage i = new BufferedImage(32, 32, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2 = (Graphics2D) i.getGraphics();
+        BufferedImage bufferedImage = new BufferedImage(32, 32, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = (Graphics2D) bufferedImage.getGraphics();
         g2.setColor(Color.RED);
-        g2.fill(new Ellipse2D.Float(0, 0, i.getWidth(), i.getHeight()));
+        g2.fill(new Ellipse2D.Float(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight()));
         g2.dispose();
-        return i;
+        return bufferedImage;
     }
 
     static JPopupMenu createJPopupMenu() {
-        final JPopupMenu m = new JPopupMenu();
-        m.add(new JMenuItem("Item 1"));
-        m.add(new JMenuItem("Item 2"));
+        final JPopupMenu jPopupMenu = new JPopupMenu();
+        jPopupMenu.add(new JMenuItem("Item 1"));
+        jPopupMenu.add(new JMenuItem("Item 2"));
         JMenu submenu = new JMenu("Submenu");
         submenu.add(new JMenuItem("item 1"));
         submenu.add(new JMenuItem("item 2"));
         submenu.add(new JMenuItem("item 3"));
-        m.add(submenu);        
+        jPopupMenu.add(submenu);
         
         JMenuItem exitItem = new JMenuItem("Exit");
         exitItem.addActionListener(e -> System.exit(0));
-        m.add(exitItem);
-        return m;
+        jPopupMenu.add(exitItem);
+        return jPopupMenu;
     }
 } 

@@ -15,6 +15,7 @@ import org.remast.util.TextResourceBundle;
  */
 @SuppressWarnings("serial")//$NON-NLS-1$
 public class SettingsAction extends AbstractBaralgaAction {
+    private final PresentationModel model;
 
     /** The bundle for internationalized texts. */
     private static final TextResourceBundle textBundle = TextResourceBundle.getBundle(SettingsAction.class);
@@ -24,7 +25,8 @@ public class SettingsAction extends AbstractBaralgaAction {
      * @param owner the owning frame
      */
     public SettingsAction(final Frame owner, final PresentationModel model) {
-        super(owner, model);
+        super(owner);
+        this.model=null;
 
         putValue(NAME, textBundle.textFor("SettingsAction.Name")); //$NON-NLS-1$
         putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/stock_folder-properties.png"))); //$NON-NLS-1$
@@ -37,7 +39,7 @@ public class SettingsAction extends AbstractBaralgaAction {
     @Override
     public final void actionPerformed(final ActionEvent event) {
         // Display the settings dialog
-        final SettingsDialog settingsDialog = new SettingsDialog(getOwner(), getModel());
+        final SettingsDialog settingsDialog = new SettingsDialog(getOwner(), this.model);
         settingsDialog.setVisible(true);
     }
 

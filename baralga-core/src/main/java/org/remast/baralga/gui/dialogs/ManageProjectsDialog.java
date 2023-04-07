@@ -185,18 +185,9 @@ public class ManageProjectsDialog extends EscapeDialog {
         return removeProjectButton;
     }
 
-    @Subscribe public void update(final Object eventObject) {
-        if (!(eventObject instanceof BaralgaEvent)) {
-            return;
-        }
+    @Subscribe
+    public void update(final Event event) {
+        event.fireTableDataChanged();
 
-        final BaralgaEvent event = (BaralgaEvent) eventObject;
-
-        switch (event.getType()) {
-        case BaralgaEvent.PROJECT_CHANGED:
-        case BaralgaEvent.PROJECT_REMOVED:
-            projectTableModel.fireTableDataChanged();
-            break;
-        }
     }
 }

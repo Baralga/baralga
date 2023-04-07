@@ -117,7 +117,8 @@ public class XmlDataReader extends DefaultHandler {
 		try (InputStream fis = new FileInputStream(file)) {
 			read(fis);
 		} catch (IOException e) {
-			throw new IOException("The file " + (file != null ? file.getName() : "<null>") + " does not contain valid Baralga data.", e);
+			String exceptionMessage = "The file " + (file != null ? file.getName() : "<null>") + " does not contain valid Baralga data.";
+			throw new IOException(exceptionMessage, e);
 		}
 	}
 
