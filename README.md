@@ -1,4 +1,5 @@
-[![Github Actions Status for Baralga/baralga](https://github.com/baralga/baralga/workflows/Build/badge.svg)](https://github.com/Baralga/baralga/actions) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=baralga&metric=alert_status)](https://sonarcloud.io/dashboard?id=baralga) [![Known Vulnerabilities](https://snyk.io/test/github/baralga/baralga/badge.svg)](https://snyk.io/test/github/baralga/baralga) 
+[![Github Actions Status for Baralga/baralga](https://github.com/baralga/baralga/workflows/Build/badge.svg)](https://github.com/Baralga/baralga/actions) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=baralga&metric=alert_status)](https://sonarcloud.io/dashboard?id=baralga) [![Known Vulnerabilities](https://snyk.io/test/github/baralga/baralga/badge.svg)](https://snyk.io/test/github/baralga/baralga) [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FBaralga%2Fbaralga.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FBaralga%2Fbaralga?ref=badge_shield)
+
 
 
 Baralga Time Tracker
@@ -56,3 +57,6 @@ password=us3r
 # Changelog
 
 see [Changelog](CHANGELOG.md)
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FBaralga%2Fbaralga.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FBaralga%2Fbaralga?ref=badge_large)
